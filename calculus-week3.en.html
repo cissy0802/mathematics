@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Essence of Calculus · Week 3 — Mathematics Weekly</title>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.resources a{color:#3a6088;text-decoration:none;border-bottom:1px dotted #3a6088}
+.resources a:hover{color:#1e3a5f;border-bottom-style:solid}
+.english{background:#f7f5f0;padding:14px 18px;border-radius:4px;font-size:0.92rem;color:#4a3c2a;margin-top:6px}
+.english strong{color:#1e3a5f}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Week 3 · 2026.05.23</div>
+  <h1>The Essence of Calculus</h1>
+  <div class="meta">Seeing calculus through 3Blue1Brown's eyes</div>
+  <div class="epigraph">"Calculus is the mathematics of change, and the universe is changing." — Steven Strogatz, <em>Infinite Powers</em></div>
+</header>
+
+<!-- Concept 1: Limit -->
+<div class="card">
+  <h2>The Limit</h2>
+  <div class="en-name">The Bedrock of Analysis</div>
+  <span class="tag">Analysis</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Imagine you want to measure the area under a curve. Slice it into 10 rectangles — not accurate. 100 — better. 1,000, 10,000 — every additional cut shrinks the error a little more. What a <strong>limit</strong> wants to say is: "if I can imagine slicing forever — slicing to infinite thinness — the answer approaches a definite number."<br><br>The subtle point is this: <strong>we don't actually slice "to infinity."</strong> We say instead "as close as you want." That is the language of $\varepsilon$–$\delta$: give me any tiny error $\varepsilon$, and I can give you a step number $N$ past which the result is within $\varepsilon$ of the target. The limit isn't "the value at some mysterious point infinitely far away." It is <em>"the value we can arbitrarily closely approach."</em> Translating "infinity" into "finite, controllable approximation" is the great grammatical reconstruction performed by Cauchy and Weierstrass in the 19th century.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(10,20)">
+        <text x="50" y="-4" font-size="10" fill="#3a6088" text-anchor="middle">n=4</text>
+        <path d="M 0 130 Q 50 0 100 130" fill="none" stroke="#1e3a5f" stroke-width="1.5"/>
+        <rect x="0" y="98" width="25" height="32" fill="#c9a96b" fill-opacity="0.4" stroke="#8a7340" stroke-width="0.5"/>
+        <rect x="25" y="32" width="25" height="98" fill="#c9a96b" fill-opacity="0.4" stroke="#8a7340" stroke-width="0.5"/>
+        <rect x="50" y="32" width="25" height="98" fill="#c9a96b" fill-opacity="0.4" stroke="#8a7340" stroke-width="0.5"/>
+        <rect x="75" y="98" width="25" height="32" fill="#c9a96b" fill-opacity="0.4" stroke="#8a7340" stroke-width="0.5"/>
+        <line x1="0" y1="130" x2="100" y2="130" stroke="#888" stroke-width="0.6"/>
+      </g>
+      <g transform="translate(140,20)">
+        <text x="50" y="-4" font-size="10" fill="#3a6088" text-anchor="middle">n=10</text>
+        <path d="M 0 130 Q 50 0 100 130" fill="none" stroke="#1e3a5f" stroke-width="1.5"/>
+        <g fill="#c9a96b" fill-opacity="0.4" stroke="#8a7340" stroke-width="0.4">
+        <rect x="0" y="115" width="10" height="15"/>
+        <rect x="10" y="78" width="10" height="52"/>
+        <rect x="20" y="48" width="10" height="82"/>
+        <rect x="30" y="28" width="10" height="102"/>
+        <rect x="40" y="16" width="10" height="114"/>
+        <rect x="50" y="16" width="10" height="114"/>
+        <rect x="60" y="28" width="10" height="102"/>
+        <rect x="70" y="48" width="10" height="82"/>
+        <rect x="80" y="78" width="10" height="52"/>
+        <rect x="90" y="115" width="10" height="15"/>
+        </g>
+        <line x1="0" y1="130" x2="100" y2="130" stroke="#888" stroke-width="0.6"/>
+      </g>
+      <g transform="translate(270,20)">
+        <text x="50" y="-4" font-size="10" fill="#3a6088" text-anchor="middle">n→∞</text>
+        <path d="M 0 130 Q 50 0 100 130 L 100 130 L 0 130 z" fill="#c9544a" fill-opacity="0.35"/>
+        <path d="M 0 130 Q 50 0 100 130" fill="none" stroke="#1e3a5f" stroke-width="1.5"/>
+        <line x1="0" y1="130" x2="100" y2="130" stroke="#888" stroke-width="0.6"/>
+        <text x="50" y="100" font-size="10" fill="#c9544a" text-anchor="middle" font-style="italic">∫f</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>The limit settles a question the Greeks couldn't answer in two thousand years: <em>Zeno's paradox</em>. Achilles cannot catch the tortoise, because each time he reaches the tortoise's previous position, the tortoise has crept a little further... The Greeks stayed stuck on "infinitely many steps cannot be completed." The limit answers them: <em>infinitely many shrinking distances can add up to a finite sum</em> ($\frac{1}{2}+\frac{1}{4}+\frac{1}{8}+\cdots = 1$). It is the first time in human history that "infinity" was tamed. Strogatz, in <em>Infinite Powers</em>, calls it "the deepest invention in mathematics."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Limits underlie every modern application of physics, engineering, and machine learning. "Let the step size go to zero" in gradient descent; "let the depth or width go to infinity" for the limiting behavior of a deep network; "let the mesh become arbitrarily fine" in numerical methods — all of it is the limit at work. In ML, the <em>Neural Tangent Kernel (NTK)</em> studies what neural networks become as their width tends to infinity, where, surprisingly, they become analytically tractable.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">History</div>
+    <p>When Newton and Leibniz invented calculus in the 1670s, they used the vague notion of an <em>infinitesimal</em> — something smaller than any positive number, yet not zero. Bishop Berkeley scorned them as <em>"the ghosts of departed quantities."</em> It wasn't until Cauchy (in the 1820s) and Weierstrass (in the 1850s) introduced the $\varepsilon$–$\delta$ definition that calculus finally got rigorous foundations. A century and a half of "useful but not rigorous mathematics" came to an end.</p>
+  </div>
+
+  <div class="section resources">
+    <div class="label">Going deeper</div>
+    <ul>
+      <li>3Blue1Brown · <em>Essence of Calculus, Ch.7: Limits</em> (the visual intuition)</li>
+      <li>Strogatz · <em>Infinite Powers</em> (limits and Zeno)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="label">English Insight</div>
+    <div class="english"><strong>limit · ε–δ definition · infinitesimal · convergence</strong>. "In the limit" — the common phrasing for "as the parameter goes to its limiting value." "Approaches" / "tends to" — the verbs for convergence. "Rigorization" — the term for Weierstrass-style tightening of foundations.</div>
+  </div>
+
+  <div class="section">
+    <div class="label">Something to chew on</div>
+    <div class="think">Does $0.999\ldots$ equal $1$? Most people instinctively feel "infinitely close, but a hair smaller." If you take the limit definition seriously, what's your answer? And what does the gap between those two intuitions say about the kind of mathematical universe you live in?</div>
+  </div>
+</div>
+
+<!-- Concept 2: Derivative -->
+<div class="card">
+  <h2>The Derivative — the Instantaneous Rate of Change</h2>
+  <div class="en-name">Differential Calculus</div>
+  <span class="tag">Differential Calculus</span>
+
+  <div class="formula-box">$$f'(x) = \lim_{h \to 0}\frac{f(x+h)-f(x)}{h}$$</div>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>You're driving. The speedometer reads 60 km/h. <strong>What does the speed "right now" even mean?</strong> "Right now" is a single instant; in zero time you travel zero distance; 0/0 is meaningless. And yet the speedometer happily shows a number. The derivative is the resolution of that paradox: <em>it's the value that the average speed converges to as the time window shrinks toward zero.</em><br><br>Geometrically, the derivative is the <strong>slope of the tangent line</strong> at a point on the graph. Zoom in, zoom in, zoom in — close enough in, any smooth curve starts to look like a straight line. The slope of that line is the derivative. It's the line 3Blue1Brown keeps repeating: <em>"zoom in until curved becomes straight."</em> The derivative isn't the magic of "dividing by zero" — it's the geometric fact that, under infinite magnification, curves become straight.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
+      <line x1="20" y1="170" x2="340" y2="170" stroke="#aaa" stroke-width="0.6"/>
+      <line x1="40" y1="20" x2="40" y2="190" stroke="#aaa" stroke-width="0.6"/>
+      <path d="M 40 170 Q 120 160 180 110 T 320 30" fill="none" stroke="#1e3a5f" stroke-width="2"/>
+      <circle cx="180" cy="110" r="3.5" fill="#c9544a"/>
+      <text x="186" y="108" font-size="10" fill="#c9544a">x</text>
+      <line x1="120" y1="160" x2="280" y2="55" stroke="#c9a96b" stroke-width="1.2" stroke-dasharray="4,3"/>
+      <circle cx="280" cy="55" r="2.5" fill="#c9a96b"/>
+      <text x="286" y="58" font-size="9" fill="#8a7340" font-style="italic">secant, large h</text>
+      <line x1="160" y1="125" x2="210" y2="92" stroke="#7a9a6a" stroke-width="1.2" stroke-dasharray="2,2"/>
+      <circle cx="210" cy="92" r="2.5" fill="#7a9a6a"/>
+      <line x1="100" y1="160" x2="260" y2="55" stroke="#c9544a" stroke-width="1.8"/>
+      <text x="240" y="50" font-size="10" fill="#c9544a" font-style="italic">tangent = f'(x)</text>
+      <text x="320" y="186" font-size="10" fill="#666" text-anchor="end">x</text>
+      <text x="46" y="28" font-size="10" fill="#666">f(x)</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>The derivative unifies <strong>"velocity," "slope," "marginal cost," "chemical reaction rate," "population growth rate," "the descent direction of a loss function"</strong> into one mathematical object. One concept, a thousand faces. That is the power of abstraction — discovering that things which look unrelated on the surface share the same underlying structure. Terry Tao has written: "The real magic of calculus isn't in the formulas — it is that it lets us speak <em>systematically</em> about change."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>All of machine-learning training is: compute the derivative of the loss with respect to the weights, then step opposite to the gradient. <strong>Backpropagation</strong> is just the chain rule, $\frac{dL}{dw} = \frac{dL}{dy}\cdot\frac{dy}{dw}$, applied efficiently to billions of parameters. Every training step of GPT-5 is the derivative pointing the way. In physics, the $a$ in $F = ma$ is the <em>second derivative</em> of position with respect to time. In biology, growth is a first derivative; accelerating growth is a second.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">History</div>
+    <p>In 1666 the plague closed Cambridge, and a 23-year-old Newton retreated to Woolsthorpe, where he independently invented his "method of fluxions." Almost simultaneously (the late 1670s), Leibniz developed the $dy/dx$ notation independently on the Continent. Their subsequent <em>priority dispute</em> is one of the most famous fights in mathematical history — but the notation we use today is almost entirely Leibniz's: cleaner, more structural, easier to manipulate.</p>
+  </div>
+
+  <div class="section resources">
+    <div class="label">Going deeper</div>
+    <ul>
+      <li>3Blue1Brown · <em>Essence of Calculus, Ch.2: The paradox of the derivative</em></li>
+      <li>Spivak · <em>Calculus</em> (the rigorous classic)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="label">English Insight</div>
+    <div class="english"><strong>derivative · differentiable · tangent line · rate of change · chain rule</strong>. "Take the derivative with respect to $x$" — the verbal idiom for differentiation. "Smooth function" — differentiable to all orders. "Gradient" — the vector generalization of derivative to multiple variables.</div>
+  </div>
+
+  <div class="section">
+    <div class="label">Something to chew on</div>
+    <div class="think">Why does $|x|$ (absolute value) fail to have a derivative at $x=0$? Sketch it — there's a corner at the origin. What does a "corner" mean mathematically? The ReLU activation used in neural networks has the same corner — how does gradient descent handle it?</div>
+  </div>
+</div>
+
+<!-- Concept 3: Integral -->
+<div class="card">
+  <h2>The Integral — a Continuous Sum</h2>
+  <div class="en-name">Integral Calculus</div>
+  <span class="tag">Integral Calculus</span>
+
+  <div class="formula-box">$$\int_a^b f(x)\,dx = \lim_{n\to\infty}\sum_{i=1}^{n} f(x_i)\,\Delta x$$</div>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>The integral sign $\int$ is an elongated S — for <em>Sum</em>. $dx$ is an "infinitesimally small width," $f(x)$ is "the height at that instant," and their product is "the area of a sliver-thin rectangle." Add infinitely many such slivers and you have the total area under the curve.<br><br>But "area" is only one face of the integral. What it really does is: <strong>accumulate a continuously varying quantity over an interval</strong>. Integrate velocity to get displacement. Integrate power to get energy. Integrate a probability density to get a probability. Integrate a growth rate to get a population. Integrate GPU utilization to get total compute consumed. Any "rate times time, summed up" is an integral. 3Blue1Brown's beautiful framing: <em>integrals answer "how much, in total, happened?" while derivatives answer "how fast is it changing right now?"</em></p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>Integrals let us precisely compute the area of <em>irregular shapes</em>, the displacement under <em>non-uniform acceleration</em>, the mass of an object with <em>non-uniform density</em> — all the accumulations that elementary geometry and arithmetic cannot reach. This is the modern descendant of the Greek <em>method of exhaustion</em>: Archimedes used a similar idea to compute the area of a circle ($\pi r^2$) and the area inside a parabolic segment. Two thousand years later, Newton and Leibniz gave humanity a general-purpose machine for the trick. Hardy would call it a quiet miracle: the very fact that we can take infinitely many things which each "equal zero" and add them up to get a finite, non-zero number.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Total charge equals current integrated over time. The energy of a signal is $\int |x(t)|^2 dt$. The expectation in probability is $\int x\,p(x)\,dx$. In diffusion models, the training objective is an integral over noise level $t$. Maxwell's equations, the Schrödinger equation, the Black–Scholes equation, Navier–Stokes for fluids — essentially every equation of modern science is a <strong>differential or integral equation</strong>.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">History</div>
+    <p>The idea of integration is older than differentiation. Archimedes (~250 BCE) had already used "exhaustion" to derive the volume of a sphere, $\frac{4}{3}\pi r^3$ — the result he was so proud of he asked to have it carved on his tombstone. Cavalieri proposed the principle of "indivisibles" in the early 17th century — a precursor to the integral. Leibniz wrote down the $\int$ symbol for the first time in his notebook on 29 October 1675 — one of the rare moments in mathematical history we can date to the day.</p>
+  </div>
+
+  <div class="section resources">
+    <div class="label">Going deeper</div>
+    <ul>
+      <li>3Blue1Brown · <em>Essence of Calculus, Ch.1 &amp; Ch.8</em> (the intuition of integrals and area)</li>
+      <li>Strogatz · <em>Infinite Powers</em> (the arc from Archimedes to Newton)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="label">English Insight</div>
+    <div class="english"><strong>integral · integrand · antiderivative · Riemann sum</strong>. <em>Definite integral</em> — over a fixed interval. <em>Indefinite integral / antiderivative</em> — a function whose derivative is the integrand. <em>Integrand</em> — the function being integrated. <em>Riemann sum</em> — the finite sum that approximates the integral.</div>
+  </div>
+
+  <div class="section">
+    <div class="label">Something to chew on</div>
+    <div class="think">Consider $\int_0^\infty \frac{\sin x}{x}\,dx = \frac{\pi}{2}$. The integrand oscillates between positive and negative forever — and yet the answer is a clean $\pi/2$. Why does this kind of "infinite oscillation that nevertheless converges to $\pi$" make mathematicians feel that the universe has a strange, hidden order?</div>
+  </div>
+</div>
+
+<!-- Concept 4: Fundamental Theorem -->
+<div class="card">
+  <h2>The Fundamental Theorem of Calculus</h2>
+  <div class="en-name">Differentiation and integration are two sides of the same coin</div>
+  <span class="tag">Fundamental Theorem</span>
+
+  <div class="formula-box">$$\int_a^b f(x)\,dx = F(b) - F(a),\quad \text{where } F'(x)=f(x)$$</div>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>The derivative turns "accumulated quantity" into "rate of change" (position → velocity). The integral turns "rate of change" back into "accumulated quantity" (velocity → position). <strong>They are inverse operations.</strong> This seemingly modest fact is the reason the entire subject of calculus exists.<br><br>A deeper picture: let $F(x)$ denote "the accumulated area from the start up to $x$." Step forward by a tiny $dx$, and the additional area is approximately $f(x) \cdot dx$ — height times width. In other words, $dF = f\,dx$, i.e. $F'(x) = f(x)$. <em>"The instantaneous rate of the accumulation function is exactly the quantity being accumulated."</em> That is the geometric soul of the Fundamental Theorem. It turns "computing the area under a curve" — which looks like it should require infinitely many additions — into "find an antiderivative and subtract two of its values."</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 360 180" xmlns="http://www.w3.org/2000/svg">
+      <line x1="20" y1="150" x2="340" y2="150" stroke="#aaa" stroke-width="0.6"/>
+      <line x1="40" y1="20" x2="40" y2="160" stroke="#aaa" stroke-width="0.6"/>
+      <path d="M 40 130 Q 120 90 200 80 T 320 40" fill="none" stroke="#1e3a5f" stroke-width="2"/>
+      <text x="328" y="46" font-size="11" fill="#1e3a5f" font-style="italic">f(x)</text>
+      <path d="M 40 150 L 40 130 Q 120 90 200 80 L 200 150 z" fill="#3a6088" fill-opacity="0.25"/>
+      <text x="120" y="125" font-size="11" fill="#1e3a5f" font-style="italic" text-anchor="middle">F(x) = ∫f</text>
+      <rect x="200" y="80" width="14" height="70" fill="#c9544a" fill-opacity="0.55" stroke="#c9544a" stroke-width="0.6"/>
+      <line x1="200" y1="155" x2="200" y2="165" stroke="#c9544a" stroke-width="1"/>
+      <line x1="214" y1="155" x2="214" y2="165" stroke="#c9544a" stroke-width="1"/>
+      <text x="207" y="176" font-size="9.5" fill="#c9544a" text-anchor="middle">dx</text>
+      <text x="248" y="92" font-size="10.5" fill="#c9544a" font-style="italic">dF = f·dx</text>
+      <text x="320" y="166" font-size="10" fill="#666" text-anchor="end">x</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>Before the 17th century, "finding the area under a curve" (quadrature) and "finding the slope of a tangent" (the tangent problem) were two completely separate crafts: the former belonged to the Archimedean tradition, the latter to the analytic geometry of Fermat and Descartes. <strong>Newton and Leibniz independently discovered that they are inverses of each other.</strong> It's as if someone had suddenly proved that "going up the stairs" and "going down the stairs" are the same act in two directions — two thousand years of independent inquiry merging into a single unified discipline. It is one of the rare moments in mathematical history when a bridge is discovered and the two shores become one. Strogatz calls it <em>"the miracle of calculus."</em></p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Every integral that ever shows up in physics, probability, or statistics is computed, fundamentally, by finding an antiderivative and subtracting at the endpoints. Numerically, this is the theoretical backbone of Simpson's rule, the Runge–Kutta methods, and friends. In automatic differentiation (PyTorch/JAX), <strong>the forward pass accumulates, the backward pass differentiates</strong> — the same duality, in algorithmic form. In physics, Stokes' theorem, Green's theorem, and the Gauss divergence theorem are higher-dimensional generalizations — the same melody played in different keys.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">History</div>
+    <p>The germ of the theorem appears in the 1650s geometry lectures of Isaac Barrow (Newton's mentor at Cambridge) — but Barrow himself didn't realize how revolutionary it was. Newton and Leibniz systematized it from different angles. <strong>Curiously,</strong> neither used the modern notion of "function" — the concept of a function would have to wait for Euler in the 18th century. So the rigorous formulation we teach today is really Cauchy's, completed in the 19th century. Two hundred years from intuitive discovery to rigorous statement.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">3Blue1Brown's framing</div>
+    <div class="intuition">Grant Sanderson: "If you only remember one thing from a calculus course, let it be this: the derivative and the integral are inverses of each other. Every formula, every technique, every application grows out of that one sentence."</div>
+  </div>
+
+  <div class="section resources">
+    <div class="label">Going deeper</div>
+    <ul>
+      <li>3Blue1Brown · <em>Essence of Calculus, Ch.8: Integration &amp; the fundamental theorem</em></li>
+      <li>Tristan Needham · <em>Visual Complex Analysis</em> (calculus through a geometric lens)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="label">English Insight</div>
+    <div class="english"><strong>fundamental theorem of calculus (FTC) · antiderivative · evaluate at endpoints</strong>. "Inverse operations" — the relationship between differentiation and integration. "Accumulation function" — the $F(x) = \int_a^x f$. In higher dimensions, the generalization is <em>Stokes' theorem</em>: "the integral over a boundary equals the integral of the derivative over the interior."</div>
+  </div>
+
+  <div class="section">
+    <div class="label">Something to chew on</div>
+    <div class="think">Suppose you measured only the hourly rainfall rate (in mm/hour) over a single day. How would you compute the total rainfall for that day? The entire spirit of the Fundamental Theorem hides inside this everyday question. Then ask the inverse: if all you have is the running total, how would you recover the rate? Standing between those two questions, can you feel the duality between derivative and integral?</div>
+  </div>
+</div>
+
+<nav class="bottom">
+  <a href="index.en.html">← Back to Mathematics Weekly</a>
+</nav>
+
+</div>
+</body>
+</html>
