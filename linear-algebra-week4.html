@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>线性代数核心 · Week 4 — Mathematics Weekly</title>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.essence{background:#1e3a5f;color:#f5f7fa;padding:14px 18px;border-radius:4px;font-size:0.98rem;margin-top:14px;font-style:italic;text-align:center;letter-spacing:0.3px}
+.essence strong{color:#fff;font-style:normal}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.resources a{color:#3a6088;text-decoration:none;border-bottom:1px dotted #3a6088}
+.resources a:hover{color:#1e3a5f;border-bottom-style:solid}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+.deepthink details{background:#fff;border-left:3px solid #c9a96b;padding:12px 18px;margin-bottom:10px;border-radius:0 6px 6px 0}
+.deepthink summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem;outline:none}
+.deepthink summary:hover{color:#3a6088}
+.deepthink details[open] summary{margin-bottom:10px}
+.deepthink details div{color:#2a3548;font-size:0.95rem;line-height:1.75}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Week 4 · 2026.05.27</div>
+  <h1>线性代数核心</h1>
+  <div class="meta">The Essence of Linear Algebra — 把数字看成几何，把矩阵看成动作</div>
+  <div class="epigraph">"There are two kinds of people in the world: those who think of matrices as arrays of numbers, and those who think of them as linear transformations. The second kind have all the fun." — paraphrased after Sheldon Axler, <em>Linear Algebra Done Right</em></div>
+</header>
+
+<!-- 概念 1：向量 -->
+<div class="card">
+  <h2>向量 = 列表，也是箭头，也是抽象</h2>
+  <div class="en-name">Vector · 线性代数 / 几何</div>
+  <span class="tag">Vector Space</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>同一只向量，物理学家、程序员、数学家眼里是三件不同的东西。<strong>物理学家</strong> 看到一支带方向的箭头：力、速度、位移。<strong>程序员</strong> 看到一个数字列表：<code>[2, 1.3, -0.7]</code>，一行数据、一张图片的像素、一个 word embedding。<strong>数学家</strong> 干脆把这两种具体说法扔掉，问：「能加，能数乘，那就是向量」——只要你的对象能 <em>叠加</em> 和 <em>缩放</em>，并且这两种操作满足几条朴素的规则，它就活在一个「向量空间」里。多项式可以是向量，函数可以是向量，量子态可以是向量。</p>
+    <p>3Blue1Brown 把这三层视角的相遇说成线性代数最重要的一件事：<em>「箭头 ↔ 列表」的字典是几何与计算之间的桥。</em>你写一个 numpy 数组，背后是几何对象；你画一支箭头，背后是一组坐标。线代的所有公式，本质都在两边翻译。</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 200" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="av1" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L0,9 L7,4.5 z" fill="#c9544a"/></marker></defs>
+      <!-- 左：箭头视图 -->
+      <g transform="translate(0,0)">
+        <line x1="20" y1="160" x2="180" y2="160" stroke="#aaa" stroke-width="0.6"/>
+        <line x1="100" y1="40" x2="100" y2="180" stroke="#aaa" stroke-width="0.6"/>
+        <line x1="100" y1="160" x2="160" y2="90" stroke="#c9544a" stroke-width="2" marker-end="url(#av1)"/>
+        <text x="138" y="86" font-size="10" fill="#c9544a" font-style="italic">v</text>
+        <text x="100" y="195" font-size="9.5" fill="#3a6088" text-anchor="middle" font-style="italic">几何：箭头</text>
+      </g>
+      <!-- 中：箭头 -->
+      <text x="200" y="115" font-size="18" fill="#3a6088">↔</text>
+      <!-- 中：列表 -->
+      <g transform="translate(220,80)">
+        <rect x="0" y="0" width="60" height="60" fill="#f0f4f9" stroke="#1e3a5f"/>
+        <text x="30" y="25" font-size="13" fill="#1e3a5f" text-anchor="middle">3</text>
+        <text x="30" y="48" font-size="13" fill="#1e3a5f" text-anchor="middle">−3.5</text>
+        <text x="30" y="160" font-size="9.5" fill="#3a6088" text-anchor="middle" font-style="italic">代数：列表</text>
+      </g>
+      <!-- 右：抽象 -->
+      <text x="300" y="115" font-size="18" fill="#3a6088">↔</text>
+      <g transform="translate(320,70)">
+        <text x="0" y="20" font-size="11" fill="#c9a96b" font-style="italic">3·sin(x)</text>
+        <text x="0" y="40" font-size="11" fill="#c9a96b" font-style="italic">+ x² − 1</text>
+        <text x="30" y="170" font-size="9.5" fill="#3a6088" text-anchor="middle" font-style="italic">抽象：能加能数乘</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>一个 <strong>向量空间</strong> $V$（域 $\mathbb{R}$ 上）是带两个运算 ${+}: V\times V\to V$、${\cdot}: \mathbb{R}\times V\to V$ 的集合，满足结合、交换、分配、零元、逆元等 8 条公理。最常见的例子是 $\mathbb{R}^n = \{(x_1,\dots,x_n)\}$。每个符号都是几何的影子：<em>$+$ 是平行四边形法则</em>；<em>$c\cdot v$ 是把箭头拉长 $c$ 倍</em>（$c<0$ 则反向）。公理不是为了刁难，是为了让定理对「多项式空间」「函数空间」「量子态空间」都同时成立。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>抽象的胜利在于：你证明一次定理，就同时获得了关于物理、数据、信号、量子态的结论。<strong>把表面无关的事物，发现是同一个结构</strong>——这就是 Bourbaki 学派和现代数学的核心信条。线代是这个信条最早、最干净的实例：欧式空间的几何 + 列表的计算 + 函数空间的分析，三条河流汇入同一个海。Hardy 会说，这种「把分散统一」的美比公式本身更深。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用 + 历史与人物</div>
+    <p>在 AI 里，一切都是向量。一个词在 GPT 里是一根 $\sim$ 12288 维的向量；一张 ImageNet 图片是 150528 维向量；一段语音是时间序列向量。<strong>「相似 = 余弦接近，加减 = 语义运算」</strong>（king − man + woman ≈ queen）的直觉，全部靠向量空间的代数。物理上量子态是 Hilbert 空间（无穷维向量空间）里的单位向量，叠加 = 向量加法。<br><br>历史脉络：Hamilton 1843 年发明四元数（带乘法的"四维向量"），Grassmann 1844 年《Ausdehnungslehre》引入更一般的"延展量"——惊人地超前，几乎没人看懂，被埋没了半个世纪。Gibbs 和 Heaviside 在 1880 年代把这套东西整理成现代向量分析，物理学家才用上。抽象的"向量空间"定义则要到 1888 年 Peano 才首次写下，1920 年代 Weyl 推广，逐渐成为现代数学的通用语言。</p>
+  </div>
+
+  <div class="essence"><strong>一句话精华：</strong>向量不是箭头，也不是列表——而是「能加能数乘」这件事本身。</div>
+
+  <div class="section">
+    <div class="label">思考题</div>
+    <div class="think">把所有 3 次以下的多项式 $a + bx + cx^2 + dx^3$ 看成一个向量空间。它的「维度」是多少？它的「自然基」是什么？你能找到一个 <em>线性变换</em>（保加法保数乘的映射），它在这个空间上做的事相当于 $f \mapsto f'$（求导）吗？写出它在 $\{1, x, x^2, x^3\}$ 这组基下的矩阵——你会发现求导，<em>是</em> 一个矩阵。</div>
+  </div>
+</div>
+
+<!-- 概念 2：矩阵 -->
+<div class="card">
+  <h2>矩阵 = 线性变换</h2>
+  <div class="en-name">Matrix as Linear Transformation · 几何 / 代数</div>
+  <span class="tag">Linear Map</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>把矩阵当作"一堆数字的方阵"，是中学的灾难。换个看法：<strong>矩阵是一个对空间施加的动作。</strong>这个动作把整个 $\mathbb{R}^2$（或 $\mathbb{R}^n$）按某种规则搬动，但有两条规则不许破：（1）原点不动；（2）所有原本平行、等距的网格线，搬完之后还是 <em>平行的、等距的直线</em>——不能掰弯。满足这两条的所有可能动作，就是「线性变换」，而每一个这样的动作，可以用一个矩阵记录下来。</p>
+    <p>记录方法极其简单：把基向量 $\hat{i}=(1,0)$ 搬到哪儿，写第一列；把 $\hat{j}=(0,1)$ 搬到哪儿，写第二列。<em>矩阵的列，是基向量的去向。</em>一旦你这样看，矩阵乘以向量 $M\mathbf{v}$ 不再是公式——它在问："$\mathbf{v}$ 这个箭头，按照 $M$ 这个动作搬过去，落在哪？"答案就是 $\mathbf{v}$ 的坐标作为权重，对 $M$ 的列做线性组合。所有矩阵乘法的公式都从这一句话长出来。</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ai2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L0,8 L6,4 z" fill="#c9544a"/></marker>
+        <marker id="aj2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L0,8 L6,4 z" fill="#3a8a6a"/></marker>
+      </defs>
+      <!-- 左：变换前 -->
+      <g transform="translate(10,10)">
+        <text x="80" y="10" font-size="10" fill="#3a6088" text-anchor="middle">前</text>
+        <g stroke="#cdd5e0" stroke-width="0.6">
+          <line x1="20" y1="20" x2="20" y2="180"/><line x1="50" y1="20" x2="50" y2="180"/><line x1="80" y1="20" x2="80" y2="180"/><line x1="110" y1="20" x2="110" y2="180"/><line x1="140" y1="20" x2="140" y2="180"/>
+          <line x1="20" y1="20" x2="140" y2="20"/><line x1="20" y1="50" x2="140" y2="50"/><line x1="20" y1="80" x2="140" y2="80"/><line x1="20" y1="110" x2="140" y2="110"/><line x1="20" y1="140" x2="140" y2="140"/><line x1="20" y1="170" x2="140" y2="170"/>
+        </g>
+        <line x1="80" y1="110" x2="110" y2="110" stroke="#c9544a" stroke-width="2.2" marker-end="url(#ai2)"/>
+        <text x="115" y="108" font-size="10" fill="#c9544a">î</text>
+        <line x1="80" y1="110" x2="80" y2="80" stroke="#3a8a6a" stroke-width="2.2" marker-end="url(#aj2)"/>
+        <text x="65" y="78" font-size="10" fill="#3a8a6a">ĵ</text>
+      </g>
+      <!-- 中：箭头 + 矩阵 -->
+      <g transform="translate(170,80)">
+        <text x="0" y="0" font-size="14" fill="#1e3a5f" text-anchor="middle">→</text>
+        <text x="0" y="30" font-size="11" fill="#1e3a5f" text-anchor="middle" font-style="italic">M =</text>
+        <text x="0" y="52" font-size="10" fill="#1e3a5f" text-anchor="middle">[1  1]</text>
+        <text x="0" y="68" font-size="10" fill="#1e3a5f" text-anchor="middle">[0  1]</text>
+        <text x="0" y="86" font-size="8.5" fill="#5a7090" text-anchor="middle">剪切</text>
+      </g>
+      <!-- 右：变换后 -->
+      <g transform="translate(220,10)">
+        <text x="80" y="10" font-size="10" fill="#3a6088" text-anchor="middle">后</text>
+        <g stroke="#cdd5e0" stroke-width="0.6">
+          <line x1="20" y1="20" x2="50" y2="180"/><line x1="50" y1="20" x2="80" y2="180"/><line x1="80" y1="20" x2="110" y2="180"/><line x1="110" y1="20" x2="140" y2="180"/><line x1="140" y1="20" x2="170" y2="180"/>
+          <line x1="20" y1="20" x2="140" y2="20"/><line x1="26" y1="50" x2="146" y2="50"/><line x1="32" y1="80" x2="152" y2="80"/><line x1="38" y1="110" x2="158" y2="110"/><line x1="44" y1="140" x2="164" y2="140"/><line x1="50" y1="170" x2="170" y2="170"/>
+        </g>
+        <line x1="80" y1="110" x2="110" y2="110" stroke="#c9544a" stroke-width="2.2" marker-end="url(#ai2)"/>
+        <text x="115" y="108" font-size="10" fill="#c9544a">Mî=(1,0)</text>
+        <line x1="80" y1="110" x2="110" y2="80" stroke="#3a8a6a" stroke-width="2.2" marker-end="url(#aj2)"/>
+        <text x="62" y="76" font-size="10" fill="#3a8a6a">Mĵ=(1,1)</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>一个映射 $T: \mathbb{R}^n \to \mathbb{R}^m$ 是 <strong>线性</strong> 的，当且仅当对所有 $\mathbf{u},\mathbf{v}$ 与标量 $c$，$T(\mathbf{u}+\mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v})$ 且 $T(c\mathbf{v}) = cT(\mathbf{v})$。一旦给定 $\mathbb{R}^n$ 的标准基 $\{e_1,\dots,e_n\}$，整个 $T$ 由这 $n$ 个值 $T(e_j)$ 完全决定——把它们摞成一个 $m\times n$ 矩阵的列，就是 $T$ 的矩阵表示。<em>两个线性变换的复合，对应矩阵乘法</em>：这就是为什么 $AB$ 的列 = $A$ 作用在 $B$ 的每一列上。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>这一个翻译——"矩阵 = 动作"——把代数和几何彻底打通。<strong>抽象的乘法变成动作的复合</strong>。$AB \neq BA$ 不再神秘：先旋转再剪切，和先剪切再旋转，结果当然不一样。<em>"逆矩阵"</em> 不再是公式，是 "撤销动作"。<em>"奇异 / 行列式为零"</em> 不再是判别条件，是 "动作把空间压扁成了更低维" ——信息丢失，无法逆向。线性代数的几乎每个看似抽象的概念，都有一个干净的几何对应。这是数学少有的"代数 ↔ 几何"完美对偶。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用 + 历史与人物</div>
+    <p>3D 图形流水线：每个游戏帧都是一连串 4×4 矩阵把模型坐标变到世界，再变到相机，再投影到屏幕。<strong>整个深度神经网络可以重述为：一连串"矩阵乘 + 非线性"的复合</strong>——每一层 $\mathbf{h} = \sigma(W\mathbf{x}+\mathbf{b})$ 中的 $W$ 都在描述"这一层把输入空间怎样搬"。Transformer 的 attention 也是矩阵乘 ($QK^T$ 给注意力分布，再左乘 $V$)。AlphaFold 把蛋白质结构问题翻译成几何变换问题。<br><br>历史：Arthur Cayley 1858 年首次系统化"矩阵代数"，他把矩阵当成一个独立对象研究（不只是方程组的速记）。James Sylvester 取了 "matrix" 这个名字（拉丁语"子宫"，因为它"孕育"行列式）。但矩阵思想的革命爆发在 1925 年——Heisenberg 在赫尔戈兰岛养病时发明了量子力学的第一个版本"矩阵力学"，他甚至不知道自己写的是矩阵，是 Born 和 Jordan 帮他识别出来的。从此矩阵不只是数学工具，是宇宙的语言。</p>
+  </div>
+
+  <div class="essence"><strong>一句话精华：</strong>矩阵不是数字方阵，是空间的动作；它的列，是基向量的去向。</div>
+
+  <div class="section">
+    <div class="label">思考题</div>
+    <div class="think">把 $\mathbb{R}^2$ 旋转 30°，对应一个矩阵 $R$。再旋转 30°，对应 $R$ 再作用一次，即 $R^2$。如果你把这两步合并成一次旋转 60°，对应的矩阵直接就是 $R^2$。请用 $R^2$ 的计算（不查表）推导出 $\cos 60°$ 和 $\sin 60°$。你会发现：<em>三角恒等式 $\cos(2\theta) = \cos^2\theta - \sin^2\theta$ 不过是矩阵乘法的对角线元素。</em>三角学的核心定理，原来是线代的副产品。</div>
+  </div>
+</div>
+
+<!-- 概念 3：特征向量 -->
+<div class="card">
+  <h2>特征向量 = 不变方向</h2>
+  <div class="en-name">Eigenvectors & Eigenvalues · 谱论</div>
+  <span class="tag">Spectral Theory</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>一个矩阵 $A$ 作用在大多数向量上，会把它<strong>既拉长又旋转</strong>——箭头的方向变了。但对极少数特殊方向上的向量，$A$ 只把它拉长（或压缩，或反向），<em>方向不变</em>。这些方向就是 $A$ 的 <strong>特征向量</strong>，那个拉伸倍数就是对应的 <strong>特征值</strong>。</p>
+    <p>想象你拿着一团橡皮泥，朝某个方向挤压。整个橡皮泥被挤扁，但 <em>挤压方向上的那条轴</em> 和 <em>垂直方向的那两条轴</em>——这三个方向上的点只是离原点近了或远了，它们没"歪"过。这三条轴就是这个挤压动作的特征方向。任何线性变换，都有这样几条"它自己最舒服"的轴；找到它们，就是看穿了这个变换的本质。3Blue1Brown 的话："特征向量是一个变换的本来面目（the intrinsic face）。"</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="aev" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L0,8 L6,4 z" fill="#c9544a"/></marker>
+        <marker id="aev2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L0,8 L6,4 z" fill="#3a8a6a"/></marker>
+        <marker id="abad" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L0,8 L6,4 z" fill="#888"/></marker>
+      </defs>
+      <line x1="20" y1="100" x2="360" y2="100" stroke="#ccd5e0" stroke-width="0.6"/>
+      <line x1="190" y1="20" x2="190" y2="180" stroke="#ccd5e0" stroke-width="0.6"/>
+      <!-- 特征向量 1 沿 x 轴：拉长 2 倍 -->
+      <line x1="190" y1="100" x2="240" y2="100" stroke="#c9544a" stroke-width="2.2" marker-end="url(#aev)" opacity="0.5"/>
+      <line x1="190" y1="100" x2="290" y2="100" stroke="#c9544a" stroke-width="2.5" marker-end="url(#aev)"/>
+      <text x="295" y="96" font-size="10" fill="#c9544a">Av=2v</text>
+      <!-- 特征向量 2 沿 y 轴：拉长 0.5 -->
+      <line x1="190" y1="100" x2="190" y2="50" stroke="#3a8a6a" stroke-width="2.2" marker-end="url(#aev2)" opacity="0.5"/>
+      <line x1="190" y1="100" x2="190" y2="75" stroke="#3a8a6a" stroke-width="2.5" marker-end="url(#aev2)"/>
+      <text x="155" y="68" font-size="10" fill="#3a8a6a">Aw=0.5w</text>
+      <!-- 普通向量被旋转 -->
+      <line x1="190" y1="100" x2="225" y2="65" stroke="#888" stroke-width="2" marker-end="url(#abad)" opacity="0.45"/>
+      <line x1="190" y1="100" x2="260" y2="80" stroke="#888" stroke-width="2" marker-end="url(#abad)"/>
+      <text x="255" y="60" font-size="9.5" fill="#666" font-style="italic">普通向量：方向变了</text>
+      <text x="190" y="195" font-size="10" fill="#1e3a5f" text-anchor="middle" font-style="italic">A = diag(2, 0.5) 的两根不变轴</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>设方阵 $A \in \mathbb{R}^{n\times n}$。如果存在非零向量 $\mathbf{v}$ 和标量 $\lambda$ 使</p>
+    <div class="formula-box">$$A\mathbf{v} = \lambda \mathbf{v}$$</div>
+    <p>则 $\mathbf{v}$ 是 $A$ 的 <strong>特征向量</strong>，$\lambda$ 是对应的 <strong>特征值</strong>。每个符号都直接对应几何：左边 $A\mathbf{v}$ 是"把 $\mathbf{v}$ 经过变换 $A$ 搬走"，右边 $\lambda\mathbf{v}$ 是"只是把 $\mathbf{v}$ 沿原方向拉伸 $\lambda$ 倍"。两边相等 = 这条方向被变换 $A$ "尊重"。求特征值的标准方法是解 $\det(A-\lambda I)=0$——这个方程为什么成立？因为它在问："有没有非零向量被 $A-\lambda I$ 压成零？"——也就是"有没有方向 $A$ 作用 $=\lambda$ 倍的拉伸？"</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>特征向量揭示一个深刻的事实：<strong>每个线性变换都自带一组"它自己的"坐标</strong>。如果你换到这组坐标系（特征基）下看这个变换，矩阵立刻变成对角阵——所有看似复杂的耦合消失，只剩 $n$ 个独立的拉伸。这就是 "对角化" (diagonalization)。它是把一个高维耦合系统拆成若干一维独立系统的标准工具，是物理学家梦寐以求的"主轴 / 法模" (normal modes)。<br><br>更美的是：这条原理把<em>矩阵</em>（代数对象）、<em>动作的内在轴</em>（几何对象）、<em>振动的固有频率</em>（物理对象）、<em>稳态分布</em>（概率对象）一次绑定。同一个数学对象，看出去是几个学科。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用 + 历史与人物</div>
+    <p><strong>PageRank</strong>（Google 1998 那篇论文）的核心：把整个互联网建模成一个巨大的转移矩阵 $M$，最大特征值对应的特征向量，就是每个网页的"重要性"得分。<strong>PCA（主成分分析）</strong>：对数据协方差矩阵求特征向量，得到数据方差最大的方向——这是降维和可视化的基石。<strong>量子力学</strong>：哈密顿算符 $\hat{H}$ 的特征值是允许的能量，特征向量是能量本征态——薛定谔方程 $\hat{H}\psi = E\psi$ 在结构上就是一个特征值问题。<strong>振动分析</strong>：建筑、桥梁、飞机机翼的固有频率，是质量矩阵和刚度矩阵的广义特征值。Tacoma Narrows Bridge 1940 年的著名垮塌就是某个特征模式被风激发。<br><br>历史：Euler 1750 年代研究刚体转动惯量时已经隐含使用了主轴思想。Cauchy 1829 年在二次曲面分类工作中正式给出特征方程。"Eigenvalue" 这个混合词来自德语 <em>Eigenwert</em>（自己的值），由 Hilbert 在 1904 年关于积分方程的工作中推广开。20 世纪谱论的发展（Hilbert, von Neumann）成为量子力学的数学基础——一个数学概念为一门新物理学准备好了语言。</p>
+  </div>
+
+  <div class="essence"><strong>一句话精华：</strong>每个变换都有它自己最舒服的几条轴；找到这些轴，复杂的动作就分解成几个独立的拉伸。</div>
+
+  <div class="section">
+    <div class="label">思考题</div>
+    <div class="think">$\mathbb{R}^2$ 上的纯旋转矩阵（比如旋转 90°）有 <em>实</em> 特征值吗？凭直觉先想：旋转把每根向量都旋转了，没有任何方向被保留，所以似乎不该有。但代数上 $\det(A-\lambda I)=0$ 永远有解（在复数域里）。这两件事如何调和？这指向了一个深刻的事实——<em>为什么量子力学非用复数不可</em>。</div>
+  </div>
+</div>
+
+<!-- 概念 4：行列式 -->
+<div class="card">
+  <h2>行列式 = 面积/体积的放大倍数</h2>
+  <div class="en-name">Determinant as Volume Scale Factor · 几何 / 代数</div>
+  <span class="tag">Determinant</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>取一个单位正方形（边长 1，面积 1）。用矩阵 $A$ 作用一下，它会被变成一个平行四边形。<strong>这个平行四边形的有向面积，就是 $\det A$。</strong>在 $\mathbb{R}^3$ 里，单位立方体变成平行六面体，那个体积就是 $\det A$。在 $\mathbb{R}^n$ 里同理。一个看似复杂的"行列式公式"（带正负号、按行/列展开），背后是这一句几何事实。</p>
+    <p>负号是怎么来的？如果变换<em>翻转了空间的取向</em>（像照镜子，左手变右手），行列式带负号。$\det A = 0$ 呢？说明单位正方形被压扁成了线段甚至点——动作把空间塌掉了一维（或更多），<em>不可逆</em>。这就是"行列式为零 ⇔ 矩阵奇异 ⇔ 方程组没有唯一解"背后的几何灵魂：信息丢了，没法还原。</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- 左：单位正方形 -->
+      <g transform="translate(20,30)">
+        <rect x="0" y="80" width="60" height="60" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.5"/>
+        <text x="30" y="115" font-size="11" fill="#1e3a5f" text-anchor="middle" font-style="italic">面积 = 1</text>
+        <text x="30" y="160" font-size="10" fill="#3a6088" text-anchor="middle">单位正方形</text>
+      </g>
+      <!-- 中：矩阵 -->
+      <g transform="translate(110,110)">
+        <text x="0" y="0" font-size="14" fill="#1e3a5f" text-anchor="middle">→ A</text>
+        <text x="0" y="22" font-size="10" fill="#1e3a5f" text-anchor="middle">[3  1]</text>
+        <text x="0" y="38" font-size="10" fill="#1e3a5f" text-anchor="middle">[0  2]</text>
+      </g>
+      <!-- 右：平行四边形 (面积 6) -->
+      <g transform="translate(170,30)">
+        <polygon points="0,140 60,140 80,80 20,80" fill="#fbe3e0" stroke="#c9544a" stroke-width="1.8"/>
+        <text x="40" y="115" font-size="11" fill="#c9544a" text-anchor="middle" font-style="italic">面积 = 6</text>
+        <text x="40" y="160" font-size="10" fill="#3a6088" text-anchor="middle">det A = 6</text>
+      </g>
+      <!-- 右二：塌掉 -->
+      <g transform="translate(280,30)">
+        <line x1="0" y1="140" x2="80" y2="80" stroke="#888" stroke-width="2.5"/>
+        <text x="40" y="120" font-size="11" fill="#888" text-anchor="middle" font-style="italic">面积 = 0</text>
+        <text x="40" y="160" font-size="10" fill="#3a6088" text-anchor="middle">det = 0（塌掉）</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>对 $2\times 2$ 矩阵 $A = \begin{pmatrix}a & b \\ c & d\end{pmatrix}$，</p>
+    <div class="formula-box">$$\det A = ad - bc$$</div>
+    <p>这就是平行四边形面积的标准计算：$ad$ 是 "底 $\times$ 高" 的天真估计，$bc$ 是 "歪掉" 部分需要扣掉的修正——把两根列向量 $(a,c)$ 和 $(b,d)$ 张成的图形，准确切出面积。一般 $n\times n$ 行列式可用 Leibniz 公式 $\det A = \sum_\sigma \text{sgn}(\sigma) \prod_i a_{i,\sigma(i)}$ 定义，但唯一应该记住的几何刻画是：<em>它是"$A$ 把单位 $n$ 维体积放大了多少倍（带符号）"。</em>所有性质（$\det(AB)=\det A \det B$, $\det A^{-1}=1/\det A$, $\det I = 1$）都是这句几何陈述的逻辑后果——两次动作的总放大 = 各自放大相乘；撤销 = 倒数；不动 = 不变。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>一个 $n^2$ 个数字的矩阵，被压缩成<strong>一个标量</strong>，这个标量却抓住了变换最本质的"是否可逆 / 几何信息容量"。从 $n^2$ 个自由度凝结成 1 个，却恰好是<em>那个</em>关键的标量——这种"压缩到极致还保住灵魂"的美感，是数学少有的奇迹。<br><br>更深一层：行列式是<strong>唯一</strong> 满足三条简单几何性质（多重线性、交错性、$\det I = 1$）的函数。这种"由几条朴素公理就唯一决定一个复杂公式"的现象，是 Bourbaki 风格的胜利。Lockhart 在《数学家的叹息》里用类似例子说明："数学不是发明的，是被一个迫不得已的逻辑挤出来的。"</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用 + 历史与人物</div>
+    <p>多元积分换元公式 $\int f(\mathbf{y})\,d\mathbf{y} = \int f(\varphi(\mathbf{x})) |\det J_\varphi|\,d\mathbf{x}$ 中的<strong>雅可比行列式</strong>就是局部"小体积的放大倍数"——这是把单变量微积分 $du = u'(x)dx$ 推广到多元的关键。在机器学习里，<strong>归一化流</strong>（Normalizing Flows, RealNVP/Glow）通过精心设计的可逆变换，用雅可比行列式来精确追踪概率密度——生成模型的概率守恒，本质是行列式记账。物理学的 <strong>路径积分</strong> 里 Faddeev–Popov 行列式处理规范不变性。在数值线代里，<em>行列式作为奇异性检测器是危险的</em>（数值不稳定），实际工程更常用条件数和奇异值——这也是一个值得记住的"美丽公式 ≠ 工程首选"的诚实提醒。<br><br>历史：行列式实际上 <em>早于</em> 矩阵——日本数学家关孝和（Seki Takakazu）1683 年在《解伏题之法》中独立用到了 3×3 行列式；同年 Leibniz 在一封信里也提到了它，用来判断线性方程组何时有解。Cauchy 1812 年系统化了"determinant"这个术语和现代理论。讽刺的是，矩阵作为独立对象（Cayley 1858）反而<em>晚了 170 年</em>——人们最早关心的是"方程组解不解得出来"这个标量判据，"矩阵作为整体"是后来的抽象。</p>
+  </div>
+
+  <div class="essence"><strong>一句话精华：</strong>行列式不是公式，是"动作把空间体积放大了多少倍"——压扁成 0 就是不可逆。</div>
+
+  <div class="section">
+    <div class="label">3Blue1Brown 视角</div>
+    <div class="intuition">"如果你只能从行列式记住一件事——把它想成 $A$ 对面积/体积做了什么。$\det A = 7$ 意味着任何区域被 $A$ 作用后面积变成 7 倍；$\det A = -3$ 意味着面积变 3 倍且空间被翻转；$\det A = 0$ 意味着维度塌陷。" — Grant Sanderson</div>
+  </div>
+
+  <div class="section">
+    <div class="label">思考题</div>
+    <div class="think">如果一个 $3\times 3$ 矩阵 $A$ 的三列两两正交（垂直），且每列都是单位长度（这种矩阵叫正交矩阵），凭几何想象它的 $\det A$ 必须等于多少？为什么只可能是 $\pm 1$？这两个数值对应两种"动作"——你能给它们各起一个直观名字吗？（提示：一个保持取向，一个翻转。）</div>
+  </div>
+</div>
+
+<!-- 跨概念深入资源 -->
+<div class="card">
+  <h2 style="font-size:1.2rem">深入资源</h2>
+  <div class="section resources">
+    <ul>
+      <li>3Blue1Brown · <em>Essence of Linear Algebra</em>（15 集，几何视角的圣经，强烈推荐先看完再读任何教材）</li>
+      <li>Sheldon Axler · <em>Linear Algebra Done Right</em>（坚持"无行列式"路线建立线代，到第 10 章才引入行列式——一个反传统但极美的教学实验）</li>
+      <li>Gilbert Strang · <em>Introduction to Linear Algebra</em> + MIT OCW 18.06（最受欢迎的本科课程，应用导向）</li>
+      <li>Carl Meyer · <em>Matrix Analysis and Applied Linear Algebra</em>（工程派的圣经，PageRank、PCA 等应用一应俱全）</li>
+      <li>Page, Brin, Motwani, Winograd (1999) · <em>The PageRank Citation Ranking</em>（特征向量如何让 Google 价值万亿）</li>
+      <li>Heisenberg (1925) · <em>Über quantentheoretische Umdeutung kinematischer und mechanischer Beziehungen</em>（赫尔戈兰岛上的矩阵力学诞生论文）</li>
+      <li>Terence Tao · <em>What's new</em> 博客中关于矩阵分析、随机矩阵的多篇笔记</li>
+      <li>Tristan Needham · <em>Visual Differential Geometry and Forms</em>（几何视角延伸到微分形式，行列式作为体积元）</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 深入思考 -->
+<div class="card">
+  <h2 style="font-size:1.2rem">深入思考</h2>
+  <div class="section deepthink">
+    <details>
+      <summary>1. 为什么神经网络需要"非线性"？如果删掉所有激活函数会怎样？</summary>
+      <div>任意多层的纯线性层叠加 $W_n W_{n-1} \cdots W_1 \mathbf{x}$ 等价于一个矩阵 $W = W_n\cdots W_1$ 作用一次——再深也只是一个线性变换。线性变换的能力是<em>固定</em>的：它最多把空间做一次有限维的拉伸/旋转/投影，无法表达任何"弯曲"的决策边界。激活函数（ReLU、sigmoid）的作用是<strong>在每一层之间引入一次"折叠"</strong>，让叠加层之后获得任意复杂的非线性表达力。所以"深"之所以有意义，是因为线性 + 非线性的交替组合——纯矩阵无法表达世界。</div>
+    </details>
+    <details>
+      <summary>2. 量子力学为什么用 Hilbert 空间（复数向量空间）而非实数？</summary>
+      <div>实矩阵的旋转没有实特征值。但物理上"测量结果"必须是实数，且观测算符在叠加态上的演化必须可以表示成"沿某些方向的拉伸"——这要求特征值结构存在。<strong>厄米矩阵</strong>（复矩阵且 $A^\dagger = A$）的特征值恰好都是实数，特征向量是正交的——完美匹配"可测量物理量"的需求。同时复数的相位记录干涉信息（双缝实验的核心）。所以复数不是为了方便，是物理结构强行选择的语言——一个"非线性代数 ↔ 物理"的深刻案例。</div>
+    </details>
+    <details>
+      <summary>3. PageRank 为什么能用？这件事和"民主投票"有何深层联系？</summary>
+      <div>PageRank 假设一个用户随机点链接游走，问稳态下停留在每页的概率。这是一个 Markov 链，稳态分布 = 转移矩阵最大特征值（=1）对应的特征向量。它的美在于<strong>递归定义的自洽性</strong>："重要页面 = 被重要页面链接的页面"——这听起来像循环定义，但特征向量方程 $M\mathbf{v}=\mathbf{v}$ 恰好把"循环"翻译成"不动点"，让它有了精确解。这种思想在民主选举中其实也出现过——Arrow 不可能性定理某种意义上是"全员排序聚合"的特征值约束。任何"递归声望"系统（学术引用、社交影响、加密货币验证）背后都有同样的数学骨架。</div>
+    </details>
+    <details>
+      <summary>4. 行列式在高维（比如 100 维）还有几何意义吗？</summary>
+      <div>有，但物理直觉失效。100 维"体积"是一个完全合法的代数概念——它是 100 个向量张成的 100-平行体在 Lebesgue 测度下的度量。在概率论里，多元高斯分布的密度公式里出现 $\frac{1}{\sqrt{(2\pi)^n \det\Sigma}}$——这个"高维椭球体积"主导了 ML 中的不确定性建模、扩散模型的去噪、变分推断中的 ELBO。但有一个反直觉的事实：<em>高维下"几乎所有"随机矩阵的行列式急剧趋于 0 或 ∞</em>（Marchenko–Pastur 现象），这是为什么 ML 中通常用对数行列式 $\log\det$ 而不是直接用 $\det$——一个数值稳定性问题反映了高维几何的奇异性。</div>
+    </details>
+    <details>
+      <summary>5. 是否存在"非线性代数"？为什么我们对它知之甚少？</summary>
+      <div>有——叫"非线性代数"（Nonlinear Algebra, Sturmfels 等人推动），研究多项式方程组、张量分解、代数几何在数据科学中的应用。但它比线性代数难得多：线性代数的灵魂是"叠加 + 缩放 → 一切由基决定"，这种结构让我们能用 $n^2$ 个数完整描述任何线性变换。非线性世界没有这种紧凑表达——$n$ 维上的二次型已经有 $\binom{n+1}{2}$ 个自由度，更高次爆炸。这就是为什么 ML 选择"线性 + 简单非线性（ReLU）+ 大量层"这条路：用大量简单结构组合，比用少量复杂结构容易优化和分析。整个深度学习是一场"我们只会用线性代数，就用海量的它"的工程胜利。</div>
+    </details>
+  </div>
+</div>
+
+<nav class="bottom">
+  <a href="index.html">← 返回 Mathematics Weekly</a>
+</nav>
+
+</div>
+</body>
+</html>

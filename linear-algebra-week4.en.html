@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Essence of Linear Algebra · Week 4 — Mathematics Weekly</title>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.essence{background:#1e3a5f;color:#f5f7fa;padding:14px 18px;border-radius:4px;font-size:0.98rem;margin-top:14px;font-style:italic;text-align:center;letter-spacing:0.3px}
+.essence strong{color:#fff;font-style:normal}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.resources a{color:#3a6088;text-decoration:none;border-bottom:1px dotted #3a6088}
+.resources a:hover{color:#1e3a5f;border-bottom-style:solid}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+.deepthink details{background:#fff;border-left:3px solid #c9a96b;padding:12px 18px;margin-bottom:10px;border-radius:0 6px 6px 0}
+.deepthink summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem;outline:none}
+.deepthink summary:hover{color:#3a6088}
+.deepthink details[open] summary{margin-bottom:10px}
+.deepthink details div{color:#2a3548;font-size:0.95rem;line-height:1.75}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Week 4 · 2026.05.27</div>
+  <h1>The Essence of Linear Algebra</h1>
+  <div class="meta">See numbers as geometry, see matrices as motion</div>
+  <div class="epigraph">"There are two kinds of people in the world: those who think of matrices as arrays of numbers, and those who think of them as linear transformations. The second kind have all the fun." — paraphrased after Sheldon Axler, <em>Linear Algebra Done Right</em></div>
+</header>
+
+<!-- Concept 1: Vector -->
+<div class="card">
+  <h2>Vector — list, arrow, and abstraction</h2>
+  <div class="en-name">Vector · Linear Algebra / Geometry</div>
+  <span class="tag">Vector Space</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>The same vector looks like three different things to three kinds of people. To <strong>physicists</strong>, it is an arrow with direction: force, velocity, displacement. To <strong>programmers</strong>, it is a list of numbers: <code>[2, 1.3, -0.7]</code> — a row of data, the pixels of an image, a word embedding. To <strong>mathematicians</strong>, neither of those is the definition; they ask only: "can you add it, can you scale it, and do those operations obey a few simple rules?" If so, it lives in a vector space. Polynomials can be vectors. Functions can be vectors. Quantum states can be vectors.</p>
+    <p>3Blue1Brown identifies the meeting of these three views as the single most important thing in linear algebra: <em>the dictionary between "arrow" and "list" is the bridge between geometry and computation.</em> Write a numpy array — there is a geometric object behind it. Draw an arrow — there is a coordinate list behind it. Every formula in linear algebra is, essentially, a translation between these two sides.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 200" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="av1" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L0,9 L7,4.5 z" fill="#c9544a"/></marker></defs>
+      <g transform="translate(0,0)">
+        <line x1="20" y1="160" x2="180" y2="160" stroke="#aaa" stroke-width="0.6"/>
+        <line x1="100" y1="40" x2="100" y2="180" stroke="#aaa" stroke-width="0.6"/>
+        <line x1="100" y1="160" x2="160" y2="90" stroke="#c9544a" stroke-width="2" marker-end="url(#av1)"/>
+        <text x="138" y="86" font-size="10" fill="#c9544a" font-style="italic">v</text>
+        <text x="100" y="195" font-size="9.5" fill="#3a6088" text-anchor="middle" font-style="italic">geometry: arrow</text>
+      </g>
+      <text x="200" y="115" font-size="18" fill="#3a6088">↔</text>
+      <g transform="translate(220,80)">
+        <rect x="0" y="0" width="60" height="60" fill="#f0f4f9" stroke="#1e3a5f"/>
+        <text x="30" y="25" font-size="13" fill="#1e3a5f" text-anchor="middle">3</text>
+        <text x="30" y="48" font-size="13" fill="#1e3a5f" text-anchor="middle">−3.5</text>
+        <text x="30" y="160" font-size="9.5" fill="#3a6088" text-anchor="middle" font-style="italic">algebra: list</text>
+      </g>
+      <text x="300" y="115" font-size="18" fill="#3a6088">↔</text>
+      <g transform="translate(320,70)">
+        <text x="0" y="20" font-size="11" fill="#c9a96b" font-style="italic">3·sin(x)</text>
+        <text x="0" y="40" font-size="11" fill="#c9a96b" font-style="italic">+ x² − 1</text>
+        <text x="30" y="170" font-size="9.5" fill="#3a6088" text-anchor="middle" font-style="italic">abstract: add &amp; scale</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Definition</div>
+    <p>A <strong>vector space</strong> $V$ (over $\mathbb{R}$) is a set with two operations ${+}: V\times V\to V$ and ${\cdot}: \mathbb{R}\times V\to V$ satisfying eight axioms — associativity, commutativity, distributivity, zero element, additive inverse, and so on. The most common example is $\mathbb{R}^n = \{(x_1,\dots,x_n)\}$. Each symbol is a shadow of geometry: <em>$+$ is the parallelogram law</em>; <em>$c\cdot v$ stretches the arrow by a factor of $c$</em> (and reverses it if $c<0$). The axioms are not pedantic — they exist so that the same theorems apply simultaneously to polynomial spaces, function spaces, and quantum state spaces.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It Is Beautiful</div>
+    <p>The triumph of abstraction: prove a theorem once, and you have a conclusion about physics, data, signals, and quantum states all at once. <strong>Discovering that surface-different things share the same structure</strong> is the central creed of the Bourbaki school and of modern mathematics. Linear algebra is its earliest and cleanest example: Euclidean geometry, list computation, and functional analysis — three rivers, one sea. Hardy would say: this kind of "unifying the scattered" beauty is deeper than any formula.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Application + History &amp; People</div>
+    <p>In AI, everything is a vector. A word in GPT is a vector of $\sim$ 12288 dimensions; an ImageNet image is a vector of 150528 dimensions; an audio segment is a sequence of vectors. The intuition that <strong>"similar = cosine close, add/subtract = semantic operation"</strong> (king − man + woman ≈ queen) rests entirely on the algebra of vector spaces. In physics, a quantum state is a unit vector in Hilbert space (an infinite-dimensional vector space); superposition is just vector addition.<br><br>History: Hamilton invented quaternions in 1843 (a "4-D vector with multiplication"); Grassmann published his <em>Ausdehnungslehre</em> in 1844 introducing more general "extensive quantities" — astonishingly ahead of its time, almost no one understood it, and it was buried for half a century. Gibbs and Heaviside in the 1880s repackaged it into modern vector analysis, which physicists could finally use. The abstract definition of "vector space" itself had to wait until Peano wrote it down in 1888, and was popularized by Weyl in the 1920s; it gradually became the lingua franca of modern math.</p>
+  </div>
+
+  <div class="essence"><strong>Essence in one line:</strong> A vector is neither an arrow nor a list — it is the very act of "being addable and scalable."</div>
+
+  <div class="section">
+    <div class="label">Thinking Question</div>
+    <div class="think">Treat all polynomials of degree less than 4, $a + bx + cx^2 + dx^3$, as a vector space. What is its dimension? What is its natural basis? Can you find a <em>linear transformation</em> (a map preserving addition and scaling) that does $f \mapsto f'$ (differentiation) on this space? Write down its matrix in the basis $\{1, x, x^2, x^3\}$ — and you'll discover that differentiation, <em>is</em>, a matrix.</div>
+  </div>
+</div>
+
+<!-- Concept 2: Matrix -->
+<div class="card">
+  <h2>Matrix = Linear Transformation</h2>
+  <div class="en-name">Matrix as Linear Transformation · Geometry / Algebra</div>
+  <span class="tag">Linear Map</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Thinking of a matrix as "a square box of numbers" is the disaster of high school. Switch viewpoint: <strong>a matrix is a motion applied to space.</strong> This motion picks up all of $\mathbb{R}^2$ (or $\mathbb{R}^n$) and rearranges it according to some rule, but two rules cannot be broken: (1) the origin stays put; (2) any grid lines that started out parallel and evenly spaced must end up <em>parallel and evenly spaced</em> — no bending allowed. The set of all such motions is the set of "linear transformations," and each one can be recorded by a matrix.</p>
+    <p>The recording method is dead simple: write down where $\hat{i}=(1,0)$ lands as the first column; write down where $\hat{j}=(0,1)$ lands as the second column. <em>The columns of a matrix are the destinations of the basis vectors.</em> Once you see this, $M\mathbf{v}$ is no longer a formula — it asks: "If you carry the arrow $\mathbf{v}$ along with the motion $M$, where does it end up?" The answer is "the coordinates of $\mathbf{v}$, used as weights, summing the columns of $M$." Every matrix-multiplication formula grows out of this single sentence.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ai2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L0,8 L6,4 z" fill="#c9544a"/></marker>
+        <marker id="aj2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L0,8 L6,4 z" fill="#3a8a6a"/></marker>
+      </defs>
+      <g transform="translate(10,10)">
+        <text x="80" y="10" font-size="10" fill="#3a6088" text-anchor="middle">before</text>
+        <g stroke="#cdd5e0" stroke-width="0.6">
+          <line x1="20" y1="20" x2="20" y2="180"/><line x1="50" y1="20" x2="50" y2="180"/><line x1="80" y1="20" x2="80" y2="180"/><line x1="110" y1="20" x2="110" y2="180"/><line x1="140" y1="20" x2="140" y2="180"/>
+          <line x1="20" y1="20" x2="140" y2="20"/><line x1="20" y1="50" x2="140" y2="50"/><line x1="20" y1="80" x2="140" y2="80"/><line x1="20" y1="110" x2="140" y2="110"/><line x1="20" y1="140" x2="140" y2="140"/><line x1="20" y1="170" x2="140" y2="170"/>
+        </g>
+        <line x1="80" y1="110" x2="110" y2="110" stroke="#c9544a" stroke-width="2.2" marker-end="url(#ai2)"/>
+        <text x="115" y="108" font-size="10" fill="#c9544a">î</text>
+        <line x1="80" y1="110" x2="80" y2="80" stroke="#3a8a6a" stroke-width="2.2" marker-end="url(#aj2)"/>
+        <text x="65" y="78" font-size="10" fill="#3a8a6a">ĵ</text>
+      </g>
+      <g transform="translate(170,80)">
+        <text x="0" y="0" font-size="14" fill="#1e3a5f" text-anchor="middle">→</text>
+        <text x="0" y="30" font-size="11" fill="#1e3a5f" text-anchor="middle" font-style="italic">M =</text>
+        <text x="0" y="52" font-size="10" fill="#1e3a5f" text-anchor="middle">[1  1]</text>
+        <text x="0" y="68" font-size="10" fill="#1e3a5f" text-anchor="middle">[0  1]</text>
+        <text x="0" y="86" font-size="8.5" fill="#5a7090" text-anchor="middle">shear</text>
+      </g>
+      <g transform="translate(220,10)">
+        <text x="80" y="10" font-size="10" fill="#3a6088" text-anchor="middle">after</text>
+        <g stroke="#cdd5e0" stroke-width="0.6">
+          <line x1="20" y1="20" x2="50" y2="180"/><line x1="50" y1="20" x2="80" y2="180"/><line x1="80" y1="20" x2="110" y2="180"/><line x1="110" y1="20" x2="140" y2="180"/><line x1="140" y1="20" x2="170" y2="180"/>
+          <line x1="20" y1="20" x2="140" y2="20"/><line x1="26" y1="50" x2="146" y2="50"/><line x1="32" y1="80" x2="152" y2="80"/><line x1="38" y1="110" x2="158" y2="110"/><line x1="44" y1="140" x2="164" y2="140"/><line x1="50" y1="170" x2="170" y2="170"/>
+        </g>
+        <line x1="80" y1="110" x2="110" y2="110" stroke="#c9544a" stroke-width="2.2" marker-end="url(#ai2)"/>
+        <text x="115" y="108" font-size="10" fill="#c9544a">Mî=(1,0)</text>
+        <line x1="80" y1="110" x2="110" y2="80" stroke="#3a8a6a" stroke-width="2.2" marker-end="url(#aj2)"/>
+        <text x="62" y="76" font-size="10" fill="#3a8a6a">Mĵ=(1,1)</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Definition</div>
+    <p>A map $T: \mathbb{R}^n \to \mathbb{R}^m$ is <strong>linear</strong> if and only if for all $\mathbf{u},\mathbf{v}$ and scalars $c$, $T(\mathbf{u}+\mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v})$ and $T(c\mathbf{v}) = cT(\mathbf{v})$. Once you fix the standard basis $\{e_1,\dots,e_n\}$ of $\mathbb{R}^n$, the entire $T$ is determined by the $n$ values $T(e_j)$ — stack them as columns of an $m\times n$ matrix, and you have the matrix representation of $T$. <em>The composition of two linear transformations corresponds to matrix multiplication</em>: this is why the columns of $AB$ are $A$ applied to each column of $B$.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It Is Beautiful</div>
+    <p>This one translation — "matrix = motion" — fuses algebra and geometry. <strong>Abstract multiplication becomes composition of motions.</strong> $AB \neq BA$ is no longer mysterious: rotate-then-shear is different from shear-then-rotate. <em>"Inverse matrix"</em> is no longer a formula; it is "undo the motion." <em>"Singular / determinant zero"</em> is no longer a check condition; it is "the motion squashed space into a lower dimension" — information is lost, the action cannot be reversed. Nearly every abstract concept in linear algebra has a clean geometric counterpart. Few areas of math achieve such a perfect duality between algebra and geometry.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Application + History &amp; People</div>
+    <p>The 3D graphics pipeline: every game frame is a chain of 4×4 matrices carrying model coordinates into world space, then into camera space, then projecting onto the screen. <strong>An entire deep neural network can be restated as a chain of "matrix multiply + nonlinearity"</strong> — each layer $\mathbf{h} = \sigma(W\mathbf{x}+\mathbf{b})$ has a $W$ that describes how this layer carries the input space. Transformer attention is also matrix multiplication ($QK^T$ gives the attention distribution, then left-multiplied by $V$). AlphaFold translates the protein folding problem into a geometric transformation problem.<br><br>History: Arthur Cayley in 1858 first systematized "matrix algebra," treating a matrix as an independent object of study (not just shorthand for a system of equations). James Sylvester coined the name "matrix" (Latin for "womb," because it "gestates" the determinant). But the revolution of matrix thinking came in 1925 — Heisenberg, recovering on the island of Helgoland, invented the first form of quantum mechanics, "matrix mechanics." He did not even know what he wrote was a matrix; Born and Jordan recognized it for him. From that point on, matrices were not just a mathematical tool — they were the language of the universe.</p>
+  </div>
+
+  <div class="essence"><strong>Essence in one line:</strong> A matrix is not a grid of numbers; it is a motion on space — and its columns are the destinations of the basis vectors.</div>
+
+  <div class="section">
+    <div class="label">Thinking Question</div>
+    <div class="think">Rotating $\mathbb{R}^2$ by 30° corresponds to a matrix $R$. Rotating by another 30° corresponds to applying $R$ again, i.e. $R^2$. If you combine the two steps into a single rotation by 60°, the corresponding matrix is just $R^2$. Without a lookup, use $R^2$ to derive $\cos 60°$ and $\sin 60°$. You will discover that <em>the trigonometric identity $\cos(2\theta) = \cos^2\theta - \sin^2\theta$ is nothing more than the diagonal entry of a matrix product</em>. The cornerstone theorem of trigonometry, it turns out, is a byproduct of linear algebra.</div>
+  </div>
+</div>
+
+<!-- Concept 3: Eigenvectors -->
+<div class="card">
+  <h2>Eigenvector = Invariant Direction</h2>
+  <div class="en-name">Eigenvectors &amp; Eigenvalues · Spectral Theory</div>
+  <span class="tag">Spectral Theory</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>A matrix $A$, applied to most vectors, both <strong>stretches and rotates</strong> them — the arrow changes direction. But for a few very special directions, $A$ only stretches the vector (or compresses it, or flips its sign) without rotating it. <em>The direction is preserved.</em> Those special directions are the <strong>eigenvectors</strong> of $A$; the stretching factor is the corresponding <strong>eigenvalue</strong>.</p>
+    <p>Imagine you hold a ball of clay and squeeze it along some direction. The clay gets flattened, but <em>the squeezing axis</em> and <em>the two perpendicular axes</em> — these three directions — only have their points moved closer to or farther from the origin; they did not "tilt." Those three lines are the eigen-directions of that squeeze. Every linear transformation has a few of these "most natural" axes; finding them is seeing through to the essence of the transformation. 3Blue1Brown puts it: "Eigenvectors are the intrinsic face of a transformation."</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="aev" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L0,8 L6,4 z" fill="#c9544a"/></marker>
+        <marker id="aev2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L0,8 L6,4 z" fill="#3a8a6a"/></marker>
+        <marker id="abad" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L0,8 L6,4 z" fill="#888"/></marker>
+      </defs>
+      <line x1="20" y1="100" x2="360" y2="100" stroke="#ccd5e0" stroke-width="0.6"/>
+      <line x1="190" y1="20" x2="190" y2="180" stroke="#ccd5e0" stroke-width="0.6"/>
+      <line x1="190" y1="100" x2="240" y2="100" stroke="#c9544a" stroke-width="2.2" marker-end="url(#aev)" opacity="0.5"/>
+      <line x1="190" y1="100" x2="290" y2="100" stroke="#c9544a" stroke-width="2.5" marker-end="url(#aev)"/>
+      <text x="295" y="96" font-size="10" fill="#c9544a">Av=2v</text>
+      <line x1="190" y1="100" x2="190" y2="50" stroke="#3a8a6a" stroke-width="2.2" marker-end="url(#aev2)" opacity="0.5"/>
+      <line x1="190" y1="100" x2="190" y2="75" stroke="#3a8a6a" stroke-width="2.5" marker-end="url(#aev2)"/>
+      <text x="155" y="68" font-size="10" fill="#3a8a6a">Aw=0.5w</text>
+      <line x1="190" y1="100" x2="225" y2="65" stroke="#888" stroke-width="2" marker-end="url(#abad)" opacity="0.45"/>
+      <line x1="190" y1="100" x2="260" y2="80" stroke="#888" stroke-width="2" marker-end="url(#abad)"/>
+      <text x="255" y="60" font-size="9.5" fill="#666" font-style="italic">generic vector: direction shifts</text>
+      <text x="190" y="195" font-size="10" fill="#1e3a5f" text-anchor="middle" font-style="italic">two invariant axes of A = diag(2, 0.5)</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Definition</div>
+    <p>Let $A \in \mathbb{R}^{n\times n}$. If there exists a nonzero vector $\mathbf{v}$ and a scalar $\lambda$ such that</p>
+    <div class="formula-box">$$A\mathbf{v} = \lambda \mathbf{v}$$</div>
+    <p>then $\mathbf{v}$ is an <strong>eigenvector</strong> of $A$ and $\lambda$ is the corresponding <strong>eigenvalue</strong>. Each symbol maps directly to geometry: the left side $A\mathbf{v}$ is "carry $\mathbf{v}$ along through transformation $A$"; the right side $\lambda\mathbf{v}$ is "just stretch $\mathbf{v}$ along its own direction by a factor of $\lambda$." The equality means: that direction is <em>respected</em> by $A$. The standard way to find eigenvalues is to solve $\det(A-\lambda I)=0$. Why does this work? Because it asks: "Is there a nonzero vector squashed to zero by $A-\lambda I$?" — equivalently, "Is there a direction on which $A$ acts as exactly $\lambda$ times stretching?"</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It Is Beautiful</div>
+    <p>Eigenvectors reveal a deep fact: <strong>every linear transformation comes with its own coordinate system built in.</strong> If you switch to that coordinate system (the eigen-basis), the matrix becomes diagonal — all the apparent coupling vanishes, leaving only $n$ independent stretches. This is "diagonalization." It is the standard tool for decomposing a high-dimensional coupled system into independent one-dimensional ones — the physicist's coveted "principal axes / normal modes."<br><br>What makes it even more beautiful: this single principle binds together <em>a matrix</em> (algebraic object), <em>the intrinsic axes of a motion</em> (geometric object), <em>the natural frequencies of a vibrating system</em> (physical object), and <em>the steady-state distribution of a Markov chain</em> (probabilistic object). One mathematical object, several disciplines.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Application + History &amp; People</div>
+    <p><strong>PageRank</strong> (the 1998 Google paper) at its core: model the entire web as a giant transition matrix $M$; the eigenvector belonging to the largest eigenvalue is the "importance" score of every page. <strong>PCA (Principal Component Analysis)</strong>: compute eigenvectors of the data covariance matrix; you get the directions of largest variance — the foundation of dimensionality reduction and visualization. <strong>Quantum mechanics</strong>: the eigenvalues of the Hamiltonian operator $\hat{H}$ are the allowed energies, and the eigenvectors are energy eigenstates — the time-independent Schrödinger equation $\hat{H}\psi = E\psi$ is structurally an eigenvalue problem. <strong>Vibration analysis</strong>: the natural frequencies of buildings, bridges, airplane wings are generalized eigenvalues of mass and stiffness matrices. The famous 1940 Tacoma Narrows Bridge collapse was an eigenmode being driven into resonance by the wind.<br><br>History: Euler had implicitly used principal-axis ideas in the 1750s while studying moments of inertia of rigid bodies. Cauchy formally introduced the characteristic equation in 1829, in his classification of quadric surfaces. The hybrid word "eigenvalue" comes from the German <em>Eigenwert</em> ("own value"), spread by Hilbert in his 1904 work on integral equations. The 20th-century development of spectral theory (Hilbert, von Neumann) became the mathematical foundation of quantum mechanics — a piece of mathematics laid out the language for a new physics before the physics had even arrived.</p>
+  </div>
+
+  <div class="essence"><strong>Essence in one line:</strong> Every transformation has a few axes it likes best; find them, and a complex motion decomposes into a few independent stretches.</div>
+
+  <div class="section">
+    <div class="label">Thinking Question</div>
+    <div class="think">Does a pure rotation matrix on $\mathbb{R}^2$ (say 90°) have <em>real</em> eigenvalues? Trust your geometry first: rotation moves every direction, so no direction is preserved — it seems there should be none. But algebraically $\det(A-\lambda I)=0$ always has a solution (in the complex numbers). How can these two be reconciled? This points to a deep fact — <em>why quantum mechanics cannot do without complex numbers.</em></div>
+  </div>
+</div>
+
+<!-- Concept 4: Determinant -->
+<div class="card">
+  <h2>Determinant = Volume Scaling Factor</h2>
+  <div class="en-name">Determinant as Volume Scale Factor · Geometry / Algebra</div>
+  <span class="tag">Determinant</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Take a unit square (side 1, area 1). Apply matrix $A$. It becomes a parallelogram. <strong>The signed area of that parallelogram is $\det A$.</strong> In $\mathbb{R}^3$, a unit cube becomes a parallelepiped, and its volume is $\det A$. The same in $\mathbb{R}^n$. The seemingly complicated "determinant formula" (with signs, cofactor expansions, the works) is just bookkeeping for this one geometric fact.</p>
+    <p>Where does the sign come from? If the transformation <em>flips the orientation of space</em> (mirror reflection — left hand becomes right hand), the determinant carries a negative sign. And $\det A = 0$? That means the unit square has been crushed into a line segment or a single point — the motion has collapsed at least one dimension, and the action is <em>irreversible</em>. This is the geometric soul behind "determinant zero ⇔ matrix singular ⇔ no unique solution to the system": information is gone, and there is no way to undo.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 200" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(20,30)">
+        <rect x="0" y="80" width="60" height="60" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.5"/>
+        <text x="30" y="115" font-size="11" fill="#1e3a5f" text-anchor="middle" font-style="italic">area = 1</text>
+        <text x="30" y="160" font-size="10" fill="#3a6088" text-anchor="middle">unit square</text>
+      </g>
+      <g transform="translate(110,110)">
+        <text x="0" y="0" font-size="14" fill="#1e3a5f" text-anchor="middle">→ A</text>
+        <text x="0" y="22" font-size="10" fill="#1e3a5f" text-anchor="middle">[3  1]</text>
+        <text x="0" y="38" font-size="10" fill="#1e3a5f" text-anchor="middle">[0  2]</text>
+      </g>
+      <g transform="translate(170,30)">
+        <polygon points="0,140 60,140 80,80 20,80" fill="#fbe3e0" stroke="#c9544a" stroke-width="1.8"/>
+        <text x="40" y="115" font-size="11" fill="#c9544a" text-anchor="middle" font-style="italic">area = 6</text>
+        <text x="40" y="160" font-size="10" fill="#3a6088" text-anchor="middle">det A = 6</text>
+      </g>
+      <g transform="translate(280,30)">
+        <line x1="0" y1="140" x2="80" y2="80" stroke="#888" stroke-width="2.5"/>
+        <text x="40" y="120" font-size="11" fill="#888" text-anchor="middle" font-style="italic">area = 0</text>
+        <text x="40" y="160" font-size="10" fill="#3a6088" text-anchor="middle">det = 0 (collapse)</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Definition</div>
+    <p>For a $2\times 2$ matrix $A = \begin{pmatrix}a & b \\ c & d\end{pmatrix}$,</p>
+    <div class="formula-box">$$\det A = ad - bc$$</div>
+    <p>This is the standard area-of-a-parallelogram computation: $ad$ is the naive "base $\times$ height" estimate, and $bc$ is the correction for "tilt" that has to be subtracted off — together they carve out exactly the area of the figure spanned by the column vectors $(a,c)$ and $(b,d)$. The general $n\times n$ determinant can be defined by the Leibniz formula $\det A = \sum_\sigma \text{sgn}(\sigma) \prod_i a_{i,\sigma(i)}$, but the only geometric characterization worth memorizing is: <em>"$\det A$ is the signed factor by which $A$ scales unit $n$-volume."</em> All the properties ($\det(AB)=\det A \det B$, $\det A^{-1}=1/\det A$, $\det I = 1$) are logical consequences of that one geometric statement — total scaling of two motions = product of individual scalings; undoing = reciprocal; doing nothing = no change.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It Is Beautiful</div>
+    <p>A matrix of $n^2$ numbers gets compressed to a <strong>single scalar</strong>, and that one scalar captures the most essential thing about the transformation — "is it invertible? how much geometric information capacity?" To collapse $n^2$ degrees of freedom into one and have it be <em>the</em> critical scalar — this kind of "compressed to the extreme yet retaining the soul" beauty is rare in mathematics.<br><br>A deeper layer: the determinant is the <strong>unique</strong> function satisfying three simple geometric properties (multilinearity, alternating, $\det I = 1$). The phenomenon of "a small number of plain axioms uniquely determine a complex formula" is a triumph of Bourbaki-style mathematics. Lockhart in <em>A Mathematician's Lament</em> uses similar examples to argue: "Math is not invented; it is squeezed out by an inescapable logic."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Application + History &amp; People</div>
+    <p>The multivariable change-of-variables formula $\int f(\mathbf{y})\,d\mathbf{y} = \int f(\varphi(\mathbf{x})) |\det J_\varphi|\,d\mathbf{x}$ has the <strong>Jacobian determinant</strong> as its local "scaling factor for tiny volumes" — this is the generalization of single-variable $du = u'(x)\,dx$ to many variables. In machine learning, <strong>normalizing flows</strong> (RealNVP/Glow) use the Jacobian determinant to track probability densities exactly through carefully designed invertible transformations — probability conservation in a generative model is, at heart, determinant bookkeeping. In physics, the <strong>Faddeev–Popov determinant</strong> in path integrals handles gauge invariance. In numerical linear algebra, <em>determinants as singularity detectors are actually dangerous</em> (numerically unstable); practical engineering prefers the condition number and singular values — a candid reminder that "a beautiful formula is not always the engineer's first pick."<br><br>History: determinants actually <em>predate</em> matrices. The Japanese mathematician Seki Takakazu in 1683 independently used 3×3 determinants in his <em>Method of Solving Hidden Problems</em>; the same year Leibniz mentioned them in a letter, as a criterion for when a linear system has a solution. Cauchy in 1812 systematized the term "determinant" and the modern theory. The irony: matrices as standalone objects (Cayley 1858) came <em>170 years later</em> — what people first cared about was a scalar test for solvability, and "matrix as a whole thing" was a later abstraction.</p>
+  </div>
+
+  <div class="essence"><strong>Essence in one line:</strong> The determinant is not a formula; it is "by how much did the motion scale space's volume" — crushed to 0 means uninvertible.</div>
+
+  <div class="section">
+    <div class="label">3Blue1Brown's Take</div>
+    <div class="intuition">"If you only remember one thing about determinants — think of it as what $A$ does to areas/volumes. $\det A = 7$ means any region's area becomes 7 times bigger after $A$ acts; $\det A = -3$ means area triples and space is flipped; $\det A = 0$ means a dimension has collapsed." — Grant Sanderson</div>
+  </div>
+
+  <div class="section">
+    <div class="label">Thinking Question</div>
+    <div class="think">If a $3\times 3$ matrix $A$ has three columns that are pairwise orthogonal (perpendicular) and each is of unit length (such a matrix is called orthogonal), what must $\det A$ be geometrically? Why can it only be $\pm 1$? These two values correspond to two kinds of "motion" — can you give each of them a direct intuitive name? (Hint: one preserves orientation; one flips it.)</div>
+  </div>
+</div>
+
+<!-- Cross-concept resources -->
+<div class="card">
+  <h2 style="font-size:1.2rem">Further Resources</h2>
+  <div class="section resources">
+    <ul>
+      <li>3Blue1Brown · <em>Essence of Linear Algebra</em> (15 episodes; the geometric viewpoint's bible — strongly recommended before any textbook)</li>
+      <li>Sheldon Axler · <em>Linear Algebra Done Right</em> (deliberately avoids determinants until chapter 10 — a counter-traditional but beautiful pedagogical experiment)</li>
+      <li>Gilbert Strang · <em>Introduction to Linear Algebra</em> + MIT OCW 18.06 (the most beloved undergraduate course, applications-oriented)</li>
+      <li>Carl Meyer · <em>Matrix Analysis and Applied Linear Algebra</em> (the engineering bible — PageRank, PCA, all of it)</li>
+      <li>Page, Brin, Motwani, Winograd (1999) · <em>The PageRank Citation Ranking</em> (how an eigenvector made Google a trillion-dollar company)</li>
+      <li>Heisenberg (1925) · <em>Über quantentheoretische Umdeutung kinematischer und mechanischer Beziehungen</em> (the matrix-mechanics paper born on Helgoland)</li>
+      <li>Terence Tao · multiple notes on matrix analysis and random matrices on the <em>What's new</em> blog</li>
+      <li>Tristan Needham · <em>Visual Differential Geometry and Forms</em> (geometric viewpoint extended to differential forms; determinants as volume elements)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Deeper reflections -->
+<div class="card">
+  <h2 style="font-size:1.2rem">Deeper Reflections</h2>
+  <div class="section deepthink">
+    <details>
+      <summary>1. Why do neural networks need "non-linearity"? What happens if you remove all activation functions?</summary>
+      <div>Any stack of pure linear layers $W_n W_{n-1} \cdots W_1 \mathbf{x}$ is equivalent to a single matrix $W = W_n\cdots W_1$ applied once — no matter how deep, it is still one linear transformation. The expressive power of a linear transformation is <em>fixed</em>: it can do at most one finite-dimensional stretch/rotate/project, and cannot represent any "curved" decision boundary. Activation functions (ReLU, sigmoid) act by <strong>introducing a "fold" between layers</strong>, allowing stacked layers to achieve arbitrarily complex non-linear expressiveness. So "depth" matters only because the alternation of linear and non-linear composes — pure matrices alone cannot express the world.</div>
+    </details>
+    <details>
+      <summary>2. Why does quantum mechanics use Hilbert spaces (complex vector spaces) and not reals?</summary>
+      <div>Real rotation matrices have no real eigenvalues. But physically, "measurement results" must be real numbers, and the evolution of observable operators on superposed states must be expressible as "stretching along certain directions" — which requires eigenvalue structure to exist. <strong>Hermitian matrices</strong> (complex matrices with $A^\dagger = A$) happen to have all-real eigenvalues and mutually orthogonal eigenvectors — a perfect match for "measurable physical quantities." At the same time, complex numbers record phase information of interference (the heart of the double-slit experiment). So complex numbers are not a convenience; they are the language forced on us by physical structure — a deep example of "the structure of linear algebra ↔ the structure of physics."</div>
+    </details>
+    <details>
+      <summary>3. Why does PageRank work? How does this connect to "democratic voting" at a deep level?</summary>
+      <div>PageRank assumes a user randomly clicks links, and asks: in the steady state, what is the probability of being on each page? This is a Markov chain; the steady-state distribution = the eigenvector of the transition matrix for eigenvalue 1. The beauty lies in <strong>the self-consistency of its recursive definition</strong>: "an important page = a page linked to by important pages" — which sounds circular, but the eigenvector equation $M\mathbf{v}=\mathbf{v}$ translates "circular" into "fixed point," and gives it a precise solution. The same idea actually appears in democratic elections — Arrow's impossibility theorem can be read, in a certain sense, as an eigenvalue constraint on "aggregating everyone's rankings." Any "recursive prestige" system (academic citations, social influence, cryptocurrency consensus) has the same mathematical skeleton.</div>
+    </details>
+    <details>
+      <summary>4. Does the determinant still have geometric meaning in, say, 100 dimensions?</summary>
+      <div>Yes, but physical intuition breaks. 100-dimensional "volume" is a completely legitimate algebraic concept — it is the Lebesgue measure of the parallelepiped spanned by 100 vectors. In probability theory, the density formula for a multivariate Gaussian contains $\frac{1}{\sqrt{(2\pi)^n \det\Sigma}}$, and this "high-dimensional ellipsoidal volume" dominates uncertainty modeling in ML, denoising in diffusion models, and the ELBO in variational inference. But a counterintuitive fact: <em>in high dimensions, "almost all" random matrices have determinants rushing to 0 or ∞</em> (Marchenko–Pastur phenomenon). This is why ML typically uses the log-determinant $\log\det$ rather than $\det$ directly — a numerical-stability issue reflecting genuine peculiarity in high-dimensional geometry.</div>
+    </details>
+    <details>
+      <summary>5. Is there such a thing as "nonlinear algebra"? Why do we know so little about it?</summary>
+      <div>Yes — it is called "Nonlinear Algebra" (championed by Sturmfels and others), studying polynomial systems, tensor decompositions, and algebraic geometry in data science. But it is far harder than linear algebra: the soul of linear algebra is "addition + scaling → everything is determined by a basis," and that structure lets us fully describe any linear transformation with $n^2$ numbers. The nonlinear world has no such compact description — a quadratic form on $n$ variables already has $\binom{n+1}{2}$ degrees of freedom, and it explodes from there. This is why ML chose the path of "linear + simple nonlinear (ReLU) + many layers": composing many simple structures is easier to optimize and analyze than composing a few complex ones. Deep learning, in this sense, is the engineering triumph of "we only know how to use linear algebra, so let's use a lot of it."</div>
+    </details>
+  </div>
+</div>
+
+<nav class="bottom">
+  <a href="index.en.html">← back to Mathematics Weekly</a>
+</nav>
+
+</div>
+</body>
+</html>
