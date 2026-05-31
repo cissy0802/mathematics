@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>数论之美 · Week 6 — Mathematics Weekly</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
@@ -59,7 +69,7 @@ nav.bottom a:hover{color:#1e3a5f}
 
   <div class="section">
     <div class="label">直觉版</div>
-    <p>素数是 $2,3,5,7,11,13,17,\dots$——只能被 $1$ 和自己整除的数。沿着数轴走，它们越来越稀，但稀的方式没有任何明显规律：相邻的两个素数可能差 $2$（孪生），也可能突然出现一段几百位的「沙漠」。<br><br>真正惊人的事情是：<strong>局部完全无规律，整体却服从一条干净的曲线。</strong>在 $N$ 附近，一个随机整数是素数的概率约为 $1/\ln N$。这意味着 100 位的随机整数有约 $1/230$ 是素数；1000 位的有约 $1/2300$。素数像撒盐——单粒位置无法预测，密度却由一条对数律精确管住。</p>
+    <p>素数是 2, 3, 5, 7, 11, 13, 17, …——只能被 1 和自己整除的数。沿着数轴走，它们越来越稀，但稀的方式没有任何明显规律：相邻的两个素数可能差 2（孪生），也可能突然出现一段几百位的「沙漠」。<br><br>真正惊人的事情是：<strong>局部完全无规律，整体却服从一条干净的曲线。</strong>在 N 附近，一个随机整数是素数的概率约为 $1/\ln N$。这意味着 100 位的随机整数有约 1/230 是素数；1000 位的有约 1/2300。素数像撒盐——单粒位置无法预测，密度却由一条对数律精确管住。</p>
   </div>
 
   <div class="viz">
@@ -80,7 +90,7 @@ nav.bottom a:hover{color:#1e3a5f}
   <div class="section">
     <div class="label">正式定义</div>
     <div class="formula-box">$$\pi(N) \sim \frac{N}{\ln N}, \quad N\to\infty$$</div>
-    <p>$\pi(N)$ 表示不超过 $N$ 的素数个数；$\sim$ 是「比值趋于 $1$」。等价地，第 $n$ 个素数 $p_n \approx n\ln n$。更精细的逼近是 $\mathrm{Li}(N)=\int_2^N\!dt/\ln t$，误差比 $N/\ln N$ 更小一个量级。</p>
+    <p><em>π(N)</em> 表示不超过 <em>N</em> 的素数个数；"~" 是「比值趋于 1」。等价地，第 <em>n</em> 个素数 <em>p<sub>n</sub></em> ≈ <em>n</em> ln <em>n</em>。更精细的逼近是 $\mathrm{Li}(N)=\int_2^N\!dt/\ln t$，误差比 <em>N</em>/ln <em>N</em> 更小一个量级。</p>
   </div>
 
   <div class="section">
@@ -90,14 +100,14 @@ nav.bottom a:hover{color:#1e3a5f}
 
   <div class="section">
     <div class="label">应用</div>
-    <p>RSA、椭圆曲线密码的可行性直接靠它：生成一个 $2048$ 位随机素数，平均只需试约 $2048\cdot\ln 2\approx 1400$ 个候选——所以银行后台才能秒级签发密钥。哈希表的桶数常选素数以打散冲突；蝉的 $13/17$ 年生命周期疑似在用素数躲开掠食者周期。$\mathrm{Li}(N)$ 这类积分近似还出现在分析素数随机性的启发式估计里。</p>
+    <p>RSA、椭圆曲线密码的可行性直接靠它：生成一个 2048 位随机素数，平均只需试约 2048·ln 2 ≈ 1400 个候选——所以银行后台才能秒级签发密钥。哈希表的桶数常选素数以打散冲突；蝉的 13/17 年生命周期疑似在用素数躲开掠食者周期。<em>Li(N)</em> 这类积分近似还出现在分析素数随机性的启发式估计里。</p>
   </div>
 
   <div class="section">
     <div class="label">一句话精华</div>
     <div class="essence">单粒位置无法预测，整体密度精确可算——素数是「局部随机、全局有序」的元祖。</div>
     <div class="label" style="margin-top:14px">思考题</div>
-    <div class="think">PNT 给的是均值，实际 $\pi(N)$ 会上下振荡。这种「平均规律 + 局部涨落」的图像，与分布式系统里负载均衡的尾部延迟有什么类比？两者都是「均值好看、尾部要命」吗？</div>
+    <div class="think">PNT 给的是均值，实际 <em>π(N)</em> 会上下振荡。这种「平均规律 + 局部涨落」的图像，与分布式系统里负载均衡的尾部延迟有什么类比？两者都是「均值好看、尾部要命」吗？</div>
   </div>
 </div>
 
@@ -109,7 +119,7 @@ nav.bottom a:hover{color:#1e3a5f}
 
   <div class="section">
     <div class="label">直觉版</div>
-    <p>PNT 告诉我们素数的主旋律是 $N/\ln N$，但 $\pi(N)$ 总在它附近上下抖动。1859 年黎曼把这些抖动翻译成了「和声」：每一个非平凡零点 $\rho$ 对应一个「频率」，把它们叠加起来正好等于素数计数的全部涨落。<br><br><strong>黎曼猜想说：所有这些频率的实部都恰好等于 $\tfrac{1}{2}$。</strong>所有声部均匀对齐，没有任何一个偷偷增大去主宰其它——这是一种最深的均衡。一旦失衡，素数就会出现远超预期的剧烈波动。</p>
+    <p>PNT 告诉我们素数的主旋律是 <em>N</em>/ln <em>N</em>，但 <em>π(N)</em> 总在它附近上下抖动。1859 年黎曼把这些抖动翻译成了「和声」：每一个非平凡零点 ρ 对应一个「频率」，把它们叠加起来正好等于素数计数的全部涨落。<br><br><strong>黎曼猜想说：所有这些频率的实部都恰好等于 1/2。</strong>所有声部均匀对齐，没有任何一个偷偷增大去主宰其它——这是一种最深的均衡。一旦失衡，素数就会出现远超预期的剧烈波动。</p>
   </div>
 
   <div class="viz">
@@ -142,24 +152,24 @@ nav.bottom a:hover{color:#1e3a5f}
   <div class="section">
     <div class="label">正式定义</div>
     <div class="formula-box">$$\zeta(s)=\sum_{n=1}^\infty \frac{1}{n^s}=\prod_{p\text{ 素}}\frac{1}{1-p^{-s}}$$</div>
-    <p>左边累遍所有整数，右边乘遍所有素数——欧拉发现：它们相等。这条恒等式把全部素数信息塞进了一个函数。把 $\zeta$ 解析延拓到整个复平面后，<strong>猜想说：除 $s=-2,-4,\dots$ 这些「平凡零点」外，所有零点都落在临界线 $\mathrm{Re}(s)=\tfrac{1}{2}$ 上。</strong>这些零点的虚部，正是素数涨落的「频率」。</p>
+    <p>左边累遍所有整数，右边乘遍所有素数——欧拉发现：它们相等。这条恒等式把全部素数信息塞进了一个函数。把 ζ 解析延拓到整个复平面后，<strong>猜想说：除 <em>s</em> = −2, −4, … 这些「平凡零点」外，所有零点都落在临界线 <strong>Re(s) = 1/2</strong> 上。</strong>这些零点的虚部，正是素数涨落的「频率」。</p>
   </div>
 
   <div class="section">
     <div class="label">为什么美</div>
-    <p>RH 一旦为真，$\pi(N)$ 的误差被锁在 $O(\sqrt{N}\ln N)$——已知最强、几乎不可改进的界。整数（最离散）的秩序，藏在复函数（最连续）的零点几何里。更神奇的是 Montgomery–Dyson 在 1972 年发现：ζ 零点的间距统计居然与<strong>随机厄米矩阵的本征值</strong>一模一样——同一个分布也描述重原子核的能级。素数、矩阵、原子核，三件看似不相干的东西指向同一种深层结构。</p>
+    <p>RH 一旦为真，<em>π(N)</em> 的误差被锁在 $O(\sqrt{N}\,\ln N)$——已知最强、几乎不可改进的界。整数（最离散）的秩序，藏在复函数（最连续）的零点几何里。更神奇的是 Montgomery–Dyson 在 1972 年发现：ζ 零点的间距统计居然与<strong>随机厄米矩阵的本征值</strong>一模一样——同一个分布也描述重原子核的能级。素数、矩阵、原子核，三件看似不相干的东西指向同一种深层结构。</p>
   </div>
 
   <div class="section">
     <div class="label">应用</div>
-    <p>直接的工程应用不多，但 $>$1000 条解析数论定理是「假设 RH 为真」的条件命题。Berry–Keating 推测 ζ 零点是某个未知「黎曼算符」的本征值；若真，素数问题就接到了量子混沌上。Clay Math Institute 悬赏 100 万美元，至今 105 年未取。机器学习里，研究者用神经网络拟合 $\zeta$ 零点位置作为「极端难函数」的基准。</p>
+    <p>直接的工程应用不多，但 <strong>&gt;1000</strong> 条解析数论定理是「假设 RH 为真」的条件命题。Berry–Keating 推测 ζ 零点是某个未知「黎曼算符」的本征值；若真，素数问题就接到了量子混沌上。Clay Math Institute 悬赏 100 万美元，至今 105 年未取。机器学习里，研究者用神经网络拟合 ζ 零点位置作为「极端难函数」的基准。</p>
   </div>
 
   <div class="section">
     <div class="label">一句话精华</div>
     <div class="essence">整数的秩序，被复平面上一条单薄的临界线锁死。</div>
     <div class="label" style="margin-top:14px">思考题</div>
-    <div class="think">已检验的 $10^{13}$ 个零点全在临界线上，但这就是「证据」吗？经验归纳在数学里能走多远？物理学家因为「实验吻合」就敢用一个理论，数学家为何不肯？</div>
+    <div class="think">已检验的 10<sup>13</sup> 个零点全在临界线上，但这就是「证据」吗？经验归纳在数学里能走多远？物理学家因为「实验吻合」就敢用一个理论，数学家为何不肯？</div>
   </div>
 </div>
 
@@ -177,7 +187,7 @@ nav.bottom a:hover{color:#1e3a5f}
   <div class="section">
     <div class="label">正式定义</div>
     <div class="formula-box">$$c \equiv m^{e} \pmod{N}, \qquad m \equiv c^{d} \pmod{N}$$</div>
-    <p>取大素数 $p,q$，记 $N=pq$，$\varphi(N)=(p-1)(q-1)$。挑 $e$ 与 $\varphi(N)$ 互素，再算 $d$ 使 $ed\equiv 1\pmod{\varphi(N)}$。公钥 $(N,e)$ 公开，私钥 $d$ 保密。正确性靠 <strong>Euler 定理</strong> $m^{\varphi(N)}\equiv 1\pmod{N}$；安全性靠：不知道 $p,q$ 就算不出 $\varphi(N)$，也就算不出 $d$。</p>
+    <p>取大素数 <em>p</em>, <em>q</em>，记 <em>N</em> = <em>pq</em>，φ(<em>N</em>) = (<em>p</em>−1)(<em>q</em>−1)。挑 <em>e</em> 与 φ(<em>N</em>) 互素，再算 <em>d</em> 使 <em>ed</em> ≡ 1 (mod φ(<em>N</em>))。公钥 (<em>N</em>, <em>e</em>) 公开，私钥 <em>d</em> 保密。正确性靠 <strong>Euler 定理</strong> <em>m</em><sup>φ(<em>N</em>)</sup> ≡ 1 (mod <em>N</em>)；安全性靠：不知道 <em>p</em>, <em>q</em> 就算不出 φ(<em>N</em>)，也就算不出 <em>d</em>。</p>
   </div>
 
   <div class="section">
@@ -206,13 +216,13 @@ nav.bottom a:hover{color:#1e3a5f}
 
   <div class="section">
     <div class="label">直觉版</div>
-    <p>$n=2$ 时，$a^2+b^2=c^2$ 有无穷多组整数解（$3\text{-}4\text{-}5$、$5\text{-}12\text{-}13$……）——这是勾股数。<strong>费马 1637 年在书的页边写下：当 $n\ge 3$ 时，$a^n+b^n=c^n$ 没有任何正整数解。「我发现了一个真正绝妙的证明，可惜页边写不下。」</strong>这句话让整个数学界追了 358 年。<br><br>表面上是一个小学生都能看懂的命题，背后却是整门 20 世纪代数数论。每一次失败的尝试都意外催生了新工具——理想数、类群、$p$ 进数、模形式、椭圆曲线——这些工具的总价值远远超过了定理本身。</p>
+    <p>当 <em>n</em> = 2 时，<em>a</em>² + <em>b</em>² = <em>c</em>² 有无穷多组整数解（3-4-5、5-12-13……）——这是勾股数。<strong>费马 1637 年在书的页边写下：当 <em>n</em> ≥ 3 时，<em>a</em><sup><em>n</em></sup> + <em>b</em><sup><em>n</em></sup> = <em>c</em><sup><em>n</em></sup> 没有任何正整数解。「我发现了一个真正绝妙的证明，可惜页边写不下。」</strong>这句话让整个数学界追了 358 年。<br><br>表面上是一个小学生都能看懂的命题，背后却是整门 20 世纪代数数论。每一次失败的尝试都意外催生了新工具——理想数、类群、<em>p</em> 进数、模形式、椭圆曲线——这些工具的总价值远远超过了定理本身。</p>
   </div>
 
   <div class="section">
     <div class="label">正式定义</div>
     <div class="formula-box">$$\forall n\ge 3,\quad a^n+b^n=c^n\ \text{在}\ a,b,c\in\mathbb{Z}^+\ \text{无解}$$</div>
-    <p>Wiles 1994 年的证明走的是这条路：假设有解 $\Rightarrow$ 用解构造一条「Frey 椭圆曲线」$\Rightarrow$ 证明此曲线性质太怪，违反「模性定理」（每条半稳态椭圆曲线必对应某个模形式）$\Rightarrow$ 矛盾。<strong>费马的整数方程，被翻译成了一道关于「曲线长什么样」的几何命题。</strong></p>
+    <p>Wiles 1994 年的证明走的是这条路：假设有解 ⇒ 用解构造一条「Frey 椭圆曲线」⇒ 证明此曲线性质太怪，违反「模性定理」（每条半稳态椭圆曲线必对应某个模形式）⇒ 矛盾。<strong>费马的整数方程，被翻译成了一道关于「曲线长什么样」的几何命题。</strong></p>
   </div>
 
   <div class="section">
@@ -240,12 +250,12 @@ nav.bottom a:hover{color:#1e3a5f}
 
   <details>
     <summary>1. 「孪生素数」「Goldbach」「Riemann」都是关于素数分布的猜想——为什么这类问题特别难？</summary>
-    <div>素数由<em>否定的定义</em>构造——不能被任何小素数整除。这种「非」式定义天生与连续/解析工具脱节：你没法在素数集合上做平滑、求导、傅里叶。Erdős 说"上帝可能不掷骰子，但素数那边明显有事"。2013 年张益唐证明了「无穷多对间距 $<$ 7000 万的素数」，Polymath 把它推到 246——但「$2$」（孪生素数）仍遥不可及。</div>
+    <div>素数由<em>否定的定义</em>构造——不能被任何小素数整除。这种「非」式定义天生与连续/解析工具脱节：你没法在素数集合上做平滑、求导、傅里叶。Erdős 说"上帝可能不掷骰子，但素数那边明显有事"。2013 年张益唐证明了「无穷多对间距 &lt; 7000 万的素数」，Polymath 把它推到 246——但「2」（孪生素数）仍遥不可及。</div>
   </details>
 
   <details>
     <summary>2. RSA 安全性是「经验上的」——分解大数没人会，但没人证明它必难。整个互联网密码学是不是建在沙上？</summary>
-    <div>本质上是的。所有非对称密码学押的都是「$P\ne NP$，且分解、离散对数、最短向量等特定问题足够难」。后量子密码也只是换难题，不消除假设。Bernstein 的话：「密码学家做的是给攻击者提供尽量难啃的骨头，而不是数学证明。」从工程角度，这是可接受的——但哲学上，整个数字文明的信任栈建在未证明的硬度假设上。</div>
+    <div>本质上是的。所有非对称密码学押的都是「P ≠ NP，且分解、离散对数、最短向量等特定问题足够难」。后量子密码也只是换难题，不消除假设。Bernstein 的话：「密码学家做的是给攻击者提供尽量难啃的骨头，而不是数学证明。」从工程角度，这是可接受的——但哲学上，整个数字文明的信任栈建在未证明的硬度假设上。</div>
   </details>
 
   <details>
@@ -255,12 +265,12 @@ nav.bottom a:hover{color:#1e3a5f}
 
   <details>
     <summary>4. 黎曼猜想若被证伪，会发生什么？</summary>
-    <div>证伪需要找出 $\mathrm{Re}\ne 1/2$ 的非平凡零点——意味着素数计数会有比预期大得多的振幅波动。基于「素数分布均匀」的密码学启发式估计要重审；千余条「假设 RH」的定理会一并需要重证。但更深的冲击是哲学的——它会逼数学家承认：「集体直觉」与「真正的对」之间，隔的可能比我们想象的远。</div>
+    <div>证伪需要找出 Re ≠ 1/2 的非平凡零点——意味着素数计数会有比预期大得多的振幅波动。基于「素数分布均匀」的密码学启发式估计要重审；千余条「假设 RH」的定理会一并需要重证。但更深的冲击是哲学的——它会逼数学家承认：「集体直觉」与「真正的对」之间，隔的可能比我们想象的远。</div>
   </details>
 
   <details>
     <summary>5. 神经网络擅长拟合连续函数，那它能学会素数吗？</summary>
-    <div>实验上，标准 MLP 在「输入 $n$，输出第 $n$ 个素数」任务上泛化得极差——素数没有可微的局部结构，梯度无处下降。但若改成「输入位串、判断是否素数」，加上 $\mod p$ 的代数特征工程，准确率能升到接近经典筛法。这恰好说明：<strong>哪些问题能被深度学习「连续化」、哪些天生离散且抗拒，本身是判断 AI 边界的硬指标。</strong>素数是其中最尖锐的一根标尺。</div>
+    <div>实验上，标准 MLP 在「输入 <em>n</em>，输出第 <em>n</em> 个素数」任务上泛化得极差——素数没有可微的局部结构，梯度无处下降。但若改成「输入位串、判断是否素数」，加上 mod <em>p</em> 的代数特征工程，准确率能升到接近经典筛法。这恰好说明：<strong>哪些问题能被深度学习「连续化」、哪些天生离散且抗拒，本身是判断 AI 边界的硬指标。</strong>素数是其中最尖锐的一根标尺。</div>
   </details>
 </div>
 
