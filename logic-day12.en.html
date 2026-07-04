@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logic &amp; Proof · Day 12 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:6px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;padding:10px 0;font-size:1rem}
+details summary:hover{color:#3a6088}
+details .body{padding:4px 0 14px;color:#2a3548;font-size:0.96rem}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 12 · 2026.07.04</div>
+  <h1>Logic &amp; Proof</h1>
+  <div class="meta">From "what is true" to "how truth is proved" — and the inner limits of formal systems</div>
+  <div class="epigraph">"Logic is the hygiene of mathematics." — a maxim among mathematicians: logic produces no theorems, but keeps reasoning from rotting.</div>
+</header>
+
+<!-- Concept 1: Propositional Logic -->
+<div class="card">
+  <h2>Propositional Logic</h2>
+  <div class="en-name">The syntax of inference</div>
+  <span class="tag">Logic</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>The deepest point about logic: <strong>it studies not "what is true" but "how truth necessarily yields truth."</strong> "All A are B; x is A; therefore x is B" — this inference is valid <em>no matter what A, B, x actually mean</em>. Strip away all the content and only the skeleton of form remains, and validity lives only in the skeleton.<br><br>The raw materials are "propositions" — statements that are true or false — and four connectives: AND ($\land$), OR ($\lor$), NOT ($\neg$), IMPLIES ($\to$). <strong>The truth table is the multiplication table of logic</strong>: given the truth of the parts, the truth of the whole is computed mechanically. Here logic first becomes something computable.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+      <text x="190" y="16" font-size="11" fill="#3a6088" text-anchor="middle" font-style="italic">Truth table of implication p → q</text>
+      <g font-size="12" fill="#1e3a5f" text-anchor="middle">
+        <line x1="60" y1="28" x2="320" y2="28" stroke="#c0c8d4" stroke-width="1"/>
+        <text x="110" y="44" font-weight="700">p</text>
+        <text x="190" y="44" font-weight="700">q</text>
+        <text x="280" y="44" font-weight="700" fill="#c9544a">p → q</text>
+        <line x1="60" y1="52" x2="320" y2="52" stroke="#c0c8d4" stroke-width="1"/>
+        <text x="110" y="72">T</text><text x="190" y="72">T</text><text x="280" y="72" fill="#7a9a6a">T</text>
+        <text x="110" y="94">T</text><text x="190" y="94">F</text><text x="280" y="94" fill="#c9544a">F</text>
+        <text x="110" y="116">F</text><text x="190" y="116">T</text><text x="280" y="116" fill="#7a9a6a">T</text>
+        <text x="110" y="138">F</text><text x="190" y="138">F</text><text x="280" y="138" fill="#7a9a6a">T</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>Propositional variables $p,q,\dots$ take values true/false. Implication can be <strong>defined</strong> as $p \to q \equiv \neg p \lor q$ — "$p$ implies $q$" is equivalent to "either $p$ is false, or $q$ is true." This explains the table's most counterintuitive row: <em>when the premise is false, the implication is always true</em> (an empty promise is never broken). A formula true under every assignment is a <strong>tautology</strong> — a law that always holds, in the logical sense.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>The real shock is a triple isomorphism: <strong>inference, switching circuits, and set operations are three faces of the same structure.</strong> $\land$ corresponds to series circuits and to set intersection; $\lor$ to parallel circuits and union; De Morgan's law $\neg(p\land q)\equiv\neg p\lor\neg q$ is at once a logical law, a circuit-simplification rule, and a set identity. This shared skeleton is <em>Boolean algebra</em>. When Boole said "the laws of thought can be operated on like algebra," he never imagined that a century later it would become the physical blueprint of every CPU.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Digital circuits: a single NAND gate can build all of logic, and a whole processor is nothing but propositional logic realized in silicon. <strong>SAT solvers</strong> — deciding whether a pile of logical constraints can all be satisfied at once — are the core engine of chip verification, software testing, and scheduling, and SAT was the first problem proved NP-complete. A compiler's type checking and a database's predicate pushdown all run propositional logic underneath.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + question</div>
+    <div class="think"><strong>Logic doesn't tell you what the world is like; it only guarantees: if the premises are true, the conclusion cannot be false.</strong><br>Question: "If $2+2=5$, then the moon is made of cheese" — by the truth table, this is <em>true</em>. Why does this "material implication" run against the everyday causal sense of "if…then"? What does this crack reveal about the nature of formal logic?</div>
+  </div>
+</div>
+
+<!-- Concept 2: Predicate Logic -->
+<div class="card">
+  <h2>Predicate Logic</h2>
+  <div class="en-name">First-Order Logic · the skeleton of mathematical language</div>
+  <span class="tag">Logic</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Propositional logic has a fatal muteness: it cannot say "<strong>for all</strong>" or "<strong>there exists</strong>." "All primes are greater than 1" is just an indivisible atom to it. Predicate logic fills this gap — it introduces <strong>quantifiers</strong> "for all $x$" ($\forall x$), "there exists $x$" ($\exists x$), and <strong>predicates</strong> $P(x)$ that carry variables ("$x$ is prime").<br><br>With just this one extension, logic can suddenly write down all of mathematics. The skeleton of a claim like "every number has a successor" is entirely a weaving of quantifiers and predicates. Predicate logic is the invisible grammar in a mathematician's head when writing rigorous statements.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>$\forall x\,P(x)$ means "for every $x$ in the domain, $P(x)$ holds"; $\exists x\,P(x)$ means "at least one $x$ makes $P(x)$ hold." The core difficulty is <strong>the order of nested quantifiers</strong>:</p>
+    <div class="formula-box">$$\forall x\,\exists y\,(y>x) \quad\not\equiv\quad \exists y\,\forall x\,(y>x)$$</div>
+    <p>The left says "every number has a larger one" (true); the right says "there is a number larger than all numbers" (false over the naturals). <em>Same symbols, swap the order, and truth flips.</em></p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>Almost the entire secret of mathematical rigor hides in quantifier order. The $\varepsilon$–$\delta$ definition of a limit, $\forall\varepsilon\,\exists\delta\,\forall x\,(\dots)$, took two centuries for Cauchy and Weierstrass to polish precisely because human intuition struggles with three <strong>order-dependent</strong> quantifiers: "first give me any small $\varepsilon$, then I find $\delta$." <em>Reading quantifier order precisely is nearly the same as reading mathematics</em> — the difference between continuity and uniform continuity is just two quantifiers changing places.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>SQL queries are essentially predicate logic: `WHERE` is a predicate, `EXISTS`/`ALL` are quantifiers, and relational database theory is built directly on first-order logic. Prolog lets you "write facts and rules, and the machine reasons automatically." Proof assistants <strong>Lean and Coq</strong> use first-order (and higher-order) logic to formalize all of mathematics. AI knowledge representation, automated theorem proving, and program specifications (pre/postconditions) all take predicate logic as their lingua franca.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + question</div>
+    <div class="think"><strong>Add "for all" and "there exists," and logic leaps from judging single sentences to writing all of mathematics.</strong><br>Question: "Everyone loves someone" — is it $\forall x\,\exists y\,\text{loves}(x,y)$ or $\exists y\,\forall x\,\text{loves}(x,y)$? The two readings (each has their own beloved / there is one universal darling) differ by a hair. Can you feel that the ambiguity of natural language is exactly what formal logic aims to abolish?</div>
+  </div>
+</div>
+
+<!-- Concept 3: Gödel's Incompleteness -->
+<div class="card">
+  <h2>Gödel's Incompleteness Theorems</h2>
+  <div class="en-name">The ceiling of formal systems</div>
+  <span class="tag">Metamathematics</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Picture the sentence: "<strong>This sentence cannot be proved.</strong>" If it can be proved, it is false — the system has proved a falsehood and collapses. If it cannot be proved, it is exactly right — so it is <em>true, yet the system cannot prove it</em>. What Gödel did in 1931 was translate this self-referential sentence into <strong>a pure arithmetic statement about integers</strong>.<br><br>The trick is "Gödel coding": assign every symbol, formula, and proof a unique number. Then "some formula is provable" becomes "some number has a certain arithmetic property." The system is forced to begin <em>talking about itself</em> — the liar paradox acquires, for the first time, a mathematical body.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p><strong>First incompleteness theorem</strong>: any consistent formal system $T$ that can express basic arithmetic and whose axioms can be mechanically enumerated contains a sentence $G$ such that $T$ can prove neither $G$ nor $\neg G$ — $G$ is <em>undecidable</em> (while, metamathematically, it is true).<br><strong>Second incompleteness theorem</strong>: such a $T$ cannot prove its own consistency $\mathrm{Con}(T)$ from within. <em>A system that could prove "I am consistent" would thereby already be inconsistent.</em></p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>This is the deepest "look in the mirror" in the history of mathematics. Hilbert's grand dream was to mechanize all of mathematics: one set of axioms proving every truth and proving its own freedom from contradiction. Gödel shattered that dream from <em>inside</em> the system — <strong>"true" always exceeds "provable."</strong> The real beauty is not that it's a failure, but its revelation: incompleteness is not anyone's lack of cleverness, but an <em>inborn limit of any sufficiently rich formal system</em>. It is one of three faces of a single coin, along with Turing's halting problem and Tarski's undefinability of truth — once self-reference is strong enough, a system cannot fully grasp itself.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Its direct descendant is the <strong>halting problem</strong>: no program can decide whether an arbitrary program halts — so there is no "perfect universal bug detector," and programs cannot fully verify themselves, drawing a hard boundary on decidability in software engineering. In AI, the split between "true" and "provable" reminds us: however powerful a formal system (or model), there are true statements it <em>cannot in principle</em> reach; interpretability and alignment cannot expect a system to give complete formal guarantees about itself.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + question</div>
+    <div class="think"><strong>Any formal system rich enough to talk about itself cannot be both complete and consistent — there are always truths it can state but not prove.</strong><br>Question: we seem able to "see" that $G$ is true, yet the system cannot prove it. Penrose and Lucas argue from this that "the mind transcends machines." But is our "seeing" just standing inside a <em>stronger system</em> — which then has its own $G$? Is this really transcendence, or merely moving the ceiling up one floor?</div>
+  </div>
+</div>
+
+<!-- Concept 4: Formalization -->
+<div class="card">
+  <h2>Formalization &amp; Machine Proof</h2>
+  <div class="en-name">When a proof becomes the mechanical manipulation of symbols</div>
+  <span class="tag">Foundations</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>A mathematical proof is usually "an argument that convinces one's peers" — carrying intuition, omissions, and "clearly it follows." <strong>Formalization pushes this to the extreme</strong>: a proof becomes a string of symbols, each step either an axiom or <em>mechanically derived by explicit rules</em> from earlier steps. Meaning is stripped away entirely, leaving only form — and the proof thereby <strong>becomes an object a machine can check character by character.</strong><br><br>This seems to squeeze the soul out of mathematics; in fact the opposite: it gives "is this proof correct?" its first verdict that depends on no authority. The judge of truth passes from human conviction to the checking of rules.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>A <strong>formal system</strong> = an alphabet + a syntax of well-formed formulas + some axioms + finitely many inference rules (the classic being <em>modus ponens</em>: from $p$ and $p\to q$, infer $q$). A <strong>proof</strong> is a finite sequence of formulas in which each item is either an axiom or follows from earlier items by some rule; the last item is the <strong>theorem</strong> proved. Deciding "is this sequence a valid proof?" is a purely syntactic, mechanically executable process.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>The deepest beauty is the <strong>Curry–Howard correspondence</strong>: <em>a proof is a program, a proposition is a type.</em> "Proving $A\to B$" and "writing a function that turns an input of type $A$ into an output of type $B$" are <strong>the same thing</strong>; running a program corresponds to simplifying a proof. Logic, computation, and types — three domains seemingly belonging to philosophy, engineering, and linguistics — are isomorphic at the bottom. This is why modern proof assistants are also programming languages: to them, checking a proof and running code were never different.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p><strong>Lean and Coq</strong> have fully mechanically verified giant proofs "hard for humans to check line by line," such as the four-color theorem and the Kepler sphere-packing conjecture; Terence Tao is using Lean to formalize frontier papers. In engineering, the OS kernel <em>seL4</em> and the C compiler <em>CompCert</em> have been formally verified to "mathematically guarantee the absence of certain bugs," for zero-tolerance settings. Blockchain smart contracts and cryptographic protocols increasingly rely on formal verification to plug costly logical holes.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + question</div>
+    <div class="think"><strong>Turn a proof into a machine-checkable symbol game and the certainty of mathematics reaches its peak — at the cost of leaving "understanding" and "belief" outside the door for now.</strong><br>Question: a machine verifies a hundred-thousand-line proof you could never finish reading, and declares it flawless. Do you "know" the theorem is true? Is that "knowing" the same as the "knowing" you get from deriving it line by line yourself? Can certainty and understanding be divorced?</div>
+  </div>
+</div>
+
+<!-- Deep questions -->
+<div class="card">
+  <h2>Deeper Reflections</h2>
+  <div class="en-name">Open Questions · pushing the boundary</div>
+
+  <details>
+    <summary>Why can "true" exceed "provable" — isn't that a contradiction?</summary>
+    <div class="body">"Provable" is a syntactic fact <em>inside</em> the system: there exists a rule-abiding sequence of formulas. "True" is a <em>semantic</em> fact about a model (e.g. the standard naturals). The Gödel sentence $G$ is true in the standard model, but the axioms can't grasp it syntactically — because there also exist "non-standard models" that satisfy all axioms yet make $G$ false, and the system can't rule out these ghost models. Truth exceeding provability is, at bottom, semantics being richer than syntax.</div>
+  </details>
+
+  <details>
+    <summary>Are Gödel's, Turing's, and Tarski's three "impossibilities" the same thing?</summary>
+    <div class="body">They share one engine: <strong>diagonalization</strong> plus <strong>self-reference</strong>. Gödel — an unprovable true statement; Turing — an undecidable halting problem; Tarski — a system cannot define its own "truth" predicate internally. All three make a system talk about "everything that can talk about itself," then construct an object that escapes that range, forcing a contradiction. Cantor's proof that the reals are uncountable uses the very same move.</div>
+  </details>
+
+  <details>
+    <summary>Do large language models "reason"? How do they relate to formal logic?</summary>
+    <div class="body">An LLM's reasoning is <em>statistical</em>: it has learned the <em>shape</em> of reasoning, with no built-in reliability guarantee — it will output "proofs" that look rigorous but skip steps. Formal systems are the opposite: every step is mechanically verifiable, but they won't "think of" the next step themselves. The two are naturally complementary — use an LLM to generate candidate proofs and intuition, and Lean/Coq for zero-tolerance checking. This replays the issue's main theme: <strong>discovery</strong> (by intuition) and <strong>verification</strong> (by form) are two different abilities.</div>
+  </details>
+
+  <details>
+    <summary>If consistency can't be self-proved, why trust that mathematics won't collapse?</summary>
+    <div class="body">The second incompleteness theorem cuts off the path of "a system proving its own consistency <em>from within</em>." We can still prove a weaker system's consistency in a <em>stronger</em> one (Gentzen 1936 proved arithmetic's consistency using transfinite induction). But this only pushes trust up a level — the strongest layer can never self-certify. In the end our confidence in consistency is partly <em>empirical</em> (over a century of intense use with no contradiction), not purely logical: certainty has its humble bottom line.</div>
+  </details>
+</div>
+
+<nav class="bottom">
+  <a href="index.en.html">← Back to Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>

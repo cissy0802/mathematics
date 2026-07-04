@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>逻辑与证明 · Day 12 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:6px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;padding:10px 0;font-size:1rem}
+details summary:hover{color:#3a6088}
+details .body{padding:4px 0 14px;color:#2a3548;font-size:0.96rem}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 12 · 2026.07.04</div>
+  <h1>逻辑与证明</h1>
+  <div class="meta">Logic &amp; Proof — 从「什么是真」到「真如何被证明」，以及形式系统的内在极限</div>
+  <div class="epigraph">"逻辑是数学的卫生学。" — 一句流传于数学家之间的格言，意指逻辑不生产定理，却保证推理不腐坏。</div>
+</header>
+
+<!-- 概念 1：命题逻辑 -->
+<div class="card">
+  <h2>命题逻辑</h2>
+  <div class="en-name">Propositional Logic · 推理的语法</div>
+  <span class="tag">Logic</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>逻辑最深刻的一点：<strong>它研究的不是「什么是真的」，而是「从真如何必然推出真」。</strong>「所有 A 都是 B，x 是 A，所以 x 是 B」——这个推理有效，<em>无论 A、B、x 具体指什么</em>。把内容全抽走，只剩形式的骨架，而有效性只住在骨架里。<br><br>命题逻辑的原料是「命题」——能判真假的陈述——和四个连接词：与（$\land$）、或（$\lor$）、非（$\neg$）、蕴含（$\to$）。<strong>真值表就是逻辑的乘法表</strong>：给定各部分的真假，整体的真假被机械算出。逻辑在这里第一次变成了可计算的东西。</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+      <text x="190" y="16" font-size="11" fill="#3a6088" text-anchor="middle" font-style="italic">蕴含 p → q 的真值表</text>
+      <g font-size="12" fill="#1e3a5f" text-anchor="middle">
+        <line x1="60" y1="28" x2="320" y2="28" stroke="#c0c8d4" stroke-width="1"/>
+        <text x="110" y="44" font-weight="700">p</text>
+        <text x="190" y="44" font-weight="700">q</text>
+        <text x="280" y="44" font-weight="700" fill="#c9544a">p → q</text>
+        <line x1="60" y1="52" x2="320" y2="52" stroke="#c0c8d4" stroke-width="1"/>
+        <text x="110" y="72">真</text><text x="190" y="72">真</text><text x="280" y="72" fill="#7a9a6a">真</text>
+        <text x="110" y="94">真</text><text x="190" y="94">假</text><text x="280" y="94" fill="#c9544a">假</text>
+        <text x="110" y="116">假</text><text x="190" y="116">真</text><text x="280" y="116" fill="#7a9a6a">真</text>
+        <text x="110" y="138">假</text><text x="190" y="138">假</text><text x="280" y="138" fill="#7a9a6a">真</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>命题变量 $p,q,\dots$ 取值真/假。蕴含可被<strong>定义</strong>为 $p \to q \equiv \neg p \lor q$——「$p$ 推出 $q$」等价于「要么 $p$ 假，要么 $q$ 真」。这解释了上表最反直觉的一行：<em>前提为假时，蕴含恒真</em>（空承诺不算违约）。若一个公式在所有赋值下都真，称为<strong>重言式</strong>（tautology），它就是逻辑意义上「永远成立」的规律。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>真正的震撼是一个三重同构：<strong>推理、开关电路、集合运算，是同一个结构的三张脸。</strong>$\land$ 对应串联、对应集合的交；$\lor$ 对应并联、对应并集；De Morgan 律 $\neg(p\land q)\equiv\neg p\lor\neg q$ 既是逻辑定律，又是电路化简规则，又是集合恒等式。这个共同骨架叫<em>布尔代数</em>。当 Boole 说「思维的规律可以像代数一样运算」时，他没料到一百年后它会变成每颗 CPU 的物理蓝图。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>数字电路：一个「与非门」（NAND）就能搭出全部逻辑，整颗处理器不过是命题逻辑的硅基实现。<strong>SAT 求解器</strong>——判断一堆逻辑约束能否同时满足——是芯片验证、软件测试、排班调度的核心引擎，也是理论计算机科学里第一个被证明 NP 完全的问题。编译器的类型检查、数据库的条件下推，底层都在跑命题逻辑。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华 + 思考题</div>
+    <div class="think"><strong>逻辑不告诉你世界是什么样，只保证：如果前提为真，结论不可能为假。</strong><br>思考题：「如果 $2+2=5$，那么月亮是奶酪做的」——按真值表，这句话为<em>真</em>。这种「实质蕴含」和日常「如果……那么」的因果含义为何背道而驰？这道裂缝告诉了我们形式逻辑的什么本性？</div>
+  </div>
+</div>
+
+<!-- 概念 2：谓词逻辑 -->
+<div class="card">
+  <h2>谓词逻辑</h2>
+  <div class="en-name">Predicate (First-Order) Logic · 数学语言的骨架</div>
+  <span class="tag">Logic</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>命题逻辑有个致命的哑口：它说不出「<strong>所有</strong>」和「<strong>存在</strong>」。「所有素数都大于 1」在命题逻辑里只是一个不可拆的原子。谓词逻辑补上了这块——引入<strong>量词</strong>「对所有 $x$」（$\forall x$）、「存在 $x$」（$\exists x$），以及能带变量的<strong>谓词</strong> $P(x)$（「$x$ 是素数」）。<br><br>就这一步扩张，逻辑突然能写下整个数学。「每个数都有后继」这类命题的骨架，全是量词与谓词的编织。谓词逻辑就是数学家写严格陈述时脑中那套隐形的语法。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>$\forall x\,P(x)$ 意为「对论域中每个 $x$，$P(x)$ 成立」；$\exists x\,P(x)$ 意为「至少有一个 $x$ 使 $P(x)$ 成立」。核心难点在<strong>量词的嵌套顺序</strong>：</p>
+    <div class="formula-box">$$\forall x\,\exists y\,(y>x) \quad\not\equiv\quad \exists y\,\forall x\,(y>x)$$</div>
+    <p>左边说「每个数都有比它大的数」（真）；右边说「存在一个数比所有数都大」（在自然数里假）。<em>同样的符号，调换顺序，真假逆转。</em></p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>数学严格性的秘密几乎都藏在量词顺序里。微积分的 $\varepsilon$–$\delta$ 极限定义 $\forall\varepsilon\,\exists\delta\,\forall x\,(\dots)$ 之所以两百年才被 Cauchy、Weierstrass 打磨出来，正因为人类直觉不擅长处理「先给我任意小的 $\varepsilon$，我再找 $\delta$」这种<strong>依赖顺序</strong>的三层量词。<em>会精确地读量词顺序，几乎就等于会读数学</em>——连续与一致连续之差，也只是两个量词换了位置。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>SQL 查询本质是谓词逻辑：`WHERE` 是谓词，`EXISTS`/`ALL` 是量词，关系数据库理论直接建在一阶逻辑上。逻辑编程语言 Prolog 让你「写下事实与规则，机器自动推理」。证明助手 <strong>Lean、Coq</strong> 用一阶（及更高阶）逻辑把整个数学形式化。AI 的知识表示、自动定理证明、程序规约（precondition/postcondition）无不以谓词逻辑为通用语。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华 + 思考题</div>
+    <div class="think"><strong>加入「所有」与「存在」，逻辑从判断单句真假，跃升为能书写整个数学的语言。</strong><br>思考题：「人人都爱着某个人」——$\forall x\,\exists y\,\text{爱}(x,y)$ 还是 $\exists y\,\forall x\,\text{爱}(x,y)$？两种读法（各有各的心上人 / 有个万人迷）差之毫厘。你能感到自然语言的歧义，恰恰是形式逻辑要消灭的东西吗？</div>
+  </div>
+</div>
+
+<!-- 概念 3：哥德尔不完备定理 -->
+<div class="card">
+  <h2>哥德尔不完备定理</h2>
+  <div class="en-name">Gödel's Incompleteness Theorems · 形式系统的天花板</div>
+  <span class="tag">Metamathematics</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>想象一句话：「<strong>这句话无法被证明。</strong>」若它能被证明，那它就是假的——系统证出了假命题，崩溃。若它不能被证明，那它恰好说对了——于是它<em>为真，但系统证不出来</em>。哥德尔 1931 年做的，就是把这句自指的话<strong>翻译成一个纯粹关于整数的算术命题</strong>。<br><br>诀窍叫「哥德尔编码」：给每个符号、公式、证明都编一个唯一的数。于是「某公式可被证明」变成了「某个数具有某种算术性质」。系统被迫开始<em>谈论它自己</em>——说谎者悖论第一次拥有了数学的躯体。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p><strong>第一不完备定理</strong>：任何一致的、能表达基本算术的、公理可被机械枚举的形式系统 $T$，都存在一个语句 $G$，使得 $T$ 既不能证明 $G$，也不能证明 $\neg G$——$G$ 是<em>不可判定</em>的（而按元数学看它为真）。<br><strong>第二不完备定理</strong>：这样的 $T$ 无法在自身内部证明自己的一致性 $\mathrm{Con}(T)$。<em>一个系统若能证明「我不矛盾」，恰恰说明它已经矛盾了。</em></p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>这是数学史上最深的一次「照镜子」。希尔伯特的宏愿是把全部数学机械化：一套公理，能证明所有真理、且能自证无矛盾。哥德尔从系统<em>内部</em>击碎了这个梦——<strong>「真」永远大于「可证」。</strong>而真正的美在于：不完备不是谁不够聪明，而是<em>足够丰富的形式系统与生俱来的极限</em>。它和图灵的停机问题、塔斯基的「真不可定义」是同一枚硬币的三面——自指一旦足够强，系统就无法完全把握自己。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>它的直系后裔是<strong>停机问题</strong>：不存在程序能判定任意程序是否会停机——因此不存在「完美的通用 bug 检测器」，程序无法完全自我验证，这为软件工程的可判定性划出硬边界。在 AI 上，「真」与「可证」的分野提醒我们：再强的形式系统（或模型）也有它<em>原理上</em>触不到的真命题，可解释性与对齐无法指望系统对自身给出完备的形式保证。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华 + 思考题</div>
+    <div class="think"><strong>任何足够强大到能谈论自己的形式系统，都无法既完备又一致——总有它说得出、却证不出的真理。</strong><br>思考题：我们似乎能「看出」$G$ 为真，可系统证不出它。Penrose、Lucas 据此论证「人心超越机器」。但我们的「看出」是否只是站在了一个<em>更强的系统</em>里，而那个系统又有它自己的 $G$？这真的是超越，还是只是把天花板往上挪了一层？</div>
+  </div>
+</div>
+
+<!-- 概念 4：形式化 -->
+<div class="card">
+  <h2>形式化与机械证明</h2>
+  <div class="en-name">Formalization · 当证明变成符号的机械变换</div>
+  <span class="tag">Foundations</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>数学证明通常是「一段能说服同行的论证」——带着直觉、省略和「显然可得」。<strong>形式化把它逼到极致</strong>：证明变成一串符号，每一步要么是公理，要么由前面几步<em>按明文规则</em>机械得出。意义被彻底抽离，只剩形式——<strong>证明于是成了机器能逐字检查的对象。</strong><br><br>这看似把数学榨干了灵魂，实则相反：它让「一个证明到底对不对」第一次有了不依赖任何权威的终极裁决。真理的裁判从人的信服，交给了规则的验算。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>一个<strong>形式系统</strong> = 符号表 + 合式公式的语法 + 若干公理 + 有限条推理规则（最经典的是<em>分离规则</em> modus ponens：由 $p$ 与 $p\to q$ 得 $q$）。一个<strong>证明</strong>就是一个有限公式序列，其中每一项要么是公理，要么由前面若干项经某条规则得到；序列的最后一项即被证的<strong>定理</strong>。判定「这个序列是不是合法证明」是一个纯语法、可机械执行的过程。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>最深的美是<strong>柯里–霍华德对应</strong>（Curry–Howard）：<em>证明就是程序，命题就是类型。</em>「证明 $A\to B$」和「写一个把 $A$ 型输入变成 $B$ 型输出的函数」是<strong>同一件事</strong>；运行一个程序，对应着化简一个证明。逻辑、计算、类型——三个看似分属哲学、工程、语言学的领域，在最底层是同构的。这解释了为什么现代证明助手同时也是编程语言：在它们眼里，检查证明和运行代码从来就没有区别。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p><strong>Lean、Coq</strong> 等证明助手已把四色定理、开普勒球堆积猜想这类「人类难以逐行复核」的巨型证明完全机械验证；Terence Tao 正用 Lean 把前沿论文形式化。工程上，操作系统内核 <em>seL4</em>、C 编译器 <em>CompCert</em> 被形式验证到「数学上保证无某类 bug」，用于零容错场景。区块链智能合约、加密协议也越来越依赖形式验证堵住代价高昂的逻辑漏洞。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华 + 思考题</div>
+    <div class="think"><strong>把证明变成机器可检查的符号游戏，数学的确定性登上顶峰——代价是把「理解」和「相信」暂时留在了门外。</strong><br>思考题：一台机器验证了一个十万行、你一辈子也读不完的证明，说它无误。你「知道」这条定理为真吗？这种「知道」，和你亲手推导一行行想通的「知道」，是同一种东西吗？确定性与理解，可以分家吗？</div>
+  </div>
+</div>
+
+<!-- 深入思考 -->
+<div class="card">
+  <h2>深入思考</h2>
+  <div class="en-name">Open Questions · 推向边界</div>
+
+  <details>
+    <summary>为什么「真」会大于「可证」？这不是自相矛盾吗？</summary>
+    <div class="body">「可证」是系统<em>内部</em>的语法事实：存在一串符合规则的公式序列。「真」是关于模型（如标准自然数）的<em>语义</em>事实。哥德尔句 $G$ 在标准模型里为真，但公理不足以从语法上抓住它——因为还有「非标准模型」满足全部公理却让 $G$ 为假，系统无法排除这些幽灵模型。真大于可证，本质是语义丰富于语法。</div>
+  </details>
+
+  <details>
+    <summary>哥德尔、图灵、塔斯基三个「不可能」是同一件事吗？</summary>
+    <div class="body">它们共享同一台引擎：<strong>对角线法</strong>加<strong>自指</strong>。哥德尔——不可证的真命题；图灵——不可判定的停机问题；塔斯基——系统无法在内部定义自己的「真」谓词。三者都让系统去谈论「所有能谈论自己的东西」，再构造一个跳出该范围的对象逼出矛盾。康托尔证明实数不可数用的也是同一招。</div>
+  </details>
+
+  <details>
+    <summary>大语言模型「会推理」吗？它和形式逻辑是什么关系？</summary>
+    <div class="body">LLM 的推理是<em>统计性</em>的：它学到了推理的<em>形态</em>，却没有可靠性保证——会输出看似严谨实则跳步的「证明」。形式系统恰相反：每步都可机械验证，但不会自己「想到」下一步。二者天然互补——用 LLM 生成候选证明与直觉，用 Lean/Coq 做零容错校验，是当前 AI-for-math 最有前景的路线。这重演了本期主线：<strong>发现</strong>（靠直觉）与<strong>验证</strong>（靠形式）是两种不同的能力。</div>
+  </details>
+
+  <details>
+    <summary>如果一致性无法自证，我们凭什么相信数学不会崩塌？</summary>
+    <div class="body">第二不完备定理断的是「系统<em>在自身内部</em>自证一致」这条路。我们仍能在一个<em>更强</em>的系统里证明较弱系统的一致性（如 Gentzen 1936 用超限归纳证明算术一致）。但这只是把信任往上推了一层——最强的那层始终无法自证。最终我们对一致性的信心部分是<em>经验的</em>（一个多世纪未现矛盾）而非纯逻辑的：确定性有它谦卑的底线。</div>
+  </details>
+</div>
+
+<nav class="bottom">
+  <a href="index.html">← 返回 Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>
