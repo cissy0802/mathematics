@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Optimization · Day 14 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.resources a{color:#3a6088;text-decoration:none;border-bottom:1px dotted #3a6088}
+.resources a:hover{color:#1e3a5f;border-bottom-style:solid}
+.essence{background:#f7f5f0;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#4a3c2a;margin-top:6px}
+.essence strong{color:#1e3a5f}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:4px 20px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;padding:14px 0;font-weight:600;color:#1e3a5f;font-size:1.02rem}
+details[open] summary{border-bottom:1px solid #e0e6ee;margin-bottom:10px}
+details .body{font-size:0.95rem;color:#3a4658;padding-bottom:14px}
+.deep-title{text-align:center;font-size:1.3rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;margin:44px 0 22px}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 14 · 2026.07.06</div>
+  <h1>Optimization</h1>
+  <div class="meta">Optimization — how "find the best one" became a branch of mathematics</div>
+  <div class="epigraph">"Nothing in the world takes place without optimization, and there is no doubt that all aspects of the world that have a rational basis can be explained by optimization methods." — Leonhard Euler</div>
+</header>
+
+<!-- Concept 1: Gradient Descent -->
+<div class="card">
+  <h2>Gradient Descent</h2>
+  <div class="en-name">The algorithm that walks downhill blindfolded</div>
+  <span class="tag">Optimization</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>You're blindfolded on a hillside and must reach the lowest valley. You can't see far, but your feet can feel <strong>which direction is steepest right here</strong>. The strategy is humble: step in the steepest downhill direction, feel again, step again. If the terrain is well-behaved, you'll reach the bottom.<br><br>That's gradient descent. The <strong>gradient</strong> is the mathematical name for "steepest uphill direction"—a vector assembled from the function's partial derivatives along each coordinate. To descend, walk in the <em>opposite</em> direction. All of modern machine learning—from linear regression to GPT—is this loop of "feel the slope, take a step," repeated millions of times across a hillside of billions of dimensions.</p>
+  </div>
+
+  <div class="formula-box">$$\theta_{t+1} = \theta_t - \eta\,\nabla f(\theta_t)$$</div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>$\theta_t$ is your current position (the model's parameters), $\nabla f$ is the gradient, and the minus sign turns you <em>around, downhill</em>. $\eta$ is the <strong>learning rate</strong>—your step size: too small and you crawl forever; too large and you overshoot the valley and climb the far wall. This single line is the entire main loop of the deep-learning engine.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
+      <line x1="20" y1="170" x2="340" y2="170" stroke="#aaa" stroke-width="0.6"/>
+      <path d="M 30 30 Q 180 260 330 30" fill="none" stroke="#1e3a5f" stroke-width="2"/>
+      <circle cx="52" cy="52" r="4" fill="#c9544a"/>
+      <circle cx="92" cy="98" r="4" fill="#c9544a" fill-opacity="0.75"/>
+      <circle cx="128" cy="130" r="4" fill="#c9544a" fill-opacity="0.6"/>
+      <circle cx="158" cy="147" r="4" fill="#c9544a" fill-opacity="0.5"/>
+      <circle cx="180" cy="152" r="4.5" fill="#7a9a6a"/>
+      <path d="M 52 52 L 92 98 L 128 130 L 158 147 L 180 152" fill="none" stroke="#c9544a" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="52" y="42" font-size="10" fill="#c9544a" text-anchor="middle">start</text>
+      <text x="180" y="168" font-size="10" fill="#3d6b3d" text-anchor="middle">minimum</text>
+      <text x="322" y="26" font-size="11" fill="#1e3a5f" font-style="italic">f(θ)</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>Its beauty is <strong>"local information driving a global goal."</strong> You don't need to see the whole mountain or solve any equation—just a small patch of slope under your feet steers you, step by step, toward a good answer: <em>a complex, high-dimensional problem is solved by the dumbest possible rule, "improve a little each time."</em> It echoes nature—water flows downhill, light takes the shortest path, proteins fold to their lowest-energy state; the universe seems to be doing gradient descent everywhere.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>It's the unshakable foundation of deep learning: the loss function is the "mountain," and <strong>backpropagation</strong> uses the chain rule to compute billions of partial derivatives (the gradient) in one sweep, from which the optimizer updates the weights. It also powers logistics routing, chip layout, portfolio allocation, and robot control: wherever there's "an objective to minimize," gradient descent is often the first and sharpest knife.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="essence"><strong>You don't need to see the whole mountain—just step in the steepest downhill direction each time, and you'll reach the valley floor.</strong></div>
+    <div class="think" style="margin-top:10px">If there's more than one valley (many small dips), gradient descent gets stuck in the one nearest your start, not the deepest. Why does this fear of "getting trapped in a bad local minimum" turn out to matter far less than expected in networks with billions of dimensions?</div>
+  </div>
+</div>
+
+<!-- Concept 2: Convexity -->
+<div class="card">
+  <h2>Convexity</h2>
+  <div class="en-name">The magic that makes "local optimum = global optimum"</div>
+  <span class="tag">Convex Optimization</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Picture a bowl. Wherever on the bowl's wall you place a marble, it always rolls to the <strong>same</strong> lowest point. A bowl has no "false valleys"—no little dips that can trap the marble. That's the world of a <strong>convex function</strong>: the terrain is a smooth bowl, and any "local minimum" is necessarily the "global minimum."<br><br>A visual test: pick any two points on the graph and draw the line segment between them. If the segment <em>always lies on or above the function</em>, it's convex. Convexity is the watershed of optimization theory, because it turns "find the best"—a potentially very hard problem—into "just walk downhill," where you never have to worry about being in the wrong valley.</p>
+  </div>
+
+  <div class="formula-box">$$f\big(\lambda x+(1-\lambda)y\big)\;\le\;\lambda f(x)+(1-\lambda)f(y)$$</div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>The left side is "the function's value at a point on the segment joining $x$ and $y$"; the right side is "the weighted average of the endpoint values" (i.e. the height of that chord), with $\lambda\in[0,1]$ sliding along. The inequality says: <strong>the curve never rises above its chord</strong>. That is the precise statement of "bowl-shaped, no false valleys." Equivalently, if the second derivative (in higher dimensions, the Hessian matrix) is everywhere non-negative, the function is convex—the curvature always bends upward, never doubling back to form a trap.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 360 190" xmlns="http://www.w3.org/2000/svg">
+      <line x1="20" y1="165" x2="340" y2="165" stroke="#aaa" stroke-width="0.6"/>
+      <path d="M 40 40 Q 180 230 320 40" fill="none" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="80" y1="78" x2="290" y2="78" stroke="#c9544a" stroke-width="1.6"/>
+      <circle cx="80" cy="78" r="3.5" fill="#c9544a"/>
+      <circle cx="290" cy="78" r="3.5" fill="#c9544a"/>
+      <text x="72" y="70" font-size="10" fill="#c9544a">x</text>
+      <text x="294" y="70" font-size="10" fill="#c9544a">y</text>
+      <circle cx="185" cy="128" r="3.5" fill="#7a9a6a"/>
+      <line x1="185" y1="78" x2="185" y2="128" stroke="#7a9a6a" stroke-width="0.8" stroke-dasharray="3,2"/>
+      <text x="196" y="112" font-size="9.5" fill="#3d6b3d" font-style="italic">curve below chord</text>
+      <text x="312" y="36" font-size="11" fill="#1e3a5f" font-style="italic">f</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>Convexity draws the <strong>border between heaven and hell</strong> in the optimization world. The mathematician Rockafellar famously said: <em>"the great watershed in optimization is not between linearity and nonlinearity, but between convexity and nonconvexity."</em> Convex problems can almost always be solved reliably to the global optimum, with a mathematical guarantee that "this is the best"; nonconvex problems may never let you know whether you've reached the optimum. A single geometric property (bowl-shaped) decides whether a problem is "solvable" or "doomed to approximation"—this clarity of "structure decides fate" is a deep mathematical beauty.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>SVMs, Lasso and ridge regression, logistic regression, mean–variance portfolio optimization—all are convex, hence <em>reliably</em> solvable. Engineers deliberately "convexify" problems: change variables, relax constraints, all to land in convex heaven. By contrast, deep learning's loss surface is <strong>wildly nonconvex</strong>; we gave up the global guarantee but gained astonishing expressive power—a fascinating trade-off at the heart of modern AI.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="essence"><strong>Convexity is a passport: as long as the terrain is a bowl, "walk downhill" equals "walk toward the global optimum."</strong></div>
+    <div class="think" style="margin-top:10px">A deep network's loss surface is highly nonconvex, so in theory gradient descent has no global guarantee—yet in practice it trains superbly. Does this suggest the iron law "only convex is reliable" needs to be rethought in very high-dimensional worlds?</div>
+  </div>
+</div>
+
+<!-- Concept 3: Lagrange Multipliers -->
+<div class="card">
+  <h2>Lagrange Multipliers</h2>
+  <div class="en-name">Finding the optimum while wearing chains</div>
+  <span class="tag">Constrained Optimization</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Many optimizations aren't "find the lowest point anywhere," but are <strong>constrained</strong>: enclose the largest area with a fixed length of fence, maximize utility within a budget, fit data with a neural net whose weights stay "not too big." A constraint confines you to a curve, and you can only move along it.<br><br>Lagrange's insight is elegant: standing on the constraint curve, as long as you can still <em>move along it and keep improving the objective</em>, you haven't reached the optimum. <strong>The optimum is exactly where "the objective's contour line is tangent to the constraint curve"</strong>—at that instant, any movement along the constraint stops improving the objective. Tangency means the two gradients point in parallel directions, differing only by a factor—and that factor is the Lagrange multiplier $\lambda$.</p>
+  </div>
+
+  <div class="formula-box">$$\nabla f = \lambda\,\nabla g,\qquad \text{constraint } g(x)=0$$</div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>$f$ is the objective, $g(x)=0$ is the constraint surface. The equation says: at the optimum, the objective's gradient $\nabla f$ and the constraint's gradient $\nabla g$ point in the <strong>same direction</strong> (the algebraic form of tangency), with proportionality factor $\lambda$. It also carries a striking economic meaning—<strong>$\lambda$ is the "shadow price"</strong>: how much the optimal objective value improves when the constraint is relaxed by one unit is exactly that $\lambda$. It <em>quantifies how precious the constraint is</em>: how much one more dollar of budget earns you.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="150" cy="100" rx="30" ry="22" fill="none" stroke="#3a6088" stroke-width="1"/>
+      <ellipse cx="150" cy="100" rx="55" ry="40" fill="none" stroke="#3a6088" stroke-width="1" stroke-opacity="0.7"/>
+      <ellipse cx="150" cy="100" rx="82" ry="60" fill="none" stroke="#3a6088" stroke-width="1" stroke-opacity="0.5"/>
+      <text x="150" y="103" font-size="9" fill="#3a6088" text-anchor="middle">f contours</text>
+      <path d="M 60 175 Q 240 120 320 25" fill="none" stroke="#c9544a" stroke-width="2"/>
+      <text x="300" y="40" font-size="10" fill="#c9544a" font-style="italic">g(x)=0</text>
+      <circle cx="217" cy="128" r="4" fill="#7a9a6a"/>
+      <text x="224" y="145" font-size="10" fill="#3d6b3d">tangent = optimum</text>
+      <line x1="217" y1="128" x2="240" y2="112" stroke="#7a9a6a" stroke-width="1.4" marker-end="url(#ar)"/>
+      <defs><marker id="ar" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#7a9a6a"/></marker></defs>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>It turns a "constraint" from an obstacle into <strong>an equal member of the equation system</strong>: introduce a new variable $\lambda$, and constraint and objective fuse into a single "Lagrangian," which you differentiate all at once. More beautiful is the duality—$\lambda$ is both the means of solving and the marginal value of the constraint. <em>One symbol plays both "key" and "price tag"</em>; this compression of meaning is one of the most striking moments in mathematics.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>It's the universal language of constrained optimization. Economics uses it to derive consumer equilibrium ($\lambda$ = the marginal utility of income); physics's <strong>Lagrangian mechanics</strong> uses it to unify classical mechanics, with $\lambda$ corresponding to constraint forces; in machine learning, the dual derivation of SVMs and the fact that "weight decay = imposing a constraint on the parameter norm" both stem from it; its generalization, the <em>KKT conditions</em>, is the theoretical core of every convex-optimization solver.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="essence"><strong>The chained optimum is where the objective's contour is tangent to the constraint curve; that tangency ratio also quietly tells you what the constraint is worth.</strong></div>
+    <div class="think" style="margin-top:10px">"Regularization" (adding $\lambda\|\theta\|^2$ to the loss) and "setting a hard upper bound on the weight norm" are two mathematically equivalent sides of the same coin. This equivalence is the Lagrange multiplier's most everyday incarnation in ML—can you articulate what happens to the model as $\lambda$ grows?</div>
+  </div>
+</div>
+
+<!-- Concept 4: SGD -->
+<div class="card">
+  <h2>Stochastic Gradient Descent</h2>
+  <div class="en-name">Trading a "slightly worse" gradient for a "much faster" speed</div>
+  <span class="tag">Machine Learning</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>To train a model, the "true slope" must be computed from <em>all</em> the data—tens of millions of samples each contributing a bit. Traversing the full dataset for every single step is hopelessly slow. <strong>Stochastic gradient descent (SGD)</strong> makes a bet: rather than compute the slope exactly and take one big step, <em>estimate a rough slope from a small batch of samples and get moving</em>—each step's direction wobbles a little, but you move fast, and the wobble cancels out over millions of steps.<br><br>That wobble is an unexpected gift: like a random stumble for the descender, it can <strong>jog you out of shallow dips</strong>, keeping you from getting stuck early in a bad local minimum. Here noise turns from a defect into a feature.</p>
+  </div>
+
+  <div class="formula-box">$$\theta_{t+1} = \theta_t - \eta\,\nabla f_{\mathcal{B}_t}(\theta_t)$$</div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>The only difference from gradient descent is the subscript $\mathcal{B}_t$: each step estimates the gradient from a single <strong>random mini-batch</strong> of data rather than the full set. This estimate is <em>unbiased</em>—right on average, with random error on any single step. Training thus becomes a trade of "cheap, noisy gradients for many more update steps." In practice, on massive data, <strong>many rough steps beat a few precise ones</strong>.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
+      <line x1="20" y1="170" x2="340" y2="170" stroke="#aaa" stroke-width="0.6"/>
+      <path d="M 30 30 Q 185 265 335 30" fill="none" stroke="#1e3a5f" stroke-width="1.6" stroke-opacity="0.5"/>
+      <path d="M 55 55 L 78 82 L 72 100 L 105 112 L 128 138 L 118 150 L 150 155 L 178 150 L 168 158 L 185 156"
+            fill="none" stroke="#c9544a" stroke-width="1.6"/>
+      <circle cx="55" cy="55" r="4" fill="#c9544a"/>
+      <circle cx="185" cy="156" r="4.5" fill="#7a9a6a"/>
+      <text x="55" y="46" font-size="10" fill="#c9544a" text-anchor="middle">start</text>
+      <text x="228" y="150" font-size="10" fill="#3d6b3d">wobbling to the floor</text>
+      <text x="322" y="26" font-size="11" fill="#1e3a5f" font-style="italic">loss</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>It overturns an intuition: <strong>being imprecise is actually better.</strong> Classical optimization chases an optimal step every time, but SGD proves that in an ocean of data, "fast and rough" systematically beats "slow and precise." And going deeper: since the data itself is noisy, why compute a gradient more precise than the data? This "embrace randomness" spirit runs through Monte Carlo, annealing, even evolutionary selection—<em>noise is not the enemy; it's the fuel of exploration</em>.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Almost every large model today is trained by SGD's descendants: <strong>Adam</strong> adapts the step size per parameter, Momentum accumulates inertia to charge across plateaus, and learning-rate schedules explore in big steps first then converge in small ones. The trillions of parameter updates in ChatGPT, Stable Diffusion, and AlphaFold are all, at heart, the loop of "grab a small batch, estimate a gradient, take a step." Understand SGD and you understand the core machine roaring day and night in the engine room of modern AI.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="essence"><strong>Taking many steps with a "rough gradient" from a small batch beats a few steps with a "precise gradient" from all the data; and its noise conveniently helps you escape shallow dips.</strong></div>
+    <div class="think" style="margin-top:10px">The smaller the batch, the rougher the gradient and the larger the noise—yet generalization is often better; the larger the batch, the more precise, yet it more often overfits to sharp minima. Why does "estimating less accurately" make the model perform better on data it hasn't seen?</div>
+  </div>
+</div>
+
+<div class="deep-title">Deeper Reflections</div>
+
+<details>
+  <summary>Why is the gradient the "steepest ascent direction," and not some other direction?</summary>
+  <div class="body">Walking in a unit direction $u$, the function's instantaneous rate of change is the directional derivative $\nabla f\cdot u$—the dot product of gradient and direction. The dot product is largest when the two vectors are <strong>aligned</strong>, so the fastest-growing direction is exactly $\nabla f$, and the fastest descent is $-\nabla f$. This isn't a definition but a corollary of dot-product geometry. It also exposes gradient descent's limitation: steepest is only a <em>local</em> best choice; in a long, curved valley, always going steepest zig-zags and converges painfully slowly—precisely what Momentum and second-order methods are built to fix.</div>
+</details>
+
+<details>
+  <summary>Convex optimization "almost always solves to the global optimum," so are nonconvex problems hopeless?</summary>
+  <div class="body">In theory, general nonconvex optimization is NP-hard to solve globally. But practice offers three ways out: first, many nonconvex problems have "hidden benign structure" (e.g. matrix completion), where local optima are almost all global; second, in the high-dimensional loss surfaces of deep networks bad local minima are extremely rare, most critical points being <strong>saddle points</strong> rather than pits, and SGD's noise escapes saddles effectively; third, we simply drop the obsession with "the global optimum"—a "good enough" solution already powers ChatGPT. This marks a pragmatic shift in optimization philosophy from "seek the optimal" to "seek the good enough."</div>
+</details>
+
+<details>
+  <summary>The Lagrange multiplier λ is a "shadow price"—how deep does this economic intuition run?</summary>
+  <div class="body">Deep enough to run through all of duality theory. $\lambda$ exactly equals "the rate of improvement in the optimal value when the constraint loosens by one unit." In linear programming, the primal problem (how to maximize output from resources) and the dual problem (how to price the resources) mirror each other, and at the optimum their objective values are equal—this is <strong>strong duality</strong>. It means that behind any resource-allocation problem hides a self-consistent "pricing system": market prices, option pricing, bandwidth allocation, auction design are all, in essence, solving the dual prices of some optimization problem. Lagrange multipliers weld "optimum" and "value" into two sides of one coin.</div>
+</details>
+
+<details>
+  <summary>Why does SGD's noise help "generalization," not just "escaping dips"?</summary>
+  <div class="body">A hypothesis with supporting evidence is that SGD's noise favors <strong>flat minima</strong> over sharp ones. A flat valley floor means "perturb the parameters slightly and the loss barely changes"—such a solution is more robust to the small distribution gap between training and test sets, so it generalizes better; a sharp valley is sensitive to perturbation and prone to overfitting. The larger noise of small batches acts like a sieve, continually shaking the model out of sharp pits and leaving it in flat basins. Thus the tool used for training quietly shapes the generalization quality of the final solution—one of the most active frontiers in deep-learning theory.</div>
+</details>
+
+<div class="section resources" style="max-width:780px;margin-top:10px">
+  <div class="label" style="font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">Further Resources</div>
+  <ul style="padding-left:22px;color:#2a3548;font-size:0.96rem">
+    <li>Boyd &amp; Vandenberghe · <em>Convex Optimization</em> (the convex-optimization bible, free to download)</li>
+    <li>Nocedal &amp; Wright · <em>Numerical Optimization</em> (the standard numerical-optimization text)</li>
+    <li>3Blue1Brown · <em>Gradient descent, how neural networks learn</em> (visual intuition for gradient descent)</li>
+    <li>Sebastian Ruder · <em>An overview of gradient descent optimization algorithms</em> (a clear survey from Momentum to Adam)</li>
+  </ul>
+</div>
+
+<nav class="bottom">
+  <a href="index.en.html">← Back to Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>
