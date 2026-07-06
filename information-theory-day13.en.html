@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Information Theory · Day 13 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.resources a{color:#3a6088;text-decoration:none;border-bottom:1px dotted #3a6088}
+.resources a:hover{color:#1e3a5f;border-bottom-style:solid}
+.essence{background:#f7f5f0;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#4a3c2a;margin-top:6px}
+.essence strong{color:#1e3a5f}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:4px 20px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;padding:14px 0;font-weight:600;color:#1e3a5f;font-size:1.02rem}
+details[open] summary{border-bottom:1px solid #e0e6ee;margin-bottom:10px}
+details .body{font-size:0.95rem;color:#3a4658;padding-bottom:14px}
+.deep-title{text-align:center;font-size:1.3rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;margin:44px 0 22px}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 13 · 2026.07.06</div>
+  <h1>Information Theory</h1>
+  <div class="meta">Finding a ruler for "information"</div>
+  <div class="epigraph">"The fundamental problem of communication is that of reproducing at one point either exactly or approximately a message selected at another point." — Claude Shannon, 1948</div>
+</header>
+
+<!-- Concept 1: Shannon Entropy -->
+<div class="card">
+  <h2>Shannon Entropy</h2>
+  <div class="en-name">The unit of measure for information</div>
+  <span class="tag">Information Theory</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>What exactly <em>is</em> information? Shannon's 1948 answer is startlingly simple: <strong>information = uncertainty removed</strong>. "The sun will rise tomorrow" carries no information—you were already certain. "It will rain tomorrow" carries information, because it was genuinely uncertain.<br><br>A fair coin has two equally likely outcomes before the flip; the result removes that uncertainty—Shannon defines it as worth <strong>1 bit</strong>. A die has six possibilities, is more uncertain, and its result is worth about 2.58 bits. Entropy measures exactly this: <em>on average, how much "surprise" one observation brings you.</em> So entropy is both "uncertainty" and "information"—uncertainty is the anticipation <em>before</em> the reveal, information the payoff <em>after</em>.</p>
+  </div>
+
+  <div class="formula-box">$$H(X) = -\sum_{x} p(x)\log_2 p(x)$$</div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>$p(x)$ is the probability of an event; $-\log_2 p(x)$ is its "surprise"—the smaller the probability, the larger it grows, the more unexpected the event. The $\sum p(x)\cdot$ in front is a <strong>probability-weighted average</strong>, so $H(X)$ is the "average surprise" (bits with $\log_2$, nats with $\ln$). Why a logarithm? Because information must be <em>additive</em>: two independent coin flips should carry $1+1=2$ bits, while probabilities <em>multiply</em>, $\frac12\cdot\frac12$—and the logarithm turns "multiply" into "add."</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 360 210" xmlns="http://www.w3.org/2000/svg">
+      <line x1="40" y1="170" x2="330" y2="170" stroke="#aaa" stroke-width="0.8"/>
+      <line x1="40" y1="30" x2="40" y2="170" stroke="#aaa" stroke-width="0.8"/>
+      <path d="M 40 170 Q 90 70 185 40 Q 280 70 330 170" fill="none" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="185" y1="40" x2="185" y2="170" stroke="#c9544a" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="185" cy="40" r="3.5" fill="#c9544a"/>
+      <text x="185" y="30" font-size="10" fill="#c9544a" text-anchor="middle">max entropy = 1 bit</text>
+      <text x="40" y="185" font-size="10" fill="#666" text-anchor="middle">0</text>
+      <text x="185" y="185" font-size="10" fill="#666" text-anchor="middle">0.5</text>
+      <text x="330" y="185" font-size="10" fill="#666" text-anchor="middle">1</text>
+      <text x="185" y="202" font-size="10" fill="#666" text-anchor="middle" font-style="italic">p (probability of heads)</text>
+      <text x="30" y="40" font-size="10" fill="#666" text-anchor="end">H</text>
+      <text x="52" y="165" font-size="9" fill="#8a7340">certain → entropy 0</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>The entropy formula is nearly identical in form to <strong>thermodynamic entropy</strong> (Boltzmann's $S=k\ln W$)—no coincidence. Physical entropy measures "the disorder of microstates," information entropy "the uncertainty of a distribution"; deep down they are the same object. Von Neumann reportedly told Shannon to call it "entropy," "because nobody really knows what entropy is, so you'll always win the argument." Even more beautiful: entropy sets the <em>theoretical limit of lossless compression</em>—no code can have an average length shorter than $H(X)$ bits. "Information" thus went from a fuzzy philosophical notion to a measurable quantity with a hard lower bound.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>The core of lossless compression (ZIP, PNG, FLAC) is <strong>Huffman coding</strong>: short codes for frequent symbols, long codes for rare ones, approaching the entropy limit. Decision trees (random forests, XGBoost) use <em>information gain</em>—the drop in entropy—to choose which feature to split on. Even linguistics: each English letter carries about 1.1 bits of entropy, far below $\log_2 26\approx4.7$—and it is exactly this redundancy that lets us read sentences with missing letters.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="essence"><strong>Entropy is "average surprise," and also the floor of compression—you cannot squeeze information below its entropy.</strong></div>
+    <div class="think" style="margin-top:10px">A file that is all one character has entropy near 0; entropy is maximal when symbols are equally likely. So should a "seemingly random" piece of ciphertext have high or low entropy? What does that say about the relationship between "random" and "ordered"?</div>
+  </div>
+</div>
+
+<!-- Concept 2: Mutual Information -->
+<div class="card">
+  <h2>Mutual Information</h2>
+  <div class="en-name">How much two variables share</div>
+  <span class="tag">Information Theory</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>You want to know whether there'll be traffic tomorrow ($Y$). Someone tells you whether today is Friday ($X$). Once you know $X$, <strong>how much does your uncertainty about $Y$ drop</strong>? That drop is the mutual information between $X$ and $Y$.<br><br>It measures how much information two variables <em>share</em>. If $X$ and $Y$ are fully independent, knowing one tells you nothing about the other, and mutual information is 0. If $Y$ is fully determined by $X$, knowing $X$ is knowing $Y$, and mutual information equals the entire entropy of $Y$. <strong>It is the information-theoretic measure of "association"</strong>—far more powerful than the correlation coefficient of statistics.</p>
+  </div>
+
+  <div class="formula-box">$$I(X;Y) = H(Y) - H(Y\mid X) = H(X) + H(Y) - H(X,Y)$$</div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>$H(Y)$ is $Y$'s own uncertainty; $H(Y\mid X)$ is "$Y$'s remaining uncertainty once you know $X$" (conditional entropy). Their difference is exactly "the part of $Y$'s uncertainty that $X$ removes for you." The second equality is more symmetric: $H(X)+H(Y)$ minus the joint entropy $H(X,Y)$ leaves the <strong>overlap</strong>—like the intersection of two circles. This immediately yields a lovely property: $I(X;Y)=I(Y;X)$, <em>mutual information is symmetric</em>—how much X tells you about Y equals how much Y tells you about X.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 360 180" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="150" cy="90" r="70" fill="#3a6088" fill-opacity="0.28" stroke="#3a6088" stroke-width="1.2"/>
+      <circle cx="210" cy="90" r="70" fill="#c9a96b" fill-opacity="0.30" stroke="#8a7340" stroke-width="1.2"/>
+      <text x="110" y="95" font-size="13" fill="#1e3a5f" text-anchor="middle" font-style="italic">H(X|Y)</text>
+      <text x="250" y="95" font-size="13" fill="#6b5420" text-anchor="middle" font-style="italic">H(Y|X)</text>
+      <text x="180" y="88" font-size="12" fill="#c9544a" text-anchor="middle" font-weight="bold">I(X;Y)</text>
+      <text x="180" y="104" font-size="9" fill="#c9544a" text-anchor="middle">overlap</text>
+      <text x="110" y="18" font-size="11" fill="#1e3a5f" text-anchor="middle">H(X)</text>
+      <text x="250" y="18" font-size="11" fill="#6b5420" text-anchor="middle">H(Y)</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>The Pearson correlation captures only <em>linear</em> relationships. If $Y=X^2$ with $X\in[-1,1]$, the correlation is 0—as if there were no relation—even though $Y$ is completely determined by $X$. <strong>Mutual information has no such limit</strong>: linear, nonlinear, periodic dependence—it catches them all; it is positive whenever any statistical association exists, and is 0 if and only if the two are <em>strictly independent</em>. It is a "complete detector of independence"—indifferent to the shape of the relation, caring only "how much does knowing one reduce the other's uncertainty."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Feature selection picks features with the highest mutual information with the label. Neuroscience uses it to measure how much a neuron's firing <em>encodes</em> about an external stimulus (a core tool of neural coding). <strong>Representation learning</strong>: self-supervised methods (InfoNCE, contrastive learning like SimCLR) are essentially <em>maximizing</em> the mutual information between different views of the same image, forcing the model to learn invariant semantics. Medical image registration maximizes the mutual information between CT/MRI modalities to align them.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="essence"><strong>Mutual information is the "complete detector of independence"—it cannot see the shape of a relationship, only measure its magnitude.</strong></div>
+    <div class="think" style="margin-top:10px">The Data Processing Inequality says: in a chain $X\to Y\to Z$, $I(X;Z)\le I(X;Y)$—each processing step can only reduce, never increase, information about the source. Why does this mean "post-processing cannot create information from nothing"? And what does it mean for a deep network extracting features "layer by layer"?</div>
+  </div>
+</div>
+
+<!-- Concept 3: Channel Capacity -->
+<div class="card">
+  <h2>Channel Capacity</h2>
+  <div class="en-name">The transmission limit within noise</div>
+  <span class="tag">Information Theory</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Shouting across a noisy bar, you always risk being misheard. A communication channel is the same: wires have thermal noise, fiber has attenuation. The naïve thought is—since there's noise, transmission <em>must</em> err, faster means more errors, reliable communication is impossible.<br><br>Shannon overturned this in 1948. He proved: <strong>every channel has a definite "capacity" $C$, and as long as your transmission rate is below $C$, there exists a code that drives the error rate arbitrarily close to 0—even in a channel full of noise</strong>. Just as in the bar, repeating keywords and using predictable phrasing lets you convey a message almost error-free through the noise. Noise doesn't make communication "unreliable"; it sets a <em>speed limit</em> on reliable communication: above it errors are unavoidable, below it near-perfect transmission is always possible.</p>
+  </div>
+
+  <div class="formula-box">$$C = \max_{p(x)} I(X;Y), \qquad C = B\log_2\!\left(1+\frac{S}{N}\right)$$</div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>The left side is the definition: capacity = the <strong>maximum</strong> mutual information between input $X$ and output $Y$ over all input distributions—i.e. the most bits one use of the channel can reliably carry. The right side is the most famous special case (the <strong>Shannon–Hartley theorem</strong>): $B$ is bandwidth, $S/N$ the signal-to-noise ratio. Capacity grows <em>linearly</em> with bandwidth but only <em>logarithmically</em> with SNR—to double the rate, adding bandwidth beats adding power. This one formula sets the speed ceiling for everything from WiFi to deep-space probes.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>Shannon's <strong>noisy-channel coding theorem</strong> is an "existence miracle": he never told you <em>how</em> to build the near-perfect code, only proved it <em>must exist</em>. The method is exquisite—he "picks a random codebook" and proves that <em>on average</em> a random code is already good enough, so at least one good code must exist. This is a classic triumph of the probabilistic method: inferring "an individual exists" from "the average is good enough." Humanity took nearly half a century (Turbo codes, LDPC, Polar codes) to build practical codes that truly approach the Shannon limit—chasing a target proven to exist back in 1948.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>5G / WiFi 6 use adaptive modulation: when the channel is good, switch to higher-order constellations for more speed; when poor, fall back to robust modes—running the Shannon formula directly. Voyager, billions of kilometers away with an extremely weak signal, still sends back images thanks to capacity-approaching error-correcting codes. Hard drives and QR codes embed codes like <strong>Reed–Solomon</strong>, so a scratched disc or a smudged QR code still reads. Information theory unifies "transmission" and "storage" into one problem: reliably moving bits over a noisy channel.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="essence"><strong>Noise does not forbid reliable communication; it only caps its speed—below capacity, near-perfection is always reachable.</strong></div>
+    <div class="think" style="margin-top:10px">Shannon proved good codes "exist" but gave no construction; humanity chased it for nearly half a century. Why is "proving existence" so often far easier than "actually constructing"? Where else in mathematics does this gap—"knowing the treasure is there yet needing decades to dig it up"—appear?</div>
+  </div>
+</div>
+
+<!-- Concept 4: Cross-Entropy & Neural Nets -->
+<div class="card">
+  <h2>Cross-Entropy &amp; Neural Nets</h2>
+  <div class="en-name">Learning is approximating a distribution</div>
+  <span class="tag">Information Theory × ML</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Training a classifier ("is this a cat or a dog?") is essentially making the model's output <strong>probability distribution</strong> $q$ approximate the true distribution $p$. How to measure how well it approximates? Information theory's answer: <em>if you use the optimal code designed for $q$ to encode data that truly follows $p$, how many bits do you waste?</em> Less waste means $q$ is closer to $p$.<br><br>That "waste" has two names: the full encoding cost is <strong>cross-entropy</strong> $H(p,q)$; the part "overpaid for using the wrong distribution" is the <strong>KL divergence</strong> $D_{KL}(p\Vert q)$, which is always $\ge 0$ and equals 0 iff $q=p$—a "distance" between distributions (though asymmetric). The "cross-entropy loss" literally means minimizing this waste.</p>
+  </div>
+
+  <div class="formula-box">$$H(p,q) = \underbrace{H(p)}_{\text{fixed}} + \underbrace{D_{KL}(p\Vert q)}_{\text{to minimize}},\qquad D_{KL}(p\Vert q)=\sum_x p(x)\log\frac{p(x)}{q(x)}$$</div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>Cross-entropy $H(p,q)=-\sum_x p(x)\log q(x)$ is the average code length when the model distribution $q$ encodes real data $p$. It splits in two: $H(p)$ is the data's intrinsic entropy (independent of the model, a constant), and $D_{KL}(p\Vert q)$ is the model's "error tax." <strong>Since $H(p)$ is fixed, minimizing cross-entropy = minimizing KL divergence = making the model distribution hug the true one.</strong> One layer deeper: "minimizing cross-entropy" can be shown to be exactly equivalent to statistics' "maximum likelihood estimation"—two roads from different disciplines pointing at the same loss function.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>Why do classifiers and language models worldwide all use cross-entropy? Because it <strong>simultaneously satisfies three identities—"information-theoretic optimal coding," "statistical maximum likelihood," and "Bayesian posterior"</strong>; it is not chosen arbitrarily. Training GPT to predict the next word is minimizing cross-entropy; a language model's key metric, <em>perplexity</em>, is exactly $2^{H}$, read as "how many words the model hesitates among per step on average." Information theory gives deep learning something it otherwise lacked: <em>a physical meaning for the loss number</em>.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Nearly all classification tasks use cross-entropy loss; large-language-model pretraining = minimizing the cross-entropy of next-word prediction. <strong>VAEs and diffusion models</strong> include a KL term in their ELBO training objective, forcing the latent distribution toward a prior; knowledge distillation makes a small model's output distribution approach a large model's via KL—information theory becomes the language of "compressing a neural network." Cross-disciplinarily, this echoes neuroscience's <em>predictive coding</em> theory—the brain, too, may be minimizing some divergence between "prediction" and "sensory input."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="essence"><strong>Training a neural network is minimizing the bits wasted when "your world-model encodes the real world"—learning is compression.</strong></div>
+    <div class="think" style="margin-top:10px">KL divergence is asymmetric: $D_{KL}(p\Vert q)\ne D_{KL}(q\Vert p)$. Maximum likelihood uses the former (making $q$ cover all of $p$'s peaks, "mass-covering"), while variational inference often uses the latter (making $q$ grab the main peak, "mode-seeking"). Why is a "distance between information" <em>directional</em>? How does this asymmetry show up in a generative model's tradeoff between "covering all" and "being sharp"?</div>
+  </div>
+</div>
+
+<div class="deep-title">Going Deeper</div>
+
+<details>
+  <summary>Why does entropy use a logarithm, and not, say, a square?</summary>
+  <div class="body">Shannon's original paper gives an "axiomatic" derivation: a measure of information should satisfy three natural axioms—continuity, monotonic increase as the number of options grows, and "decomposability" (splitting one choice into two steps leaves the total information unchanged). He proved the <strong>unique</strong> form satisfying all three is $-\sum p\log p$. The logarithm isn't ad hoc: the crux is "independent events add information"—probabilities multiply, and only the logarithm turns multiplication into addition—while a square would break additivity. This is a classic case of "axioms pinning down a unique answer."</div>
+</details>
+
+<details>
+  <summary>Are information entropy and physical entropy (the second law) really the same thing?</summary>
+  <div class="body">Identical in form, deeply connected in meaning. Boltzmann entropy $S=k\ln W$ counts "how many microstates a macrostate corresponds to"; Shannon entropy counts "the uncertainty of a distribution"—treat microstates as equally likely events and the two coincide. More striking is <strong>Landauer's principle</strong>: erasing 1 bit of information <em>must</em> dissipate at least $kT\ln 2$ of heat. This welds the abstract "bit" to the real "joule," and resolves the "Maxwell's demon" paradox—the demon lowers physical entropy using information, but erasing that information itself pays an entropy cost. Information has thermodynamic weight.</div>
+</details>
+
+<details>
+  <summary>"Learning is compression"—how far can this be pushed?</summary>
+  <div class="body">Quite far—this is a main thread of modern AI theory. Kolmogorov complexity defines "an object's information content" as "the length of the shortest program that generates it"—to understand a dataset is to find its shortest description. The <em>Minimum Description Length (MDL)</em> principle selects models accordingly: the best model minimizes the total bits of "the model itself + the data encoded by the model"—which naturally embeds Occam's razor. Recently some argue "compression is intelligence": a model that compresses text extremely well must have internalized the regularities behind it, so LLM pretraining is essentially a large-scale lossless-compression contest. If true, "intelligence" might be definable precisely in information-theoretic terms—the field's most radical and most fascinating ambition.</div>
+</details>
+
+<div class="section resources" style="max-width:780px;margin-top:10px">
+  <div class="label" style="font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">Further reading</div>
+  <ul style="padding-left:22px;color:#2a3548;font-size:0.96rem">
+    <li>Claude Shannon · <em>A Mathematical Theory of Communication</em> (1948—one paper founding a discipline)</li>
+    <li>Cover &amp; Thomas · <em>Elements of Information Theory</em> (the standard text)</li>
+    <li>David MacKay · <em>Information Theory, Inference, and Learning Algorithms</em> (bridges information theory and ML; free online)</li>
+    <li>3Blue1Brown · <em>Solving Wordle using information theory</em> (entropy intuition through a game)</li>
+  </ul>
+</div>
+
+<nav class="bottom">
+  <a href="index.en.html">← Back to Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>
