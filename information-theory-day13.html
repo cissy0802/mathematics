@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>信息论 · Day 13 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.resources a{color:#3a6088;text-decoration:none;border-bottom:1px dotted #3a6088}
+.resources a:hover{color:#1e3a5f;border-bottom-style:solid}
+.essence{background:#f7f5f0;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#4a3c2a;margin-top:6px}
+.essence strong{color:#1e3a5f}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:4px 20px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;padding:14px 0;font-weight:600;color:#1e3a5f;font-size:1.02rem}
+details[open] summary{border-bottom:1px solid #e0e6ee;margin-bottom:10px}
+details .body{font-size:0.95rem;color:#3a4658;padding-bottom:14px}
+.deep-title{text-align:center;font-size:1.3rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;margin:44px 0 22px}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 13 · 2026.07.06</div>
+  <h1>信息论</h1>
+  <div class="meta">Information Theory — 为「信息」找到一把尺子</div>
+  <div class="epigraph">"The fundamental problem of communication is that of reproducing at one point either exactly or approximately a message selected at another point." — Claude Shannon, 1948</div>
+</header>
+
+<!-- 概念 1：香农熵 -->
+<div class="card">
+  <h2>香农熵</h2>
+  <div class="en-name">Shannon Entropy · 信息的度量单位</div>
+  <span class="tag">Information Theory</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>「信息」到底是什么？香农 1948 年的答案惊人地简单：<strong>信息 = 被消除的不确定性</strong>。「明天太阳会升起」不带任何信息，因为你早就确定；「明天下雨」带信息，因为它本来不确定。<br><br>一枚公平硬币，抛前两种等可能，结果揭晓消除了这份不确定——香农定义它值 <strong>1 比特（bit）</strong>；一个骰子 6 种可能更不确定，约 2.58 比特。熵衡量的正是：<em>平均一次观测带给你多少「惊讶」。</em>所以熵既是「不确定性」也是「信息量」——不确定性是揭晓<em>前</em>的期待，信息量是揭晓<em>后</em>的收获。</p>
+  </div>
+
+  <div class="formula-box">$$H(X) = -\sum_{x} p(x)\log_2 p(x)$$</div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>$p(x)$ 是事件概率，$-\log_2 p(x)$ 是它的「惊讶度」——概率越小越大，越出人意料。前面的 $\sum p(x)\cdot$ 是<strong>按概率加权求平均</strong>，所以 $H(X)$ 就是「平均惊讶度」（$\log_2$ 对应比特，$\ln$ 对应 nat）。为什么用对数？因为信息要<em>可加</em>：两次独立抛硬币的信息应是 $1+1=2$ 比特，而概率相乘 $\frac12\cdot\frac12$——对数恰好把「相乘」翻译成「相加」。</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 360 210" xmlns="http://www.w3.org/2000/svg">
+      <line x1="40" y1="170" x2="330" y2="170" stroke="#aaa" stroke-width="0.8"/>
+      <line x1="40" y1="30" x2="40" y2="170" stroke="#aaa" stroke-width="0.8"/>
+      <!-- H(p) = -p log p - (1-p) log(1-p), peak 1 at p=0.5 -->
+      <path d="M 40 170 Q 90 70 185 40 Q 280 70 330 170" fill="none" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="185" y1="40" x2="185" y2="170" stroke="#c9544a" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="185" cy="40" r="3.5" fill="#c9544a"/>
+      <text x="185" y="30" font-size="10" fill="#c9544a" text-anchor="middle">最大熵 = 1 bit</text>
+      <text x="40" y="185" font-size="10" fill="#666" text-anchor="middle">0</text>
+      <text x="185" y="185" font-size="10" fill="#666" text-anchor="middle">0.5</text>
+      <text x="330" y="185" font-size="10" fill="#666" text-anchor="middle">1</text>
+      <text x="185" y="202" font-size="10" fill="#666" text-anchor="middle" font-style="italic">p（正面概率）</text>
+      <text x="30" y="40" font-size="10" fill="#666" text-anchor="end">H</text>
+      <text x="52" y="165" font-size="9" fill="#8a7340">确定→熵为0</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>熵的公式和 <strong>热力学熵</strong>（玻尔兹曼 $S=k\ln W$）形式几乎一样——这不是巧合，物理熵度量「微观状态的混乱」，信息熵度量「概率分布的不确定」，深层是同一个对象。据说冯·诺依曼建议香农用「熵」这个名字，「因为没人真正知道熵是什么，你在辩论中永远占上风」。更美的是：熵给出了<em>无损压缩的理论极限</em>——任何编码的平均码长都不可能短于 $H(X)$ 比特。「信息」从此从哲学概念变成可测量、有硬下界的物理量。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>ZIP、PNG、FLAC 无损压缩的核心是 <strong>Huffman 编码</strong>：高频符号给短码、低频给长码，逼近熵极限。决策树（随机森林、XGBoost）用<em>信息增益</em>（熵的下降量）决定在哪个特征上分裂。甚至语言学：英文每个字母实际约 1.1 比特熵，远低于 $\log_2 26\approx4.7$——正是这份冗余让我们能读懂缺字的句子。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华 + 思考题</div>
+    <div class="essence"><strong>熵是「平均惊讶」，也是压缩的地板——你无法把信息压得比它的熵更小。</strong></div>
+    <div class="think" style="margin-top:10px">全是同一字符的文件熵接近 0，符号等概率时熵最大。那么一段「看似完全随机」的加密密文，熵应该高还是低？这对「随机」与「有序」的关系意味着什么？</div>
+  </div>
+</div>
+
+<!-- 概念 2：互信息 -->
+<div class="card">
+  <h2>互信息</h2>
+  <div class="en-name">Mutual Information · 两个变量共享多少信息</div>
+  <span class="tag">Information Theory</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>你想知道明天会不会堵车（$Y$）。有人告诉你今天是不是周五（$X$）。知道 $X$ 后，你对 $Y$ 的<strong>不确定性下降了多少</strong>？下降的这部分，就是 $X$ 与 $Y$ 的互信息。<br><br>它衡量两个变量<em>共享</em>多少信息。$X$、$Y$ 完全独立时，知道一个对另一个毫无帮助，互信息为 0；$Y$ 完全由 $X$ 决定时，知道 $X$ 就等于知道 $Y$，互信息等于 $Y$ 的全部熵。<strong>它是「关联」的信息论度量</strong>——却比统计学的相关系数强大得多。</p>
+  </div>
+
+  <div class="formula-box">$$I(X;Y) = H(Y) - H(Y\mid X) = H(X) + H(Y) - H(X,Y)$$</div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>$H(Y)$ 是 $Y$ 本身的不确定性；$H(Y\mid X)$ 是「知道 $X$ 后 $Y$ 剩余的不确定性」（条件熵）。两者相减，正是「$X$ 帮你消除的那部分」。第二个等式更对称：$H(X)+H(Y)$ 减去联合熵 $H(X,Y)$，剩下的是<strong>重叠部分</strong>——像两个圆的交集。它立刻给出一个漂亮性质：$I(X;Y)=I(Y;X)$，<em>互信息是对称的</em>——X 关于 Y 说了多少，就等于 Y 关于 X 说了多少。</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 360 180" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="150" cy="90" r="70" fill="#3a6088" fill-opacity="0.28" stroke="#3a6088" stroke-width="1.2"/>
+      <circle cx="210" cy="90" r="70" fill="#c9a96b" fill-opacity="0.30" stroke="#8a7340" stroke-width="1.2"/>
+      <text x="110" y="95" font-size="13" fill="#1e3a5f" text-anchor="middle" font-style="italic">H(X|Y)</text>
+      <text x="250" y="95" font-size="13" fill="#6b5420" text-anchor="middle" font-style="italic">H(Y|X)</text>
+      <text x="180" y="88" font-size="12" fill="#c9544a" text-anchor="middle" font-weight="bold">I(X;Y)</text>
+      <text x="180" y="104" font-size="9" fill="#c9544a" text-anchor="middle">交集</text>
+      <text x="110" y="18" font-size="11" fill="#1e3a5f" text-anchor="middle">H(X)</text>
+      <text x="250" y="18" font-size="11" fill="#6b5420" text-anchor="middle">H(Y)</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>皮尔逊相关系数只能捕捉<em>线性</em>关系。若 $Y=X^2$、$X\in[-1,1]$，相关系数是 0，仿佛毫无关系，尽管 $Y$ 完全由 $X$ 决定。<strong>互信息不受此限</strong>：线性、非线性、周期性依赖都能捕捉；只要有任何统计关联它就为正，当且仅当<em>严格独立</em>时才为 0。它是一个「独立性的完备探测器」——不关心关系长什么样，只关心「知道一个能减少另一个多少不确定性」。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>特征选择挑与标签互信息最高的特征。神经科学用互信息度量一个神经元的放电<em>编码</em>了多少外界刺激（神经编码的核心工具）。<strong>表示学习</strong>：自监督方法（InfoNCE、对比学习 SimCLR）本质是<em>最大化</em>同一图像不同视角间的互信息，逼模型学到不变的语义。医学影像配准让 CT/MRI 两模态图像的互信息最大以对齐。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华 + 思考题</div>
+    <div class="essence"><strong>互信息是「独立性的完备探测器」——它看不见关系的形状，只量得出关系的分量。</strong></div>
+    <div class="think" style="margin-top:10px">数据处理不等式说：链条 $X\to Y\to Z$ 中 $I(X;Z)\le I(X;Y)$——数据每经一次处理，关于源头的信息只减不增。这为什么意味着「后处理无法凭空创造信息」？它对深度网络「层层加工」提取特征意味着什么？</div>
+  </div>
+</div>
+
+<!-- 概念 3：信道容量 -->
+<div class="card">
+  <h2>信道容量</h2>
+  <div class="en-name">Channel Capacity · 噪声中的传输极限</div>
+  <span class="tag">Information Theory</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>你在嘈杂酒吧里喊话，对方总有听错的风险。通信信道也一样：电线有热噪声、光纤有衰减。天真的想法是——既然有噪声，传输就<em>必然</em>出错，速度越快错得越多，可靠通信不可能。<br><br>香农 1948 年推翻了这个直觉。他证明：<strong>每条信道都有一个确定的「容量」$C$，只要传输速率低于 $C$，就存在一种编码把错误率压到任意接近 0——哪怕信道充满噪声</strong>。就像酒吧里重复关键词、用对方能预测的句式，就能在噪声中几乎无误地传达。噪声不是让通信「变得不可靠」，而是给可靠通信设了一个<em>速度上限</em>：超过它错误无法避免，不到它近乎完美的传输总是可能。</p>
+  </div>
+
+  <div class="formula-box">$$C = \max_{p(x)} I(X;Y), \qquad C = B\log_2\!\left(1+\frac{S}{N}\right)$$</div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>左式是定义：容量 = 所有输入分布里，$X$ 与输出 $Y$ 之间<strong>最大</strong>的互信息——即每次使用信道最多能可靠携带的比特数。右式是最著名的特例（<strong>香农–哈特利定理</strong>）：$B$ 是带宽，$S/N$ 是信噪比。容量随带宽<em>线性</em>增长，却随信噪比只<em>对数</em>增长——想让速率翻倍，加带宽远比加功率划算。这一个公式定下了从 WiFi 到深空探测器的所有通信速度天花板。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>香农的<strong>噪声信道编码定理</strong>是个「存在性奇迹」：他没告诉你<em>怎么</em>造出近乎完美的编码，只证明它<em>一定存在</em>。手法极美——他「随机挑一本码书」，证明<em>平均而言</em>随机码就足够好，故至少存在一个好码。这是概率方法的经典胜利：用「平均达标」倒推「个体存在」。而人类花了近半世纪（Turbo 码、LDPC、Polar 码）才造出真正逼近香农极限的实用编码——追赶一个 1948 年就被证明存在的目标。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>5G / WiFi 6 用自适应调制：信道好就切高阶星座传更快，差就退回稳健模式——直接在跑香农公式。旅行者号在数十亿公里外、信号极弱却仍能传回图像，靠的正是逼近容量的纠错码。硬盘、二维码嵌入 <strong>Reed–Solomon</strong> 等纠错码，让你划花光盘、污损二维码仍能读出。信息论把「传输」与「存储」统一成同一个问题：都是在噪声信道上可靠搬运比特。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华 + 思考题</div>
+    <div class="essence"><strong>噪声不禁止可靠通信，它只给可靠通信定了个速度上限——低于容量，近乎完美永远可达。</strong></div>
+    <div class="think" style="margin-top:10px">香农证明了好编码「存在」，却没给构造方法，人类追了近半世纪才逼近。为什么「证明存在」常远比「实际构造」容易？这种「知道宝藏在那却要几十年才挖到」的落差，数学哪些领域还出现过？</div>
+  </div>
+</div>
+
+<!-- 概念 4：交叉熵与神经网络 -->
+<div class="card">
+  <h2>交叉熵与神经网络</h2>
+  <div class="en-name">Cross-Entropy &amp; Neural Nets · 学习就是逼近一个分布</div>
+  <span class="tag">Information Theory × ML</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>训练一个分类模型（「这张图是猫还是狗」），本质是让模型输出的<strong>概率分布</strong> $q$ 逼近真实分布 $p$。怎么衡量逼近好坏？信息论的答案：<em>用为 $q$ 设计的最优编码去编码真正服从 $p$ 的数据，你会浪费多少比特？</em>浪费越少，$q$ 越接近 $p$。<br><br>这份「浪费」有两个名字：全部编码开销叫<strong>交叉熵</strong> $H(p,q)$；其中「因用错分布而多花」的部分叫 <strong>KL 散度</strong> $D_{KL}(p\Vert q)$，它永远 $\ge 0$，当且仅当 $q=p$ 时为 0——是分布间的「距离」（虽不对称）。「交叉熵损失」字面就是在最小化这份浪费。</p>
+  </div>
+
+  <div class="formula-box">$$H(p,q) = \underbrace{H(p)}_{\text{固定}} + \underbrace{D_{KL}(p\Vert q)}_{\text{要最小化}},\qquad D_{KL}(p\Vert q)=\sum_x p(x)\log\frac{p(x)}{q(x)}$$</div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>交叉熵 $H(p,q)=-\sum_x p(x)\log q(x)$ 是用模型分布 $q$ 给真实数据 $p$ 编码的平均码长，拆成两块：$H(p)$ 是数据固有的熵（与模型无关，是常数），$D_{KL}(p\Vert q)$ 是模型的「误差税」。<strong>因 $H(p)$ 固定，最小化交叉熵 = 最小化 KL 散度 = 让模型分布贴近真实分布。</strong>更深一层：可证「最小化交叉熵」与统计学的「最大似然估计」完全等价——两条不同学科出发的路，指向同一个损失函数。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>为什么全世界的分类器、语言模型都用交叉熵？因为它<strong>同时满足「信息论最优编码」「统计最大似然」「贝叶斯后验」三重身份</strong>，不是随便挑的。训练 GPT 预测下一个词就是在最小化交叉熵；语言模型的核心指标<em>困惑度</em>（perplexity）正是 $2^{H}$，读作「模型每步平均在多少个词间纠结」。信息论给了深度学习一个本来缺的东西：<em>损失数值的物理意义</em>。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>几乎所有分类任务都用交叉熵损失，大语言模型预训练 = 最小化下一词预测的交叉熵。<strong>VAE 与扩散模型</strong>的训练目标 ELBO 含一项 KL，逼隐变量分布靠近先验；知识蒸馏让小模型输出分布用 KL 逼近大模型——信息论成了「压缩神经网络」的语言。跨学科看：这与神经科学的<em>预测编码</em>理论呼应——大脑也可能在最小化「预测」与「感官输入」间的某种散度。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华 + 思考题</div>
+    <div class="essence"><strong>训练神经网络，就是最小化「用你的世界模型编码真实世界」时浪费的比特——学习即压缩。</strong></div>
+    <div class="think" style="margin-top:10px">KL 散度不对称：$D_{KL}(p\Vert q)\ne D_{KL}(q\Vert p)$。最大似然用前者（让 $q$ 覆盖 $p$ 所有峰，倾向「求全」），变分推断常用后者（让 $q$ 抓住主峰，倾向「求准」）。为什么「信息的距离」竟是<em>有方向</em>的？这种不对称在生成模型「求全」与「求准」的取舍里如何体现？</div>
+  </div>
+</div>
+
+<div class="deep-title">深入思考</div>
+
+<details>
+  <summary>为什么熵用对数，而不是别的函数？能不能用平方？</summary>
+  <div class="body">香农在原论文给出了「公理化」推导：信息度量应满足三条自然公理——连续性、随选项增多单调递增、「可分解性」（一个选择拆成两步做总信息不变）。他证明<strong>唯一</strong>满足这三条的形式就是 $-\sum p\log p$。对数不是凑的：核心是「独立事件信息相加」，概率相乘，唯有对数能把乘法变加法——用平方就破坏了可加性。这是数学里典型的「用公理锁定唯一答案」。</div>
+</details>
+
+<details>
+  <summary>信息熵和物理熵（热力学第二定律）真的是同一个东西吗？</summary>
+  <div class="body">形式一致、物理意义深度相连。玻尔兹曼熵 $S=k\ln W$ 数的是「宏观态对应多少微观态」，香农熵数的是「概率分布的不确定性」——把微观态看成等概率事件，两者就重合。更震撼的是<strong>兰道尔原理</strong>：擦除 1 比特信息，物理上<em>必然</em>耗散至少 $kT\ln 2$ 的热量。这把抽象的「比特」和真实的「焦耳」焊在一起，也解开了「麦克斯韦妖」悖论——妖靠信息降低物理熵，但它擦除信息本身要付出熵的代价。信息有热力学的重量。</div>
+</details>
+
+<details>
+  <summary>「学习即压缩」——这句话能推到多远？</summary>
+  <div class="body">相当远，这是当代 AI 理论的一条主线。柯尔莫哥洛夫复杂度把「一个对象的信息量」定义为「能生成它的最短程序长度」——理解数据集就是找到它的最短描述。<em>最小描述长度（MDL）</em>据此选模型：能把「模型本身 + 用模型编码数据」的总比特压到最短的模型最好——这天然包含奥卡姆剃刀。近年更有人主张「压缩即智能」：能极致压缩文本的模型必然内化了文本背后的规律，故 LLM 预训练本质是一场大规模无损压缩竞赛。若成立，「智能」或许可用信息论精确定义——这是信息论最激进也最迷人的野心。</div>
+</details>
+
+<div class="section resources" style="max-width:780px;margin-top:10px">
+  <div class="label" style="font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">深入资源</div>
+  <ul style="padding-left:22px;color:#2a3548;font-size:0.96rem">
+    <li>Claude Shannon · <em>A Mathematical Theory of Communication</em>（1948，一篇论文开创一个学科）</li>
+    <li>Cover &amp; Thomas · <em>Elements of Information Theory</em>（标准教材）</li>
+    <li>David MacKay · <em>Information Theory, Inference, and Learning Algorithms</em>（连接信息论与机器学习，可免费下载）</li>
+    <li>3Blue1Brown · <em>Wordle 与信息论</em>（用熵直觉解一个游戏）</li>
+  </ul>
+</div>
+
+<nav class="bottom">
+  <a href="index.html">← 返回 Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>
