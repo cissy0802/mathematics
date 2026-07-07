@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>离散数学 · Day 15 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.essence{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.98rem;color:#1e3a5f;margin-top:6px;border-left:3px solid #1e3a5f}
+.think{background:#fbfaf3;padding:12px 18px;border-radius:4px;font-size:0.95rem;color:#3d3520;margin-top:10px;border-left:3px solid #c9a96b;font-style:italic}
+details{background:#eef2f6;border-radius:4px;padding:12px 18px;margin-bottom:12px;border-left:3px solid #3a6088}
+details summary{cursor:pointer;font-weight:600;color:#1e3a5f;font-size:0.98rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+.deep h2{font-size:1.3rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 18px;text-align:center}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 15 · 2026.07.07</div>
+  <h1>离散数学</h1>
+  <div class="meta">Discrete Mathematics — 计算机科学背后那门「数数与结构」的数学</div>
+  <div class="epigraph">"The infinite we shall do right away. The finite may take a little longer." — 归于 Stanislaw Ulam</div>
+</header>
+
+<!-- 概念 1：数学归纳法 -->
+<div class="card">
+  <h2>数学归纳法</h2>
+  <div class="en-name">Mathematical Induction · 用两步证明无穷</div>
+  <span class="tag">Logic / Proof</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>你面前排着无穷多张多米诺骨牌，想证明「它们全会倒」。你不可能一张张去推。归纳法说：<strong>你只需证明两件事</strong>——第一张会倒；以及「只要任意一张倒了，它一定会撞倒下一张」。这两件事一旦成立，无穷多张的命运就被锁死了。<br><br>归纳法的精妙，是把「验证无穷个命题」压缩成「验证一个起点 + 一条传递规则」。你从不真的走完无穷步——你只是证明了「这条链没有断点」。断不了的链，就是全倒的链。</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 120" xmlns="http://www.w3.org/2000/svg">
+      <line x1="10" y1="100" x2="370" y2="100" stroke="#aaa" stroke-width="0.8"/>
+      <g fill="#3a6088" fill-opacity="0.7" stroke="#1e3a5f" stroke-width="0.8">
+        <rect x="30" y="60" width="12" height="40" transform="rotate(-42 36 100)"/>
+        <rect x="70" y="62" width="12" height="38" transform="rotate(-32 76 100)"/>
+      </g>
+      <rect x="112" y="66" width="12" height="34" transform="rotate(-18 118 100)" fill="#c9544a" fill-opacity="0.7" stroke="#c9544a" stroke-width="0.8"/>
+      <g fill="#c9a96b" fill-opacity="0.55" stroke="#8a7340" stroke-width="0.8">
+        <rect x="158" y="62" width="12" height="38"/>
+        <rect x="204" y="62" width="12" height="38"/>
+        <rect x="250" y="62" width="12" height="38"/>
+        <rect x="296" y="62" width="12" height="38"/>
+        <rect x="342" y="62" width="12" height="38"/>
+      </g>
+      <text x="55" y="118" font-size="9" fill="#1e3a5f" text-anchor="middle">P(0) 真</text>
+      <text x="255" y="52" font-size="9.5" fill="#3a6088" text-anchor="middle" font-style="italic">P(k) ⟹ P(k+1)：每一张都撞倒下一张</text>
+      <text x="360" y="52" font-size="11" fill="#8a7340">…∞</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <div class="formula-box">$$\big[P(0)\ \wedge\ \forall k\,(P(k)\Rightarrow P(k{+}1))\big]\ \Rightarrow\ \forall n\,P(n)$$</div>
+    <p>$P(n)$ 是关于自然数 $n$ 的命题。<strong>基础步</strong> 证 $P(0)$；<strong>归纳步</strong> 假设 $P(k)$ 成立（称 <em>归纳假设</em>），据此推出 $P(k{+}1)$。两步齐备，则 $P(n)$ 对所有 $n$ 成立。注意归纳假设不是「偷偷假设了要证的结论」——你假设的是「某一张倒」，要证的是「它撞倒下一张」，是传递而非结论。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>归纳法揭示了一件事：<strong>无穷不必用无穷的力气去对付</strong>。有限的两步论证，可以覆盖无穷个命题。更深的是，它不是一个「技巧」——皮亚诺公理里，归纳原理本身就是<em>自然数的定义之一</em>。换句话说，「自然数为什么能被归纳」不是一条定理，而是「我们把满足归纳的东西才叫自然数」。归纳法与自然数是同一件事的两面。它还有变体——<em>强归纳</em>（假设 $P(0),\dots,P(k)$ 全真）和 <em>结构归纳</em>（对树、表达式等递归结构施归纳），是同一精神的推广。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>归纳法是计算机科学证明的主力。证明<strong>循环不变量</strong>——「每轮迭代后某性质仍成立」——就是对迭代次数施归纳，这是程序正确性证明的核心。递归算法（归并排序、快速幂）的正确性几乎都靠结构归纳。类型系统的健全性、编译器优化的保序性、分布式协议的安全性证明，底层都是归纳。可以说，凡是涉及「对一切规模都成立」的软件保证，背后都站着归纳法。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华</div>
+    <div class="essence">归纳法把「验证无穷」折叠成「证明一个起点 + 一条不断链」。</div>
+    <div class="think">思考题：有个著名的假证明「所有的马都同色」用归纳法推出荒谬结论。它的基础步和归纳步分别在哪里悄悄崩塌了？（提示：想想 $k=1 \to k=2$ 那一步。）</div>
+  </div>
+</div>
+
+<!-- 概念 2：递归与递推 -->
+<div class="card">
+  <h2>递归与递推</h2>
+  <div class="en-name">Recursion &amp; Recurrence · 把问题定义在自己身上</div>
+  <span class="tag">Algorithms</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>俄罗斯套娃：打开一个，里面是一个更小的、一模一样的娃娃，直到最里面那个小到打不开为止。递归就是这种结构——<strong>解决一个大问题的方法，是先解决一个更小的同类问题</strong>，一层层缩小，直到抵达一个「不用再想就知道答案」的最小情形（基例）。<br><br>如果说归纳法是「证明的向上爬」（从 $k$ 推到 $k{+}1$），递归就是「计算的向下钻」（把 $n$ 化归到 $n{-}1$）。<em>它们是同一枚硬币的两面</em>：归纳保证递归会终止且正确，递归则是归纳在计算世界里的化身。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <div class="formula-box">$$F(n)=F(n{-}1)+F(n{-}2),\qquad F(0)=0,\ F(1)=1$$</div>
+    <p>一个 <strong>递推关系</strong> 用较小的项定义当前项，再加上<em>初始条件</em>（基例）把链锚在地面上。上式是斐波那契数列——去掉初始条件，它只是一个空悬的规则；有了 $F(0),F(1)$，整个数列就被唯一确定。递归函数就是把这个定义直接翻译成代码：函数在自己体内调用自己，靠基例停下来。</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 170" xmlns="http://www.w3.org/2000/svg">
+      <g font-size="10" fill="#1e3a5f" text-anchor="middle">
+      <line x1="190" y1="24" x2="110" y2="64" stroke="#3a6088" stroke-width="1"/>
+      <line x1="190" y1="24" x2="270" y2="64" stroke="#3a6088" stroke-width="1"/>
+      <line x1="110" y1="74" x2="60" y2="114" stroke="#3a6088" stroke-width="1"/>
+      <line x1="110" y1="74" x2="160" y2="114" stroke="#3a6088" stroke-width="1"/>
+      <line x1="270" y1="74" x2="230" y2="114" stroke="#3a6088" stroke-width="1"/>
+      <line x1="270" y1="74" x2="310" y2="114" stroke="#3a6088" stroke-width="1"/>
+      <line x1="60" y1="124" x2="30" y2="150" stroke="#3a6088" stroke-width="0.8"/>
+      <line x1="60" y1="124" x2="90" y2="150" stroke="#3a6088" stroke-width="0.8"/>
+      <circle cx="190" cy="18" r="14" fill="#e6ecf3" stroke="#1e3a5f"/><text x="190" y="22">F4</text>
+      <circle cx="110" cy="68" r="13" fill="#e6ecf3" stroke="#1e3a5f"/><text x="110" y="72">F3</text>
+      <circle cx="270" cy="68" r="13" fill="#fbeee2" stroke="#c9544a"/><text x="270" y="72" fill="#c9544a">F2</text>
+      <circle cx="60" cy="118" r="12" fill="#fbeee2" stroke="#c9544a"/><text x="60" y="122" fill="#c9544a">F2</text>
+      <circle cx="160" cy="118" r="12" fill="#f0f4f9" stroke="#8a9abe"/><text x="160" y="122" fill="#5a7090">F1</text>
+      <circle cx="230" cy="118" r="12" fill="#f0f4f9" stroke="#8a9abe"/><text x="230" y="122" fill="#5a7090">F1</text>
+      <circle cx="310" cy="118" r="12" fill="#f0f4f9" stroke="#8a9abe"/><text x="310" y="122" fill="#5a7090">F0</text>
+      <circle cx="30" cy="154" r="11" fill="#f0f4f9" stroke="#8a9abe"/><text x="30" y="158" fill="#5a7090">F1</text>
+      <circle cx="90" cy="154" r="11" fill="#f0f4f9" stroke="#8a9abe"/><text x="90" y="158" fill="#5a7090">F0</text>
+      </g>
+      <text x="345" y="70" font-size="9" fill="#c9544a" font-style="italic" text-anchor="middle">F2 被</text>
+      <text x="345" y="82" font-size="9" fill="#c9544a" font-style="italic" text-anchor="middle">重复算</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>同一个递归可以有惊人不同的面孔。斐波那契的递推是最朴素的加法，可它的<strong>闭式解</strong>竟然是 $F(n)=\frac{\varphi^n-\psi^n}{\sqrt5}$，其中 $\varphi=\frac{1+\sqrt5}{2}$ 正是黄金比例——一个满是无理数、幂运算的公式，代进去每次都吐出整数。为什么一个只讲整数相加的规则，骨子里藏着黄金比例？因为递推关系对应一个特征方程 $x^2=x+1$，它的根就是 $\varphi$。<em>递推的「增长基因」写在特征方程的根里</em>——这是离散世界与代数、与连续增长率之间一座隐秘的桥。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>分治算法（归并排序、快速排序、FFT）就是「把问题劈成两半，各自递归，再合并」，其运行时间由递推 $T(n)=2T(n/2)+O(n)$ 描述，靠<strong>主定理</strong>一眼解出 $O(n\log n)$。<em>动态规划</em> 本质是「有重叠子问题的递归」——上图里 $F2$ 被重复计算，记忆化（把算过的存下来）就能把指数级的重复砍成线性。语法解析、分形生成、递归神经网络、乃至函数式编程的整个范式，都建在递归之上。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华</div>
+    <div class="essence">递归 = 把问题定义在自己身上；递归向下算，归纳向上证，是同一件事。</div>
+    <div class="think">思考题：朴素递归算斐波那契是指数时间，加一句「记忆化」就变成线性时间。被省下的，究竟是什么？（提示：数一数递归树里有多少个节点是重复的。）</div>
+  </div>
+</div>
+
+<!-- 概念 3：渐近复杂度 -->
+<div class="card">
+  <h2>渐近复杂度（大 O）</h2>
+  <div class="en-name">Asymptotic Complexity · Big-O · 度量「扩展的命运」</div>
+  <span class="tag">Complexity</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>你写了个程序，跑一次要 3 毫秒——这个数字几乎没用。换台机器、换个编译器，它就变了。真正决定命运的问题是：<strong>数据量翻倍时，时间怎么变？</strong>翻倍？还是翻四倍？还是原地不动？大 O 记号丢掉所有常数和低阶项，只保留「增长的形状」，因为当数据足够大时，<em>唯有增长率是命运，常数只是噪声</em>。<br><br>一个 $O(n)$ 的笨算法配慢机器，长远看仍会碾压 $O(n^2)$ 的巧算法配快机器——只要 $n$ 够大。大 O 量的不是「此刻多快」，而是「扩展时会不会撞墙」。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <div class="formula-box">$$f(n)=O(g(n))\iff \exists\,c>0,\ n_0,\ \forall n>n_0:\ f(n)\le c\,g(n)$$</div>
+    <p>读作：当 $n$ 大过某个门槛 $n_0$ 之后，$f$ 永远被 $g$ 的某个常数倍 $c\,g(n)$ 压在下面。$c$ 吸收了所有硬件、常数因子的差异；$n_0$ 表示「我们只关心足够大的规模」。所以 $3n^2+100n+5 = O(n^2)$——低阶的 $100n$ 和常数 $5$ 在大 $n$ 面前全被淹没。大 O 是一副「只看趋势、不看细节」的眼镜。</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 190" xmlns="http://www.w3.org/2000/svg">
+      <line x1="40" y1="160" x2="360" y2="160" stroke="#aaa" stroke-width="0.8"/>
+      <line x1="40" y1="20" x2="40" y2="160" stroke="#aaa" stroke-width="0.8"/>
+      <text x="352" y="176" font-size="10" fill="#666">n</text>
+      <text x="12" y="26" font-size="10" fill="#666">时间</text>
+      <path d="M 40 160 Q 120 128 360 118" fill="none" stroke="#7a9a6a" stroke-width="1.8"/>
+      <text x="300" y="112" font-size="10" fill="#5a7a4a">O(log n)</text>
+      <path d="M 40 160 L 360 96" fill="none" stroke="#3a6088" stroke-width="1.8"/>
+      <text x="300" y="90" font-size="10" fill="#3a6088">O(n)</text>
+      <path d="M 40 160 Q 200 120 340 60" fill="none" stroke="#c9a96b" stroke-width="1.8"/>
+      <text x="300" y="56" font-size="10" fill="#8a7340">O(n log n)</text>
+      <path d="M 40 160 Q 180 150 250 30" fill="none" stroke="#c9544a" stroke-width="1.8"/>
+      <text x="200" y="40" font-size="10" fill="#c9544a">O(n²)</text>
+      <path d="M 40 160 Q 100 158 120 24" fill="none" stroke="#8a3a8a" stroke-width="1.8"/>
+      <text x="126" y="34" font-size="10" fill="#8a3a8a">O(2ⁿ)</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>大 O 让算法脱离机器、语言、年代，成为可以纯粹比较的数学对象。而它最震撼之处在于：<strong>不同的 O 之间不是「快一点慢一点」，而是「可行与不可行」的鸿沟</strong>。$O(n)$ 与 $O(n^2)$ 在 $n=10^6$ 时相差一百万倍；$O(n)$ 与 $O(2^n)$ 的差距则超越了宇宙原子数。这条「多项式 vs 指数」的分界线，正是理论计算机科学最深的悬案 <em>P vs NP</em> 的心脏——某些问题我们能<em>验证</em>答案，却似乎无法<em>快速找到</em>答案。一个记号，划开了「计算之可能」的边界。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>数据库为什么建索引？把查找从 $O(n)$ 的全表扫描降到 $O(\log n)$ 的 B 树——数据越大，差距越致命。哈希表用 $O(1)$ 平均查找支撑了几乎所有系统。而当下最鲜活的例子是大模型：Transformer 的自注意力是 $O(n^2)$（每个 token 看所有 token），这正是长上下文的瓶颈——<strong>FlashAttention、线性注意力、状态空间模型</strong> 的全部动机，就是把这个 $n^2$ 降下来。大 O 不是学院概念，它每天决定着能不能把上下文从 8K 拉到 100 万。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华</div>
+    <div class="essence">大 O 度量的是「扩展的命运」，不是「当下的速度」——增长率才是长跑的胜负手。</div>
+    <div class="think">思考题：任何基于「两两比较」的排序算法，都逃不过 $O(n\log n)$ 的下界。为什么？（提示：$n$ 个元素有 $n!$ 种排列，每次比较最多把可能性砍一半。）</div>
+  </div>
+</div>
+
+<!-- 概念 4：离散概率 -->
+<div class="card">
+  <h2>离散概率</h2>
+  <div class="en-name">Discrete Probability · 会数数的不确定性</div>
+  <span class="tag">Probability</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>连续概率是「量面积」，离散概率是「数数」。你把所有可能的结果列成一张清单（样本空间），如果每个结果等可能，那么一个事件的概率，就是<strong>有利结果的个数 ÷ 结果总数</strong>。掷骰子出偶数？$3/6$。从一副牌抽到红桃？$13/52$。概率在这里退化成了纯粹的组合计数——<em>会数数，就会算概率</em>。<br><br>正因如此，离散概率与组合数学是连体双生：算概率的难点，往往不在概率本身，而在「怎么把有利情况数清楚、又不重不漏」。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <div class="formula-box">$$P(A)=\frac{|A|}{|\Omega|}\ \text{(古典概型)},\qquad \mathbb{E}[X]=\sum_{x} x\cdot P(X{=}x)$$</div>
+    <p>$\Omega$ 是样本空间（所有结果的集合），$A\subseteq\Omega$ 是事件，$|A|$ 是它含的结果数。等可能时，概率就是两个计数之比。<strong>期望</strong> $\mathbb{E}[X]$ 是随机变量 $X$ 的「加权平均」——把每个取值乘以它的概率再相加，代表「长期平均而言会得到多少」。它是离散概率里最有用的一个数。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>离散概率最优雅的武器是<strong>期望的线性性</strong>：$\mathbb{E}[X+Y]=\mathbb{E}[X]+\mathbb{E}[Y]$，<em>无论 $X$ 与 $Y$ 是否独立</em>。这看似平淡，威力却惊人——许多看上去要纠缠所有相关性的难题，一旦拆成一堆简单随机变量之和，各自求期望再相加，答案立刻浮现。比如「一副洗乱的牌，平均有多少张停在自己原来的位置」，直接算要面对复杂的相关性；用线性性，答案干净利落地等于 $1$。把不确定性拆成可以逐个数、再相加的小块——这是离散概率的核心美感。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>随机化是现代算法的秘密武器：随机化快排用「随机选主元」把最坏情况压到几乎不可能；<strong>哈希</strong> 靠随机分布实现负载均衡；<em>Bloom 过滤器</em> 等概率数据结构，用一点点可控的错误率换取巨大的空间节省。机器学习靠随机采样（mini-batch、dropout）训练，大模型生成时的「温度」正是在对下一个 token 的离散概率分布做采样。凡是要在不确定中做决策的地方，都是离散概率在支撑。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华</div>
+    <div class="essence">离散概率 = 会数数的不确定性；把复杂的随机拆成可相加的小块，是它最锋利的刀。</div>
+    <div class="think">思考题：房间里只要 23 个人，就有超过 50% 的概率存在两人生日相同。为什么这个数字小得如此反直觉？（提示：关键不是「你和别人」，而是「所有配对」——$23$ 人有 $253$ 对。）</div>
+  </div>
+</div>
+
+<!-- 深入思考 -->
+<div class="deep">
+  <h2>深入思考</h2>
+
+  <details>
+    <summary>归纳法能证明的，和它证不了的——界线在哪里？</summary>
+    <div>归纳法只对<em>良序</em>结构有效——自然数、有限树、可数递归定义。对实数就失效了：实数没有「下一个数」，归纳步无从谈起。这引出超限归纳与序数，需要良序定理（等价于选择公理）来奠基。「归纳能走多远」这个问题，一路把我们推到集合论的地基处——它与 Day 11 的无穷、Day 12 的形式化直接相连。</div>
+  </details>
+
+  <details>
+    <summary>递归、归纳、不动点，是不是同一个思想的三张脸？</summary>
+    <div>递归定义（$F$ 用自己定义）在数学上是在求一个<em>不动点</em>：满足 $F=\Phi(F)$ 的那个 $F$；归纳则保证它存在且唯一。λ 演算的 Y 组合子、Knaster–Tarski 不动点定理，讲的都是「自我引用如何被驯服成良定义」。而当自指失控，同一个结构就成了罗素悖论与哥德尔句子——用得好是递归，用得险是悖论。</div>
+  </details>
+
+  <details>
+    <summary>为什么「多项式时间」被当作「高效」的分界线？</summary>
+    <div>这是约定，却极稳健：多项式时间在组合下封闭，且不依赖具体计算模型（图灵机、RAM 互相模拟只差多项式）——即 Cobham–Edmonds 论题；指数时间则一碰就爆炸。P vs NP 问的正是：验证容易的问题，求解是否也容易？绝大多数人相信 $P\neq NP$，却无人能证——这是我们时代最重要的数学悬案，赏金一百万美元。</div>
+  </details>
+
+  <details>
+    <summary>离散与连续，谁更基本？</summary>
+    <div>物理世界看似连续（时空、场），但量子力学说能级是离散的，信息论说信息以比特为单位，而计算必须离散——图灵机只操作有限符号。离散数学与微积分（Day 3）像是描述同一实在的两种语言：差分之于微分，求和之于积分，递推之于微分方程。这层对偶本身，就是一个深刻的谜。</div>
+  </details>
+</div>
+
+<nav class="bottom">
+  <a href="index.html">← 返回 Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>
