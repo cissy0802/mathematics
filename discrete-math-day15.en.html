@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discrete Mathematics · Day 15 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.essence{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.98rem;color:#1e3a5f;margin-top:6px;border-left:3px solid #1e3a5f}
+.think{background:#fbfaf3;padding:12px 18px;border-radius:4px;font-size:0.95rem;color:#3d3520;margin-top:10px;border-left:3px solid #c9a96b;font-style:italic}
+details{background:#eef2f6;border-radius:4px;padding:12px 18px;margin-bottom:12px;border-left:3px solid #3a6088}
+details summary{cursor:pointer;font-weight:600;color:#1e3a5f;font-size:0.98rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+.deep h2{font-size:1.3rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 18px;text-align:center}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 15 · 2026.07.07</div>
+  <h1>Discrete Mathematics</h1>
+  <div class="meta">The mathematics of counting and structure behind computer science</div>
+  <div class="epigraph">"The infinite we shall do right away. The finite may take a little longer." — attributed to Stanislaw Ulam</div>
+</header>
+
+<!-- Concept 1: Induction -->
+<div class="card">
+  <h2>Mathematical Induction</h2>
+  <div class="en-name">Proving the infinite in two steps</div>
+  <span class="tag">Logic / Proof</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Imagine infinitely many dominoes standing in a row, and you want to prove "all of them fall." You can't push each one by hand. Induction says: <strong>you only need to prove two things</strong>—the first one falls; and "whenever any one falls, it knocks over the next." Once both hold, the fate of all infinitely many is sealed.<br><br>The elegance of induction is compressing "verify infinitely many statements" into "verify one starting point + one propagation rule." You never actually walk infinitely many steps—you merely prove "this chain has no broken link." A chain that can't break is a chain that all falls.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 120" xmlns="http://www.w3.org/2000/svg">
+      <line x1="10" y1="100" x2="370" y2="100" stroke="#aaa" stroke-width="0.8"/>
+      <g fill="#3a6088" fill-opacity="0.7" stroke="#1e3a5f" stroke-width="0.8">
+        <rect x="30" y="60" width="12" height="40" transform="rotate(-42 36 100)"/>
+        <rect x="70" y="62" width="12" height="38" transform="rotate(-32 76 100)"/>
+      </g>
+      <rect x="112" y="66" width="12" height="34" transform="rotate(-18 118 100)" fill="#c9544a" fill-opacity="0.7" stroke="#c9544a" stroke-width="0.8"/>
+      <g fill="#c9a96b" fill-opacity="0.55" stroke="#8a7340" stroke-width="0.8">
+        <rect x="158" y="62" width="12" height="38"/>
+        <rect x="204" y="62" width="12" height="38"/>
+        <rect x="250" y="62" width="12" height="38"/>
+        <rect x="296" y="62" width="12" height="38"/>
+        <rect x="342" y="62" width="12" height="38"/>
+      </g>
+      <text x="55" y="118" font-size="9" fill="#1e3a5f" text-anchor="middle">P(0) true</text>
+      <text x="255" y="52" font-size="9.5" fill="#3a6088" text-anchor="middle" font-style="italic">P(k) ⟹ P(k+1): each knocks over the next</text>
+      <text x="360" y="52" font-size="11" fill="#8a7340">…∞</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Definition</div>
+    <div class="formula-box">$$\big[P(0)\ \wedge\ \forall k\,(P(k)\Rightarrow P(k{+}1))\big]\ \Rightarrow\ \forall n\,P(n)$$</div>
+    <p>$P(n)$ is a statement about the natural number $n$. The <strong>base case</strong> proves $P(0)$; the <strong>inductive step</strong> assumes $P(k)$ (the <em>inductive hypothesis</em>) and derives $P(k{+}1)$. With both, $P(n)$ holds for all $n$. Note the hypothesis isn't "secretly assuming what you want to prove"—you assume "some domino falls" and prove "it knocks over the next," which is propagation, not the conclusion itself.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It's Beautiful</div>
+    <p>Induction reveals something profound: <strong>infinity need not be fought with infinite effort</strong>. A finite two-step argument covers infinitely many statements. Deeper still, it isn't a mere "trick"—in the Peano axioms, the induction principle <em>is</em> part of the very definition of the natural numbers. "Why can naturals be inducted on" is not a theorem but a stipulation: we call something a natural number precisely when it satisfies induction. Induction and the naturals are two faces of one thing. Its variants—<em>strong induction</em> (assume $P(0),\dots,P(k)$) and <em>structural induction</em> (over trees, expressions)—generalize the same spirit.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Induction is the workhorse of proof in computer science. Proving a <strong>loop invariant</strong>—"some property still holds after each iteration"—is induction on the iteration count, and it's the heart of program-correctness proofs. The correctness of recursive algorithms (mergesort, fast exponentiation) rests on structural induction. Type-system soundness, order-preserving compiler optimizations, and the safety proofs of distributed protocols are all induction at bottom. Any software guarantee that "holds for every size" has induction standing behind it.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence</div>
+    <div class="essence">Induction folds "verify the infinite" into "prove a starting point + an unbreakable chain."</div>
+    <div class="think">Question: the famous fake proof that "all horses are the same color" uses induction to reach an absurd conclusion. Where do its base case and inductive step quietly collapse? (Hint: think about the step from $k=1$ to $k=2$.)</div>
+  </div>
+</div>
+
+<!-- Concept 2: Recursion -->
+<div class="card">
+  <h2>Recursion &amp; Recurrence</h2>
+  <div class="en-name">Defining a problem in terms of itself</div>
+  <span class="tag">Algorithms</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>A Russian nesting doll: open one and inside is a smaller, identical doll, until the innermost is too small to open. Recursion has this shape—<strong>to solve a big problem, first solve a smaller instance of the same problem</strong>, shrinking layer by layer until you reach a smallest case whose answer is obvious (the base case).<br><br>If induction is "climbing up in proof" (from $k$ to $k{+}1$), recursion is "drilling down in computation" (reducing $n$ to $n{-}1$). <em>They are two faces of one coin</em>: induction guarantees recursion terminates and is correct; recursion is induction incarnate in the computational world.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Definition</div>
+    <div class="formula-box">$$F(n)=F(n{-}1)+F(n{-}2),\qquad F(0)=0,\ F(1)=1$$</div>
+    <p>A <strong>recurrence relation</strong> defines the current term from smaller terms, plus <em>initial conditions</em> (base cases) that anchor the chain to the ground. Above is the Fibonacci sequence—strip the initial conditions and it's just a dangling rule; supply $F(0),F(1)$ and the whole sequence is uniquely pinned down. A recursive function translates this definition directly into code: the function calls itself, stopping at the base case.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 170" xmlns="http://www.w3.org/2000/svg">
+      <g font-size="10" fill="#1e3a5f" text-anchor="middle">
+      <line x1="190" y1="24" x2="110" y2="64" stroke="#3a6088" stroke-width="1"/>
+      <line x1="190" y1="24" x2="270" y2="64" stroke="#3a6088" stroke-width="1"/>
+      <line x1="110" y1="74" x2="60" y2="114" stroke="#3a6088" stroke-width="1"/>
+      <line x1="110" y1="74" x2="160" y2="114" stroke="#3a6088" stroke-width="1"/>
+      <line x1="270" y1="74" x2="230" y2="114" stroke="#3a6088" stroke-width="1"/>
+      <line x1="270" y1="74" x2="310" y2="114" stroke="#3a6088" stroke-width="1"/>
+      <line x1="60" y1="124" x2="30" y2="150" stroke="#3a6088" stroke-width="0.8"/>
+      <line x1="60" y1="124" x2="90" y2="150" stroke="#3a6088" stroke-width="0.8"/>
+      <circle cx="190" cy="18" r="14" fill="#e6ecf3" stroke="#1e3a5f"/><text x="190" y="22">F4</text>
+      <circle cx="110" cy="68" r="13" fill="#e6ecf3" stroke="#1e3a5f"/><text x="110" y="72">F3</text>
+      <circle cx="270" cy="68" r="13" fill="#fbeee2" stroke="#c9544a"/><text x="270" y="72" fill="#c9544a">F2</text>
+      <circle cx="60" cy="118" r="12" fill="#fbeee2" stroke="#c9544a"/><text x="60" y="122" fill="#c9544a">F2</text>
+      <circle cx="160" cy="118" r="12" fill="#f0f4f9" stroke="#8a9abe"/><text x="160" y="122" fill="#5a7090">F1</text>
+      <circle cx="230" cy="118" r="12" fill="#f0f4f9" stroke="#8a9abe"/><text x="230" y="122" fill="#5a7090">F1</text>
+      <circle cx="310" cy="118" r="12" fill="#f0f4f9" stroke="#8a9abe"/><text x="310" y="122" fill="#5a7090">F0</text>
+      <circle cx="30" cy="154" r="11" fill="#f0f4f9" stroke="#8a9abe"/><text x="30" y="158" fill="#5a7090">F1</text>
+      <circle cx="90" cy="154" r="11" fill="#f0f4f9" stroke="#8a9abe"/><text x="90" y="158" fill="#5a7090">F0</text>
+      </g>
+      <text x="345" y="70" font-size="9" fill="#c9544a" font-style="italic" text-anchor="middle">F2</text>
+      <text x="345" y="82" font-size="9" fill="#c9544a" font-style="italic" text-anchor="middle">recomputed</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It's Beautiful</div>
+    <p>One recurrence can wear startlingly different faces. Fibonacci's recurrence is the plainest addition, yet its <strong>closed form</strong> is $F(n)=\frac{\varphi^n-\psi^n}{\sqrt5}$, where $\varphi=\frac{1+\sqrt5}{2}$ is exactly the golden ratio—a formula full of irrationals and powers that spits out an integer every time. Why does a rule about adding integers secretly harbor the golden ratio? Because the recurrence corresponds to a characteristic equation $x^2=x+1$, whose root is $\varphi$. <em>A recurrence's "growth gene" is written in the roots of its characteristic equation</em>—a hidden bridge between the discrete world and algebra, and continuous growth rates.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Divide-and-conquer algorithms (mergesort, quicksort, FFT) "split the problem in half, recurse on each, then merge," with running time described by the recurrence $T(n)=2T(n/2)+O(n)$, solved at a glance to $O(n\log n)$ by the <strong>Master Theorem</strong>. <em>Dynamic programming</em> is essentially "recursion with overlapping subproblems"—above, $F2$ is recomputed; memoization (storing what's been computed) cuts exponential repetition down to linear. Parsing, fractal generation, recurrent neural networks, and the entire functional programming paradigm are all built on recursion.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence</div>
+    <div class="essence">Recursion = defining a problem in terms of itself; recursion computes downward, induction proves upward—one and the same.</div>
+    <div class="think">Question: naive recursive Fibonacci is exponential time; adding one line of "memoization" makes it linear. What exactly was saved? (Hint: count how many nodes in the recursion tree are duplicates.)</div>
+  </div>
+</div>
+
+<!-- Concept 3: Big-O -->
+<div class="card">
+  <h2>Asymptotic Complexity (Big-O)</h2>
+  <div class="en-name">Measuring "the fate of scaling"</div>
+  <span class="tag">Complexity</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>You wrote a program; one run takes 3 milliseconds—that number is nearly useless. Switch machines or compilers and it changes. The question that decides fate is: <strong>when the data doubles, how does the time change?</strong> Double? Quadruple? Stay put? Big-O notation drops all constants and lower-order terms, keeping only the "shape of growth," because when data is large enough, <em>only the growth rate is destiny; constants are just noise</em>.<br><br>A slow $O(n)$ algorithm on a slow machine will, in the long run, crush a clever $O(n^2)$ one on a fast machine—as long as $n$ is big enough. Big-O measures not "how fast right now" but "will it hit a wall when it scales."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Definition</div>
+    <div class="formula-box">$$f(n)=O(g(n))\iff \exists\,c>0,\ n_0,\ \forall n>n_0:\ f(n)\le c\,g(n)$$</div>
+    <p>Read: once $n$ exceeds some threshold $n_0$, $f$ is forever pinned below some constant multiple $c\,g(n)$ of $g$. The $c$ absorbs all hardware and constant-factor differences; $n_0$ says "we only care about sufficiently large scales." So $3n^2+100n+5 = O(n^2)$—the lower-order $100n$ and constant $5$ are drowned out for large $n$. Big-O is a pair of glasses that sees only the trend, never the detail.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 190" xmlns="http://www.w3.org/2000/svg">
+      <line x1="40" y1="160" x2="360" y2="160" stroke="#aaa" stroke-width="0.8"/>
+      <line x1="40" y1="20" x2="40" y2="160" stroke="#aaa" stroke-width="0.8"/>
+      <text x="352" y="176" font-size="10" fill="#666">n</text>
+      <text x="12" y="26" font-size="10" fill="#666">time</text>
+      <path d="M 40 160 Q 120 128 360 118" fill="none" stroke="#7a9a6a" stroke-width="1.8"/>
+      <text x="300" y="112" font-size="10" fill="#5a7a4a">O(log n)</text>
+      <path d="M 40 160 L 360 96" fill="none" stroke="#3a6088" stroke-width="1.8"/>
+      <text x="300" y="90" font-size="10" fill="#3a6088">O(n)</text>
+      <path d="M 40 160 Q 200 120 340 60" fill="none" stroke="#c9a96b" stroke-width="1.8"/>
+      <text x="300" y="56" font-size="10" fill="#8a7340">O(n log n)</text>
+      <path d="M 40 160 Q 180 150 250 30" fill="none" stroke="#c9544a" stroke-width="1.8"/>
+      <text x="200" y="40" font-size="10" fill="#c9544a">O(n²)</text>
+      <path d="M 40 160 Q 100 158 120 24" fill="none" stroke="#8a3a8a" stroke-width="1.8"/>
+      <text x="126" y="34" font-size="10" fill="#8a3a8a">O(2ⁿ)</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It's Beautiful</div>
+    <p>Big-O lifts algorithms out of machine, language, and era, making them purely comparable mathematical objects. Its most striking feature: <strong>different O's are not "a bit faster or slower" but a chasm between "feasible and infeasible"</strong>. $O(n)$ vs $O(n^2)$ differ by a factor of a million at $n=10^6$; $O(n)$ vs $O(2^n)$ exceeds the number of atoms in the universe. This "polynomial vs exponential" divide is the heart of theoretical computer science's deepest open problem, <em>P vs NP</em>—some problems we can <em>verify</em> an answer to, yet seem unable to <em>quickly find</em> one. A single notation carves out the boundary of "what computation can do."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Why do databases build indexes? To drop lookup from an $O(n)$ full-table scan to an $O(\log n)$ B-tree—the larger the data, the more fatal the gap. Hash tables support nearly every system with $O(1)$ average lookup. The most vivid current example is large models: the self-attention in a Transformer is $O(n^2)$ (each token attends to all tokens), which is precisely the long-context bottleneck—the entire motivation behind <strong>FlashAttention, linear attention, and state-space models</strong> is to bring that $n^2$ down. Big-O isn't an academic concept; it decides daily whether context can go from 8K to a million.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence</div>
+    <div class="essence">Big-O measures "the fate of scaling," not "current speed"—growth rate is what wins the long race.</div>
+    <div class="think">Question: any sorting algorithm based on "pairwise comparison" cannot escape the $O(n\log n)$ lower bound. Why? (Hint: $n$ elements have $n!$ permutations, and each comparison halves the possibilities at most.)</div>
+  </div>
+</div>
+
+<!-- Concept 4: Discrete Probability -->
+<div class="card">
+  <h2>Discrete Probability</h2>
+  <div class="en-name">Uncertainty that can be counted</div>
+  <span class="tag">Probability</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Continuous probability is "measuring area"; discrete probability is "counting." List every possible outcome (the sample space), and if each is equally likely, the probability of an event is simply <strong>the number of favorable outcomes ÷ the total number of outcomes</strong>. Roll an even number on a die? $3/6$. Draw a heart from a deck? $13/52$. Probability here collapses into pure combinatorial counting—<em>if you can count, you can compute the probability</em>.<br><br>For this reason, discrete probability and combinatorics are conjoined twins: the hard part of computing a probability is usually not the probability itself but "counting the favorable cases cleanly, with no double-counting and no omissions."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Definition</div>
+    <div class="formula-box">$$P(A)=\frac{|A|}{|\Omega|}\ \text{(classical)},\qquad \mathbb{E}[X]=\sum_{x} x\cdot P(X{=}x)$$</div>
+    <p>$\Omega$ is the sample space (the set of all outcomes), $A\subseteq\Omega$ is an event, and $|A|$ is the number of outcomes it contains. When outcomes are equally likely, probability is a ratio of two counts. The <strong>expectation</strong> $\mathbb{E}[X]$ is the "weighted average" of the random variable $X$—each value times its probability, summed—representing "how much you get on average in the long run." It is the single most useful number in discrete probability.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It's Beautiful</div>
+    <p>Discrete probability's most elegant weapon is <strong>linearity of expectation</strong>: $\mathbb{E}[X+Y]=\mathbb{E}[X]+\mathbb{E}[Y]$, <em>whether or not $X$ and $Y$ are independent</em>. This looks bland but is astonishingly powerful—many problems that seem to entangle all the correlations, once decomposed into a sum of simple random variables whose expectations are computed separately and added, yield their answer instantly. For instance, "in a shuffled deck, how many cards on average land in their original position": computing it directly means facing complex correlations; by linearity, the answer is cleanly $1$. Breaking uncertainty into blocks you can count one by one and add up—that is the core beauty of discrete probability.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Randomization is the secret weapon of modern algorithms: randomized quicksort uses a "random pivot" to make the worst case almost impossible; <strong>hashing</strong> achieves load balancing through random distribution; probabilistic data structures like the <em>Bloom filter</em> trade a small, controllable error rate for enormous space savings. Machine learning trains via random sampling (mini-batches, dropout), and the "temperature" in large-model generation is precisely sampling from the discrete probability distribution over the next token. Anywhere a decision must be made under uncertainty, discrete probability is holding it up.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence</div>
+    <div class="essence">Discrete probability = uncertainty that can be counted; breaking randomness into addable blocks is its sharpest blade.</div>
+    <div class="think">Question: with just 23 people in a room, there's over a 50% chance two share a birthday. Why is this number so counterintuitively small? (Hint: what matters isn't "you vs others" but "all pairs"—23 people form 253 pairs.)</div>
+  </div>
+</div>
+
+<!-- Deep Reflection -->
+<div class="deep">
+  <h2>Deep Reflection</h2>
+
+  <details>
+    <summary>What induction can prove—and what it can't. Where is the line?</summary>
+    <div>Induction works only on <em>well-ordered</em> structures—naturals, finite trees, countable recursive definitions. It fails for the reals: they have no "next number," so the inductive step is meaningless. This leads to transfinite induction and ordinals, which need the well-ordering theorem (equivalent to the axiom of choice) as a foundation. "How far can induction go" pushes us from elementary proof all the way down to the bedrock of set theory—linking directly to Day 11's infinity and Day 12's formalization.</div>
+  </details>
+
+  <details>
+    <summary>Recursion, induction, fixed points—three faces of one idea?</summary>
+    <div>A recursive definition ($F$ defined via $F$) is mathematically the search for a <em>fixed point</em>: the $F$ satisfying $F=\Phi(F)$; induction guarantees it exists and is unique. The Y combinator of lambda calculus and the Knaster–Tarski fixed-point theorem all speak of "how self-reference is tamed into a well-defined object." And when self-reference runs wild, the same structure becomes Russell's paradox and Gödel's sentence—used well it's recursion, used dangerously it's paradox.</div>
+  </details>
+
+  <details>
+    <summary>Why is "polynomial time" treated as the boundary of "efficient"?</summary>
+    <div>It's a convention, yet extraordinarily robust: polynomial time is closed under composition and doesn't depend on the specific computational model (Turing machines and RAMs simulate each other with only polynomial overhead)—the Cobham–Edmonds thesis; exponential time explodes at the slightest touch. P vs NP asks exactly: if a problem is easy to verify, is it also easy to solve? Most believe $P\neq NP$, yet no one can prove it—the most important open problem of our era, with a million-dollar bounty.</div>
+  </details>
+
+  <details>
+    <summary>Discrete or continuous—which is more fundamental?</summary>
+    <div>The physical world looks continuous (spacetime, fields), but quantum mechanics says energy levels are discrete, information theory says information comes in bits, and computation must be discrete—a Turing machine manipulates only finite symbols. Discrete mathematics and calculus (Day 3) are like two languages describing the same reality: differences to derivatives, sums to integrals, recurrences to differential equations. That very duality is itself a deep mystery.</div>
+  </details>
+</div>
+
+<nav class="bottom">
+  <a href="index.en.html">← Back to Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>
