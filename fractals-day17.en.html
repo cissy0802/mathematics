@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fractals &amp; Self-Similarity · Day 17 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.essence{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.98rem;color:#1e3a5f;margin-top:6px;border-left:3px solid #1e3a5f}
+.think{background:#fbfaf3;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#3d3520;margin-top:10px;border-left:3px solid #c9a96b;font-style:italic}
+details{background:#fff;border-radius:8px;padding:6px 22px;margin-bottom:12px;box-shadow:0 2px 14px rgba(30,58,95,0.07)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;padding:12px 0;font-size:1rem}
+details div{padding:0 0 14px;color:#2a3548;font-size:0.96rem}
+.deep-title{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 18px;text-align:center;font-style:italic}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 17 · 2026.07.09</div>
+  <h1>Fractals &amp; Self-Similarity</h1>
+  <div class="meta">Inside the infinite folds hides the simplest of rules</div>
+  <div class="epigraph">"Clouds are not spheres, mountains are not cones, coastlines are not circles." — Benoît Mandelbrot</div>
+</header>
+
+<!-- Concept 1: Self-Similarity -->
+<div class="card">
+  <h2>Self-Similarity</h2>
+  <div class="en-name">The part is a miniature of the whole</div>
+  <span class="tag">Geometry</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Break off a small floret of cauliflower and it looks like a shrunken whole cauliflower; break off a smaller piece and it still does. <strong>Zoom into a part, and you see the whole again</strong> — that is self-similarity.<br><br>Underneath is a <em>recursive rule</em>: take a segment, push its middle third into a triangular spike to get 4 segments; do the same to each of those; after infinitely many steps you get the Koch curve — unfinishable, spiky everywhere. The rule fits in one sentence, yet the result is too intricate to write down as a formula for its coordinates. <strong>That is the central tension of fractals: a minimal generating rule, infinite visual detail.</strong></p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(20,10)">
+        <text x="120" y="4" font-size="10" fill="#3a6088" text-anchor="middle" font-style="italic">n=0</text>
+        <polyline points="0.0,30.0 240.0,30.0" fill="none" stroke="#1e3a5f" stroke-width="1.6"/>
+      </g>
+      <g transform="translate(20,75)">
+        <text x="120" y="4" font-size="10" fill="#3a6088" text-anchor="middle" font-style="italic">n=1 · one segment becomes four</text>
+        <polyline points="0.0,30.0 80.0,30.0 120.0,-39.3 160.0,30.0 240.0,30.0" fill="none" stroke="#1e3a5f" stroke-width="1.6"/>
+      </g>
+      <g transform="translate(20,145)">
+        <text x="120" y="4" font-size="10" fill="#3a6088" text-anchor="middle" font-style="italic">n=2 · each segment repeats</text>
+        <polyline points="0.0,30.0 26.7,30.0 40.0,6.9 53.3,30.0 80.0,30.0 93.3,6.9 80.0,-16.2 106.7,-16.2 120.0,-39.3 133.3,-16.2 160.0,-16.2 146.7,6.9 160.0,30.0 186.7,30.0 200.0,6.9 213.3,30.0 240.0,30.0" fill="none" stroke="#c9544a" stroke-width="1.4"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>A self-similar set $F$ is the union of several shrunken copies of itself: $F = \bigcup_{i=1}^{N} S_i(F)$, where each $S_i$ is a <strong>contraction map</strong> that scales the whole by a ratio $r$ (then rotates and translates). This family of maps is an <em>iterated function system</em> (IFS). The Koch curve has $N=4$, $r=1/3$; iterating the maps from <em>any</em> starting shape converges to the same $F$ — the seed is irrelevant.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>Self-similarity inverts the relationship between "complex" and "simple." We assume complex things need complex descriptions, yet the Koch curve shows: <strong>infinite complexity can be compressed into a few lines of rule.</strong> The information lives not in the details but in the <em>process that generates them</em>. This is exactly how DNA grows a tree with billions of leaves from tens of thousands of genes — it stores not each leaf's coordinates, but the recursive rule for how to branch.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p><strong>Computer graphics</strong> uses IFS and L-systems to generate realistic mountains, clouds, and plants in a few lines (the digital landscapes of <em>The Lord of the Rings</em>). <strong>Fractal compression</strong> asks the reverse: can this image be expressed as a set of contraction maps? If so, store a high-res texture with very few parameters. <strong>Procedural generation</strong> (the planets of <em>No Man's Sky</em>) is likewise "rule as content" — store the seed and rule, not the map.</p>
+  </div>
+
+  <div class="essence">In one line: a fractal stores not the details but the <strong>rule that generates them</strong> — complexity is a product of process, not a pile of data.</div>
+  <div class="think">Question: if a gene has only tens of thousands of "letters" yet a tree has billions of structural details, where does the extra information come from? Is a recursive rule nature's "lossless compression algorithm"?</div>
+</div>
+
+<!-- Concept 2: Fractal Dimension -->
+<div class="card">
+  <h2>Fractal Dimension &amp; the Coastline Paradox</h2>
+  <div class="en-name">Dimension can be a fraction</div>
+  <span class="tag">Dimension</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>How long is Britain's coastline? Measure with a 100 km ruler and you erase every bay; switch to a 10 km ruler and the length <em>grows</em>; 1 km, 1 m... the shorter the ruler, the longer the measurement, and <strong>with no limit — it tends to infinity</strong>. That is the coastline paradox.<br><br>The trouble is we asked the wrong question. A coastline is not a curve of definite length; it is too crinkled, sitting between "a 1D line" and "a 2D surface." To describe it we need a new number: <strong>how "rough" it is, how much it fills space</strong> — its fractal dimension. A coastline's is about 1.25, denser than a straight line but not yet a filled plane.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#3a6088" fill-opacity="0.85" d="M 140,10 L 124,30 L 156,30 Z M 124,30 L 108,50 L 140,50 Z M 156,30 L 140,50 L 172,50 Z M 108,50 L 91,70 L 124,70 Z M 91,70 L 75,90 L 108,90 Z M 124,70 L 108,90 L 140,90 Z M 172,50 L 156,70 L 189,70 Z M 156,70 L 140,90 L 172,90 Z M 189,70 L 172,90 L 205,90 Z M 75,90 L 59,110 L 91,110 Z M 59,110 L 42,130 L 75,130 Z M 91,110 L 75,130 L 108,130 Z M 42,130 L 26,150 L 59,150 Z M 26,150 L 10,170 L 42,170 Z M 59,150 L 42,170 L 75,170 Z M 108,130 L 91,150 L 124,150 Z M 91,150 L 75,170 L 108,170 Z M 124,150 L 108,170 L 140,170 Z M 205,90 L 189,110 L 221,110 Z M 189,110 L 172,130 L 205,130 Z M 221,110 L 205,130 L 238,130 Z M 172,130 L 156,150 L 189,150 Z M 156,150 L 140,170 L 172,170 Z M 189,150 L 172,170 L 205,170 Z M 238,130 L 221,150 L 254,150 Z M 221,150 L 205,170 L 238,170 Z M 254,150 L 238,170 L 270,170 Z"/>
+      <text x="285" y="105" font-size="10.5" fill="#c9544a" font-style="italic" text-anchor="end">3 half-size copies</text>
+      <text x="285" y="122" font-size="10.5" fill="#c9544a" font-style="italic" text-anchor="end">D = log3/log2</text>
+      <text x="285" y="139" font-size="10.5" fill="#c9544a" font-style="italic" text-anchor="end">≈ 1.585</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>Cover the shape with boxes of side $r$; count how many, $N(r)$, you need. If $N(r) \sim (1/r)^D$, then $D$ is the <strong>box-counting dimension</strong>: $$D = \lim_{r\to 0}\frac{\log N(r)}{\log(1/r)}$$ Intuition: halve a square's side and you need $4=2^2$ copies to cover it, so $D=2$; halve the Sierpinski triangle and you need only $3$, so $D=\log 3/\log 2\approx 1.585$ — a <em>fractional dimension</em>. Larger $D$ means rougher, more tightly packed into its ambient space.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>We were taught since childhood that dimension is a whole number: point 0, line 1, surface 2, solid 3. Fractal dimension shatters that intuition — <strong>dimension is a continuous quantity that can take fractional values</strong>. It measures not "how many directions" but "how efficiently space is filled." In 1975 Mandelbrot coined "fractal" from the Latin <em>fractus</em> (broken), precisely to name these "broken-dimension" objects. One word gave a whole class of once-"pathological monsters" a unified name and a measure.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Fractal dimension is a universal yardstick for "roughness": <strong>medicine</strong> uses it to distinguish benign from malignant tumor borders and to gauge retinal-vessel health; <strong>materials science</strong> characterizes fracture surfaces and porous media; <strong>signal processing</strong> describes the self-similar structure of financial volatility and physiological time series. A <strong>fractal antenna</strong> folds wire into a fractal to pack multi-band effective length into a tiny volume — there's one in your phone.</p>
+  </div>
+
+  <div class="essence">In one line: dimension is not "how many axes" but <strong>"how efficiently space is filled"</strong> — and it can, and should, be fractional.</div>
+  <div class="think">Question: a coastline has "infinite length" yet encloses "finite area." Is this the same wisdom that tamed infinity in Day 3 ("infinitely many rectangles sum to a finite value"), or its mirror image?</div>
+</div>
+
+<!-- Concept 3: Mandelbrot Set -->
+<div class="card">
+  <h2>The Mandelbrot Set</h2>
+  <div class="en-name">An infinite universe inside one quadratic</div>
+  <span class="tag">Complex Dynamics</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Pick a point $c$ in the complex plane and, starting from $0$, do one dead-simple thing over and over: <em>square, add $c$; square, add $c$...</em> For some $c$ the numbers blow up toward infinity; for others they stay put, orbiting quietly. <strong>Color black every $c$ that does not escape, and you get the Mandelbrot set</strong> — that famous beetle-like, Buddha-head-like black figure.<br><br>The marvel is its boundary: zoom in without limit and you find tiny beetle copies, spirals, lightning, seahorse tails... detail that never runs dry, <em>similar yet never exactly repeating</em>. All of it from $z\to z^2+c$, a formula a schoolchild understands.</p>
+  </div>
+
+  <div class="formula-box">$$z_0 = 0,\quad z_{n+1} = z_n^2 + c,\qquad M = \{\,c\in\mathbb{C} : |z_n| \not\to\infty\,\}$$</div>
+
+  <div class="viz">
+    <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+      <line x1="10" y1="100" x2="290" y2="100" stroke="#ccc" stroke-width="0.6"/>
+      <line x1="205" y1="15" x2="205" y2="185" stroke="#ccc" stroke-width="0.6"/>
+      <path fill="#1e3a5f" d="M 205,100
+        C 205,72 190,55 165,55 C 135,55 108,68 92,80
+        C 70,64 58,74 58,90 C 40,86 28,96 28,100
+        C 28,104 40,114 58,110 C 58,126 70,136 92,120
+        C 108,132 135,145 165,145 C 190,145 205,128 205,100 Z"/>
+      <circle cx="235" cy="100" r="20" fill="#1e3a5f"/>
+      <circle cx="261" cy="100" r="8" fill="#1e3a5f"/>
+      <text x="180" y="182" font-size="10" fill="#c9544a" font-style="italic">boundary dimension = 2</text>
+      <text x="20" y="30" font-size="10" fill="#5a7090" font-style="italic">Im</text>
+      <text x="282" y="94" font-size="10" fill="#5a7090" font-style="italic">Re</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>$M$ is the set of complex parameters $c$ for which the iteration $\{z_n\}$ stays bounded. One can prove that once any step has $|z_n|>2$, the sequence must escape — giving a computer its test (in fractal images, color encodes "how many steps until escape"). $M$ is tightly linked to the <em>Julia set</em> of each $c$: if $c$ is inside $M$, its Julia set is connected; if outside, the Julia set shatters into dust. $M$ is a "catalog of all Julia sets."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>It is the most stunning specimen of "simple rule, complex emergence." Its boundary has fractal dimension <strong>2</strong> — a curve so rough it nearly fills the plane. Deeper still is its <em>universality</em>: the arrangement of the set's buds encodes the <strong>Feigenbaum constant</strong> and period-doubling — the very route to chaos taken by the logistic map in Day 16. <strong>Utterly different dynamical systems obey the same numbers on their road to chaos.</strong> This hints at a universal, detail-independent order beneath chaos.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>It teaches one thing crucial to engineering: <strong>unpredictable, complex behavior can arise from deterministic, terse rules</strong> — the shared philosophy of cellular automata, neural-network emergence, and cryptographic hashing. Stability analysis of complex dynamical systems informs the <strong>convergence of iterative algorithms</strong>; and "escape-time" coloring was one of the earliest forms of algorithmic generative art.</p>
+  </div>
+
+  <div class="essence">In one line: $z^2+c$ is math's sharpest contrast — <strong>one line of formula, one infinitely complex, dimension-2, never-repeating universe</strong>.</div>
+  <div class="think">Question: where is the Mandelbrot set's information "stored"? The formula has a handful of symbols, yet the image needs infinite pixels to exhaust. Is that complexity "created," or does it already "exist" and we merely discover it?</div>
+</div>
+
+<!-- Concept 4: Fractals in Nature -->
+<div class="card">
+  <h2>Fractals in Nature &amp; Scaling Laws</h2>
+  <div class="en-name">The geometry evolution keeps choosing</div>
+  <span class="tag">Applied · Nature</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Lungs, blood vessels, river networks, lightning, trees, neurons, cauliflower — they all <strong>branch, branch, and branch again</strong>. No coincidence. When life must "pack the largest exchange surface into a finite volume" or "deliver matter to every corner," fractals are almost the only solution: your lungs hold a few liters, yet their unfolded surface spans most of a tennis court.<br><br>Nature's fractals aren't mathematically exact repeats but <em>statistically self-similar</em> — zoom into a branch and it "resembles" but does not "equal" the whole tree. The key feature: <strong>no characteristic scale</strong>. From a photo alone you can't tell whether it's meters or centimeters across.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#3a6088" stroke-width="1.6" fill="none" stroke-linecap="round">
+        <line x1="150" y1="185" x2="150" y2="135"/>
+        <line x1="150" y1="135" x2="115" y2="105"/>
+        <line x1="150" y1="135" x2="185" y2="105"/>
+        <g stroke-width="1.2">
+        <line x1="115" y1="105" x2="92" y2="82"/>
+        <line x1="115" y1="105" x2="128" y2="78"/>
+        <line x1="185" y1="105" x2="172" y2="78"/>
+        <line x1="185" y1="105" x2="208" y2="82"/>
+        </g>
+        <g stroke-width="0.9">
+        <line x1="92" y1="82" x2="78" y2="66"/><line x1="92" y1="82" x2="98" y2="62"/>
+        <line x1="128" y1="78" x2="118" y2="60"/><line x1="128" y1="78" x2="140" y2="60"/>
+        <line x1="172" y1="78" x2="160" y2="60"/><line x1="172" y1="78" x2="182" y2="60"/>
+        <line x1="208" y1="82" x2="202" y2="62"/><line x1="208" y1="82" x2="222" y2="66"/>
+        </g>
+      </g>
+      <text x="150" y="30" font-size="10.5" fill="#5a7090" font-style="italic" text-anchor="middle">each level is a miniature of the one above</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>Statistical self-similarity is captured by a <strong>power law</strong>: a quantity $N$ scales with scale $s$ as $N(s) \sim s^{-D}$. Plotted on log-log axes this is <em>a straight line</em> whose slope is the fractal dimension — the standard way to detect natural fractals. A power law means <strong>scale-free</strong>: there is no typical size; small events are abundant, large ones rare but not negligible (earthquakes, word frequencies, city sizes all obey this).</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>Unrelated systems — a body's vasculature, a landscape's rivers, physics' lightning — are unified by the same geometric law. Each evolved on its own, yet <strong>independently converged on the same answer</strong>, because they face the same optimization problem: fill space with the least material. Deeper still, fractals often appear at a system's <em>critical point</em> (the edge of a phase transition), linking them to <strong>self-organized criticality</strong> and the idea of complex systems "at the edge of chaos" — at the border of order and randomness, fractals grow.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>West &amp; Brown's <strong>metabolic scaling law</strong> uses fractal supply networks to explain Kleiber's law: metabolic rate $\propto$ body mass to the $3/4$ power, spanning 27 orders of magnitude from bacteria to blue whales. Mandelbrot rebuilt <strong>financial markets</strong> with fractals — real volatility is far more "fat-tailed" than Gaussian models allow. In engineering, fractal <strong>heat exchangers and microfluidics</strong> mimic lungs and vessels for uniform, efficient transport.</p>
+  </div>
+
+  <div class="essence">In one line: a fractal is the optimal geometry for "filling infinity with the finite" — so <strong>evolution, geology, and physics each evolve yet arrive at the same shape</strong>.</div>
+  <div class="think">Question: if fractals are the optimal way to "fill space," why are our bones and crystals regular rather than fractal? What constraints make nature "choose" a fractal, and what make it "refuse" one?</div>
+</div>
+
+<div class="deep-title">— Deeper Reflections —</div>
+
+<details><summary>How do fractal dimension, topological dimension, and "measure" relate?</summary>
+<div>The Koch curve has topological dimension 1 (it is still a curve — remove one point and it splits), but a fractal (Hausdorff) dimension of about 1.26. Mandelbrot defined a "fractal" precisely as a set whose Hausdorff dimension <em>strictly exceeds</em> its topological dimension. Behind this lies the measure theory of Day 21: on the Koch curve, one-dimensional length (Lebesgue measure) is infinite and two-dimensional area is zero; only under the $1.26$-dimensional Hausdorff measure does its "size" come out finite and nonzero. Dimension is essentially "which ruler gives neither zero nor infinity."</div></details>
+
+<details><summary>Why are power laws (scale-free distributions) so ubiquitous in complex systems?</summary>
+<div>A power law is the only "scale-free" distribution: replace $x$ with $2x$ and the shape is unchanged up to a constant — the statistical version of self-similarity. Many mechanisms generate it: preferential attachment (rich-get-richer, explaining network degree and city sizes), self-organized criticality (sandpile models, the Gutenberg–Richter law of earthquakes), multiplicative processes. The common thread is <strong>no single characteristic scale to flatten fluctuations</strong>. But beware: "looks like a straight line on log axes" is often misjudged as a power law — the log-normal looks similar too, a classic case from the Day 34 statistics pitfalls.</div></details>
+
+<details><summary>What does the Mandelbrot boundary's dimension being 2 mean?</summary>
+<div>In 1991 Mitsuhiro Shishikura proved the Hausdorff dimension of $M$'s boundary is exactly 2 — though it is a "curve," it is rough enough to share the dimension of the whole plane. This is an extreme case of "measure zero yet full dimension": the boundary has zero area, yet folds everywhere. It also reminds us that connectedness, rectifiability, and dimension are three independent concepts. A line can be connected, dimension 2, yet infinitely long — the intuition that "a line is thin" fails completely in the fractal world.</div></details>
+
+<details><summary>Are fractals and the chaos of Day 16 the same thing?</summary>
+<div>Two faces of one coin. Chaos is about behavior in <em>time</em>: orbits sensitive to initial conditions, unpredictable in the long run. Fractals are about <em>spatial/geometric</em> structure. The two meet at the "strange attractor" — the Lorenz attractor is a fractal in phase space (dimension about 2.06). A chaotic system's attractor is almost always a fractal, because stretch-and-fold dynamics knead phase space into an infinitely layered pastry. The Mandelbrot set is the reverse: it is a map in "parameter space" dividing chaos from stability.</div></details>
+
+<details><summary>Do AI and fractals genuinely intersect?</summary>
+<div>In a few places. First, the multi-scale feature extraction of convolutional networks fits the hierarchical self-similarity of fractals naturally, and fractal dimension is used as a texture feature. Second, diffusion models learn to denoise across scales, essentially a multi-scale, near-self-similar generative process. More speculatively: a language model that "compresses" the whole internet into billions of parameters and a fractal that "compresses infinite detail into a few rules" share one belief — <strong>complexity can be captured by a generating rule rather than stored item by item</strong>.</div></details>
+
+<nav class="bottom">
+  <a href="index.en.html">← Back to Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>

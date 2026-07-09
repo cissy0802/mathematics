@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>分形与自相似 · Day 17 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.essence{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.98rem;color:#1e3a5f;margin-top:6px;border-left:3px solid #1e3a5f}
+.think{background:#fbfaf3;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#3d3520;margin-top:10px;border-left:3px solid #c9a96b;font-style:italic}
+details{background:#fff;border-radius:8px;padding:6px 22px;margin-bottom:12px;box-shadow:0 2px 14px rgba(30,58,95,0.07)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;padding:12px 0;font-size:1rem}
+details div{padding:0 0 14px;color:#2a3548;font-size:0.96rem}
+.deep-title{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 18px;text-align:center;font-style:italic}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 17 · 2026.07.09</div>
+  <h1>分形与自相似</h1>
+  <div class="meta">Fractals &amp; Self-Similarity — 在无穷的褶皱里，藏着最简单的规则</div>
+  <div class="epigraph">"Clouds are not spheres, mountains are not cones, coastlines are not circles." — Benoît Mandelbrot</div>
+</header>
+
+<!-- 概念 1：自相似 -->
+<div class="card">
+  <h2>自相似</h2>
+  <div class="en-name">Self-Similarity · 部分是整体的缩影</div>
+  <span class="tag">Geometry</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>掰下一小段花椰菜，它看上去就是一整棵花椰菜的缩小版；再掰下更小的一段，还是。<strong>放大一部分，看到的是整体本身</strong>——这就是自相似。<br><br>它背后是一条<em>递归规则</em>：拿一条线段，把中间三分之一顶成一个三角尖，得到 4 段；对这 4 段各做同样的事；无穷次之后，你得到永远画不完、处处是尖角的科赫曲线。规则一句话就能说清，产物却复杂到无法用一个公式写出坐标。<strong>分形的核心张力就在这里：极简的生成规则，无穷的视觉细节。</strong></p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(20,10)">
+        <text x="120" y="4" font-size="10" fill="#3a6088" text-anchor="middle" font-style="italic">n=0</text>
+        <polyline points="0.0,30.0 240.0,30.0" fill="none" stroke="#1e3a5f" stroke-width="1.6"/>
+      </g>
+      <g transform="translate(20,75)">
+        <text x="120" y="4" font-size="10" fill="#3a6088" text-anchor="middle" font-style="italic">n=1 · 一段变四段</text>
+        <polyline points="0.0,30.0 80.0,30.0 120.0,-39.3 160.0,30.0 240.0,30.0" fill="none" stroke="#1e3a5f" stroke-width="1.6"/>
+      </g>
+      <g transform="translate(20,145)">
+        <text x="120" y="4" font-size="10" fill="#3a6088" text-anchor="middle" font-style="italic">n=2 · 每段再重复</text>
+        <polyline points="0.0,30.0 26.7,30.0 40.0,6.9 53.3,30.0 80.0,30.0 93.3,6.9 80.0,-16.2 106.7,-16.2 120.0,-39.3 133.3,-16.2 160.0,-16.2 146.7,6.9 160.0,30.0 186.7,30.0 200.0,6.9 213.3,30.0 240.0,30.0" fill="none" stroke="#c9544a" stroke-width="1.4"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>一个自相似集 $F$ 是它自身若干个缩小副本的并：$F = \bigcup_{i=1}^{N} S_i(F)$，其中每个 $S_i$ 是把整体按比例 $r$ 缩小（再旋转、平移）的<strong>压缩映射</strong>。这组映射叫<em>迭代函数系统</em>（IFS）。科赫曲线是 $N=4$、$r=1/3$；从任意起点反复套用这组映射，图形都会收敛到同一个 $F$——起点是什么根本无所谓。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>自相似把「复杂」和「简单」的关系彻底翻转了。我们习惯认为复杂的东西需要复杂的描述，但科赫曲线告诉你：<strong>无穷的复杂性可以被压缩进几行规则里。</strong>信息不在细节中，而在<em>生成细节的过程</em>中。这正是 DNA 用几万个基因长出一棵有亿万片叶子的树的道理——不存储每片叶子的坐标，只存储「如何分叉」的递归规则。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p><strong>计算机图形</strong>用 IFS 和 L-系统几行代码生成逼真的山脉、云、植物（《指环王》的数字地貌）。<strong>分形压缩</strong>反过来问：这张图像能否表示成一组压缩映射？能，就用极少参数存下高清纹理。<strong>程序化生成</strong>（游戏《No Man's Sky》的行星）同样是「规则即内容」——不存地图，存种子与规则。</p>
+  </div>
+
+  <div class="essence">一句话精华：分形不存储细节，只存储<strong>生成细节的规则</strong>——复杂性是过程的产物，不是数据的堆积。</div>
+  <div class="think">思考题：如果一段基因只有几万个「字」，一棵树却有亿万个结构细节，多出来的信息从哪里来？递归规则是否是自然界的「无损压缩算法」？</div>
+</div>
+
+<!-- 概念 2：分形维数 -->
+<div class="card">
+  <h2>分形维数 &amp; 海岸线悖论</h2>
+  <div class="en-name">Fractal Dimension · 维数可以是分数</div>
+  <span class="tag">Dimension</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>英国的海岸线有多长？用 100 公里的尺子量，你会抹掉所有海湾；换 10 公里的尺子，测出的长度<em>变长了</em>；1 公里、1 米……尺子越短，测出的长度越大，而且<strong>没有极限——趋向无穷</strong>。这就是海岸线悖论。<br><br>问题出在我们问错了。海岸线不是一条「有确定长度」的线，它太曲折，介于「1 维的线」和「2 维的面」之间。要刻画它，我们需要一个新数字：<strong>它到底有多「粗糙」、多能填满空间</strong>——这就是分形维数。海岸线的维数约 1.25，比直线更「密」，但还没铺满平面。</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#3a6088" fill-opacity="0.85" d="M 140,10 L 124,30 L 156,30 Z M 124,30 L 108,50 L 140,50 Z M 156,30 L 140,50 L 172,50 Z M 108,50 L 91,70 L 124,70 Z M 91,70 L 75,90 L 108,90 Z M 124,70 L 108,90 L 140,90 Z M 172,50 L 156,70 L 189,70 Z M 156,70 L 140,90 L 172,90 Z M 189,70 L 172,90 L 205,90 Z M 75,90 L 59,110 L 91,110 Z M 59,110 L 42,130 L 75,130 Z M 91,110 L 75,130 L 108,130 Z M 42,130 L 26,150 L 59,150 Z M 26,150 L 10,170 L 42,170 Z M 59,150 L 42,170 L 75,170 Z M 108,130 L 91,150 L 124,150 Z M 91,150 L 75,170 L 108,170 Z M 124,150 L 108,170 L 140,170 Z M 205,90 L 189,110 L 221,110 Z M 189,110 L 172,130 L 205,130 Z M 221,110 L 205,130 L 238,130 Z M 172,130 L 156,150 L 189,150 Z M 156,150 L 140,170 L 172,170 Z M 189,150 L 172,170 L 205,170 Z M 238,130 L 221,150 L 254,150 Z M 221,150 L 205,170 L 238,170 Z M 254,150 L 238,170 L 270,170 Z"/>
+      <text x="285" y="105" font-size="10.5" fill="#c9544a" font-style="italic" text-anchor="end">3 个半尺寸副本</text>
+      <text x="285" y="122" font-size="10.5" fill="#c9544a" font-style="italic" text-anchor="end">D = log3/log2</text>
+      <text x="285" y="139" font-size="10.5" fill="#c9544a" font-style="italic" text-anchor="end">≈ 1.585</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>用边长 $r$ 的小盒子去盖图形，数需要 $N(r)$ 个。若 $N(r) \sim (1/r)^D$，则 $D$ 就是<strong>盒计数维数</strong>：$$D = \lim_{r\to 0}\frac{\log N(r)}{\log(1/r)}$$ 直觉：正方形边长减半，要 $4=2^2$ 个副本盖住，故 $D=2$；西尔平斯基三角形减半却只要 $3$ 个，$D=\log 3/\log 2\approx 1.585$——<em>分数维数</em>。$D$ 越大，图形越粗糙、越「挤」进它所在的空间。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>我们从小被教育维数是整数：点 0、线 1、面 2、体 3。分形维数打破了这个直觉——<strong>维数是一个连续的、可以取分数的量</strong>。它衡量的不是「有几个方向」，而是「填空间的效率」。Mandelbrot 1975 年从拉丁文 <em>fractus</em>（破碎的）造出「fractal」这个词，正是为了命名这类「维数破碎」的对象。一个词，让一整类曾被视为「病态怪物」的几何体，第一次有了统一的名字与度量。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>分形维数是量化「粗糙度」的通用标尺：<strong>医学</strong>用它区分良性/恶性肿瘤的边界、视网膜血管的健康度；<strong>材料</strong>用它刻画断裂面与多孔介质；<strong>信号处理</strong>用它描述金融波动与生理时间序列的自相似结构。<strong>分形天线</strong>把导线折成分形，在极小体积里塞进多个波段的有效长度——你的手机里就有一根。</p>
+  </div>
+
+  <div class="essence">一句话精华：维数不是「有几个坐标轴」，而是<strong>「填满空间的效率」</strong>——它可以、也应该取分数。</div>
+  <div class="think">思考题：海岸线「长度无穷」却围出「有限面积」，这和 Day 3 里「无穷多矩形相加得有限值」是同一种驯服无穷的智慧吗？还是相反的一面？</div>
+</div>
+
+<!-- 概念 3：Mandelbrot 集 -->
+<div class="card">
+  <h2>Mandelbrot 集</h2>
+  <div class="en-name">The Mandelbrot Set · 一个二次式里的无限宇宙</div>
+  <span class="tag">Complex Dynamics</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>取复平面上一个点 $c$，从 $0$ 出发反复做一件极简单的事：<em>平方，加 $c$；平方，加 $c$……</em>。有些 $c$ 让这串数越滚越大、飞向无穷；有些却让它老实地待在原地打转。<strong>把所有「不逃逸」的 $c$ 涂黑，就是 Mandelbrot 集</strong>——那个著名的、像甲虫又像佛头的黑色图案。<br><br>神奇的是它的边界：无限放大，你会看到小小的甲虫复制品、螺旋、闪电、海马尾……细节永不枯竭，且<em>相似却从不完全重复</em>。这一切，都来自 $z\to z^2+c$ 这个连中学生都懂的公式。</p>
+  </div>
+
+  <div class="formula-box">$$z_0 = 0,\quad z_{n+1} = z_n^2 + c,\qquad M = \{\,c\in\mathbb{C} : |z_n| \not\to\infty\,\}$$</div>
+
+  <div class="viz">
+    <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+      <line x1="10" y1="100" x2="290" y2="100" stroke="#ccc" stroke-width="0.6"/>
+      <line x1="205" y1="15" x2="205" y2="185" stroke="#ccc" stroke-width="0.6"/>
+      <path fill="#1e3a5f" d="M 205,100
+        C 205,72 190,55 165,55 C 135,55 108,68 92,80
+        C 70,64 58,74 58,90 C 40,86 28,96 28,100
+        C 28,104 40,114 58,110 C 58,126 70,136 92,120
+        C 108,132 135,145 165,145 C 190,145 205,128 205,100 Z"/>
+      <circle cx="235" cy="100" r="20" fill="#1e3a5f"/>
+      <circle cx="261" cy="100" r="8" fill="#1e3a5f"/>
+      <text x="180" y="182" font-size="10" fill="#c9544a" font-style="italic">边界维数 = 2</text>
+      <text x="20" y="30" font-size="10" fill="#5a7090" font-style="italic">Im</text>
+      <text x="282" y="94" font-size="10" fill="#5a7090" font-style="italic">Re</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>$M$ 是所有让迭代序列 $\{z_n\}$ 保持有界的复参数 $c$ 的集合。可以证明：只要某一步 $|z_n|>2$，序列必然逃逸——这给了计算机一个判据（画分形图时，颜色代表「逃逸前迭代了多少步」）。$M$ 与每个 $c$ 对应的 <em>Julia 集</em>紧密相连：$c$ 在 $M$ 内，Julia 集连通；在外，Julia 集碎成尘埃。$M$ 是一部「所有 Julia 集的目录」。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>它是「简单规则、复杂涌现」最震撼的标本。边界的分形维数高达 <strong>2</strong>——一条曲线粗糙到几乎填满平面。更深的美在于<em>普适性</em>：Mandelbrot 集的芽苞排列，暗合了<strong>费根鲍姆常数</strong>与倍周期分岔——也就是 Day 16 里 Logistic 映射通往混沌的那条路。<strong>完全不同的动力系统，在通往混沌时竟服从同一套数字。</strong>这暗示混沌背后有普遍的、与细节无关的秩序。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>它教会我们一件对工程至关重要的事：<strong>不可预测的复杂行为可以从确定、简短的规则中生出</strong>——这正是元胞自动机、神经网络涌现、加密散列的共同哲学。复动力系统的稳定性分析被用于<strong>迭代算法收敛性</strong>的判定；而「逃逸时间」着色，是最早的算法生成艺术之一。</p>
+  </div>
+
+  <div class="essence">一句话精华：$z^2+c$ 是数学最强的反差——<strong>一行公式，一个无穷复杂、维数为 2、永不重复的宇宙</strong>。</div>
+  <div class="think">思考题：Mandelbrot 集的信息「藏」在哪里？公式只有几个符号，图案却需要无限像素才能画尽。这份复杂性是被「创造」的，还是本来就「存在」、只是被我们发现？</div>
+</div>
+
+<!-- 概念 4：自然界的分形 -->
+<div class="card">
+  <h2>自然界的分形与标度律</h2>
+  <div class="en-name">Fractals in Nature · 进化偏爱的几何</div>
+  <span class="tag">Applied · Nature</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>肺、血管、河网、闪电、树、神经元、菜花——它们都在<strong>分叉、分叉、再分叉</strong>。这不是巧合。当生命需要「在有限体积里塞进最大的交换表面」或「把物质送达每一个角落」时，分形是几乎唯一的解：你的肺只有几升，展开的表面积却有大半个网球场。<br><br>自然的分形不是数学那样精确重复，而是<em>统计自相似</em>——放大一根树枝，它「像」但不「等于」整棵树。关键特征是<strong>没有特征尺度</strong>：光看一张照片，你说不出它是米级还是厘米级。</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#3a6088" stroke-width="1.6" fill="none" stroke-linecap="round">
+        <line x1="150" y1="185" x2="150" y2="135"/>
+        <line x1="150" y1="135" x2="115" y2="105"/>
+        <line x1="150" y1="135" x2="185" y2="105"/>
+        <g stroke-width="1.2">
+        <line x1="115" y1="105" x2="92" y2="82"/>
+        <line x1="115" y1="105" x2="128" y2="78"/>
+        <line x1="185" y1="105" x2="172" y2="78"/>
+        <line x1="185" y1="105" x2="208" y2="82"/>
+        </g>
+        <g stroke-width="0.9">
+        <line x1="92" y1="82" x2="78" y2="66"/><line x1="92" y1="82" x2="98" y2="62"/>
+        <line x1="128" y1="78" x2="118" y2="60"/><line x1="128" y1="78" x2="140" y2="60"/>
+        <line x1="172" y1="78" x2="160" y2="60"/><line x1="172" y1="78" x2="182" y2="60"/>
+        <line x1="208" y1="82" x2="202" y2="62"/><line x1="208" y1="82" x2="222" y2="66"/>
+        </g>
+      </g>
+      <text x="150" y="30" font-size="10.5" fill="#5a7090" font-style="italic" text-anchor="middle">每一层都是上一层的缩影</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>统计自相似由<strong>幂律</strong>刻画：一个量 $N$ 随尺度 $s$ 满足 $N(s) \sim s^{-D}$。在双对数坐标上画出来是<em>一条直线</em>，斜率就是分形维数——这是识别自然分形的标准手法。幂律意味着<strong>无标度</strong>：没有典型大小，小事件极多、大事件罕见但不可忽略（地震、词频、城市规模都如此）。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>互不相干的系统——生物的血管、地质的河流、物理的闪电——被同一条几何法则统一。它们各自演化，却<strong>独立收敛到同一个答案</strong>，因为它们面对同一个优化问题：用最少的材料铺满空间。更深一层，分形常出现在系统的<em>临界点</em>（相变的边缘），这把它和<strong>自组织临界性</strong>、复杂系统「在混沌边缘」的思想连了起来——秩序与随机的交界处，长出的正是分形。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>West &amp; Brown 的<strong>代谢标度律</strong>用分形供血网络解释了 Kleiber 定律：代谢率 $\propto$ 体重的 $3/4$ 次方，横跨细菌到蓝鲸 27 个数量级。Mandelbrot 用分形重建<strong>金融市场</strong>的暴涨暴跌——真实波动比高斯模型「厚尾」得多。工程上，分形<strong>换热器与微流控</strong>模仿肺与血管，实现均匀高效的输运。</p>
+  </div>
+
+  <div class="essence">一句话精华：分形是「用有限铺满无限」的最优几何——所以<strong>进化、地质、物理各自演化，却抵达同一种形状</strong>。</div>
+  <div class="think">思考题：如果分形是「填满空间」的最优解，为什么我们的骨骼、晶体是规则而非分形的？什么样的约束会让自然「选择」分形，什么样的会让它「拒绝」分形？</div>
+</div>
+
+<div class="deep-title">— 深入思考 —</div>
+
+<details><summary>分形维数、拓扑维数与「测度」之间是什么关系？</summary>
+<div>科赫曲线的拓扑维数是 1（它仍是一条曲线，去掉一点就断开），但分形（Hausdorff）维数约 1.26。Mandelbrot 正是把「分形」定义为 Hausdorff 维数<em>严格大于</em>拓扑维数的集合。这背后是 Day 21 会碰到的测度论：一维长度（Lebesgue 测度）在科赫曲线上是无穷，二维面积是零，只有在 $1.26$ 维的 Hausdorff 测度下才得到有限非零的「大小」。维数，本质是「用哪一把尺子量，才既不得零也不得无穷」。</div></details>
+
+<details><summary>为什么幂律（无标度）分布在复杂系统里如此普遍？</summary>
+<div>幂律是唯一的「无标度」分布：把 $x$ 换成 $2x$，函数形状不变，只差一个常数因子——这正是自相似的统计版本。生成机制很多：优先连接（富者愈富，解释网络度分布与城市规模）、自组织临界（沙堆模型、地震的 Gutenberg–Richter 律）、乘性过程等。共同点是<strong>没有单一特征尺度来「拉平」涨落</strong>。但要小心：对数坐标上「看起来像直线」常被误判为幂律，对数正态分布也很像——这是 Day 34 统计陷阱的经典案例。</div></details>
+
+<details><summary>Mandelbrot 集的边界维数为 2，意味着什么？</summary>
+<div>1991 年宍倉光広证明了 $M$ 的边界 Hausdorff 维数恰好是 2——尽管它是一条「曲线」，却粗糙到与整个平面同维。这是「测度零但维数满」的极端例子：边界面积为零，却无处不在地褶皱。它也提醒我们：连通性、可求长、维数是三个独立的概念。一条线可以连通、维数为 2、却长度无穷——直觉里「线是细的」这一假设在分形世界彻底失效。</div></details>
+
+<details><summary>分形与 Day 16 的混沌是同一回事吗？</summary>
+<div>是同一枚硬币的两面。混沌讲的是<em>时间</em>上的行为：轨道对初值敏感、长期不可预测。分形讲的是<em>空间/几何</em>结构。二者在「奇异吸引子」处相遇——Lorenz 吸引子在相空间里就是一个分形（维数约 2.06）。混沌系统的吸引子几乎总是分形，因为拉伸+折叠的动力学会把相空间揉成无穷层的千层饼。Mandelbrot 集则相反：它是「参数空间」里划分混沌与稳定的地图。</div></details>
+
+<details><summary>AI 与分形有真实的交集吗？</summary>
+<div>有几处。其一，卷积网络的多尺度特征提取与分形的层级自相似天然契合，分形维数被用作纹理特征。其二，扩散模型在不同噪声尺度上学习去噪，本质是一种多尺度、近自相似的生成过程。更思辨地说：一个用几十亿参数「压缩」了整个互联网的语言模型，和「用几行规则压缩无穷细节」的分形，共享同一个信念——<strong>复杂性可被生成规则捕获，而非逐条存储</strong>。</div></details>
+
+<nav class="bottom">
+  <a href="index.html">← 返回 Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>
