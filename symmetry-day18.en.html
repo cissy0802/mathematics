@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Symmetry &amp; Noether's Theorem · Day 18 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.ntable{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.95rem}
+.ntable th,.ntable td{border:1px solid #c0c8d4;padding:8px 12px;text-align:left}
+.ntable th{background:#e6ecf3;color:#1e3a5f}
+.ntable td{color:#2a3548}
+.essence{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.98rem;color:#1e3a5f;margin-top:6px;border-left:3px solid #1e3a5f}
+.think{background:#fbfaf3;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#3d3520;margin-top:10px;border-left:3px solid #c9a96b;font-style:italic}
+details{background:#fff;border-radius:8px;padding:6px 22px;margin-bottom:12px;box-shadow:0 2px 14px rgba(30,58,95,0.07)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;padding:12px 0;font-size:1rem}
+details div{padding:0 0 14px;color:#2a3548;font-size:0.96rem}
+.deep-title{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 18px;text-align:center;font-style:italic}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 18 · 2026.07.10</div>
+  <h1>Symmetry &amp; Noether's Theorem</h1>
+  <div class="meta">Why is energy conserved? The answer hides in the symmetry of time.</div>
+  <div class="epigraph">"Behind every symmetry stands a conservation law." — the content of Emmy Noether's theorem, 1918</div>
+</header>
+
+<!-- Concept 1: Symmetry -->
+<div class="card">
+  <h2>Symmetry</h2>
+  <div class="en-name">Invariance is the essence</div>
+  <span class="tag">Group Theory</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Turn a six-fold snowflake by 60° and you can't tell it moved; turn a circle by any angle and it's still itself. <strong>Symmetry isn't "looking pretty" — it's "you did something to it, yet can't tell the difference."</strong><br><br>Hidden here is a change of viewpoint. Mathematicians stop asking "what does this thing look like" and ask instead "which operations can I perform on it without changing it." That whole set of "operations that leave it unchanged" characterizes the object more deeply than its appearance. The real difference between a circle and a square isn't the number of edges — it's that a circle is preserved by infinitely many rotations, a square by only 8. <strong>Symmetry translates "shape" into "a set of actions."</strong></p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(70,75)">
+        <rect x="-45" y="-45" width="90" height="90" fill="#3a6088" fill-opacity="0.12" stroke="#1e3a5f" stroke-width="1.5"/>
+        <line x1="0" y1="-58" x2="0" y2="58" stroke="#c9544a" stroke-width="0.8" stroke-dasharray="3 3"/>
+        <line x1="-58" y1="0" x2="58" y2="0" stroke="#c9544a" stroke-width="0.8" stroke-dasharray="3 3"/>
+        <line x1="-52" y1="-52" x2="52" y2="52" stroke="#c9544a" stroke-width="0.8" stroke-dasharray="3 3"/>
+        <line x1="-52" y1="52" x2="52" y2="-52" stroke="#c9544a" stroke-width="0.8" stroke-dasharray="3 3"/>
+        <text x="0" y="76" font-size="10" fill="#3a6088" text-anchor="middle">8 symmetries</text>
+      </g>
+      <g transform="translate(230,75)">
+        <circle cx="0" cy="0" r="45" fill="#c9a96b" fill-opacity="0.15" stroke="#1e3a5f" stroke-width="1.5"/>
+        <path d="M 30 -30 A 42 42 0 0 1 42 0" fill="none" stroke="#c9544a" stroke-width="1.4"/>
+        <polygon points="42,0 38,-6 46,-5" fill="#c9544a"/>
+        <text x="0" y="76" font-size="10" fill="#3a6088" text-anchor="middle">∞ rotations</text>
+      </g>
+      <text x="330" y="79" font-size="16" fill="#5a7090" text-anchor="middle">→ more</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>If a transformation $g$ leaves an object invariant (makes it "look unchanged"), we say the object has a symmetry under $g$. The set of all such $g$ forms a <strong>group</strong> — the star of the next card. Hermann Weyl put it plainly: <em>"A thing is symmetrical if there is something you can do to it so that after you have finished doing it, it looks the same as before."</em></p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>Shifting attention from "the object" to "the object's symmetry group" was one of the deepest turns in 20th-century math and physics. The symmetries of physical law are especially striking: experimental results don't change based on <strong>where</strong> you run the experiment, <strong>which direction</strong> you face, or <strong>when</strong> you do it. These "invisible invariances," as we'll see below, are the very source of the conservation laws.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Crystallography exhausts all crystal symmetries with 230 "space groups," the classification bedrock of chemistry. In AI, the <strong>translation equivariance</strong> of a convolutional network — a cat shifted in the image is still recognized as a cat — is exactly the "translation symmetry" hard-coded into the architecture. The emerging field of <em>Geometric Deep Learning</em> goes further, treating the symmetry group as the first principle for designing networks: whatever symmetry the data has, the network should respect.</p>
+  </div>
+
+  <div class="essence">In one line: symmetry isn't decoration on a shape but <strong>"a set of operations that leave the object unchanged"</strong> — describing those operations is closer to the essence than describing the shape.</div>
+  <div class="think">To ponder: if symmetry is "operations you can't detect," does an object with no symmetry at all (beyond "do nothing") actually carry the most information?</div>
+</div>
+
+<!-- Concept 2: Group -->
+<div class="card">
+  <h2>Group</h2>
+  <div class="en-name">The algebraic grammar of symmetry</div>
+  <span class="tag">Abstract Algebra</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Stare at every possible move on a Rubik's cube and three patterns emerge: any two moves can be <strong>composed</strong> into one (right-face then top-face equals some single move); every move can be <strong>undone</strong> (turn it back); and there's a "<strong>do nothing</strong>" move. A group extracts exactly these three — composable, invertible, has an identity — from the cube, from rotations, from integer addition, keeping only that skeleton.<br><br>The magic: once you strip away "what it concretely is" and keep only "how it combines," you find <strong>utterly unrelated things share the same skeleton</strong> — so one proof, written once, works everywhere.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>A group $(G,\cdot)$ is a set $G$ with a "combine" operation $\cdot$ satisfying four laws:<br>
+    <strong>Closure</strong> — combining two elements stays in $G$; <strong>associativity</strong> — $(a\cdot b)\cdot c=a\cdot(b\cdot c)$, so bracketing doesn't matter; <strong>identity</strong> — an $e$ with $e\cdot a=a$ (the "do nothing"); <strong>inverse</strong> — every $a$ has $a^{-1}$ with $a\cdot a^{-1}=e$ (every move undoable). These four are precisely the properties any "symmetry operations" must satisfy.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>The beauty of group theory is <strong>abstraction as leverage</strong>. Integer addition, the Rubik's group, molecular symmetries, the classification of elementary particles — outwardly unrelated, inwardly the same structure. The young Galois used groups to prove that "the quintic has no solution in radicals" — not for lack of cleverness, but because the structure of its symmetry group forbids it. It was math's first time answering "impossible" with "structure."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>The Standard Model of particle physics is built on the symmetry group $SU(3)\times SU(2)\times U(1)$ — how quarks, electrons, and photons interact is dictated by it. Points on an elliptic curve form a group, holding up modern public-key cryptography (Bitcoin's signatures use exactly this). Error-correcting codes, chemical spectra, optimal Rubik's solvers all rest on groups. <strong>Wherever "symmetry" appears, the group is its mathematical language.</strong></p>
+  </div>
+
+  <div class="essence">In one line: a group strips away "what it is" and keeps only "how it combines" — so <strong>one structure is at once rotation, addition, and particle symmetry</strong>.</div>
+  <div class="think">To ponder: why is the seemingly trivial "associativity" so crucial? Without it, would "composing several symmetry operations" even have a uniquely defined meaning?</div>
+</div>
+
+<!-- Concept 3: Least Action -->
+<div class="card">
+  <h2>The Principle of Least Action</h2>
+  <div class="en-name">The Lagrangian · Nature's "most frugal" path</div>
+  <span class="tag">Analytical Mechanics</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Light entering water bends — it takes the path of "shortest time" (Fermat's principle). Push that idea to its limit: <strong>every motion in nature seems to be "economizing."</strong> Of all conceivable paths, the one that actually happens makes a quantity called the <strong>action</strong> take an extremum.<br><br>This clashes with Newton's worldview. Newton says: right now this force acts, so next instant it moves thus — causality, step by step. Least action says instead: <strong>the whole path is chosen "all at once,"</strong> as if the particle compared every route before setting out and picked the optimal one. Two pictures, the same physics.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="40" cy="110" r="4" fill="#1e3a5f"/>
+      <text x="30" y="128" font-size="11" fill="#3a6088">A</text>
+      <circle cx="340" cy="40" r="4" fill="#1e3a5f"/>
+      <text x="345" y="44" font-size="11" fill="#3a6088">B</text>
+      <path d="M 40 110 Q 120 20 340 40" fill="none" stroke="#b0b8c4" stroke-width="1" stroke-dasharray="4 3"/>
+      <path d="M 40 110 Q 260 140 340 40" fill="none" stroke="#b0b8c4" stroke-width="1" stroke-dasharray="4 3"/>
+      <path d="M 40 110 Q 190 30 340 40" fill="none" stroke="#b0b8c4" stroke-width="1" stroke-dasharray="4 3"/>
+      <path d="M 40 110 Q 190 95 340 40" fill="none" stroke="#c9544a" stroke-width="2.2"/>
+      <text x="185" y="118" font-size="11" fill="#c9544a" font-style="italic">actual path: δS = 0</text>
+      <text x="150" y="35" font-size="10" fill="#8a92a0">trial paths</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>Define the action $S=\displaystyle\int_{t_1}^{t_2} L\,dt$, where the <strong>Lagrangian</strong> $L=T-V$ (kinetic minus potential energy). The real path satisfies the <strong>stationarity condition</strong> $\delta S=0$: perturb the path slightly and the action is unchanged to first order (like a peak or valley, zero slope). From it follows the <strong>Euler–Lagrange equation</strong>
+    </p>
+    <div class="formula-box">$\dfrac{d}{dt}\dfrac{\partial L}{\partial \dot q}-\dfrac{\partial L}{\partial q}=0$</div>
+    <p>where $q$ is position, $\dot q$ velocity. For the simplest $L=\tfrac12 m\dot q^2-V(q)$, this equation works out to <strong>exactly Newton's second law</strong> $m\ddot q=-\partial V/\partial q$. Same physics, new face.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>The Lagrangian form has a gift Newton's lacks: <strong>it doesn't care what coordinates you use</strong> (Cartesian, polar, any curvilinear system — the same equation). Precisely because it is "coordinate-free," it speaks naturally with symmetry — ask "which transformation leaves $S$ unchanged" and it answers at once. This is the very door to Noether.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>In general relativity, a planet moves along a geodesic — an extremum of the action. Quantum field theory's <em>Feynman path integral</em> is bolder still: the particle "really" tries all paths at once, each weighted by its action. In engineering, optimal control and robot trajectory planning use the same variational idea: define a "cost," find the path that minimizes it.</p>
+  </div>
+
+  <div class="essence">In one line: Newton speaks of "local causality, step by step," the Lagrangian of "global optimality over the whole path" — <strong>mathematically equivalent, intuitively opposite</strong>.</div>
+  <div class="think">To ponder: a particle has no "brain" to compare all paths, yet always "lands on" the action extremum. How does the path integral give an explanation that needs no "choosing"?</div>
+</div>
+
+<!-- Concept 4: Noether's Theorem -->
+<div class="card">
+  <h2>Noether's Theorem</h2>
+  <div class="en-name">Symmetry and conservation are one and the same</div>
+  <span class="tag">Mathematical Physics · The Crown</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Why is energy conserved? Not coincidence, not a rule experiment happened to stumble on. In 1918 Emmy Noether proved something staggering: <strong>every continuous symmetry corresponds precisely to a conservation law.</strong><br><br>Physical law doesn't change with <strong>time</strong> — an experiment run today gives the same result next year — and this time-translation symmetry is the root of <strong>energy conservation</strong>. Law unchanged by <strong>position</strong> → <strong>momentum</strong> conservation. Unchanged by <strong>direction</strong> (isotropy of space) → <strong>angular momentum</strong> conservation. Conservation laws are no longer isolated empirical facts but <strong>shadows cast by the symmetry of spacetime</strong>.</p>
+  </div>
+
+  <table class="ntable">
+    <tr><th>Continuous symmetry</th><th>Conserved quantity</th></tr>
+    <tr><td>Time translation (when you run it)</td><td>Energy</td></tr>
+    <tr><td>Space translation (where you run it)</td><td>Momentum</td></tr>
+    <tr><td>Rotation (which direction you face)</td><td>Angular momentum</td></tr>
+    <tr><td>Phase symmetry (quantum wavefunction phase)</td><td>Electric charge</td></tr>
+  </table>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>If the action $S$ is invariant under some <strong>continuous</strong> group of transformations, then there must exist a conserved current $j^\mu$ satisfying $\partial_\mu j^\mu=0$ — the "charge" integrated from it does not change in time, $\dfrac{dQ}{dt}=0$. The keyword is "continuous": the transformation must be smoothly tunable by a continuous parameter (angle, displacement), i.e. it forms a <strong>Lie group</strong>. Discrete symmetries (like mirror reflection) lie outside this theorem's jurisdiction.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>This is one of the deepest theorems in the history of mathematics. It proves two seemingly unrelated things — <strong>geometric "symmetry" and physical "conservation" — to be two faces of one coin.</strong> Conservation laws were once treated as independent laws of nature, summarized one by one from experiment; Noether revealed in a single stroke that they <strong>all originate in the symmetry structure of spacetime</strong>. Feynman said: "For a physicist, this is absolutely astonishing."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Noether's theorem is the <strong>operating system</strong> of modern physics: physicists first assume a symmetry group, and the theorem automatically hands over the corresponding conserved quantity, guiding theory construction in reverse. Upgrade "phase symmetry" to <strong>local (gauge) symmetry</strong> and Noether's logic "forces out" electromagnetism and the interactions of the entire Standard Model. In AI, <em>equivariant neural networks</em> follow the same idea: build physical symmetry into the network, and the conservable degrees of freedom needn't be painfully learned from data — one reason AlphaFold and molecular-property prediction are so sample-efficient.</p>
+  </div>
+
+  <div class="essence">In one line: conservation laws aren't nature's "decrees" but <strong>necessary consequences of symmetry</strong> — to ask "what is conserved," first ask "what is symmetric."</div>
+  <div class="think">To ponder: if time-translation symmetry was broken in the very early universe (expansion made space constantly change), does "energy conservation" still hold strictly on cosmological scales?</div>
+</div>
+
+<div class="deep-title">— Going Deeper —</div>
+
+<details><summary>Continuous symmetry gives conservation laws — what do discrete symmetries give?</summary>
+<div>Noether's theorem covers only <strong>continuous</strong> symmetries (Lie groups), because it needs an infinitely tunable parameter to build a conserved current. Discrete symmetries — spatial reflection (parity P), time reversal (T) — yield not continuous conserved quantities but <strong>multiplicative quantum numbers</strong> and selection rules. More subtly: in 1956 Wu's experiment showed <strong>parity is not conserved</strong> in the weak interaction, shaking the belief that "symmetry must hold." Symmetry is a powerful assumption, but nature reserves the right to break it.</div></details>
+
+<details><summary>What is "spontaneous symmetry breaking"?</summary>
+<div>Symmetric laws don't imply symmetric states. A pencil balanced upright obeys equations symmetric left-right, yet once it falls it must point some definite way — symmetric law, asymmetric state. This is <strong>spontaneous symmetry breaking</strong>. It explains why a magnet has a definite north-south axis and why the universe isn't a uniform blob. The Higgs mechanism is exactly the vacuum undergoing symmetry breaking, giving elementary particles their mass — the 2012 discovery of the Higgs boson was a direct confirmation. Symmetry sometimes shows its power precisely by being broken.</div></details>
+
+<details><summary>Why is "gauge symmetry" called the engine of modern physics?</summary>
+<div>Upgrade a <strong>global</strong> symmetry (transform everywhere in sync) to a <strong>local</strong> one (each point transforms independently) and the equations "break"; to repair them you must introduce a new field — and that field is precisely an <strong>interaction force</strong> itself. Demand local phase symmetry of the electron's wavefunction, and the electromagnetic field is "forced" into existence; generalize to $SU(3)\times SU(2)\times U(1)$ and the strong, weak, and electromagnetic forces all appear together. Hence physicists say: <strong>force is the price of symmetry.</strong> One of the 20th century's deepest physical insights.</div></details>
+
+<details><summary>Does Noether's theorem truly relate to machine learning, or is it a strained analogy?</summary>
+<div>There's a genuine mathematical link. If data carries a known symmetry (image translation, a molecule's 3D rotation, a graph's node permutation), hard-coding that symmetry into the network as a <strong>prior</strong> (equivariance) is equivalent to telling the model "these directions needn't be learned" — fewer degrees of freedom, higher sample efficiency, better generalization. CNN translation equivariance, graph-network permutation equivariance, and AlphaFold's 3D-rotation equivariance are all products of this idea. The difference: in physics symmetry <em>produces</em> conserved quantities; in ML we <em>exploit</em> symmetry to cut the parameters to be learned.</div></details>
+
+<details><summary>Is symmetry discovered, or imposed by us on nature?</summary>
+<div>This touches the core of the philosophy of mathematics. One camp holds symmetry to be an objective structure of nature that we merely discover (time-translation symmetry is a fact of the universe); another holds symmetry to often be a framework we choose to "organize experience" — an economy of description, not the ontology of the world. Intriguingly, modern physics increasingly treats symmetry as a <strong>first principle</strong> — not inducing symmetry from phenomena, but assuming symmetry first and deducing phenomena. This "symmetry-as-axiom" methodology is extraordinarily successful, yet it sharpens the ancient question of whether symmetry is discovered or invented.</div></details>
+
+</div>
+</body>
+</html>
