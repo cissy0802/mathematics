@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Category Theory · Day 19 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.ntable{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.95rem}
+.ntable th,.ntable td{border:1px solid #c0c8d4;padding:8px 12px;text-align:left}
+.ntable th{background:#e6ecf3;color:#1e3a5f}
+.ntable td{color:#2a3548}
+.essence{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.98rem;color:#1e3a5f;margin-top:6px;border-left:3px solid #1e3a5f}
+.think{background:#fbfaf3;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#3d3520;margin-top:10px;border-left:3px solid #c9a96b;font-style:italic}
+details{background:#fff;border-radius:8px;padding:6px 22px;margin-bottom:12px;box-shadow:0 2px 14px rgba(30,58,95,0.07)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;padding:12px 0;font-size:1rem}
+details div{padding:0 0 14px;color:#2a3548;font-size:0.96rem}
+.deep-title{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 18px;text-align:center;font-style:italic}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 19 · 2026.07.11</div>
+  <h1>Category Theory</h1>
+  <div class="meta">Don't open the box to see what's inside — look at its lines to the world.</div>
+  <div class="epigraph">"Category theory is the mathematics of mathematics — it studies not one structure, but the skeleton shared by all structures." — after Saunders Mac Lane</div>
+</header>
+
+<!-- Concept 1: Category -->
+<div class="card">
+  <h2>Category</h2>
+  <div class="en-name">Relations before objects</div>
+  <span class="tag">Foundations</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Traditional math is forever "opening the box": which elements are in this set, which operations in that group. Category theory switches viewpoint — <strong>forget what an object looks like inside; look only at the arrows between objects, and at how arrows chain together.</strong><br><br>A category is just three things: a pile of dots (objects), a pile of arrows (morphisms, $f:A\to B$), and a chaining rule (arrows that meet head-to-tail can be composed into one). The startling claim: <strong>every property of a mathematical object can be read off from "the arrows around it"</strong> — you never need to open the box. This one move — shifting attention from "what a thing is" to "how things map to each other" — is the entire starting point of category theory.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 160" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ah1" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 z" fill="#3a6088"/>
+        </marker>
+        <marker id="ah1r" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 z" fill="#c9544a"/>
+        </marker>
+      </defs>
+      <circle cx="60" cy="118" r="4.5" fill="#1e3a5f"/><text x="48" y="138" font-size="14" fill="#1e3a5f" font-style="italic">A</text>
+      <circle cx="190" cy="42" r="4.5" fill="#1e3a5f"/><text x="184" y="30" font-size="14" fill="#1e3a5f" font-style="italic">B</text>
+      <circle cx="320" cy="118" r="4.5" fill="#1e3a5f"/><text x="328" y="138" font-size="14" fill="#1e3a5f" font-style="italic">C</text>
+      <line x1="66" y1="113" x2="182" y2="48" stroke="#3a6088" stroke-width="1.5" marker-end="url(#ah1)"/>
+      <text x="108" y="68" font-size="13" fill="#3a6088" font-style="italic">f</text>
+      <line x1="198" y1="48" x2="314" y2="113" stroke="#3a6088" stroke-width="1.5" marker-end="url(#ah1)"/>
+      <text x="262" y="68" font-size="13" fill="#3a6088" font-style="italic">g</text>
+      <line x1="68" y1="123" x2="312" y2="123" stroke="#c9544a" stroke-width="1.8" marker-end="url(#ah1r)"/>
+      <text x="175" y="143" font-size="13" fill="#c9544a" font-style="italic">g ∘ f (composite)</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>A category $\mathcal{C}$ has <strong>objects</strong> and <strong>morphisms</strong>, each morphism $f:A\to B$ carrying a definite source and target, subject to three rules: <strong>composability</strong> — if $f:A\to B$ and $g:B\to C$, there exists $g\circ f:A\to C$; <strong>associativity</strong> — $h\circ(g\circ f)=(h\circ g)\circ f$; <strong>identities</strong> — every object $A$ has $\mathrm{id}_A:A\to A$ that does nothing when chained.<br>Look familiar? These are exactly the <em>group</em> axioms minus "inverses" — in fact, <strong>a group is just a category with one object in which every arrow is invertible.</strong></p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>Moving from "elements" to "relations" is a Copernican turn. Sets and functions, groups and homomorphisms, topological spaces and continuous maps, vector spaces and linear maps — <strong>all of them are categories</strong>. So a theorem proved once at the categorical level holds simultaneously in every concrete category. This is why category theory is called "the mathematics of mathematics": it studies not any one structure, but the skeleton shared by all of them.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>A database schema is a category (tables are objects, foreign keys are morphisms) — the basis of David Spivak's use of category theory for data integration. In functional programming, types are objects and functions are morphisms; category theory directly shaped Haskell's type system. In physics, topological quantum field theory (TQFT) was simply <em>defined</em> by Atiyah as "a functor from a category of manifolds to a category of vector spaces."</p>
+  </div>
+
+  <div class="essence">In one line: to understand a thing, don't open it — look at its lines to the world. <strong>Structure lives in relations, not in elements.</strong></div>
+  <div class="think">To ponder: if two objects have exactly the same "pattern of arrows" to everything else, can they still be told apart? (This leads straight to universal properties and "isomorphism is as good as equality.")</div>
+</div>
+
+<!-- Concept 2: Functor -->
+<div class="card">
+  <h2>Functor</h2>
+  <div class="en-name">The structure-preserving mover</div>
+  <span class="tag">Category Theory</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>A category is a web of "dots + arrows." A functor <strong>moves a whole web onto another web</strong>: objects to objects, arrows to arrows, while preserving the chaining — if $A\to B\to C$ composes in the source, it still composes after the move.<br><br>Think of a map: it sends real terrain (one category) onto paper (another), losing the exact shape of mountains but faithfully keeping <em>relations</em> like "adjacent" and "connected." A functor is not an arbitrary mapping but a <strong>"structure-respecting translation"</strong> — and that respect is where all its weight lies.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ah2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 z" fill="#3a6088"/>
+        </marker>
+        <marker id="ah2g" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L6,3 L0,6 z" fill="#8a92a0"/>
+        </marker>
+      </defs>
+      <rect x="14" y="18" width="150" height="134" rx="8" fill="#3a6088" fill-opacity="0.06" stroke="#c0c8d4"/>
+      <text x="26" y="36" font-size="12" fill="#3a6088" font-style="italic">Category C</text>
+      <circle cx="55" cy="70" r="4" fill="#1e3a5f"/><text x="40" y="74" font-size="12" fill="#1e3a5f" font-style="italic">A</text>
+      <circle cx="125" cy="120" r="4" fill="#1e3a5f"/><text x="132" y="124" font-size="12" fill="#1e3a5f" font-style="italic">B</text>
+      <line x1="60" y1="74" x2="120" y2="115" stroke="#3a6088" stroke-width="1.4" marker-end="url(#ah2)"/>
+      <text x="78" y="106" font-size="12" fill="#3a6088" font-style="italic">f</text>
+      <rect x="236" y="18" width="150" height="134" rx="8" fill="#c9a96b" fill-opacity="0.08" stroke="#c0c8d4"/>
+      <text x="248" y="36" font-size="12" fill="#8a7340" font-style="italic">Category D</text>
+      <circle cx="277" cy="70" r="4" fill="#1e3a5f"/><text x="256" y="74" font-size="11" fill="#1e3a5f" font-style="italic">FA</text>
+      <circle cx="347" cy="120" r="4" fill="#1e3a5f"/><text x="354" y="124" font-size="11" fill="#1e3a5f" font-style="italic">FB</text>
+      <line x1="282" y1="74" x2="342" y2="115" stroke="#c9544a" stroke-width="1.5" marker-end="url(#ah2)"/>
+      <text x="298" y="106" font-size="11" fill="#c9544a" font-style="italic">Ff</text>
+      <line x1="60" y1="66" x2="272" y2="66" stroke="#8a92a0" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#ah2g)"/>
+      <line x1="130" y1="122" x2="342" y2="122" stroke="#8a92a0" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#ah2g)"/>
+      <text x="185" y="58" font-size="13" fill="#5a7090" font-style="italic">F</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>A functor $F:\mathcal{C}\to\mathcal{D}$ sends each object $A$ to $F(A)$ and each morphism $f:A\to B$ to $F(f):F(A)\to F(B)$, satisfying two laws: <strong>preserves identities</strong> $F(\mathrm{id}_A)=\mathrm{id}_{F(A)}$; <strong>preserves composition</strong> $F(g\circ f)=F(g)\circ F(f)$. The second is the soul — it says "compose in the source, then move" and "move, then compose in the target" <em>must</em> agree. That single equation is what keeps the "translation" from distorting.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>A functor is "one idea translated across worlds." The fundamental group $\pi_1$ is a functor from the <em>category of topological spaces</em> to the <em>category of groups</em> — it translates "the hole in a doughnut" into "an element of a group," turning a stubborn geometric problem into a computable algebraic one. All of <strong>algebraic topology</strong> runs on this translation machine. The structure-preserving property makes the translation faithful: a continuous deformation in geometry is still a valid equation after translation into algebra.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>In programming, <code>List</code>, <code>Option/Maybe</code>, <code>Future</code> are all functors — <code>map</code> <em>is</em> $F(f)$: it <strong>lifts</strong> a "function on values" into a "function on containers." That's why you can write <code>[1,2,3].map(f)</code>. And the composition law <code>map(g∘f)=map(g)∘map(f)</code> isn't just pretty: the compiler uses it to fuse two traversals into one (fusion optimization), and programmers can refactor freely without changing meaning.</p>
+  </div>
+
+  <div class="essence">In one line: a functor is a <strong>structure-preserving translation</strong>; it turns crossings like "geometry→algebra" and "value→container" into a reliable, reusable machine.</div>
+  <div class="think">To ponder: when you <code>map</code> a function into a list, why must "compose first, then map" equal "map twice"? If some <code>map</code> broke this law, would it still deserve to be called a functor — and what disaster would follow?</div>
+</div>
+
+<!-- Concept 3: Natural Transformation -->
+<div class="card">
+  <h2>Natural Transformation</h2>
+  <div class="en-name">Turning "natural" into a theorem</div>
+  <span class="tag">Category Theory · Crown</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>A functor is a "moving plan" between two webs. If you hold <em>two</em> plans $F$ and $G$, a natural transformation is <strong>a uniform rule for smoothly sliding from plan $F$ to plan $G$</strong> — and it treats every object "the same way," never special-casing one object over another.<br><br>The precise meaning of "natural" is exactly this: <strong>the transformation depends on no arbitrary choice</strong> and holds uniformly across all objects and arrows. A bit of history: when Eilenberg and Mac Lane invented all of category theory in 1945, their sole original motive was to give the vague word "natural" a precise definition — categories and functors were the supporting cast, introduced only so that "natural transformation" could be defined.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ah3" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 z" fill="#3a6088"/>
+        </marker>
+        <marker id="ah3r" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 z" fill="#c9544a"/>
+        </marker>
+      </defs>
+      <text x="60" y="46" font-size="14" fill="#1e3a5f" font-style="italic" text-anchor="middle">F(A)</text>
+      <text x="320" y="46" font-size="14" fill="#1e3a5f" font-style="italic" text-anchor="middle">F(B)</text>
+      <text x="60" y="160" font-size="14" fill="#1e3a5f" font-style="italic" text-anchor="middle">G(A)</text>
+      <text x="320" y="160" font-size="14" fill="#1e3a5f" font-style="italic" text-anchor="middle">G(B)</text>
+      <line x1="92" y1="40" x2="288" y2="40" stroke="#3a6088" stroke-width="1.5" marker-end="url(#ah3)"/>
+      <text x="190" y="30" font-size="12" fill="#3a6088" font-style="italic" text-anchor="middle">F(f)</text>
+      <line x1="92" y1="154" x2="288" y2="154" stroke="#3a6088" stroke-width="1.5" marker-end="url(#ah3)"/>
+      <text x="190" y="174" font-size="12" fill="#3a6088" font-style="italic" text-anchor="middle">G(f)</text>
+      <line x1="60" y1="56" x2="60" y2="140" stroke="#c9544a" stroke-width="1.7" marker-end="url(#ah3r)"/>
+      <text x="42" y="102" font-size="12" fill="#c9544a" font-style="italic">η_A</text>
+      <line x1="320" y1="56" x2="320" y2="140" stroke="#c9544a" stroke-width="1.7" marker-end="url(#ah3r)"/>
+      <text x="326" y="102" font-size="12" fill="#c9544a" font-style="italic">η_B</text>
+      <text x="190" y="105" font-size="12" fill="#8a92a0" text-anchor="middle" font-style="italic">square commutes</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>Given two functors $F,G:\mathcal{C}\to\mathcal{D}$, a natural transformation $\eta:F\Rightarrow G$ assigns to <em>each</em> object $A$ a morphism $\eta_A:F(A)\to G(A)$ (its "component"), so that for every $f:A\to B$ the <strong>naturality square</strong> commutes (both paths equal):</p>
+    <div class="formula-box">$$G(f)\circ\eta_A \;=\; \eta_B\circ F(f)$$</div>
+    <p>Read it: transform with $\eta$ first, then move (down-then-right), versus move first, then transform with $\eta$ (right-then-down) — <strong>they meet at the same place</strong>. This "holds no matter which object you start from" consistency is the mathematical substance of "natural."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>Mathematicians used the phrase "natural isomorphism" for centuries without pinning it down. Classic example: a finite-dimensional vector space $V$ is "naturally" isomorphic to its <strong>double dual</strong> $V^{**}$, whereas to its dual $V^*$ it is merely "isomorphic but not naturally" — the latter requires <em>choosing a basis</em> by hand. Natural transformation was the first to nail this intuition into a precise statement: <strong>it turned a philosophical adjective into a theorem you can prove or disprove.</strong> One of category theory's most elegant victories.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>In programming, <code>headOption</code> (first element, <code>List → Option</code>) and <code>reverse</code> are natural transformations: they apply the <em>same</em> logic to any element type, never peeking at whether it holds an <code>Int</code> or a <code>String</code>. This "uniform in the type parameter" property is called <strong>parametricity</strong> in Haskell, and it is the heart of Philip Wadler's "Theorems for free!" — <strong>from the type signature alone, without reading the implementation, you get the laws a function must satisfy for free.</strong></p>
+  </div>
+
+  <div class="essence">In one line: a natural transformation is a <strong>uniform, no-special-casing passage between functors</strong>; it nails the vague compliment "natural" into a precise theorem.</div>
+  <div class="think">To ponder: why does $V\cong V^*$ require choosing a basis and count as "unnatural," while $V\cong V^{**}$ is "automatic"? How exactly does category theory detect and reject "requires an arbitrary choice"?</div>
+</div>
+
+<!-- Concept 4: Category theory & programming -->
+<div class="card">
+  <h2>Proof, Program, Morphism: One Thing</h2>
+  <div class="en-name">Curry–Howard–Lambek &amp; Monads · the peak of abstraction is the most useful</div>
+  <span class="tag">Type Theory · CS</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Three seemingly unrelated things — <strong>a proof in logic, a type in programming, a morphism in a category</strong> — turn out to be three dialects of the same thing. This is the Curry–Howard–Lambek correspondence: "a program of type $A\to B$" = "a proof that $A$ implies $B$" = "a morphism from $A$ to $B$ in a category." <strong>Writing a correct typed program is, constructively, proving a theorem.</strong><br><br>And <strong>Monad</strong> is the most famous child of category theory married to programming. Pure functions can't hold side effects (exceptions, state, IO, async), yet real programs can't live without them. A Monad uses one uniform structure to <em>box up</em> side effects, making what would break purity composable again.</p>
+  </div>
+
+  <table class="ntable">
+    <tr><th>Logic</th><th>Type / Program</th><th>Category</th></tr>
+    <tr><td>proposition $A$</td><td>type $A$</td><td>object $A$</td></tr>
+    <tr><td>proof $A\Rightarrow B$</td><td>function $A\to B$</td><td>morphism $A\to B$</td></tr>
+    <tr><td>conjunction $A\wedge B$</td><td>tuple $(A,B)$</td><td>product $A\times B$</td></tr>
+    <tr><td>disjunction $A\vee B$</td><td>union type $A|B$</td><td>coproduct $A+B$</td></tr>
+  </table>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>A <strong>Monad</strong> is an endofunctor $M:\mathcal{C}\to\mathcal{C}$ equipped with two natural transformations: $\eta:\mathrm{Id}\Rightarrow M$ (put a pure value in the box, i.e. <code>return</code>) and $\mu:M\circ M\Rightarrow M$ (flatten a double box, i.e. <code>join</code>), obeying associativity and unit laws. Hence the famous "joke" definition — <em>"a monad is just a monoid in the category of endofunctors"</em> — sounds like a tongue-twister but is literally exact: take the ordinary monoid definition and swap "set" for "endofunctor," "multiplication" for "functor composition."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>Curry–Howard reveals that <strong>logic and computation are the same coin</strong> — one of the 20th century's deepest unifications. It makes "proof as program" real, giving rise to proof assistants like Coq, Lean, and Agda: machines that check the correctness of mathematical proofs line by line — Kevin Buzzard is using Lean to formalize the entire undergraduate curriculum. And Monads show the counterintuitive flip side: a purely abstract categorical structure precisely solves the down-to-earth engineering problem of "how to do IO in a pure functional language." <strong>The peak of abstraction turns out to be the most practical.</strong></p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Haskell's <code>IO</code>, <code>Maybe</code>, <code>State</code> are all Monads; <code>do</code> notation is syntactic sugar for Monad composition, and async/await is essentially the same structure. Curry–Howard makes "type-checks" equivalent to "proof is correct," and has been used to produce <strong>software carrying mathematical proofs</strong>: the formally verified compiler CompCert, the OS kernel seL4, and the machine-checked proof of the four-color theorem all rest on this correspondence.</p>
+  </div>
+
+  <div class="essence">In one line: <strong>proof, program, and morphism are the same thing</strong>; Monads prove that the most abstract categorical structure can solve the most concrete engineering problem.</div>
+  <div class="think">To ponder: if "writing a well-typed program" equals "proving a theorem," does a language with a stronger type system come ever closer to being a math proof assistant? At the end of that road, what is left for human mathematicians?</div>
+</div>
+
+<div class="deep-title">— Deeper Questions —</div>
+
+<details><summary>Why can a "universal property" replace a concrete construction?</summary>
+<div>When category theory defines "product," "coproduct," or "limit," it never says what they are <em>made of</em>, only <strong>what relation they satisfy</strong> — e.g. the product $A\times B$ of two objects is the object through which "anything mapping to both $A$ and $B$ factors uniquely." This is a <strong>universal property</strong>. Its power: any two objects satisfying the same universal property are necessarily unique (up to isomorphism), so "how it's built" is irrelevant and "what role it plays" is the essence. The Cartesian product of sets, the direct product of groups, the product space in topology — one universal property, defined once, applies everywhere. This is the sharpest expression of category theory's "relations before objects."</div></details>
+
+<details><summary>Why are adjoint functors called the heart of category theory?</summary>
+<div>Mac Lane's line: "Adjoint functors arise everywhere." Two opposite-direction functors $F\dashv G$ form an adjunction when $\mathcal{D}(F A, B)\cong \mathcal{C}(A, G B)$ holds naturally — arrows on one side always correspond one-to-one with arrows on the other. Free-group construction ⊣ forgetful functor, tensor product ⊣ Hom, existential quantifier ⊣ substitution... a vast number of "optimal" and "freest" constructions in mathematics are, at bottom, some adjunction. Adjunctions capture the universal pattern of "crossing between two worlds with least effort," sit one level deeper than functors, and are regarded as category theory's true core.</div></details>
+
+<details><summary>What does the Yoneda lemma actually say?</summary>
+<div>The Yoneda lemma is category theory's most basic yet deepest theorem, in one sentence: <strong>an object is uniquely determined by its "pattern of arrows into all other objects."</strong> You needn't open the object; knowing "how everyone sees it" (all of $\mathrm{Hom}(A,-)$) fully captures it. This upgrades Concept 1's intuition — "structure lives in relations" — into a rigorous theorem: an object and its "relational portrait" are informationally equivalent. It is the mathematical source of the functor-of-points view in modern algebraic geometry, and of "program to the interface, not the implementation."</div></details>
+
+<details><summary>Category theory is mocked as "general abstract nonsense" — does it have content?</summary>
+<div>The nickname is half jest, half respect. Critics say it is too abstract, merely restating known results; defenders point out that this very abstraction let Grothendieck rewrite algebraic geometry and let Eilenberg–Steenrod unify homology under a few axioms. The honest answer may be: category theory itself has few "deep theorems"; its value is in <strong>providing the right language</strong> — once you use the right language, an obscure analogy becomes a one-line obvious equation. It is rarely the conclusion, but often the framework that makes the conclusion inevitable.</div></details>
+
+<details><summary>Can category theory replace set theory as the foundation of mathematics?</summary>
+<div>This is a genuine modern debate. Traditionally, ZFC set theory is math's bedrock — everything is a set. But Lawvere and later topos theory propose using "categories" rather than "sets" as the foundation, where "element" is a derived notion and "relation" is primitive. A topos is a category that "behaves like the category of sets" yet can host intuitionistic logic and internally different continua. It puts "structure" at the very bottom, in keeping with category theory's "relations before objects" spirit — though whether it is a better general foundation than ZFC remains undecided.</div></details>
+
+<nav class="bottom">
+  <a href="index.en.html">← Back to Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>
