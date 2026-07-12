@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Group Theory · Day 20 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.essence{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.98rem;color:#1e3a5f;margin-top:6px;border-left:3px solid #1e3a5f}
+.think{background:#fbfaf3;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#3d3520;margin-top:10px;border-left:3px solid #c9a96b;font-style:italic}
+details{background:#fff;border-radius:8px;padding:6px 22px;margin-bottom:12px;box-shadow:0 2px 14px rgba(30,58,95,0.07)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;padding:12px 0;font-size:1rem}
+details div{padding:0 0 14px;color:#2a3548;font-size:0.96rem}
+.deep-title{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 18px;text-align:center;font-style:italic}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 20 · 2026.07.12</div>
+  <h1>Group Theory</h1>
+  <div class="meta">The Grammar of Symmetry — making "actions" the object of study</div>
+  <div class="epigraph">"Group theory is the mathematics of symmetry. Wherever there is symmetry, a group stands behind it, keeping the books." — after Hermann Weyl</div>
+</header>
+
+<!-- Concept 1: Group -->
+<div class="card">
+  <h2>Group</h2>
+  <div class="en-name">The algebra of reversible actions</div>
+  <span class="tag">Algebra</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>A group is not "a pile of things" — it is <strong>"a pile of actions."</strong> Take an equilateral triangle: what can you do to it so it looks unchanged? Rotate 120°, rotate 240°, do nothing, and flip across each of its three axes — exactly 6 actions. These 6 actions form a group.<br><br>Three intuitions are key: actions can be <strong>chained</strong> (rotate 120° then flip = another legal action, still among the 6); every action can be <strong>undone</strong> (the inverse of rotating 120° is rotating 240°); and there is a <strong>"do-nothing"</strong> action. The noun (the triangle) fools your eye; the <em>verb</em> — the operation applied to it — is what a group really studies. Moving attention from "the object" to "the actions that leave it unchanged" is the whole starting point of group theory.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 175" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ah1" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 z" fill="#c9544a"/>
+        </marker>
+      </defs>
+      <polygon points="120,30 55,140 185,140" fill="#f0f4f9" stroke="#1e3a5f" stroke-width="1.5"/>
+      <circle cx="120" cy="30" r="4" fill="#1e3a5f"/><text x="114" y="22" font-size="13" fill="#1e3a5f" font-style="italic">1</text>
+      <circle cx="55" cy="140" r="4" fill="#1e3a5f"/><text x="40" y="152" font-size="13" fill="#1e3a5f" font-style="italic">2</text>
+      <circle cx="185" cy="140" r="4" fill="#1e3a5f"/><text x="192" y="152" font-size="13" fill="#1e3a5f" font-style="italic">3</text>
+      <path d="M 152 92 A 40 40 0 0 1 120 118" fill="none" stroke="#c9544a" stroke-width="1.6" marker-end="url(#ah1)"/>
+      <text x="120" y="98" font-size="12" fill="#c9544a" text-anchor="middle" font-style="italic">r: rotate 120°</text>
+      <text x="245" y="52" font-size="12" fill="#3a6088">The 6 actions of D₃:</text>
+      <text x="245" y="76" font-size="11.5" fill="#2a3548">e (identity)</text>
+      <text x="245" y="96" font-size="11.5" fill="#2a3548">r, r² (rotate 120°/240°)</text>
+      <text x="245" y="116" font-size="11.5" fill="#2a3548">f₁, f₂, f₃ (three flips)</text>
+      <text x="245" y="140" font-size="11" fill="#5a7090" font-style="italic">closed · invertible · has identity</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Definition</div>
+    <p>A group $(G,\cdot)$ is a set $G$ with an operation $\cdot$ satisfying four axioms: <strong>closure</strong> — $a\cdot b$ is still in $G$; <strong>associativity</strong> — $(a\cdot b)\cdot c=a\cdot(b\cdot c)$; <strong>identity</strong> — some $e$ with $e\cdot a=a$; <strong>inverses</strong> — each $a$ has $a^{-1}$ with $a\cdot a^{-1}=e$.<br>Note there is <em>no</em> commutativity requirement: $a\cdot b\ne b\cdot a$ is the norm. Putting on socks then shoes is not the same as shoes then socks — the world where order matters is exactly where group theory lives.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It's Beautiful</div>
+    <p>Four seemingly meager axioms precisely capture the whole essence of "symmetry." More striking is <strong>Cayley's theorem</strong>: every group is isomorphic to some group of permutations — meaning any abstract group is, at heart, some concrete set of actions in disguise. This tells us: <em>abstract algebra was not invented from thin air, but distilled to its essence from the single phenomenon of "reversible transformation."</em> The fewer the axioms, the larger the world they hold.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>All states of a Rubik's cube form a group (about $4.3\times10^{19}$ elements); "solving the cube" = finding a path back to the identity. Cryptography rests on groups: RSA lives on the multiplicative group mod $n$, elliptic-curve cryptography on the group of points on a curve. And in physics, which symmetries a system "has" directly determines which quantities it conserves — the group is the hinge connecting symmetry and conservation.</p>
+  </div>
+
+  <div class="essence">In one line: a group is <strong>"the algebra of verbs"</strong> — it studies not objects, but the reversible actions that leave objects unchanged.</div>
+  <div class="think">To ponder: why does "not requiring commutativity" make groups <em>more</em> powerful? If we forced $ab=ba$, which real phenomena — rotations, shuffling, the Rubik's cube — would instantly be excluded?</div>
+</div>
+
+<!-- Concept 2: Symmetric group -->
+<div class="card">
+  <h2>The Symmetric Group $S_n$</h2>
+  <div class="en-name">The mother of all finite groups</div>
+  <span class="tag">Group Theory</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Rearranging $n$ things — that is <strong>shuffling</strong>. $S_n$ is the group of "all ways to shuffle $n$ cards." $S_3$ has $3!=6$ shuffles; $S_{52}$ (a deck of cards) has about $8\times10^{67}$. Each shuffle is a <strong>permutation</strong>.<br><br>Permutations have a lovely notation called <strong>cycles</strong>: $(1\,2\,3)$ means "1's spot goes to 2, 2 to 3, 3 back to 1." Any shuffle, however tangled, decomposes uniquely into disjoint cycles — like combing a knot into a few independent loops. This turns "arrangement" from a dizzying blur into something countable and computable.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ah2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 z" fill="#3a6088"/>
+        </marker>
+      </defs>
+      <circle cx="90" cy="45" r="16" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.3"/><text x="90" y="50" font-size="14" fill="#1e3a5f" text-anchor="middle">1</text>
+      <circle cx="270" cy="45" r="16" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.3"/><text x="270" y="50" font-size="14" fill="#1e3a5f" text-anchor="middle">2</text>
+      <circle cx="180" cy="120" r="16" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.3"/><text x="180" y="125" font-size="14" fill="#1e3a5f" text-anchor="middle">3</text>
+      <path d="M 106 42 Q 180 15 254 42" fill="none" stroke="#3a6088" stroke-width="1.5" marker-end="url(#ah2)"/>
+      <path d="M 268 61 Q 240 105 197 115" fill="none" stroke="#3a6088" stroke-width="1.5" marker-end="url(#ah2)"/>
+      <path d="M 165 112 Q 110 90 88 62" fill="none" stroke="#3a6088" stroke-width="1.5" marker-end="url(#ah2)"/>
+      <text x="180" y="145" font-size="13" fill="#c9544a" text-anchor="middle" font-style="italic">cycle (1 2 3): 1→2→3→1</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Definition</div>
+    <p>$S_n$ is the group of <strong>all bijections</strong> (one-to-one correspondences) of the set $\{1,2,\dots,n\}$, with <strong>composition</strong> ("do one, then another") as the operation, and $|S_n|=n!$ elements. It is generally <strong>non-commutative</strong>: swapping (1 2) then (2 3) differs from the reverse order.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It's Beautiful</div>
+    <p>Cayley's theorem, restated: <strong>every finite group is a subgroup of some $S_n$.</strong> The most humble, concrete thing — "shuffling" — captures every abstract finite group; $S_n$ is "the mother of all finite groups." Deeper still: the internal structure of $S_n$ holds one of the most dramatic answers in the history of mathematics. Galois proved that for $n\ge5$, $S_n$ is "unsolvable," <strong>and hence that quintic and higher equations have no formula in radicals</strong> — a two-thousand-year puzzle about solving equations, its answer written into the group structure of shuffling.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Sorting algorithms essentially seek a path in $S_n$ from "disordered" to "ordered"; the number of inversions is the minimum count of adjacent swaps needed. Classical block ciphers scramble plaintext with permutations. The Rubik's cube group is a subgroup of $S_{48}$. And Galois theory — grown atop $S_n$ — today underpins coding theory and computer-algebra systems that solve polynomials.</p>
+  </div>
+
+  <div class="essence">In one line: the most concrete "shuffling" contains the most abstract of all groups; $S_n$ is the <strong>womb and yardstick</strong> of the finite-group world.</div>
+  <div class="think">To ponder: a 52-card deck has more shufflings than there are atoms in the observable universe. How can something "finite" grow so vast? What does this factorial "combinatorial explosion" mean in the algorithmic complexity you know?</div>
+</div>
+
+<!-- Concept 3: Lagrange -->
+<div class="card">
+  <h2>Lagrange's Theorem</h2>
+  <div class="en-name">The part divides the whole</div>
+  <span class="tag">Group Theory</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>A group can contain "smaller groups" — subgroups, like a self-consistent brick inside a larger structure. Lagrange's theorem states something very strong: <strong>with that brick, you can tile the entire group with no gaps and no overlaps, and every tile is the same size.</strong><br><br>The consequence is immediately rigid: a group of 12 elements can only have subgroups of size dividing 12 — 1, 2, 3, 4, 6, 12 — and <strong>never a subgroup of 5 elements</strong>. The most primitive count, "size," pins down the possible internal structure. This is not an empirical pattern; it is necessity.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 120" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="30" width="80" height="60" fill="#c9a96b" fill-opacity="0.45" stroke="#8a7340" stroke-width="1"/>
+      <rect x="100" y="30" width="80" height="60" fill="#e6ecf3" stroke="#3a6088" stroke-width="1"/>
+      <rect x="180" y="30" width="80" height="60" fill="#e6ecf3" stroke="#3a6088" stroke-width="1"/>
+      <rect x="260" y="30" width="80" height="60" fill="#e6ecf3" stroke="#3a6088" stroke-width="1"/>
+      <text x="60" y="65" font-size="13" fill="#1e3a5f" text-anchor="middle" font-style="italic">H</text>
+      <text x="140" y="65" font-size="13" fill="#3a6088" text-anchor="middle" font-style="italic">g₁H</text>
+      <text x="220" y="65" font-size="13" fill="#3a6088" text-anchor="middle" font-style="italic">g₂H</text>
+      <text x="300" y="65" font-size="13" fill="#3a6088" text-anchor="middle" font-style="italic">g₃H</text>
+      <text x="180" y="18" font-size="12" fill="#1e3a5f" text-anchor="middle">the whole group G = 4 equal-size cosets</text>
+      <text x="180" y="108" font-size="11.5" fill="#5a7090" text-anchor="middle" font-style="italic">|G| = |H| × [G:H]  →  |H| divides |G|</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Definition</div>
+    <p>If a finite group $G$ has a subgroup $H$, then $|H|$ divides $|G|$, and the quotient $[G:H]=|G|/|H|$ is called the <strong>index</strong> of $H$. The key to the proof is <strong>cosets</strong> $gH=\{g\cdot h:h\in H\}$: one shows all cosets have equal size (each equal to $|H|$), are pairwise disjoint, and together make up $G$. So $G$ is cut into $[G:H]$ equal pieces — divisibility is just reading off this "tiling diagram."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It's Beautiful</div>
+    <p>This is a paragon of "the simple governing the complex": a pure <em>counting</em> constraint that, in one stroke, locks down every possible shape of the group. One corollary is beautiful to the extreme — <strong>every group of prime order is cyclic</strong>: if $|G|=p$ is prime, it has no subgroups but $\{e\}$ and itself, so its structure has no choice. From "infinitely many possibilities," a single divisibility carves out order.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Fermat's little theorem $a^{p-1}\equiv1\pmod p$ — a cornerstone of modern cryptography — is a direct corollary of Lagrange applied to "the multiplicative group mod $p$": that group has $p-1$ elements, so any element's "order" must divide $p-1$. The correctness of RSA, primality testing, and Diffie–Hellman key exchange all ultimately return to this divisibility constraint. An abstract counting theorem holds up billions of encryptions a day.</p>
+  </div>
+
+  <div class="essence">In one line: <strong>the size of a part must divide the size of the whole</strong> — one statement about counting, locking down every shape a group can take.</div>
+  <div class="think">To ponder: Lagrange says a subgroup's order divides the group's. Does the <em>converse</em> hold — if $d$ divides $|G|$, must $G$ have a subgroup of order $d$? (The answer is subtle: yes for prime powers, i.e. Sylow's theorem; not in general.)</div>
+</div>
+
+<!-- Concept 4: Group action & representation -->
+<div class="card">
+  <h2>Group Action &amp; Representation</h2>
+  <div class="en-name">From crystals to quarks</div>
+  <span class="tag">Group Theory · Applications</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>A group in itself is a set of abstract actions; a <strong>group action</strong> lets those actions actually "move" a concrete object — atoms in a crystal, points in a plane, quantum states. A <strong>representation</strong> goes further: it replaces each group element with a <em>matrix</em>, so that abstract multiplication becomes matrix multiplication you can genuinely compute.<br><br>Group actions bring a pair of twin concepts: the set of all positions a point can reach under every action is its <strong>orbit</strong>; the actions that pin that point in place form its <strong>stabilizer</strong>. They obey a delicate conservation law — the bigger the orbit, the smaller the stabilizer, and their product is exactly the size of the group.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 210" xmlns="http://www.w3.org/2000/svg">
+      <line x1="120" y1="45" x2="260" y2="45" stroke="#c0c8d4" stroke-width="0.8"/>
+      <line x1="70" y1="105" x2="310" y2="105" stroke="#c0c8d4" stroke-width="0.8"/>
+      <line x1="120" y1="165" x2="260" y2="165" stroke="#c0c8d4" stroke-width="0.8"/>
+      <circle cx="120" cy="45" r="12" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.2"/><text x="120" y="49" font-size="11" fill="#1e3a5f" text-anchor="middle">n</text>
+      <circle cx="260" cy="45" r="12" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.2"/><text x="260" y="49" font-size="11" fill="#1e3a5f" text-anchor="middle">p</text>
+      <circle cx="70" cy="105" r="12" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.2"/><text x="70" y="109" font-size="10" fill="#1e3a5f" text-anchor="middle">Σ⁻</text>
+      <circle cx="310" cy="105" r="12" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.2"/><text x="310" y="109" font-size="10" fill="#1e3a5f" text-anchor="middle">Σ⁺</text>
+      <circle cx="120" cy="165" r="12" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.2"/><text x="120" y="169" font-size="10" fill="#1e3a5f" text-anchor="middle">Ξ⁻</text>
+      <circle cx="260" cy="165" r="12" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.2"/><text x="260" y="169" font-size="10" fill="#1e3a5f" text-anchor="middle">Ξ⁰</text>
+      <circle cx="190" cy="105" r="12" fill="#c9a96b" fill-opacity="0.35" stroke="#8a7340" stroke-width="1.2"/><text x="190" y="109" font-size="10" fill="#1e3a5f" text-anchor="middle">Σ⁰</text>
+      <circle cx="190" cy="105" r="20" fill="none" stroke="#c9544a" stroke-width="0.9" stroke-dasharray="3 2"/><text x="190" y="140" font-size="10" fill="#c9544a" text-anchor="middle">Λ⁰</text>
+      <text x="190" y="22" font-size="12" fill="#3a6088" text-anchor="middle" font-style="italic">SU(3) octet: 8 baryons on a hexagon</text>
+      <text x="190" y="198" font-size="11" fill="#5a7090" text-anchor="middle">one "representation" of a group, matching real particles</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Definition</div>
+    <p>A <strong>group action</strong> is a homomorphism $G\to\mathrm{Sym}(X)$, letting each group element play a permutation of the set $X$; a <strong>representation</strong> is a homomorphism $\rho:G\to GL(V)$, turning group elements into invertible matrices on a vector space. The core tool is the <strong>orbit–stabilizer theorem</strong>:</p>
+    <div class="formula-box">$|G| = |\mathrm{Orb}(x)|\times|\mathrm{Stab}(x)|$</div>
+    <p>$\mathrm{Orb}(x)$ is everywhere $x$ can go under the action; $\mathrm{Stab}(x)$ is the elements fixing $x$. This is essentially a dynamic version of Lagrange's theorem — the group's size is split between "how far it can move" and "how firmly it is pinned."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It's Beautiful</div>
+    <p>Group actions let an abstract group first "touch" the real world, and representation theory translates group problems into linear algebra — the most computable branch of mathematics. How many ways a group can "essentially" act is captured completely by its <strong>irreducible representations</strong>. So "which symmetries does this system have" becomes equivalent to "which irreducible representations does its symmetry group have," turning a physics question fully algebraic.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>This is group theory's most astonishing payoff. <strong>Crystallography</strong>: the symmetry groups that "leave a lattice invariant" in three-dimensional space, enumerated by pure group theory, number <strong>exactly 230</strong> (the space groups) — not an experimental tally but a law computed by mathematics, obeyed by every crystal in nature without exception. <strong>Particle physics</strong>: Gell-Mann arranged known hadrons by the representations of SU(3), and they fell precisely onto the lattice points of hexagons and triangles (see figure); an empty slot predicted the then-unknown $\Omega^-$ particle, confirmed precisely by experiment years later. Quarks are the fundamental representation of SU(3); the entire Standard Model is, at heart, a play staged on the gauge symmetry group $SU(3)\times SU(2)\times U(1)$.</p>
+  </div>
+
+  <div class="essence">In one line: a group touches the world through <strong>action</strong> and is tamed by linear algebra through <strong>representation</strong>; nature's elementary particles are just cells in a group-theory table.</div>
+  <div class="think">To ponder: Gell-Mann predicted a new particle from an "empty slot in the table" — just as Mendeleev predicted new elements from gaps in the periodic table. Why can a "gap in a symmetry" predict a real, undiscovered existence?</div>
+</div>
+
+<div class="deep-title">— Deeper Reflections —</div>
+
+<details><summary>Why are non-commutative (non-abelian) groups far more "interesting" than commutative ones?</summary>
+<div>Commutative groups are extremely regular: finite abelian groups can be completely classified, all direct products of cyclic groups, with almost no suspense. Once non-commutativity appears, $ab\ne ba$ creates rich internal tension — conjugacy classes, normal subgroups, and more all come alive. Most real-world symmetries are non-commutative: 3D rotations $SO(3)$, shuffling $S_n$, the Rubik's cube — all cases where "order matters." It is especially crucial in physics: Yang–Mills gauge theory is built on the non-abelian groups $SU(N)$, and all the complexity of the strong and weak interactions springs from this "non-commutativity." Abelian groups are the arithmetic of group theory; non-abelian groups are its poetry.</div></details>
+
+<details><summary>Why is the "classification of finite simple groups" called the largest mathematical project of the 20th century?</summary>
+<div>Simple groups are the "primes" of group theory — basic bricks that cannot be further decomposed by normal subgroups, and every finite group is built from them. Compiling a complete list of all finite simple groups was a collective effort spanning roughly half a century, over a hundred mathematicians, and more than ten thousand pages of papers, declared complete only in the 1980s. The result: finite simple groups fall into a few infinite families (cyclic, alternating, groups of Lie type), plus 26 "sporadic groups" belonging to no family. The largest is the <strong>Monster</strong>, with about $8\times10^{53}$ elements. Stranger still is "Moonshine": the Monster turns out to be deeply linked to modular functions in number theory — a purely algebraic colossus sharing a mysterious string of numbers with a seemingly unrelated object of complex analysis, its echoes not yet exhausted.</div></details>
+
+<details><summary>Why did group representation theory become the natural language of quantum mechanics?</summary>
+<div>Quantum states live in vector spaces, and a system's symmetries (rotation, translation, particle exchange) act on those states — precisely the setting that defines a "representation." Wigner noted that a particle's spin and an energy level's degeneracy are, at heart, labels of irreducible representations of the symmetry group. Why do hydrogen energy levels degenerate in specific ways? Because they correspond to the dimensions of irreducible representations of $SO(3)$ (and a hidden $SO(4)$). Why are there only fermions and bosons? Because the group exchanging two identical particles, $S_2$, has only two one-dimensional representations, matching the symmetric and antisymmetric wavefunctions. Representation theory translates "symmetry" directly into "observable quantum numbers," one of the deepest organizing principles of theoretical physics.</div></details>
+
+<details><summary>What is the fundamental difference between Lie groups (continuous groups) and finite groups?</summary>
+<div>A finite group is a discrete set of actions; a <strong>Lie group</strong> is one that "deforms continuously" — for instance all rotations $SO(3)$, with smoothly adjustable parameters. The key new tool is the <strong>Lie algebra</strong>: doing infinitesimal analysis near the identity "linearizes" the curved group into a vector space, condensing its multiplication into the Lie bracket $[X,Y]$ and letting calculus enter group theory. The physical meaning is profound: in Noether's theorem, "continuous symmetry → conservation law" refers precisely to Lie groups — time-translation invariance gives energy conservation, rotational invariance gives angular-momentum conservation. Finite groups govern discrete symmetries (crystals, particle species); Lie groups govern continuous ones (spacetime, gauge fields); together they form the skeleton of modern physics.</div></details>
+
+<nav class="bottom">
+  <a href="index.en.html">← Back to Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>
