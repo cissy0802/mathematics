@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Measure Theory & the Foundations of Probability · Day 21 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.resources a{color:#3a6088;text-decoration:none;border-bottom:1px dotted #3a6088}
+.resources a:hover{color:#1e3a5f;border-bottom-style:solid}
+.english{background:#f7f5f0;padding:14px 18px;border-radius:4px;font-size:0.92rem;color:#4a3c2a;margin-top:6px}
+.english strong{color:#1e3a5f}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#eef2f6;border-radius:4px;margin-top:10px;padding:2px 18px;border-left:3px solid #3a6088}
+details summary{cursor:pointer;font-weight:600;color:#1e3a5f;padding:12px 0}
+details div{padding:0 0 14px;font-size:0.95rem;color:#2a3548}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 21 · 2026.07.13</div>
+  <h1>Measure Theory & the Foundations of Probability</h1>
+  <div class="meta">How to rigorously assign a "size" to sets — and to luck</div>
+  <div class="epigraph">"Probability theory is nothing but measure theory with a soul." — Mark Kac</div>
+</header>
+
+<!-- Concept 1: σ-algebra -->
+<div class="card">
+  <h2>σ-algebra</h2>
+  <div class="en-name">The family of events you are "allowed to ask about"</div>
+  <span class="tag">Measure Theory</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Start by accepting something counterintuitive: <strong>not every set can be sensibly assigned a "size."</strong> Insisting on a length for every subset forces "$1=2$"-style contradictions (the Banach–Tarski paradox). So mathematicians step back: first fence off a well-behaved collection of sets, and speak of size only for those. That fenced-off collection is a <strong>σ-algebra</strong> — a list of "events you are allowed to ask about."<br><br>It must be closed under three things: the whole space is in it; if an event $A$ is in it, then "$A$ does not happen" is too; and if <strong>countably many</strong> events are in it, so is "at least one of them happens." In plain terms: <em>the moment you can ask "what is the probability of $A$," you can automatically ask about "not $A$" and "$A$ or $B$ or $C$…"</em>. A σ-algebra guarantees the questioning system is self-consistent — you never pose a question that has no answer.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>A σ-algebra $\mathcal{F}\subseteq 2^\Omega$ over a sample space $\Omega$ satisfies:</p>
+    <div class="formula-box">$\Omega\in\mathcal{F};\quad A\in\mathcal{F}\Rightarrow A^c\in\mathcal{F};\quad A_1,A_2,\dots\in\mathcal{F}\Rightarrow \bigcup_{i=1}^{\infty}A_i\in\mathcal{F}$</div>
+    <p>The three clauses: the full set is measurable; closure under <strong>complement</strong>; closure under <strong>countable union</strong> (the Greek σ literally marks "countable"). The smallest σ-algebra generated by all open intervals is the <strong>Borel sets</strong> — nearly every set you could write down is a Borel set.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>The depth of a σ-algebra lies not in "size" but in the fact that <strong>it encodes information</strong>. Picture a wager revealed over time: $\mathcal{F}_t$ stands for "everything you know by time $t$." The later it gets, the more questions you can answer, and the larger $\mathcal{F}_t$ grows — this increasing chain of σ-algebras is a <em>filtration</em>. One object, two faces: "which sets are measurable" on one side, "how much you currently know" on the other. Measure theory geometrizes knowledge.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Finance uses filtrations to model "information arriving over time," and the martingale theory of option pricing is built on them; in machine learning the <strong>conditional expectation</strong> $E[X\mid\mathcal{F}]$ — "the best guess of $X$ given this information" — is exactly a projection onto a σ-algebra, the mathematical core of Bayesian inference and of value functions in reinforcement learning.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="think"><strong>A σ-algebra is not a pile of sets but a self-consistent set of questioning rights — it fixes both "what can be measured" and "what you know right now."</strong><br>Question: if one σ-algebra contains another, which one corresponds to "more information"? Why does "knowing more" mean being able to answer more questions, rather than fewer?</div>
+  </div>
+</div>
+
+<!-- Concept 2: Measure -->
+<div class="card">
+  <h2>Measure</h2>
+  <div class="en-name">The rule that extends "length" to everything</div>
+  <span class="tag">Measure Theory</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>A measure is a "size-assigning machine": feed it a set, get back a non-negative number — length, area, volume, mass, or probability. It need only obey one iron law: <strong>countable additivity</strong> — cut a set into countably many non-overlapping pieces, and the total size equals the sum of the pieces. Sounds bland; the power is startling.<br><br>The classic shock: <strong>all rational numbers</strong> in $[0,1]$ have measure $0$. The rationals are everywhere dense — so why is their "length" zero? Because they are countable, and can be covered by a sequence of intervals of arbitrarily small total length — cover the $n$-th rational with an interval of length $\varepsilon/2^n$, and the total is at most $\varepsilon$, which can be as small as you like. <em>Being dense</em> and <em>occupying zero space</em> can coexist — a conclusion the Riemann-era intuition could never deliver.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <div class="formula-box">$\mu:\mathcal{F}\to[0,\infty],\quad \mu(\varnothing)=0,\quad \mu\!\Big(\bigsqcup_{i=1}^{\infty}A_i\Big)=\sum_{i=1}^{\infty}\mu(A_i)$</div>
+    <p>$\mu$ acts on a σ-algebra (only measurable sets), the empty set has size $0$, and additivity holds for disjoint ($\bigsqcup$) countable unions. Extending "length" this way to as many sets of $\mathbb{R}$ as possible gives the <strong>Lebesgue measure</strong>.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>One axiom subsumes length, area, volume, mass distribution, and probability — from now on they are <strong>different instances of the same structure</strong>. Better still is the notion of a "null set": the Cantor set is <em>uncountable</em> (as many points as the whole real line) yet has measure $0$. It forces you to fully separate "how many points" from "how much room" — cardinality and measure are two independent rulers, gauging two utterly different senses of a set's "bigness."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Wherever a "distribution" must be weighed, measure appears: mass and charge distributions in physics, grayscale density in image processing. In generative AI, the distance between two probability distributions — the <strong>Wasserstein distance</strong> (optimal transport) — is essentially asking "to haul one heap of measure into another, how far must you carry it, minimally," the theoretical pillar behind Wasserstein-GAN and the training stability of diffusion models.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="think"><strong>With one axiom — countable additivity — measure makes length, volume, mass, and probability the same thing; and null sets reveal that a set's "count" and its "room" are two separate matters.</strong><br>Question: can you build a set of measure $0$ that is nonetheless dense near every point? If a property that holds "almost everywhere" may fail on a null set, what does that say about "exceptions"?</div>
+  </div>
+</div>
+
+<!-- Concept 3: Lebesgue integration -->
+<div class="card">
+  <h2>Lebesgue Integration</h2>
+  <div class="en-name">Slice horizontally, not vertically</div>
+  <span class="tag">Analysis</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Lebesgue himself told a wonderful analogy. To count a scattered pile of coins, there are two ways: <strong>Riemann's way</strong> takes them by position, adding them one by one from left to right; <strong>Lebesgue's way</strong> first sorts by denomination — all the ones together, all the fifty-cents together — then sums "denomination × count in that pile."<br><br>Translated to integration: Riemann slices vertical thin strips along the <em>x-axis</em> (the domain); Lebesgue slices horizontally along the <em>y-axis</em> (the range), asking "the part of the domain where the function's value lands in $[y,y+dy]$ — how big is its <strong>measure</strong>?" For tame functions the two agree; but faced with a wild function that jumps everywhere, the horizontal Lebesgue slicing stays unbothered — it only cares "how large, in total, is the region at each height," not how fragmented that region is.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 400 190" xmlns="http://www.w3.org/2000/svg">
+      <!-- Riemann: vertical slices -->
+      <g transform="translate(15,20)">
+        <text x="80" y="-4" font-size="11" fill="#3a6088" text-anchor="middle" font-style="italic">Riemann · vertical, along x</text>
+        <g fill="#3a6088" fill-opacity="0.22" stroke="#3a6088" stroke-width="0.5">
+          <rect x="0" y="96" width="16" height="44"/>
+          <rect x="16" y="72" width="16" height="68"/>
+          <rect x="32" y="52" width="16" height="88"/>
+          <rect x="48" y="40" width="16" height="100"/>
+          <rect x="64" y="36" width="16" height="104"/>
+          <rect x="80" y="42" width="16" height="98"/>
+          <rect x="96" y="58" width="16" height="82"/>
+          <rect x="112" y="82" width="16" height="58"/>
+          <rect x="128" y="104" width="16" height="36"/>
+          <rect x="144" y="118" width="16" height="22"/>
+        </g>
+        <path d="M 0 96 Q 72 8 160 118" fill="none" stroke="#1e3a5f" stroke-width="1.6"/>
+        <line x1="0" y1="140" x2="160" y2="140" stroke="#888" stroke-width="0.8"/>
+        <line x1="0" y1="140" x2="0" y2="20" stroke="#888" stroke-width="0.8"/>
+      </g>
+      <!-- Lebesgue: horizontal slices -->
+      <g transform="translate(220,20)">
+        <text x="80" y="-4" font-size="11" fill="#c9544a" text-anchor="middle" font-style="italic">Lebesgue · horizontal, along y</text>
+        <g fill="#c9544a" fill-opacity="0.22" stroke="#c9544a" stroke-width="0.5">
+          <rect x="0" y="118" width="160" height="22"/>
+          <rect x="14" y="96" width="132" height="22"/>
+          <rect x="30" y="74" width="100" height="22"/>
+          <rect x="48" y="52" width="64" height="22"/>
+          <rect x="64" y="36" width="32" height="16"/>
+        </g>
+        <path d="M 0 96 Q 72 8 160 118" fill="none" stroke="#1e3a5f" stroke-width="1.6"/>
+        <line x1="0" y1="140" x2="160" y2="140" stroke="#888" stroke-width="0.8"/>
+        <line x1="0" y1="140" x2="0" y2="20" stroke="#888" stroke-width="0.8"/>
+        <text x="176" y="110" font-size="9" fill="#c9544a" text-anchor="middle">y</text>
+        <line x1="168" y1="36" x2="168" y2="130" stroke="#c9544a" stroke-width="0.7" marker-end="url(#a)"/>
+      </g>
+      <defs><marker id="a" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#c9544a"/></marker></defs>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>First define it for "simple functions" (step functions taking finitely many values): $\int s\,d\mu=\sum_k y_k\,\mu(\{x:s(x)=y_k\})$ — each height times the measure of the domain-chunk taking that height; then take the supremum over simple functions approaching from below:</p>
+    <div class="formula-box">$\displaystyle\int_\Omega f\,d\mu=\sup\Big\{\int_\Omega s\,d\mu:\ 0\le s\le f,\ s\ \text{simple}\Big\}$</div>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>It cures Riemann integration's two chronic ailments. First, <strong>far more functions become integrable</strong>: the Dirichlet function ($1$ on rationals, $0$ on irrationals) is utterly non-integrable for Riemann, yet Lebesgue sees at once that its integral is $0$ (the rationals have measure zero). Second, <strong>limits and integrals exchange freely</strong> — the monotone and dominated convergence theorems make "$\lim\int=\int\lim$" hold under mild conditions, a luxury Riemann cannot grant. This is precisely why the $L^p$ function spaces are <em>complete</em> (every Cauchy sequence converges), forming the bedrock of functional analysis and of the Hilbert spaces of quantum mechanics.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>An expectation in probability is just a Lebesgue integral $E[X]=\int X\,dP$, covering both discrete sums and continuous integrals with no need for two separate formulas; Fourier analysis, signal processing, and "taking the expected loss over a data distribution" in machine learning all rest on it underneath. Empirical risk minimization in deep learning is, at bottom, approximating a Lebesgue integral by a sample average.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="think"><strong>Change the slicing — along the range, not the domain — and you buy two freedoms Riemann can't afford: "integrate far more functions" and "let limits pass through the integral sign."</strong><br>Question: why does "sorting by value" inherently require you to measure "how big is the domain-chunk where the function takes a given value"? Between measure theory and integration theory, which must come first?</div>
+  </div>
+</div>
+
+<!-- Concept 4: Probability as measure -->
+<div class="card">
+  <h2>Probability as Measure</h2>
+  <div class="en-name">Kolmogorov's foundation</div>
+  <span class="tag">Probability</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>In 1933, Kolmogorov gave "luck" a solid foundation in a single line: <strong>probability is just a measure whose total is exactly $1$.</strong> Rolling dice, rain tomorrow, a quantum measurement — every random phenomenon is caught by the same skeleton: a <strong>probability space</strong> $(\Omega,\mathcal{F},P)$. $\Omega$ is all possible outcomes, $\mathcal{F}$ is the events you may ask about (a σ-algebra), and $P$ is a measure weighing each event, with the whole space weighing $1$.<br><br>A <strong>random variable</strong>, then, is not "a number that varies" — it is a <em>measurable function</em> $X:\Omega\to\mathbb{R}$, translating each underlying outcome into a value. So "the expectation of $X$" is the Lebesgue integral of $X$ against the probability measure. All the machinery of the previous three cards fuses here into one engine: randomness is fully geometrized.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <div class="formula-box">$P:\mathcal{F}\to[0,1],\quad P(\Omega)=1,\quad E[X]=\int_\Omega X\,dP$</div>
+    <p>Probability is all three measure axioms plus one normalization, $P(\Omega)=1$. That single difference aside, probability theory and measure theory share the same skeleton.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>This language stitches together two long-divided halves: discrete probability (sums) and continuous probability (integrals) are both now "integration against $P$," with no need for two sets of theorems. More crucially, it gave, for the first time, <strong>a rigorous stage for the law of large numbers and the central limit theorem</strong>, and let martingales, Markov processes, and Brownian motion — "randomness evolving in time" — be precisely defined. What Kolmogorov did was, in essence, replace the three-centuries-tangled philosophical question "what is probability" with an axiom system anyone can verify — <em>turning luck from metaphysics into geometry</em>.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>All of modern statistics and machine learning is built on it: Bayesian inference updates between probability measures; reinforcement learning's Markov decision processes need measure theory to define policies and returns rigorously; martingale pricing in finance and the forward/reverse stochastic differential equations of diffusion generative models all run on the $(\Omega,\mathcal{F},P)$ skeleton. Every time you write $E[\text{loss}]$, you are invoking Kolmogorov's foundation.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="think"><strong>Probability is not a separate subject but "measure theory with total mass one" — random variables are measurable functions, expectation is an integral, and luck thereby becomes computable geometry.</strong><br>Question: if probability is merely a normalized measure, why does it have "a soul" (in Kac's words)? Drop the normalization $P(\Omega)=1$ — which concepts, belonging to probability alone and absent from measure theory, would you lose?</div>
+  </div>
+</div>
+
+<!-- Deeper reflections -->
+<div class="card">
+  <h2>Deeper Reflections</h2>
+  <div class="en-name">Open questions · toward the boundary and across disciplines</div>
+
+  <details>
+    <summary>Why must additivity be "countable" rather than "finite" or "arbitrary"?</summary>
+    <div>Finite additivity is too weak: it cannot handle limits, series, or continuous distributions — all the calculus-style operations break down. Arbitrary (uncountable) additivity is too strong: view $[0,1]$ as the union of uncountably many single points, each of measure $0$, and arbitrary additivity would force "$1=0$." <strong>Countable</strong> is the sweet spot — strong enough to support limits and convergence theorems, weak enough to stay consistent. Many "σ"s in mathematics (σ-algebra, σ-finite) guard this countable dividing line.</div>
+  </details>
+
+  <details>
+    <summary>What does the existence of "non-measurable sets" mean? Does it shake the reliability of mathematics?</summary>
+    <div>Vitali used the axiom of choice to construct a set that admits no reasonable length; Banach–Tarski goes further, splitting a ball into finitely many pieces and reassembling them into two balls of the same size. These "pathological" sets are not bugs — they remind us that <em>measurability is a good property to be earned, not taken for granted</em>. They all rely on the axiom of choice and can never be written down explicitly — every set you can concretely construct is measurable. Mathematics is not shaken; it has merely learned to hold "size" in respect.</div>
+  </details>
+
+  <details>
+    <summary>Measure theory makes "almost everywhere" a core phrase — why can "exceptions" be ignored?</summary>
+    <div>"Holds almost everywhere" = fails only on a null set. Since a null set changes no integral's value, it "occupies no room" in the world of measure. This brings a new notion of equivalence: two functions that agree almost everywhere are treated as the same $L^p$ element. The depth: <strong>a countable infinity of exceptional points can, in the sense of "size," equal no exception at all</strong>. Cardinality sees them; measure does not. Which ruler counts as "real" depends on the question you are asking.</div>
+  </details>
+
+  <details>
+    <summary>Why do quantum mechanics, finance, and AI all converge on measure theory?</summary>
+    <div>Because they all handle "randomness and superposition over a continuous state space." Quantum states live in the $L^2$ Hilbert space — a complete space defined via Lebesgue integration; option pricing rests on martingales, martingales on filtrations, filtrations on σ-algebras; a diffusion model's stochastic differential equations need Brownian motion, which exists rigorously only within the framework of a probability measure. Measure theory is the one language that can hold "infinite-dimensional," "continuous," "random," and "limit-exchange" all at once — so any discipline meeting their intersection eventually returns to Kolmogorov's foundation.</div>
+  </details>
+</div>
+
+<nav class="bottom">
+  <a href="index.en.html">← Back to Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>
