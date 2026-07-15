@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Arc of Mathematical History · Day 23 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.resources a{color:#3a6088;text-decoration:none;border-bottom:1px dotted #3a6088}
+.resources a:hover{color:#1e3a5f;border-bottom-style:solid}
+.english{background:#f7f5f0;padding:14px 18px;border-radius:4px;font-size:0.92rem;color:#4a3c2a;margin-top:6px}
+.english strong{color:#1e3a5f}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#eef2f6;border-radius:4px;margin-top:10px;padding:2px 18px;border-left:3px solid #3a6088}
+details summary{cursor:pointer;font-weight:600;color:#1e3a5f;padding:12px 0}
+details div{padding:0 0 14px;font-size:0.95rem;color:#2a3548}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 23 · 2026.07.15</div>
+  <h1>The Arc of Mathematical History</h1>
+  <div class="meta">A relay of ideas — from the axiom to the frontier of the infinite</div>
+  <div class="epigraph">"If I have seen further it is by standing on the shoulders of giants." — Isaac Newton</div>
+</header>
+
+<!-- Overview timeline -->
+<div class="viz">
+  <svg viewBox="0 0 720 110" xmlns="http://www.w3.org/2000/svg">
+    <line x1="30" y1="60" x2="690" y2="60" stroke="#3a6088" stroke-width="1.5"/>
+    <g text-anchor="middle" font-family="Georgia,serif">
+      <circle cx="90" cy="60" r="5" fill="#1e3a5f"/>
+      <text x="90" y="40" font-size="12" fill="#1e3a5f" font-style="italic">Axiom</text>
+      <text x="90" y="82" font-size="10" fill="#5a7090">Euclid · ~300 BCE</text>
+      <circle cx="270" cy="60" r="5" fill="#1e3a5f"/>
+      <text x="270" y="40" font-size="12" fill="#1e3a5f" font-style="italic">Algebra · Algorithm</text>
+      <text x="270" y="82" font-size="10" fill="#5a7090">al-Khwārizmī · ~820</text>
+      <circle cx="470" cy="60" r="5" fill="#1e3a5f"/>
+      <text x="470" y="40" font-size="12" fill="#1e3a5f" font-style="italic">Change</text>
+      <text x="470" y="82" font-size="10" fill="#5a7090">Newton·Leibniz · 1680s</text>
+      <circle cx="650" cy="60" r="5" fill="#c9544a"/>
+      <text x="650" y="40" font-size="12" fill="#c9544a" font-style="italic">Program</text>
+      <text x="650" y="82" font-size="10" fill="#5a7090">Hilbert · 1900</text>
+    </g>
+  </svg>
+</div>
+
+<!-- Concept 1: The Axiomatic Method -->
+<div class="card">
+  <h2>The Axiomatic Method</h2>
+  <div class="en-name">Euclid's <em>Elements</em> (c. 300 BCE)</div>
+  <span class="tag">Greek Geometry</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Imagine convincing someone who never takes anything on faith: every "obviously" is met with "why?" Euclid's revolutionary move was to first lay down a handful of postulates no one can refuse (a line joins two points, a segment extends indefinitely...), and thereafter derive every conclusion from them by pure logic. The 465 propositions of the <em>Elements</em> stand like a cathedral built from just 5 postulates, 5 common notions, and 23 definitions: each brick rests on the ones beneath, and tracing all the way down lands on that tiny foundation. This is not "a book about triangles" — it is humanity's first demonstration of <strong>how to derive the most certain knowledge from the fewest assumptions.</strong></p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="120" cy="100" r="70" fill="none" stroke="#3a6088" stroke-width="1.2"/>
+      <circle cx="190" cy="100" r="70" fill="none" stroke="#3a6088" stroke-width="1.2"/>
+      <line x1="120" y1="100" x2="190" y2="100" stroke="#1e3a5f" stroke-width="1.6"/>
+      <line x1="120" y1="100" x2="155" y2="39.4" stroke="#c9544a" stroke-width="1.6"/>
+      <line x1="190" y1="100" x2="155" y2="39.4" stroke="#c9544a" stroke-width="1.6"/>
+      <circle cx="120" cy="100" r="3" fill="#1e3a5f"/>
+      <circle cx="190" cy="100" r="3" fill="#1e3a5f"/>
+      <circle cx="155" cy="39.4" r="3" fill="#c9544a"/>
+      <text x="112" y="116" font-size="11" fill="#1e3a5f">A</text>
+      <text x="192" y="116" font-size="11" fill="#1e3a5f">B</text>
+      <text x="150" y="33" font-size="11" fill="#c9544a">C</text>
+      <text x="155" y="172" font-size="10" fill="#5a7090" text-anchor="middle" font-style="italic">Elements, Prop. 1: an equilateral triangle by compass and straightedge alone</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Statement</div>
+    <p>Of the five postulates, the first four are short and self-evident; the fifth — the <strong>parallel postulate</strong> — is far wordier. An equivalent form:</p>
+    <div class="formula-box">Through a point off a line, there is <strong>exactly one</strong> parallel to it.</div>
+    <p>This "not-quite-self-evident" postulate is the spark of a two-thousand-year controversy.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It's Beautiful</div>
+    <p>Countless minds tried to prove the fifth postulate from the first four — all failed. Not until the 19th century did Gauss, Bolyai, and Lobachevsky realize it <em>cannot</em> be proved: negate it, and you get an equally consistent <strong>non-Euclidean geometry</strong> (Day 10). A single "unprovable postulate" ultimately hatched curved space, and with it general relativity. One seemingly loose brick in the foundation pried open a whole new universe. Rigor, for the first time, revealed its imagination.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>The axiomatic method is the <strong>operating system</strong> of all modern mathematics: groups, topology, probability (Kolmogorov's axioms) all run on "give a few axioms, see what follows." Formal verification (Coq, Lean) and program-correctness proofs are Euclid's spirit mechanized. Even the U.S. Declaration of Independence — "we hold these truths to be self-evident" — echoes the syntax of the <em>Elements</em>.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + A Question</div>
+    <div class="think"><strong>Mathematical certainty comes not from "it looks right," but from "it follows unassailably from agreed starting points."</strong><br>Question: if postulates are humanly chosen and can be negated, is mathematics a truth <em>discovered</em>, or a game <em>invented</em>? (Day 53, philosophy of mathematics, revisits this.)</div>
+  </div>
+</div>
+
+<!-- Concept 2: Algebra and the Algorithm -->
+<div class="card">
+  <h2>Algebra &amp; the Algorithm</h2>
+  <div class="en-name">al-Khwārizmī (c. 820, the House of Wisdom, Baghdad)</div>
+  <span class="tag">Arabic Algebra</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>The Greeks excelled at geometric figures but treated "solving an equation" as a series of isolated puzzles. al-Khwārizmī's leap: rather than out-clever each problem, give a general procedure <strong>anyone can follow to a solution</strong>. The <em>al-jabr</em> ("restoring / transposing") in his title became the word <em>algebra</em>; his own name, Latinized, became <em>algorithm</em>. The spirit of algebra was born here — <strong>never mind what the specific numbers are; attend only to the structure of the operations</strong>, using symbols as placeholders and moving them by rule. This is the astonishing jump from "the answer to this problem" to "the method for this whole class."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Statement</div>
+    <p><strong>Completing the square</strong> to solve $x^2 + bx = c$: picture $x^2+bx$ as a square of side $x$ with two strips of width $b/2$ attached; add a small $(b/2)^2$ tile in the corner and it becomes one whole large square:</p>
+    <div class="formula-box">$$x^2+bx+\left(\tfrac{b}{2}\right)^2=\left(x+\tfrac{b}{2}\right)^2$$</div>
+    <p>"Completing the square" is literal — <em>finishing the figure into a whole square</em> — geometric intuition growing straight into an algebraic formula.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 300 170" xmlns="http://www.w3.org/2000/svg">
+      <rect x="40" y="40" width="90" height="90" fill="#3a6088" fill-opacity="0.28" stroke="#1e3a5f" stroke-width="1"/>
+      <text x="85" y="90" font-size="13" fill="#1e3a5f" text-anchor="middle" font-style="italic">x²</text>
+      <rect x="130" y="40" width="45" height="90" fill="#c9a96b" fill-opacity="0.45" stroke="#8a7340" stroke-width="1"/>
+      <text x="152" y="90" font-size="11" fill="#6b5a2e" text-anchor="middle">bx⁄2</text>
+      <rect x="40" y="130" width="90" height="45" fill="#c9a96b" fill-opacity="0.45" stroke="#8a7340" stroke-width="1"/>
+      <text x="85" y="157" font-size="11" fill="#6b5a2e" text-anchor="middle">bx⁄2</text>
+      <rect x="130" y="130" width="45" height="45" fill="#c9544a" fill-opacity="0.4" stroke="#c9544a" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="152" y="157" font-size="10" fill="#c9544a" text-anchor="middle">(b⁄2)²</text>
+      <text x="240" y="105" font-size="11" fill="#1e3a5f" text-anchor="middle" font-style="italic">add red tile<tspan x="240" dy="16">= whole square</tspan></text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It's Beautiful</div>
+    <p>al-Khwārizmī had none of today's notation (he described equations entirely in words), yet the step of "abstracting a reusable procedure" points directly at the computer a thousand years later. The <strong>algorithm</strong> — a finite, unambiguous, mechanically executable sequence of steps — is algebra's deepest bequest to the world. The entire edifice of computer science is, in essence, an infinite amplification of his instruction: "do exactly these steps." Here mathematics first turned from being "about numbers" to being "about methods."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>From solving equations to RSA encryption, from sorting to training neural networks — all of it is "algorithms." Symbolic algebra later evolved into Boolean algebra (Day 12, logic) and abstract algebra (groups, rings, fields — Day 20). A compiler translating your code into machine instructions performs exactly al-Khwārizmī's "symbol manipulation by rule." Every line of code you write continues a thread that set out from Baghdad twelve centuries ago.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + A Question</div>
+    <div class="think"><strong>Algebra's greatness lies not in solving for some x, but in the discovery that the "method of solving" can itself be abstracted, named, and mechanically executed.</strong><br>Question: when you write a <code>for</code> loop, how far are you al-Khwārizmī's heir? Why did the idea of "executable, deterministic steps" have to wait for a symbolic language before it truly took off?</div>
+  </div>
+</div>
+
+<!-- Concept 3: Calculus and the Scientific Revolution -->
+<div class="card">
+  <h2>Calculus &amp; the Scientific Revolution</h2>
+  <div class="en-name">The Language of Change · Newton &amp; Leibniz (1680s)</div>
+  <span class="tag">The Calculus Revolution</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Before Newton, mathematics was largely <em>static</em> — geometric figures, algebraic equations, none of it moving. Yet the world is forever <strong>changing</strong>: planets move, temperatures shift, populations grow. Newton (and, independently, Leibniz) forged a language for "continuous change": the calculus. It proved that "finding the slope of a tangent" (a rate) and "finding the area under a curve" (an accumulation) — two seemingly unrelated crafts — are in fact <strong>inverse operations</strong> (the fundamental theorem, Day 3). Overnight, motion, gravity, and flow could be written down and predicted precisely.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Statement</div>
+    <p>The fundamental theorem turns "finding area" into "find an antiderivative, subtract at the endpoints":</p>
+    <div class="formula-box">$$\int_a^b f(x)\,dx = F(b)-F(a),\qquad F'=f$$</div>
+    <p>And Newton's second law $F=m\ddot{x}$ is itself a <strong>differential equation</strong> — "the force now" locks in "the entire future trajectory" (Day 22).</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It's Beautiful</div>
+    <p>This is history's most famous "simultaneous independent discovery": Newton in 1666, Leibniz in the late 1670s, arriving at the same summit from different motives (Newton for physics, Leibniz for philosophy and notation). The ensuing <strong>priority dispute</strong> split British and Continental mathematics for nearly a century — Britain clung to Newton's clumsy dot notation and stagnated, while the Continent raced ahead on Leibniz's elegant $dy/dx$. <strong>The quality of notation could decide the rise or fall of a nation's mathematics</strong> — history's lesson in the power of good design.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Calculus is the mother tongue of all physics and engineering. Maxwell's equations, the Schrödinger equation, Navier–Stokes, Black–Scholes — modern science is written almost entirely as differential equations (Day 22). And today's deep-learning <strong>backpropagation</strong> is still Leibniz's chain rule, automated at massive scale: a three-hundred-year-old notational convention now runs billions of times per second on every GPU.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + A Question</div>
+    <div class="think"><strong>Calculus let humanity "write down change" mathematically for the first time, packing the motion of the cosmos into equations.</strong><br>Question: why can "good notation" make thought advance almost on its own? What exactly did Leibniz's $dy/dx$ give us over Newton's $\dot{y}$, enough to let an entire continent's mathematics overtake the other?</div>
+  </div>
+</div>
+
+<!-- Concept 4: Hilbert's 23 Problems -->
+<div class="card">
+  <h2>Hilbert's 23 Problems</h2>
+  <div class="en-name">Mapping the Frontier of a New Century (1900, Paris)</div>
+  <span class="tag">The Modern Program</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>At the 1900 International Congress of Mathematicians in Paris, the 38-year-old Hilbert did not parade his results — he did something bolder: he <strong>listed the 23 unsolved problems he believed would define the 20th century</strong>, in effect drawing the whole field a treasure map. It marks the moment mathematics moved from "everyone for themselves" to a modern discipline with a shared program. He was convinced there is no <em>ignorabimus</em> — no unknowable — and left the famous line: "We must know. We will know." (Wir müssen wissen. Wir werden wissen.)</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Statement</div>
+    <p>A few jewels from the list:</p>
+    <div class="formula-box" style="text-align:left;font-size:0.98rem">No. 1: The continuum hypothesis (sizes of infinity, Day 11)<br>No. 2: The consistency of the axioms of arithmetic<br>No. 8: The Riemann hypothesis (the mystery of prime distribution, still open, Day 6)<br>No. 10: Is there a general algorithm to decide whether a Diophantine equation has integer solutions?</div>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It's Beautiful</div>
+    <p>Here comes the most dramatic reversal: Hilbert's No. 2 asked to "prove mathematics free of contradiction," and No. 10 to "find a universal decision algorithm" — yet in 1931 Gödel's <strong>incompleteness theorems</strong> showed No. 2's ambition impossible, and in 1970 Matiyasevich showed No. 10's algorithm <strong>simply does not exist</strong>. <em>The very problems Hilbert posed had, as their answer, "the certainty you want does not exist."</em> Probing the boundary of certainty, he found the boundary itself. That humility — taught to him by his own questions — runs deeper than any theorem. (This thread leads straight to Day 24: Gödel, Turing, Church.)</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>The negative answer to No. 10 directly birthed <strong>computability theory</strong>: to prove "no algorithm exists," Turing first had to define precisely "what an algorithm is" — hence the Turing machine, hence the theoretical blueprint of the modern computer (Day 24). The Riemann hypothesis (No. 8) still carries a million-dollar prize and drives prime distribution and cryptography (Day 6). A list from 1900 still shapes where mathematicians spend their effort.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + A Question</div>
+    <div class="think"><strong>What truly drives mathematics forward is often not the answer, but the good question, precisely posed.</strong><br>Question: had Hilbert known that his two most cherished problems would both receive negative answers, would he still have listed them? Does "proving that something simply cannot be done" count as a mathematical victory?</div>
+  </div>
+</div>
+
+<!-- Going Deeper -->
+<div class="card">
+  <div class="section">
+    <div class="label">Going Deeper</div>
+  </div>
+
+  <details>
+    <summary>Why are mathematics' great breakthroughs so often made "simultaneously" by several people independently? (Newton–Leibniz; Bolyai–Lobachevsky–Gauss)</summary>
+    <div>This suggests major discoveries are often a <strong>function of their era</strong> rather than the flash of an isolated genius. When the prerequisite ideas have matured and the necessary tools (symbols, coordinates, limits) are in place, the "next step" hangs almost in mid-air, waiting for someone to reach up and pick it — much as the telephone and evolution had near-simultaneous independent inventors. To do genuinely original work, perhaps you must go where others have no tools yet to reach.</div>
+  </details>
+
+  <details>
+    <summary>Non-Euclidean geometry shows axioms are optional — so is mathematical truth absolute, or conventional?</summary>
+    <div>If Euclidean and non-Euclidean geometries are equally consistent, "parallels are unique" is not a cosmic truth but a <em>choice</em>. Formalists conclude that mathematics is merely a symbol game obeying rules, with no "truth" at stake. Platonists reply: what is optional is the axiom system, but <em>within</em> each system the theorems remain discovered necessities. Tellingly, physics eventually told us real space is curved — that "non-self-evident" postulate is, on cosmic scales, actually false. This triangle of truth, convention, and reality is the subject of Day 53.</div>
+  </details>
+
+  <details>
+    <summary>Why could the Arab world take up the baton and advance Greek mathematics during Europe's "Dark Ages"?</summary>
+    <div>During the Islamic Golden Age (8th–13th centuries), Baghdad's "House of Wisdom" launched a vast translation movement, rendering Greek, Indian, and Persian works into Arabic and synthesizing them — India's decimal notation and "zero," Greek geometry, and native algebra converging here. Mathematics belongs to no single civilization; it is a relay across languages and faiths: when one civilization declines, the torch is not extinguished, only passed to another hand. Today's "Arabic numerals" are a living fossil of that chain of transmission.</div>
+  </details>
+
+  <details>
+    <summary>After Gödel shattered Hilbert's optimism of "we will know," why did mathematics not collapse but flourish instead?</summary>
+    <div>Because a "limitative result" does not negate mathematics — it <strong>maps its boundaries</strong>. Incompleteness says "no formal system can prove all the true statements it can express," not "there are truths humans can never reach." Knowing which roads are dead ends lets one concentrate effort where progress is possible; whole new branches — computability, model theory, proof theory — grew out of these "impossibilities." A discipline's maturity often shows in its willingness to state precisely what it cannot do.</div>
+  </details>
+</div>
+
+<nav class="bottom">
+  <a href="index.en.html">← Back to Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>
