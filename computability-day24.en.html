@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gödel, Turing, Church · Day 24 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.resources a{color:#3a6088;text-decoration:none;border-bottom:1px dotted #3a6088}
+.resources a:hover{color:#1e3a5f;border-bottom-style:solid}
+.english{background:#f7f5f0;padding:14px 18px;border-radius:4px;font-size:0.92rem;color:#4a3c2a;margin-top:6px}
+.english strong{color:#1e3a5f}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#eef2f6;border-radius:4px;margin-top:12px;padding:4px 18px;border-left:3px solid #3a6088}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;padding:12px 0;font-size:0.98rem}
+details div{padding:0 0 14px;font-size:0.95rem;color:#2a3548}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 24 · 2026.07.16</div>
+  <h1>Gödel, Turing, Church</h1>
+  <div class="meta">The moment mathematics touched its own boundary</div>
+  <div class="epigraph">"We can only see a short distance ahead, but we can see plenty there that needs to be done." — Alan Turing</div>
+</header>
+
+<!-- Concept 1: Incompleteness -->
+<div class="card">
+  <h2>Incompleteness</h2>
+  <div class="en-name">Gödel's Theorems · mathematics cannot prove all of its own truths</div>
+  <span class="tag">Logic</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>In 1900 Hilbert dreamed of a perfect foundation for all of mathematics: a set of axioms plus mechanical rules of inference that could, in principle, prove every true statement and never contradict itself. In 1931, the 25-year-old Gödel split that dream in two.<br><br>His weapon was a sentence that bites its own tail: <strong>"This statement is not provable within this system."</strong> If it <em>can</em> be proved, then it is false, and the system has proved a falsehood — collapse. If it <em>cannot</em> be proved, then what it says is exactly <em>true</em>, yet the system can't reach that truth. Either way, the system is <strong>inconsistent</strong> or <strong>incomplete</strong>. Gödel's genius was <strong>Gödel numbering</strong>: he translated "provability" — a meta-statement <em>about</em> mathematics — into an ordinary arithmetic statement <em>about numbers</em>, forcing mathematics to talk about itself.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Definition</div>
+    <div class="formula-box">$$G \iff \neg\,\mathrm{Prov}(\ulcorner G \urcorner)$$</div>
+    <p>$G$ is the self-referential statement; $\ulcorner G \urcorner$ is $G$'s own <strong>Gödel number</strong> (a formula turned into a unique natural number); $\mathrm{Prov}(n)$ means "the formula coded by $n$ is provable in the system." The line reads: <em>"$G$ is true if and only if $G$ is unprovable."</em> The First Incompleteness Theorem says: in any sufficiently strong (arithmetic-expressing) and consistent formal system, such a true-but-unprovable $G$ exists. The Second is harsher: such a system <strong>cannot prove its own consistency from within</strong>.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It's Beautiful</div>
+    <p>Its beauty lies in <strong>refining the liar's paradox from poison into a theorem</strong>. "I am lying" only traps you in a loop; Gödel tweaked it slightly — from "I am false" to "I am unprovable" — and the paradox became a precise scalpel, cutting out the eternal gap between truth and provability. <em>True</em> is larger than <em>provable</em>: some statements are true, yet no finite proof can ever reach them. This is not a failure of mathematics but its honesty — mature enough to admit "there are truths I cannot touch."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Incompleteness is the theoretical ceiling of <strong>formal verification</strong>: no automated system can prove every true property of every program — which is precisely why software verification always needs human insight. Gödel numbering itself is the ancestor of <strong>"code as data"</strong>: treating code as numbers that other code can process is the soul of the von Neumann architecture and of metaprogramming.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + A Question</div>
+    <div class="think"><strong>Essence:</strong> any system strong enough to talk about itself is strong enough to state a truth it cannot prove.<br><strong>Question:</strong> a human mind can "see" that $G$ is true while the system cannot — does this mean the brain transcends any formal system? Or are we merely standing inside a larger system with blind spots of its own?</div>
+  </div>
+</div>
+
+<!-- Concept 2: Turing machine & Halting problem -->
+<div class="card">
+  <h2>The Turing Machine & the Halting Problem</h2>
+  <div class="en-name">Where machines meet their limit</div>
+  <span class="tag">Computability</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Gödel proved "some truths can't be proved"; Turing translated the same idea into the <strong>language of machines</strong>. In 1936 he imagined a minimal device: an infinitely long tape, a read/write head, and a table of "see this, do that" rules. From this scant equipment it could compute anything mechanically computable — the <strong>Turing machine</strong>, the mathematical prototype of the modern computer.<br><br>Then he asked a lethal question: <strong>can we write a program $H$ that, given any program and its input, decides whether it will "halt" or "loop forever"?</strong> Intuitively it seems we should. Turing proved: <em>impossible</em>. The trick is exactly Gödel's — self-reference plus reversal.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Definition</div>
+    <p>Suppose a halting-decider $H(P, x)$ exists, returning "halts" when program $P$ halts on input $x$, and "loops" otherwise. Build a mischievous program $D$:</p>
+    <div class="formula-box">$$D(P):\quad \textbf{if } H(P,P)=\text{"halts"} \Rightarrow \text{loop forever};\quad \textbf{else} \Rightarrow \text{halt}$$</div>
+    <p>Now feed $D$ to itself and ask what $D(D)$ does. If $D(D)$ halts, by definition it should loop — contradiction; if it loops, by definition it should halt — again a contradiction. <strong>$D$ does the exact opposite of $H$'s prediction.</strong> So $H$ cannot exist. The halting problem is <strong>undecidable</strong>.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+      <g font-family="monospace" font-size="13" fill="#1e3a5f">
+        <rect x="30" y="40" width="34" height="34" fill="#fff" stroke="#3a6088"/>
+        <rect x="64" y="40" width="34" height="34" fill="#fff" stroke="#3a6088"/>
+        <rect x="98" y="40" width="34" height="34" fill="#fbf0ee" stroke="#c9544a" stroke-width="2"/>
+        <rect x="132" y="40" width="34" height="34" fill="#fff" stroke="#3a6088"/>
+        <rect x="166" y="40" width="34" height="34" fill="#fff" stroke="#3a6088"/>
+        <rect x="200" y="40" width="34" height="34" fill="#fff" stroke="#3a6088"/>
+        <text x="43" y="62">1</text><text x="77" y="62">0</text>
+        <text x="111" y="62">1</text><text x="145" y="62">1</text>
+        <text x="179" y="62">0</text><text x="213" y="62">…</text>
+      </g>
+      <path d="M 115 88 L 108 104 L 122 104 z" fill="#c9544a"/>
+      <text x="115" y="122" font-size="10" fill="#c9544a" text-anchor="middle" font-style="italic">head</text>
+      <circle cx="300" cy="42" r="20" fill="#e6ecf3" stroke="#3a6088"/>
+      <text x="300" y="46" font-size="11" fill="#1e3a5f" text-anchor="middle">q₀</text>
+      <circle cx="300" cy="105" r="20" fill="#e6ecf3" stroke="#3a6088"/>
+      <text x="300" y="109" font-size="11" fill="#1e3a5f" text-anchor="middle">q₁</text>
+      <path d="M 300 62 L 300 85" stroke="#3a6088" stroke-width="1.2" marker-end="url(#ah)"/>
+      <path d="M 240 55 Q 270 48 280 45" stroke="#8a7340" stroke-width="1" fill="none" marker-end="url(#ah)"/>
+      <defs><marker id="ah" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#3a6088"/></marker></defs>
+      <text x="345" y="75" font-size="9" fill="#5a7090" text-anchor="middle">rules</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It's Beautiful</div>
+    <p>The halting problem's beauty is that <strong>with a single imagined machine it draws a clean line between what can be computed and what never can</strong>. That line depends on no hardware — no quantum computer, no data center however vast can cross it — because it is a boundary of <em>logic</em>, not of <em>engineering</em>. And Turing's and Gödel's arguments share one skeleton: manufacture an object that <em>defies the prediction made about itself</em> — two men tunneling from opposite directions, meeting inside the same rock.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Undecidability ripples outward: <strong>Rice's theorem</strong> says every non-trivial semantic property of programs is undecidable — so perfect virus detection, infinite-loop detection, and compiler optimization are theoretically impossible, and industry must settle for approximations and heuristics. Every time an IDE warns of a "possible infinite loop" without daring to commit, that hedging traces back to the boundary Turing set in 1936.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + A Question</div>
+    <div class="think"><strong>Essence:</strong> some problems are not "no algorithm found yet" but "provably no algorithm at all" — uncomputability is a hard constraint of the universe.<br><strong>Question:</strong> the halting problem is undecidable for <em>all</em> programs, yet for many specific programs we see the answer at a glance. Why is "undecidable in general" not contradicted by "often decidable case-by-case"?</div>
+  </div>
+</div>
+
+<!-- Concept 3: Lambda calculus -->
+<div class="card">
+  <h2>The Lambda Calculus</h2>
+  <div class="en-name">Building all of computation from "function" alone</div>
+  <span class="tag">Foundations</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Turing defined computation with a tape-fed machine; in the same year, Church gave a radically different answer — <strong>functions, and nothing else</strong>. No memory, no variable assignment, no loop statements. The universe holds just one act: <em>applying one function to another thing</em>. This is the lambda calculus.<br><br>Astonishingly, with only "define a function" and "call a function," you can build numbers, truth values, recursion — everything computable. The number $3$ is no longer a symbol but the function "repeat an operation three times." Computation is no longer "a machine running" but <strong>"an expression simplifying"</strong> — like expanding $(a+b)^2$ in algebra, substituting step by step until nothing simplifies further.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Definition</div>
+    <p>The lambda calculus has only three forms of syntax: a variable $x$; an abstraction $\lambda x.\,M$ (defining a function that "takes $x$, returns $M$"); an application $M\,N$ (applying function $M$ to $N$). The one core rule of computation — <strong>β-reduction</strong> (substitution):</p>
+    <div class="formula-box">$$(\lambda x.\,M)\,N \;\to\; M[x := N]$$</div>
+    <p>Read: replace every $x$ in the body $M$ with $N$. That single substitution rule, applied over and over, <em>is</em> all of "computation." For example $(\lambda x.\,x{+}1)\,4 \to 4{+}1 \to 5$. Church encoding writes a natural number as $n \equiv \lambda f.\lambda x.\,f^{n}(x)$ — "apply $f$ $n$ times"; the number simply <em>is</em> the count of repetitions.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It's Beautiful</div>
+    <p>Its beauty is <strong>extreme minimalism</strong>: the entire edifice of computation rests on a single brick — "function." No state, no time, no side effects — computation is reduced to pure <em>substitution and equivalence</em>, a near-Platonic static truth. More beautiful still, it reveals a deep symmetry: <strong>the boundary between data and operation vanishes</strong>. Numbers are functions, truth values are functions, even "repetition" is a function. When you realize that "everything is a function" suffices to hold up the whole computable world, the shock rivals discovering that "everything is atoms."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>The lambda calculus is the direct ancestor of <strong>functional programming</strong>: Lisp, Haskell, and the <code>lambda</code>, closures, higher-order functions, and map/reduce in Python/JavaScript are all its descendants. The <strong>Curry–Howard isomorphism</strong> reveals a stunning trinity: <em>programs = proofs, types = propositions, running = simplification</em> — so a type checker becomes a theorem prover, the very foundation of proof assistants like Coq and Lean (see Day 19, category theory & type theory). React's pure-function components and immutable data flow are also echoes of the lambda calculus's "no side effects" philosophy.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + A Question</div>
+    <div class="think"><strong>Essence:</strong> give me only "define a function" and "call a function," and I will give you the entire computable universe.<br><strong>Question:</strong> the lambda calculus has no "loop" statement, yet recursion grows from a strange Y combinator $Y=\lambda f.(\lambda x.f(x\,x))(\lambda x.f(x\,x))$. Why can an expression that "hands a function to itself" be equivalent to infinite repetition?</div>
+  </div>
+</div>
+
+<!-- Concept 4: Church–Turing thesis -->
+<div class="card">
+  <h2>The Church–Turing Thesis</h2>
+  <div class="en-name">Three roads, one summit</div>
+  <span class="tag">Computability</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>In the 1930s, three people defined "what it means to be computable" from three directions: Gödel's <strong>recursive functions</strong> (built from the most primitive addition and recursion), Turing's <strong>Turing machine</strong> (the tape-fed device), and Church's <strong>lambda calculus</strong> (pure function substitution). The three setups seem utterly unrelated — one number theory, one mechanics, one function algebra.<br><br>Then the miracle: <strong>they were proved exactly equivalent.</strong> Whatever one can compute, the other two can too — not one function more, not one less. As if three expedition teams, out of contact, set off from desert, ocean, and jungle and climbed to the very same summit. This "different paths, same destination" strongly hints that they had touched not three human-made definitions but <strong>the objective contour of "computability" itself</strong>.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal Definition</div>
+    <div class="formula-box">$$\{\text{Turing-computable}\} \;=\; \{\lambda\text{-definable}\} \;=\; \{\text{general recursive}\}$$</div>
+    <p>The <strong>Church–Turing thesis</strong> asserts that this common class equals everything "any algorithm could intuitively compute." Note it is a <em>thesis</em>, not a <em>theorem</em> — because "an intuitive algorithm" cannot be formalized, you can't prove it, only keep verifying it. In ninety years, every computational model proposed (register machines, cellular automata, quantum computers…) has failed to exceed this class. A quantum computer is only <em>faster</em>; it computes not one thing more.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why It's Beautiful</div>
+    <p>Its beauty is the model example of <strong>"robustness is reality."</strong> When a concept can be defined in countless unrelated ways yet the results always coincide, mathematicians have reason to believe it has touched something real, independent of human convention — just as $\pi$ keeps surfacing from circles, from series, from probability. The Church–Turing thesis lifts "computable" from an engineering topic to <strong>an almost physical law</strong>: there exists an absolute, model-independent boundary of computation, and all our machines live on the same side of it.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>This thesis is the <strong>license</strong> that lets all of computer science stand: precisely because every reasonable model is equivalent, we can write algorithms in a high-level language without fearing the conclusions change on another machine, and "algorithm" becomes an absolute concept. Its <strong>physical version</strong> — "any physical process can be simulated by a Turing machine" — leads straight to quantum computing and even the philosophical debate "is the universe a computer?" (see Day 36, and Day 53 philosophy of mathematics).</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + A Question</div>
+    <div class="think"><strong>Essence:</strong> that three unrelated definitions of "computable" coincide exactly means we discovered not a definition but a computational boundary of the universe.<br><strong>Question:</strong> if a physical device (say, exploiting some continuous or quantum effect) could one day solve an uncomputable problem like the halting problem — would that overturn the Church–Turing thesis, or merely mean the word "computation" needs redefining?</div>
+  </div>
+</div>
+
+<!-- Going Deeper -->
+<div class="card">
+  <h2>Going Deeper</h2>
+  <div class="en-name">Open Questions · pushing the concepts to their edge</div>
+
+  <details>
+    <summary>Are Gödel's incompleteness and Turing's halting problem two faces of one theorem?</summary>
+    <div>In a sense, yes. Both share the same logical skeleton: <strong>diagonalization + self-reference</strong> — constructing an object that "talks about itself and defies the judgment made about itself." In fact Gödel's First Theorem follows from the undecidability of halting: if arithmetic were complete, you could decide whether any program halts by "enumerating all proofs," contradicting undecidability. Gödel discusses the boundary of "provability," Turing that of "computability," and through Gödel numbering a proof <em>is</em> a computation — the two boundaries are one crack seen in different projections.</div>
+  </details>
+
+  <details>
+    <summary>Can the human mind surpass a Turing machine?</summary>
+    <div>This is the heart of the Lucas–Penrose argument: since a person can "see" that the Gödel sentence $G$ is true while a formal system cannot, does the brain surpass any algorithm? The rebuttals are strong: what makes us so sure we are consistent? An inconsistent system can "prove" anything, including $G$; and our "seeing $G$ true" already presupposes the system is consistent — this merely pushes the problem into a larger system with blind spots of its own. There is no evidence the brain can compute uncomputable functions (see Day 30, mathematics for AI).</div>
+  </details>
+
+  <details>
+    <summary>Why are "almost all" real numbers uncomputable?</summary>
+    <div>There are only countably many Turing machines (each corresponds to a finite program, and finite strings are countable), yet uncountably many real numbers. So the reals a program can compute digit by digit — the computable numbers — form a "measure-zero set" of the reals. <strong>Poke a point at random on the number line, and it is almost surely a number no algorithm can ever generate.</strong> Familiar numbers like $\pi$, $e$, $\sqrt2$ are the rare computable exceptions — the vast majority of numbers in the universe we can never, in principle, write down (see Day 11, set theory & infinity).</div>
+  </details>
+
+  <details>
+    <summary>Will quantum computing overturn the Church–Turing thesis?</summary>
+    <div>No — at least not at the level of computability. A quantum computer efficiently solves some problems classical machines are slow at (e.g. Shor's algorithm factoring large numbers), but the <em>set</em> of functions it can compute is exactly that of a Turing machine: a Turing machine can simulate a quantum computer, just exponentially slower. So the quantum revolution shakes the <strong>complexity</strong> version of the strong thesis (the boundary of "efficiently computable"), not computability itself. Only a physical device that computes an uncomputable function like halting could overturn the thesis — and physics offers no such possibility (see Day 36, computational complexity).</div>
+  </details>
+</div>
+
+<nav class="bottom">
+  <a href="index.en.html">← Back to Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>
