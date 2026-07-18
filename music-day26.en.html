@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mathematics &amp; Music · Day 26 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.resources a{color:#3a6088;text-decoration:none;border-bottom:1px dotted #3a6088}
+.resources a:hover{color:#1e3a5f;border-bottom-style:solid}
+.english{background:#f7f5f0;padding:14px 18px;border-radius:4px;font-size:0.92rem;color:#4a3c2a;margin-top:6px}
+.english strong{color:#1e3a5f}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{margin-top:12px;background:#f7f9fb;border-radius:4px;padding:2px 16px;border-left:3px solid #c0c8d4}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;padding:12px 0;font-size:0.98rem}
+details[open] summary{margin-bottom:4px}
+details .body{padding:0 0 14px;font-size:0.95rem;color:#3a4658}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 26 · 2026.07.18</div>
+  <h1>Mathematics &amp; Music</h1>
+  <div class="meta">The integers, irrationals, and expectations hidden inside sound</div>
+  <div class="epigraph">"Music is the pleasure the human soul experiences from counting without being aware that it is counting." — Leibniz, in a letter to Goldbach</div>
+</header>
+
+<!-- Concept 1: Overtone series -->
+<div class="card">
+  <h2>The Overtone Series</h2>
+  <div class="en-name">An orchestra of integers inside one note</div>
+  <span class="tag">Acoustics · Analysis</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Pluck a guitar string and you think you hear "one note." In fact you hear a whole stack of notes at once. The string does not merely swing back and forth as a whole — it <strong>simultaneously</strong> splits into two, three, four segments, each vibrating on its own, at frequencies that are exactly 2×, 3×, 4× … the lowest note (the fundamental). This hidden ladder of higher tones is the <strong>overtone series</strong>.<br><br>You barely notice them, yet your brain always hears them. A violin and a flute play the same A — why can you tell them apart instantly? Because their overtone <em>recipe</em> differs: which overtones are strong, which are weak, is exactly what we call <strong>timbre</strong>. Pitch comes from the fundamental; timbre from the proportions of the overtones. One note, countless faces.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 210" xmlns="http://www.w3.org/2000/svg">
+      <g stroke-width="1.8" fill="none">
+        <text x="4" y="30" font-size="10" fill="#3a6088">n=1</text>
+        <line x1="40" y1="30" x2="360" y2="30" stroke="#ccc" stroke-width="0.5"/>
+        <path d="M40 30 Q200 -8 360 30" stroke="#1e3a5f"/>
+        <path d="M40 30 Q200 68 360 30" stroke="#1e3a5f" stroke-opacity="0.35"/>
+        <text x="368" y="34" font-size="9" fill="#5a7090">f₁</text>
+        <text x="4" y="75" font-size="10" fill="#3a6088">n=2</text>
+        <line x1="40" y1="75" x2="360" y2="75" stroke="#ccc" stroke-width="0.5"/>
+        <path d="M40 75 Q120 47 200 75 Q280 103 360 75" stroke="#3a6088"/>
+        <circle cx="200" cy="75" r="2.5" fill="#c9544a"/>
+        <text x="368" y="79" font-size="9" fill="#5a7090">2f₁</text>
+        <text x="4" y="120" font-size="10" fill="#3a6088">n=3</text>
+        <line x1="40" y1="120" x2="360" y2="120" stroke="#ccc" stroke-width="0.5"/>
+        <path d="M40 120 Q93 98 147 120 Q200 142 253 120 Q307 98 360 120" stroke="#3a6088"/>
+        <circle cx="147" cy="120" r="2.5" fill="#c9544a"/><circle cx="253" cy="120" r="2.5" fill="#c9544a"/>
+        <text x="368" y="124" font-size="9" fill="#5a7090">3f₁</text>
+        <text x="4" y="165" font-size="10" fill="#3a6088">n=4</text>
+        <line x1="40" y1="165" x2="360" y2="165" stroke="#ccc" stroke-width="0.5"/>
+        <path d="M40 165 Q80 147 120 165 Q160 183 200 165 Q240 147 280 165 Q320 183 360 165" stroke="#3a6088"/>
+        <text x="368" y="169" font-size="9" fill="#5a7090">4f₁</text>
+      </g>
+      <text x="200" y="200" font-size="10" fill="#8a7340" text-anchor="middle" font-style="italic">standing waves layered on one string · red dots = fixed nodes</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>A string of length $L$ fixed at both ends admits only <em>standing waves</em> whose ends stay still, so the allowed wavelengths are sieved into a discrete ladder, $\lambda_n = 2L/n$, giving frequencies</p>
+    <div class="formula-box">$$f_n = n\,f_1,\qquad n = 1, 2, 3, \ldots$$</div>
+    <p>$f_1$ is the fundamental (the string vibrating as a whole), $n$ the number of segments. The heart of it is one line: <strong>the allowed frequencies are integer multiples of the fundamental.</strong> The "integer" is no accident — it is forced by the boundary condition that both ends must be motionless.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>A free string could vibrate at any frequency; the moment you pin both ends, a continuous infinity of possibilities is <strong>sieved into a clean ladder of integers</strong>. This is the purest demonstration of "discreteness born from constraint" — and it is the <em>same mathematics</em> as why the energy levels of a hydrogen atom are discrete (wave equation + boundary conditions = eigenvalue problem). Twenty-five centuries ago Pythagoras found that strings in simple integer ratios sound most consonant — the first translation of "pleasing" into "integer," and the spark for the belief that the universe is written in number.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>An <strong>additive synthesizer</strong> literally stacks sine overtones by recipe to build a timbre; an organ's stops switch overtones on and off. Cross over to physics: the energy levels $E_n \propto n^2$ of a particle in a 1-D well, or the modes of a microwave cavity, are the same "wave + boundary = discrete spectrum." A violinist's <em>harmonics</em> — lightly touching the string's midpoint so only even harmonics survive — is a performer operating this mathematics by hand.</p>
+  </div>
+
+  <div class="section">
+    <div class="intuition">In one line: a note is never a single note — it is an invisible orchestra conducted by the integers, always present though you can barely hear it.</div>
+  </div>
+
+  <div class="section">
+    <div class="label">A question to sit with</div>
+    <div class="think">Strike a drum and you can hardly name its "pitch"; pluck a string and you can. A drumhead is a two-dimensional vibration, and its overtones are <em>not</em> integer multiples of the fundamental. Why do "non-integer overtones" make pitch go blurry?</div>
+  </div>
+</div>
+
+<!-- Concept 2: Equal temperament vs just intonation -->
+<div class="card">
+  <h2>Equal Temperament vs Just Intonation</h2>
+  <div class="en-name">A peace treaty bought with an irrational number</div>
+  <span class="tag">Number Theory · Tuning</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p><strong>Just intonation</strong> builds intervals from the simplest integer ratios: the pure octave $2{:}1$, the pure fifth $3{:}2$, the major third $5{:}4$ — the simpler the ratio, the more consonant (exactly because overtones coincide). Perfect-sounding, but here comes the trouble.<br><br>Start on one note and stack twelve pure fifths; you'd expect to circle cleanly back to the start, seven octaves up. But $(3/2)^{12} \approx 129.75$ while $2^7 = 128$ — <strong>off by a sliver, never closing</strong>. That gap is the <em>Pythagorean comma</em>. Mathematics delivers its cruel verdict: you cannot have every fifth pure <em>and</em> the octave close. Not both.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 190" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(120,95)">
+        <path d="M0,-70 A70,70 0 1 1 -12,-69" fill="none" stroke="#3a6088" stroke-width="2"/>
+        <circle cx="0" cy="-70" r="3" fill="#1e3a5f"/>
+        <circle cx="-12" cy="-69" r="3" fill="#c9544a"/>
+        <text x="6" y="-72" font-size="9" fill="#1e3a5f">start</text>
+        <text x="-58" y="-70" font-size="9" fill="#c9544a" text-anchor="end">off by a bit</text>
+        <text x="0" y="4" font-size="9" fill="#8a7340" text-anchor="middle" font-style="italic">stack 12</text>
+        <text x="0" y="16" font-size="9" fill="#8a7340" text-anchor="middle" font-style="italic">pure fifths</text>
+      </g>
+      <g transform="translate(255,50)">
+        <text x="0" y="0" font-size="11" fill="#1e3a5f">12 pure fifths</text>
+        <text x="0" y="20" font-size="12" fill="#c9544a" font-style="italic">(3/2)¹² ≈ 129.75</text>
+        <text x="0" y="44" font-size="11" fill="#1e3a5f">7 octaves</text>
+        <text x="0" y="64" font-size="12" fill="#3a6088" font-style="italic">2⁷ = 128</text>
+        <line x1="0" y1="78" x2="118" y2="78" stroke="#ccc"/>
+        <text x="0" y="98" font-size="10.5" fill="#8a7340">gap = Pythagorean comma</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p><strong>Equal temperament</strong> solves it by brute force: divide one octave (frequency ratio $2$) into 12 <em>equal</em> semitones on a logarithmic scale, each with frequency ratio</p>
+    <div class="formula-box">$$r = 2^{1/12} \approx 1.05946$$</div>
+    <p>So the fifth is $2^{7/12} \approx 1.4983$ — <strong>close to but not equal to</strong> the ideal $1.5$. In the exponent $7/12$, the $7$ is the semitone count of a fifth and $12$ the semitones in an octave. The price is that every interval is slightly out of tune; the reward is that <em>any key sounds equally in tune</em>.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>This is the textbook case of mathematical compromise. The beauty of just intonation's $3{:}2$ and a closing octave <strong>cannot logically coexist</strong>, so humanity chose to <em>spread</em> the error across all twelve tones — none perfect, none ugly. And it works only thanks to a numerical coincidence: $2^{7/12} \approx 3/2$ — in the language of <em>continued fractions</em>, $\log_2(3/2) \approx 7/12$ is its best low-order rational approximation. Bach wrote <em>The Well-Tempered Clavier</em> precisely to celebrate that this compromise let all 24 keys be played at last. Beauty, sometimes, is knowing exactly when to concede.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Every piano, every MIDI stream, every synth patch today lives in equal temperament. A layer deeper lies the <strong>continued fraction</strong>: the $12$ is not arbitrary — the convergents of $\log_2(3/2)$ give $7/12$, then $24/41$, $31/53$. So <em>53-tone equal temperament</em> has near-perfect fifths and is far more accurate than 12, yet has too many keys for anyone to use. Mathematics points to which "divisions" are worth trying; engineering and fingers decided 12 would win.</p>
+  </div>
+
+  <div class="section">
+    <div class="intuition">In one line: twelve-tone equal temperament is a peace treaty humanity signed with mathematics — one irrational number buys out the gap that just intonation could never close.</div>
+  </div>
+
+  <div class="section">
+    <div class="label">A question to sit with</div>
+    <div class="think">Suppose $\log_2(3/2)$ were exactly a rational $p/q$. Then stacking $q$ pure fifths would land <em>exactly</em> on some octave, the comma would vanish, and equal temperament and just intonation would merge into one. Would music history become simpler, or poorer? Is the "imperfection" here a defect — or precisely the source of richness?</div>
+  </div>
+</div>
+
+<!-- Concept 3: Fourier analysis -->
+<div class="card">
+  <h2>Fourier Analysis</h2>
+  <div class="en-name">Glasses that let you see sound's frequencies</div>
+  <span class="tag">Analysis · Signal Processing</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>A sound's waveform can be complex to the point of chaos — a voice, a piano, a noisy street. Fourier's astonishing claim: <strong>however complex, it can be decomposed into a sum of pure sine waves.</strong> Give me a waveform and I can report which frequencies it contains and how much of each.<br><br>This is a translation: from "what the sound looks like in <em>time</em>" to "which components it has in <em>frequency</em>." One sound, two views. And it is not just a mathematical game — your cochlea really does this: a coiled membrane whose different positions resonate with different frequencies, a biological Fourier transform. Your very act of "hearing pitch" is, physically, frequency decomposition.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 210" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke-width="1.6">
+        <text x="4" y="26" font-size="10" fill="#c9544a">sum</text>
+        <path d="M30 40 C50 10 60 12 75 40 C88 64 96 22 110 40 C126 60 134 8 150 40 C162 62 172 20 186 40 C202 64 210 12 225 40 C238 60 248 20 262 40 C278 64 286 12 300 40 C314 60 322 22 336 40 C346 55 352 30 360 40" stroke="#c9544a"/>
+        <line x1="30" y1="40" x2="360" y2="40" stroke="#eee" stroke-width="0.5"/>
+        <text x="185" y="70" font-size="10" fill="#8a7340" text-anchor="middle" font-style="italic">= the sum of these sine waves ↓</text>
+        <line x1="30" y1="105" x2="360" y2="105" stroke="#eee" stroke-width="0.5"/>
+        <path d="M30 105 Q92 70 155 105 Q217 140 280 105 Q330 78 360 105" stroke="#1e3a5f"/>
+        <text x="366" y="109" font-size="9" fill="#5a7090">f</text>
+        <line x1="30" y1="150" x2="360" y2="150" stroke="#eee" stroke-width="0.5"/>
+        <path d="M30 150 Q61 128 92 150 Q123 172 155 150 Q186 128 217 150 Q248 172 280 150 Q311 128 342 150 L360 150" stroke="#3a6088" stroke-opacity="0.85"/>
+        <text x="366" y="154" font-size="9" fill="#5a7090">2f</text>
+        <line x1="30" y1="192" x2="360" y2="192" stroke="#eee" stroke-width="0.5"/>
+        <path d="M30 192 Q50 178 70 192 Q90 206 110 192 Q130 178 150 192 Q170 206 190 192 Q210 178 230 192 Q250 206 270 192 Q290 178 310 192 Q330 206 350 192 L360 192" stroke="#3a6088" stroke-opacity="0.55"/>
+        <text x="366" y="196" font-size="9" fill="#5a7090">3f</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>Any waveform $f(t)$ of period $T$ can be written as an infinite superposition of sine waves:</p>
+    <div class="formula-box">$$f(t) = a_0 + \sum_{n=1}^{\infty}\Big[a_n\cos(n\omega t) + b_n\sin(n\omega t)\Big]$$</div>
+    <p>$\omega = 2\pi/T$ is the fundamental angular frequency and $n$ runs over the harmonics. The coefficients $a_n, b_n$ are the <em>inner product</em> (projection) of $f$ with each sine wave — plainly, "how much of this frequency is in the signal."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>Sine waves form an <strong>orthogonal basis</strong> — like the mutually perpendicular $x,y,z$ axes of space, onto which any vector decomposes <em>uniquely</em>. What Fourier did was fit a coordinate system onto the infinite-dimensional "space of functions." This is the same song as the <em>eigenvectors of linear algebra</em>: sine waves happen to be the eigenfunctions of the "differentiate" and "shift" operators, so in every problem of vibration, waves, and diffusion they are the natural protagonists — pick the right basis, and a hard problem collapses into a pile of simple one-dimensional ones.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>MP3 / AAC compression: move sound into the frequency domain, throw away the frequencies the ear can't hear, and shrink the file tenfold. The <strong>FFT</strong> (Fast Fourier Transform) is the beating heart of all digital signal processing — from 5G and medical CT to JPEG images. Spectrograms let you "see" sound, denoising trims specific bands, voiceprint ID uses spectral fingerprints. And your cochlea is nature's prototype of it all.</p>
+  </div>
+
+  <div class="section">
+    <div class="intuition">In one line: Fourier hands sound a pair of frequency glasses — put them on and the chaotic waveform snaps into a clear skeleton.</div>
+  </div>
+
+  <div class="section">
+    <div class="label">A question to sit with</div>
+    <div class="think">A short, sharp "click" is very brief, yet its spectrum must be very wide — containing many frequencies; a long, pure sustained tone has a very narrow spectrum. The more "concentrated" in time, the more "spread out" in frequency, and vice versa. Why is this "can't be both short and pure" constraint the very same mathematical theorem as Heisenberg's <em>uncertainty principle</em>?</div>
+  </div>
+</div>
+
+<!-- Concept 4: Why music pleases -->
+<div class="card">
+  <h2>Why Music Moves Us</h2>
+  <div class="en-name">Consonance, expectation, and the edge of order and chaos</div>
+  <span class="tag">Cognitive Math · Complexity</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Why does the octave ($2{:}1$) sound "fused into one," while two adjacent semitones together sound "harsh and clashing"? One explanation: the simpler the frequency ratio, the more the two notes' <strong>overtones coincide</strong>, the less effort for the ear — the more consonant; the more complex the ratio, the closer the overtones crowd, producing rough <em>beating</em> — dissonance. Consonance traces right back to the integers of Concept 1.<br><br>But music's magic goes far beyond "harmony." Truly moving music walks a <strong>tightrope between the expected and the unexpected</strong>: too predictable = boring, too random = noise. A melody keeps building expectations and then breaking them just enough — that sliver of suspense, satisfied or violated, is emotion.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 380 175" xmlns="http://www.w3.org/2000/svg">
+      <line x1="30" y1="140" x2="360" y2="140" stroke="#aaa" stroke-width="0.8"/>
+      <path d="M40 128 Q120 8 195 12 Q270 8 350 128" fill="none" stroke="#3a6088" stroke-width="2"/>
+      <circle cx="195" cy="12" r="3.5" fill="#c9544a"/>
+      <text x="195" y="4" font-size="9.5" fill="#c9544a" text-anchor="middle" font-style="italic">most pleasing</text>
+      <text x="40" y="158" font-size="10" fill="#5a7090" text-anchor="middle">pure order</text>
+      <text x="40" y="170" font-size="8.5" fill="#8a7340" text-anchor="middle">(boring)</text>
+      <text x="195" y="158" font-size="10" fill="#1e3a5f" text-anchor="middle">1/f · the edge</text>
+      <text x="350" y="158" font-size="10" fill="#5a7090" text-anchor="middle">pure randomness</text>
+      <text x="350" y="170" font-size="8.5" fill="#8a7340" text-anchor="middle">(noise)</text>
+      <text x="18" y="46" font-size="9.5" fill="#3a6088" transform="rotate(-90,18,46)" text-anchor="middle">pleasure →</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Semi-formal definition</div>
+    <p>Consonance correlates roughly with the <em>simplicity</em> of the frequency ratio $p{:}q$ (the Plomp–Levelt roughness curve quantifies this). And musical "surprise" can be captured with <strong>information theory</strong>: how unexpected a note is, in context, is</p>
+    <div class="formula-box">$$\text{surprise}(x) = -\log P(x \mid \text{context})$$</div>
+    <p>$P(x\mid\text{context})$ is the listener's <em>expected probability</em> for the next note given the melody so far. The more unexpected, the larger $-\log P$. The brain's response to this "prediction error" is the very source of aesthetic tension.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>Much pleasing music has a power spectrum of loudness and pitch fluctuation that is <strong>$1/f$ noise</strong> — sitting squarely <em>between</em> "purely regular $1/f^2$" and "purely random white noise." And the same fractal statistics show up in heartbeat intervals, river levels, and DNA sequences. The hint is profound: aesthetic pleasure may be the reward signal the brain issues for "just the right amount of predictability" — not order itself, nor chaos itself, but that narrow <em>edge</em> where the two meet.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>The core of algorithmic composition is modeling the conditional probability $P(\text{next note}\mid\text{context})$ — from early <em>Markov chains</em> to today's <strong>Transformers</strong>. MusicLM and Suno essentially learn this distribution, then sample from it while controlling the "surprise" so it is neither flat nor chaotic. Music recommendation, affective computing, even using music for anxiety intervention, all rest on this "expectation–violation–reward" mathematical chain.</p>
+  </div>
+
+  <div class="section">
+    <div class="intuition">In one line: music is mathematics playing a game with expectation — feeding the brain exactly enough surprise, and not one bit too much.</div>
+  </div>
+
+  <div class="section">
+    <div class="label">A question to sit with</div>
+    <div class="think">If a melody were perfectly predictable — entropy zero, every note guessable with certainty — then by the formula its "surprise" is identically zero. Is it still music? Conversely, what about a maximally random sound of highest entropy? Does "music" exist only in some entropy band <em>between</em> the two extremes?</div>
+  </div>
+</div>
+
+<!-- Deeper questions -->
+<div class="card">
+  <h2>Deeper Questions</h2>
+  <div class="en-name">Open problems · pushing the concepts to their edges</div>
+
+  <details>
+    <summary>Consonant integer ratios are adopted independently across nearly every culture — is that the universality of mathematics, or of auditory physiology?</summary>
+    <div class="body">The octave is treated as "the same note" in nearly every tradition — hard to call coincidence. Consonance arises from overtone coincidence, and overtones are a physical inevitability of strings and pipes, so any civilization using such instruments runs into the same integer ratios — like a case of <em>convergent evolution</em>. Yet scales (pentatonic, heptatonic, microtonal) are highly culture-dependent. The likely dividing line: the "physical skeleton" of consonance is universal, the "cultural flesh" of specific scales is diverse.</div>
+  </details>
+
+  <details>
+    <summary>The cochlea does a Fourier transform but has physical limits — does that explain why some chords "smear into mush"?</summary>
+    <div class="body">The basilar membrane is laid out by frequency, and each spot has a certain <em>critical bandwidth</em>: two frequencies falling inside the same band can't be told apart and interfere, producing roughness. This is the physiological basis of Plomp–Levelt roughness — dissonance isn't abstract numerical ugliness but two frequencies crowded onto the same stretch of membrane. It also means consonance depends on <em>absolute</em> pitch: the same interval sounds muddier low and clearer high.</div>
+  </details>
+
+  <details>
+    <summary>Time–frequency uncertainty sets a hard wall for music: can we know precisely both "what note" and "when it happens"?</summary>
+    <div class="body">Pinning a frequency accurately requires observing enough periods — enough time; yet music <em>changes over time</em>. So there is a fundamental trade-off: the more precisely you fix "the pitch right now," the less you can say about "when," and vice versa — this is the Fourier version of Heisenberg's uncertainty. It limits spectrogram resolution and explains why very short percussion "has no pitch."</div>
+  </details>
+
+  <details>
+    <summary>$1/f$ fractal statistics span music, heartbeats, and rivers — is that a deep law, or a circular definition of "beauty"?</summary>
+    <div class="body">$1/f$ noise appears in a startling number of systems; one account is that it reflects the universal dynamics of "multi-scale weak coupling": no single characteristic scale, fluctuations self-similar across all scales. But there's a warning: perhaps we <em>first</em> find certain sounds pleasing and <em>then</em> measure that they happen to be $1/f$, mistaking correlation for cause. To test causation you'd need prediction — synthesize sounds of varying spectral exponent and check whether preference truly peaks at $1/f$. So far supported, but not settled.</div>
+  </details>
+</div>
+
+<nav class="bottom">
+  <a href="index.en.html">← Back to Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>
