@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Art of Problem-Solving · Day 28 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.essence{background:#eef4ee;border-left:3px solid #5a8a5a;padding:14px 18px;margin-top:6px;color:#243024;font-weight:600}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fafbfd;border:1px solid #d8e0ea;border-radius:6px;padding:12px 18px;margin-bottom:12px}
+details summary{cursor:pointer;color:#1e3a5f;font-weight:600;font-size:0.98rem}
+details .body{margin-top:10px;font-size:0.95rem;color:#3a4658;line-height:1.8}
+.deep h2{font-size:1.3rem;color:#1e3a5f;margin-bottom:18px;text-align:center;font-family:"Times New Roman",Georgia,serif}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 28 · 2026.07.20</div>
+  <h1>The Art of Problem-Solving</h1>
+  <div class="meta">How to Solve It — Pólya and the universal craft of mathematical discovery</div>
+  <div class="epigraph">"A great discovery solves a great problem, but there is a grain of discovery in the solution of any problem." — George Pólya, <em>How to Solve It</em></div>
+</header>
+
+<!-- Concept 1: Pólya's four steps -->
+<div class="card">
+  <h2>Pólya's Four Steps</h2>
+  <div class="en-name">The Meta-Algorithm of Solving</div>
+  <span class="tag">Heuristics</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Most people get stuck on a hard problem because they leap straight to "what's the answer?" Pólya says: <strong>don't rush to compute — first ask the right questions.</strong> He splits solving into four stages: <strong>①Understand</strong> — what is the unknown? what is given? are the conditions sufficient? <strong>②Devise a plan</strong> — have I seen a similar problem? can I first solve an easier version? <strong>③Carry it out</strong> — proceed step by step, checking each step really holds. <strong>④Look back</strong> — is the answer correct? can I get it another way? what else could this method solve?<br><br>The point isn't the four words but that <em>it turns "inspiration" — seemingly uncontrollable — into moves you can practise repeatedly</em>. Stuck no longer means staring blankly; you have a checklist to interrogate yourself with: which step am I in? which condition did I ignore?</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>Its beauty is that <strong>it makes "how to think" itself an object of study</strong> — a triumph of metacognition. Pólya noticed that mathematicians reuse a small kit of general moves: analogy, specialization, generalization, working backwards, finding an auxiliary problem. These belong to no single branch of math yet work across all of them. It reveals something deep: <em>discovery isn't pure luck — it's a teachable craft.</em></p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>These four steps are almost exactly a modern <strong>AI agent's planning loop</strong>: understand the task → decompose into subgoals → execute step by step calling tools → reflect and self-correct. A large model's <em>chain-of-thought</em> essentially forces it to walk the "plan, execute" steps explicitly; frameworks like <em>ReAct</em> and <em>Reflexion</em> add Pólya's fourth step, "look back" — letting the model check its own answer and retry. Debugging software and designing scientific experiments follow the same flowchart.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="essence">The first skill in solving isn't calculation — it's knowing what to ask yourself the moment you're stuck.</div>
+    <div class="think">Recall a hard problem you recently solved (a code bug counts). Did you actually walk these four steps? Which one did you skip, and did that force a detour — was it failing to truly understand the problem, or skipping the "look back"?</div>
+  </div>
+</div>
+
+<!-- Concept 2: Reduction -->
+<div class="card">
+  <h2>Reduction & Auxiliary Problems</h2>
+  <div class="en-name">Turning a new problem into one already solved</div>
+  <span class="tag">Reduction</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Mathematicians almost never solve a problem "from scratch." What they do is <strong>reshape an unfamiliar problem until it looks like one they already know how to solve.</strong> Pólya calls this "can you reduce it to a known problem?" Descartes went further — he dreamed of reducing <em>every</em> problem to an equation, and every equation to algebra.<br><br>An everyday analogy: you must attend a meeting in a city you've never visited. You don't research "how to reach this specific address"; you reduce it to two solved subproblems — "how to get to that city" (book a flight) and "how to find an address in a city" (open a map). <strong>Reduction = not reinventing the wheel, but bolting your problem onto wheels that already exist.</strong></p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>Reduction reveals the <em>network structure</em> of knowledge: countless seemingly isolated problems are linked by arrows of "A reduces to B" into one vast web. The moment a core problem falls, everything that reduces to it is solved <strong>at once</strong>. This is leverage — one fulcrum moving a whole region. The cumulative, compounding power of mathematics springs from exactly this.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Reduction is <strong>the soul of computational complexity theory</strong>. The definition of "NP-complete" is: every NP problem reduces to it in polynomial time. So to prove a new problem "hard," you needn't analyze it from scratch — just reduce a known hard problem (like 3-SAT) to it. This chain of dominoes holds up all of theoretical computer science. <em>Divide and conquer</em> (reducing a big problem to smaller ones of the same kind), compilers reducing high-level code to machine code, and machine learning reducing "prediction" to "optimizing a loss function" are all reduction.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="essence">The strongest solver isn't the one who knows the most moves, but the one best at translating a new problem into an old one.</div>
+    <div class="think">Reduction has a trap: after reducing A to B, B may be harder to solve than A. When is a reduction genuine progress, and when has it merely relocated the difficulty? Can you think of a "seemingly simpler, actually harder" reduction?</div>
+  </div>
+</div>
+
+<!-- Concept 3: Invariant -->
+<div class="card">
+  <h2>The Invariant</h2>
+  <div class="en-name">Finding what stays fixed amid change</div>
+  <span class="tag">Invariant</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Facing a system you may operate on repeatedly (chess, a puzzle, a state machine), the sharpest question is: <strong>no matter what I do, what never changes?</strong> That unchanging thing is the invariant. Like a conservation law, it cleaves the infinitely many possible moves into two camps: the <em>reachable</em> and the <em>forever unreachable</em>.<br><br>The classic example — the <strong>mutilated chessboard</strong>: remove two opposite-corner squares from an $8\times 8$ board; can you tile the rest with 31 dominoes (each covering two squares)? Trying arrangements leads into endless cases. But note: every domino covers one black and one white square, so the <em>invariant = the number of black squares must equal the number of white</em>. The two opposite corners share a color, so removing them leaves the counts differing by 2 — <strong>the invariant is broken, hence it is impossible.</strong> One sentence beats a million trial placements.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 260 200" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(18,18)">
+        <g>
+          <rect x="0" y="0" width="20" height="20" fill="#f5f7fa" stroke="#c9544a" stroke-width="2" stroke-dasharray="3,2"/>
+          <rect x="20" y="0" width="20" height="20" fill="#3a6088"/>
+          <rect x="40" y="0" width="20" height="20" fill="#e9edf3"/>
+          <rect x="60" y="0" width="20" height="20" fill="#3a6088"/>
+          <rect x="80" y="0" width="20" height="20" fill="#e9edf3"/>
+          <rect x="100" y="0" width="20" height="20" fill="#3a6088"/>
+          <rect x="120" y="0" width="20" height="20" fill="#e9edf3"/>
+          <rect x="140" y="0" width="20" height="20" fill="#3a6088"/>
+          <rect x="0" y="20" width="20" height="20" fill="#3a6088"/>
+          <rect x="20" y="20" width="20" height="20" fill="#e9edf3"/>
+          <rect x="40" y="20" width="20" height="20" fill="#3a6088"/>
+          <rect x="60" y="20" width="20" height="20" fill="#e9edf3"/>
+          <rect x="80" y="20" width="20" height="20" fill="#3a6088"/>
+          <rect x="100" y="20" width="20" height="20" fill="#e9edf3"/>
+          <rect x="120" y="20" width="20" height="20" fill="#3a6088"/>
+          <rect x="140" y="20" width="20" height="20" fill="#e9edf3"/>
+          <g>
+            <rect x="0" y="40" width="20" height="20" fill="#e9edf3"/><rect x="20" y="40" width="20" height="20" fill="#3a6088"/><rect x="40" y="40" width="20" height="20" fill="#e9edf3"/><rect x="60" y="40" width="20" height="20" fill="#3a6088"/><rect x="80" y="40" width="20" height="20" fill="#e9edf3"/><rect x="100" y="40" width="20" height="20" fill="#3a6088"/><rect x="120" y="40" width="20" height="20" fill="#e9edf3"/><rect x="140" y="40" width="20" height="20" fill="#3a6088"/>
+            <rect x="0" y="60" width="20" height="20" fill="#3a6088"/><rect x="20" y="60" width="20" height="20" fill="#e9edf3"/><rect x="40" y="60" width="20" height="20" fill="#3a6088"/><rect x="60" y="60" width="20" height="20" fill="#e9edf3"/><rect x="80" y="60" width="20" height="20" fill="#3a6088"/><rect x="100" y="60" width="20" height="20" fill="#e9edf3"/><rect x="120" y="60" width="20" height="20" fill="#3a6088"/><rect x="140" y="60" width="20" height="20" fill="#e9edf3"/>
+            <rect x="0" y="80" width="20" height="20" fill="#e9edf3"/><rect x="20" y="80" width="20" height="20" fill="#3a6088"/><rect x="40" y="80" width="20" height="20" fill="#e9edf3"/><rect x="60" y="80" width="20" height="20" fill="#3a6088"/><rect x="80" y="80" width="20" height="20" fill="#e9edf3"/><rect x="100" y="80" width="20" height="20" fill="#3a6088"/><rect x="120" y="80" width="20" height="20" fill="#e9edf3"/><rect x="140" y="80" width="20" height="20" fill="#3a6088"/>
+            <rect x="0" y="100" width="20" height="20" fill="#3a6088"/><rect x="20" y="100" width="20" height="20" fill="#e9edf3"/><rect x="40" y="100" width="20" height="20" fill="#3a6088"/><rect x="60" y="100" width="20" height="20" fill="#e9edf3"/><rect x="80" y="100" width="20" height="20" fill="#3a6088"/><rect x="100" y="100" width="20" height="20" fill="#e9edf3"/><rect x="120" y="100" width="20" height="20" fill="#3a6088"/><rect x="140" y="100" width="20" height="20" fill="#e9edf3"/>
+            <rect x="0" y="120" width="20" height="20" fill="#e9edf3"/><rect x="20" y="120" width="20" height="20" fill="#3a6088"/><rect x="40" y="120" width="20" height="20" fill="#e9edf3"/><rect x="60" y="120" width="20" height="20" fill="#3a6088"/><rect x="80" y="120" width="20" height="20" fill="#e9edf3"/><rect x="100" y="120" width="20" height="20" fill="#3a6088"/><rect x="120" y="120" width="20" height="20" fill="#e9edf3"/><rect x="140" y="120" width="20" height="20" fill="#3a6088"/>
+          </g>
+          <rect x="0" y="140" width="20" height="20" fill="#3a6088"/>
+          <rect x="20" y="140" width="20" height="20" fill="#e9edf3"/>
+          <rect x="40" y="140" width="20" height="20" fill="#3a6088"/>
+          <rect x="60" y="140" width="20" height="20" fill="#e9edf3"/>
+          <rect x="80" y="140" width="20" height="20" fill="#3a6088"/>
+          <rect x="100" y="140" width="20" height="20" fill="#e9edf3"/>
+          <rect x="120" y="140" width="20" height="20" fill="#3a6088"/>
+          <rect x="140" y="140" width="20" height="20" fill="#f5f7fa" stroke="#c9544a" stroke-width="2" stroke-dasharray="3,2"/>
+        </g>
+      </g>
+      <text x="130" y="196" font-size="11" fill="#c9544a" text-anchor="middle" font-style="italic">both removed corners are white → color imbalance</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>An invariant turns "proving something is <em>impossible</em>" — normally hard — into the elegant task of "pointing out a conserved quantity." To prove something <em>can</em> be done, one example suffices; but to prove it can <em>never</em> be done, you must rule out infinitely many attempts at once — and the invariant is the master key. In physics this is the spirit of <strong>Noether's theorem</strong> (Day 18): behind every conservation law hides a symmetry. <em>The invariant is one of the deepest aesthetics math and physics share.</em></p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>The core of program verification is the <strong>loop invariant</strong>: a proposition that stays true after every iteration, from which you prove the algorithm correct. Database ACID and distributed-system consistency are essentially "maintaining some invariant under concurrent operations." In physics, energy, momentum, and charge conservation are invariants; in machine learning, seeking features <em>invariant</em> to rotation or translation (equivariant networks) is the same idea — find "the quantity unchanged under a transformation."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="essence">Want to prove something is forever impossible? Don't try every move — find a quantity no move can disturb.</div>
+    <div class="think">However you twist a Rubik's cube, certain "invariants" constrain which states it can reach (which is why a cube with one sticker swapped can never be solved). Can you think of another hidden conserved quantity in daily life that "no operation can change"?</div>
+  </div>
+</div>
+
+<!-- Concept 4: Extremal principle -->
+<div class="card">
+  <h2>The Extremal Principle</h2>
+  <div class="en-name">Attack from the largest or the smallest</div>
+  <span class="tag">Extremal Principle</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>When a problem involves a pile of objects and you don't know where to start, one move is startlingly effective: <strong>fix your gaze on the most "extreme" one — the largest, the smallest, the leftmost, the closest to some point.</strong> An extreme object is often cornered into a special property with "nowhere to retreat," and becomes the breakthrough for the whole proof.<br><br>For instance, to prove "in any group of people, two must have the same number of friends": finding them directly is hard. But consider <em>the person with the most friends</em> — their count is at most $n-1$ and at least $0$, and "someone has no friends" and "someone is friends with everyone" cannot both happen... The extreme member pins the possible values, and the pigeonhole principle closes the net. <strong>The extreme point has no way out, so it speaks first.</strong></p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>Its beauty is a kind of <em>advance-by-retreat</em> wisdom: facing a vast field of objects, you don't treat them uniformly — you bet precisely on the boundary. This rhymes with optimization theory — <strong>the optimum of a convex problem always lies at an extreme</strong> (a vertex, the boundary). The extremal principle often pairs with <em>infinite descent</em>: assume a "smallest counterexample" exists, then construct an even smaller one — contradiction, so no counterexample exists. Fermat used exactly this to prove $x^4+y^4=z^4$ has no positive-integer solution. <em>From "the smallest," overturn "there exists."</em></p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>In algorithm design, the <strong>greedy method</strong> picks the current extreme at each step (shortest edge, earliest deadline, largest gain) — Kruskal's minimum spanning tree and Huffman coding are the extremal principle turned into algorithms. Linear programming's simplex method walks the <em>vertices</em> (extreme points) of the feasible region toward the optimum. <em>Worst-case</em> thinking in game and security analysis fixes on the most extreme outcome an adversary can cause. All of extremal graph theory asks: what happens to a property at its "densest / sparsest"?</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="essence">When you don't know where to start, look at the largest and the smallest — the extreme object has no exit, so it exposes structure first.</div>
+    <div class="think">"Worst-case analysis" feels natural in algorithms, but in life decisions, fixating on the worst case breeds over-caution. The mathematical extremal principle is a proof tool; when is extreme thinking in life wisdom, and when a trap? Where does the difference lie?</div>
+  </div>
+</div>
+
+<!-- Deeper reflection -->
+<div class="card deep">
+  <h2>Deeper Reflection</h2>
+
+  <details>
+    <summary>Are Pólya's "heuristics" and modern AI "search" the same thing?</summary>
+    <div class="body">Very close, but not identical. A heuristic, in both, means "a rule of thumb that doesn't guarantee success but often works," used to prune a huge space of possibilities. A*'s heuristic function and a chess engine's evaluation function are, in spirit, Pólya's plausible reasoning. The difference: Pólya's heuristics are for <em>humans</em> — meant to guide attention and spark insight; AI's heuristics are for <em>machines</em> — meant to quantitatively estimate "how far from the goal." As large models learn to write out solution plans in natural language, the two threads are merging again.</div>
+  </details>
+
+  <details>
+    <summary>Why is "looking back" the most-skipped step, yet the most valuable?</summary>
+    <div class="body">Because once the answer is found, the dopamine has already fired and motivation drops — looking back has no immediate reward. But Pólya insists it's the most crucial: only when reviewing do you <em>abstract</em> this problem's method into a transferable pattern and store it in long-term memory. Skip it and you merely solved a problem; do it and you upgrade your solving ability itself. This is exactly why Reflexion-style AI frameworks deliberately add "self-review" — a success that isn't reflected on can't generalize to the next case.</div>
+  </details>
+
+  <details>
+    <summary>Could the invariant and reduction be two faces of one thing?</summary>
+    <div class="body">There's a deep link. Finding an invariant essentially reduces "all states of a dynamical system" to "the value of the invariant" — a high-dimensional process projected onto a low-dimensional conserved quantity. Category theory (Day 19) pushes this "keep only the information invariant under transformation" to the extreme: an invariant is a "functor" from a complex structure to a simpler one. One could say every good abstraction is the search for some invariant.</div>
+  </details>
+
+  <details>
+    <summary>If solving has universal methods, why is math still this hard?</summary>
+    <div class="body">Because the methods give you a <em>direction</em>, not an <em>answer</em>. "Try a special case," "find an invariant" tell you where to look, but which invariant it is, where to draw that clever auxiliary line, still needs experience, intuition, and a pile of failures. This is Pólya's honesty: <em>How to Solve It</em> doesn't promise to make you a genius, only to help ordinary people take fewer detours — to turn "occasionally a flash of insight" into "more often a flash." Tools raise the hit rate; they can't replace the creative leap itself.</div>
+  </details>
+
+  <details>
+    <summary>How would Lockhart view teaching "problem-solving technique"?</summary>
+    <div class="body">There's tension here. In <em>A Mathematician's Lament</em>, Lockhart charges that teaching math as a set of solving templates kills its soul as an art — real math is posing your own questions and enjoying the bewilderment itself. Pólya wants solving to be more teachable. The two are actually complementary: technique is scaffolding, not the building. You learn the templates so you're able to play with problems that have none — as you practise scales in order to improvise. The danger is mistaking the scaffolding for the tower.</div>
+  </details>
+</div>
+
+<nav class="bottom">
+  <a href="index.en.html">← Back to Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>
