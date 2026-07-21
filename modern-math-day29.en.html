@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frontiers of Pure Mathematics · Day 29 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.essence{background:#eef4ee;border-left:3px solid #5a8a5a;padding:14px 18px;margin-top:6px;color:#243024;font-weight:600}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fafbfd;border:1px solid #d8e0ea;border-radius:6px;padding:12px 18px;margin-bottom:12px}
+details summary{cursor:pointer;color:#1e3a5f;font-weight:600;font-size:0.98rem}
+details .body{margin-top:10px;font-size:0.95rem;color:#3a4658;line-height:1.8}
+.deep h2{font-size:1.3rem;color:#1e3a5f;margin-bottom:18px;text-align:center;font-family:"Times New Roman",Georgia,serif}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 29 · 2026.07.21</div>
+  <h1>Frontiers of Pure Mathematics</h1>
+  <div class="meta">Three century-old problems cracked — and the hidden thread that binds them</div>
+  <div class="epigraph">"The problem we can solve is often not the one we first asked, but a deeper relative of it." — Andrew Wiles</div>
+</header>
+
+<!-- Concept 1: Fermat & Modularity -->
+<div class="card">
+  <h2>Fermat's Last Theorem &amp; Modularity</h2>
+  <div class="en-name">A bridge between number theory and analysis</div>
+  <span class="tag">Number Theory</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>In 1637 Fermat scribbled in a margin that $x^n+y^n=z^n$ has no positive-integer solutions for $n>2$ — "I have a marvelous proof, but this margin is too narrow." That sentence pinned mathematics to the wall for <strong>358 years</strong>. The striking part: Wiles's 1994 proof <em>never attacks the equation directly</em>. He climbs a different mountain: <strong>"every elliptic curve is secretly a modular form"</strong> (the Taniyama–Shimura conjecture). Fermat's theorem is merely a boulder crushed when that mountain falls.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>An elliptic curve has the form $y^2=x^3+ax+b$; a modular form is a function on the complex upper half-plane that is <strong>symmetric to the extreme</strong> (nearly invariant under a huge group of transformations). The <strong>modularity theorem</strong> says every rational elliptic curve <em>corresponds</em> to a modular form — the two worlds' data match, term for term. Frey noticed: if Fermat's equation had a solution $a^n+b^n=c^n$, one could build an elliptic curve $y^2=x(x-a^n)(x+b^n)$ so <em>pathologically symmetric it could not possibly be modular</em> — a direct contradiction. Reductio ad absurdum.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>The beauty is <strong>a bridge across a chasm</strong>. Elliptic curves live in number theory (discrete, arithmetic); modular forms live in complex analysis (continuous, symmetric) — two kingdoms that spoke past each other for centuries, revealed to be one thing in two languages. Wiles didn't compute the equation more cleverly; he <em>carried the problem into another universe, where it became solvable</em>. This is modern mathematics' deepest instinct: the key to a hard problem often hides in a field you thought was unrelated.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Elliptic curves are no abstract toy: <strong>elliptic-curve cryptography (ECC)</strong> is the backbone of the modern internet — Bitcoin's signatures use exactly the secp256k1 curve, with far shorter keys than RSA at equal security. Modular forms seep into <strong>string theory</strong> and partition-function computations. The number-theory-to-analysis channel Wiles opened is still a main road of arithmetic geometry today.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + Question</div>
+    <div class="essence">Can't take a mountain? Prove it is the same mountain as one you've already climbed — Fermat's theorem died to a "bridge," not a frontal assault.</div>
+    <div class="think">Wiles worked alone in secret for seven years. When a proof introduces brand-new machinery no one has yet verified, how should the community balance "bold trust" against "rigorous doubt"?</div>
+  </div>
+</div>
+
+<!-- Concept 2: Poincaré & Ricci Flow -->
+<div class="card">
+  <h2>The Poincaré Conjecture &amp; Ricci Flow</h2>
+  <div class="en-name">Smoothing space with "heat diffusion"</div>
+  <span class="tag">Topology / Geometry</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Topology asks: <strong>how do you recognize a shape through rubber-sheet deformation?</strong> In two dimensions it's easy — a sphere differs from a donut by "having a hole." In 1904 Poincaré asked the three-dimensional version: is a closed 3-space with no holes necessarily the 3-sphere? The test for "no holes" is intuitive: <em>loop a lasso on its surface and see whether it can shrink to a point</em> (if so, it is simply connected). The question hung for nearly a century.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>Perelman's 2003 weapon was <strong>Ricci flow</strong> — an equation that lets space "smooth itself out":</p>
+    <div class="formula-box">$$\frac{\partial g_{ij}}{\partial t} = -2R_{ij}$$</div>
+    <p>Think of a space's shape (the metric $g_{ij}$) as rubber that flows over time; on the right, the Ricci curvature $R_{ij}$ acts like a temperature gradient — <strong>high-curvature (sharp) regions contract, low-curvature (dented) regions expand</strong> — exactly as heat diffusion evens out hot and cold. Flow long enough and a simply connected 3-space is ground into a perfect sphere. The catch: it can bulge into a "thin neck" and pinch off (a singularity), and Perelman's trick is to <em>perform "surgery," cut it away, and keep flowing</em>.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>The beauty is <strong>using continuous analysis to settle discrete topology</strong>: a pure "classify the shape" question solved by a heat-equation-like PDE. Grander still, it incidentally proved Thurston's <strong>geometrization conjecture</strong> — any 3-space decomposes into eight standard geometric building blocks. Perelman then <em>declined both the Fields Medal and the million-dollar Clay Prize</em>, leaving only three papers posted to a preprint server — a legend in its own right.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>The idea of "curvature-driven smoothing" spilled into engineering: <strong>image processing</strong> uses curvature-flow denoising and mesh-surface fairing — the same "evolve geometry by curvature" math; in <strong>manifold learning and network science</strong>, Ollivier–Ricci curvature characterizes "bottlenecks" and community structure on graphs, and even helps diagnose <em>over-squashing</em> in graph neural networks.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + Question</div>
+    <div class="essence">Rather than classifying shapes statically, let them flow — curvature smooths the answer out by itself.</div>
+    <div class="think">Ricci flow hits singularities, which Perelman bypassed with "surgery." When a method breaks at the crucial point, do you abandon it or invent patch rules and press on? What does each path mean in math versus engineering?</div>
+  </div>
+</div>
+
+<!-- Concept 3: Zhang & Prime Gaps -->
+<div class="card">
+  <h2>Zhang Yitang &amp; Bounded Prime Gaps</h2>
+  <div class="en-name">From "no ceiling" to "a ceiling" — a change of kind</div>
+  <span class="tag">Analytic Number Theory</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>The farther out you go, the sparser primes become and the wider their average gaps. Yet some primes still "huddle" together — like $11,13$, differing by $2$: <strong>twin primes</strong>. Are there infinitely many twin-prime pairs? A two-thousand-year-old riddle. In 2013 an obscure lecturer near sixty, <strong>Zhang Yitang</strong>, proved something earth-shaking: <em>there are infinitely many prime pairs separated by no more than 70 million</em>.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>Writing $p_n$ for the $n$-th prime, Zhang proved</p>
+    <div class="formula-box">$$\liminf_{n\to\infty}\,(p_{n+1}-p_n) < 7\times 10^{7}$$</div>
+    <p>The "$\liminf$" says: no matter how far you go, <strong>you can still find adjacent primes less than 70 million apart</strong> — the supply never dries up. Seventy million sounds absurdly far from the target (a gap of 2), but the point isn't the number — it's that <em>the existence of a finite wall was, for the first time, nailed down</em>.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>The beauty is the <strong>divide between quantity and quality</strong>. Before this, no one could even answer whether the gaps had any upper bound at all — in principle primes could drift ever farther apart and never come close again. Zhang first proved <em>the wall truly exists</em>. Going from "infinite" to "finite" is a leap in kind; 70 million → 2 is mere polishing of quantity. Indeed, once the news broke, the Polymath collaboration and Maynard's new method quickly crushed the bound to <strong>246</strong>. A lone insight ignited a collective relay.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Prime distribution is the <strong>bedrock of cryptography</strong>: RSA's security rests on large primes being plentiful and "findable yet unguessable," and such results sharply describe how primes cluster on the number line. The <strong>sieve methods</strong> Zhang refined (a strengthened GPY sieve) are core tools of analytic number theory, and the methodology feeds back into random-matrix theory and the study of "spectral gaps" in mathematical physics.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + Question</div>
+    <div class="essence">Proving "a wall exists" matters far more than measuring "how close the wall is" — once the change of kind happens, the quantitative refinement is just a matter of time.</div>
+    <div class="think">Zhang toiled alone in an unfashionable corner from the margins of academia. When a field is deemed "hopeless in the short term," where lie the value-boundaries between an individual's deep persistence and the community's chase of hot topics?</div>
+  </div>
+</div>
+
+<!-- Concept 4: Langlands -->
+<div class="card">
+  <h2>The Langlands Program</h2>
+  <div class="en-name">Mathematics' "grand unified theory"</div>
+  <span class="tag">Grand Unification</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>The first three stories seem separate, but one hidden thread ties them together. In 1967 Robert Langlands proposed a grand "correspondence table" aiming to <strong>translate, word for word, between two great kingdoms of mathematics</strong>: on one side <em>number theory</em> (the symmetry of equations, Galois groups); on the other <em>analysis</em> (automorphic forms, representation theory). It is often called mathematics' "grand unified theory" — and the <strong>modularity theorem Wiles proved is a special case of the Langlands program</strong>. The "bridge" of the first story is really one thread of this vast web.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>The beauty is <strong>the power of prediction</strong>. The Langlands program is like Mendeleev's periodic table — it not only explains the known but <em>predicts whole swaths of yet-unproven correspondences</em>, drawing a map for generations. It suggests that number theory, geometry, and analysis — branches that look worlds apart — may be one underlying structure projected into different languages. Mathematics' ultimate beauty may be this <strong>impulse toward "all things are one thing."</strong></p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>The <strong>geometric Langlands program</strong> is deeply entangled with theoretical physics: Witten and others found it corresponds to <em>electromagnetic duality</em> in four-dimensional gauge theory, making mathematics and quantum field theory mirror images. And the core idea — "organize complex systems by symmetry (groups and representations)" — is also the soul of modern <strong>geometric deep learning</strong> (equivariant neural networks), where symmetry dictates which information must be preserved.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + Question</div>
+    <div class="essence">The deepest advances are often not solving a problem, but discovering that two fields are saying the very same sentence.</div>
+    <div class="think">Most of the Langlands program is still conjecture. How do we value a map that is "unproven yet immensely useful" — is it science, or well-founded faith?</div>
+  </div>
+</div>
+
+<!-- Deep dive -->
+<div class="card deep">
+  <h2>Going Deeper</h2>
+
+  <details>
+    <summary>Why are modern great theorems' proofs ever longer and harder to verify independently? What does this mean for "what counts as a proof"?</summary>
+    <div class="body">Wiles's proof runs hundreds of pages; Perelman's papers are so dense they took years to fully vet. When a proof leans on whole subfields of machinery, perhaps fewer than a hundred people worldwide can truly check it. This forces two paths: <strong>formal proof</strong> (Lean, Coq and other assistants machine-verifying every step — both Fermat and Poincaré are being formalized); and rethinking whether a proof is a social consensus or a machine-checkable object. Mathematics is shifting from "the manuscript of a lone genius" toward "machine-auditable engineering."</div>
+  </details>
+
+  <details>
+    <summary>All three stories used the "move it to another field" strategy. Coincidence, or a general pattern of mathematical progress?</summary>
+    <div class="body">Very likely a general pattern. Fermat was moved to elliptic curves ↔ modular forms; Poincaré to a PDE; prime gaps into sieves and analytic tools. Mathematical history repeatedly stages "cross-field translation": a problem is a dead knot in its native language and reveals solvable structure in another. The Langlands program <em>systematizes this very translation</em> — it doesn't solve one problem but supplies the master dictionary for translation itself.</div>
+  </details>
+
+  <details>
+    <summary>Perelman refused the Fields Medal and a million dollars; Zhang long lived on the academic margins. Are honors and institutions a help or a hindrance to pure-mathematical creation?</summary>
+    <div class="body">No settled answer, but both suggest the deepest work is often born of <strong>focus without reward, without chasing trends</strong>. Institutions supply resources and verification, yet may reward "safe increments" over "dangerous leaps." Pure mathematics' timescale (a conjecture can outlast generations) is inherently mismatched with the short cycles of evaluation systems. That is why top breakthroughs often come from environments that tolerate long stretches of "no output."</div>
+  </details>
+
+  <details>
+    <summary>These results have almost no direct short-term applications. Why should taxpayers pay for pure mathematics?</summary>
+    <div class="body">Because the lag to application is often measured in centuries. Elliptic curves were once the purest of number-theoretic toys; decades later they became the ECC protecting global communication and cryptocurrencies. Riemann's work, group theory, non-Euclidean geometry were all "useless" when proposed, then became the language of relativity, quantum mechanics, cryptography. Pure mathematics <strong>forges tools in advance for problems not yet born</strong> — you can't reserve which key opens which future door, but history guarantees a door will come.</div>
+  </details>
+
+  <details>
+    <summary>If AI could one day independently prove theorems of this caliber, what remains of mathematics' "beauty"?</summary>
+    <div class="body">Proof assistants already verify results like Poincaré and Fermat, and AI is starting to help generate conjectures and search for lemmas. But "beauty" likely lies not in <em>reaching</em> the conclusion but in <strong>understanding why</strong> — the insight into why the bridge between number theory and analysis exists is something a brute-force machine cannot give. Perhaps AI takes on the labor and verification while humans keep the roles of asking "good questions" and tasting "depth." Mathematical beauty is, in the end, about meaning, not merely about true or false.</div>
+  </details>
+</div>
+
+<nav class="bottom">
+  <a href="index.en.html">← Back to index</a>
+</nav>
+
+</div>
+</body>
+</html>
