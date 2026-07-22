@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数学之于 AI · Day 30 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.essence{background:#eef4ee;border-left:3px solid #5a8a5a;padding:14px 18px;margin-top:6px;color:#243024;font-weight:600}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fafbfd;border:1px solid #d8e0ea;border-radius:6px;padding:12px 18px;margin-bottom:12px}
+details summary{cursor:pointer;color:#1e3a5f;font-weight:600;font-size:0.98rem}
+details .body{margin-top:10px;font-size:0.95rem;color:#3a4658;line-height:1.8}
+.deep h2{font-size:1.3rem;color:#1e3a5f;margin-bottom:18px;text-align:center;font-family:"Times New Roman",Georgia,serif}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 30 · 2026.07.22</div>
+  <h1>数学之于 AI</h1>
+  <div class="meta">The Mathematics of AI — 剥开神经网络，里面全是四个古典数学思想</div>
+  <div class="epigraph">"深度学习不是炼金术，它是被工程化了的微积分、线性代数与几何。" — 改写自 Yann LeCun</div>
+</header>
+
+<!-- 概念 1：反向传播 -->
+<div class="card">
+  <h2>反向传播</h2>
+  <div class="en-name">Backpropagation · 让链式法则跑得起来</div>
+  <span class="tag">Automatic Differentiation</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>一个深度网络就是几百层函数<strong>套娃</strong>：$f_n(\cdots f_2(f_1(x)))$。训练要回答——「把这几亿个旋钮里的<em>某一个</em>拧一点点，最后的损失变多少？」即求损失对每个权重的偏导。<br><br>笨办法是对每个旋钮单独试拧一次，几亿次前向计算，天文数字。反向传播的洞见是：<strong>先前向跑一遍、把每层中间结果存下来，再从损失出发、把「责任」一层层往回传</strong>。每一层只需两样东西——它自己的局部导数，加上从上层传下来的梯度——两者相乘就是该层的贡献，同时把梯度继续递给下一层。就像追责一条命令链：从顶头一级级往下问「你这环放大了多少误差」，一趟走完，人人有责、无需重来。</p>
+  </div>
+
+  <div class="formula-box">$$\frac{\partial L}{\partial w_\ell}=\frac{\partial L}{\partial a_n}\cdot\frac{\partial a_n}{\partial a_{n-1}}\cdots\frac{\partial a_{\ell+1}}{\partial w_\ell}$$</div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>这就是<strong>链式法则</strong>：$L$ 是损失，$a_\ell$ 是第 $\ell$ 层激活，$w_\ell$ 是该层权重。整条乘积其实是一串<em>雅可比矩阵</em>相乘。关键在<strong>乘的顺序</strong>：从右往左（反向模式）——先把左端「损失对输出」的向量算出来，再依次左乘——每步只做「向量 × 矩阵」，不显式构造大矩阵。于是算<em>全部</em>参数的梯度，只花约等于一次前向传播的代价。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>同一串乘法，仅仅换个方向，代价就从「参数量 × 前向」塌缩成「一次前向」。这是<strong>反向模式自动微分</strong>的核心——数学上叫「伴随」(adjoint)。它不是黑魔法，而是一个更古老的对偶：<em>要一个输出对众多输入的敏感度，就反着走。</em>正是这个 $O(n)$ 而非 $O(n^2)$ 的差别，让训练几十亿参数从「不可能」变成「一晚上的事」。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>每一个被训练的神经网络都靠它——PyTorch、JAX 的 <code>autograd</code> 就是把任意计算图自动反向求导。同一思想在网络之外同样锋利：气象与流体的<strong>伴随法</strong>做参数反演、最优控制里的 Pontryagin 原理、可微渲染让梯度穿过图形管线、乃至用梯度反推分子结构。凡是「大量输入、一个标量目标」，反向传播就是最优解法。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华 + 思考题</div>
+    <div class="essence">链式法则谁都会写，反向传播的天才在于「反着乘」——把求几亿个梯度的成本压回一次前向。</div>
+    <div class="think">如果网络极深，梯度沿途要连乘几百个数：都略小于 1 就指数衰减（梯度消失），都略大于 1 就指数爆炸。ResNet 的「跳跃连接」为什么能缓解这件事？提示：给连乘里塞进一个恒等项 $+1$。</div>
+  </div>
+</div>
+
+<!-- 概念 2：注意力 -->
+<div class="card">
+  <h2>注意力机制</h2>
+  <div class="en-name">Attention · 一部可微分的软字典</div>
+  <span class="tag">Linear Algebra</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>读「小猫追着它的尾巴，因为<strong>它</strong>无聊」，要懂「它」指谁，你得回头扫前文、找出最相关的词、再把它的含义拉过来。注意力把这个动作数学化：每个词发出一个<strong>提问</strong>（Query），其余每个词亮出<strong>标签</strong>（Key）回答「我跟你相关吗」，相关度高的就把它的<strong>内容</strong>（Value）多分一点过来。<br><br>所以注意力是一部<em>软字典</em>：普通字典靠精确的键取值，注意力靠「相似度」给所有键一个连续权重再加权平均。它<strong>可微分</strong>——查得准不准可被梯度优化，于是「该看哪里」从人手设计变成网络自己学。</p>
+  </div>
+
+  <div class="formula-box">$$\mathrm{Attention}(Q,K,V)=\mathrm{softmax}\!\left(\frac{QK^{\top}}{\sqrt{d}}\right)V$$</div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>$Q,K,V$ 是同一批词向量的三次线性投影（提问、标签、内容）。$QK^{\top}$ 用<strong>点积</strong>量出每个 Query 与每个 Key 的相似度，得到一张分数表；除以 $\sqrt{d}$ 是防止维度一高、点积过大把 softmax 逼到饱和；<strong>softmax</strong> 把每一行分数压成一组和为 1 的权重；最后乘 $V$，就是「按相关度加权、把所有词的内容混合起来」。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>它把「按内容检索记忆」这件模糊的认知动作，化简成<strong>两次矩阵乘法加一个 softmax</strong>——干净、可微、天然适合 GPU 并行。相比 RNN 必须逐词串行、信息在长链里衰减，注意力让任意两个词<em>一步直达</em>，多远都是常数距离。就是这个几行就能写完的算子，撑起了整个 Transformer 与大语言模型的时代。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>GPT、BERT 靠它建模语言，视觉 Transformer (ViT) 把图像切块当「词」看，<strong>AlphaFold</strong> 用它捕捉氨基酸的长程配对推断蛋白质折叠，扩散模型用交叉注意力让文字指挥图像生成。「哪些元素该互相影响」，在几乎所有模态里都被同一个公式回答。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华 + 思考题</div>
+    <div class="essence">注意力 = 可微分的软字典：用相似度当权重做加权平均，让网络自己学会「此刻该看向哪里」。</div>
+    <div class="think">$QK^{\top}$ 是 $n\times n$ 的矩阵——序列每翻一倍，计算与显存翻四倍。这正是长上下文的瓶颈。若要把这个二次成本降到近似线性，你会牺牲什么？（想想：真的每个词都需要精确看到其余每个词吗？）</div>
+  </div>
+</div>
+
+<!-- 概念 3：万能逼近 -->
+<div class="card">
+  <h2>网络 = 万能函数逼近</h2>
+  <div class="en-name">Universal Approximation · 用小台阶拼出任何形状</div>
+  <span class="tag">Approximation Theory</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>一个神经元做的事很简单：输入加权求和，再过一个非线性——输出近似一个<strong>软台阶</strong>或小鼓包。单个鼓包很笨，但把许多高矮胖瘦、位置不同的鼓包叠起来，就能拼出任意起伏的曲线，像乐高砖逼近一条山脊线，也像傅里叶用正弦波叠出方波。<br><br>万能逼近定理说的正是：<strong>只要隐藏层的神经元够多，一个网络就能把任意连续函数逼近到你想要的精度。</strong>神经网络之所以「什么都能学」，不是玄学——它本质是一台可调的<em>函数积木机</em>，而学习就是调每块积木的高度和位置。</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 360 170" xmlns="http://www.w3.org/2000/svg">
+      <line x1="20" y1="140" x2="340" y2="140" stroke="#aaa" stroke-width="0.6"/>
+      <line x1="40" y1="15" x2="40" y2="150" stroke="#aaa" stroke-width="0.6"/>
+      <!-- 目标曲线 -->
+      <path d="M 40 120 Q 100 30 160 90 T 280 55 Q 310 45 320 70" fill="none" stroke="#1e3a5f" stroke-width="2"/>
+      <text x="326" y="72" font-size="10" fill="#1e3a5f" font-style="italic">目标 f</text>
+      <!-- 阶梯逼近 -->
+      <path d="M 40 122 H 70 V 96 H 100 V 62 H 130 V 78 H 160 V 96 H 190 V 70 H 220 V 58 H 250 V 64 H 280 V 60 H 310 V 72 H 320"
+            fill="none" stroke="#c9544a" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="120" y="150" font-size="10" fill="#c9544a" text-anchor="middle" font-style="italic">许多软台阶叠加</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>Cybenko (1989)、Hornik 的定理：形如 $\sum_{i} c_i\,\sigma(w_i\!\cdot\! x+b_i)$ 的有限和（$\sigma$ 是 sigmoid 之类的非线性）在紧集上的连续函数空间里<strong>稠密</strong>——即可无限逼近任何连续 $f$。但要害是：定理只保证「<em>存在</em>这样一组参数」，没说要多少神经元（可能指数级多），也<strong>没说梯度下降找得到它</strong>。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>它把时髦的神经网络，接回了魏尔斯特拉斯逼近、傅里叶展开这条<strong>三百年的古典逼近血脉</strong>——网络不过是又一组基函数。更妙的是它划清了三件常被混为一谈的事：<strong>能不能表示</strong>（逼近定理，答案是能）、<strong>能不能学到</strong>（优化）、<strong>能不能泛化</strong>（统计）。深度学习真正的谜团不在第一件，而在于：为什么参数远多于数据的过参数网络，用简单的 SGD 竟找到了泛化良好的解。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>它是把网络当「通用函数拟合器」用的许可证：只要问题能写成「输入→输出」的函数，就有理由试。同一逻辑也解释了为何<strong>深</strong>常比<strong>宽</strong>更省——某些函数用浅网络需指数级神经元，加深却只需多项式级，深度用<em>复合</em>换取了效率。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华 + 思考题</div>
+    <div class="essence">「网络能拟合任何函数」是定理保证的地板，不是奇迹；真正的奇迹是 SGD 居然找得到、还泛化得好。</div>
+    <div class="think">万能逼近对「一层足够宽」的浅网络已成立，那我们为何还要「深」？如果深与浅表达力等价，深度多出来的好处到底是表达力，还是<em>可学性</em>与<em>泛化</em>？</div>
+  </div>
+</div>
+
+<!-- 概念 4：流形假设 -->
+<div class="card">
+  <h2>流形假设</h2>
+  <div class="en-name">The Manifold Hypothesis · 高维数据其实躺在一张薄纸上</div>
+  <span class="tag">Geometry &amp; Topology</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>一张 $100\times100$ 的灰度图住在 $10000$ 维的像素空间里。但随手撒一把随机像素，你<strong>永远</strong>撒不出一张人脸——真实图像只占据这个巨大空间里薄薄的、弯曲的一层，测度几乎为零。<strong>流形假设</strong>就说：现实中的高维数据（图像、语音、文本）并非布满整个空间，而是聚集在一个<em>维度低得多</em>的弯曲曲面（流形）上。<br><br>打个比方：一条揉皱塞进房间的丝带，本质是一维的（沿它走只有「前后」），却嵌在三维空间里。学习，就是<strong>把这张揉皱的薄纸展平、找到它内在的坐标</strong>——摸清纸的形状，几万维的难题就退化成几十维的易题。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>假设高维数据近似分布在一个<strong>低维流形</strong> $\mathcal{M}\subset\mathbb{R}^D$ 附近，其内在维度 $\dim\mathcal{M}=d\ll D$。表示学习即为这张流形寻一组<em>坐标</em>（图/嵌入），把 $D$ 维观测压成 $d$ 维隐向量而信息几乎不丢。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>它一举化解了<strong>维度灾难</strong>的悖论：理论上在 $10000$ 维里学习需要天文数字样本，现实里几百万张图就够——因为有效维度其实很低。它把<strong>微分几何与拓扑</strong>请进深度学习：隐空间里两点平滑插值，对应在流形上「沿着纸面行走」，于是人脸能连续地从微笑变到皱眉，而不会中途路过一堆雪花噪点。<em>数据的形状，本身就是一种先验知识。</em></p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>自编码器把数据压到低维再还原；<strong>扩散模型</strong>可理解为学会「把偏离流形的噪声一步步推回流形」，于是从纯噪声生成逼真图像；t-SNE、UMAP 把高维流形摊到二维供人眼观察；隐空间插值与图像编辑，全建立在「在流形上移动」这一几何直觉上。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华 + 思考题</div>
+    <div class="essence">高维数据不填满高维空间，只栖身于一张低维弯曲的薄纸——学习，就是找到这张纸的形状与坐标。</div>
+    <div class="think">若数据流形本身是「拧过的」（像莫比乌斯带那样不可定向），或由几片维度不同的碎片拼成，用一张全局的低维坐标去描述它会出什么问题？这是否暗示：单一隐空间的假设，有时太天真了？</div>
+  </div>
+</div>
+
+<!-- 深入思考 -->
+<div class="card deep">
+  <h2>深入思考</h2>
+
+  <details>
+    <summary>四个概念——反向传播、注意力、万能逼近、流形——分属微积分、线性代数、逼近论、几何。它们在一个训练循环里是如何咬合成一台机器的？</summary>
+    <div class="body"><strong>万能逼近</strong>保证网络这台「函数积木机」原则上能表示要的映射；<strong>注意力</strong>等算子决定积木怎么搭、信息如何在元素间流动；<strong>反向传播</strong>提供高效求梯度的引擎，让 SGD 真能把积木调到位；<strong>流形假设</strong>则解释为何这一切在高维里可行——数据的低维结构让本该需要天文样本的学习成为可能。表达力、优化、几何先验，三根支柱缺一不可。</div>
+  </details>
+
+  <details>
+    <summary>万能逼近说「能表示」，却对「能否学到」「能否泛化」缄默。当代深度学习理论卡在哪一环？</summary>
+    <div class="body">卡在后两环。经典统计说「参数比数据多必过拟合」，过参数网络偏偏泛化得好——这道裂缝催生了双下降、隐式正则化、神经正切核 (NTK) 等理论。核心猜想是：SGD 并非乱找，而是被某种隐式偏好（偏爱「平坦」「简单」的解）牵引，恰好落在泛化好的区域。为什么？至今没有完全令人满意的答案，这是深度学习最诚实的前沿。</div>
+  </details>
+
+  <details>
+    <summary>注意力的二次成本 $O(n^2)$ 是长上下文的硬墙。绕过它的各种努力，本质在赌什么样的结构假设？</summary>
+    <div class="body">都在赌<strong>「相关性是稀疏或低秩的」</strong>。稀疏注意力赌每个词只需看少数几个词；线性注意力/核方法赌注意力矩阵近似低秩，可先算 $K^{\top}V$ 避开 $n\times n$；状态空间模型 (Mamba 一类) 干脆赌历史能压进一个固定大小的状态。每种加速都是结构性下注：赌你丢掉的那部分交互无关紧要——赌对了高效，赌错了掉能力。</div>
+  </details>
+
+  <details>
+    <summary>这四块数学都是几十年前就有的（链式法则 17 世纪、逼近定理 1989、流形是古典几何）。为什么 AI 的爆发直到近十年才发生？</summary>
+    <div class="body">因为「思想」只是三个条件之一。逼近与微分的数学早已就位，但还缺<strong>算力</strong>（GPU 让大规模矩阵乘变廉价）与<strong>数据</strong>（互联网提供了流形上的海量采样）。反向传播 1980 年代已知，却要等数据与硬件同时到位才显威力。突破往往不是新定理，而是旧思想遇上了让它<em>可规模化</em>的物质条件——注意力的公式本身，简单到本可以更早被写下。</div>
+  </details>
+</div>
+
+<nav class="bottom">
+  <a href="index.html">← 返回 Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>

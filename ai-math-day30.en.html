@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Mathematics of AI · Day 30 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.essence{background:#eef4ee;border-left:3px solid #5a8a5a;padding:14px 18px;margin-top:6px;color:#243024;font-weight:600}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fafbfd;border:1px solid #d8e0ea;border-radius:6px;padding:12px 18px;margin-bottom:12px}
+details summary{cursor:pointer;color:#1e3a5f;font-weight:600;font-size:0.98rem}
+details .body{margin-top:10px;font-size:0.95rem;color:#3a4658;line-height:1.8}
+.deep h2{font-size:1.3rem;color:#1e3a5f;margin-bottom:18px;text-align:center;font-family:"Times New Roman",Georgia,serif}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 30 · 2026.07.22</div>
+  <h1>The Mathematics of AI</h1>
+  <div class="meta">Peel open a neural network and inside are four classical mathematical ideas</div>
+  <div class="epigraph">"Deep learning is not alchemy — it is calculus, linear algebra, and geometry, engineered." — adapted from Yann LeCun</div>
+</header>
+
+<!-- Concept 1: Backpropagation -->
+<div class="card">
+  <h2>Backpropagation</h2>
+  <div class="en-name">Making the chain rule scale</div>
+  <span class="tag">Automatic Differentiation</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>A deep network is hundreds of nested functions: $f_n(\cdots f_2(f_1(x)))$. Training must answer one question — "if I nudge <em>one</em> of these billions of knobs a hair, by how much does the final loss change?" — i.e. the partial derivative of the loss with respect to each weight.<br><br>The naive way is to test each knob separately: billions of forward passes, astronomical. Backprop's insight: <strong>run forward once, cache each layer's intermediate result, then propagate the "blame" backward layer by layer, starting from the loss</strong>. Each layer needs only two things — its own local derivative, and the gradient handed down from above — and their product is that layer's contribution, while the gradient passes on to the next layer. Like assigning blame down a chain of command: ask each link "how much did you amplify the error?", one pass, everyone accounted for, nothing recomputed.</p>
+  </div>
+
+  <div class="formula-box">$$\frac{\partial L}{\partial w_\ell}=\frac{\partial L}{\partial a_n}\cdot\frac{\partial a_n}{\partial a_{n-1}}\cdots\frac{\partial a_{\ell+1}}{\partial w_\ell}$$</div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>This is the <strong>chain rule</strong>: $L$ is the loss, $a_\ell$ the activation of layer $\ell$, $w_\ell$ its weights. The product is really a string of <em>Jacobian matrices</em> multiplied together. Everything hinges on the <strong>order</strong>: right to left (reverse mode) — compute the "loss-over-output" vector at the left end first, then left-multiply step by step — every step is just "vector × matrix," never building a big matrix explicitly. So the gradient of <em>all</em> parameters costs about one forward pass.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>The same product of terms, run in the opposite direction, collapses the cost from "number of parameters × forward" to "one forward." This is the heart of <strong>reverse-mode automatic differentiation</strong> — mathematically, the "adjoint." It's no black magic but an older duality: <em>to get one output's sensitivity to many inputs, walk backward.</em> Exactly this $O(n)$-instead-of-$O(n^2)$ gap turns training billions of parameters from "impossible" into "an overnight job."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Every trained neural network relies on it — PyTorch's and JAX's <code>autograd</code> automatically differentiates any computation graph in reverse. The same idea is just as sharp outside nets: the <strong>adjoint method</strong> in weather and fluid inversion, Pontryagin's principle in optimal control, differentiable rendering pushing gradients through a graphics pipeline, even reasoning backward from a gradient to a molecular structure. Wherever you have "many inputs, one scalar objective," backprop is the optimal solver.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + Question</div>
+    <div class="essence">Anyone can write the chain rule; backprop's genius is multiplying it <em>backward</em> — squeezing the cost of billions of gradients back down to one forward pass.</div>
+    <div class="think">In a very deep net the gradient multiplies hundreds of numbers along the way: all slightly below 1 and it decays exponentially (vanishing gradients); all slightly above 1 and it explodes. Why do ResNet's "skip connections" ease this? Hint: they slip an identity term $+1$ into the product.</div>
+  </div>
+</div>
+
+<!-- Concept 2: Attention -->
+<div class="card">
+  <h2>Attention</h2>
+  <div class="en-name">A differentiable soft dictionary</div>
+  <span class="tag">Linear Algebra</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Read "the kitten chased its tail because <strong>it</strong> was bored." To know what "it" refers to, you scan back over the text, find the most relevant word, and pull its meaning in. Attention makes this mathematical: each word sends out a <strong>query</strong> (Q), every other word holds up a <strong>key</strong> (K) answering "am I relevant to you?", and the more relevant ones hand over more of their <strong>value</strong> (V).<br><br>So attention is a <em>soft dictionary</em>: an ordinary dictionary retrieves by an exact key, attention gives every key a continuous weight by similarity and takes a weighted average. And it is <strong>differentiable</strong> — how well it retrieves can be optimized by the gradient — so "where to look" goes from hand-designed to something the network learns itself.</p>
+  </div>
+
+  <div class="formula-box">$$\mathrm{Attention}(Q,K,V)=\mathrm{softmax}\!\left(\frac{QK^{\top}}{\sqrt{d}}\right)V$$</div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>$Q,K,V$ are three linear projections of the same batch of word vectors (query, key, value). $QK^{\top}$ uses the <strong>dot product</strong> to measure each query's similarity to each key, giving a table of scores; dividing by $\sqrt{d}$ keeps large dimensions from blowing up the dot products and saturating the softmax; <strong>softmax</strong> squashes each row of scores into weights summing to 1; multiplying by $V$ is "mix all the words' contents, weighted by relevance."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>It reduces the fuzzy cognitive act of "retrieving memory by content" to <strong>two matrix multiplications and a softmax</strong> — clean, differentiable, and naturally suited to GPU parallelism. Where an RNN must go word by word and lets information decay down a long chain, attention lets any two words reach each other <em>in one step</em>, a constant distance no matter how far apart. This operator, writable in a few lines, holds up the entire era of Transformers and large language models.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>GPT and BERT model language with it, the Vision Transformer (ViT) treats image patches as "words," <strong>AlphaFold</strong> uses it to capture long-range pairings between amino acids and infer protein folding, and diffusion models use cross-attention to let text steer image generation. "Which elements should influence each other" is answered, across nearly every modality, by the same formula.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + Question</div>
+    <div class="essence">Attention = a differentiable soft dictionary: use similarity as weights for a weighted average, letting the network learn where to look at each moment.</div>
+    <div class="think">$QK^{\top}$ is an $n\times n$ matrix — double the sequence and compute and memory quadruple. This is exactly the long-context bottleneck. To bring that quadratic cost down toward linear, what would you sacrifice? (Think: does every word really need to see every other word exactly?)</div>
+  </div>
+</div>
+
+<!-- Concept 3: Universal Approximation -->
+<div class="card">
+  <h2>Networks = Universal Approximators</h2>
+  <div class="en-name">Universal Approximation · building any shape from small steps</div>
+  <span class="tag">Approximation Theory</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>A single neuron does something simple: weight and sum the inputs, then pass through a nonlinearity — the output approximates a <strong>soft step</strong> or a little bump. One bump is dumb, but stack many bumps of varying height, width, and position and you can carve out any undulating curve — like Lego bricks approximating a mountain ridge, or Fourier stacking sine waves into a square wave.<br><br>The universal approximation theorem says exactly this: <strong>with enough hidden neurons, a network can approximate any continuous function to any precision you want.</strong> A neural network learning "anything" is no mysticism — it is essentially a tunable <em>function-Lego machine</em>, and learning is adjusting each brick's height and position.</p>
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 360 170" xmlns="http://www.w3.org/2000/svg">
+      <line x1="20" y1="140" x2="340" y2="140" stroke="#aaa" stroke-width="0.6"/>
+      <line x1="40" y1="15" x2="40" y2="150" stroke="#aaa" stroke-width="0.6"/>
+      <path d="M 40 120 Q 100 30 160 90 T 280 55 Q 310 45 320 70" fill="none" stroke="#1e3a5f" stroke-width="2"/>
+      <text x="326" y="72" font-size="10" fill="#1e3a5f" font-style="italic">target f</text>
+      <path d="M 40 122 H 70 V 96 H 100 V 62 H 130 V 78 H 160 V 96 H 190 V 70 H 220 V 58 H 250 V 64 H 280 V 60 H 310 V 72 H 320"
+            fill="none" stroke="#c9544a" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="120" y="150" font-size="10" fill="#c9544a" text-anchor="middle" font-style="italic">many soft steps stacked</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>Cybenko (1989) and Hornik's theorem: finite sums of the form $\sum_{i} c_i\,\sigma(w_i\!\cdot\! x+b_i)$ ($\sigma$ a nonlinearity like a sigmoid) are <strong>dense</strong> in the space of continuous functions on a compact set — they can approximate any continuous $f$ arbitrarily well. But the crux: the theorem only guarantees that such parameters <em>exist</em>; it says nothing about how many neurons (possibly exponentially many), and <strong>nothing about whether gradient descent can find them</strong>.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>It reconnects the fashionable neural network to a <strong>three-century classical lineage</strong> of approximation — Weierstrass, Fourier — the network is just another set of basis functions. Better still, it separates three things often conflated: <strong>can it represent</strong> (the theorem — yes), <strong>can it learn</strong> (optimization), <strong>can it generalize</strong> (statistics). Deep learning's real mystery is not the first but this: why does an over-parameterized network with far more parameters than data, trained by plain SGD, nonetheless find solutions that generalize well?</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>It is the license to use a network as a "universal function fitter": if a problem can be written as an "input→output" function, there's reason to try. The same logic explains why <strong>deep</strong> often beats <strong>wide</strong> — some functions need exponentially many neurons in a shallow net but only polynomially many when made deeper; depth buys efficiency through <em>composition</em>.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + Question</div>
+    <div class="essence">"A network can fit any function" is a floor the theorem guarantees, not a miracle; the real miracle is that SGD actually finds one — and that it generalizes.</div>
+    <div class="think">Universal approximation already holds for a "wide enough" single-layer shallow net, so why do we still want "depth"? If deep and shallow are equal in expressive power, is depth's real payoff expressiveness — or <em>learnability</em> and <em>generalization</em>?</div>
+  </div>
+</div>
+
+<!-- Concept 4: The Manifold Hypothesis -->
+<div class="card">
+  <h2>The Manifold Hypothesis</h2>
+  <div class="en-name">High-dimensional data really lives on a thin sheet</div>
+  <span class="tag">Geometry &amp; Topology</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>A $100\times100$ grayscale image lives in a $10000$-dimensional pixel space. But scatter a handful of random pixels and you will <strong>never</strong> land on a human face — real images occupy only a thin, curved sheet within that vast space, of nearly zero measure. The <strong>manifold hypothesis</strong> says: real high-dimensional data (images, speech, text) does not fill the whole space but concentrates on a <em>much lower-dimensional</em> curved surface (a manifold).<br><br>An analogy: a ribbon crumpled into a room is intrinsically one-dimensional (walking along it there's only "forward/back"), yet embedded in three dimensions. Learning is <strong>flattening that crumpled sheet and finding its intrinsic coordinates</strong> — grasp the sheet's shape, and a ten-thousand-dimensional problem collapses into a few-dozen-dimensional one.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>Assume high-dimensional data lies approximately near a <strong>low-dimensional manifold</strong> $\mathcal{M}\subset\mathbb{R}^D$ whose intrinsic dimension $\dim\mathcal{M}=d\ll D$. Representation learning is finding a set of <em>coordinates</em> (a chart / embedding) for that manifold, compressing the $D$-dimensional observation into a $d$-dimensional latent vector with almost no loss.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>It resolves the paradox of the <strong>curse of dimensionality</strong>: in theory learning in $10000$ dimensions needs an astronomical number of samples, yet in practice a few million images suffice — because the effective dimension is low. It ushers <strong>differential geometry and topology</strong> into deep learning: smoothly interpolating between two points in latent space corresponds to "walking along the sheet" of the manifold, so a face can shift continuously from a smile to a frown without passing through a field of snow. <em>The shape of the data is itself a form of prior knowledge.</em></p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Autoencoders compress data to low dimensions and reconstruct it; <strong>diffusion models</strong> can be read as learning to "push noise that has strayed off the manifold back onto it," step by step generating realistic images from pure noise; t-SNE and UMAP spread a high-dimensional manifold onto two dimensions for the eye; latent-space interpolation and image editing all rest on the geometric intuition of "moving on the manifold."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + Question</div>
+    <div class="essence">High-dimensional data doesn't fill high-dimensional space — it lives on a low-dimensional curved sheet; learning is finding that sheet's shape and coordinates.</div>
+    <div class="think">If the data manifold is itself "twisted" (non-orientable, like a Möbius strip), or pieced together from fragments of differing dimension, what goes wrong when you describe it with a single global low-dimensional coordinate system? Does this hint that the single-latent-space assumption is sometimes too naive?</div>
+  </div>
+</div>
+
+<!-- Deep dive -->
+<div class="card deep">
+  <h2>Going Deeper</h2>
+
+  <details>
+    <summary>The four ideas — backprop, attention, universal approximation, manifolds — belong to calculus, linear algebra, approximation theory, and geometry. How do they mesh into one machine inside a training loop?</summary>
+    <div class="body">One way to string it together: <strong>universal approximation</strong> guarantees the network — a "function-Lego machine" — can in principle represent the mapping we want; operators like <strong>attention</strong> decide how the bricks are assembled and how information flows between elements; <strong>backpropagation</strong> supplies the efficient gradient engine so SGD can actually tune the bricks into place; and the <strong>manifold hypothesis</strong> explains why all of this is feasible in high dimensions — the low-dimensional structure of real data makes learning that "should" need astronomical samples possible. Expressiveness, optimization, geometric prior — three pillars, none dispensable.</div>
+  </details>
+
+  <details>
+    <summary>Universal approximation says "can represent" but is silent on "can learn" and "can generalize." Where is modern deep-learning theory stuck?</summary>
+    <div class="body">Stuck on the latter two. Classical statistics says "more parameters than data must overfit," yet over-parameterized networks generalize well — a crack that spawned double descent, implicit regularization, the neural tangent kernel (NTK). The core conjecture: SGD isn't searching blindly but is steered by some implicit bias (favoring "flat," "simple" solutions), landing exactly in well-generalizing regions. Why? There's still no fully satisfying answer — this is deep learning's most honest frontier.</div>
+  </details>
+
+  <details>
+    <summary>Attention's quadratic cost $O(n^2)$ is a hard wall for long context. What structural assumption is each attempt to get around it betting on?</summary>
+    <div class="body">All of them bet <strong>"relevance is sparse or low-rank."</strong> Sparse attention bets each word only needs to look at a few others; linear-attention / kernel methods bet the attention matrix is approximately low-rank, so you can compute $K^{\top}V$ first and avoid the $n\times n$; state-space models (Mamba and kin) bet the history can be squeezed into a fixed-size state. Every speedup is a structural wager: bet that the interactions you drop don't matter — right, and you're efficient; wrong, and you lose capability.</div>
+  </details>
+
+  <details>
+    <summary>These four pieces of math are all decades old (the chain rule from the 17th century, the approximation theorem 1989, manifolds classical geometry). Why did AI's explosion only arrive in the last decade?</summary>
+    <div class="body">Because "the idea" is only one of three conditions. The mathematics of approximation and differentiation was long in place, but <strong>compute</strong> (GPUs making large matrix multiplies cheap) and <strong>data</strong> (the internet providing vast samples on the manifold) were missing. Backprop was known in the 1980s, yet had to wait for data and hardware to arrive together before it showed its power. Breakthroughs are often not a new theorem but an old idea meeting the material conditions that let it <em>scale</em> — the attention formula itself is simple enough to have been written down earlier.</div>
+  </details>
+</div>
+
+<nav class="bottom">
+  <a href="index.en.html">← Back to Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>
