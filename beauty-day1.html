@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>数学之美 · Day 1 — Mathematics</title>
 <script>
 window.MathJax = {
@@ -14,7 +15,7 @@ window.MathJax = {
   options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
 };
 </script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
@@ -51,256 +52,215 @@ nav.bottom a:hover{color:#1e3a5f}
 </style>
 </head>
 <body>
-<a href="https://cissy0802.github.io/" style="position:fixed;top:14px;left:14px;font-size:0.82rem;color:inherit;opacity:0.55;text-decoration:none;padding:6px 12px;border:1px solid currentColor;border-radius:20px;z-index:100;backdrop-filter:blur(6px);transition:opacity 0.2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.55">← Hub</a>
+<a href="https://cissy0802.github.io/" onmouseout="this.style.opacity=0.55" onmouseover="this.style.opacity=1" style="position:fixed;top:14px;left:14px;font-size:0.82rem;color:inherit;opacity:0.55;text-decoration:none;padding:6px 12px;border:1px solid currentColor;border-radius:20px;z-index:100;backdrop-filter:blur(6px);transition:opacity 0.2s">← Hub</a>
 <div class="container">
-
 <header>
-  <div class="kicker">Day 1 · 2026.05.22</div>
-  <h1>数学之美</h1>
-  <div class="meta">The Beauty of Mathematics — 我们为什么觉得某些公式让人战栗</div>
-  <div class="epigraph">"A mathematician, like a painter or a poet, is a maker of patterns. ... The mathematician's patterns, like the painter's or the poet's, must be <em>beautiful</em>." — G.H. Hardy</div>
+<div class="kicker">Day 1 · 2026.05.22</div>
+<h1 data-tts="199994125aecd11b">数学之美</h1>
+<div class="meta">The Beauty of Mathematics — 我们为什么觉得某些公式让人战栗</div>
+<div class="epigraph">"A mathematician, like a painter or a poet, is a maker of patterns. ... The mathematician's patterns, like the painter's or the poet's, must be <em>beautiful</em>." — G.H. Hardy</div>
 </header>
-
 <!-- 概念 1 -->
-<div class="card">
-  <h2>欧拉恒等式</h2>
-  <div class="en-name">Euler's Identity · 复分析 / 解析学</div>
-  <span class="tag">Complex Analysis</span>
-
-  <div class="formula-box">$$e^{i\pi} + 1 = 0$$</div>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>把指数函数 $e^x$ 想成「连续复利增长」。现在让增长方向不是「沿实轴」，而是「沿虚轴」——也就是说，每一瞬间不是「变大」，而是「向左转 90 度」。结果你会发现：你不是在变大，你在画圆。$e^{i\theta}$ 就是从 1 出发，在单位圆上旋转 $\theta$ 弧度后到达的点。当 $\theta = \pi$，也就是旋转半圈，你正好到达 $-1$。所以 $e^{i\pi} = -1$，搬过来就是 $e^{i\pi}+1=0$。这不是一个"巧合的算式"，而是「指数 = 旋转」这个深层结构的必然推论。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
-      <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L0,8 L6,4 z" fill="#1e3a5f"/></marker></defs>
-      <line x1="20" y1="110" x2="300" y2="110" stroke="#aaa" stroke-width="0.8"/>
-      <line x1="160" y1="20" x2="160" y2="200" stroke="#aaa" stroke-width="0.8"/>
-      <text x="298" y="105" font-size="10" fill="#666" text-anchor="end">Re</text>
-      <text x="165" y="28" font-size="10" fill="#666">Im</text>
-      <circle cx="160" cy="110" r="80" fill="none" stroke="#3a6088" stroke-width="1.5" stroke-dasharray="3,3"/>
-      <circle cx="240" cy="110" r="3" fill="#1e3a5f"/>
-      <text x="244" y="124" font-size="11" fill="#1e3a5f">1</text>
-      <circle cx="80" cy="110" r="3.5" fill="#c9544a"/>
-      <text x="58" y="124" font-size="11" fill="#c9544a">−1 = e^(iπ)</text>
-      <path d="M 240 110 A 80 80 0 0 1 80 110" fill="none" stroke="#c9544a" stroke-width="2" marker-end="url(#ar)"/>
-      <text x="160" y="50" font-size="11" fill="#c9544a" text-anchor="middle" font-style="italic">旋转 π 弧度</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>它把数学中五个最基本的常数——$0, 1, e, i, \pi$——以及三种基本运算（加法、乘法、幂运算）和一种最重要的关系（等号），全部塞进一行。每个常数来自完全独立的分支：$\pi$ 来自几何，$e$ 来自微积分/增长，$i$ 来自代数，$0$ 和 $1$ 来自算术公理。它们居然在这里相遇。物理学家 Feynman 称它为「数学中最非凡的公式」(<em>"the most remarkable formula in mathematics"</em>)。Hardy 说：真正美的数学，应该让人觉得「不可避免」。这个公式正是如此——一旦你理解了复指数即旋转，它就不再是奇迹，而是必然。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>欧拉公式 $e^{i\theta} = \cos\theta + i\sin\theta$ 是所有交流电分析、信号处理、傅里叶变换、量子力学的语言基石。你手机里的 Wi-Fi、5G 信号、JPEG 图像压缩、MP3 解码，背后全是复指数。在量子力学里，粒子的波函数本质上是 $e^{i(kx-\omega t)}$——宇宙似乎就用旋转的复数在记账。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">历史与人物</div>
-    <p>Leonhard Euler（欧拉，1707–1783）在 1748 年的《Introductio in analysin infinitorum》中公开了 $e^{i\theta} = \cos\theta + i\sin\theta$。这是他失明前后的高产期之一。当时复数还被视为"想象的"(imaginary)、不正经的存在；欧拉把它装进解析机器，第一次让数学界看到：虚数不只是合法，而且是必不可少的。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">深入资源</div>
-    <p class="resources">
-      • 3Blue1Brown — <a href="https://www.youtube.com/watch?v=mvmuCPvRoWQ">《e to the pi i, for dummies》</a><br>
+<div class="card" data-tts="a46110af3c2c0108">
+<h2>欧拉恒等式</h2>
+<div class="en-name">Euler's Identity · 复分析 / 解析学</div>
+<span class="tag">Complex Analysis</span>
+<div class="formula-box">$$e^{i\pi} + 1 = 0$$</div>
+<div class="section">
+<div class="label">直觉版</div>
+<p>把指数函数 $e^x$ 想成「连续复利增长」。现在让增长方向不是「沿实轴」，而是「沿虚轴」——也就是说，每一瞬间不是「变大」，而是「向左转 90 度」。结果你会发现：你不是在变大，你在画圆。$e^{i\theta}$ 就是从 1 出发，在单位圆上旋转 $\theta$ 弧度后到达的点。当 $\theta = \pi$，也就是旋转半圈，你正好到达 $-1$。所以 $e^{i\pi} = -1$，搬过来就是 $e^{i\pi}+1=0$。这不是一个"巧合的算式"，而是「指数 = 旋转」这个深层结构的必然推论。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar" markerheight="8" markerwidth="8" orient="auto" refx="6" refy="4"><path d="M0,0 L0,8 L6,4 z" fill="#1e3a5f"></path></marker></defs>
+<line stroke="#aaa" stroke-width="0.8" x1="20" x2="300" y1="110" y2="110"></line>
+<line stroke="#aaa" stroke-width="0.8" x1="160" x2="160" y1="20" y2="200"></line>
+<text fill="#666" font-size="10" text-anchor="end" x="298" y="105">Re</text>
+<text fill="#666" font-size="10" x="165" y="28">Im</text>
+<circle cx="160" cy="110" fill="none" r="80" stroke="#3a6088" stroke-dasharray="3,3" stroke-width="1.5"></circle>
+<circle cx="240" cy="110" fill="#1e3a5f" r="3"></circle>
+<text fill="#1e3a5f" font-size="11" x="244" y="124">1</text>
+<circle cx="80" cy="110" fill="#c9544a" r="3.5"></circle>
+<text fill="#c9544a" font-size="11" x="58" y="124">−1 = e^(iπ)</text>
+<path d="M 240 110 A 80 80 0 0 1 80 110" fill="none" marker-end="url(#ar)" stroke="#c9544a" stroke-width="2"></path>
+<text fill="#c9544a" font-size="11" font-style="italic" text-anchor="middle" x="160" y="50">旋转 π 弧度</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它把数学中五个最基本的常数——$0, 1, e, i, \pi$——以及三种基本运算（加法、乘法、幂运算）和一种最重要的关系（等号），全部塞进一行。每个常数来自完全独立的分支：$\pi$ 来自几何，$e$ 来自微积分/增长，$i$ 来自代数，$0$ 和 $1$ 来自算术公理。它们居然在这里相遇。物理学家 Feynman 称它为「数学中最非凡的公式」(<em>"the most remarkable formula in mathematics"</em>)。Hardy 说：真正美的数学，应该让人觉得「不可避免」。这个公式正是如此——一旦你理解了复指数即旋转，它就不再是奇迹，而是必然。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>欧拉公式 $e^{i\theta} = \cos\theta + i\sin\theta$ 是所有交流电分析、信号处理、傅里叶变换、量子力学的语言基石。你手机里的 Wi-Fi、5G 信号、JPEG 图像压缩、MP3 解码，背后全是复指数。在量子力学里，粒子的波函数本质上是 $e^{i(kx-\omega t)}$——宇宙似乎就用旋转的复数在记账。</p>
+</div>
+<div class="section">
+<div class="label">历史与人物</div>
+<p>Leonhard Euler（欧拉，1707–1783）在 1748 年的《Introductio in analysin infinitorum》中公开了 $e^{i\theta} = \cos\theta + i\sin\theta$。这是他失明前后的高产期之一。当时复数还被视为"想象的"(imaginary)、不正经的存在；欧拉把它装进解析机器，第一次让数学界看到：虚数不只是合法，而且是必不可少的。</p>
+</div>
+<div class="section">
+<div class="label">深入资源</div>
+<p class="resources">
+      • 3Blue1Brown — <a href="https://www.youtube.com/watch?v=mvmuCPvRoWQ">《e to the pi i, for dummies》</a><br/>
       • Paul Nahin — 《<em>Dr. Euler's Fabulous Formula</em>》(Princeton)
     </p>
+</div>
+<div class="english">
+<strong>English Insight：</strong> <em>"Gentlemen, this is surely true, it is absolutely paradoxical; we cannot understand it, and we don't know what it means, but we have proved it, and therefore we know it must be the truth."</em> — Benjamin Peirce, after deriving Euler's identity in a Harvard lecture.
   </div>
-
-  <div class="english">
-    <strong>English Insight：</strong> <em>"Gentlemen, this is surely true, it is absolutely paradoxical; we cannot understand it, and we don't know what it means, but we have proved it, and therefore we know it must be the truth."</em> — Benjamin Peirce, after deriving Euler's identity in a Harvard lecture.
-  </div>
-
-  <div class="think">
-    <strong>思考题：</strong>如果把 $\theta = \pi$ 换成 $\theta = 2\pi$，你会得到 $e^{2\pi i} = 1$。这意味着指数函数在复数域里居然是"周期的"。这件事对实数域里只会单调增长的 $e^x$ 来说有什么深远意义？它告诉我们「复数化」一个对象时会发生什么？
+<div class="think">
+<strong>思考题：</strong>如果把 $\theta = \pi$ 换成 $\theta = 2\pi$，你会得到 $e^{2\pi i} = 1$。这意味着指数函数在复数域里居然是"周期的"。这件事对实数域里只会单调增长的 $e^x$ 来说有什么深远意义？它告诉我们「复数化」一个对象时会发生什么？
   </div>
 </div>
-
 <!-- 概念 2 -->
-<div class="card">
-  <h2>黄金比例：真相与神话</h2>
-  <div class="en-name">The Golden Ratio: Truth and Myth · 数论 / 几何</div>
-  <span class="tag">Number Theory</span>
-
-  <div class="formula-box">$$\varphi = \frac{1+\sqrt{5}}{2} \approx 1.6180339887\ldots$$</div>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>想象一条线段，分成长短两段。如果「整段 : 长段 = 长段 : 短段」，那这个比值就是 $\varphi$。换句话说：$\varphi$ 是唯一一个满足 $\varphi = 1 + 1/\varphi$ 的数——它的倒数减一就等于它本身减二。这是一种自相似性：把它"剥掉一层"，剩下的形状和原来成比例。这就是为什么向日葵、菠萝、松果的螺旋里会出现 $\varphi$——不是因为植物"喜欢美"，而是因为按照黄金角 $360°/\varphi^2 \approx 137.5°$ 旋转放置种子，是用有限空间填充最均匀的策略。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg">
-      <rect x="20" y="40" width="296" height="140" fill="none" stroke="#1e3a5f" stroke-width="1.5"/>
-      <line x1="160" y1="40" x2="160" y2="180" stroke="#3a6088" stroke-width="1" stroke-dasharray="3,2"/>
-      <rect x="20" y="40" width="140" height="140" fill="#f0f4f9" opacity="0.6"/>
-      <path d="M 160 180 A 140 140 0 0 1 20 40" fill="none" stroke="#c9544a" stroke-width="2"/>
-      <line x1="160" y1="40" x2="160" y2="124" stroke="#3a6088" stroke-width="1" stroke-dasharray="3,2"/>
-      <rect x="160" y="40" width="86" height="84" fill="none" stroke="#3a6088" stroke-width="0.8"/>
-      <path d="M 246 124 A 86 86 0 0 1 160 40" fill="none" stroke="#c9544a" stroke-width="2"/>
-      <rect x="160" y="124" width="86" height="56" fill="none" stroke="#3a6088" stroke-width="0.6"/>
-      <text x="168" y="205" font-size="10" fill="#1e3a5f" font-style="italic">递归剥掉正方形 → 黄金螺线</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美 + 必须破除的神话</div>
-    <p>$\varphi$ 真正美的地方是它的「不可有理性」——它是所有无理数中"最难用分数逼近的"。连分数展开 $\varphi = [1;1,1,1,\ldots]$ 全是 1，这是连分数收敛最慢的情形。这就是为什么自然界用它来铺排叶子和种子：它最不容易"对齐"成稀疏的辐条状。但请破除这两个流行神话：（1）帕特农神庙、蒙娜丽莎、苹果 Logo 都基于 $\varphi$ 设计——基本是后人附会，没有可信证据；（2）人脸越接近 $\varphi$ 越美——心理学实证研究并不支持。数学家 Mario Livio 在《The Golden Ratio》中专章打假。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>真实的应用：植物的叶序学 (phyllotaxis)、Fibonacci 数列与算法（黄金分割搜索 Golden-Section Search 是一种经典优化方法）、Penrose 镶嵌（准晶体结构，使 Shechtman 获 2011 诺贝尔化学奖）。还有一个深刻事实：把 $\varphi$ 写成 $\varphi = \lim_{n\to\infty} F_{n+1}/F_n$，其中 $F_n$ 是 Fibonacci 数。两个分支的相遇，是数论里非常 Hardy 式的"必然之美"。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">历史与人物</div>
-    <p>欧几里得在《几何原本》卷 VI 中称之为「中末比」(extreme and mean ratio)，纯粹是几何对象。"黄金"二字是 19 世纪德国数学家 Martin Ohm 才加上的。Kepler 称它和勾股定理是几何学的"两大珍宝"。20 世纪生物学家 D'Arcy Thompson 在《On Growth and Form》中用它解释生物形态——这本书至今值得读。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">深入资源</div>
-    <p class="resources">
-      • Mario Livio — 《<em>The Golden Ratio</em>》（带批判精神的全面史）<br>
+<div class="card" data-tts="9bae0fcb6f4b6bac">
+<h2>黄金比例：真相与神话</h2>
+<div class="en-name">The Golden Ratio: Truth and Myth · 数论 / 几何</div>
+<span class="tag">Number Theory</span>
+<div class="formula-box">$$\varphi = \frac{1+\sqrt{5}}{2} \approx 1.6180339887\ldots$$</div>
+<div class="section">
+<div class="label">直觉版</div>
+<p>想象一条线段，分成长短两段。如果「整段 : 长段 = 长段 : 短段」，那这个比值就是 $\varphi$。换句话说：$\varphi$ 是唯一一个满足 $\varphi = 1 + 1/\varphi$ 的数——它的倒数减一就等于它本身减二。这是一种自相似性：把它"剥掉一层"，剩下的形状和原来成比例。这就是为什么向日葵、菠萝、松果的螺旋里会出现 $\varphi$——不是因为植物"喜欢美"，而是因为按照黄金角 $360°/\varphi^2 \approx 137.5°$ 旋转放置种子，是用有限空间填充最均匀的策略。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 220" xmlns="http://www.w3.org/2000/svg">
+<rect fill="none" height="140" stroke="#1e3a5f" stroke-width="1.5" width="296" x="20" y="40"></rect>
+<line stroke="#3a6088" stroke-dasharray="3,2" stroke-width="1" x1="160" x2="160" y1="40" y2="180"></line>
+<rect fill="#f0f4f9" height="140" opacity="0.6" width="140" x="20" y="40"></rect>
+<path d="M 160 180 A 140 140 0 0 1 20 40" fill="none" stroke="#c9544a" stroke-width="2"></path>
+<line stroke="#3a6088" stroke-dasharray="3,2" stroke-width="1" x1="160" x2="160" y1="40" y2="124"></line>
+<rect fill="none" height="84" stroke="#3a6088" stroke-width="0.8" width="86" x="160" y="40"></rect>
+<path d="M 246 124 A 86 86 0 0 1 160 40" fill="none" stroke="#c9544a" stroke-width="2"></path>
+<rect fill="none" height="56" stroke="#3a6088" stroke-width="0.6" width="86" x="160" y="124"></rect>
+<text fill="#1e3a5f" font-size="10" font-style="italic" x="168" y="205">递归剥掉正方形 → 黄金螺线</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美 + 必须破除的神话</div>
+<p>$\varphi$ 真正美的地方是它的「不可有理性」——它是所有无理数中"最难用分数逼近的"。连分数展开 $\varphi = [1;1,1,1,\ldots]$ 全是 1，这是连分数收敛最慢的情形。这就是为什么自然界用它来铺排叶子和种子：它最不容易"对齐"成稀疏的辐条状。但请破除这两个流行神话：（1）帕特农神庙、蒙娜丽莎、苹果 Logo 都基于 $\varphi$ 设计——基本是后人附会，没有可信证据；（2）人脸越接近 $\varphi$ 越美——心理学实证研究并不支持。数学家 Mario Livio 在《The Golden Ratio》中专章打假。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>真实的应用：植物的叶序学 (phyllotaxis)、Fibonacci 数列与算法（黄金分割搜索 Golden-Section Search 是一种经典优化方法）、Penrose 镶嵌（准晶体结构，使 Shechtman 获 2011 诺贝尔化学奖）。还有一个深刻事实：把 $\varphi$ 写成 $\varphi = \lim_{n\to\infty} F_{n+1}/F_n$，其中 $F_n$ 是 Fibonacci 数。两个分支的相遇，是数论里非常 Hardy 式的"必然之美"。</p>
+</div>
+<div class="section">
+<div class="label">历史与人物</div>
+<p>欧几里得在《几何原本》卷 VI 中称之为「中末比」(extreme and mean ratio)，纯粹是几何对象。"黄金"二字是 19 世纪德国数学家 Martin Ohm 才加上的。Kepler 称它和勾股定理是几何学的"两大珍宝"。20 世纪生物学家 D'Arcy Thompson 在《On Growth and Form》中用它解释生物形态——这本书至今值得读。</p>
+</div>
+<div class="section">
+<div class="label">深入资源</div>
+<p class="resources">
+      • Mario Livio — 《<em>The Golden Ratio</em>》（带批判精神的全面史）<br/>
       • Vi Hart — <a href="https://www.youtube.com/watch?v=ahXIMUkSXX0">《Doodling in Math: Spirals, Fibonacci, and Being a Plant》</a>
-    </p>
+</p>
+</div>
+<div class="english">
+<strong>English Insight：</strong> "extreme and mean ratio" 是欧几里得用语；"divine proportion" 是 Pacioli 1509 年书名带起来的；现代术语 <strong>"golden ratio"</strong> 直到 19 世纪才流行。<em>Phyllotaxis</em> = 叶序学。
   </div>
-
-  <div class="english">
-    <strong>English Insight：</strong> "extreme and mean ratio" 是欧几里得用语；"divine proportion" 是 Pacioli 1509 年书名带起来的；现代术语 <strong>"golden ratio"</strong> 直到 19 世纪才流行。<em>Phyllotaxis</em> = 叶序学。
-  </div>
-
-  <div class="think">
-    <strong>思考题：</strong>为什么自然选择「最难用分数逼近的数」来排列种子？如果换成 $\pi$ 或 $\sqrt{2}$，向日葵会变成什么样？（提示：想想"每片种子按某角度旋转后落下"的几何动态。）
+<div class="think">
+<strong>思考题：</strong>为什么自然选择「最难用分数逼近的数」来排列种子？如果换成 $\pi$ 或 $\sqrt{2}$，向日葵会变成什么样？（提示：想想"每片种子按某角度旋转后落下"的几何动态。）
   </div>
 </div>
-
 <!-- 概念 3 -->
-<div class="card">
-  <h2>对称性</h2>
-  <div class="en-name">Symmetry · 群论 / 物理</div>
-  <span class="tag">Group Theory</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>数学家说一个东西是「对称的」，不是指"看起来好看"，而是指「存在某种变换，让它变了之后跟没变一样」。一个正方形旋转 90 度后还是它自己，所以它有"4 重旋转对称"。一个圆怎么转都不变——它有连续对称。雪花有 6 重对称。所有"让你变了等于没变"的操作合在一起，叫做这个对象的<strong>对称群</strong>。这是 19 世纪数学最深刻的发明：把"对称"从视觉直觉，升级成了一个可以代数运算的对象。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 360 140" xmlns="http://www.w3.org/2000/svg">
-      <g transform="translate(60,70)">
-        <rect x="-30" y="-30" width="60" height="60" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.5"/>
-        <text x="0" y="50" font-size="10" fill="#1e3a5f" text-anchor="middle" font-style="italic">D₄ (8 阶)</text>
-      </g>
-      <g transform="translate(180,70)">
-        <polygon points="0,-32 28,-10 18,24 -18,24 -28,-10" fill="#fbfaf3" stroke="#c9a96b" stroke-width="1.5"/>
-        <text x="0" y="50" font-size="10" fill="#3d3520" text-anchor="middle" font-style="italic">D₅ (10 阶)</text>
-      </g>
-      <g transform="translate(300,70)">
-        <circle cx="0" cy="0" r="32" fill="#f0f4f9" stroke="#3a6088" stroke-width="1.5"/>
-        <text x="0" y="50" font-size="10" fill="#1e3a5f" text-anchor="middle" font-style="italic">SO(2) 连续</text>
-      </g>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>对称的深邃在于：当你说"X 有这种对称性"，你其实在说"宇宙关于 X 知道的、可观测的东西，必须尊重这个对称"。这就是 Noether 定理（1918）的核心：<strong>每一种连续对称，对应一条守恒律</strong>——时间平移对称给你能量守恒，空间平移给你动量守恒，旋转对称给你角动量守恒。物理定律不是被人发现的偶然事实，而是几种基本对称性的逻辑后果。这是 20 世纪最美的洞见之一。Frank Wilczek 称："对称性决定了相互作用"。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>整个粒子物理标准模型，本质上是几个李群 $U(1) \times SU(2) \times SU(3)$ 的对称性写出来的。化学家用对称群 (point groups) 分类晶体和分子。密码学里 AES 用了置换群结构。在 AI 里，"等变神经网络" (equivariant neural networks) 是把对称性硬编码进网络的前沿方向——比如处理分子结构时让网络对旋转/平移保持不变，可以大幅减少训练数据需求 (AlphaFold 用了这个思想)。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">历史与人物</div>
-    <p>群论的源头是 Évariste Galois（1811–1832）——一位 20 岁就死于决斗的法国天才。他为了回答「五次以上方程为什么没有求根公式」，发明了"群"这个概念。然后 Felix Klein 在 1872 年的《Erlanger Programm》中提出：每一种几何，本质上是研究在某个变换群下不变的性质。最后 Emmy Noether（1882–1935）把对称和守恒律打通——爱因斯坦称她为"数学史上最重要的女性"。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">深入资源</div>
-    <p class="resources">
-      • Ian Stewart — 《<em>Why Beauty Is Truth: A History of Symmetry</em>》<br>
+<div class="card" data-tts="46efe1595c61ae45">
+<h2>对称性</h2>
+<div class="en-name">Symmetry · 群论 / 物理</div>
+<span class="tag">Group Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>数学家说一个东西是「对称的」，不是指"看起来好看"，而是指「存在某种变换，让它变了之后跟没变一样」。一个正方形旋转 90 度后还是它自己，所以它有"4 重旋转对称"。一个圆怎么转都不变——它有连续对称。雪花有 6 重对称。所有"让你变了等于没变"的操作合在一起，叫做这个对象的<strong>对称群</strong>。这是 19 世纪数学最深刻的发明：把"对称"从视觉直觉，升级成了一个可以代数运算的对象。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 360 140" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(60,70)">
+<rect fill="#e6ecf3" height="60" stroke="#1e3a5f" stroke-width="1.5" width="60" x="-30" y="-30"></rect>
+<text fill="#1e3a5f" font-size="10" font-style="italic" text-anchor="middle" x="0" y="50">D₄ (8 阶)</text>
+</g>
+<g transform="translate(180,70)">
+<polygon fill="#fbfaf3" points="0,-32 28,-10 18,24 -18,24 -28,-10" stroke="#c9a96b" stroke-width="1.5"></polygon>
+<text fill="#3d3520" font-size="10" font-style="italic" text-anchor="middle" x="0" y="50">D₅ (10 阶)</text>
+</g>
+<g transform="translate(300,70)">
+<circle cx="0" cy="0" fill="#f0f4f9" r="32" stroke="#3a6088" stroke-width="1.5"></circle>
+<text fill="#1e3a5f" font-size="10" font-style="italic" text-anchor="middle" x="0" y="50">SO(2) 连续</text>
+</g>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>对称的深邃在于：当你说"X 有这种对称性"，你其实在说"宇宙关于 X 知道的、可观测的东西，必须尊重这个对称"。这就是 Noether 定理（1918）的核心：<strong>每一种连续对称，对应一条守恒律</strong>——时间平移对称给你能量守恒，空间平移给你动量守恒，旋转对称给你角动量守恒。物理定律不是被人发现的偶然事实，而是几种基本对称性的逻辑后果。这是 20 世纪最美的洞见之一。Frank Wilczek 称："对称性决定了相互作用"。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>整个粒子物理标准模型，本质上是几个李群 $U(1) \times SU(2) \times SU(3)$ 的对称性写出来的。化学家用对称群 (point groups) 分类晶体和分子。密码学里 AES 用了置换群结构。在 AI 里，"等变神经网络" (equivariant neural networks) 是把对称性硬编码进网络的前沿方向——比如处理分子结构时让网络对旋转/平移保持不变，可以大幅减少训练数据需求 (AlphaFold 用了这个思想)。</p>
+</div>
+<div class="section">
+<div class="label">历史与人物</div>
+<p>群论的源头是 Évariste Galois（1811–1832）——一位 20 岁就死于决斗的法国天才。他为了回答「五次以上方程为什么没有求根公式」，发明了"群"这个概念。然后 Felix Klein 在 1872 年的《Erlanger Programm》中提出：每一种几何，本质上是研究在某个变换群下不变的性质。最后 Emmy Noether（1882–1935）把对称和守恒律打通——爱因斯坦称她为"数学史上最重要的女性"。</p>
+</div>
+<div class="section">
+<div class="label">深入资源</div>
+<p class="resources">
+      • Ian Stewart — 《<em>Why Beauty Is Truth: A History of Symmetry</em>》<br/>
       • 3Blue1Brown — <a href="https://www.youtube.com/watch?v=mH0oCDa74tE">《Group theory, abstraction, and the 196,883-dimensional monster》</a>
-    </p>
+</p>
+</div>
+<div class="english">
+<strong>English Insight：</strong> <strong>symmetry group</strong> = 对称群；<strong>invariant under transformation</strong> = 在某变换下不变；<strong>equivariant</strong> = "随变换协同变化"（与 invariant 不同：invariant 是不变，equivariant 是按规则一起变）。
   </div>
-
-  <div class="english">
-    <strong>English Insight：</strong> <strong>symmetry group</strong> = 对称群；<strong>invariant under transformation</strong> = 在某变换下不变；<strong>equivariant</strong> = "随变换协同变化"（与 invariant 不同：invariant 是不变，equivariant 是按规则一起变）。
-  </div>
-
-  <div class="think">
-    <strong>思考题：</strong>人脸近似左右对称，但完全对称的脸（用 Photoshop 镜像合成）反而被认为不真实甚至诡异。为什么"绝对对称"在生物世界是反美的？这件事对"美 = 对称"这种简单观点意味着什么？
+<div class="think">
+<strong>思考题：</strong>人脸近似左右对称，但完全对称的脸（用 Photoshop 镜像合成）反而被认为不真实甚至诡异。为什么"绝对对称"在生物世界是反美的？这件事对"美 = 对称"这种简单观点意味着什么？
   </div>
 </div>
-
 <!-- 概念 4 -->
-<div class="card">
-  <h2>证明的美感</h2>
-  <div class="en-name">The Beauty of Proof · 数学哲学 / 元数学</div>
-  <span class="tag">Meta-Mathematics</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>"证明"在中学被教成"按格式写步骤"。但在数学家眼里，证明是一种<strong>解释</strong>——它要回答的不只是"这是真的"，而是"<em>为什么</em>这是真的"。一个美的证明会让你拍桌子说："啊，原来必须是这样。"一个丑的证明只让你说："好吧，每一步我都查不出错。"前者给你<em>洞见</em>，后者只给你<em>确信</em>。Erdős 经常说"上帝有一本书 (The Book)，里面记着每个定理最美的证明"——数学家的工作就是偷看几页。</p>
-  </div>
-
-  <div class="formula-box" style="font-size:1rem;text-align:left;font-family:Georgia,serif">
-    <strong>例：素数有无穷多个 (Euclid, ~300 BCE)</strong><br>
-    假设只有有限个素数 $p_1, p_2, \ldots, p_n$。<br>
-    考虑 $N = p_1 p_2 \cdots p_n + 1$。<br>
-    $N$ 除以任何 $p_i$ 都余 1，所以 $N$ 要么本身是素数，要么有一个不在列表里的素因子。<br>
+<div class="card" data-tts="d7925d4b4e838f60">
+<h2>证明的美感</h2>
+<div class="en-name">The Beauty of Proof · 数学哲学 / 元数学</div>
+<span class="tag">Meta-Mathematics</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>"证明"在中学被教成"按格式写步骤"。但在数学家眼里，证明是一种<strong>解释</strong>——它要回答的不只是"这是真的"，而是"<em>为什么</em>这是真的"。一个美的证明会让你拍桌子说："啊，原来必须是这样。"一个丑的证明只让你说："好吧，每一步我都查不出错。"前者给你<em>洞见</em>，后者只给你<em>确信</em>。Erdős 经常说"上帝有一本书 (The Book)，里面记着每个定理最美的证明"——数学家的工作就是偷看几页。</p>
+</div>
+<div class="formula-box" style="font-size:1rem;text-align:left;font-family:Georgia,serif">
+<strong>例：素数有无穷多个 (Euclid, ~300 BCE)</strong><br/>
+    假设只有有限个素数 $p_1, p_2, \ldots, p_n$。<br/>
+    考虑 $N = p_1 p_2 \cdots p_n + 1$。<br/>
+    $N$ 除以任何 $p_i$ 都余 1，所以 $N$ 要么本身是素数，要么有一个不在列表里的素因子。<br/>
     无论哪种，都和"只有 $n$ 个素数"矛盾。 ∎
   </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>欧几里得这个证明只有 3 行，但它做到了三件事：（1）<strong>不可避免</strong>：你看完会觉得"当然如此"，找不到能改的步骤；（2）<strong>意外</strong>：你以为要去数素数，结果他构造一个新数把矛盾"挤出来"；（3）<strong>普适</strong>：这个"构造反例"的技巧能用在无数其他定理上。Hardy 在《A Mathematician's Apology》里用这个证明和另一个（$\sqrt{2}$ 是无理数）作为"真正数学"的范例，并明确说：实用数学（计算、商业算术）是"丑陋的、初等的"，真正美的是这种用最少假设揭示最深结构的论证。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">什么样的证明是丑的（反例）</div>
-    <p>四色定理 (Four Color Theorem, 1976) 的原始证明用计算机暴力检查了 1936 种情况。它是正确的，但许多数学家不满意——因为它没有<strong>解释</strong>为什么四种颜色就够了，只是穷举说明了"反例不存在"。这引发了关于"什么算证明"的哲学争论：如果一个论证人类无法在脑中走完，它还是数学吗？这个问题随着 Lean、Coq 等形式化证明工具的兴起，再次成为前沿议题。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">历史与人物</div>
-    <p>Paul Erdős（1913–1996）是 20 世纪最高产的数学家之一，他和 Alfréd Rényi 共著的论文里反复提到 "Book proof"。2003 年 Aigner 和 Ziegler 把这些证明整理成《<em>Proofs from THE BOOK</em>》，是数学美学的圣经之一。George Pólya 的《<em>How to Solve It</em>》(1945) 则从另一面教你"如何构造美的论证"，是每个搞 STEM 的人都该读的小书。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">深入资源</div>
-    <p class="resources">
-      • Aigner & Ziegler — 《<em>Proofs from THE BOOK</em>》(Springer)<br>
+<div class="section">
+<div class="label">为什么美</div>
+<p>欧几里得这个证明只有 3 行，但它做到了三件事：（1）<strong>不可避免</strong>：你看完会觉得"当然如此"，找不到能改的步骤；（2）<strong>意外</strong>：你以为要去数素数，结果他构造一个新数把矛盾"挤出来"；（3）<strong>普适</strong>：这个"构造反例"的技巧能用在无数其他定理上。Hardy 在《A Mathematician's Apology》里用这个证明和另一个（$\sqrt{2}$ 是无理数）作为"真正数学"的范例，并明确说：实用数学（计算、商业算术）是"丑陋的、初等的"，真正美的是这种用最少假设揭示最深结构的论证。</p>
+</div>
+<div class="section">
+<div class="label">什么样的证明是丑的（反例）</div>
+<p>四色定理 (Four Color Theorem, 1976) 的原始证明用计算机暴力检查了 1936 种情况。它是正确的，但许多数学家不满意——因为它没有<strong>解释</strong>为什么四种颜色就够了，只是穷举说明了"反例不存在"。这引发了关于"什么算证明"的哲学争论：如果一个论证人类无法在脑中走完，它还是数学吗？这个问题随着 Lean、Coq 等形式化证明工具的兴起，再次成为前沿议题。</p>
+</div>
+<div class="section">
+<div class="label">历史与人物</div>
+<p>Paul Erdős（1913–1996）是 20 世纪最高产的数学家之一，他和 Alfréd Rényi 共著的论文里反复提到 "Book proof"。2003 年 Aigner 和 Ziegler 把这些证明整理成《<em>Proofs from THE BOOK</em>》，是数学美学的圣经之一。George Pólya 的《<em>How to Solve It</em>》(1945) 则从另一面教你"如何构造美的论证"，是每个搞 STEM 的人都该读的小书。</p>
+</div>
+<div class="section">
+<div class="label">深入资源</div>
+<p class="resources">
+      • Aigner &amp; Ziegler — 《<em>Proofs from THE BOOK</em>》(Springer)<br/>
       • Paul Lockhart — 《<em>A Mathematician's Lament</em>》（一篇 25 页的檄文，论中学如何谋杀了数学之美）
     </p>
+</div>
+<div class="english">
+<strong>English Insight：</strong> <strong>"elegant proof"</strong> = 优雅的证明；<strong>"slick proof"</strong> = 漂亮但有点取巧；<strong>"proof by exhaustion"</strong> = 穷举证明（常含贬义）；<strong>"the proof is left as an exercise to the reader"</strong> = 教科书最讨厌的一句话。
   </div>
-
-  <div class="english">
-    <strong>English Insight：</strong> <strong>"elegant proof"</strong> = 优雅的证明；<strong>"slick proof"</strong> = 漂亮但有点取巧；<strong>"proof by exhaustion"</strong> = 穷举证明（常含贬义）；<strong>"the proof is left as an exercise to the reader"</strong> = 教科书最讨厌的一句话。
-  </div>
-
-  <div class="think">
-    <strong>思考题：</strong>如果一个 AI 能输出形式上无误、但 100 万行长、人类永远无法在脑中复现的证明——它发现了"新数学"吗？或者数学的本质就要求"人能理解"？Hardy 会怎么说？Erdős 呢？你呢？
+<div class="think">
+<strong>思考题：</strong>如果一个 AI 能输出形式上无误、但 100 万行长、人类永远无法在脑中复现的证明——它发现了"新数学"吗？或者数学的本质就要求"人能理解"？Hardy 会怎么说？Erdős 呢？你呢？
   </div>
 </div>
-
 <nav class="bottom">
-  <a href="index.html">← 返回 Mathematics 首页</a>
+<a href="index.html">← 返回 Mathematics 首页</a>
 </nav>
-
 </div>
-<script src="https://hub.cissychen.com/comments.js" defer></script>
-<script src="https://hub.cissychen.com/search.js" defer></script>
-<script src="https://hub.cissychen.com/index-button.js" defer></script>
-<script src="https://hub.cissychen.com/i18n-tts.js" defer></script>
+<script defer="" src="https://hub.cissychen.com/comments.js"></script>
+<script defer="" src="https://hub.cissychen.com/search.js"></script>
+<script defer="" src="https://hub.cissychen.com/index-button.js"></script>
+<script defer="" src="https://hub.cissychen.com/i18n-tts.js"></script>
 </body>
 </html>
