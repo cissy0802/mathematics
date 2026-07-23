@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Mathematics of Game Theory · Day 31 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.essence{background:#eef4ee;border-left:3px solid #5a8a5a;padding:14px 18px;margin-top:6px;color:#243024;font-weight:600}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fafbfd;border:1px solid #d8e0ea;border-radius:6px;padding:12px 18px;margin-bottom:12px}
+details summary{cursor:pointer;color:#1e3a5f;font-weight:600;font-size:0.98rem}
+details .body{margin-top:10px;font-size:0.95rem;color:#3a4658;line-height:1.8}
+.deep h2{font-size:1.3rem;color:#1e3a5f;margin-bottom:18px;text-align:center;font-family:"Times New Roman",Georgia,serif}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 31 · 2026.07.23</div>
+  <h1>The Mathematics of Game Theory</h1>
+  <div class="meta">When everyone's best choice depends on everyone else's choice</div>
+  <div class="epigraph">"Game theory is the study of mathematical models of conflict and cooperation between rational decision-makers." — after Roger Myerson</div>
+</header>
+
+<!-- Concept 1: Nash Equilibrium -->
+<div class="card">
+  <h2>Nash Equilibrium</h2>
+  <div class="en-name">The standoff no one wants to break unilaterally</div>
+  <span class="tag">Non-cooperative Games</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Two roads lead to the same place, and everyone picks the faster one — until it clogs and both roads take equally long. At that moment <strong>no one can get faster by switching alone</strong>: that is a Nash equilibrium. It asks a single question: given everyone else's choice, <em>is your current choice your own best response</em>? If everyone answers "yes," no one has any reason to deviate, and the situation freezes.<br><br>The key is to hear what it <strong>does not promise</strong>: equilibrium means only "no one wants to change unilaterally," not "best for everyone." In the prisoner's dilemma, both confessing is the unique equilibrium — yet both staying silent is plainly better. Individual rationality drags the group into a worse corner. Equilibrium is a stable trap, not an ideal destination.</p>
+  </div>
+
+  <div class="formula-box">$$u_i(s_i^\ast, s_{-i}^\ast) \ge u_i(s_i, s_{-i}^\ast)\quad \forall\, s_i,\ \forall\, i$$</div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>$s_i^\ast$ is player $i$'s strategy and $s_{-i}^\ast$ is <em>everyone else's</em>. The inequality says: as long as the others hold still, switching to any other $s_i$ cannot raise $i$'s payoff $u_i$ — so $s^\ast$ is a profile of mutual best responses. <strong>Nash's 1950 theorem</strong>: every finite game, once "mixed strategies" (choosing at random by probability) are allowed, <em>must have</em> at least one such equilibrium.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>The existence proof is the highlight: Nash translated "find an equilibrium" into "find a fixed point of a map" — each strategy profile points to "everyone's best response to it," and an equilibrium is exactly the point that <strong>points to itself</strong>. A <em>Brouwer / Kakutani fixed-point theorem</em> (a continuous map of a convex compact set into itself must have a fixed point) seals the deal. A question about minds and scheming turns out to hide inside topology — the "unreasonable effectiveness" of mathematics: seemingly unrelated fields are isomorphic underneath.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>Auction pricing, oligopoly competition, traffic and network routing (<strong>Braess's paradox</strong>: adding a road can make everyone slower — an equilibrium shift) all rely on it to predict. In AI, <strong>GANs</strong> train as a minimax game between generator and discriminator whose ideal convergence point is a Nash equilibrium; multi-agent reinforcement learning (self-driving traffic, algorithmic trading) likewise models "learning" as convergence toward equilibrium.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="essence">A Nash equilibrium is a stable point where "no one can gain by moving alone" — it always exists, but need not be good for anyone.</div>
+    <div class="think">The prisoner's dilemma's only equilibrium is mutual defection, yet cooperation is everywhere in real life. If the same game repeats forever, why can strategies like "tit-for-tat" let cooperation hold among selfish players? What does repetition add to the game?</div>
+  </div>
+</div>
+
+<!-- Concept 2: Shapley Value -->
+<div class="card">
+  <h2>The Shapley Value</h2>
+  <div class="en-name">Pinning "fair division" down with axioms</div>
+  <span class="tag">Cooperative Games</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Three partners build a venture and earn a pile of money — who gets how much? Intuition says "split by contribution," but how do you measure contribution? A person's value depends on <em>who they're with</em> — the same person can add wildly different amounts to different teams. Shapley's answer is thorough and elegant: <strong>walk through every possible "order of joining,"</strong> at each one measure the increment this person brings the moment they arrive, then average over all orders.<br><br>So your share = your <strong>average marginal contribution</strong> across every way the members could queue up to enter. Whether you came first or arrived last, all storylines are averaged out evenhandedly, and what remains is what you're "essentially" worth.</p>
+  </div>
+
+  <div class="formula-box">$$\phi_i(v)=\sum_{S\subseteq N\setminus\{i\}}\frac{|S|!\,(n-|S|-1)!}{n!}\,\bigl[v(S\cup\{i\})-v(S)\bigr]$$</div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>$v(S)$ is the value coalition $S$ can create on its own (the characteristic function). Inside the brackets, $v(S\cup\{i\})-v(S)$ is exactly $i$'s <strong>marginal contribution</strong> to coalition $S$. The factorial coefficient in front is the <em>probability</em> that $i$ arrives right after $S$ — a weighted average over all $n!$ entry orders. So $\phi_i$ is $i$'s expected marginal contribution.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>It is not "a" fair scheme but the <strong>only</strong> one satisfying four axioms at once: <em>efficiency</em> (the whole value is distributed), <em>symmetry</em> (equal contributors get equal shares), <em>the null player</em> (a non-contributor gets zero), and <em>additivity</em> (merge two projects, and shares add). Everyone nods at these — yet it is provable that <strong>exactly one</strong> distribution satisfies them. From plain intuitive axioms, a unique formula is forced out — the beauty of mathematics as "design" rather than "discovery."</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>The <strong>SHAP value</strong> in machine-learning interpretability <em>is</em> the Shapley value: treat each feature as a "player" and the model's prediction as the "team payoff" to compute how much each feature contributed to this prediction — now an industry standard for explaining black-box models. It also drives cost sharing (airport runways, cloud resources), voting-power measures (the Shapley–Shubik index), and data valuation (what each training example is worth).</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="essence">The Shapley value = average marginal contribution over all entry orders — the unique split satisfying four fairness axioms at once.</div>
+    <div class="think">Computing it exactly means enumerating $2^n$ coalitions, which explodes as features grow — the very reason SHAP is expensive on large models. If you can only sample some permutations to approximate it, which axiom's strictness do you sacrifice? At what discount does "fairness" come?</div>
+  </div>
+</div>
+
+<!-- Concept 3: Mechanism Design -->
+<div class="card">
+  <h2>Mechanism Design</h2>
+  <div class="en-name">Reverse game theory: fix the outcome first, then build the rules</div>
+  <span class="tag">Reverse Game Theory</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Ordinary game theory asks: given the rules, how will people play? Mechanism design turns the arrow <strong>around</strong>: I want a certain outcome (sell to whoever wants it most, allocate resources efficiently) — how do I design rules and incentives so that self-interested people <em>voluntarily</em> play it out? This is "designing the game" rather than "playing" it, hence <strong>reverse game theory</strong>.<br><br>The difficulty is that people lie and scheme. The genius move: a good mechanism makes <strong>telling the truth each player's best strategy</strong>. The classic example is the second-price auction rule — the highest bidder wins but pays only the second-highest price. Now over- or under-bidding gains you nothing, and <em>reporting your true valuation</em> becomes a dominant strategy. The rules themselves turn honesty into self-interest.</p>
+  </div>
+
+  <div class="formula-box">$$\text{true value } v_i \text{ is dominant:}\quad u_i(v_i, b_{-i}) \ge u_i(b_i, b_{-i})\quad \forall\, b_i$$</div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>A mechanism is <strong>incentive-compatible</strong> (IC) if, no matter what the others report $b_{-i}$, player $i$'s utility $u_i$ from truthfully reporting $v_i$ is no less than from misreporting $b_i$. The inequality above is the property of the second-price (Vickrey) auction. The <em>Vickrey–Clarke–Groves</em> (VCG) mechanism generalizes it to complex settings: each player pays "the loss their presence imposes on others," making honesty globally optimal.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>The <strong>Revelation Principle</strong> is the anchor of the field: anything achievable by any mechanism can be reproduced by a direct mechanism in which "everyone simply reports truthfully." This collapses an infinite <em>strategy space</em> into "just consider truth-telling mechanisms," sharply narrowing the search for an optimal one. And the <em>Gibbard–Satterthwaite theorem</em> draws the boundary: in genuine either/or voting settings, strategy-proofness and non-dictatorship cannot both hold. What can and cannot be done are both nailed down by theorems.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>The <strong>ad auctions</strong> (GSP / VCG) of Google and other platforms clear billions of times a day; the FCC's spectrum auctions, kidney exchange, and school choice are all <strong>matching-market</strong> triumphs of mechanism design. Recently it reaches blockchain fee auctions (EIP-1559) and <strong>AI alignment</strong> — designing human values into an agent's incentive structure is, at bottom, a mechanism-design problem.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="essence">Mechanism design is reverse game theory: don't predict behavior — design incentives so the selfish player's best move is honesty and efficiency.</div>
+    <div class="think">In a second-price auction, why does "bidding your true value" strictly never hurt? Reason it out: raising your bid only changes <em>whether you win</em>, and if you win you still pay someone else's second-highest price — what are the risks and rewards of overbidding? Why is honesty dominant here?</div>
+  </div>
+</div>
+
+<!-- Concept 4: Evolutionary Game Theory -->
+<div class="card">
+  <h2>Evolutionary Game Theory</h2>
+  <div class="en-name">No rationality required — only selection and reproduction</div>
+  <span class="tag">Dynamics</span>
+
+  <div class="section">
+    <div class="label">Intuition</div>
+    <p>Classical game theory assumes players are supremely clever, reasoning through infinite layers. But animals, genes, and people in markets don't "solve equations" — evolutionary game theory throws that assumption out entirely: <strong>strategies are like genes, and higher-payoff strategies breed more offspring</strong>, so their share rises in the next generation. No one is thinking, yet equilibrium still emerges — not reasoned out but <em>selected</em> for.<br><br>The classic "hawk–dove" game: an all-hawk (aggressive) population injures itself, while an all-dove (yielding) one gets invaded and exploited by a few hawks. The system finally settles at some hawk-to-dove ratio where no mutant can raid its way to a gain. Such a strategy, <strong>resistant to invasion</strong>, is an evolutionarily stable strategy (ESS).</p>
+  </div>
+
+  <div class="formula-box">$$\dot{x}_i = x_i\bigl(f_i(x)-\bar{f}(x)\bigr)$$</div>
+
+  <div class="section">
+    <div class="label">Formal definition</div>
+    <p>This is the <strong>replicator equation</strong>: $x_i$ is the fraction of individuals using strategy $i$, $f_i(x)$ its current fitness (payoff), and $\bar{f}(x)=\sum_j x_j f_j$ the population's average fitness. It says: <em>strategies more successful than average ($f_i>\bar f$) grow in share, those below shrink</em>. Among its stable fixed points, the ones that resist small mutant invasions are the <strong>ESS</strong> — a dynamical refinement of Nash equilibrium.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Why it's beautiful</div>
+    <p>It swaps Nash equilibrium's demand for "perfect rationality" for "differential reproduction," a mechanism found everywhere in nature — so the same mathematics <strong>governs biology and economics at once</strong>: animal sex ratios, foraging strategies, and even <em>how altruism and cooperation evolve among selfish genes</em> (reciprocity, kin selection) all fall under one equation. Rationality is not a precondition for equilibrium, merely <strong>one of many routes</strong> to it — selection reaches the same place.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Applications</div>
+    <p>It is the core tool for understanding stable behaviors in biological evolution (altruism, retaliation, honest signaling); in AI, the convergence and cycling of <strong>multi-agent learning</strong> (rock–paper–scissors-like strategy rotation) is captured by replicator dynamics, and <strong>AlphaGo's self-play</strong> is essentially an evolutionary search over a population of strategies. Cultural and memetic spread, and the game of herd-immunity strategies, share the same language.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">Essence + a question</div>
+    <div class="essence">Evolutionary game theory says: equilibrium needs no clever players, only "the successful reproduce more" — selection does the optimizing rationality was supposed to do.</div>
+    <div class="think">If everyone is selfish, cooperation should be eroded to nothing by free-riders. Yet repeated interaction, kinship, and reputation memory can all make cooperation an ESS. What do these mechanisms share? Are they all quietly folding the payoffs of "the future" or "others" into present-day fitness?</div>
+  </div>
+</div>
+
+<!-- Deep dive -->
+<div class="card deep">
+  <h2>Deeper Questions</h2>
+  <details>
+    <summary>Nash proved an equilibrium "always exists" — so why is finding one famously hard?</summary>
+    <div class="body">Existence rests on a fixed-point theorem, which is <strong>non-constructive</strong> — it guarantees such a point exists but doesn't tell you how to reach it. In fact, computing a Nash equilibrium of a general game is <em>PPAD-complete</em>, widely believed to admit no efficient algorithm. This "exists but can't be found" gap is instructive: existence proofs like fixed-point theorems pervade mathematics, and "proving existence" versus "being able to find it" are fundamentally different — just as universal approximation guarantees a network can represent some solution without guaranteeing gradient descent finds it.</div>
+  </details>
+  <details>
+    <summary>Nash equilibrium, the Shapley value, mechanism design, evolutionary games — what is the common thread?</summary>
+    <div class="body">All answer "<strong>what state is stable</strong>," only the definition of "stable" differs: Nash equilibrium via "no one wants to deviate alone" (fixed-point); the Shapley value via "the unique fairness forced by four axioms" (axiomatic); mechanism design via "honesty is a dominant strategy" (incentive-based); evolutionary games via "resistant to mutant invasion" (dynamical). One intuition of "equilibrium," made precise in four distinct mathematical languages — that is exactly the appeal of game theory as a unified discipline.</div>
+  </details>
+  <details>
+    <summary>The prisoner's dilemma pits "individual rationality" against "collective optimum." Is there a mathematical way out?</summary>
+    <div class="body">Not in a one-shot game — defection strictly dominates, and cooperation is not an equilibrium. The escape lies in <strong>changing the game's structure</strong>: repetition brings "future punishment" into play (the folk theorem shows cooperation can become an equilibrium once players value the future enough); introducing reputation, contracts, or third-party enforcement effectively operates on the payoff matrix. The deep point: cooperation dilemmas are often solved not by "urging people to be good" but by <em>redesigning the game people are in</em> — which is precisely where mechanism design comes in.</div>
+  </details>
+  <details>
+    <summary>Why do mechanism design and AI alignment look more and more like the same problem?</summary>
+    <div class="body">Alignment wants a capable agent prone to "gaming loopholes" to have its optimal behavior match human intent — which is, in essence, designing an incentive mechanism that makes "acting the way we want" its dominant strategy. Mechanism design's lessons sting here: incentive compatibility is extremely hard, and the slightest gap gets exploited by "satisfying the literal goal while betraying its intent" (reward hacking — misreporting, in mechanism terms). And the Gibbard–Satterthwaite theorem reminds us some "have-it-both-ways" demands are simply incompatible — the boundary of alignment may already be written into these theorems.</div>
+  </details>
+</div>
+
+<nav class="bottom">
+  <a href="index.en.html">← Back to Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>

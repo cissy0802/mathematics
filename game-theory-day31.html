@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>博弈论的数学 · Day 31 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.essence{background:#eef4ee;border-left:3px solid #5a8a5a;padding:14px 18px;margin-top:6px;color:#243024;font-weight:600}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fafbfd;border:1px solid #d8e0ea;border-radius:6px;padding:12px 18px;margin-bottom:12px}
+details summary{cursor:pointer;color:#1e3a5f;font-weight:600;font-size:0.98rem}
+details .body{margin-top:10px;font-size:0.95rem;color:#3a4658;line-height:1.8}
+.deep h2{font-size:1.3rem;color:#1e3a5f;margin-bottom:18px;text-align:center;font-family:"Times New Roman",Georgia,serif}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="kicker">Day 31 · 2026.07.23</div>
+  <h1>博弈论的数学</h1>
+  <div class="meta">The Mathematics of Game Theory — 当每个人的最优选择取决于别人的选择</div>
+  <div class="epigraph">"博弈论研究的是理性决策者之间的冲突与合作的数学模型。" — 改写自 Roger Myerson</div>
+</header>
+
+<!-- 概念 1：纳什均衡 -->
+<div class="card">
+  <h2>纳什均衡</h2>
+  <div class="en-name">Nash Equilibrium · 谁都不想单方面改变的僵局</div>
+  <span class="tag">Non-cooperative Games</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>两条路通往同一目的地，大家都挑更快的那条——直到它挤满、两条路一样慢。到那一刻，<strong>没人能靠单独换路变快</strong>：这就是纳什均衡。它只问一件事：给定别人的选择，<em>你此刻的选择是不是自己的最优反应</em>？若人人答「是」，就没人有动机偏离，局面冻住了。<br><br>关键是读懂它<strong>不承诺什么</strong>：均衡只是「无人想单方面改变」，不等于「对大家都最好」。囚徒困境里双双招供是唯一均衡，可两人都沉默明明更好——个体理性把集体带进了更差的角落。均衡是稳定的陷阱，不是理想的终点。</p>
+  </div>
+
+  <div class="formula-box">$$u_i(s_i^\ast, s_{-i}^\ast) \ge u_i(s_i, s_{-i}^\ast)\quad \forall\, s_i,\ \forall\, i$$</div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>$s_i^\ast$ 是玩家 $i$ 的策略，$s_{-i}^\ast$ 是<em>其他所有人</em>的策略。上式说：只要别人不动，$i$ 换任何别的策略 $s_i$ 都不能提高自己的收益 $u_i$——所以 $s^\ast$ 是一组互为最优反应的策略。<strong>纳什 1950 年的定理</strong>：任何有限博弈，只要允许「混合策略」（按概率随机选），就<em>一定存在</em>至少一个这样的均衡。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>存在性证明是全篇的高光：纳什把「找均衡」翻译成「找一个映射的不动点」——每个策略组合都指向「大家各自的最优反应」，均衡正是那个<strong>指向自己的点</strong>。再用 <em>Brouwer / Kakutani 不动点定理</em>（连续映射把凸紧集映回自身必有不动点）一锤定音。一个关于人心与算计的问题，答案竟藏在拓扑里——这正是数学「不合理的有效性」：看似无关的领域，底层同构。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>拍卖定价、寡头竞争、交通与网络路由（<strong>Braess 悖论</strong>：多修一条路反而人人更慢，就是均衡漂移）全靠它预测。在 AI 里，<strong>GAN</strong> 的训练是生成器与判别器的一场极小极大博弈，理想收敛点就是纳什均衡；多智能体强化学习（自动驾驶车流、算法交易）也把「学习」建模为向均衡收敛。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华 + 思考题</div>
+    <div class="essence">纳什均衡是「没人能单方面获益」的稳定点——它一定存在，但未必对大家最好。</div>
+    <div class="think">囚徒困境的唯一均衡是双双背叛，可现实里合作随处可见。如果同一场博弈无限重复下去，「以牙还牙」这类策略为什么能让合作在自私的玩家间站稳？重复，给博弈加了什么新东西？</div>
+  </div>
+</div>
+
+<!-- 概念 2：Shapley 值 -->
+<div class="card">
+  <h2>Shapley 值</h2>
+  <div class="en-name">The Shapley Value · 把「公平分配」用公理钉死</div>
+  <span class="tag">Cooperative Games</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>三人合伙赚了一笔钱，谁该分多少？直觉说「按贡献分」，可贡献怎么量？一个人的价值取决于他<em>和谁在一起</em>——同一个人在不同团队里边际贡献可能天差地别。Shapley 的答案彻底而漂亮：<strong>把所有可能的「加入顺序」都走一遍</strong>，每次看他加入那一刻给团队带来的增量，再对所有顺序取平均。<br><br>于是你的份额 = 所有排队入场情形下的<strong>平均边际贡献</strong>。不管你先来还是压轴，所有情节一视同仁地平均掉，剩下的就是你「本质上」值多少。</p>
+  </div>
+
+  <div class="formula-box">$$\phi_i(v)=\sum_{S\subseteq N\setminus\{i\}}\frac{|S|!\,(n-|S|-1)!}{n!}\,\bigl[v(S\cup\{i\})-v(S)\bigr]$$</div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>$v(S)$ 是联盟 $S$ 单独能创造的价值（特征函数）。方括号里 $v(S\cup\{i\})-v(S)$ 正是 $i$ 加入联盟 $S$ 的<strong>边际贡献</strong>。前面那个阶乘系数是「$i$ 恰好在 $S$ 之后入场」这种排序的<em>概率</em>——对全部 $n!$ 种入场顺序加权平均。于是 $\phi_i$ 就是 $i$ 的期望边际贡献。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>它不是「一种」公平方案，而是<strong>唯一</strong>同时满足四条公理的方案：<em>有效性</em>（总价值分光）、<em>对称性</em>（贡献相同者拿相同）、<em>虚拟人</em>（毫无贡献者拿零）、<em>可加性</em>（两个项目合并，份额相加）。这几条谁都会点头，可数学证明：满足它们的分配<strong>有且只有一个</strong>。从朴素的直觉公理，逼出唯一的公式——这是数学「设计」而非「发现」的美感。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>机器学习可解释性的 <strong>SHAP 值</strong> 就是 Shapley 值：把每个特征当「玩家」，模型预测当「团队收益」，算出每个特征对这次预测贡献了多少——已成为解释黑箱模型的行业标准。此外还用于成本分摊（机场跑道、云资源）、投票权力度量（Shapley–Shubik 指数）、以及数据估值（每条训练数据值多少钱）。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华 + 思考题</div>
+    <div class="essence">Shapley 值 = 所有入场顺序下的平均边际贡献，是唯一同时满足四条公平公理的分配。</div>
+    <div class="think">精确计算 Shapley 值要遍历 $2^n$ 个联盟，特征一多就爆炸——这也是 SHAP 在大模型上昂贵的根源。若只能采样一部分排列来近似，你会牺牲哪条公理的严格性？「公平」的代价，能打几折？</div>
+  </div>
+</div>
+
+<!-- 概念 3：机制设计 -->
+<div class="card">
+  <h2>机制设计</h2>
+  <div class="en-name">Mechanism Design · 反向博弈论：先定结果，再造规则</div>
+  <span class="tag">Reverse Game Theory</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>普通博弈论问：规则给定，人们怎么玩？机制设计把箭头<strong>倒过来</strong>：我想要某个结果（卖给最想要的人、分配得有效率），该怎么设计规则与激励，让各怀私心的人<em>自愿</em>玩出它？这是「设计游戏」而非「玩游戏」，故又叫<strong>反向博弈论</strong>。<br><br>难点是人会撒谎、会算计。天才之处在于：好机制让<strong>说真话恰好成为每个人的最优策略</strong>。经典例子是拍卖的第二价格法则——出价最高者赢，却只付第二高价。此时多报少报都没好处，<em>如实报出估值</em>成了占优策略。规则本身把诚实变成了自利。</p>
+  </div>
+
+  <div class="formula-box">$$\text{真实估值 } v_i \ \text{是占优策略：}\quad u_i(v_i, b_{-i}) \ge u_i(b_i, b_{-i})\quad \forall\, b_i$$</div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>机制要满足<strong>激励相容</strong>（IC）：无论别人怎么报 $b_{-i}$，玩家 $i$ 如实报出真值 $v_i$ 得到的效用 $u_i$ 都不低于谎报 $b_i$。上式即第二价格（Vickrey）拍卖的性质。<em>Vickrey–Clarke–Groves</em>（VCG）机制把它推广到复杂场景：每人付出的价，等于「他的存在给别人造成的损失」，从而让诚实全局最优。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p><strong>揭示原理</strong>（Revelation Principle）是这门学问的定海神针：任何机制能达成的结果，都能被一个「大家只需如实报告」的直接机制复现。这一下把无穷复杂的<em>策略空间</em>坍缩成「只考虑说真话的机制」就够了——寻找最优机制的搜索范围骤然收窄。而 <em>Gibbard–Satterthwaite 定理</em> 又划出边界：非此即彼的投票场景里，防操纵与非独裁不可兼得。能与不能，都被定理钉得死死的。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>Google 与各大平台的<strong>广告拍卖</strong>（GSP / VCG）每天成交数十亿次；美国 FCC 的频谱拍卖、肾脏交换与择校的<strong>匹配市场</strong>都是机制设计的胜利。近年更延伸到区块链的手续费拍卖（EIP-1559）与 <strong>AI 对齐</strong>——把人类想要的价值「设计」进智能体的激励结构，本质就是一场机制设计。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华 + 思考题</div>
+    <div class="essence">机制设计是反向博弈论：不预测行为，而是设计激励，让自私者的最优选择恰好是诚实与高效。</div>
+    <div class="think">第二价格拍卖里，为什么「如实报价」严格不吃亏？试着推演：你抬高报价能改变的只有「是否赢」，而赢了付的仍是别人的第二高价——多报的风险与好处各是什么？诚实为何在此成了占优策略？</div>
+  </div>
+</div>
+
+<!-- 概念 4：演化博弈 -->
+<div class="card">
+  <h2>演化博弈</h2>
+  <div class="en-name">Evolutionary Game Theory · 不需要理性，只需要选择与繁殖</div>
+  <span class="tag">Dynamics</span>
+
+  <div class="section">
+    <div class="label">直觉版</div>
+    <p>经典博弈论假设玩家绝顶聪明、会算无穷层。可动物、基因、市场里的人并不「解方程」——演化博弈把这个假设整个扔掉：<strong>策略像基因，收益高的策略繁殖出更多后代</strong>，下一代里它的比例就上升。没有人在思考，均衡却照样浮现——它不是被想出来的，而是被<em>筛选</em>出来的。<br><br>经典的「鹰鸽博弈」：一群全是「鹰」（好斗）会两败俱伤，一群全是「鸽」（退让）又会被少数鹰入侵占便宜。系统最终稳定在某个鹰鸽比例——那里谁也无法靠变异突袭获利。这种<strong>抵挡得住入侵的策略</strong>，就是演化稳定策略（ESS）。</p>
+  </div>
+
+  <div class="formula-box">$$\dot{x}_i = x_i\bigl(f_i(x)-\bar{f}(x)\bigr)$$</div>
+
+  <div class="section">
+    <div class="label">正式定义</div>
+    <p>这是<strong>复制者方程</strong>：$x_i$ 是采用策略 $i$ 的个体比例，$f_i(x)$ 是它当前的适应度（收益），$\bar{f}(x)=\sum_j x_j f_j$ 是种群平均适应度。式子说：<em>比平均更成功（$f_i>\bar f$）的策略比例上升，低于平均的下降</em>。它的稳定不动点里，能抵御微小突变入侵的那些，就是 <strong>ESS</strong>——纳什均衡的动力学精炼版。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">为什么美</div>
+    <p>它把纳什均衡对「完美理性」的苛求，替换成了「差别繁殖」这个自然界随处都有的机制——于是同一套数学<strong>同时统治了生物学与经济学</strong>：动物的性别比例、觅食策略、乃至<em>利他与合作如何在自私的基因里演化出来</em>（互惠、亲缘选择），都落在同一个方程里。理性不是均衡的前提，只是达到均衡的<strong>众多路径之一</strong>——选择也能抵达同一处。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">应用</div>
+    <p>它是理解生物演化中稳定行为（利他、报复、信号诚实）的核心工具；在 AI 里，<strong>多智能体学习</strong>的收敛与循环（石头剪刀布式的策略轮转）正由复制者动态刻画；<strong>AlphaGo 的自我对弈</strong>本质是一个策略种群的演化搜索。文化与模因传播、群体免疫策略的博弈，也共用这套语言。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">一句话精华 + 思考题</div>
+    <div class="essence">演化博弈说：均衡不需要聪明的玩家，只需要「成功者繁殖更多」——选择替理性完成了优化。</div>
+    <div class="think">若人人自私，合作按理会被「搭便车者」侵蚀殆尽。但重复互动、亲缘关系、声誉记忆，都能让合作成为 ESS。这些机制的共同点是什么？它们是不是都在偷偷地把「未来」或「他人」的收益，折算进了当下的适应度？</div>
+  </div>
+</div>
+
+<!-- 深入思考 -->
+<div class="card deep">
+  <h2>深入思考</h2>
+  <details>
+    <summary>纳什证明了均衡「一定存在」，可为什么找到它却出了名地难？</summary>
+    <div class="body">存在性靠不动点定理，是<strong>非构造性</strong>的——它保证有那么个点，却不告诉你怎么走到。事实上，计算一般博弈的纳什均衡是 <em>PPAD 完全</em>问题，被广泛认为没有高效算法。这道「存在却算不出」的裂缝极具启发：不动点定理这类存在性证明遍布数学，而「证明存在」与「能否找到」是两件根本不同的事——正如万能逼近保证网络能表示某个解，却不保证梯度下降找得到它。</div>
+  </details>
+  <details>
+    <summary>四个概念——纳什均衡、Shapley 值、机制设计、演化博弈——共同的主线是什么？</summary>
+    <div class="body">都在回答「<strong>什么样的状态是稳定的</strong>」，只是「稳定」的定义各异：纳什均衡靠「无人想单方面偏离」（不动点式）；Shapley 值靠「四条公理逼出的唯一公平」（公理式）；机制设计靠「诚实是占优策略」（激励式）；演化博弈靠「抵挡得住突变入侵」（动力学式）。同一个「均衡」直觉，被四种数学语言各自精确化——这正是博弈论作为统一学科的魅力。</div>
+  </details>
+  <details>
+    <summary>囚徒困境把「个体理性」与「集体最优」对立起来。这道张力有没有数学上的出路？</summary>
+    <div class="body">单次博弈里没有——背叛严格占优，合作不是均衡。出路藏在<strong>改变博弈的结构</strong>：重复博弈让「未来的惩罚」进场（无名氏定理表明，只要玩家足够重视未来，合作可成为均衡）；引入声誉、契约、第三方执法，等于给收益矩阵动了手术。深刻之处在于：合作困境常常不靠「劝人向善」解决，而靠<em>重新设计所处的博弈</em>——这恰是机制设计的用武之地。</div>
+  </details>
+  <details>
+    <summary>机制设计与 AI 对齐，为什么越来越像同一个问题？</summary>
+    <div class="body">对齐要让一个会「钻空子」的强智能体，其最优行为恰好符合人类意图——这本质就是设计激励，使「按我们想要的方式行动」成为它的占优策略。机制设计的教训在此格外刺眼：激励相容极难做到，稍有疏漏就被「满足字面目标却违背本意」（reward hacking，正是机制里的谎报）钻空子。而 Gibbard–Satterthwaite 定理提醒我们，某些「既要又要」根本不可兼得——对齐的边界，也许早写在这些定理里。</div>
+  </details>
+</div>
+
+<nav class="bottom">
+  <a href="index.html">← 返回 Mathematics</a>
+</nav>
+
+</div>
+</body>
+</html>
