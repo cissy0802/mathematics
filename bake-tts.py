@@ -109,6 +109,13 @@ def normalize_for_tts(text: str) -> str:
     text = text.replace("✔ ", "正例，").replace("✔ ", "正例，").replace("✔", "正例，")
     text = text.replace("✗ ", "反例，").replace("✗ ", "反例，").replace("✗", "反例，")
     text = text.replace("✘ ", "反例，").replace("✘ ", "反例，").replace("✘", "反例，")
+    # Inline / block LaTeX ($...$, $$...$$) reads as gibberish; swap the math
+    # for a short spoken placeholder so the sentence still flows.
+    import re as _re0
+    text = _re0.sub(r"\$\$.+?\$\$", "（公式）", text, flags=_re0.S)
+    text = _re0.sub(r"\$(?=[^$\n]*[\\_^{}])[^$\n]{2,}?\$", "（公式）", text)
+    text = _re0.sub(r"\\\[.+?\\\]", "（公式）", text, flags=_re0.S)
+    text = _re0.sub(r"\\\(.+?\\\)", "（公式）", text)
     text = text.replace("❌ ", "反例，").replace("❌ ", "反例，").replace("❌", "反例，")
     text = text.replace("✅ ", "正例，").replace("✅", "正例，")
     text = text.replace("⚠️ ", "注意，").replace("⚠ ", "注意，").replace("⚠", "注意，")
