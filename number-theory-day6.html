@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>数论之美 · Day 6 — Mathematics</title>
 <script>
 window.MathJax = {
@@ -14,7 +15,7 @@ window.MathJax = {
   options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
 };
 </script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
@@ -52,235 +53,200 @@ nav.bottom a:hover{color:#1e3a5f}
 </head>
 <body>
 <div class="container">
-
 <header>
-  <div class="kicker">Day 6 · 2026.06.05</div>
-  <h1>数论之美</h1>
-  <div class="meta">The Beauty of Number Theory — 整数的最深处，藏着最离奇的秩序</div>
-  <div class="epigraph">"上帝或许不掷骰子，但素数那边明显有事在发生。" — Paul Erdős</div>
+<div class="kicker">Day 6 · 2026.06.05</div>
+<h1 data-tts="c66d71f8911774cf">数论之美</h1>
+<div class="meta">The Beauty of Number Theory — 整数的最深处，藏着最离奇的秩序</div>
+<div class="epigraph">"上帝或许不掷骰子，但素数那边明显有事在发生。" — Paul Erdős</div>
 </header>
-
 <!-- 概念 1：素数分布 -->
-<div class="card">
-  <h2>素数分布</h2>
-  <div class="en-name">The Prime Number Theorem · 混乱表面下的对数曲线</div>
-  <span class="tag">Analytic Number Theory</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>素数是 2, 3, 5, 7, 11, 13, 17, …——只能被 1 和自己整除的数。沿着数轴走，它们越来越稀，但稀的方式没有任何明显规律：相邻的两个素数可能差 2（孪生），也可能突然出现一段几百位的「沙漠」。<br><br>真正惊人的事情是：<strong>局部完全无规律，整体却服从一条干净的曲线。</strong>在 N 附近，一个随机整数是素数的概率约为 $1/\ln N$。这意味着 100 位的随机整数有约 1/230 是素数；1000 位的有约 1/2300。素数像撒盐——单粒位置无法预测，密度却由一条对数律精确管住。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
-      <line x1="40" y1="170" x2="340" y2="170" stroke="#aaa" stroke-width="0.8"/>
-      <line x1="40" y1="20" x2="40" y2="180" stroke="#aaa" stroke-width="0.8"/>
-      <text x="338" y="186" font-size="10" fill="#666" text-anchor="end">N</text>
-      <text x="46" y="30" font-size="10" fill="#666">π(N)</text>
-      <!-- Smooth N/lnN curve -->
-      <path d="M 40 170 Q 120 145 200 100 T 330 35" fill="none" stroke="#3a6088" stroke-width="2"/>
-      <text x="280" y="60" font-size="10" fill="#3a6088" font-style="italic">N / ln N</text>
-      <!-- Jagged actual π(N) -->
-      <path d="M 40 170 L 60 165 L 75 162 L 90 155 L 110 150 L 130 142 L 150 132 L 170 121 L 190 108 L 215 92 L 240 75 L 270 60 L 300 47 L 330 38" fill="none" stroke="#c9544a" stroke-width="1.5" stroke-dasharray="3,2"/>
-      <text x="200" y="155" font-size="10" fill="#c9544a" font-style="italic">π(N) 实际</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <div class="formula-box">$$\pi(N) \sim \frac{N}{\ln N}, \quad N\to\infty$$</div>
-    <p><em>π(N)</em> 表示不超过 <em>N</em> 的素数个数；"~" 是「比值趋于 1」。等价地，第 <em>n</em> 个素数 <em>p<sub>n</sub></em> ≈ <em>n</em> ln <em>n</em>。更精细的逼近是 $\mathrm{Li}(N)=\int_2^N\!dt/\ln t$，误差比 <em>N</em>/ln <em>N</em> 更小一个量级。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>15 岁的高斯翻着对数表手算素数密度时，就猜中了这条规律。可是直到 1896 年，Hadamard 与 de la Vallée Poussin 才证明它——而且他们的证明绕进了 <strong>复变函数</strong>。一个关于整数（最离散的对象）的定理，居然要去复平面里找答案。这种「实问题最短的路要穿过复数」的诡异跨界，是数论的招牌。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>RSA、椭圆曲线密码的可行性直接靠它：生成一个 2048 位随机素数，平均只需试约 2048·ln 2 ≈ 1400 个候选——所以银行后台才能秒级签发密钥。哈希表的桶数常选素数以打散冲突；蝉的 13/17 年生命周期疑似在用素数躲开掠食者周期。<em>Li(N)</em> 这类积分近似还出现在分析素数随机性的启发式估计里。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <div class="essence">单粒位置无法预测，整体密度精确可算——素数是「局部随机、全局有序」的元祖。</div>
-    <div class="label" style="margin-top:14px">思考题</div>
-    <div class="think">PNT 给的是均值，实际 <em>π(N)</em> 会上下振荡。这种「平均规律 + 局部涨落」的图像，与分布式系统里负载均衡的尾部延迟有什么类比？两者都是「均值好看、尾部要命」吗？</div>
-  </div>
+<div class="card" data-tts="58d4c9aa7b7511c0">
+<h2>素数分布</h2>
+<div class="en-name">The Prime Number Theorem · 混乱表面下的对数曲线</div>
+<span class="tag">Analytic Number Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>素数是 2, 3, 5, 7, 11, 13, 17, …——只能被 1 和自己整除的数。沿着数轴走，它们越来越稀，但稀的方式没有任何明显规律：相邻的两个素数可能差 2（孪生），也可能突然出现一段几百位的「沙漠」。<br/><br/>真正惊人的事情是：<strong>局部完全无规律，整体却服从一条干净的曲线。</strong>在 N 附近，一个随机整数是素数的概率约为 $1/\ln N$。这意味着 100 位的随机整数有约 1/230 是素数；1000 位的有约 1/2300。素数像撒盐——单粒位置无法预测，密度却由一条对数律精确管住。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.8" x1="40" x2="340" y1="170" y2="170"></line>
+<line stroke="#aaa" stroke-width="0.8" x1="40" x2="40" y1="20" y2="180"></line>
+<text fill="#666" font-size="10" text-anchor="end" x="338" y="186">N</text>
+<text fill="#666" font-size="10" x="46" y="30">π(N)</text>
+<!-- Smooth N/lnN curve -->
+<path d="M 40 170 Q 120 145 200 100 T 330 35" fill="none" stroke="#3a6088" stroke-width="2"></path>
+<text fill="#3a6088" font-size="10" font-style="italic" x="280" y="60">N / ln N</text>
+<!-- Jagged actual π(N) -->
+<path d="M 40 170 L 60 165 L 75 162 L 90 155 L 110 150 L 130 142 L 150 132 L 170 121 L 190 108 L 215 92 L 240 75 L 270 60 L 300 47 L 330 38" fill="none" stroke="#c9544a" stroke-dasharray="3,2" stroke-width="1.5"></path>
+<text fill="#c9544a" font-size="10" font-style="italic" x="200" y="155">π(N) 实际</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\pi(N) \sim \frac{N}{\ln N}, \quad N\to\infty$$</div>
+<p><em>π(N)</em> 表示不超过 <em>N</em> 的素数个数；"~" 是「比值趋于 1」。等价地，第 <em>n</em> 个素数 <em>p<sub>n</sub></em> ≈ <em>n</em> ln <em>n</em>。更精细的逼近是 $\mathrm{Li}(N)=\int_2^N\!dt/\ln t$，误差比 <em>N</em>/ln <em>N</em> 更小一个量级。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>15 岁的高斯翻着对数表手算素数密度时，就猜中了这条规律。可是直到 1896 年，Hadamard 与 de la Vallée Poussin 才证明它——而且他们的证明绕进了 <strong>复变函数</strong>。一个关于整数（最离散的对象）的定理，居然要去复平面里找答案。这种「实问题最短的路要穿过复数」的诡异跨界，是数论的招牌。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>RSA、椭圆曲线密码的可行性直接靠它：生成一个 2048 位随机素数，平均只需试约 2048·ln 2 ≈ 1400 个候选——所以银行后台才能秒级签发密钥。哈希表的桶数常选素数以打散冲突；蝉的 13/17 年生命周期疑似在用素数躲开掠食者周期。<em>Li(N)</em> 这类积分近似还出现在分析素数随机性的启发式估计里。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<div class="essence">单粒位置无法预测，整体密度精确可算——素数是「局部随机、全局有序」的元祖。</div>
+<div class="label" style="margin-top:14px">思考题</div>
+<div class="think">PNT 给的是均值，实际 <em>π(N)</em> 会上下振荡。这种「平均规律 + 局部涨落」的图像，与分布式系统里负载均衡的尾部延迟有什么类比？两者都是「均值好看、尾部要命」吗？</div>
+</div>
+</div>
 <!-- 概念 2：黎曼猜想 -->
-<div class="card">
-  <h2>黎曼猜想</h2>
-  <div class="en-name">The Riemann Hypothesis · 素数涨落的乐谱</div>
-  <span class="tag">Analytic Number Theory</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>PNT 告诉我们素数的主旋律是 <em>N</em>/ln <em>N</em>，但 <em>π(N)</em> 总在它附近上下抖动。1859 年黎曼把这些抖动翻译成了「和声」：每一个非平凡零点 ρ 对应一个「频率」，把它们叠加起来正好等于素数计数的全部涨落。<br><br><strong>黎曼猜想说：所有这些频率的实部都恰好等于 1/2。</strong>所有声部均匀对齐，没有任何一个偷偷增大去主宰其它——这是一种最深的均衡。一旦失衡，素数就会出现远超预期的剧烈波动。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 340 200" xmlns="http://www.w3.org/2000/svg">
-      <line x1="20" y1="100" x2="320" y2="100" stroke="#aaa" stroke-width="0.7"/>
-      <line x1="170" y1="20" x2="170" y2="180" stroke="#aaa" stroke-width="0.7"/>
-      <text x="316" y="116" font-size="10" fill="#666" text-anchor="end">Re</text>
-      <text x="176" y="30" font-size="10" fill="#666">Im</text>
-      <!-- critical line at Re=1/2 -->
-      <line x1="210" y1="20" x2="210" y2="180" stroke="#c9544a" stroke-width="1.2" stroke-dasharray="4,3"/>
-      <text x="216" y="32" font-size="10" fill="#c9544a" font-style="italic">Re = 1/2</text>
-      <!-- zeros on critical line -->
-      <circle cx="210" cy="55" r="3" fill="#c9544a"/>
-      <circle cx="210" cy="75" r="3" fill="#c9544a"/>
-      <circle cx="210" cy="125" r="3" fill="#c9544a"/>
-      <circle cx="210" cy="145" r="3" fill="#c9544a"/>
-      <circle cx="210" cy="165" r="3" fill="#c9544a"/>
-      <text x="225" y="58" font-size="9" fill="#666" font-style="italic">14.13i</text>
-      <text x="225" y="78" font-size="9" fill="#666" font-style="italic">21.02i</text>
-      <text x="225" y="148" font-size="9" fill="#666" font-style="italic">−21.02i</text>
-      <!-- trivial zeros -->
-      <circle cx="90" cy="100" r="2.5" fill="#7a9a6a"/>
-      <circle cx="50" cy="100" r="2.5" fill="#7a9a6a"/>
-      <text x="40" y="92" font-size="9" fill="#5a7a4a">−4</text>
-      <text x="80" y="92" font-size="9" fill="#5a7a4a">−2</text>
-      <text x="70" y="190" font-size="9" fill="#5a7a4a" text-anchor="middle">平凡零点</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <div class="formula-box">$$\zeta(s)=\sum_{n=1}^\infty \frac{1}{n^s}=\prod_{p\text{ 素}}\frac{1}{1-p^{-s}}$$</div>
-    <p>左边累遍所有整数，右边乘遍所有素数——欧拉发现：它们相等。这条恒等式把全部素数信息塞进了一个函数。把 ζ 解析延拓到整个复平面后，<strong>猜想说：除 <em>s</em> = −2, −4, … 这些「平凡零点」外，所有零点都落在临界线 <strong>Re(s) = 1/2</strong> 上。</strong>这些零点的虚部，正是素数涨落的「频率」。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>RH 一旦为真，<em>π(N)</em> 的误差被锁在 $O(\sqrt{N}\,\ln N)$——已知最强、几乎不可改进的界。整数（最离散）的秩序，藏在复函数（最连续）的零点几何里。更神奇的是 Montgomery–Dyson 在 1972 年发现：ζ 零点的间距统计居然与<strong>随机厄米矩阵的本征值</strong>一模一样——同一个分布也描述重原子核的能级。素数、矩阵、原子核，三件看似不相干的东西指向同一种深层结构。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>直接的工程应用不多，但 <strong>&gt;1000</strong> 条解析数论定理是「假设 RH 为真」的条件命题。Berry–Keating 推测 ζ 零点是某个未知「黎曼算符」的本征值；若真，素数问题就接到了量子混沌上。Clay Math Institute 悬赏 100 万美元，至今 105 年未取。机器学习里，研究者用神经网络拟合 ζ 零点位置作为「极端难函数」的基准。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <div class="essence">整数的秩序，被复平面上一条单薄的临界线锁死。</div>
-    <div class="label" style="margin-top:14px">思考题</div>
-    <div class="think">已检验的 10<sup>13</sup> 个零点全在临界线上，但这就是「证据」吗？经验归纳在数学里能走多远？物理学家因为「实验吻合」就敢用一个理论，数学家为何不肯？</div>
-  </div>
+<div class="card" data-tts="1381729193c61bd8">
+<h2>黎曼猜想</h2>
+<div class="en-name">The Riemann Hypothesis · 素数涨落的乐谱</div>
+<span class="tag">Analytic Number Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>PNT 告诉我们素数的主旋律是 <em>N</em>/ln <em>N</em>，但 <em>π(N)</em> 总在它附近上下抖动。1859 年黎曼把这些抖动翻译成了「和声」：每一个非平凡零点 ρ 对应一个「频率」，把它们叠加起来正好等于素数计数的全部涨落。<br/><br/><strong>黎曼猜想说：所有这些频率的实部都恰好等于 1/2。</strong>所有声部均匀对齐，没有任何一个偷偷增大去主宰其它——这是一种最深的均衡。一旦失衡，素数就会出现远超预期的剧烈波动。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 340 200" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.7" x1="20" x2="320" y1="100" y2="100"></line>
+<line stroke="#aaa" stroke-width="0.7" x1="170" x2="170" y1="20" y2="180"></line>
+<text fill="#666" font-size="10" text-anchor="end" x="316" y="116">Re</text>
+<text fill="#666" font-size="10" x="176" y="30">Im</text>
+<!-- critical line at Re=1/2 -->
+<line stroke="#c9544a" stroke-dasharray="4,3" stroke-width="1.2" x1="210" x2="210" y1="20" y2="180"></line>
+<text fill="#c9544a" font-size="10" font-style="italic" x="216" y="32">Re = 1/2</text>
+<!-- zeros on critical line -->
+<circle cx="210" cy="55" fill="#c9544a" r="3"></circle>
+<circle cx="210" cy="75" fill="#c9544a" r="3"></circle>
+<circle cx="210" cy="125" fill="#c9544a" r="3"></circle>
+<circle cx="210" cy="145" fill="#c9544a" r="3"></circle>
+<circle cx="210" cy="165" fill="#c9544a" r="3"></circle>
+<text fill="#666" font-size="9" font-style="italic" x="225" y="58">14.13i</text>
+<text fill="#666" font-size="9" font-style="italic" x="225" y="78">21.02i</text>
+<text fill="#666" font-size="9" font-style="italic" x="225" y="148">−21.02i</text>
+<!-- trivial zeros -->
+<circle cx="90" cy="100" fill="#7a9a6a" r="2.5"></circle>
+<circle cx="50" cy="100" fill="#7a9a6a" r="2.5"></circle>
+<text fill="#5a7a4a" font-size="9" x="40" y="92">−4</text>
+<text fill="#5a7a4a" font-size="9" x="80" y="92">−2</text>
+<text fill="#5a7a4a" font-size="9" text-anchor="middle" x="70" y="190">平凡零点</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\zeta(s)=\sum_{n=1}^\infty \frac{1}{n^s}=\prod_{p\text{ 素}}\frac{1}{1-p^{-s}}$$</div>
+<p>左边累遍所有整数，右边乘遍所有素数——欧拉发现：它们相等。这条恒等式把全部素数信息塞进了一个函数。把 ζ 解析延拓到整个复平面后，<strong>猜想说：除 <em>s</em> = −2, −4, … 这些「平凡零点」外，所有零点都落在临界线 <strong>Re(s) = 1/2</strong> 上。</strong>这些零点的虚部，正是素数涨落的「频率」。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>RH 一旦为真，<em>π(N)</em> 的误差被锁在 $O(\sqrt{N}\,\ln N)$——已知最强、几乎不可改进的界。整数（最离散）的秩序，藏在复函数（最连续）的零点几何里。更神奇的是 Montgomery–Dyson 在 1972 年发现：ζ 零点的间距统计居然与<strong>随机厄米矩阵的本征值</strong>一模一样——同一个分布也描述重原子核的能级。素数、矩阵、原子核，三件看似不相干的东西指向同一种深层结构。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>直接的工程应用不多，但 <strong>&gt;1000</strong> 条解析数论定理是「假设 RH 为真」的条件命题。Berry–Keating 推测 ζ 零点是某个未知「黎曼算符」的本征值；若真，素数问题就接到了量子混沌上。Clay Math Institute 悬赏 100 万美元，至今 105 年未取。机器学习里，研究者用神经网络拟合 ζ 零点位置作为「极端难函数」的基准。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<div class="essence">整数的秩序，被复平面上一条单薄的临界线锁死。</div>
+<div class="label" style="margin-top:14px">思考题</div>
+<div class="think">已检验的 10<sup>13</sup> 个零点全在临界线上，但这就是「证据」吗？经验归纳在数学里能走多远？物理学家因为「实验吻合」就敢用一个理论，数学家为何不肯？</div>
+</div>
+</div>
 <!-- 概念 3：RSA -->
-<div class="card">
-  <h2>RSA 加密</h2>
-  <div class="en-name">RSA Cryptography · 把信任搬上开放网络</div>
-  <span class="tag">Algorithmic Number Theory · Cryptography</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>密码学最尴尬的问题是：怎么把钥匙寄给对方而不被偷？RSA 给了一个反常识的答案——<strong>用两把不同的钥匙</strong>。公钥公开给所有人，私钥只有你自己有；任何人能用公钥锁，但只有私钥能开。这就像每个人都把开着的挂锁放在桌上，谁要给你寄信，随手抓一把你的挂锁锁上盒子；只有你回家拿出抽屉里那把钥匙能开。<br><br>它的安全性底牌只有一句话：<strong>两个 1024 位素数相乘极快，把乘积分解回原素数却没有任何已知的高效算法。</strong>正向几毫秒，反向上亿年——这道算力鸿沟撑起了整个互联网的信任层。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <div class="formula-box">$$c \equiv m^{e} \pmod{N}, \qquad m \equiv c^{d} \pmod{N}$$</div>
-    <p>取大素数 <em>p</em>, <em>q</em>，记 <em>N</em> = <em>pq</em>，φ(<em>N</em>) = (<em>p</em>−1)(<em>q</em>−1)。挑 <em>e</em> 与 φ(<em>N</em>) 互素，再算 <em>d</em> 使 <em>ed</em> ≡ 1 (mod φ(<em>N</em>))。公钥 (<em>N</em>, <em>e</em>) 公开，私钥 <em>d</em> 保密。正确性靠 <strong>Euler 定理</strong> <em>m</em><sup>φ(<em>N</em>)</sup> ≡ 1 (mod <em>N</em>)；安全性靠：不知道 <em>p</em>, <em>q</em> 就算不出 φ(<em>N</em>)，也就算不出 <em>d</em>。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>Fermat 小定理（1640）与 Euler 定理（1736）是「为美而美」的纯数论玩具，几百年里没人想到它有什么用。1977 年 Rivest、Shamir、Adleman 把它们拼成了协议，今天每秒护住几十亿次 HTTPS 握手。Hardy 1940 年自豪地写过「数论永远不会被战争用上」——RSA 是对这句话最优雅的反例。<strong>纯粹与应用之间的距离，可能只是一两代人。</strong></p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>HTTPS、SSH、TLS 握手、邮件签名、iMessage、比特币交易签名、SIM 卡认证——你今天打开的每一个 https 网页，背后都有一次大数模幂。Shor 算法一旦在量子机上跑通，RSA 立刻崩溃；所以 NIST 正在推动基于格、码、哈希的后量子标准。但「单向陷门」这个核心范式——找一对正向易、反向难的运算——不会变。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <div class="essence">一道正反不对称的算术鸿沟，搭起了互联网时代的全部信任。</div>
-    <div class="label" style="margin-top:14px">思考题</div>
-    <div class="think">1977 年的发明者完全没法预见 50 年后会有量子攻击。当你设计一个长期依赖某「数学难题」的系统，怎么估算这道难题在未来还能挡多久？AI 时代会不会有新一类难题被「学」掉？</div>
-  </div>
+<div class="card" data-tts="8e3ee75d6b504dfe">
+<h2>RSA 加密</h2>
+<div class="en-name">RSA Cryptography · 把信任搬上开放网络</div>
+<span class="tag">Algorithmic Number Theory · Cryptography</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>密码学最尴尬的问题是：怎么把钥匙寄给对方而不被偷？RSA 给了一个反常识的答案——<strong>用两把不同的钥匙</strong>。公钥公开给所有人，私钥只有你自己有；任何人能用公钥锁，但只有私钥能开。这就像每个人都把开着的挂锁放在桌上，谁要给你寄信，随手抓一把你的挂锁锁上盒子；只有你回家拿出抽屉里那把钥匙能开。<br/><br/>它的安全性底牌只有一句话：<strong>两个 1024 位素数相乘极快，把乘积分解回原素数却没有任何已知的高效算法。</strong>正向几毫秒，反向上亿年——这道算力鸿沟撑起了整个互联网的信任层。</p>
 </div>
-
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$c \equiv m^{e} \pmod{N}, \qquad m \equiv c^{d} \pmod{N}$$</div>
+<p>取大素数 <em>p</em>, <em>q</em>，记 <em>N</em> = <em>pq</em>，φ(<em>N</em>) = (<em>p</em>−1)(<em>q</em>−1)。挑 <em>e</em> 与 φ(<em>N</em>) 互素，再算 <em>d</em> 使 <em>ed</em> ≡ 1 (mod φ(<em>N</em>))。公钥 (<em>N</em>, <em>e</em>) 公开，私钥 <em>d</em> 保密。正确性靠 <strong>Euler 定理</strong> <em>m</em><sup>φ(<em>N</em>)</sup> ≡ 1 (mod <em>N</em>)；安全性靠：不知道 <em>p</em>, <em>q</em> 就算不出 φ(<em>N</em>)，也就算不出 <em>d</em>。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>Fermat 小定理（1640）与 Euler 定理（1736）是「为美而美」的纯数论玩具，几百年里没人想到它有什么用。1977 年 Rivest、Shamir、Adleman 把它们拼成了协议，今天每秒护住几十亿次 HTTPS 握手。Hardy 1940 年自豪地写过「数论永远不会被战争用上」——RSA 是对这句话最优雅的反例。<strong>纯粹与应用之间的距离，可能只是一两代人。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>HTTPS、SSH、TLS 握手、邮件签名、iMessage、比特币交易签名、SIM 卡认证——你今天打开的每一个 https 网页，背后都有一次大数模幂。Shor 算法一旦在量子机上跑通，RSA 立刻崩溃；所以 NIST 正在推动基于格、码、哈希的后量子标准。但「单向陷门」这个核心范式——找一对正向易、反向难的运算——不会变。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<div class="essence">一道正反不对称的算术鸿沟，搭起了互联网时代的全部信任。</div>
+<div class="label" style="margin-top:14px">思考题</div>
+<div class="think">1977 年的发明者完全没法预见 50 年后会有量子攻击。当你设计一个长期依赖某「数学难题」的系统，怎么估算这道难题在未来还能挡多久？AI 时代会不会有新一类难题被「学」掉？</div>
+</div>
+</div>
 <!-- 概念 4：费马大定理 -->
-<div class="card">
-  <h2>费马大定理</h2>
-  <div class="en-name">Fermat's Last Theorem · 页边的玩笑撬动三个世纪</div>
-  <span class="tag">Number Theory · Arithmetic Geometry</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>当 <em>n</em> = 2 时，<em>a</em>² + <em>b</em>² = <em>c</em>² 有无穷多组整数解（3-4-5、5-12-13……）——这是勾股数。<strong>费马 1637 年在书的页边写下：当 <em>n</em> ≥ 3 时，<em>a</em><sup><em>n</em></sup> + <em>b</em><sup><em>n</em></sup> = <em>c</em><sup><em>n</em></sup> 没有任何正整数解。「我发现了一个真正绝妙的证明，可惜页边写不下。」</strong>这句话让整个数学界追了 358 年。<br><br>表面上是一个小学生都能看懂的命题，背后却是整门 20 世纪代数数论。每一次失败的尝试都意外催生了新工具——理想数、类群、<em>p</em> 进数、模形式、椭圆曲线——这些工具的总价值远远超过了定理本身。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <div class="formula-box">$$\forall n\ge 3,\quad a^n+b^n=c^n\ \text{在}\ a,b,c\in\mathbb{Z}^+\ \text{无解}$$</div>
-    <p>Wiles 1994 年的证明走的是这条路：假设有解 ⇒ 用解构造一条「Frey 椭圆曲线」⇒ 证明此曲线性质太怪，违反「模性定理」（每条半稳态椭圆曲线必对应某个模形式）⇒ 矛盾。<strong>费马的整数方程，被翻译成了一道关于「曲线长什么样」的几何命题。</strong></p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>原话只有整数，证明却经过了 Galois 表示、模形式、椭圆曲线的最高殿堂——这正是 Grothendieck 倡导的「升维以求解」：山正面攻不下，绕到几何那一侧反而轻松。Wiles 在阁楼闭门 7 年（1986–1993），提交后被发现一个漏洞，又熬一年（与 Taylor 合作）补好。一个写在页边的玩笑，最后逼出了人类对椭圆曲线的整套理解——这才是 FLT 真正的遗产。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>FLT 本身没有「日常用途」，但它催生的椭圆曲线已成现代密码学（ECC、ECDSA、比特币签名）的核心——你手机里的安全芯片每天调用它千百次。Frey 那一招「把数论问题翻译成几何问题」，又是 <strong>Langlands 纲领</strong> 的雏形——21 世纪数学的统一蓝图，正在把数论、表示论、几何缝合到一起。FLT 的副产品，比 FLT 本身重要得多。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <div class="essence">一个写在页边的玩笑，撬动了三个世纪、一整门学科。</div>
-    <div class="label" style="margin-top:14px">思考题</div>
-    <div class="think">大多数历史学家相信费马并没有那个证明（就算有也大概有错）。但这「未必存在的证明」反而塑造了 350 年数学史。当一个未解问题成为巨大的「目标函数」时，它能不能比一个已解的小定理对学科更有价值？</div>
-  </div>
+<div class="card" data-tts="71a582d073ddc5d8">
+<h2>费马大定理</h2>
+<div class="en-name">Fermat's Last Theorem · 页边的玩笑撬动三个世纪</div>
+<span class="tag">Number Theory · Arithmetic Geometry</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>当 <em>n</em> = 2 时，<em>a</em>² + <em>b</em>² = <em>c</em>² 有无穷多组整数解（3-4-5、5-12-13……）——这是勾股数。<strong>费马 1637 年在书的页边写下：当 <em>n</em> ≥ 3 时，<em>a</em><sup><em>n</em></sup> + <em>b</em><sup><em>n</em></sup> = <em>c</em><sup><em>n</em></sup> 没有任何正整数解。「我发现了一个真正绝妙的证明，可惜页边写不下。」</strong>这句话让整个数学界追了 358 年。<br/><br/>表面上是一个小学生都能看懂的命题，背后却是整门 20 世纪代数数论。每一次失败的尝试都意外催生了新工具——理想数、类群、<em>p</em> 进数、模形式、椭圆曲线——这些工具的总价值远远超过了定理本身。</p>
 </div>
-
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\forall n\ge 3,\quad a^n+b^n=c^n\ \text{在}\ a,b,c\in\mathbb{Z}^+\ \text{无解}$$</div>
+<p>Wiles 1994 年的证明走的是这条路：假设有解 ⇒ 用解构造一条「Frey 椭圆曲线」⇒ 证明此曲线性质太怪，违反「模性定理」（每条半稳态椭圆曲线必对应某个模形式）⇒ 矛盾。<strong>费马的整数方程，被翻译成了一道关于「曲线长什么样」的几何命题。</strong></p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>原话只有整数，证明却经过了 Galois 表示、模形式、椭圆曲线的最高殿堂——这正是 Grothendieck 倡导的「升维以求解」：山正面攻不下，绕到几何那一侧反而轻松。Wiles 在阁楼闭门 7 年（1986–1993），提交后被发现一个漏洞，又熬一年（与 Taylor 合作）补好。一个写在页边的玩笑，最后逼出了人类对椭圆曲线的整套理解——这才是 FLT 真正的遗产。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>FLT 本身没有「日常用途」，但它催生的椭圆曲线已成现代密码学（ECC、ECDSA、比特币签名）的核心——你手机里的安全芯片每天调用它千百次。Frey 那一招「把数论问题翻译成几何问题」，又是 <strong>Langlands 纲领</strong> 的雏形——21 世纪数学的统一蓝图，正在把数论、表示论、几何缝合到一起。FLT 的副产品，比 FLT 本身重要得多。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<div class="essence">一个写在页边的玩笑，撬动了三个世纪、一整门学科。</div>
+<div class="label" style="margin-top:14px">思考题</div>
+<div class="think">大多数历史学家相信费马并没有那个证明（就算有也大概有错）。但这「未必存在的证明」反而塑造了 350 年数学史。当一个未解问题成为巨大的「目标函数」时，它能不能比一个已解的小定理对学科更有价值？</div>
+</div>
+</div>
 <!-- 深入思考 -->
-<div class="card">
-  <h2>深入思考</h2>
-  <div class="en-name">Going Deeper · 推到概念的边界</div>
-
-  <details>
-    <summary>1. 「孪生素数」「Goldbach」「Riemann」都是关于素数分布的猜想——为什么这类问题特别难？</summary>
-    <div>素数由<em>否定的定义</em>构造——不能被任何小素数整除。这种「非」式定义天生与连续/解析工具脱节：你没法在素数集合上做平滑、求导、傅里叶。Erdős 说"上帝可能不掷骰子，但素数那边明显有事"。2013 年张益唐证明了「无穷多对间距 &lt; 7000 万的素数」，Polymath 把它推到 246——但「2」（孪生素数）仍遥不可及。</div>
-  </details>
-
-  <details>
-    <summary>2. RSA 安全性是「经验上的」——分解大数没人会，但没人证明它必难。整个互联网密码学是不是建在沙上？</summary>
-    <div>本质上是的。所有非对称密码学押的都是「P ≠ NP，且分解、离散对数、最短向量等特定问题足够难」。后量子密码也只是换难题，不消除假设。Bernstein 的话：「密码学家做的是给攻击者提供尽量难啃的骨头，而不是数学证明。」从工程角度，这是可接受的——但哲学上，整个数字文明的信任栈建在未证明的硬度假设上。</div>
-  </details>
-
-  <details>
-    <summary>3. Wiles 的证明被视为 Langlands 纲领的第一个胜利。它会成为 21 世纪的「广义相对论」吗？</summary>
-    <div>Langlands 1967 年的信里把它说成「高度推测」。Wiles 证明的「Galois 表示 ↔ 自守形式」对应，正好是它最小的情形。近年 Kapustin–Witten 把<em>几何 Langlands</em> 联系到弦论与镜对称——一个「数学物理大一统」的轮廓隐约成形。如果它最终成立，数论、表示论、量子场论会被纳入同一张语法。</div>
-  </details>
-
-  <details>
-    <summary>4. 黎曼猜想若被证伪，会发生什么？</summary>
-    <div>证伪需要找出 Re ≠ 1/2 的非平凡零点——意味着素数计数会有比预期大得多的振幅波动。基于「素数分布均匀」的密码学启发式估计要重审；千余条「假设 RH」的定理会一并需要重证。但更深的冲击是哲学的——它会逼数学家承认：「集体直觉」与「真正的对」之间，隔的可能比我们想象的远。</div>
-  </details>
-
-  <details>
-    <summary>5. 神经网络擅长拟合连续函数，那它能学会素数吗？</summary>
-    <div>实验上，标准 MLP 在「输入 <em>n</em>，输出第 <em>n</em> 个素数」任务上泛化得极差——素数没有可微的局部结构，梯度无处下降。但若改成「输入位串、判断是否素数」，加上 mod <em>p</em> 的代数特征工程，准确率能升到接近经典筛法。这恰好说明：<strong>哪些问题能被深度学习「连续化」、哪些天生离散且抗拒，本身是判断 AI 边界的硬指标。</strong>素数是其中最尖锐的一根标尺。</div>
-  </details>
+<div class="card" data-tts="f64694da35948cc3">
+<h2>深入思考</h2>
+<div class="en-name">Going Deeper · 推到概念的边界</div>
+<details>
+<summary>1. 「孪生素数」「Goldbach」「Riemann」都是关于素数分布的猜想——为什么这类问题特别难？</summary>
+<div>素数由<em>否定的定义</em>构造——不能被任何小素数整除。这种「非」式定义天生与连续/解析工具脱节：你没法在素数集合上做平滑、求导、傅里叶。Erdős 说"上帝可能不掷骰子，但素数那边明显有事"。2013 年张益唐证明了「无穷多对间距 &lt; 7000 万的素数」，Polymath 把它推到 246——但「2」（孪生素数）仍遥不可及。</div>
+</details>
+<details>
+<summary>2. RSA 安全性是「经验上的」——分解大数没人会，但没人证明它必难。整个互联网密码学是不是建在沙上？</summary>
+<div>本质上是的。所有非对称密码学押的都是「P ≠ NP，且分解、离散对数、最短向量等特定问题足够难」。后量子密码也只是换难题，不消除假设。Bernstein 的话：「密码学家做的是给攻击者提供尽量难啃的骨头，而不是数学证明。」从工程角度，这是可接受的——但哲学上，整个数字文明的信任栈建在未证明的硬度假设上。</div>
+</details>
+<details>
+<summary>3. Wiles 的证明被视为 Langlands 纲领的第一个胜利。它会成为 21 世纪的「广义相对论」吗？</summary>
+<div>Langlands 1967 年的信里把它说成「高度推测」。Wiles 证明的「Galois 表示 ↔ 自守形式」对应，正好是它最小的情形。近年 Kapustin–Witten 把<em>几何 Langlands</em> 联系到弦论与镜对称——一个「数学物理大一统」的轮廓隐约成形。如果它最终成立，数论、表示论、量子场论会被纳入同一张语法。</div>
+</details>
+<details>
+<summary>4. 黎曼猜想若被证伪，会发生什么？</summary>
+<div>证伪需要找出 Re ≠ 1/2 的非平凡零点——意味着素数计数会有比预期大得多的振幅波动。基于「素数分布均匀」的密码学启发式估计要重审；千余条「假设 RH」的定理会一并需要重证。但更深的冲击是哲学的——它会逼数学家承认：「集体直觉」与「真正的对」之间，隔的可能比我们想象的远。</div>
+</details>
+<details>
+<summary>5. 神经网络擅长拟合连续函数，那它能学会素数吗？</summary>
+<div>实验上，标准 MLP 在「输入 <em>n</em>，输出第 <em>n</em> 个素数」任务上泛化得极差——素数没有可微的局部结构，梯度无处下降。但若改成「输入位串、判断是否素数」，加上 mod <em>p</em> 的代数特征工程，准确率能升到接近经典筛法。这恰好说明：<strong>哪些问题能被深度学习「连续化」、哪些天生离散且抗拒，本身是判断 AI 边界的硬指标。</strong>素数是其中最尖锐的一根标尺。</div>
+</details>
 </div>
-
 <nav class="bottom">
-  <a href="index.html">← 返回 Mathematics</a>
+<a href="index.html">← 返回 Mathematics</a>
 </nav>
-
 </div>
-<script src="https://hub.cissychen.com/comments.js" defer></script>
-<script src="https://hub.cissychen.com/search.js" defer></script>
-<script src="https://hub.cissychen.com/index-button.js" defer></script>
-<script src="https://hub.cissychen.com/i18n-tts.js" defer></script>
+<script defer="" src="https://hub.cissychen.com/comments.js"></script>
+<script defer="" src="https://hub.cissychen.com/search.js"></script>
+<script defer="" src="https://hub.cissychen.com/index-button.js"></script>
+<script defer="" src="https://hub.cissychen.com/i18n-tts.js"></script>
 </body>
 </html>

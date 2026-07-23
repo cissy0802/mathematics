@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>组合数学 · Day 7 — Mathematics</title>
 <script>
 window.MathJax = {
@@ -14,7 +15,7 @@ window.MathJax = {
   options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
 };
 </script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
@@ -52,227 +53,191 @@ nav.bottom a:hover{color:#1e3a5f}
 </head>
 <body>
 <div class="container">
-
 <header>
-  <div class="kicker">Day 7 · 2026.06.04</div>
-  <h1>组合数学</h1>
-  <div class="meta">The Art of Counting — 当「数清楚」本身成为一门深刻的学问</div>
-  <div class="epigraph">"组合数学是关于离散结构的诗：它问的不是『有多大』，而是『有多少种可能』。"</div>
+<div class="kicker">Day 7 · 2026.06.04</div>
+<h1 data-tts="6466a32ae26dd383">组合数学</h1>
+<div class="meta">The Art of Counting — 当「数清楚」本身成为一门深刻的学问</div>
+<div class="epigraph">"组合数学是关于离散结构的诗：它问的不是『有多大』，而是『有多少种可能』。"</div>
 </header>
-
 <!-- 概念 1：排列与组合 -->
-<div class="card">
-  <h2>排列与组合</h2>
-  <div class="en-name">Permutations &amp; Combinations · 计数的两种基本姿态</div>
-  <span class="tag">Enumerative</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>从 5 个人里挑 3 个，有两种问法，答案完全不同。<strong>「排成一队」在乎顺序</strong>——A 站第一和 B 站第一是两种结果；<strong>「组成一个小组」不在乎顺序</strong>——只要这三人在场，谁先谁后都一样。这就是全部分歧：<em>顺序算不算数</em>。<br><br>怎么从排列得到组合？每个 3 人小组内部能排成 $3!=6$ 种队形，组合把这 6 种当作同一个，所以<strong>组合数 = 排列数 ÷ 重复倍数</strong>。这个「先多数、再除掉对称」的动作，是整个计数学的核心招式（<em>over-count then divide</em>），你会在群论、概率、统计物理里一次次见到它。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <div class="formula-box">$$P(n,k)=\frac{n!}{(n-k)!}\qquad \binom{n}{k}=\frac{n!}{k!\,(n-k)!}$$</div>
-    <p>$n!$（n 的阶乘）是把 $n$ 个东西排成一队的总数。$P(n,k)$ 排前 $k$ 个，所以除掉「剩下 $n-k$ 个怎么排」的 $(n-k)!$。组合数 $\binom{n}{k}$（读作「n 选 k」）在排列基础上，再除掉小组内部的 $k!$ 种顺序。三个阶乘，对应「全体 / 没选的 / 选中却不计顺序的」三层对称。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>把组合数排成三角形——<strong>帕斯卡三角形</strong>——每个数恰好是上方两数之和。递推 $\binom{n}{k}=\binom{n-1}{k-1}+\binom{n-1}{k}$ 有个透亮解释：「选不选第 $n$ 个元素」把所有选法一刀切成两类。更惊艳的是左右对称 $\binom{n}{k}=\binom{n}{n-k}$（选 $k$ 个 = 扔掉 $n-k$ 个），以及它就是 $(a+b)^n$ 的展开系数——<strong>一个纯「分东西」的计数问题，竟长出整套代数</strong>。同一个真相在三种语言里显形：递推、对称、二项式。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 360 175" xmlns="http://www.w3.org/2000/svg">
-      <g font-family="Georgia,serif" font-size="14" fill="#1e3a5f" text-anchor="middle">
-        <text x="180" y="28">1</text>
-        <text x="150" y="58">1</text><text x="210" y="58">1</text>
-        <text x="120" y="88">1</text><text x="180" y="88">2</text><text x="240" y="88">1</text>
-        <text x="90" y="118">1</text><text x="150" y="118">3</text><text x="210" y="118">3</text><text x="270" y="118">1</text>
-        <text x="60" y="148">1</text><text x="120" y="148">4</text><text x="180" y="148">6</text><text x="240" y="148">4</text><text x="300" y="148">1</text>
-      </g>
-      <g stroke="#c9544a" stroke-width="1.1" fill="none" opacity="0.8">
-        <line x1="156" y1="80" x2="174" y2="98"/><line x1="204" y1="80" x2="186" y2="98"/>
-      </g>
-      <text x="252" y="98" font-size="10" fill="#c9544a" font-style="italic" text-anchor="middle">2 = 1+1</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>二项分布 $\binom{n}{k}p^k(1-p)^{n-k}$ 直接建立在组合数上——抛 $n$ 次硬币恰好 $k$ 次正面，有 $\binom{n}{k}$ 种路径。纠错码（如 Reed–Muller）用组合计数确定能纠几位错；密码学用排列空间 $n!$ 的天文数字保证暴力破解不可行；机器学习里的特征交叉、$k$ 折交叉验证的划分数，本质都是组合计数。连 Transformer 里多头注意力「哪些位置看哪些位置」的连接模式，也是组合结构在起作用。</p>
-  </div>
-
-  <div class="section">
-    <div class="essence"><strong>一句话精华：</strong>计数的全部智慧，是「先数得太多，再除掉你不想区分的对称」。</div>
-    <div class="think"><strong>思考题：</strong>为什么 $\binom{n}{k}$ 一定是整数？它的定义里明明有除法 $k!(n-k)!$——凭什么保证除得尽？（提示：想想它数的是「真实存在的小组个数」，而个数不可能是分数。）</div>
-  </div>
+<div class="card" data-tts="cc8011319e0c2ee2">
+<h2>排列与组合</h2>
+<div class="en-name">Permutations &amp; Combinations · 计数的两种基本姿态</div>
+<span class="tag">Enumerative</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>从 5 个人里挑 3 个，有两种问法，答案完全不同。<strong>「排成一队」在乎顺序</strong>——A 站第一和 B 站第一是两种结果；<strong>「组成一个小组」不在乎顺序</strong>——只要这三人在场，谁先谁后都一样。这就是全部分歧：<em>顺序算不算数</em>。<br/><br/>怎么从排列得到组合？每个 3 人小组内部能排成 $3!=6$ 种队形，组合把这 6 种当作同一个，所以<strong>组合数 = 排列数 ÷ 重复倍数</strong>。这个「先多数、再除掉对称」的动作，是整个计数学的核心招式（<em>over-count then divide</em>），你会在群论、概率、统计物理里一次次见到它。</p>
 </div>
-
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$P(n,k)=\frac{n!}{(n-k)!}\qquad \binom{n}{k}=\frac{n!}{k!\,(n-k)!}$$</div>
+<p>$n!$（n 的阶乘）是把 $n$ 个东西排成一队的总数。$P(n,k)$ 排前 $k$ 个，所以除掉「剩下 $n-k$ 个怎么排」的 $(n-k)!$。组合数 $\binom{n}{k}$（读作「n 选 k」）在排列基础上，再除掉小组内部的 $k!$ 种顺序。三个阶乘，对应「全体 / 没选的 / 选中却不计顺序的」三层对称。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>把组合数排成三角形——<strong>帕斯卡三角形</strong>——每个数恰好是上方两数之和。递推 $\binom{n}{k}=\binom{n-1}{k-1}+\binom{n-1}{k}$ 有个透亮解释：「选不选第 $n$ 个元素」把所有选法一刀切成两类。更惊艳的是左右对称 $\binom{n}{k}=\binom{n}{n-k}$（选 $k$ 个 = 扔掉 $n-k$ 个），以及它就是 $(a+b)^n$ 的展开系数——<strong>一个纯「分东西」的计数问题，竟长出整套代数</strong>。同一个真相在三种语言里显形：递推、对称、二项式。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 360 175" xmlns="http://www.w3.org/2000/svg">
+<g fill="#1e3a5f" font-family="Georgia,serif" font-size="14" text-anchor="middle">
+<text x="180" y="28">1</text>
+<text x="150" y="58">1</text><text x="210" y="58">1</text>
+<text x="120" y="88">1</text><text x="180" y="88">2</text><text x="240" y="88">1</text>
+<text x="90" y="118">1</text><text x="150" y="118">3</text><text x="210" y="118">3</text><text x="270" y="118">1</text>
+<text x="60" y="148">1</text><text x="120" y="148">4</text><text x="180" y="148">6</text><text x="240" y="148">4</text><text x="300" y="148">1</text>
+</g>
+<g fill="none" opacity="0.8" stroke="#c9544a" stroke-width="1.1">
+<line x1="156" x2="174" y1="80" y2="98"></line><line x1="204" x2="186" y1="80" y2="98"></line>
+</g>
+<text fill="#c9544a" font-size="10" font-style="italic" text-anchor="middle" x="252" y="98">2 = 1+1</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>二项分布 $\binom{n}{k}p^k(1-p)^{n-k}$ 直接建立在组合数上——抛 $n$ 次硬币恰好 $k$ 次正面，有 $\binom{n}{k}$ 种路径。纠错码（如 Reed–Muller）用组合计数确定能纠几位错；密码学用排列空间 $n!$ 的天文数字保证暴力破解不可行；机器学习里的特征交叉、$k$ 折交叉验证的划分数，本质都是组合计数。连 Transformer 里多头注意力「哪些位置看哪些位置」的连接模式，也是组合结构在起作用。</p>
+</div>
+<div class="section">
+<div class="essence"><strong>一句话精华：</strong>计数的全部智慧，是「先数得太多，再除掉你不想区分的对称」。</div>
+<div class="think"><strong>思考题：</strong>为什么 $\binom{n}{k}$ 一定是整数？它的定义里明明有除法 $k!(n-k)!$——凭什么保证除得尽？（提示：想想它数的是「真实存在的小组个数」，而个数不可能是分数。）</div>
+</div>
+</div>
 <!-- 概念 2：鸽笼原理 -->
-<div class="card">
-  <h2>鸽笼原理</h2>
-  <div class="en-name">The Pigeonhole Principle · 最朴素却最锋利的存在性论证</div>
-  <span class="tag">Existence</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>把 13 只鸽子塞进 12 个笼子，<strong>必然有一个笼子里至少 2 只</strong>。废话吗？它确实不可辩驳——但正因如此，它成了证明「某种东西必然存在」的最强杠杆。<br><br>威力在于：<em>不需要把东西找出来，就能断定它存在</em>。北京有两千多万人，而一个人头发不超过约 15 万根。把人当鸽子、「头发根数」当笼子——人远多于笼子，所以<strong>北京一定有两人头发根数完全相同</strong>。我们说不出是谁，却 100% 确定他们存在。这种「确定存在但拒绝指认」的姿态，是组合数学最迷人的特产。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 360 120" xmlns="http://www.w3.org/2000/svg">
-      <g stroke="#3a6088" stroke-width="1.2" fill="#eef2f6">
-        <rect x="20" y="60" width="60" height="45" rx="3"/>
-        <rect x="100" y="60" width="60" height="45" rx="3"/>
-        <rect x="180" y="60" width="60" height="45" rx="3"/>
-        <rect x="260" y="60" width="60" height="45" rx="3"/>
-      </g>
-      <g fill="#c9544a">
-        <circle cx="40" cy="82" r="7"/>
-        <circle cx="130" cy="82" r="7"/>
-        <circle cx="200" cy="82" r="7"/><circle cx="222" cy="82" r="7"/>
-        <circle cx="290" cy="82" r="7"/>
-      </g>
-      <text x="180" y="28" font-size="13" fill="#1e3a5f" text-anchor="middle" font-style="italic">5 只鸽子，4 个笼子</text>
-      <text x="211" y="50" font-size="11" fill="#c9544a" text-anchor="middle">↓ 必有一笼 ≥ 2</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>若把 $n$ 个物体放进 $m$ 个盒子且 $n>m$，则至少一个盒子里有不少于 $\lceil n/m \rceil$ 个物体（$\lceil\cdot\rceil$ 是向上取整）。证明只需一句反证：若<em>每个</em>盒子都不超过 $\lceil n/m\rceil-1$ 个，总数就 $<n$，矛盾。简单到几乎不算证明——这正是它的优雅。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>它把「存在性」和「构造性」彻底分开。你不必造出对象，只需让数量发生碰撞。这种思想孕育了整个 <strong>Ramsey 理论</strong>：「足够大的混乱中，必然涌现秩序」——比如 6 个人里，必有 3 人互相都认识、或 3 人互相都不认识。混乱无法贯彻到底，结构总会从规模中自发析出。这是一种近乎哲学的数学美：<em>有序不是被安排的，而是被规模逼出来的</em>。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>哈希表的冲突<strong>必然存在</strong>——把无穷多可能的键映到有限桶里，鸽笼保证撞车，这是为什么哈希函数只能减少冲突而不能消灭它。同理，<strong>无损压缩不可能对所有文件都缩小</strong>：长度 $\le n$ 的文件比长度 $<n$ 的多，鸽笼说必有文件被压「胀」——这是信息论压缩极限的组合内核（<em>鸽笼 ↔ 信息论</em>）。在 ML 里，它解释了为何有限容量的网络无法记住任意大的数据集而不发生表示冲突。</p>
-  </div>
-
-  <div class="section">
-    <div class="essence"><strong>一句话精华：</strong>当东西比位置多，碰撞就不是运气，而是定理。</div>
-    <div class="think"><strong>思考题：</strong>任取 $n+1$ 个不超过 $2n$ 的正整数，证明其中必有两个互质。怎么设计「笼子」让鸽笼原理自动给出答案？（提示：把连续的一对 $\{2k-1, 2k\}$ 当作一个笼子。）</div>
-  </div>
+<div class="card" data-tts="50f9790e8100685c">
+<h2>鸽笼原理</h2>
+<div class="en-name">The Pigeonhole Principle · 最朴素却最锋利的存在性论证</div>
+<span class="tag">Existence</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>把 13 只鸽子塞进 12 个笼子，<strong>必然有一个笼子里至少 2 只</strong>。废话吗？它确实不可辩驳——但正因如此，它成了证明「某种东西必然存在」的最强杠杆。<br/><br/>威力在于：<em>不需要把东西找出来，就能断定它存在</em>。北京有两千多万人，而一个人头发不超过约 15 万根。把人当鸽子、「头发根数」当笼子——人远多于笼子，所以<strong>北京一定有两人头发根数完全相同</strong>。我们说不出是谁，却 100% 确定他们存在。这种「确定存在但拒绝指认」的姿态，是组合数学最迷人的特产。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 360 120" xmlns="http://www.w3.org/2000/svg">
+<g fill="#eef2f6" stroke="#3a6088" stroke-width="1.2">
+<rect height="45" rx="3" width="60" x="20" y="60"></rect>
+<rect height="45" rx="3" width="60" x="100" y="60"></rect>
+<rect height="45" rx="3" width="60" x="180" y="60"></rect>
+<rect height="45" rx="3" width="60" x="260" y="60"></rect>
+</g>
+<g fill="#c9544a">
+<circle cx="40" cy="82" r="7"></circle>
+<circle cx="130" cy="82" r="7"></circle>
+<circle cx="200" cy="82" r="7"></circle><circle cx="222" cy="82" r="7"></circle>
+<circle cx="290" cy="82" r="7"></circle>
+</g>
+<text fill="#1e3a5f" font-size="13" font-style="italic" text-anchor="middle" x="180" y="28">5 只鸽子，4 个笼子</text>
+<text fill="#c9544a" font-size="11" text-anchor="middle" x="211" y="50">↓ 必有一笼 ≥ 2</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>若把 $n$ 个物体放进 $m$ 个盒子且 $n&gt;m$，则至少一个盒子里有不少于 $\lceil n/m \rceil$ 个物体（$\lceil\cdot\rceil$ 是向上取整）。证明只需一句反证：若<em>每个</em>盒子都不超过 $\lceil n/m\rceil-1$ 个，总数就 $<n$，矛盾。简单到几乎不算证明——这正是它的优雅。< p="">
+</n$，矛盾。简单到几乎不算证明——这正是它的优雅。<></p></div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它把「存在性」和「构造性」彻底分开。你不必造出对象，只需让数量发生碰撞。这种思想孕育了整个 <strong>Ramsey 理论</strong>：「足够大的混乱中，必然涌现秩序」——比如 6 个人里，必有 3 人互相都认识、或 3 人互相都不认识。混乱无法贯彻到底，结构总会从规模中自发析出。这是一种近乎哲学的数学美：<em>有序不是被安排的，而是被规模逼出来的</em>。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>哈希表的冲突<strong>必然存在</strong>——把无穷多可能的键映到有限桶里，鸽笼保证撞车，这是为什么哈希函数只能减少冲突而不能消灭它。同理，<strong>无损压缩不可能对所有文件都缩小</strong>：长度 $\le n$ 的文件比长度 $<n$ 的多，鸽笼说必有文件被压「胀」——这是信息论压缩极限的组合内核（<em="">鸽笼 ↔ 信息论）。在 ML 里，它解释了为何有限容量的网络无法记住任意大的数据集而不发生表示冲突。</n$></p>
+</div>
+<div class="section">
+<div class="essence"><strong>一句话精华：</strong>当东西比位置多，碰撞就不是运气，而是定理。</div>
+<div class="think"><strong>思考题：</strong>任取 $n+1$ 个不超过 $2n$ 的正整数，证明其中必有两个互质。怎么设计「笼子」让鸽笼原理自动给出答案？（提示：把连续的一对 $\{2k-1, 2k\}$ 当作一个笼子。）</div>
+</div>
+</div>
 <!-- 概念 3：容斥原理 -->
-<div class="card">
-  <h2>容斥原理</h2>
-  <div class="en-name">Inclusion–Exclusion · 加多了就减回来的精密会计</div>
-  <span class="tag">Counting</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>会下棋的有 18 人，会游泳的有 15 人，会下棋<em>或</em>游泳的有几人？不能直接 $18+15$——因为<strong>两样都会的人被数了两遍</strong>，要把重复部分减掉一次。<br><br>三个集合更微妙：加上三个单独的，两两相交各多数一次要减掉，可三者共同的部分先被加 3 次又被减 3 次、归零了，得再补加 1 次。<strong>加 → 减 → 加</strong>，正负交替，像一支自我纠错的会计队伍：每层修正都在弥补上一层的过度修正，最终账目分毫不差。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="115" cy="70" r="55" fill="#3a6088" fill-opacity="0.28" stroke="#3a6088"/>
-      <circle cx="185" cy="70" r="55" fill="#c9a96b" fill-opacity="0.32" stroke="#8a7340"/>
-      <circle cx="150" cy="115" r="55" fill="#c9544a" fill-opacity="0.25" stroke="#c9544a"/>
-      <text x="90" y="60" font-size="14" fill="#1e3a5f">A</text>
-      <text x="205" y="60" font-size="14" fill="#1e3a5f">B</text>
-      <text x="146" y="138" font-size="14" fill="#1e3a5f">C</text>
-      <text x="150" y="78" font-size="11" fill="#1e3a5f" text-anchor="middle" font-style="italic">中心被多算</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <div class="formula-box">$$|A\cup B\cup C| = |A|+|B|+|C| - |A\cap B| - |A\cap C| - |B\cap C| + |A\cap B\cap C|$$</div>
-    <p>一般式：$\left|\bigcup_i A_i\right| = \sum_k (-1)^{k-1} \sum_{|S|=k}\left|\bigcap_{i\in S} A_i\right|$。看着吓人，读法很简单：<em>把所有「$k$ 个集合的交集」大小加起来，奇数个集合时取正、偶数个取负</em>。那个 $(-1)^{k-1}$ 就是「加减加减」的开关。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>正负号的交替不是凑出来的，它精确对应「一个元素被重复计数的次数」如何在二项式展开里相互抵消，背后正是恒等式 $\sum_k (-1)^k\binom{m}{k}=0$ 在保驾。最迷人的应用是<strong>错排问题</strong>：$n$ 封信全部装错信封的概率，当 $n$ 增大竟收敛到 $1/e\approx 0.368$。一个纯离散的「装信封」游戏，极限里钻出了自然常数 $e$——<em>组合与分析在此握手</em>，这正是 Hardy 所说「深刻」的标志。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>数论的<strong>埃拉托斯特尼筛法</strong>本质就是容斥：要数 1 到 $N$ 中的素数，减去 2 的倍数、3 的倍数……再把「既是 2 又是 3 的倍数」加回来——欧拉函数 $\varphi(n)$ 的公式正由此而来（<em>容斥 ↔ 数论筛法</em>）。数据库查询优化器用它估算 `OR` 条件的结果集大小；概率里算「至少一个事件发生」靠它；可靠性工程中算「系统至少一条链路通」也靠它。</p>
-  </div>
-
-  <div class="section">
-    <div class="essence"><strong>一句话精华：</strong>诚实计数的代价，是承认你一开始数多了——然后用交替的正负号逐层赎回。</div>
-    <div class="think"><strong>思考题：</strong>错排概率收敛到 $1/e$，意味着「随机发牌让所有信都装错」的概率几乎与 $n$ 无关（约 37%）。为什么一个看似越大越难的约束，难度反而趋于稳定？这和泊松分布的「稀有事件」有什么隐秘联系？</div>
-  </div>
+<div class="card" data-tts="bde7b84f3bb5c75d">
+<h2>容斥原理</h2>
+<div class="en-name">Inclusion–Exclusion · 加多了就减回来的精密会计</div>
+<span class="tag">Counting</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>会下棋的有 18 人，会游泳的有 15 人，会下棋<em>或</em>游泳的有几人？不能直接 $18+15$——因为<strong>两样都会的人被数了两遍</strong>，要把重复部分减掉一次。<br/><br/>三个集合更微妙：加上三个单独的，两两相交各多数一次要减掉，可三者共同的部分先被加 3 次又被减 3 次、归零了，得再补加 1 次。<strong>加 → 减 → 加</strong>，正负交替，像一支自我纠错的会计队伍：每层修正都在弥补上一层的过度修正，最终账目分毫不差。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 300 160" xmlns="http://www.w3.org/2000/svg">
+<circle cx="115" cy="70" fill="#3a6088" fill-opacity="0.28" r="55" stroke="#3a6088"></circle>
+<circle cx="185" cy="70" fill="#c9a96b" fill-opacity="0.32" r="55" stroke="#8a7340"></circle>
+<circle cx="150" cy="115" fill="#c9544a" fill-opacity="0.25" r="55" stroke="#c9544a"></circle>
+<text fill="#1e3a5f" font-size="14" x="90" y="60">A</text>
+<text fill="#1e3a5f" font-size="14" x="205" y="60">B</text>
+<text fill="#1e3a5f" font-size="14" x="146" y="138">C</text>
+<text fill="#1e3a5f" font-size="11" font-style="italic" text-anchor="middle" x="150" y="78">中心被多算</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$|A\cup B\cup C| = |A|+|B|+|C| - |A\cap B| - |A\cap C| - |B\cap C| + |A\cap B\cap C|$$</div>
+<p>一般式：$\left|\bigcup_i A_i\right| = \sum_k (-1)^{k-1} \sum_{|S|=k}\left|\bigcap_{i\in S} A_i\right|$。看着吓人，读法很简单：<em>把所有「$k$ 个集合的交集」大小加起来，奇数个集合时取正、偶数个取负</em>。那个 $(-1)^{k-1}$ 就是「加减加减」的开关。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>正负号的交替不是凑出来的，它精确对应「一个元素被重复计数的次数」如何在二项式展开里相互抵消，背后正是恒等式 $\sum_k (-1)^k\binom{m}{k}=0$ 在保驾。最迷人的应用是<strong>错排问题</strong>：$n$ 封信全部装错信封的概率，当 $n$ 增大竟收敛到 $1/e\approx 0.368$。一个纯离散的「装信封」游戏，极限里钻出了自然常数 $e$——<em>组合与分析在此握手</em>，这正是 Hardy 所说「深刻」的标志。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>数论的<strong>埃拉托斯特尼筛法</strong>本质就是容斥：要数 1 到 $N$ 中的素数，减去 2 的倍数、3 的倍数……再把「既是 2 又是 3 的倍数」加回来——欧拉函数 $\varphi(n)$ 的公式正由此而来（<em>容斥 ↔ 数论筛法</em>）。数据库查询优化器用它估算 `OR` 条件的结果集大小；概率里算「至少一个事件发生」靠它；可靠性工程中算「系统至少一条链路通」也靠它。</p>
+</div>
+<div class="section">
+<div class="essence"><strong>一句话精华：</strong>诚实计数的代价，是承认你一开始数多了——然后用交替的正负号逐层赎回。</div>
+<div class="think"><strong>思考题：</strong>错排概率收敛到 $1/e$，意味着「随机发牌让所有信都装错」的概率几乎与 $n$ 无关（约 37%）。为什么一个看似越大越难的约束，难度反而趋于稳定？这和泊松分布的「稀有事件」有什么隐秘联系？</div>
+</div>
+</div>
 <!-- 概念 4：生成函数 -->
-<div class="card">
-  <h2>生成函数</h2>
-  <div class="en-name">Generating Functions · 把整条数列挂上一根代数的晾衣绳</div>
-  <span class="tag">Algebraic Combinatorics</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>Herbert Wilf 有句名言：<em>「生成函数是一根晾衣绳，我们把一串数字挂在上面展示。」</em> 把数列 $a_0, a_1, a_2, \dots$ 写成幂级数 $a_0 + a_1 x + a_2 x^2 + \cdots$ 的系数——$x$ 不代表任何数值，只是一根<strong>给每个位置编号的衣架</strong>。<br><br>有什么用？神奇之处在于：<strong>组合上的「拼接」，变成了代数上的「相乘」</strong>。把两个东西的选法合并，对应两个生成函数相乘；多项式乘法会自动帮你把所有搭配逐项配对求和。于是「数有多少种组合」这个离散脑力活，被翻译成「展开函数、读出系数」的机械代数活——<em>难题换一种语言后，自己解开了</em>。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <div class="formula-box">$$G(x)=\sum_{n\ge 0} a_n\, x^n$$</div>
-    <p>$a_n$ 是你关心的计数序列（第 $n$ 项有几种），$x^n$ 是它的「地址标签」。我们几乎从不把数代进 $x$、也不问级数收不收敛——它是<strong>形式幂级数</strong>，只是数列的一件代数外衣。关键身份对照：数列卷积 $\leftrightarrow$ 函数相乘；移位 $\leftrightarrow$ 乘 $x$；线性递推 $\leftrightarrow$ 一个有理函数方程。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>它在<strong>离散与连续之间架了一座桥</strong>。斐波那契数列由递推 $F_n=F_{n-1}+F_{n-2}$ 定义，看似只能一项项往下算；可一旦写成生成函数，递推变成方程 $G(x)=\frac{x}{1-x-x^2}$，再做部分分式分解，竟直接吐出闭式 Binet 公式——黄金比例 $\varphi$ 赫然出现在指数上。<em>一个整数数列的灵魂里，住着一个无理数</em>。这正是 3Blue1Brown 式的惊叹：把问题搬到正确的舞台（这里是代数/分析的舞台），结构就自己显形了。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>概率里的<strong>母函数</strong> $E[x^X]$ 让「求多个随机变量之和的分布」从繁琐的卷积变成简单的相乘，是排队论、分支过程的利器。算法分析（Knuth《Concrete Mathematics》）用它求解递归式的精确复杂度。而在统计物理，<strong>配分函数</strong> $Z=\sum_s e^{-\beta E_s}$ 就是一个生成函数——所有热力学量都靠对它求导得到（<em>生成函数 ↔ 配分函数</em>），这条线一路通向机器学习的能量模型与 softmax。</p>
-  </div>
-
-  <div class="section">
-    <div class="essence"><strong>一句话精华：</strong>把数列藏进函数的系数，离散的计数难题就借到了代数与微积分的全套工具。</div>
-    <div class="think"><strong>思考题：</strong>$\frac{1}{1-x}=1+x+x^2+\cdots$ 的系数全是 1，它「生成」的是「每种物品要不要拿」这种最简单的选择。如果把它换成 $\frac{1}{1-x^2}$，系数序列会变成什么？这对应着怎样一种「只能成对拿」的组合约束？</div>
-  </div>
+<div class="card" data-tts="f1f2fd43dd55035b">
+<h2>生成函数</h2>
+<div class="en-name">Generating Functions · 把整条数列挂上一根代数的晾衣绳</div>
+<span class="tag">Algebraic Combinatorics</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>Herbert Wilf 有句名言：<em>「生成函数是一根晾衣绳，我们把一串数字挂在上面展示。」</em> 把数列 $a_0, a_1, a_2, \dots$ 写成幂级数 $a_0 + a_1 x + a_2 x^2 + \cdots$ 的系数——$x$ 不代表任何数值，只是一根<strong>给每个位置编号的衣架</strong>。<br/><br/>有什么用？神奇之处在于：<strong>组合上的「拼接」，变成了代数上的「相乘」</strong>。把两个东西的选法合并，对应两个生成函数相乘；多项式乘法会自动帮你把所有搭配逐项配对求和。于是「数有多少种组合」这个离散脑力活，被翻译成「展开函数、读出系数」的机械代数活——<em>难题换一种语言后，自己解开了</em>。</p>
 </div>
-
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$G(x)=\sum_{n\ge 0} a_n\, x^n$$</div>
+<p>$a_n$ 是你关心的计数序列（第 $n$ 项有几种），$x^n$ 是它的「地址标签」。我们几乎从不把数代进 $x$、也不问级数收不收敛——它是<strong>形式幂级数</strong>，只是数列的一件代数外衣。关键身份对照：数列卷积 $\leftrightarrow$ 函数相乘；移位 $\leftrightarrow$ 乘 $x$；线性递推 $\leftrightarrow$ 一个有理函数方程。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它在<strong>离散与连续之间架了一座桥</strong>。斐波那契数列由递推 $F_n=F_{n-1}+F_{n-2}$ 定义，看似只能一项项往下算；可一旦写成生成函数，递推变成方程 $G(x)=\frac{x}{1-x-x^2}$，再做部分分式分解，竟直接吐出闭式 Binet 公式——黄金比例 $\varphi$ 赫然出现在指数上。<em>一个整数数列的灵魂里，住着一个无理数</em>。这正是 3Blue1Brown 式的惊叹：把问题搬到正确的舞台（这里是代数/分析的舞台），结构就自己显形了。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>概率里的<strong>母函数</strong> $E[x^X]$ 让「求多个随机变量之和的分布」从繁琐的卷积变成简单的相乘，是排队论、分支过程的利器。算法分析（Knuth《Concrete Mathematics》）用它求解递归式的精确复杂度。而在统计物理，<strong>配分函数</strong> $Z=\sum_s e^{-\beta E_s}$ 就是一个生成函数——所有热力学量都靠对它求导得到（<em>生成函数 ↔ 配分函数</em>），这条线一路通向机器学习的能量模型与 softmax。</p>
+</div>
+<div class="section">
+<div class="essence"><strong>一句话精华：</strong>把数列藏进函数的系数，离散的计数难题就借到了代数与微积分的全套工具。</div>
+<div class="think"><strong>思考题：</strong>$\frac{1}{1-x}=1+x+x^2+\cdots$ 的系数全是 1，它「生成」的是「每种物品要不要拿」这种最简单的选择。如果把它换成 $\frac{1}{1-x^2}$，系数序列会变成什么？这对应着怎样一种「只能成对拿」的组合约束？</div>
+</div>
+</div>
 <div class="foot-h">深入思考</div>
-
 <details>
 <summary>为什么组合数学常被称为「没有统一理论的数学」？这是缺陷还是特色？</summary>
 <div>不同于微积分的核心机器（极限—导数—积分），组合学更像工具箱：鸽笼、容斥、生成函数、双射、概率方法各自为政，解题往往靠巧思而非套路。Rota 一生致力于寻找统一框架（如 Möbius 反演把容斥推广到任意偏序集），但「需要创造性」恰是它的魅力：每道好的组合题都是一次微型的数学发现。Lockhart《数学家的哀歌》推崇的，正是这种「无招胜有招」的探索乐趣。</div>
 </details>
-
 <details>
 <summary>「双射证明」为什么被认为是组合学里最美的证明形式？</summary>
 <div>若想证明两个集合一样大，最笨的办法是分别数出个数再比较；最优雅的办法是建立一个一一对应（双射），让你「不数就知道相等」。双射把抽象的数量相等，变成具体的、可触摸的配对。比如证明 $\binom{n}{k}=\binom{n}{n-k}$,只需指出「选中的」与「没选的」一一对应——无需任何计算。这与鸽笼的存在性哲学呼应：组合学反复在追问「我们能否不靠蛮力计算，而靠看清结构本身来理解数量」。</div>
 </details>
-
 <details>
 <summary>「概率方法」如何用随机性证明确定性的存在命题？</summary>
 <div>Paul Erdős 开创的惊人技巧：要证明「存在一个具有性质 P 的对象」，就随机地造一个,并证明它有正概率满足 P——既然概率大于零，这样的对象就必然存在。它和鸽笼一样是非构造性的，却能解决纯组合手段束手无策的难题（如下界估计、Ramsey 数）。这揭示了概率论与组合学的深层纠缠：随机性不只是用来建模不确定，它本身是一种<strong>证明工具</strong>。</div>
 </details>
-
 <details>
 <summary>组合爆炸为何是计算复杂性理论（P vs NP）的源头？</summary>
 <div>许多问题（旅行商、布尔可满足性）的候选解数量随规模呈阶乘或指数增长——$n=50$ 的排列数就超过宇宙原子总数。NP 问题的本质是：解空间组合爆炸,但验证一个给定解却很快。P vs NP 在问：这种「找」与「验」之间的鸿沟是本质的吗？组合数学提供了刻画解空间大小的语言，而这道千禧年难题，正是「数清楚到底有多难」这一组合追问的终极形态。</div>
 </details>
-
 <details>
 <summary>为什么自然界（晶体、病毒衣壳、蜂巢）偏爱特定的组合-对称结构？</summary>
 <div>病毒外壳常呈二十面体，蜂巢取正六边形，并非巧合：在「用最少材料、最少基因指令搭出稳定容器」的约束下，可行的对称构型有限且可枚举——这是组合学与几何、能量最小化的交汇。生命没学过群论，却在进化压力下反复收敛到同几种组合最优解。这呼应鸽笼与 Ramsey 的主题：约束之下可能性被大幅压缩，结构于是从规模与限制中自发涌现。</div>
 </details>
-
 <nav class="bottom">
-  <a href="index.html">← 返回 Mathematics</a>
+<a href="index.html">← 返回 Mathematics</a>
 </nav>
-
 </div>
-<script src="https://hub.cissychen.com/comments.js" defer></script>
-<script src="https://hub.cissychen.com/search.js" defer></script>
-<script src="https://hub.cissychen.com/index-button.js" defer></script>
-<script src="https://hub.cissychen.com/i18n-tts.js" defer></script>
+<script defer="" src="https://hub.cissychen.com/comments.js"></script>
+<script defer="" src="https://hub.cissychen.com/search.js"></script>
+<script defer="" src="https://hub.cissychen.com/index-button.js"></script>
+<script defer="" src="https://hub.cissychen.com/i18n-tts.js"></script>
 </body>
 </html>

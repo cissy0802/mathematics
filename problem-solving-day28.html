@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>解题的艺术 · Day 28 — Mathematics</title>
 <script>
 window.MathJax = {
@@ -14,7 +15,7 @@ window.MathJax = {
   options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
 };
 </script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
@@ -52,213 +53,183 @@ nav.bottom a:hover{color:#1e3a5f}
 </head>
 <body>
 <div class="container">
-
 <header>
-  <div class="kicker">Day 28 · 2026.07.20</div>
-  <h1>解题的艺术</h1>
-  <div class="meta">How to Solve It — 波利亚与数学解题的通用心法</div>
-  <div class="epigraph">"解一道大题需要伟大的发现，但任何一道题的解答里，都藏着一粒发现的种子。" — George Pólya, <em>How to Solve It</em></div>
+<div class="kicker">Day 28 · 2026.07.20</div>
+<h1 data-tts="4886156270eb2494">解题的艺术</h1>
+<div class="meta">How to Solve It — 波利亚与数学解题的通用心法</div>
+<div class="epigraph">"解一道大题需要伟大的发现，但任何一道题的解答里，都藏着一粒发现的种子。" — George Pólya, <em>How to Solve It</em></div>
 </header>
-
 <!-- 概念 1：波利亚四步法 -->
-<div class="card">
-  <h2>波利亚四步法</h2>
-  <div class="en-name">Pólya's Four Steps · 解题的元算法</div>
-  <span class="tag">Heuristics</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>大多数人卡在难题上，是因为一上来就想「答案是什么」。波利亚说：<strong>先别急着算，先问对问题。</strong>他把解题拆成四个阶段：<strong>①理解</strong>——未知是什么？已知是什么？条件够不够？<strong>②制定计划</strong>——我见过类似的题吗？能不能先解一个更简单的版本？<strong>③执行</strong>——一步步走，每一步都检查它真的成立。<strong>④回顾</strong>——答案对吗？换个方法能得到吗？这个方法还能解什么别的题？<br><br>关键不是这四个词，而是<em>它把「灵感」这种看似不可控的东西，拆成了可以反复练习的动作</em>。卡住时，你不再干瞪着题发呆，而是有一张清单可以自问：我在哪一步？我漏了哪个条件？</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>它的美在于<strong>把「怎么想」本身变成了研究对象</strong>——这是元认知（metacognition）的胜利。波利亚发现，数学家解题时反复使用一小撮通用套路：类比、特殊化、一般化、反向工作、找辅助问题。这些套路不属于任何一个数学分支，却在所有分支里都管用。它揭示了一件深刻的事：<em>发现不是纯粹的运气，而是一门可以传授的手艺。</em></p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>这四步几乎就是现代 <strong>AI agent 的规划循环</strong>：理解任务 → 分解为子目标 → 逐步执行并调用工具 → 反思与自我纠错。大语言模型的<em>思维链（chain-of-thought）</em>本质是让模型显式走完「制定计划、执行」两步；<em>ReAct、Reflexion</em> 等框架则加上了波利亚的第四步「回顾」——让模型检查自己的答案并重试。软件工程里的调试、科研中的实验设计，走的都是同一张流程图。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华 + 思考题</div>
-    <div class="essence">解题的第一能力不是计算，而是「卡住时知道下一步问自己什么」。</div>
-    <div class="think">回想你最近解决的一个难题（代码 bug 也算）。你其实走过这四步吗？是哪一步被你跳过、导致绕了远路——是没真正理解问题，还是没做「回顾」？</div>
-  </div>
+<div class="card" data-tts="cc75860a00688433">
+<h2>波利亚四步法</h2>
+<div class="en-name">Pólya's Four Steps · 解题的元算法</div>
+<span class="tag">Heuristics</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>大多数人卡在难题上，是因为一上来就想「答案是什么」。波利亚说：<strong>先别急着算，先问对问题。</strong>他把解题拆成四个阶段：<strong>①理解</strong>——未知是什么？已知是什么？条件够不够？<strong>②制定计划</strong>——我见过类似的题吗？能不能先解一个更简单的版本？<strong>③执行</strong>——一步步走，每一步都检查它真的成立。<strong>④回顾</strong>——答案对吗？换个方法能得到吗？这个方法还能解什么别的题？<br/><br/>关键不是这四个词，而是<em>它把「灵感」这种看似不可控的东西，拆成了可以反复练习的动作</em>。卡住时，你不再干瞪着题发呆，而是有一张清单可以自问：我在哪一步？我漏了哪个条件？</p>
 </div>
-
+<div class="section">
+<div class="label">为什么美</div>
+<p>它的美在于<strong>把「怎么想」本身变成了研究对象</strong>——这是元认知（metacognition）的胜利。波利亚发现，数学家解题时反复使用一小撮通用套路：类比、特殊化、一般化、反向工作、找辅助问题。这些套路不属于任何一个数学分支，却在所有分支里都管用。它揭示了一件深刻的事：<em>发现不是纯粹的运气，而是一门可以传授的手艺。</em></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>这四步几乎就是现代 <strong>AI agent 的规划循环</strong>：理解任务 → 分解为子目标 → 逐步执行并调用工具 → 反思与自我纠错。大语言模型的<em>思维链（chain-of-thought）</em>本质是让模型显式走完「制定计划、执行」两步；<em>ReAct、Reflexion</em> 等框架则加上了波利亚的第四步「回顾」——让模型检查自己的答案并重试。软件工程里的调试、科研中的实验设计，走的都是同一张流程图。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="essence">解题的第一能力不是计算，而是「卡住时知道下一步问自己什么」。</div>
+<div class="think">回想你最近解决的一个难题（代码 bug 也算）。你其实走过这四步吗？是哪一步被你跳过、导致绕了远路——是没真正理解问题，还是没做「回顾」？</div>
+</div>
+</div>
 <!-- 概念 2：化归 -->
-<div class="card">
-  <h2>化归与辅助问题</h2>
-  <div class="en-name">Reduction · 把新问题变成已解决的问题</div>
-  <span class="tag">Reduction</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>数学家几乎从不「从零解决」一个问题。他们做的是：<strong>把陌生问题变形，直到它长得像一个已经会解的问题。</strong>波利亚管这叫「你能把它化归成一个已知的问题吗？」笛卡尔更激进——他梦想把<em>一切</em>问题化归成方程，再把方程化归成代数。<br><br>一个生活化的比喻：你要去一个没去过的城市开会。你不会研究「如何抵达这个特定地址」，你把它化归成两个已解决的子问题——「如何到那座城市」（订机票）和「如何在城里找地址」（打开地图）。<strong>化归 = 不重复发明轮子，而是把问题接上已有的轮子。</strong></p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>化归揭示了知识的<em>网络结构</em>：无数看似孤立的问题，其实通过「A 可化归为 B」的箭头连成一张巨网。一旦某个核心问题被攻破，所有能化归到它的问题<strong>同时</strong>被解决。这是一种杠杆——用一个支点撬动一整片。数学的累积性、复利式的力量，正来自于此。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>化归是<strong>计算复杂性理论的灵魂</strong>。「NP 完全」的定义就是：所有 NP 问题都能在多项式时间内化归到它。于是证明一个新问题「难」，不必从头分析，只需把一个已知的难题（如 3-SAT）化归给它——这套多米诺骨牌撑起了整个理论计算机科学。算法里的<em>分治法</em>（把大问题化归为同类小问题）、编译器把高级语言化归为机器码、机器学习把「预测」化归为「优化一个损失函数」，都是化归。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华 + 思考题</div>
-    <div class="essence">最强的解题者不是懂得最多招式的人，而是最擅长把新问题翻译成旧问题的人。</div>
-    <div class="think">化归有个陷阱：把 A 化归为 B 之后，B 可能比 A 更难解。什么时候化归是「进步」，什么时候只是把困难挪了个位置？你能想到一个「看似化简、实则更难」的例子吗？</div>
-  </div>
+<div class="card" data-tts="83d8ac850b61e261">
+<h2>化归与辅助问题</h2>
+<div class="en-name">Reduction · 把新问题变成已解决的问题</div>
+<span class="tag">Reduction</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>数学家几乎从不「从零解决」一个问题。他们做的是：<strong>把陌生问题变形，直到它长得像一个已经会解的问题。</strong>波利亚管这叫「你能把它化归成一个已知的问题吗？」笛卡尔更激进——他梦想把<em>一切</em>问题化归成方程，再把方程化归成代数。<br/><br/>一个生活化的比喻：你要去一个没去过的城市开会。你不会研究「如何抵达这个特定地址」，你把它化归成两个已解决的子问题——「如何到那座城市」（订机票）和「如何在城里找地址」（打开地图）。<strong>化归 = 不重复发明轮子，而是把问题接上已有的轮子。</strong></p>
 </div>
-
+<div class="section">
+<div class="label">为什么美</div>
+<p>化归揭示了知识的<em>网络结构</em>：无数看似孤立的问题，其实通过「A 可化归为 B」的箭头连成一张巨网。一旦某个核心问题被攻破，所有能化归到它的问题<strong>同时</strong>被解决。这是一种杠杆——用一个支点撬动一整片。数学的累积性、复利式的力量，正来自于此。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>化归是<strong>计算复杂性理论的灵魂</strong>。「NP 完全」的定义就是：所有 NP 问题都能在多项式时间内化归到它。于是证明一个新问题「难」，不必从头分析，只需把一个已知的难题（如 3-SAT）化归给它——这套多米诺骨牌撑起了整个理论计算机科学。算法里的<em>分治法</em>（把大问题化归为同类小问题）、编译器把高级语言化归为机器码、机器学习把「预测」化归为「优化一个损失函数」，都是化归。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="essence">最强的解题者不是懂得最多招式的人，而是最擅长把新问题翻译成旧问题的人。</div>
+<div class="think">化归有个陷阱：把 A 化归为 B 之后，B 可能比 A 更难解。什么时候化归是「进步」，什么时候只是把困难挪了个位置？你能想到一个「看似化简、实则更难」的例子吗？</div>
+</div>
+</div>
 <!-- 概念 3：不变量 -->
-<div class="card">
-  <h2>不变量</h2>
-  <div class="en-name">Invariant · 在变化中寻找不变</div>
-  <span class="tag">Invariant</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>面对一个允许你反复操作的系统（下棋、拼图、状态机），最锋利的问题是：<strong>无论怎么操作，什么东西始终不变？</strong>这个「不变的东西」就是不变量。它像一条守恒律，把无穷多种可能的走法一刀切成两类：<em>能到达的</em> 和 <em>永远到不了的</em>。<br><br>经典例子——<strong>残缺棋盘</strong>：把 $8\times 8$ 棋盘对角的两个格子挖掉，能用 31 张多米诺骨牌（每张盖两格）铺满吗？直接试排会陷入无穷情形。但注意：每张骨牌必盖一黑一白，所以<em>不变量 = 黑格数与白格数必须相等</em>。而对角两格同色，挖掉后黑白数差了 2——<strong>不变量被破坏，所以绝无可能。</strong>一句话，胜过千万次试排。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 260 200" xmlns="http://www.w3.org/2000/svg">
-      <!-- 8x8 chessboard, corners removed, showing color imbalance -->
-      <g transform="translate(18,18)">
-        <!-- draw 8x8 -->
-        <g>
-          <!-- rows -->
-          <!-- We'll generate via explicit rects; light=#e9edf3 dark=#3a6088 -->
-          <!-- row0 -->
-          <rect x="0" y="0" width="20" height="20" fill="#f5f7fa" stroke="#c9544a" stroke-width="2" stroke-dasharray="3,2"/>
-          <rect x="20" y="0" width="20" height="20" fill="#3a6088"/>
-          <rect x="40" y="0" width="20" height="20" fill="#e9edf3"/>
-          <rect x="60" y="0" width="20" height="20" fill="#3a6088"/>
-          <rect x="80" y="0" width="20" height="20" fill="#e9edf3"/>
-          <rect x="100" y="0" width="20" height="20" fill="#3a6088"/>
-          <rect x="120" y="0" width="20" height="20" fill="#e9edf3"/>
-          <rect x="140" y="0" width="20" height="20" fill="#3a6088"/>
-          <!-- row1 -->
-          <rect x="0" y="20" width="20" height="20" fill="#3a6088"/>
-          <rect x="20" y="20" width="20" height="20" fill="#e9edf3"/>
-          <rect x="40" y="20" width="20" height="20" fill="#3a6088"/>
-          <rect x="60" y="20" width="20" height="20" fill="#e9edf3"/>
-          <rect x="80" y="20" width="20" height="20" fill="#3a6088"/>
-          <rect x="100" y="20" width="20" height="20" fill="#e9edf3"/>
-          <rect x="120" y="20" width="20" height="20" fill="#3a6088"/>
-          <rect x="140" y="20" width="20" height="20" fill="#e9edf3"/>
-          <!-- generic middle rows via pattern approximation -->
-          <g>
-            <rect x="0" y="40" width="20" height="20" fill="#e9edf3"/><rect x="20" y="40" width="20" height="20" fill="#3a6088"/><rect x="40" y="40" width="20" height="20" fill="#e9edf3"/><rect x="60" y="40" width="20" height="20" fill="#3a6088"/><rect x="80" y="40" width="20" height="20" fill="#e9edf3"/><rect x="100" y="40" width="20" height="20" fill="#3a6088"/><rect x="120" y="40" width="20" height="20" fill="#e9edf3"/><rect x="140" y="40" width="20" height="20" fill="#3a6088"/>
-            <rect x="0" y="60" width="20" height="20" fill="#3a6088"/><rect x="20" y="60" width="20" height="20" fill="#e9edf3"/><rect x="40" y="60" width="20" height="20" fill="#3a6088"/><rect x="60" y="60" width="20" height="20" fill="#e9edf3"/><rect x="80" y="60" width="20" height="20" fill="#3a6088"/><rect x="100" y="60" width="20" height="20" fill="#e9edf3"/><rect x="120" y="60" width="20" height="20" fill="#3a6088"/><rect x="140" y="60" width="20" height="20" fill="#e9edf3"/>
-            <rect x="0" y="80" width="20" height="20" fill="#e9edf3"/><rect x="20" y="80" width="20" height="20" fill="#3a6088"/><rect x="40" y="80" width="20" height="20" fill="#e9edf3"/><rect x="60" y="80" width="20" height="20" fill="#3a6088"/><rect x="80" y="80" width="20" height="20" fill="#e9edf3"/><rect x="100" y="80" width="20" height="20" fill="#3a6088"/><rect x="120" y="80" width="20" height="20" fill="#e9edf3"/><rect x="140" y="80" width="20" height="20" fill="#3a6088"/>
-            <rect x="0" y="100" width="20" height="20" fill="#3a6088"/><rect x="20" y="100" width="20" height="20" fill="#e9edf3"/><rect x="40" y="100" width="20" height="20" fill="#3a6088"/><rect x="60" y="100" width="20" height="20" fill="#e9edf3"/><rect x="80" y="100" width="20" height="20" fill="#3a6088"/><rect x="100" y="100" width="20" height="20" fill="#e9edf3"/><rect x="120" y="100" width="20" height="20" fill="#3a6088"/><rect x="140" y="100" width="20" height="20" fill="#e9edf3"/>
-            <rect x="0" y="120" width="20" height="20" fill="#e9edf3"/><rect x="20" y="120" width="20" height="20" fill="#3a6088"/><rect x="40" y="120" width="20" height="20" fill="#e9edf3"/><rect x="60" y="120" width="20" height="20" fill="#3a6088"/><rect x="80" y="120" width="20" height="20" fill="#e9edf3"/><rect x="100" y="120" width="20" height="20" fill="#3a6088"/><rect x="120" y="120" width="20" height="20" fill="#e9edf3"/><rect x="140" y="120" width="20" height="20" fill="#3a6088"/>
-          </g>
-          <!-- last row with removed corner -->
-          <rect x="0" y="140" width="20" height="20" fill="#3a6088"/>
-          <rect x="20" y="140" width="20" height="20" fill="#e9edf3"/>
-          <rect x="40" y="140" width="20" height="20" fill="#3a6088"/>
-          <rect x="60" y="140" width="20" height="20" fill="#e9edf3"/>
-          <rect x="80" y="140" width="20" height="20" fill="#3a6088"/>
-          <rect x="100" y="140" width="20" height="20" fill="#e9edf3"/>
-          <rect x="120" y="140" width="20" height="20" fill="#3a6088"/>
-          <rect x="140" y="140" width="20" height="20" fill="#f5f7fa" stroke="#c9544a" stroke-width="2" stroke-dasharray="3,2"/>
-        </g>
-      </g>
-      <text x="130" y="196" font-size="11" fill="#c9544a" text-anchor="middle" font-style="italic">挖掉的两角同为白格 → 黑白失衡</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>不变量把「证明某事<em>做不到</em>」这件本来很难的任务，变成了「指出一个守恒量」这件优雅的任务。要证明「能做到」，给一个例子即可；但要证明「永远做不到」，你必须一次性排除无穷多种尝试——不变量就是那把万能钥匙。物理学里，这正是<strong>诺特定理</strong>的精神（Day 18）：每一条守恒律背后都是一个对称性。<em>不变量 = 数学与物理共享的最深美感之一</em>。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>程序验证的核心是<strong>循环不变式（loop invariant）</strong>：一个在每次循环后都保持为真的命题，用它就能证明算法正确。数据库的 ACID、分布式系统的一致性，本质都是「在并发操作下维持某个不变量」。物理中的能量、动量、电荷守恒是不变量；机器学习里追求对旋转/平移<em>不变</em>的特征（等变网络 equivariant networks），也是同一思想——找出「变换下不改变的量」。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华 + 思考题</div>
-    <div class="essence">想证明某事永远不可能？别去试所有走法——找一个所有走法都破坏不了的量。</div>
-    <div class="think">魔方无论怎么拧，都有一些「不变量」限制它能到达的状态（正因如此，随手贴错一块贴纸的魔方永远拧不回原状）。你还能想到生活中哪个「无论怎么操作都改变不了」的隐藏守恒量？</div>
-  </div>
+<div class="card" data-tts="f952ff301e357959">
+<h2>不变量</h2>
+<div class="en-name">Invariant · 在变化中寻找不变</div>
+<span class="tag">Invariant</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>面对一个允许你反复操作的系统（下棋、拼图、状态机），最锋利的问题是：<strong>无论怎么操作，什么东西始终不变？</strong>这个「不变的东西」就是不变量。它像一条守恒律，把无穷多种可能的走法一刀切成两类：<em>能到达的</em> 和 <em>永远到不了的</em>。<br/><br/>经典例子——<strong>残缺棋盘</strong>：把 $8\times 8$ 棋盘对角的两个格子挖掉，能用 31 张多米诺骨牌（每张盖两格）铺满吗？直接试排会陷入无穷情形。但注意：每张骨牌必盖一黑一白，所以<em>不变量 = 黑格数与白格数必须相等</em>。而对角两格同色，挖掉后黑白数差了 2——<strong>不变量被破坏，所以绝无可能。</strong>一句话，胜过千万次试排。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 260 200" xmlns="http://www.w3.org/2000/svg">
+<!-- 8x8 chessboard, corners removed, showing color imbalance -->
+<g transform="translate(18,18)">
+<!-- draw 8x8 -->
+<g>
+<!-- rows -->
+<!-- We'll generate via explicit rects; light=#e9edf3 dark=#3a6088 -->
+<!-- row0 -->
+<rect fill="#f5f7fa" height="20" stroke="#c9544a" stroke-dasharray="3,2" stroke-width="2" width="20" x="0" y="0"></rect>
+<rect fill="#3a6088" height="20" width="20" x="20" y="0"></rect>
+<rect fill="#e9edf3" height="20" width="20" x="40" y="0"></rect>
+<rect fill="#3a6088" height="20" width="20" x="60" y="0"></rect>
+<rect fill="#e9edf3" height="20" width="20" x="80" y="0"></rect>
+<rect fill="#3a6088" height="20" width="20" x="100" y="0"></rect>
+<rect fill="#e9edf3" height="20" width="20" x="120" y="0"></rect>
+<rect fill="#3a6088" height="20" width="20" x="140" y="0"></rect>
+<!-- row1 -->
+<rect fill="#3a6088" height="20" width="20" x="0" y="20"></rect>
+<rect fill="#e9edf3" height="20" width="20" x="20" y="20"></rect>
+<rect fill="#3a6088" height="20" width="20" x="40" y="20"></rect>
+<rect fill="#e9edf3" height="20" width="20" x="60" y="20"></rect>
+<rect fill="#3a6088" height="20" width="20" x="80" y="20"></rect>
+<rect fill="#e9edf3" height="20" width="20" x="100" y="20"></rect>
+<rect fill="#3a6088" height="20" width="20" x="120" y="20"></rect>
+<rect fill="#e9edf3" height="20" width="20" x="140" y="20"></rect>
+<!-- generic middle rows via pattern approximation -->
+<g>
+<rect fill="#e9edf3" height="20" width="20" x="0" y="40"></rect><rect fill="#3a6088" height="20" width="20" x="20" y="40"></rect><rect fill="#e9edf3" height="20" width="20" x="40" y="40"></rect><rect fill="#3a6088" height="20" width="20" x="60" y="40"></rect><rect fill="#e9edf3" height="20" width="20" x="80" y="40"></rect><rect fill="#3a6088" height="20" width="20" x="100" y="40"></rect><rect fill="#e9edf3" height="20" width="20" x="120" y="40"></rect><rect fill="#3a6088" height="20" width="20" x="140" y="40"></rect>
+<rect fill="#3a6088" height="20" width="20" x="0" y="60"></rect><rect fill="#e9edf3" height="20" width="20" x="20" y="60"></rect><rect fill="#3a6088" height="20" width="20" x="40" y="60"></rect><rect fill="#e9edf3" height="20" width="20" x="60" y="60"></rect><rect fill="#3a6088" height="20" width="20" x="80" y="60"></rect><rect fill="#e9edf3" height="20" width="20" x="100" y="60"></rect><rect fill="#3a6088" height="20" width="20" x="120" y="60"></rect><rect fill="#e9edf3" height="20" width="20" x="140" y="60"></rect>
+<rect fill="#e9edf3" height="20" width="20" x="0" y="80"></rect><rect fill="#3a6088" height="20" width="20" x="20" y="80"></rect><rect fill="#e9edf3" height="20" width="20" x="40" y="80"></rect><rect fill="#3a6088" height="20" width="20" x="60" y="80"></rect><rect fill="#e9edf3" height="20" width="20" x="80" y="80"></rect><rect fill="#3a6088" height="20" width="20" x="100" y="80"></rect><rect fill="#e9edf3" height="20" width="20" x="120" y="80"></rect><rect fill="#3a6088" height="20" width="20" x="140" y="80"></rect>
+<rect fill="#3a6088" height="20" width="20" x="0" y="100"></rect><rect fill="#e9edf3" height="20" width="20" x="20" y="100"></rect><rect fill="#3a6088" height="20" width="20" x="40" y="100"></rect><rect fill="#e9edf3" height="20" width="20" x="60" y="100"></rect><rect fill="#3a6088" height="20" width="20" x="80" y="100"></rect><rect fill="#e9edf3" height="20" width="20" x="100" y="100"></rect><rect fill="#3a6088" height="20" width="20" x="120" y="100"></rect><rect fill="#e9edf3" height="20" width="20" x="140" y="100"></rect>
+<rect fill="#e9edf3" height="20" width="20" x="0" y="120"></rect><rect fill="#3a6088" height="20" width="20" x="20" y="120"></rect><rect fill="#e9edf3" height="20" width="20" x="40" y="120"></rect><rect fill="#3a6088" height="20" width="20" x="60" y="120"></rect><rect fill="#e9edf3" height="20" width="20" x="80" y="120"></rect><rect fill="#3a6088" height="20" width="20" x="100" y="120"></rect><rect fill="#e9edf3" height="20" width="20" x="120" y="120"></rect><rect fill="#3a6088" height="20" width="20" x="140" y="120"></rect>
+</g>
+<!-- last row with removed corner -->
+<rect fill="#3a6088" height="20" width="20" x="0" y="140"></rect>
+<rect fill="#e9edf3" height="20" width="20" x="20" y="140"></rect>
+<rect fill="#3a6088" height="20" width="20" x="40" y="140"></rect>
+<rect fill="#e9edf3" height="20" width="20" x="60" y="140"></rect>
+<rect fill="#3a6088" height="20" width="20" x="80" y="140"></rect>
+<rect fill="#e9edf3" height="20" width="20" x="100" y="140"></rect>
+<rect fill="#3a6088" height="20" width="20" x="120" y="140"></rect>
+<rect fill="#f5f7fa" height="20" stroke="#c9544a" stroke-dasharray="3,2" stroke-width="2" width="20" x="140" y="140"></rect>
+</g>
+</g>
+<text fill="#c9544a" font-size="11" font-style="italic" text-anchor="middle" x="130" y="196">挖掉的两角同为白格 → 黑白失衡</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>不变量把「证明某事<em>做不到</em>」这件本来很难的任务，变成了「指出一个守恒量」这件优雅的任务。要证明「能做到」，给一个例子即可；但要证明「永远做不到」，你必须一次性排除无穷多种尝试——不变量就是那把万能钥匙。物理学里，这正是<strong>诺特定理</strong>的精神（Day 18）：每一条守恒律背后都是一个对称性。<em>不变量 = 数学与物理共享的最深美感之一</em>。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>程序验证的核心是<strong>循环不变式（loop invariant）</strong>：一个在每次循环后都保持为真的命题，用它就能证明算法正确。数据库的 ACID、分布式系统的一致性，本质都是「在并发操作下维持某个不变量」。物理中的能量、动量、电荷守恒是不变量；机器学习里追求对旋转/平移<em>不变</em>的特征（等变网络 equivariant networks），也是同一思想——找出「变换下不改变的量」。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="essence">想证明某事永远不可能？别去试所有走法——找一个所有走法都破坏不了的量。</div>
+<div class="think">魔方无论怎么拧，都有一些「不变量」限制它能到达的状态（正因如此，随手贴错一块贴纸的魔方永远拧不回原状）。你还能想到生活中哪个「无论怎么操作都改变不了」的隐藏守恒量？</div>
+</div>
+</div>
 <!-- 概念 4：极端原理 -->
-<div class="card">
-  <h2>极端原理</h2>
-  <div class="en-name">The Extremal Principle · 从最大最小处下手</div>
-  <span class="tag">Extremal Principle</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>当一个问题涉及一堆对象、你不知从哪个下手时，有个惊人有效的招：<strong>盯住那个「最极端」的——最大的、最小的、最左边的、最靠近某点的。</strong>极端的对象往往被「无路可退」地逼出特殊性质，成为整个证明的突破口。<br><br>比方说要证「一群人里必有两人朋友数相同」：直接找很难。但考虑<em>朋友最多的那个人</em>——他的朋友数最多是 $n-1$，最少是 $0$，而「有人一个朋友都没有」和「有人跟所有人都是朋友」不可能同时发生……极端者把可能取值卡死，鸽笼原理随即收网。<strong>极端点没有退路，所以它开口说话。</strong></p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>它的美是一种<em>以退为进</em>的智慧：面对茫茫一片对象，你不去平均地处理它们，而是精准地押注在边界上。这与优化理论遥相呼应——<strong>凸问题的最优解总在极端处</strong>（顶点、边界）。极端原理还常与「无穷递降法」联手：假设存在一个「最小的反例」，再从它构造出一个更小的反例，矛盾——于是反例不存在。费马正是用无穷递降证明了 $x^4+y^4=z^4$ 无正整数解。<em>从「最小」出发，推翻「存在」。</em></p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>算法设计里，<strong>贪心法</strong>每一步都选当前的极端（最短边、最早截止、最大收益）——Kruskal 最小生成树、Huffman 编码都是极端原理的算法化。线性规划的单纯形法沿着可行域的<em>顶点</em>（极端点）游走求最优。博弈与安全分析中的<em>最坏情况（worst-case）</em>思维，就是盯住对手能造成的最极端结果。极端图论（extremal graph theory）整门学科都在问：某性质在「最密/最稀」时会发生什么。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华 + 思考题</div>
-    <div class="essence">不知从哪下手时，先看最大的和最小的——极端的对象没有退路，最先暴露结构。</div>
-    <div class="think">「最坏情况分析」在算法里很自然，但在人生决策里，一味盯着最坏情况会导致过度保守。数学的极端原理是一种证明工具，而生活里的极端思维何时是智慧、何时是陷阱？两者的差别在哪？</div>
-  </div>
+<div class="card" data-tts="20747095445b89e9">
+<h2>极端原理</h2>
+<div class="en-name">The Extremal Principle · 从最大最小处下手</div>
+<span class="tag">Extremal Principle</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>当一个问题涉及一堆对象、你不知从哪个下手时，有个惊人有效的招：<strong>盯住那个「最极端」的——最大的、最小的、最左边的、最靠近某点的。</strong>极端的对象往往被「无路可退」地逼出特殊性质，成为整个证明的突破口。<br/><br/>比方说要证「一群人里必有两人朋友数相同」：直接找很难。但考虑<em>朋友最多的那个人</em>——他的朋友数最多是 $n-1$，最少是 $0$，而「有人一个朋友都没有」和「有人跟所有人都是朋友」不可能同时发生……极端者把可能取值卡死，鸽笼原理随即收网。<strong>极端点没有退路，所以它开口说话。</strong></p>
 </div>
-
+<div class="section">
+<div class="label">为什么美</div>
+<p>它的美是一种<em>以退为进</em>的智慧：面对茫茫一片对象，你不去平均地处理它们，而是精准地押注在边界上。这与优化理论遥相呼应——<strong>凸问题的最优解总在极端处</strong>（顶点、边界）。极端原理还常与「无穷递降法」联手：假设存在一个「最小的反例」，再从它构造出一个更小的反例，矛盾——于是反例不存在。费马正是用无穷递降证明了 $x^4+y^4=z^4$ 无正整数解。<em>从「最小」出发，推翻「存在」。</em></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>算法设计里，<strong>贪心法</strong>每一步都选当前的极端（最短边、最早截止、最大收益）——Kruskal 最小生成树、Huffman 编码都是极端原理的算法化。线性规划的单纯形法沿着可行域的<em>顶点</em>（极端点）游走求最优。博弈与安全分析中的<em>最坏情况（worst-case）</em>思维，就是盯住对手能造成的最极端结果。极端图论（extremal graph theory）整门学科都在问：某性质在「最密/最稀」时会发生什么。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="essence">不知从哪下手时，先看最大的和最小的——极端的对象没有退路，最先暴露结构。</div>
+<div class="think">「最坏情况分析」在算法里很自然，但在人生决策里，一味盯着最坏情况会导致过度保守。数学的极端原理是一种证明工具，而生活里的极端思维何时是智慧、何时是陷阱？两者的差别在哪？</div>
+</div>
+</div>
 <!-- 深入思考 -->
-<div class="card deep">
-  <h2>深入思考</h2>
-
-  <details>
-    <summary>波利亚的「启发法」和现代 AI 的「搜索」是一回事吗？</summary>
-    <div class="body">很接近但不完全。启发法（heuristic）在两者里都指「不保证成功、但常常有效的经验规则」，用来在庞大的可能性空间里剪枝。A* 算法的启发函数、国际象棋引擎的评估函数，精神上都是波利亚的「合情推理」。差别在于：波利亚的启发法面向<em>人</em>——目的是引导注意力、激发洞察；AI 的启发式面向<em>机器</em>——目的是量化地估计「离目标还有多远」。当大模型学会用自然语言写出解题计划时，两条线正在重新合流。</div>
-  </details>
-
-  <details>
-    <summary>为什么「回顾」这一步最常被跳过，却最有价值？</summary>
-    <div class="body">因为解出答案后，多巴胺已经发放，动力骤降——回顾没有即时奖励。但波利亚坚持它最关键：回顾时你才把这一题的方法<em>抽象</em>成可迁移的模式，存进长期记忆。跳过回顾，你只是解了一道题；做了回顾，你升级了解题能力本身。这正是 Reflexion 类 AI 框架刻意加入「自我复盘」的原因——一次成功若不被反思，就无法泛化到下一次。</div>
-  </details>
-
-  <details>
-    <summary>不变量与化归，能不能是同一件事的两面？</summary>
-    <div class="body">有深刻的联系。找不变量，本质是把「一个动态系统的所有状态」化归为「不变量的取值」——高维的过程被投影到一个低维的守恒量上。范畴论（Day 19）把这种「只保留在变换下不变的信息」的做法推到极致：不变量就是从复杂结构到简单结构的一个「函子」。可以说，一切好的抽象，都是在寻找某种不变量。</div>
-  </details>
-
-  <details>
-    <summary>如果解题有通用心法，为什么数学还是这么难？</summary>
-    <div class="body">因为心法给你的是<em>方向</em>，不是<em>答案</em>。「试试特殊情况」「找个不变量」告诉你往哪看，但具体那个不变量是什么、那个巧妙的辅助线画在哪，仍需要经验、直觉和大量失败的积累。这也是波利亚的诚实之处：《How to Solve It》不承诺让人变天才，只承诺让普通人少走弯路、把「有时灵光一现」变成「更常灵光一现」。工具能提高命中率，但不能取代那一下的创造。</div>
-  </details>
-
-  <details>
-    <summary>Lockhart 会怎么看「解题技巧」的教学？</summary>
-    <div class="body">这里有张力。Lockhart 在《A Mathematician's Lament》里批评：把数学教成一套解题套路，会杀死它作为艺术的灵魂——真正的数学是提出自己的问题、享受困惑本身。波利亚则想让解题更可教。二者其实互补：套路是脚手架，不是建筑。学套路是为了有能力去玩那些没有套路的问题——就像先练音阶，才能即兴。危险的是把脚手架当成了大楼本身。</div>
-  </details>
+<div class="card deep" data-tts="dc90adeac4d51b0d">
+<h2>深入思考</h2>
+<details>
+<summary>波利亚的「启发法」和现代 AI 的「搜索」是一回事吗？</summary>
+<div class="body">很接近但不完全。启发法（heuristic）在两者里都指「不保证成功、但常常有效的经验规则」，用来在庞大的可能性空间里剪枝。A* 算法的启发函数、国际象棋引擎的评估函数，精神上都是波利亚的「合情推理」。差别在于：波利亚的启发法面向<em>人</em>——目的是引导注意力、激发洞察；AI 的启发式面向<em>机器</em>——目的是量化地估计「离目标还有多远」。当大模型学会用自然语言写出解题计划时，两条线正在重新合流。</div>
+</details>
+<details>
+<summary>为什么「回顾」这一步最常被跳过，却最有价值？</summary>
+<div class="body">因为解出答案后，多巴胺已经发放，动力骤降——回顾没有即时奖励。但波利亚坚持它最关键：回顾时你才把这一题的方法<em>抽象</em>成可迁移的模式，存进长期记忆。跳过回顾，你只是解了一道题；做了回顾，你升级了解题能力本身。这正是 Reflexion 类 AI 框架刻意加入「自我复盘」的原因——一次成功若不被反思，就无法泛化到下一次。</div>
+</details>
+<details>
+<summary>不变量与化归，能不能是同一件事的两面？</summary>
+<div class="body">有深刻的联系。找不变量，本质是把「一个动态系统的所有状态」化归为「不变量的取值」——高维的过程被投影到一个低维的守恒量上。范畴论（Day 19）把这种「只保留在变换下不变的信息」的做法推到极致：不变量就是从复杂结构到简单结构的一个「函子」。可以说，一切好的抽象，都是在寻找某种不变量。</div>
+</details>
+<details>
+<summary>如果解题有通用心法，为什么数学还是这么难？</summary>
+<div class="body">因为心法给你的是<em>方向</em>，不是<em>答案</em>。「试试特殊情况」「找个不变量」告诉你往哪看，但具体那个不变量是什么、那个巧妙的辅助线画在哪，仍需要经验、直觉和大量失败的积累。这也是波利亚的诚实之处：《How to Solve It》不承诺让人变天才，只承诺让普通人少走弯路、把「有时灵光一现」变成「更常灵光一现」。工具能提高命中率，但不能取代那一下的创造。</div>
+</details>
+<details>
+<summary>Lockhart 会怎么看「解题技巧」的教学？</summary>
+<div class="body">这里有张力。Lockhart 在《A Mathematician's Lament》里批评：把数学教成一套解题套路，会杀死它作为艺术的灵魂——真正的数学是提出自己的问题、享受困惑本身。波利亚则想让解题更可教。二者其实互补：套路是脚手架，不是建筑。学套路是为了有能力去玩那些没有套路的问题——就像先练音阶，才能即兴。危险的是把脚手架当成了大楼本身。</div>
+</details>
 </div>
-
 <nav class="bottom">
-  <a href="index.html">← 返回 Mathematics</a>
+<a href="index.html">← 返回 Mathematics</a>
 </nav>
-
 </div>
-<script src="https://hub.cissychen.com/comments.js" defer></script>
-<script src="https://hub.cissychen.com/search.js" defer></script>
-<script src="https://hub.cissychen.com/index-button.js" defer></script>
-<script src="https://hub.cissychen.com/i18n-tts.js" defer></script>
+<script defer="" src="https://hub.cissychen.com/comments.js"></script>
+<script defer="" src="https://hub.cissychen.com/search.js"></script>
+<script defer="" src="https://hub.cissychen.com/index-button.js"></script>
+<script defer="" src="https://hub.cissychen.com/i18n-tts.js"></script>
 </body>
 </html>

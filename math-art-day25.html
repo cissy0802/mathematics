@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>数学与艺术 · Day 25 — Mathematics</title>
 <script>
 window.MathJax = {
@@ -14,7 +15,7 @@ window.MathJax = {
   options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
 };
 </script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
@@ -54,358 +55,322 @@ nav.bottom a:hover{color:#1e3a5f}
 </head>
 <body>
 <div class="container">
-
 <header>
-  <div class="kicker">Day 25 · 2026.07.17</div>
-  <h1>数学与艺术</h1>
-  <div class="meta">Mathematics &amp; Art — 藏在美背后的结构、对称与视觉的几何</div>
-  <div class="epigraph">"数学，正确地看，不仅拥有真理，也拥有至高的美。" — Bertrand Russell</div>
+<div class="kicker">Day 25 · 2026.07.17</div>
+<h1 data-tts="80d906427b29ab38">数学与艺术</h1>
+<div class="meta">Mathematics &amp; Art — 藏在美背后的结构、对称与视觉的几何</div>
+<div class="epigraph">"数学，正确地看，不仅拥有真理，也拥有至高的美。" — Bertrand Russell</div>
 </header>
-
 <!-- 概念 1：平面镶嵌与壁纸群 -->
-<div class="card">
-  <h2>平面镶嵌与壁纸群</h2>
-  <div class="en-name">Tessellation &amp; Wallpaper Groups · 重复的语法</div>
-  <span class="tag">Geometry / Group Theory</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>Escher 的蜥蜴、天使与魔鬼严丝合缝铺满整面墙。盯住一小片，你会发现整幅画其实只是<strong>「一块基本图案 + 几个重复动作」</strong>。重复动作只有四种：平移、旋转、镜射、滑移反射（照镜子再平移）。<br><br>惊人的事实是：无论图案多花哨，平面上「本质不同的重复方式」<strong>恰好只有 17 种</strong>——数学家称之为「壁纸群」。阿尔罕布拉宫的摩尔工匠，在定理被证明的几百年前就凭直觉把这 17 种几乎摆全了。美感，被一个精确的有限数字彻底框住。</p>
-  </div>
-
-  <div class="viz"><svg viewBox="0 0 360 180" xmlns="http://www.w3.org/2000/svg">
-<defs><marker id="a1" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0 0 L5 2.5 L0 5 z" fill="#1e3a5f"/></marker></defs>
-<path d="M -24.0 28.4 L 18.0 28.4 L -3.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M -3.0 -8.0 L 39.0 -8.0 L 18.0 28.4 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 18.0 28.4 L 60.0 28.4 L 39.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 39.0 -8.0 L 81.0 -8.0 L 60.0 28.4 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 60.0 28.4 L 102.0 28.4 L 81.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 81.0 -8.0 L 123.0 -8.0 L 102.0 28.4 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 102.0 28.4 L 144.0 28.4 L 123.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 123.0 -8.0 L 165.0 -8.0 L 144.0 28.4 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 144.0 28.4 L 186.0 28.4 L 165.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 165.0 -8.0 L 207.0 -8.0 L 186.0 28.4 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 186.0 28.4 L 228.0 28.4 L 207.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 207.0 -8.0 L 249.0 -8.0 L 228.0 28.4 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 228.0 28.4 L 270.0 28.4 L 249.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 249.0 -8.0 L 291.0 -8.0 L 270.0 28.4 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 270.0 28.4 L 312.0 28.4 L 291.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 291.0 -8.0 L 333.0 -8.0 L 312.0 28.4 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 312.0 28.4 L 354.0 28.4 L 333.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 333.0 -8.0 L 375.0 -8.0 L 354.0 28.4 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 354.0 28.4 L 396.0 28.4 L 375.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M -24.0 28.4 L 18.0 28.4 L -3.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M -3.0 64.7 L 39.0 64.7 L 18.0 28.4 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 18.0 28.4 L 60.0 28.4 L 39.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 39.0 64.7 L 81.0 64.7 L 60.0 28.4 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 60.0 28.4 L 102.0 28.4 L 81.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 81.0 64.7 L 123.0 64.7 L 102.0 28.4 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 102.0 28.4 L 144.0 28.4 L 123.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 123.0 64.7 L 165.0 64.7 L 144.0 28.4 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 144.0 28.4 L 186.0 28.4 L 165.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 165.0 64.7 L 207.0 64.7 L 186.0 28.4 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 186.0 28.4 L 228.0 28.4 L 207.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 207.0 64.7 L 249.0 64.7 L 228.0 28.4 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 228.0 28.4 L 270.0 28.4 L 249.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 249.0 64.7 L 291.0 64.7 L 270.0 28.4 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 270.0 28.4 L 312.0 28.4 L 291.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 291.0 64.7 L 333.0 64.7 L 312.0 28.4 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 312.0 28.4 L 354.0 28.4 L 333.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 333.0 64.7 L 375.0 64.7 L 354.0 28.4 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 354.0 28.4 L 396.0 28.4 L 375.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M -24.0 101.1 L 18.0 101.1 L -3.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M -3.0 64.7 L 39.0 64.7 L 18.0 101.1 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 18.0 101.1 L 60.0 101.1 L 39.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 39.0 64.7 L 81.0 64.7 L 60.0 101.1 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 60.0 101.1 L 102.0 101.1 L 81.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 81.0 64.7 L 123.0 64.7 L 102.0 101.1 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 102.0 101.1 L 144.0 101.1 L 123.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 123.0 64.7 L 165.0 64.7 L 144.0 101.1 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 144.0 101.1 L 186.0 101.1 L 165.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 165.0 64.7 L 207.0 64.7 L 186.0 101.1 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 186.0 101.1 L 228.0 101.1 L 207.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 207.0 64.7 L 249.0 64.7 L 228.0 101.1 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 228.0 101.1 L 270.0 101.1 L 249.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 249.0 64.7 L 291.0 64.7 L 270.0 101.1 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 270.0 101.1 L 312.0 101.1 L 291.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 291.0 64.7 L 333.0 64.7 L 312.0 101.1 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 312.0 101.1 L 354.0 101.1 L 333.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 333.0 64.7 L 375.0 64.7 L 354.0 101.1 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 354.0 101.1 L 396.0 101.1 L 375.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M -24.0 101.1 L 18.0 101.1 L -3.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M -3.0 137.5 L 39.0 137.5 L 18.0 101.1 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 18.0 101.1 L 60.0 101.1 L 39.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 39.0 137.5 L 81.0 137.5 L 60.0 101.1 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 60.0 101.1 L 102.0 101.1 L 81.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 81.0 137.5 L 123.0 137.5 L 102.0 101.1 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 102.0 101.1 L 144.0 101.1 L 123.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 123.0 137.5 L 165.0 137.5 L 144.0 101.1 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 144.0 101.1 L 186.0 101.1 L 165.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 165.0 137.5 L 207.0 137.5 L 186.0 101.1 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 186.0 101.1 L 228.0 101.1 L 207.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 207.0 137.5 L 249.0 137.5 L 228.0 101.1 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 228.0 101.1 L 270.0 101.1 L 249.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 249.0 137.5 L 291.0 137.5 L 270.0 101.1 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 270.0 101.1 L 312.0 101.1 L 291.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 291.0 137.5 L 333.0 137.5 L 312.0 101.1 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 312.0 101.1 L 354.0 101.1 L 333.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 333.0 137.5 L 375.0 137.5 L 354.0 101.1 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 354.0 101.1 L 396.0 101.1 L 375.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M -24.0 173.9 L 18.0 173.9 L -3.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M -3.0 137.5 L 39.0 137.5 L 18.0 173.9 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 18.0 173.9 L 60.0 173.9 L 39.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 39.0 137.5 L 81.0 137.5 L 60.0 173.9 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 60.0 173.9 L 102.0 173.9 L 81.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 81.0 137.5 L 123.0 137.5 L 102.0 173.9 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 102.0 173.9 L 144.0 173.9 L 123.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 123.0 137.5 L 165.0 137.5 L 144.0 173.9 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 144.0 173.9 L 186.0 173.9 L 165.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 165.0 137.5 L 207.0 137.5 L 186.0 173.9 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 186.0 173.9 L 228.0 173.9 L 207.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 207.0 137.5 L 249.0 137.5 L 228.0 173.9 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 228.0 173.9 L 270.0 173.9 L 249.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 249.0 137.5 L 291.0 137.5 L 270.0 173.9 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 270.0 173.9 L 312.0 173.9 L 291.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 291.0 137.5 L 333.0 137.5 L 312.0 173.9 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 312.0 173.9 L 354.0 173.9 L 333.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 333.0 137.5 L 375.0 137.5 L 354.0 173.9 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 354.0 173.9 L 396.0 173.9 L 375.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M -24.0 173.9 L 18.0 173.9 L -3.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M -3.0 210.2 L 39.0 210.2 L 18.0 173.9 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 18.0 173.9 L 60.0 173.9 L 39.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 39.0 210.2 L 81.0 210.2 L 60.0 173.9 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 60.0 173.9 L 102.0 173.9 L 81.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 81.0 210.2 L 123.0 210.2 L 102.0 173.9 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 102.0 173.9 L 144.0 173.9 L 123.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 123.0 210.2 L 165.0 210.2 L 144.0 173.9 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 144.0 173.9 L 186.0 173.9 L 165.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 165.0 210.2 L 207.0 210.2 L 186.0 173.9 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 186.0 173.9 L 228.0 173.9 L 207.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 207.0 210.2 L 249.0 210.2 L 228.0 173.9 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 228.0 173.9 L 270.0 173.9 L 249.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 249.0 210.2 L 291.0 210.2 L 270.0 173.9 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 270.0 173.9 L 312.0 173.9 L 291.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 291.0 210.2 L 333.0 210.2 L 312.0 173.9 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 312.0 173.9 L 354.0 173.9 L 333.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 333.0 210.2 L 375.0 210.2 L 354.0 173.9 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 354.0 173.9 L 396.0 173.9 L 375.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"/>
-<path d="M 81.0 64.7 L 123.0 64.7 L 102.0 101.1 L 60.0 101.1 Z" fill="none" stroke="#c9544a" stroke-width="2.4"/>
-<text x="81.0" y="86.9" font-size="10" fill="#c9544a" text-anchor="middle" font-style="italic">基本单元</text>
-<line x1="81.0" y1="64.7" x2="117.0" y2="64.7" stroke="#1e3a5f" stroke-width="1.8" marker-end="url(#a1)"/>
-<line x1="81.0" y1="64.7" x2="99.0" y2="96.1" stroke="#1e3a5f" stroke-width="1.8" marker-end="url(#a1)"/>
-</svg></div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>壁纸群 = 平面「等距变换」（保距离的变换）中含有<strong>两个独立平移方向</strong>的离散子群。平面等距只有四类：平移、旋转、反射、滑移反射。它们能怎样组合被「晶体学限制定理」死死管住：周期图案里的旋转对称阶数<strong>只能是 1、2、3、4、6</strong>——唯独没有 5。穷尽分类，答案不多不少，正好 17 种。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>一个纯粹的艺术问题——「墙纸能有多少种花样」——竟有干净的有限答案：<strong>17</strong>。这是「美感被数学完全穷尽」的罕见时刻。更美的是 Escher 晚年冲出欧氏平面：在<strong>双曲几何</strong>里（他的《Circle Limit》），同一条鱼可无限缩小铺满一个圆盘，因为双曲平面「面积无穷」，5 阶、7 阶对称都合法——镶嵌方式反而变成无穷多。平直世界的束缚，在弯曲世界里松开了。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p><strong>晶体学</strong>：X 射线衍射读出的正是晶格对称群，直接决定材料性质（三维版本共 230 种）。<strong>深度学习</strong>：卷积网络的核心假设正是「平移等变」——猫平移后还是猫，CNN 把这条对称焊进架构，这是它省参数、易泛化的根源。<strong>准晶</strong>（2011 诺奖）偏偏做出被禁止的 5 阶对称，掀翻了「晶体必周期」的百年教条。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <div class="english">装饰的自由，被对称的语法锁死在 <strong>17</strong> 种。</div>
-    <div class="label" style="margin-top:14px">思考题</div>
-    <div class="think">为什么周期镶嵌里不可能存在 5 重旋转对称？拿正五边形试着铺满地面——你会发现总留下缝隙。这个「铺不满」的几何事实，和准晶为何是革命，其实是同一件事。</div>
-  </div>
+<div class="card" data-tts="03ac534eadf85f7e">
+<h2>平面镶嵌与壁纸群</h2>
+<div class="en-name">Tessellation &amp; Wallpaper Groups · 重复的语法</div>
+<span class="tag">Geometry / Group Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>Escher 的蜥蜴、天使与魔鬼严丝合缝铺满整面墙。盯住一小片，你会发现整幅画其实只是<strong>「一块基本图案 + 几个重复动作」</strong>。重复动作只有四种：平移、旋转、镜射、滑移反射（照镜子再平移）。<br/><br/>惊人的事实是：无论图案多花哨，平面上「本质不同的重复方式」<strong>恰好只有 17 种</strong>——数学家称之为「壁纸群」。阿尔罕布拉宫的摩尔工匠，在定理被证明的几百年前就凭直觉把这 17 种几乎摆全了。美感，被一个精确的有限数字彻底框住。</p>
 </div>
-
+<div class="viz"><svg viewbox="0 0 360 180" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="a1" markerheight="7" markerwidth="7" orient="auto" refx="5" refy="2.5"><path d="M0 0 L5 2.5 L0 5 z" fill="#1e3a5f"></path></marker></defs>
+<path d="M -24.0 28.4 L 18.0 28.4 L -3.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M -3.0 -8.0 L 39.0 -8.0 L 18.0 28.4 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 18.0 28.4 L 60.0 28.4 L 39.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 39.0 -8.0 L 81.0 -8.0 L 60.0 28.4 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 60.0 28.4 L 102.0 28.4 L 81.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 81.0 -8.0 L 123.0 -8.0 L 102.0 28.4 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 102.0 28.4 L 144.0 28.4 L 123.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 123.0 -8.0 L 165.0 -8.0 L 144.0 28.4 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 144.0 28.4 L 186.0 28.4 L 165.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 165.0 -8.0 L 207.0 -8.0 L 186.0 28.4 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 186.0 28.4 L 228.0 28.4 L 207.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 207.0 -8.0 L 249.0 -8.0 L 228.0 28.4 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 228.0 28.4 L 270.0 28.4 L 249.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 249.0 -8.0 L 291.0 -8.0 L 270.0 28.4 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 270.0 28.4 L 312.0 28.4 L 291.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 291.0 -8.0 L 333.0 -8.0 L 312.0 28.4 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 312.0 28.4 L 354.0 28.4 L 333.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 333.0 -8.0 L 375.0 -8.0 L 354.0 28.4 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 354.0 28.4 L 396.0 28.4 L 375.0 -8.0 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M -24.0 28.4 L 18.0 28.4 L -3.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M -3.0 64.7 L 39.0 64.7 L 18.0 28.4 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 18.0 28.4 L 60.0 28.4 L 39.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 39.0 64.7 L 81.0 64.7 L 60.0 28.4 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 60.0 28.4 L 102.0 28.4 L 81.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 81.0 64.7 L 123.0 64.7 L 102.0 28.4 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 102.0 28.4 L 144.0 28.4 L 123.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 123.0 64.7 L 165.0 64.7 L 144.0 28.4 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 144.0 28.4 L 186.0 28.4 L 165.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 165.0 64.7 L 207.0 64.7 L 186.0 28.4 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 186.0 28.4 L 228.0 28.4 L 207.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 207.0 64.7 L 249.0 64.7 L 228.0 28.4 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 228.0 28.4 L 270.0 28.4 L 249.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 249.0 64.7 L 291.0 64.7 L 270.0 28.4 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 270.0 28.4 L 312.0 28.4 L 291.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 291.0 64.7 L 333.0 64.7 L 312.0 28.4 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 312.0 28.4 L 354.0 28.4 L 333.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 333.0 64.7 L 375.0 64.7 L 354.0 28.4 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 354.0 28.4 L 396.0 28.4 L 375.0 64.7 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M -24.0 101.1 L 18.0 101.1 L -3.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M -3.0 64.7 L 39.0 64.7 L 18.0 101.1 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 18.0 101.1 L 60.0 101.1 L 39.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 39.0 64.7 L 81.0 64.7 L 60.0 101.1 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 60.0 101.1 L 102.0 101.1 L 81.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 81.0 64.7 L 123.0 64.7 L 102.0 101.1 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 102.0 101.1 L 144.0 101.1 L 123.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 123.0 64.7 L 165.0 64.7 L 144.0 101.1 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 144.0 101.1 L 186.0 101.1 L 165.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 165.0 64.7 L 207.0 64.7 L 186.0 101.1 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 186.0 101.1 L 228.0 101.1 L 207.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 207.0 64.7 L 249.0 64.7 L 228.0 101.1 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 228.0 101.1 L 270.0 101.1 L 249.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 249.0 64.7 L 291.0 64.7 L 270.0 101.1 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 270.0 101.1 L 312.0 101.1 L 291.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 291.0 64.7 L 333.0 64.7 L 312.0 101.1 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 312.0 101.1 L 354.0 101.1 L 333.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 333.0 64.7 L 375.0 64.7 L 354.0 101.1 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 354.0 101.1 L 396.0 101.1 L 375.0 64.7 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M -24.0 101.1 L 18.0 101.1 L -3.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M -3.0 137.5 L 39.0 137.5 L 18.0 101.1 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 18.0 101.1 L 60.0 101.1 L 39.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 39.0 137.5 L 81.0 137.5 L 60.0 101.1 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 60.0 101.1 L 102.0 101.1 L 81.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 81.0 137.5 L 123.0 137.5 L 102.0 101.1 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 102.0 101.1 L 144.0 101.1 L 123.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 123.0 137.5 L 165.0 137.5 L 144.0 101.1 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 144.0 101.1 L 186.0 101.1 L 165.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 165.0 137.5 L 207.0 137.5 L 186.0 101.1 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 186.0 101.1 L 228.0 101.1 L 207.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 207.0 137.5 L 249.0 137.5 L 228.0 101.1 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 228.0 101.1 L 270.0 101.1 L 249.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 249.0 137.5 L 291.0 137.5 L 270.0 101.1 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 270.0 101.1 L 312.0 101.1 L 291.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 291.0 137.5 L 333.0 137.5 L 312.0 101.1 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 312.0 101.1 L 354.0 101.1 L 333.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 333.0 137.5 L 375.0 137.5 L 354.0 101.1 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 354.0 101.1 L 396.0 101.1 L 375.0 137.5 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M -24.0 173.9 L 18.0 173.9 L -3.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M -3.0 137.5 L 39.0 137.5 L 18.0 173.9 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 18.0 173.9 L 60.0 173.9 L 39.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 39.0 137.5 L 81.0 137.5 L 60.0 173.9 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 60.0 173.9 L 102.0 173.9 L 81.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 81.0 137.5 L 123.0 137.5 L 102.0 173.9 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 102.0 173.9 L 144.0 173.9 L 123.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 123.0 137.5 L 165.0 137.5 L 144.0 173.9 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 144.0 173.9 L 186.0 173.9 L 165.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 165.0 137.5 L 207.0 137.5 L 186.0 173.9 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 186.0 173.9 L 228.0 173.9 L 207.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 207.0 137.5 L 249.0 137.5 L 228.0 173.9 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 228.0 173.9 L 270.0 173.9 L 249.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 249.0 137.5 L 291.0 137.5 L 270.0 173.9 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 270.0 173.9 L 312.0 173.9 L 291.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 291.0 137.5 L 333.0 137.5 L 312.0 173.9 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 312.0 173.9 L 354.0 173.9 L 333.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 333.0 137.5 L 375.0 137.5 L 354.0 173.9 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 354.0 173.9 L 396.0 173.9 L 375.0 137.5 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M -24.0 173.9 L 18.0 173.9 L -3.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M -3.0 210.2 L 39.0 210.2 L 18.0 173.9 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 18.0 173.9 L 60.0 173.9 L 39.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 39.0 210.2 L 81.0 210.2 L 60.0 173.9 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 60.0 173.9 L 102.0 173.9 L 81.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 81.0 210.2 L 123.0 210.2 L 102.0 173.9 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 102.0 173.9 L 144.0 173.9 L 123.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 123.0 210.2 L 165.0 210.2 L 144.0 173.9 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 144.0 173.9 L 186.0 173.9 L 165.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 165.0 210.2 L 207.0 210.2 L 186.0 173.9 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 186.0 173.9 L 228.0 173.9 L 207.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 207.0 210.2 L 249.0 210.2 L 228.0 173.9 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 228.0 173.9 L 270.0 173.9 L 249.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 249.0 210.2 L 291.0 210.2 L 270.0 173.9 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 270.0 173.9 L 312.0 173.9 L 291.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 291.0 210.2 L 333.0 210.2 L 312.0 173.9 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 312.0 173.9 L 354.0 173.9 L 333.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 333.0 210.2 L 375.0 210.2 L 354.0 173.9 Z" fill="#cdd9e6" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 354.0 173.9 L 396.0 173.9 L 375.0 210.2 Z" fill="#e7ba7d" fill-opacity="0.75" stroke="#8a97a8" stroke-width="0.6"></path>
+<path d="M 81.0 64.7 L 123.0 64.7 L 102.0 101.1 L 60.0 101.1 Z" fill="none" stroke="#c9544a" stroke-width="2.4"></path>
+<text fill="#c9544a" font-size="10" font-style="italic" text-anchor="middle" x="81.0" y="86.9">基本单元</text>
+<line marker-end="url(#a1)" stroke="#1e3a5f" stroke-width="1.8" x1="81.0" x2="117.0" y1="64.7" y2="64.7"></line>
+<line marker-end="url(#a1)" stroke="#1e3a5f" stroke-width="1.8" x1="81.0" x2="99.0" y1="64.7" y2="96.1"></line>
+</svg></div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>壁纸群 = 平面「等距变换」（保距离的变换）中含有<strong>两个独立平移方向</strong>的离散子群。平面等距只有四类：平移、旋转、反射、滑移反射。它们能怎样组合被「晶体学限制定理」死死管住：周期图案里的旋转对称阶数<strong>只能是 1、2、3、4、6</strong>——唯独没有 5。穷尽分类，答案不多不少，正好 17 种。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>一个纯粹的艺术问题——「墙纸能有多少种花样」——竟有干净的有限答案：<strong>17</strong>。这是「美感被数学完全穷尽」的罕见时刻。更美的是 Escher 晚年冲出欧氏平面：在<strong>双曲几何</strong>里（他的《Circle Limit》），同一条鱼可无限缩小铺满一个圆盘，因为双曲平面「面积无穷」，5 阶、7 阶对称都合法——镶嵌方式反而变成无穷多。平直世界的束缚，在弯曲世界里松开了。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p><strong>晶体学</strong>：X 射线衍射读出的正是晶格对称群，直接决定材料性质（三维版本共 230 种）。<strong>深度学习</strong>：卷积网络的核心假设正是「平移等变」——猫平移后还是猫，CNN 把这条对称焊进架构，这是它省参数、易泛化的根源。<strong>准晶</strong>（2011 诺奖）偏偏做出被禁止的 5 阶对称，掀翻了「晶体必周期」的百年教条。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<div class="english">装饰的自由，被对称的语法锁死在 <strong>17</strong> 种。</div>
+<div class="label" style="margin-top:14px">思考题</div>
+<div class="think">为什么周期镶嵌里不可能存在 5 重旋转对称？拿正五边形试着铺满地面——你会发现总留下缝隙。这个「铺不满」的几何事实，和准晶为何是革命，其实是同一件事。</div>
+</div>
+</div>
 <!-- 概念 2：透视的射影几何 -->
-<div class="card">
-  <h2>透视的射影几何</h2>
-  <div class="en-name">Projective Geometry of Perspective · 让平行线相交</div>
-  <span class="tag">Projective Geometry</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>铁轨明明平行，画里却在地平线上交于一点。文艺复兴画家发现了「灭点」，却不知道自己顺手发明了一门几何。核心洞见是：把眼睛当成投影中心，三维世界被射到画布上——<strong>平行线之所以相交，是因为它们「在无穷远处相遇的那个点」被投影成了地平线上一个真实可见的点。</strong><br><br>射影几何就是「给平面补上无穷远点之后的几何」。在这里「平行」不再是特例；任意两条直线都相交，只是有些交在无穷远。</p>
-  </div>
-
-  <div class="viz"><svg viewBox="0 0 360 190" xmlns="http://www.w3.org/2000/svg">
-<defs><marker id="a2" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0 0 L5 2.5 L0 5 z" fill="#c9544a"/></marker></defs>
-<line x1="0" y1="70" x2="360" y2="70" stroke="#3a6088" stroke-width="1" stroke-dasharray="4 3"/>
-<text x="6" y="64" font-size="10" fill="#3a6088" font-style="italic">地平线 (无穷远直线)</text>
-<line x1="10" y1="182" x2="180" y2="70" stroke="#7b8ca0" stroke-width="0.8"/>
-<line x1="70" y1="182" x2="180" y2="70" stroke="#7b8ca0" stroke-width="0.8"/>
-<line x1="130" y1="182" x2="180" y2="70" stroke="#7b8ca0" stroke-width="0.8"/>
-<line x1="180" y1="182" x2="180" y2="70" stroke="#7b8ca0" stroke-width="0.8"/>
-<line x1="230" y1="182" x2="180" y2="70" stroke="#7b8ca0" stroke-width="0.8"/>
-<line x1="290" y1="182" x2="180" y2="70" stroke="#7b8ca0" stroke-width="0.8"/>
-<line x1="350" y1="182" x2="180" y2="70" stroke="#7b8ca0" stroke-width="0.8"/>
-<line x1="0" y1="146.2" x2="360" y2="146.2" stroke="#7b8ca0" stroke-width="0.6"/>
-<line x1="0" y1="121.8" x2="360" y2="121.8" stroke="#7b8ca0" stroke-width="0.6"/>
-<line x1="0" y1="105.2" x2="360" y2="105.2" stroke="#7b8ca0" stroke-width="0.6"/>
-<line x1="0" y1="93.9" x2="360" y2="93.9" stroke="#7b8ca0" stroke-width="0.6"/>
-<line x1="0" y1="86.3" x2="360" y2="86.3" stroke="#7b8ca0" stroke-width="0.6"/>
-<line x1="0" y1="81.1" x2="360" y2="81.1" stroke="#7b8ca0" stroke-width="0.6"/>
-<line x1="70" y1="182" x2="180" y2="70" stroke="#c9544a" stroke-width="1.8"/>
-<line x1="290" y1="182" x2="180" y2="70" stroke="#c9544a" stroke-width="1.8"/>
-<circle cx="180" cy="70" r="3.5" fill="#c9544a"/>
-<text x="188" y="66" font-size="10" fill="#c9544a" font-style="italic">灭点 V</text>
-</svg></div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>射影平面 = 普通平面 + 一条「无穷远直线」（每一个方向对应一个无穷远点）。射影变换会改变长度、角度、平行关系，却始终保住一个叫<strong>交比</strong>的量：共线四点满足</p>
-    <div class="formula-box">$(A,B;C,D)=\dfrac{\overline{AC}\cdot\overline{BD}}{\overline{BC}\cdot\overline{AD}}$</div>
-    <p>四个字母是同一条线上的四个点，分数是四段有向长度的比值。透视会拉伸一切，唯独让这个比值纹丝不动——它是透视变换下的「守恒量」，就像物理里的能量。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>欧氏几何里「点」和「线」地位不平等；射影几何里二者<strong>完全对称</strong>——把任何定理中的「点↔线」「过↔在其上」全部对调，得到的仍是定理，这叫「对偶原理」。<em>两点定一线</em> ↔ <em>两线定一点</em>，买一送一。而困扰欧氏两千年的「平行公设」在这里干脆蒸发了：根本没有「平行」这回事。一门为画画而生的技巧，长成了比欧氏更对称的几何。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p><strong>计算机视觉的地基</strong>：相机成像本质就是射影变换，SLAM、三维重建、AR 全建立在此之上。<strong>单应矩阵</strong>负责全景照片拼接、把虚拟图案贴到真实平面。<strong>交比不变</strong>被用来从一张斜拍照片反推真实尺寸（测量、法医）。GPU 用「齐次坐标」（即射影坐标）把平移、旋转、投影统一成一次矩阵乘法。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <div class="english">灭点不是错觉，是<strong>无穷远点</strong>在有限画布上现出的真身。</div>
-    <div class="label" style="margin-top:14px">思考题</div>
-    <div class="think">为什么透视会改变长度、却唯独放过交比？提示：交比是「比值的比值」，两次相除把投影带来的统一缩放约掉了。想想：还有哪些「量的量」能在剧烈变换下幸存？</div>
-  </div>
+<div class="card" data-tts="201d100e7228eca0">
+<h2>透视的射影几何</h2>
+<div class="en-name">Projective Geometry of Perspective · 让平行线相交</div>
+<span class="tag">Projective Geometry</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>铁轨明明平行，画里却在地平线上交于一点。文艺复兴画家发现了「灭点」，却不知道自己顺手发明了一门几何。核心洞见是：把眼睛当成投影中心，三维世界被射到画布上——<strong>平行线之所以相交，是因为它们「在无穷远处相遇的那个点」被投影成了地平线上一个真实可见的点。</strong><br/><br/>射影几何就是「给平面补上无穷远点之后的几何」。在这里「平行」不再是特例；任意两条直线都相交，只是有些交在无穷远。</p>
 </div>
-
+<div class="viz"><svg viewbox="0 0 360 190" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="a2" markerheight="7" markerwidth="7" orient="auto" refx="5" refy="2.5"><path d="M0 0 L5 2.5 L0 5 z" fill="#c9544a"></path></marker></defs>
+<line stroke="#3a6088" stroke-dasharray="4 3" stroke-width="1" x1="0" x2="360" y1="70" y2="70"></line>
+<text fill="#3a6088" font-size="10" font-style="italic" x="6" y="64">地平线 (无穷远直线)</text>
+<line stroke="#7b8ca0" stroke-width="0.8" x1="10" x2="180" y1="182" y2="70"></line>
+<line stroke="#7b8ca0" stroke-width="0.8" x1="70" x2="180" y1="182" y2="70"></line>
+<line stroke="#7b8ca0" stroke-width="0.8" x1="130" x2="180" y1="182" y2="70"></line>
+<line stroke="#7b8ca0" stroke-width="0.8" x1="180" x2="180" y1="182" y2="70"></line>
+<line stroke="#7b8ca0" stroke-width="0.8" x1="230" x2="180" y1="182" y2="70"></line>
+<line stroke="#7b8ca0" stroke-width="0.8" x1="290" x2="180" y1="182" y2="70"></line>
+<line stroke="#7b8ca0" stroke-width="0.8" x1="350" x2="180" y1="182" y2="70"></line>
+<line stroke="#7b8ca0" stroke-width="0.6" x1="0" x2="360" y1="146.2" y2="146.2"></line>
+<line stroke="#7b8ca0" stroke-width="0.6" x1="0" x2="360" y1="121.8" y2="121.8"></line>
+<line stroke="#7b8ca0" stroke-width="0.6" x1="0" x2="360" y1="105.2" y2="105.2"></line>
+<line stroke="#7b8ca0" stroke-width="0.6" x1="0" x2="360" y1="93.9" y2="93.9"></line>
+<line stroke="#7b8ca0" stroke-width="0.6" x1="0" x2="360" y1="86.3" y2="86.3"></line>
+<line stroke="#7b8ca0" stroke-width="0.6" x1="0" x2="360" y1="81.1" y2="81.1"></line>
+<line stroke="#c9544a" stroke-width="1.8" x1="70" x2="180" y1="182" y2="70"></line>
+<line stroke="#c9544a" stroke-width="1.8" x1="290" x2="180" y1="182" y2="70"></line>
+<circle cx="180" cy="70" fill="#c9544a" r="3.5"></circle>
+<text fill="#c9544a" font-size="10" font-style="italic" x="188" y="66">灭点 V</text>
+</svg></div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>射影平面 = 普通平面 + 一条「无穷远直线」（每一个方向对应一个无穷远点）。射影变换会改变长度、角度、平行关系，却始终保住一个叫<strong>交比</strong>的量：共线四点满足</p>
+<div class="formula-box">$(A,B;C,D)=\dfrac{\overline{AC}\cdot\overline{BD}}{\overline{BC}\cdot\overline{AD}}$</div>
+<p>四个字母是同一条线上的四个点，分数是四段有向长度的比值。透视会拉伸一切，唯独让这个比值纹丝不动——它是透视变换下的「守恒量」，就像物理里的能量。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>欧氏几何里「点」和「线」地位不平等；射影几何里二者<strong>完全对称</strong>——把任何定理中的「点↔线」「过↔在其上」全部对调，得到的仍是定理，这叫「对偶原理」。<em>两点定一线</em> ↔ <em>两线定一点</em>，买一送一。而困扰欧氏两千年的「平行公设」在这里干脆蒸发了：根本没有「平行」这回事。一门为画画而生的技巧，长成了比欧氏更对称的几何。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p><strong>计算机视觉的地基</strong>：相机成像本质就是射影变换，SLAM、三维重建、AR 全建立在此之上。<strong>单应矩阵</strong>负责全景照片拼接、把虚拟图案贴到真实平面。<strong>交比不变</strong>被用来从一张斜拍照片反推真实尺寸（测量、法医）。GPU 用「齐次坐标」（即射影坐标）把平移、旋转、投影统一成一次矩阵乘法。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<div class="english">灭点不是错觉，是<strong>无穷远点</strong>在有限画布上现出的真身。</div>
+<div class="label" style="margin-top:14px">思考题</div>
+<div class="think">为什么透视会改变长度、却唯独放过交比？提示：交比是「比值的比值」，两次相除把投影带来的统一缩放约掉了。想想：还有哪些「量的量」能在剧烈变换下幸存？</div>
+</div>
+</div>
 <!-- 概念 3：黄金比例的批判 -->
-<div class="card">
-  <h2>黄金比例的批判</h2>
-  <div class="en-name">The Golden Ratio, Critically · 真的美，但不在你以为的地方</div>
-  <span class="tag">Number Theory / Aesthetics</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>「黄金比例 $\varphi\approx1.618$ 是世上最美的比例，帕特农神庙、蒙娜丽莎、连信用卡都藏着它」——这条流传最广的说法大半是伪科学。真相要拆成两半看：<strong>作为美学法则，它几乎全是后人拿放大镜硬套的附会</strong>（那个「黄金矩形」，你得先自己挑好从哪量到哪）；<strong>但作为自然界的数学，$\varphi$ 却真实而深刻。</strong>剥掉神话，剩下的反而更美。</p>
-  </div>
-
-  <div class="viz"><svg viewBox="0 0 360 180" xmlns="http://www.w3.org/2000/svg">
-<path d="M 234.96 59.19 L 234.96 50.94 L 243.20 50.94 L 243.20 59.19 Z" fill="#f3e6c8" fill-opacity="0.45" stroke="#c9a96b" stroke-width="0.7"/>
-<path d="M 229.86 59.19 L 243.20 59.19 L 243.20 72.53 L 229.86 72.53 Z" fill="#f3e6c8" fill-opacity="0.45" stroke="#c9a96b" stroke-width="0.7"/>
-<path d="M 229.86 50.94 L 229.86 72.53 L 208.27 72.53 L 208.27 50.94 Z" fill="#f3e6c8" fill-opacity="0.45" stroke="#c9a96b" stroke-width="0.7"/>
-<path d="M 243.20 50.94 L 208.27 50.94 L 208.27 16.00 L 243.20 16.00 Z" fill="#f3e6c8" fill-opacity="0.45" stroke="#c9a96b" stroke-width="0.7"/>
-<path d="M 243.20 72.53 L 243.20 16.00 L 299.73 16.00 L 299.73 72.53 Z" fill="#f3e6c8" fill-opacity="0.45" stroke="#c9a96b" stroke-width="0.7"/>
-<path d="M 208.27 72.53 L 299.73 72.53 L 299.73 164.00 L 208.27 164.00 Z" fill="#f3e6c8" fill-opacity="0.45" stroke="#c9a96b" stroke-width="0.7"/>
-<path d="M 208.27 16.00 L 208.27 164.00 L 60.27 164.00 L 60.27 16.00 Z" fill="#f3e6c8" fill-opacity="0.45" stroke="#c9a96b" stroke-width="0.7"/>
-<path d="M 234.96 50.94 A 8.25 8.25 0 0 1 243.20 59.19 A 13.35 13.35 0 0 1 229.86 72.53 A 21.59 21.59 0 0 1 208.27 50.94 A 34.94 34.94 0 0 1 243.20 16.00 A 56.53 56.53 0 0 1 299.73 72.53 A 91.47 91.47 0 0 1 208.27 164.00 A 148.00 148.00 0 0 1 60.27 16.00" fill="none" stroke="#c9544a" stroke-width="2.2"/>
-<text x="290" y="166" font-size="13" fill="#8a7340" font-style="italic">φ ≈ 1.618</text>
-</svg></div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>$\varphi=\dfrac{1+\sqrt5}{2}$，是唯一满足 $\varphi^2=\varphi+1$ 的正数——也就是「整体 : 长段 = 长段 : 短段」的那个分割点。它是斐波那契数列相邻项之比的极限（$1,1,2,3,5,8,13\ldots$，比值越来越逼近 $\varphi$）；它还是那个全由 1 组成的连分数</p>
-    <div class="formula-box">$\varphi = 1+\cfrac{1}{1+\cfrac{1}{1+\cfrac{1}{1+\cdots}}}$</div>
-    <p>全 1 意味着它收敛得最慢、最难被任何分数逼近——所以它有个绰号：<strong>「最无理的数」</strong>。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>$\varphi$ 真正的美不在艺术评论里，在向日葵上。植物按 $\varphi$ 对应的「黄金角」$\approx137.5°$ 逐片长出叶子和种子。为什么偏偏是它？因为<strong>「最难被有理数逼近」意味着每颗新种子永远落在旧种子留下的最大空隙里</strong>，从不排成一条浪费空间的直线，于是堆得最密。这不是审美选择，而是进化在「填充效率」上逼出的数学最优解。$\varphi$ 的美，是自然被迫走向最优时露出的结构——不是人类眼睛的偏好。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p><strong>植物学</strong>用它建叶序模型，预测松果、菠萝、向日葵的螺旋数（总是相邻的斐波那契数）。<strong>算法</strong>里有「黄金分割搜索」，利用 $\varphi$ 的自相似性以最少试探锁定一维函数的极值。反面它也有用：黄金比例神话本身是<strong>「数字命理学」与「确认偏误」的绝佳教材</strong>——一听见「万物皆含某个神秘常数」，就该立刻警惕。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <div class="english">$\varphi$ 的美是真的，只是多半不在你被告知的那些地方。</div>
-    <div class="label" style="margin-top:14px">思考题</div>
-    <div class="think">一个悖论：正因为 $\varphi$ 是「最无理、最难逼近」的数，它才在叶序和搜索里「最有用」。为什么「最难被利用的性质」反而成了「最有用的性质」？「难以逼近」在这两个场景里，各自帮了什么忙？</div>
-  </div>
+<div class="card" data-tts="fd2eca12aadfa69c">
+<h2>黄金比例的批判</h2>
+<div class="en-name">The Golden Ratio, Critically · 真的美，但不在你以为的地方</div>
+<span class="tag">Number Theory / Aesthetics</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>「黄金比例 $\varphi\approx1.618$ 是世上最美的比例，帕特农神庙、蒙娜丽莎、连信用卡都藏着它」——这条流传最广的说法大半是伪科学。真相要拆成两半看：<strong>作为美学法则，它几乎全是后人拿放大镜硬套的附会</strong>（那个「黄金矩形」，你得先自己挑好从哪量到哪）；<strong>但作为自然界的数学，$\varphi$ 却真实而深刻。</strong>剥掉神话，剩下的反而更美。</p>
 </div>
-
+<div class="viz"><svg viewbox="0 0 360 180" xmlns="http://www.w3.org/2000/svg">
+<path d="M 234.96 59.19 L 234.96 50.94 L 243.20 50.94 L 243.20 59.19 Z" fill="#f3e6c8" fill-opacity="0.45" stroke="#c9a96b" stroke-width="0.7"></path>
+<path d="M 229.86 59.19 L 243.20 59.19 L 243.20 72.53 L 229.86 72.53 Z" fill="#f3e6c8" fill-opacity="0.45" stroke="#c9a96b" stroke-width="0.7"></path>
+<path d="M 229.86 50.94 L 229.86 72.53 L 208.27 72.53 L 208.27 50.94 Z" fill="#f3e6c8" fill-opacity="0.45" stroke="#c9a96b" stroke-width="0.7"></path>
+<path d="M 243.20 50.94 L 208.27 50.94 L 208.27 16.00 L 243.20 16.00 Z" fill="#f3e6c8" fill-opacity="0.45" stroke="#c9a96b" stroke-width="0.7"></path>
+<path d="M 243.20 72.53 L 243.20 16.00 L 299.73 16.00 L 299.73 72.53 Z" fill="#f3e6c8" fill-opacity="0.45" stroke="#c9a96b" stroke-width="0.7"></path>
+<path d="M 208.27 72.53 L 299.73 72.53 L 299.73 164.00 L 208.27 164.00 Z" fill="#f3e6c8" fill-opacity="0.45" stroke="#c9a96b" stroke-width="0.7"></path>
+<path d="M 208.27 16.00 L 208.27 164.00 L 60.27 164.00 L 60.27 16.00 Z" fill="#f3e6c8" fill-opacity="0.45" stroke="#c9a96b" stroke-width="0.7"></path>
+<path d="M 234.96 50.94 A 8.25 8.25 0 0 1 243.20 59.19 A 13.35 13.35 0 0 1 229.86 72.53 A 21.59 21.59 0 0 1 208.27 50.94 A 34.94 34.94 0 0 1 243.20 16.00 A 56.53 56.53 0 0 1 299.73 72.53 A 91.47 91.47 0 0 1 208.27 164.00 A 148.00 148.00 0 0 1 60.27 16.00" fill="none" stroke="#c9544a" stroke-width="2.2"></path>
+<text fill="#8a7340" font-size="13" font-style="italic" x="290" y="166">φ ≈ 1.618</text>
+</svg></div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>$\varphi=\dfrac{1+\sqrt5}{2}$，是唯一满足 $\varphi^2=\varphi+1$ 的正数——也就是「整体 : 长段 = 长段 : 短段」的那个分割点。它是斐波那契数列相邻项之比的极限（$1,1,2,3,5,8,13\ldots$，比值越来越逼近 $\varphi$）；它还是那个全由 1 组成的连分数</p>
+<div class="formula-box">$\varphi = 1+\cfrac{1}{1+\cfrac{1}{1+\cfrac{1}{1+\cdots}}}$</div>
+<p>全 1 意味着它收敛得最慢、最难被任何分数逼近——所以它有个绰号：<strong>「最无理的数」</strong>。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>$\varphi$ 真正的美不在艺术评论里，在向日葵上。植物按 $\varphi$ 对应的「黄金角」$\approx137.5°$ 逐片长出叶子和种子。为什么偏偏是它？因为<strong>「最难被有理数逼近」意味着每颗新种子永远落在旧种子留下的最大空隙里</strong>，从不排成一条浪费空间的直线，于是堆得最密。这不是审美选择，而是进化在「填充效率」上逼出的数学最优解。$\varphi$ 的美，是自然被迫走向最优时露出的结构——不是人类眼睛的偏好。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p><strong>植物学</strong>用它建叶序模型，预测松果、菠萝、向日葵的螺旋数（总是相邻的斐波那契数）。<strong>算法</strong>里有「黄金分割搜索」，利用 $\varphi$ 的自相似性以最少试探锁定一维函数的极值。反面它也有用：黄金比例神话本身是<strong>「数字命理学」与「确认偏误」的绝佳教材</strong>——一听见「万物皆含某个神秘常数」，就该立刻警惕。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<div class="english">$\varphi$ 的美是真的，只是多半不在你被告知的那些地方。</div>
+<div class="label" style="margin-top:14px">思考题</div>
+<div class="think">一个悖论：正因为 $\varphi$ 是「最无理、最难逼近」的数，它才在叶序和搜索里「最有用」。为什么「最难被利用的性质」反而成了「最有用的性质」？「难以逼近」在这两个场景里，各自帮了什么忙？</div>
+</div>
+</div>
 <!-- 概念 4：贝塞尔曲线 -->
-<div class="card">
-  <h2>贝塞尔曲线</h2>
-  <div class="en-name">Bézier Curves · 屏幕上每一道优雅的弧</div>
-  <span class="tag">Geometry / Computation</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>你手机上每个字的弧度、每个 App 图标的圆角、动画里物体「先加速再减速」的节奏——背后几乎是同一样东西：<strong>贝塞尔曲线</strong>。它的魔法在于：你不必写复杂方程，只要拖动几个「控制点」，曲线就像被磁铁牵引般顺滑跟过来，却<strong>永远不穿过中间那两个控制点</strong>，只被它们「拉」出一道优雅的弧。控制点是缰绳，曲线是被驯服的马。</p>
-  </div>
-
-  <div class="viz"><svg viewBox="0 0 360 180" xmlns="http://www.w3.org/2000/svg">
-<polyline points="30,150 90,30 250,30 330,140" fill="none" stroke="#7b8ca0" stroke-width="1" stroke-dasharray="4 3"/>
-<path d="M 30.0 150.0 L 31.8 146.4 L 33.7 142.9 L 35.7 139.5 L 37.7 136.2 L 39.7 132.9 L 41.8 129.7 L 44.0 126.6 L 46.2 123.5 L 48.5 120.5 L 50.8 117.6 L 53.2 114.7 L 55.6 112.0 L 58.1 109.3 L 60.6 106.6 L 63.1 104.1 L 65.7 101.6 L 68.4 99.2 L 71.1 96.8 L 73.8 94.5 L 76.6 92.3 L 79.4 90.2 L 82.2 88.1 L 85.1 86.1 L 88.0 84.2 L 90.9 82.3 L 93.9 80.6 L 96.9 78.8 L 100.0 77.2 L 103.0 75.6 L 106.1 74.1 L 109.3 72.7 L 112.4 71.3 L 115.6 70.0 L 118.8 68.8 L 122.0 67.7 L 125.3 66.6 L 128.6 65.6 L 131.8 64.6 L 135.2 63.8 L 138.5 63.0 L 141.8 62.2 L 145.2 61.6 L 148.6 61.0 L 151.9 60.4 L 155.3 60.0 L 158.8 59.6 L 162.2 59.3 L 165.6 59.0 L 169.1 58.9 L 172.5 58.8 L 176.0 58.7 L 179.4 58.7 L 182.9 58.8 L 186.3 59.0 L 189.8 59.2 L 193.3 59.5 L 196.7 59.9 L 200.2 60.4 L 203.7 60.9 L 207.1 61.4 L 210.6 62.1 L 214.0 62.8 L 217.5 63.6 L 220.9 64.4 L 224.3 65.4 L 227.7 66.3 L 231.1 67.4 L 234.5 68.5 L 237.9 69.7 L 241.3 71.0 L 244.6 72.3 L 247.9 73.7 L 251.2 75.2 L 254.5 76.7 L 257.8 78.3 L 261.1 79.9 L 264.3 81.7 L 267.5 83.5 L 270.7 85.3 L 273.8 87.3 L 277.0 89.3 L 280.1 91.4 L 283.1 93.5 L 286.2 95.7 L 289.2 98.0 L 292.2 100.3 L 295.1 102.7 L 298.1 105.2 L 300.9 107.7 L 303.8 110.3 L 306.6 113.0 L 309.4 115.7 L 312.1 118.5 L 314.8 121.4 L 317.4 124.3 L 320.0 127.3 L 322.6 130.4 L 325.1 133.5 L 327.6 136.7 L 330.0 140.0" fill="none" stroke="#1e3a5f" stroke-width="2.4"/>
-<line x1="60.0" y1="90.0" x2="170.0" y2="30.0" stroke="#c9a96b" stroke-width="1"/>
-<line x1="170.0" y1="30.0" x2="290.0" y2="85.0" stroke="#c9a96b" stroke-width="1"/>
-<line x1="115.0" y1="60.0" x2="230.0" y2="57.5" stroke="#c9544a" stroke-width="1.2"/>
-<circle cx="30" cy="150" r="3.5" fill="#1e3a5f"/>
-<text x="35" y="145" font-size="11" fill="#1e3a5f">P₀</text>
-<circle cx="90" cy="30" r="3.5" fill="#1e3a5f"/>
-<text x="95" y="25" font-size="11" fill="#1e3a5f">P₁</text>
-<circle cx="250" cy="30" r="3.5" fill="#1e3a5f"/>
-<text x="255" y="25" font-size="11" fill="#1e3a5f">P₂</text>
-<circle cx="330" cy="140" r="3.5" fill="#1e3a5f"/>
-<text x="335" y="135" font-size="11" fill="#1e3a5f">P₃</text>
-<circle cx="60.0" cy="90.0" r="2.4" fill="#c9a96b"/>
-<circle cx="170.0" cy="30.0" r="2.4" fill="#c9a96b"/>
-<circle cx="290.0" cy="85.0" r="2.4" fill="#c9a96b"/>
-<circle cx="115.0" cy="60.0" r="2.4" fill="#c9a96b"/>
-<circle cx="230.0" cy="57.5" r="2.4" fill="#c9a96b"/>
-<circle cx="172.5" cy="58.8" r="3.6" fill="#c9544a"/>
-<text x="168.5" y="74.8" font-size="10" fill="#c9544a" font-style="italic" text-anchor="middle">B(0.5)</text>
-</svg></div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>三次贝塞尔曲线由四个点定义，随参数 $t$ 从 0 走到 1 描出一条曲线：</p>
-    <div class="formula-box">$B(t)=(1-t)^3 P_0+3(1-t)^2t\,P_1+3(1-t)t^2\,P_2+t^3 P_3$</div>
-    <p>四个系数正是二项式 $(1-t+t)^3$ 的展开项（伯恩斯坦多项式），它们<strong>之和恒等于 1</strong>。所以曲线上每一点都是四个控制点的一次「加权平均」，被牢牢关在它们围成的凸包里，绝不越界。$P_0,P_3$ 是起终点，$P_1,P_2$ 只负责控制出发与到达的<em>方向</em>。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>同一条曲线有两副面孔：一个是上面的<strong>代数公式</strong>（伯恩斯坦多项式），另一个是纯<strong>几何构造</strong>——de Casteljau 算法：在每条控制边上取同比例的点，连线，再取点，反复「切角」，收敛到的那点就落在曲线上（图中金点与红点）。递归切角这个纯几何动作，展开来竟精确等于二项式系数。更美的是它「仿射不变」：旋转、缩放控制点，曲线自动跟着变，无需重算——因为「加权平均」天生尊重仿射变换。简单到能手算，强大到撑起整个数字视觉世界。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p><strong>所有矢量字体</strong>：TrueType 用二次、PostScript/OpenType 轮廓用三次贝塞尔勾勒每个字形。Illustrator、Figma 的钢笔工具画的就是它；CSS 动画的缓动 <code>cubic-bezier()</code> 用它定义快慢节奏。它还用于机器人路径规划、汽车曲面设计——贝塞尔正是雷诺工程师 <strong>Pierre Bézier</strong> 当年为设计车身而发明的。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <div class="english">四个点，一个凸包，托起了屏幕上每一道优雅的弧。</div>
-    <div class="label" style="margin-top:14px">思考题</div>
-    <div class="think">伯恩斯坦系数之和恒为 1，为什么这一条就保证了曲线永远「跑不飞」出控制点之外？（提示：想想「所有权重非负且加起来是 1」的加权平均，结果只能落在哪里。）这和概率分布有什么隐秘的相似？</div>
-  </div>
+<div class="card" data-tts="8cca3a14f01abb4f">
+<h2>贝塞尔曲线</h2>
+<div class="en-name">Bézier Curves · 屏幕上每一道优雅的弧</div>
+<span class="tag">Geometry / Computation</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>你手机上每个字的弧度、每个 App 图标的圆角、动画里物体「先加速再减速」的节奏——背后几乎是同一样东西：<strong>贝塞尔曲线</strong>。它的魔法在于：你不必写复杂方程，只要拖动几个「控制点」，曲线就像被磁铁牵引般顺滑跟过来，却<strong>永远不穿过中间那两个控制点</strong>，只被它们「拉」出一道优雅的弧。控制点是缰绳，曲线是被驯服的马。</p>
 </div>
-
+<div class="viz"><svg viewbox="0 0 360 180" xmlns="http://www.w3.org/2000/svg">
+<polyline fill="none" points="30,150 90,30 250,30 330,140" stroke="#7b8ca0" stroke-dasharray="4 3" stroke-width="1"></polyline>
+<path d="M 30.0 150.0 L 31.8 146.4 L 33.7 142.9 L 35.7 139.5 L 37.7 136.2 L 39.7 132.9 L 41.8 129.7 L 44.0 126.6 L 46.2 123.5 L 48.5 120.5 L 50.8 117.6 L 53.2 114.7 L 55.6 112.0 L 58.1 109.3 L 60.6 106.6 L 63.1 104.1 L 65.7 101.6 L 68.4 99.2 L 71.1 96.8 L 73.8 94.5 L 76.6 92.3 L 79.4 90.2 L 82.2 88.1 L 85.1 86.1 L 88.0 84.2 L 90.9 82.3 L 93.9 80.6 L 96.9 78.8 L 100.0 77.2 L 103.0 75.6 L 106.1 74.1 L 109.3 72.7 L 112.4 71.3 L 115.6 70.0 L 118.8 68.8 L 122.0 67.7 L 125.3 66.6 L 128.6 65.6 L 131.8 64.6 L 135.2 63.8 L 138.5 63.0 L 141.8 62.2 L 145.2 61.6 L 148.6 61.0 L 151.9 60.4 L 155.3 60.0 L 158.8 59.6 L 162.2 59.3 L 165.6 59.0 L 169.1 58.9 L 172.5 58.8 L 176.0 58.7 L 179.4 58.7 L 182.9 58.8 L 186.3 59.0 L 189.8 59.2 L 193.3 59.5 L 196.7 59.9 L 200.2 60.4 L 203.7 60.9 L 207.1 61.4 L 210.6 62.1 L 214.0 62.8 L 217.5 63.6 L 220.9 64.4 L 224.3 65.4 L 227.7 66.3 L 231.1 67.4 L 234.5 68.5 L 237.9 69.7 L 241.3 71.0 L 244.6 72.3 L 247.9 73.7 L 251.2 75.2 L 254.5 76.7 L 257.8 78.3 L 261.1 79.9 L 264.3 81.7 L 267.5 83.5 L 270.7 85.3 L 273.8 87.3 L 277.0 89.3 L 280.1 91.4 L 283.1 93.5 L 286.2 95.7 L 289.2 98.0 L 292.2 100.3 L 295.1 102.7 L 298.1 105.2 L 300.9 107.7 L 303.8 110.3 L 306.6 113.0 L 309.4 115.7 L 312.1 118.5 L 314.8 121.4 L 317.4 124.3 L 320.0 127.3 L 322.6 130.4 L 325.1 133.5 L 327.6 136.7 L 330.0 140.0" fill="none" stroke="#1e3a5f" stroke-width="2.4"></path>
+<line stroke="#c9a96b" stroke-width="1" x1="60.0" x2="170.0" y1="90.0" y2="30.0"></line>
+<line stroke="#c9a96b" stroke-width="1" x1="170.0" x2="290.0" y1="30.0" y2="85.0"></line>
+<line stroke="#c9544a" stroke-width="1.2" x1="115.0" x2="230.0" y1="60.0" y2="57.5"></line>
+<circle cx="30" cy="150" fill="#1e3a5f" r="3.5"></circle>
+<text fill="#1e3a5f" font-size="11" x="35" y="145">P₀</text>
+<circle cx="90" cy="30" fill="#1e3a5f" r="3.5"></circle>
+<text fill="#1e3a5f" font-size="11" x="95" y="25">P₁</text>
+<circle cx="250" cy="30" fill="#1e3a5f" r="3.5"></circle>
+<text fill="#1e3a5f" font-size="11" x="255" y="25">P₂</text>
+<circle cx="330" cy="140" fill="#1e3a5f" r="3.5"></circle>
+<text fill="#1e3a5f" font-size="11" x="335" y="135">P₃</text>
+<circle cx="60.0" cy="90.0" fill="#c9a96b" r="2.4"></circle>
+<circle cx="170.0" cy="30.0" fill="#c9a96b" r="2.4"></circle>
+<circle cx="290.0" cy="85.0" fill="#c9a96b" r="2.4"></circle>
+<circle cx="115.0" cy="60.0" fill="#c9a96b" r="2.4"></circle>
+<circle cx="230.0" cy="57.5" fill="#c9a96b" r="2.4"></circle>
+<circle cx="172.5" cy="58.8" fill="#c9544a" r="3.6"></circle>
+<text fill="#c9544a" font-size="10" font-style="italic" text-anchor="middle" x="168.5" y="74.8">B(0.5)</text>
+</svg></div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>三次贝塞尔曲线由四个点定义，随参数 $t$ 从 0 走到 1 描出一条曲线：</p>
+<div class="formula-box">$B(t)=(1-t)^3 P_0+3(1-t)^2t\,P_1+3(1-t)t^2\,P_2+t^3 P_3$</div>
+<p>四个系数正是二项式 $(1-t+t)^3$ 的展开项（伯恩斯坦多项式），它们<strong>之和恒等于 1</strong>。所以曲线上每一点都是四个控制点的一次「加权平均」，被牢牢关在它们围成的凸包里，绝不越界。$P_0,P_3$ 是起终点，$P_1,P_2$ 只负责控制出发与到达的<em>方向</em>。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>同一条曲线有两副面孔：一个是上面的<strong>代数公式</strong>（伯恩斯坦多项式），另一个是纯<strong>几何构造</strong>——de Casteljau 算法：在每条控制边上取同比例的点，连线，再取点，反复「切角」，收敛到的那点就落在曲线上（图中金点与红点）。递归切角这个纯几何动作，展开来竟精确等于二项式系数。更美的是它「仿射不变」：旋转、缩放控制点，曲线自动跟着变，无需重算——因为「加权平均」天生尊重仿射变换。简单到能手算，强大到撑起整个数字视觉世界。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p><strong>所有矢量字体</strong>：TrueType 用二次、PostScript/OpenType 轮廓用三次贝塞尔勾勒每个字形。Illustrator、Figma 的钢笔工具画的就是它；CSS 动画的缓动 <code>cubic-bezier()</code> 用它定义快慢节奏。它还用于机器人路径规划、汽车曲面设计——贝塞尔正是雷诺工程师 <strong>Pierre Bézier</strong> 当年为设计车身而发明的。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<div class="english">四个点，一个凸包，托起了屏幕上每一道优雅的弧。</div>
+<div class="label" style="margin-top:14px">思考题</div>
+<div class="think">伯恩斯坦系数之和恒为 1，为什么这一条就保证了曲线永远「跑不飞」出控制点之外？（提示：想想「所有权重非负且加起来是 1」的加权平均，结果只能落在哪里。）这和概率分布有什么隐秘的相似？</div>
+</div>
+</div>
 <div class="deep-title">— 深入思考 —</div>
-
 <details><summary>为什么周期镶嵌只允许 2、3、4、6 阶旋转，准晶又是怎么绕过的？</summary>
 <div>若图案同时有平移周期<strong>和</strong> $n$ 阶旋转，两者互相约束——旋转把一个格点转到另一个格点，几何上只有 $n=1,2,3,4,6$ 能自洽（$\cos(2\pi/n)$ 要落在格子上）。5 阶注定留缝。准晶之所以能展示 5 阶、10 阶对称，是因为它<strong>放弃了严格周期</strong>：有长程有序却不重复，像 Penrose 铺砖那样用两种菱形非周期地铺满平面。Shechtman 1982 年看到 5 阶衍射斑时被讥为荒谬，2011 年却拿了诺奖——教条被一张衍射图推翻。</div></details>
-
 <details><summary>射影几何的「对偶原理」，暗示了什么更深的结构？</summary>
 <div>点线对偶不是巧合，而是射影平面自带的对称。代数上，射影点用齐次坐标 $[x:y:z]$、射影线用方程 $ax+by+cz=0$——二者都是三元组，「点在线上」就是 $ax+by+cz=0$，这个式子对「点三元组」和「线三元组」完全对称，对偶因此是坐标层面的必然。这种「对象与其约束可以互换」的思想，在现代数学里升华为对偶空间、在优化里成了「原问题↔对偶问题」，是反复出现的深层母题。</div></details>
-
 <details><summary>黄金比例的美学神话如此顽固，这本身说明了什么？</summary>
 <div>它是「确认偏误 + 叙事需求」的完美标本。人脑天生找模式，$1.618$ 又足够接近许多常见比例（4:3、3:2 都离它不远），于是只要自由挑选测量起止点，几乎任何矩形都能「测出」黄金比例；再配一个动人故事（自然、神性、美的终极密码），传播要素就齐了。真正的科学素养不是记住 $\varphi$ 有多美，而是养成反射：一旦某常数被宣称「无处不在」，先问「证伪长什么样？」——答不出来的，多半是命理学。</div></details>
-
 <details><summary>当生成式 AI 画出对称的纹样或漂亮的曲线，它「懂」这些数学吗？</summary>
 <div>几乎可以肯定：不懂，至少不是以我们理解的方式。扩散模型从海量图像里统计出「什么样的像素排布看起来对称/优雅」，逼近的是数据分布，而非壁纸群或伯恩斯坦多项式的定理。它能生成以假乱真的 Escher 风格图，却常在严格周期性上露馅（细看接缝错位）。这引出更深的问题：<strong>把结构显式写进架构</strong>（如 CNN 内建平移等变）与<strong>让模型从数据里隐式学到结构</strong>，哪条路更接近「理解」？这正是几何深度学习最活跃的战线之一。</div></details>
-
 <nav class="bottom">
-  <a href="index.html">← 返回 Mathematics</a>
+<a href="index.html">← 返回 Mathematics</a>
 </nav>
-
 </div>
-<script src="https://hub.cissychen.com/comments.js" defer></script>
-<script src="https://hub.cissychen.com/search.js" defer></script>
-<script src="https://hub.cissychen.com/index-button.js" defer></script>
-<script src="https://hub.cissychen.com/i18n-tts.js" defer></script>
+<script defer="" src="https://hub.cissychen.com/comments.js"></script>
+<script defer="" src="https://hub.cissychen.com/search.js"></script>
+<script defer="" src="https://hub.cissychen.com/index-button.js"></script>
+<script defer="" src="https://hub.cissychen.com/i18n-tts.js"></script>
 </body>
 </html>

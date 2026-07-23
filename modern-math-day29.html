@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>现代纯数学前沿 · Day 29 — Mathematics</title>
 <script>
 window.MathJax = {
@@ -14,7 +15,7 @@ window.MathJax = {
   options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
 };
 </script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
@@ -52,183 +53,151 @@ nav.bottom a:hover{color:#1e3a5f}
 </head>
 <body>
 <div class="container">
-
 <header>
-  <div class="kicker">Day 29 · 2026.07.21</div>
-  <h1>现代纯数学前沿</h1>
-  <div class="meta">Frontiers of Pure Mathematics — 三场世纪难题的攻克，与串起它们的暗线</div>
-  <div class="epigraph">"我们能够解决的问题，往往不是我们最初提出的那个问题，而是它更深处的一个亲戚。" — 沃尔斯 (Andrew Wiles)</div>
+<div class="kicker">Day 29 · 2026.07.21</div>
+<h1 data-tts="c5294d6d3ec1cc94">现代纯数学前沿</h1>
+<div class="meta">Frontiers of Pure Mathematics — 三场世纪难题的攻克，与串起它们的暗线</div>
+<div class="epigraph">"我们能够解决的问题，往往不是我们最初提出的那个问题，而是它更深处的一个亲戚。" — 沃尔斯 (Andrew Wiles)</div>
 </header>
-
 <!-- 概念 1：费马大定理与模性定理 -->
-<div class="card">
-  <h2>费马大定理与模性定理</h2>
-  <div class="en-name">Fermat's Last Theorem &amp; Modularity · 数论与分析的一座桥</div>
-  <span class="tag">Number Theory</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>费马 1637 年在书页边写下：方程 $x^n+y^n=z^n$ 在 $n>2$ 时没有正整数解，「我发现了一个绝妙的证明，可惜这里空白太窄」。这句话把数学界钉在墙上 <strong>358 年</strong>。有趣的是，沃尔斯 1994 年最终的证明，<em>根本不去直接碰这个方程</em>。他攻的是另一座山：<strong>「每一条椭圆曲线，骨子里都是一个模形式」</strong>（谷山–志村猜想）。费马大定理只是这座山塌下来时被顺带压碎的一块石头。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>椭圆曲线是形如 $y^2=x^3+ax+b$ 的曲线；模形式是复上半平面上一类<strong>对称到极致</strong>的函数（在一个庞大变换群作用下几乎不变）。<strong>模性定理</strong>断言：每条有理椭圆曲线都「对应」一个模形式，两个世界的信息一一吻合。弗雷 (Frey) 发现：若费马方程真有解 $a^n+b^n=c^n$，就能拼出一条椭圆曲线 $y^2=x(x-a^n)(x+b^n)$，它<em>对称得太病态，不可能是模形式</em>——与模性定理直接矛盾。归谬。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>它的美在于<strong>一座跨越鸿沟的桥</strong>。椭圆曲线属于数论（离散、算术），模形式属于复分析（连续、对称）——两个几百年来各说各话的王国，竟被证明是同一件事的两种语言。沃尔斯没有「更聪明地算方程」，而是<em>把问题搬到了另一个宇宙，在那里它成了一道可解的题</em>。这正是现代数学最深的直觉：难题的钥匙，常常藏在一个你以为毫不相干的领域里。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>椭圆曲线不是抽象玩物：<strong>椭圆曲线密码学 (ECC)</strong> 是当今互联网的骨架——比特币的签名用的正是 secp256k1 这条曲线，同等安全性下密钥比 RSA 短得多。模形式则渗入<strong>弦论</strong>与配分函数的计算。沃尔斯打通的这条数论↔分析通道，今天仍是算术几何研究的主干道。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华 + 思考题</div>
-    <div class="essence">攻不下一座山，就去证明它和另一座已知的山是同一座——费马大定理死于一座「桥」，而非一次正面强攻。</div>
-    <div class="think">沃尔斯用了七年独自秘密工作。如果一个证明需要引入全新的、当时无人验证的机器，数学共同体该如何在「大胆信任」与「严格怀疑」之间取舍？</div>
-  </div>
+<div class="card" data-tts="b51e914f4f0aec0f">
+<h2>费马大定理与模性定理</h2>
+<div class="en-name">Fermat's Last Theorem &amp; Modularity · 数论与分析的一座桥</div>
+<span class="tag">Number Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>费马 1637 年在书页边写下：方程 $x^n+y^n=z^n$ 在 $n&gt;2$ 时没有正整数解，「我发现了一个绝妙的证明，可惜这里空白太窄」。这句话把数学界钉在墙上 <strong>358 年</strong>。有趣的是，沃尔斯 1994 年最终的证明，<em>根本不去直接碰这个方程</em>。他攻的是另一座山：<strong>「每一条椭圆曲线，骨子里都是一个模形式」</strong>（谷山–志村猜想）。费马大定理只是这座山塌下来时被顺带压碎的一块石头。</p>
 </div>
-
+<div class="section">
+<div class="label">正式定义</div>
+<p>椭圆曲线是形如 $y^2=x^3+ax+b$ 的曲线；模形式是复上半平面上一类<strong>对称到极致</strong>的函数（在一个庞大变换群作用下几乎不变）。<strong>模性定理</strong>断言：每条有理椭圆曲线都「对应」一个模形式，两个世界的信息一一吻合。弗雷 (Frey) 发现：若费马方程真有解 $a^n+b^n=c^n$，就能拼出一条椭圆曲线 $y^2=x(x-a^n)(x+b^n)$，它<em>对称得太病态，不可能是模形式</em>——与模性定理直接矛盾。归谬。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它的美在于<strong>一座跨越鸿沟的桥</strong>。椭圆曲线属于数论（离散、算术），模形式属于复分析（连续、对称）——两个几百年来各说各话的王国，竟被证明是同一件事的两种语言。沃尔斯没有「更聪明地算方程」，而是<em>把问题搬到了另一个宇宙，在那里它成了一道可解的题</em>。这正是现代数学最深的直觉：难题的钥匙，常常藏在一个你以为毫不相干的领域里。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>椭圆曲线不是抽象玩物：<strong>椭圆曲线密码学 (ECC)</strong> 是当今互联网的骨架——比特币的签名用的正是 secp256k1 这条曲线，同等安全性下密钥比 RSA 短得多。模形式则渗入<strong>弦论</strong>与配分函数的计算。沃尔斯打通的这条数论↔分析通道，今天仍是算术几何研究的主干道。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="essence">攻不下一座山，就去证明它和另一座已知的山是同一座——费马大定理死于一座「桥」，而非一次正面强攻。</div>
+<div class="think">沃尔斯用了七年独自秘密工作。如果一个证明需要引入全新的、当时无人验证的机器，数学共同体该如何在「大胆信任」与「严格怀疑」之间取舍？</div>
+</div>
+</div>
 <!-- 概念 2：庞加莱猜想与里奇流 -->
-<div class="card">
-  <h2>庞加莱猜想与里奇流</h2>
-  <div class="en-name">Poincaré Conjecture &amp; Ricci Flow · 用「热扩散」抹平空间</div>
-  <span class="tag">Topology / Geometry</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>拓扑学问：<strong>怎么隔着「橡皮变形」认出一个形状？</strong>二维时很简单——球面和甜甜圈的区别是「有没有洞」。庞加莱 1904 年问的是三维版本：一个没有洞的闭三维空间，是不是一定就是三维球面？「没有洞」的判据很直观：<em>在它表面套一根绳圈，能不能一路收缩成一个点</em>（能，就叫单连通）。这个问题悬了近一个世纪。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>佩雷尔曼 2003 年的武器是<strong>里奇流</strong>——一个让空间「自我抹平」的演化方程：</p>
-    <div class="formula-box">$$\frac{\partial g_{ij}}{\partial t} = -2R_{ij}$$</div>
-    <p>把空间的形状（度规 $g_{ij}$）想成会随时间流动的橡皮；右边的里奇曲率 $R_{ij}$ 像温度梯度，<strong>曲率高（尖）的地方收缩，曲率低（凹）的地方膨胀</strong>——和热扩散把冷热抹匀一模一样。流动久了，一个单连通三维空间就被磨成完美的球面。难点是途中会鼓出「细脖子」并掐断（奇点），佩雷尔曼的绝招是<em>做「手术」切掉再接着流</em>。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>美在<strong>用连续的分析去解离散的拓扑</strong>：一个纯粹「分类形状」的问题，竟被一个像热方程一样的偏微分方程解决了。更宏大的是它顺带证明了瑟斯顿的<strong>几何化猜想</strong>——任何三维空间都能被切成八种标准几何的积木。佩雷尔曼随后<em>拒绝了菲尔兹奖和一百万美元克雷奖</em>，只留下三篇挂在预印本网站的论文，本身就成了数学史的一则传奇。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>里奇流「用曲率驱动平滑」的思想外溢到了工程：<strong>图像处理</strong>中的曲率流去噪、网格曲面的光顺，都是同一套「按曲率演化几何」的数学；<strong>流形学习与网络科学</strong>里，Ollivier–里奇曲率被用来刻画图上的「瓶颈」与社区结构，甚至用于诊断图神经网络的<em>过度挤压 (over-squashing)</em>。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华 + 思考题</div>
-    <div class="essence">与其静态地分类形状，不如让形状「流动」——曲率会自己把答案抹平出来。</div>
-    <div class="think">里奇流会撞上奇点，佩雷尔曼靠「手术」绕过。当一个方法在关键处崩溃，是放弃方法，还是发明修补规则继续走？这两条路在数学与工程里各意味着什么？</div>
-  </div>
+<div class="card" data-tts="7b3da537cd1b0783">
+<h2>庞加莱猜想与里奇流</h2>
+<div class="en-name">Poincaré Conjecture &amp; Ricci Flow · 用「热扩散」抹平空间</div>
+<span class="tag">Topology / Geometry</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>拓扑学问：<strong>怎么隔着「橡皮变形」认出一个形状？</strong>二维时很简单——球面和甜甜圈的区别是「有没有洞」。庞加莱 1904 年问的是三维版本：一个没有洞的闭三维空间，是不是一定就是三维球面？「没有洞」的判据很直观：<em>在它表面套一根绳圈，能不能一路收缩成一个点</em>（能，就叫单连通）。这个问题悬了近一个世纪。</p>
 </div>
-
+<div class="section">
+<div class="label">正式定义</div>
+<p>佩雷尔曼 2003 年的武器是<strong>里奇流</strong>——一个让空间「自我抹平」的演化方程：</p>
+<div class="formula-box">$$\frac{\partial g_{ij}}{\partial t} = -2R_{ij}$$</div>
+<p>把空间的形状（度规 $g_{ij}$）想成会随时间流动的橡皮；右边的里奇曲率 $R_{ij}$ 像温度梯度，<strong>曲率高（尖）的地方收缩，曲率低（凹）的地方膨胀</strong>——和热扩散把冷热抹匀一模一样。流动久了，一个单连通三维空间就被磨成完美的球面。难点是途中会鼓出「细脖子」并掐断（奇点），佩雷尔曼的绝招是<em>做「手术」切掉再接着流</em>。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>美在<strong>用连续的分析去解离散的拓扑</strong>：一个纯粹「分类形状」的问题，竟被一个像热方程一样的偏微分方程解决了。更宏大的是它顺带证明了瑟斯顿的<strong>几何化猜想</strong>——任何三维空间都能被切成八种标准几何的积木。佩雷尔曼随后<em>拒绝了菲尔兹奖和一百万美元克雷奖</em>，只留下三篇挂在预印本网站的论文，本身就成了数学史的一则传奇。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>里奇流「用曲率驱动平滑」的思想外溢到了工程：<strong>图像处理</strong>中的曲率流去噪、网格曲面的光顺，都是同一套「按曲率演化几何」的数学；<strong>流形学习与网络科学</strong>里，Ollivier–里奇曲率被用来刻画图上的「瓶颈」与社区结构，甚至用于诊断图神经网络的<em>过度挤压 (over-squashing)</em>。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="essence">与其静态地分类形状，不如让形状「流动」——曲率会自己把答案抹平出来。</div>
+<div class="think">里奇流会撞上奇点，佩雷尔曼靠「手术」绕过。当一个方法在关键处崩溃，是放弃方法，还是发明修补规则继续走？这两条路在数学与工程里各意味着什么？</div>
+</div>
+</div>
 <!-- 概念 3：张益唐与素数间隔 -->
-<div class="card">
-  <h2>张益唐与有界素数间隔</h2>
-  <div class="en-name">Bounded Gaps Between Primes · 从「无上界」到「有上界」的质变</div>
-  <span class="tag">Analytic Number Theory</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>越往大数走，素数越稀疏，间隔平均越拉越大。但总有一些素数「挤」在一起——比如 $11,13$ 这样相差 $2$ 的<strong>孪生素数</strong>。孪生素数有无穷多对吗？这是两千年的悬案。2013 年，一位默默无闻、年近六旬的讲师<strong>张益唐</strong>证明了一件石破天惊的事：<em>存在无穷多对素数，它们的间隔不超过 7000 万</em>。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>记 $p_n$ 为第 $n$ 个素数，张益唐证明了</p>
-    <div class="formula-box">$$\liminf_{n\to\infty}\,(p_{n+1}-p_n) < 7\times 10^{7}$$</div>
-    <p>「$\liminf$」是说：无论走到多大，<strong>总还能找到间隔小于 7000 万的相邻素数对</strong>，永不枯竭。7000 万听起来离目标（间隔 2）远得离谱，但关键不在这个数，而在<em>「有一个有限的墙」这件事本身第一次被钉死了</em>。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>美在<strong>「量变」与「质变」的分野</strong>。此前人类连「间隔有没有上界」都答不出——理论上素数可以越隔越远、永不再靠近。张益唐第一次证明了<em>墙确实存在</em>。从「无穷」到「有限」是一次质的飞跃；而 7000 万 → 2 只是量的打磨。果然，消息传开后数学界的 Polymath 协作与梅纳德 (Maynard) 的新方法迅速把上界压到 <strong>246</strong>。孤独的洞见点燃了集体的接力。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>素数分布是<strong>密码学的地基</strong>：RSA 的安全性依赖大素数的丰沛与「找得到、猜不着」，而这类结果精细刻画了素数在数轴上的聚集规律。张益唐改进的<strong>筛法</strong>（GPY 筛的加强）是解析数论的核心工具，其方法论也反哺随机矩阵理论与数学物理中对「谱间隔」的研究。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华 + 思考题</div>
-    <div class="essence">证明「墙存在」比测量「墙有多近」重要得多——质变一旦发生，量变就只是时间问题。</div>
-    <div class="think">张益唐在长期边缘处境中独自钻研冷门。当一个领域被主流认为「短期无望」，个体坚持深耕与共同体追逐热点，各自的价值边界在哪里？</div>
-  </div>
+<div class="card" data-tts="e51d912e8f213f05">
+<h2>张益唐与有界素数间隔</h2>
+<div class="en-name">Bounded Gaps Between Primes · 从「无上界」到「有上界」的质变</div>
+<span class="tag">Analytic Number Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>越往大数走，素数越稀疏，间隔平均越拉越大。但总有一些素数「挤」在一起——比如 $11,13$ 这样相差 $2$ 的<strong>孪生素数</strong>。孪生素数有无穷多对吗？这是两千年的悬案。2013 年，一位默默无闻、年近六旬的讲师<strong>张益唐</strong>证明了一件石破天惊的事：<em>存在无穷多对素数，它们的间隔不超过 7000 万</em>。</p>
 </div>
-
+<div class="section">
+<div class="label">正式定义</div>
+<p>记 $p_n$ 为第 $n$ 个素数，张益唐证明了</p>
+<div class="formula-box">$$\liminf_{n\to\infty}\,(p_{n+1}-p_n) &lt; 7\times 10^{7}$$</div>
+<p>「$\liminf$」是说：无论走到多大，<strong>总还能找到间隔小于 7000 万的相邻素数对</strong>，永不枯竭。7000 万听起来离目标（间隔 2）远得离谱，但关键不在这个数，而在<em>「有一个有限的墙」这件事本身第一次被钉死了</em>。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>美在<strong>「量变」与「质变」的分野</strong>。此前人类连「间隔有没有上界」都答不出——理论上素数可以越隔越远、永不再靠近。张益唐第一次证明了<em>墙确实存在</em>。从「无穷」到「有限」是一次质的飞跃；而 7000 万 → 2 只是量的打磨。果然，消息传开后数学界的 Polymath 协作与梅纳德 (Maynard) 的新方法迅速把上界压到 <strong>246</strong>。孤独的洞见点燃了集体的接力。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>素数分布是<strong>密码学的地基</strong>：RSA 的安全性依赖大素数的丰沛与「找得到、猜不着」，而这类结果精细刻画了素数在数轴上的聚集规律。张益唐改进的<strong>筛法</strong>（GPY 筛的加强）是解析数论的核心工具，其方法论也反哺随机矩阵理论与数学物理中对「谱间隔」的研究。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="essence">证明「墙存在」比测量「墙有多近」重要得多——质变一旦发生，量变就只是时间问题。</div>
+<div class="think">张益唐在长期边缘处境中独自钻研冷门。当一个领域被主流认为「短期无望」，个体坚持深耕与共同体追逐热点，各自的价值边界在哪里？</div>
+</div>
+</div>
 <!-- 概念 4：朗兰兹纲领 -->
-<div class="card">
-  <h2>朗兰兹纲领</h2>
-  <div class="en-name">The Langlands Program · 数学的「大统一理论」</div>
-  <span class="tag">Grand Unification</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>前三个故事看似各自独立，但有一条暗线把它们串起来。1967 年，朗兰兹 (Robert Langlands) 提出一张宏伟的「对照表」，想把数学的两大王国<strong>用一部字典逐词对译</strong>：一边是<em>数论</em>（方程的对称性、伽罗瓦群），另一边是<em>分析</em>（自守形式、表示论）。它常被称为数学的「大统一理论」——沃尔斯证明的<strong>模性定理，正是朗兰兹纲领的一个特例</strong>。第一个故事的那座「桥」，其实是这张巨网上的一根丝。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>美在<strong>预言的力量</strong>。朗兰兹纲领像门捷列夫的元素周期表——它不只解释已知，还<em>预言了成片尚未证明的对应关系</em>，为几代数学家画出地图。它揭示：数论、几何、分析这些看似隔行如隔山的分支，也许只是同一套底层结构在不同语言里的投影。数学的终极之美，或许就是这种<strong>「万物本是一物」的统一冲动</strong>。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p><strong>几何朗兰兹纲领</strong>与理论物理深度纠缠：威滕 (Witten) 等人发现它对应四维规范场论中的<em>电磁对偶</em>，让数学与量子场论互为镜像。而「用对称性（群与表示）组织复杂系统」这一核心思想，也正是现代 AI 中<strong>几何深度学习</strong>（等变神经网络）的灵魂——对称性决定了什么信息该被保留。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华 + 思考题</div>
-    <div class="essence">最深的数学进展，往往不是解出一道题，而是发现两个领域说的是同一句话。</div>
-    <div class="think">朗兰兹纲领大部分仍是猜想。一张「尚未证明却极其有用」的地图，价值该如何衡量——它是科学，还是有根据的信仰？</div>
-  </div>
+<div class="card" data-tts="d551b73dfd542091">
+<h2>朗兰兹纲领</h2>
+<div class="en-name">The Langlands Program · 数学的「大统一理论」</div>
+<span class="tag">Grand Unification</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>前三个故事看似各自独立，但有一条暗线把它们串起来。1967 年，朗兰兹 (Robert Langlands) 提出一张宏伟的「对照表」，想把数学的两大王国<strong>用一部字典逐词对译</strong>：一边是<em>数论</em>（方程的对称性、伽罗瓦群），另一边是<em>分析</em>（自守形式、表示论）。它常被称为数学的「大统一理论」——沃尔斯证明的<strong>模性定理，正是朗兰兹纲领的一个特例</strong>。第一个故事的那座「桥」，其实是这张巨网上的一根丝。</p>
 </div>
-
+<div class="section">
+<div class="label">为什么美</div>
+<p>美在<strong>预言的力量</strong>。朗兰兹纲领像门捷列夫的元素周期表——它不只解释已知，还<em>预言了成片尚未证明的对应关系</em>，为几代数学家画出地图。它揭示：数论、几何、分析这些看似隔行如隔山的分支，也许只是同一套底层结构在不同语言里的投影。数学的终极之美，或许就是这种<strong>「万物本是一物」的统一冲动</strong>。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p><strong>几何朗兰兹纲领</strong>与理论物理深度纠缠：威滕 (Witten) 等人发现它对应四维规范场论中的<em>电磁对偶</em>，让数学与量子场论互为镜像。而「用对称性（群与表示）组织复杂系统」这一核心思想，也正是现代 AI 中<strong>几何深度学习</strong>（等变神经网络）的灵魂——对称性决定了什么信息该被保留。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="essence">最深的数学进展，往往不是解出一道题，而是发现两个领域说的是同一句话。</div>
+<div class="think">朗兰兹纲领大部分仍是猜想。一张「尚未证明却极其有用」的地图，价值该如何衡量——它是科学，还是有根据的信仰？</div>
+</div>
+</div>
 <!-- 深入思考 -->
-<div class="card deep">
-  <h2>深入思考</h2>
-
-  <details>
-    <summary>为什么现代大定理的证明越来越长、越来越难独立验证？这对「什么算证明」意味着什么？</summary>
-    <div class="body">沃尔斯的证明上百页，佩雷尔曼的论文密度极高、需数年才被完全审核。当证明依赖整片子领域的机器时，能真正验证它的人可能全球不足百位。这逼出两条路：一是<strong>形式化证明</strong>（用 Lean、Coq 等证明助手把每一步机器核验，费马大定理与庞加莱都在被形式化）；二是重新思考「证明是社会共识还是机器可验的对象」。数学正从「个人天才的手稿」走向「可机器审计的工程」。</div>
-  </details>
-
-  <details>
-    <summary>三个故事都用了「搬到另一个领域」的策略，这是巧合还是数学进步的普遍模式？</summary>
-    <div class="body">很可能是普遍模式。费马大定理被搬到椭圆曲线↔模形式；庞加莱猜想被搬到偏微分方程；素数间隔被搬进筛法与解析工具。数学史反复上演「跨领域翻译」：难题在原语言里是死结，换一门语言就露出可解的结构。朗兰兹纲领正是把这种「翻译」本身<em>系统化、纲领化</em>——它不解决单个问题，而是给出翻译的总字典。</div>
-  </details>
-
-  <details>
-    <summary>佩雷尔曼拒绝菲尔兹奖与百万奖金，张益唐长期身处学术边缘。荣誉与体制对纯数学创造是助力还是干扰？</summary>
-    <div class="body">没有标准答案，但两人都提示：最深的工作常诞生于<strong>不为奖励、不追热点</strong>的专注。体制提供资源与验证，却也可能奖励「安全的增量」而非「危险的飞跃」。纯数学的时间尺度（一个猜想可以熬掉几代人）与考核体系的短周期天然错配。这也是为何顶尖突破常来自能容忍长期「无产出」的环境。</div>
-  </details>
-
-  <details>
-    <summary>这些成果几乎没有直接的短期应用，纳税人为何该为纯数学买单？</summary>
-    <div class="body">因为应用的时差常以世纪计。椭圆曲线曾是纯到不能再纯的数论玩物，几十年后成了保护全球通信与加密货币的 ECC；黎曼、群论、非欧几何在提出时都「无用」，后来却成了相对论、量子力学、密码学的语言。纯数学是在为<strong>尚未出现的问题预先锻造工具</strong>——你无法预约哪把钥匙将来开哪扇门，但历史保证：总有门会来。</div>
-  </details>
-
-  <details>
-    <summary>如果 AI 未来能独立证明这一级别的定理，数学的「美」还剩什么？</summary>
-    <div class="body">证明助手已能核验庞加莱、费马这类结果，AI 也开始参与猜想生成与引理搜索。但「美」很可能不在于<em>得到</em>结论，而在于<strong>理解为什么</strong>——那座连接数论与分析的桥「为何存在」，是一台穷举机器给不出的洞见。也许 AI 承担苦力与验证，而人类保留提出「好问题」和品味「深刻性」的角色。数学之美，最终是关于意义的，不只是关于真假的。</div>
-  </details>
+<div class="card deep" data-tts="59fd018e19389b68">
+<h2>深入思考</h2>
+<details>
+<summary>为什么现代大定理的证明越来越长、越来越难独立验证？这对「什么算证明」意味着什么？</summary>
+<div class="body">沃尔斯的证明上百页，佩雷尔曼的论文密度极高、需数年才被完全审核。当证明依赖整片子领域的机器时，能真正验证它的人可能全球不足百位。这逼出两条路：一是<strong>形式化证明</strong>（用 Lean、Coq 等证明助手把每一步机器核验，费马大定理与庞加莱都在被形式化）；二是重新思考「证明是社会共识还是机器可验的对象」。数学正从「个人天才的手稿」走向「可机器审计的工程」。</div>
+</details>
+<details>
+<summary>三个故事都用了「搬到另一个领域」的策略，这是巧合还是数学进步的普遍模式？</summary>
+<div class="body">很可能是普遍模式。费马大定理被搬到椭圆曲线↔模形式；庞加莱猜想被搬到偏微分方程；素数间隔被搬进筛法与解析工具。数学史反复上演「跨领域翻译」：难题在原语言里是死结，换一门语言就露出可解的结构。朗兰兹纲领正是把这种「翻译」本身<em>系统化、纲领化</em>——它不解决单个问题，而是给出翻译的总字典。</div>
+</details>
+<details>
+<summary>佩雷尔曼拒绝菲尔兹奖与百万奖金，张益唐长期身处学术边缘。荣誉与体制对纯数学创造是助力还是干扰？</summary>
+<div class="body">没有标准答案，但两人都提示：最深的工作常诞生于<strong>不为奖励、不追热点</strong>的专注。体制提供资源与验证，却也可能奖励「安全的增量」而非「危险的飞跃」。纯数学的时间尺度（一个猜想可以熬掉几代人）与考核体系的短周期天然错配。这也是为何顶尖突破常来自能容忍长期「无产出」的环境。</div>
+</details>
+<details>
+<summary>这些成果几乎没有直接的短期应用，纳税人为何该为纯数学买单？</summary>
+<div class="body">因为应用的时差常以世纪计。椭圆曲线曾是纯到不能再纯的数论玩物，几十年后成了保护全球通信与加密货币的 ECC；黎曼、群论、非欧几何在提出时都「无用」，后来却成了相对论、量子力学、密码学的语言。纯数学是在为<strong>尚未出现的问题预先锻造工具</strong>——你无法预约哪把钥匙将来开哪扇门，但历史保证：总有门会来。</div>
+</details>
+<details>
+<summary>如果 AI 未来能独立证明这一级别的定理，数学的「美」还剩什么？</summary>
+<div class="body">证明助手已能核验庞加莱、费马这类结果，AI 也开始参与猜想生成与引理搜索。但「美」很可能不在于<em>得到</em>结论，而在于<strong>理解为什么</strong>——那座连接数论与分析的桥「为何存在」，是一台穷举机器给不出的洞见。也许 AI 承担苦力与验证，而人类保留提出「好问题」和品味「深刻性」的角色。数学之美，最终是关于意义的，不只是关于真假的。</div>
+</details>
 </div>
-
 <nav class="bottom">
-  <a href="index.html">← 返回目录</a>
+<a href="index.html">← 返回目录</a>
 </nav>
-
 </div>
-<script src="https://hub.cissychen.com/comments.js" defer></script>
-<script src="https://hub.cissychen.com/search.js" defer></script>
-<script src="https://hub.cissychen.com/index-button.js" defer></script>
-<script src="https://hub.cissychen.com/i18n-tts.js" defer></script>
+<script defer="" src="https://hub.cissychen.com/comments.js"></script>
+<script defer="" src="https://hub.cissychen.com/search.js"></script>
+<script defer="" src="https://hub.cissychen.com/index-button.js"></script>
+<script defer="" src="https://hub.cissychen.com/i18n-tts.js"></script>
 </body>
 </html>

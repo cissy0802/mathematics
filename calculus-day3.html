@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>微积分核心思想 · Day 3 — Mathematics</title>
 <script>
 window.MathJax = {
@@ -14,7 +15,7 @@ window.MathJax = {
   options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
 };
 </script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
@@ -52,297 +53,255 @@ nav.bottom a:hover{color:#1e3a5f}
 </head>
 <body>
 <div class="container">
-
 <header>
-  <div class="kicker">Day 3 · 2026.05.23</div>
-  <h1>微积分核心思想</h1>
-  <div class="meta">The Essence of Calculus — 用 3Blue1Brown 的眼睛重新看微积分</div>
-  <div class="epigraph">"Calculus is the mathematics of change, and the universe is changing." — Steven Strogatz, <em>Infinite Powers</em></div>
+<div class="kicker">Day 3 · 2026.05.23</div>
+<h1 data-tts="2b13837d2e6ce673">微积分核心思想</h1>
+<div class="meta">The Essence of Calculus — 用 3Blue1Brown 的眼睛重新看微积分</div>
+<div class="epigraph">"Calculus is the mathematics of change, and the universe is changing." — Steven Strogatz, <em>Infinite Powers</em></div>
 </header>
-
 <!-- 概念 1：极限 -->
-<div class="card">
-  <h2>极限</h2>
-  <div class="en-name">The Limit · 分析学的地基</div>
-  <span class="tag">Analysis</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>想象你要量一个曲线下方的面积。你切成 10 个矩形——不准。切成 100 个——更准。切成 1000、10000……每加一刀，误差就缩小一点。<strong>极限</strong> 想说的是：「如果我能想象一直切下去——切到无穷细——最后那个值会逼近一个确定的数。」<br><br>关键的精妙之处是：<strong>我们并不真的切到「无穷」</strong>，而是说「想要多准都能多准」。这就是 ε–δ 语言：你给我任意小的误差 ε，我都能给你一个 N，让 N 步之后的结果离目标值小于 ε。极限不是「跑到无穷远的某个神秘地点」，它是 <em>「可以无限逼近」</em>。这个翻译——把「无穷」翻译成「有限的可控逼近」——是 19 世纪 Cauchy 和 Weierstrass 完成的伟大语法重构。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">
-      <!-- 三组矩形逼近 sin -->
-      <g transform="translate(10,20)">
-        <text x="50" y="-4" font-size="10" fill="#3a6088" text-anchor="middle">n=4</text>
-        <path d="M 0 130 Q 50 0 100 130" fill="none" stroke="#1e3a5f" stroke-width="1.5"/>
-        <rect x="0" y="98" width="25" height="32" fill="#c9a96b" fill-opacity="0.4" stroke="#8a7340" stroke-width="0.5"/>
-        <rect x="25" y="32" width="25" height="98" fill="#c9a96b" fill-opacity="0.4" stroke="#8a7340" stroke-width="0.5"/>
-        <rect x="50" y="32" width="25" height="98" fill="#c9a96b" fill-opacity="0.4" stroke="#8a7340" stroke-width="0.5"/>
-        <rect x="75" y="98" width="25" height="32" fill="#c9a96b" fill-opacity="0.4" stroke="#8a7340" stroke-width="0.5"/>
-        <line x1="0" y1="130" x2="100" y2="130" stroke="#888" stroke-width="0.6"/>
-      </g>
-      <g transform="translate(140,20)">
-        <text x="50" y="-4" font-size="10" fill="#3a6088" text-anchor="middle">n=10</text>
-        <path d="M 0 130 Q 50 0 100 130" fill="none" stroke="#1e3a5f" stroke-width="1.5"/>
-        <g fill="#c9a96b" fill-opacity="0.4" stroke="#8a7340" stroke-width="0.4">
-        <rect x="0" y="115" width="10" height="15"/>
-        <rect x="10" y="78" width="10" height="52"/>
-        <rect x="20" y="48" width="10" height="82"/>
-        <rect x="30" y="28" width="10" height="102"/>
-        <rect x="40" y="16" width="10" height="114"/>
-        <rect x="50" y="16" width="10" height="114"/>
-        <rect x="60" y="28" width="10" height="102"/>
-        <rect x="70" y="48" width="10" height="82"/>
-        <rect x="80" y="78" width="10" height="52"/>
-        <rect x="90" y="115" width="10" height="15"/>
-        </g>
-        <line x1="0" y1="130" x2="100" y2="130" stroke="#888" stroke-width="0.6"/>
-      </g>
-      <g transform="translate(270,20)">
-        <text x="50" y="-4" font-size="10" fill="#3a6088" text-anchor="middle">n→∞</text>
-        <path d="M 0 130 Q 50 0 100 130 L 100 130 L 0 130 z" fill="#c9544a" fill-opacity="0.35"/>
-        <path d="M 0 130 Q 50 0 100 130" fill="none" stroke="#1e3a5f" stroke-width="1.5"/>
-        <line x1="0" y1="130" x2="100" y2="130" stroke="#888" stroke-width="0.6"/>
-        <text x="50" y="100" font-size="10" fill="#c9544a" text-anchor="middle" font-style="italic">∫f</text>
-      </g>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>极限解决了希腊人两千年都没解决的问题——「芝诺悖论」。阿基里斯永远追不上乌龟，因为每次他到达乌龟原来的位置，乌龟又往前挪了一点……古希腊人陷在「无穷多步永远做不完」里。极限的答案是：<em>无穷多个递减的距离可以加出一个有限的和</em>（$\frac{1}{2}+\frac{1}{4}+\frac{1}{8}+\cdots = 1$）。这是人类第一次驯服了「无穷」。Strogatz 在《Infinite Powers》中称这是「数学最深的发明」。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>极限是所有现代物理、工程、机器学习的基础。梯度下降「步长趋于 0」、神经网络「层数趋于无穷得到深度网络的极限行为」、数值方法「网格越来越细」——本质都是极限。在 ML 中，<em>NTK（Neural Tangent Kernel）</em> 就是研究「宽度→∞」时神经网络的极限行为，意外地变得可以解析分析。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">历史与人物</div>
-    <p>牛顿和莱布尼茨发明微积分时（1670s），用的是模糊的「无穷小」(infinitesimal)——一个比任何正数都小但又不是 0 的东西。哲学家 Berkeley 主教讽刺它是「死去量的鬼魂」(<em>ghosts of departed quantities</em>)。直到 1820 年代 Cauchy、1850 年代 Weierstrass 引入 ε–δ 定义，微积分才有了严格的地基。一个半世纪的「数学是不严谨但有用」的时代结束了。</p>
-  </div>
-
-  <div class="section resources">
-    <div class="label">深入资源</div>
-    <ul>
-      <li>3Blue1Brown · <em>Essence of Calculus, Ch.7: Limits</em>（极限的视觉直觉）</li>
-      <li>Strogatz · <em>Infinite Powers</em>（极限与芝诺）</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <div class="label">English Insight</div>
-    <div class="english"><strong>limit · ε–δ definition · infinitesimal · convergence</strong>。「在极限意义下」= <em>in the limit</em>。「逼近」= <em>approaches / tends to</em>。「严格化」= <em>rigorization</em>，常指 Weierstrass 的工作。</div>
-  </div>
-
-  <div class="section">
-    <div class="label">思考题</div>
-    <div class="think">$0.999\ldots$ 等于 $1$ 吗？大部分人凭直觉觉得「无限接近但小一点点」。如果你认真相信极限的定义，你的答案应该是什么？这两种答案的差别，反映了什么样的数学世界观？</div>
-  </div>
+<div class="card" data-tts="7b910e5e26f8b23e">
+<h2>极限</h2>
+<div class="en-name">The Limit · 分析学的地基</div>
+<span class="tag">Analysis</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>想象你要量一个曲线下方的面积。你切成 10 个矩形——不准。切成 100 个——更准。切成 1000、10000……每加一刀，误差就缩小一点。<strong>极限</strong> 想说的是：「如果我能想象一直切下去——切到无穷细——最后那个值会逼近一个确定的数。」<br/><br/>关键的精妙之处是：<strong>我们并不真的切到「无穷」</strong>，而是说「想要多准都能多准」。这就是 ε–δ 语言：你给我任意小的误差 ε，我都能给你一个 N，让 N 步之后的结果离目标值小于 ε。极限不是「跑到无穷远的某个神秘地点」，它是 <em>「可以无限逼近」</em>。这个翻译——把「无穷」翻译成「有限的可控逼近」——是 19 世纪 Cauchy 和 Weierstrass 完成的伟大语法重构。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">
+<!-- 三组矩形逼近 sin -->
+<g transform="translate(10,20)">
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="50" y="-4">n=4</text>
+<path d="M 0 130 Q 50 0 100 130" fill="none" stroke="#1e3a5f" stroke-width="1.5"></path>
+<rect fill="#c9a96b" fill-opacity="0.4" height="32" stroke="#8a7340" stroke-width="0.5" width="25" x="0" y="98"></rect>
+<rect fill="#c9a96b" fill-opacity="0.4" height="98" stroke="#8a7340" stroke-width="0.5" width="25" x="25" y="32"></rect>
+<rect fill="#c9a96b" fill-opacity="0.4" height="98" stroke="#8a7340" stroke-width="0.5" width="25" x="50" y="32"></rect>
+<rect fill="#c9a96b" fill-opacity="0.4" height="32" stroke="#8a7340" stroke-width="0.5" width="25" x="75" y="98"></rect>
+<line stroke="#888" stroke-width="0.6" x1="0" x2="100" y1="130" y2="130"></line>
+</g>
+<g transform="translate(140,20)">
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="50" y="-4">n=10</text>
+<path d="M 0 130 Q 50 0 100 130" fill="none" stroke="#1e3a5f" stroke-width="1.5"></path>
+<g fill="#c9a96b" fill-opacity="0.4" stroke="#8a7340" stroke-width="0.4">
+<rect height="15" width="10" x="0" y="115"></rect>
+<rect height="52" width="10" x="10" y="78"></rect>
+<rect height="82" width="10" x="20" y="48"></rect>
+<rect height="102" width="10" x="30" y="28"></rect>
+<rect height="114" width="10" x="40" y="16"></rect>
+<rect height="114" width="10" x="50" y="16"></rect>
+<rect height="102" width="10" x="60" y="28"></rect>
+<rect height="82" width="10" x="70" y="48"></rect>
+<rect height="52" width="10" x="80" y="78"></rect>
+<rect height="15" width="10" x="90" y="115"></rect>
+</g>
+<line stroke="#888" stroke-width="0.6" x1="0" x2="100" y1="130" y2="130"></line>
+</g>
+<g transform="translate(270,20)">
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="50" y="-4">n→∞</text>
+<path d="M 0 130 Q 50 0 100 130 L 100 130 L 0 130 z" fill="#c9544a" fill-opacity="0.35"></path>
+<path d="M 0 130 Q 50 0 100 130" fill="none" stroke="#1e3a5f" stroke-width="1.5"></path>
+<line stroke="#888" stroke-width="0.6" x1="0" x2="100" y1="130" y2="130"></line>
+<text fill="#c9544a" font-size="10" font-style="italic" text-anchor="middle" x="50" y="100">∫f</text>
+</g>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>极限解决了希腊人两千年都没解决的问题——「芝诺悖论」。阿基里斯永远追不上乌龟，因为每次他到达乌龟原来的位置，乌龟又往前挪了一点……古希腊人陷在「无穷多步永远做不完」里。极限的答案是：<em>无穷多个递减的距离可以加出一个有限的和</em>（$\frac{1}{2}+\frac{1}{4}+\frac{1}{8}+\cdots = 1$）。这是人类第一次驯服了「无穷」。Strogatz 在《Infinite Powers》中称这是「数学最深的发明」。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>极限是所有现代物理、工程、机器学习的基础。梯度下降「步长趋于 0」、神经网络「层数趋于无穷得到深度网络的极限行为」、数值方法「网格越来越细」——本质都是极限。在 ML 中，<em>NTK（Neural Tangent Kernel）</em> 就是研究「宽度→∞」时神经网络的极限行为，意外地变得可以解析分析。</p>
+</div>
+<div class="section">
+<div class="label">历史与人物</div>
+<p>牛顿和莱布尼茨发明微积分时（1670s），用的是模糊的「无穷小」(infinitesimal)——一个比任何正数都小但又不是 0 的东西。哲学家 Berkeley 主教讽刺它是「死去量的鬼魂」(<em>ghosts of departed quantities</em>)。直到 1820 年代 Cauchy、1850 年代 Weierstrass 引入 ε–δ 定义，微积分才有了严格的地基。一个半世纪的「数学是不严谨但有用」的时代结束了。</p>
+</div>
+<div class="section resources">
+<div class="label">深入资源</div>
+<ul>
+<li>3Blue1Brown · <em>Essence of Calculus, Ch.7: Limits</em>（极限的视觉直觉）</li>
+<li>Strogatz · <em>Infinite Powers</em>（极限与芝诺）</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">English Insight</div>
+<div class="english"><strong>limit · ε–δ definition · infinitesimal · convergence</strong>。「在极限意义下」= <em>in the limit</em>。「逼近」= <em>approaches / tends to</em>。「严格化」= <em>rigorization</em>，常指 Weierstrass 的工作。</div>
+</div>
+<div class="section">
+<div class="label">思考题</div>
+<div class="think">$0.999\ldots$ 等于 $1$ 吗？大部分人凭直觉觉得「无限接近但小一点点」。如果你认真相信极限的定义，你的答案应该是什么？这两种答案的差别，反映了什么样的数学世界观？</div>
+</div>
+</div>
 <!-- 概念 2：导数 -->
-<div class="card">
-  <h2>导数 = 瞬时变化率</h2>
-  <div class="en-name">Derivative as Instantaneous Rate of Change</div>
-  <span class="tag">Differential Calculus</span>
-
-  <div class="formula-box">$$f'(x) = \lim_{h \to 0}\frac{f(x+h)-f(x)}{h}$$</div>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>你开车，速度表显示 60 km/h。<strong>什么叫"此刻"的速度？</strong>「此刻」是一个点，0 时间内没有位移，0/0 没有意义。但你的速度表偏偏给出了一个数。导数就是这个谜的解答：<em>在越来越短的时间窗口里平均速度收敛到的那个值。</em><br><br>几何上，导数 = 函数图像在某点的<strong>切线斜率</strong>。把曲线放大放大再放大——足够近时，任何光滑曲线看上去都像一条直线。那条直线的斜率，就是导数。这是 3Blue1Brown 反复强调的一点："zoom in until curved becomes straight"。导数不是「除以零」的魔法，它是「在无限放大下曲线变直线」的几何事实。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
-      <!-- 函数曲线 + 割线变切线 -->
-      <line x1="20" y1="170" x2="340" y2="170" stroke="#aaa" stroke-width="0.6"/>
-      <line x1="40" y1="20" x2="40" y2="190" stroke="#aaa" stroke-width="0.6"/>
-      <path d="M 40 170 Q 120 160 180 110 T 320 30" fill="none" stroke="#1e3a5f" stroke-width="2"/>
-      <!-- 切点 -->
-      <circle cx="180" cy="110" r="3.5" fill="#c9544a"/>
-      <text x="186" y="108" font-size="10" fill="#c9544a">x</text>
-      <!-- 第一条割线 (远) -->
-      <line x1="120" y1="160" x2="280" y2="55" stroke="#c9a96b" stroke-width="1.2" stroke-dasharray="4,3"/>
-      <circle cx="280" cy="55" r="2.5" fill="#c9a96b"/>
-      <text x="286" y="58" font-size="9" fill="#8a7340" font-style="italic">割线 h 大</text>
-      <!-- 第二条割线 (近) -->
-      <line x1="160" y1="125" x2="210" y2="92" stroke="#7a9a6a" stroke-width="1.2" stroke-dasharray="2,2"/>
-      <circle cx="210" cy="92" r="2.5" fill="#7a9a6a"/>
-      <!-- 切线 -->
-      <line x1="100" y1="160" x2="260" y2="55" stroke="#c9544a" stroke-width="1.8"/>
-      <text x="240" y="50" font-size="10" fill="#c9544a" font-style="italic">切线 = f'(x)</text>
-      <text x="320" y="186" font-size="10" fill="#666" text-anchor="end">x</text>
-      <text x="46" y="28" font-size="10" fill="#666">f(x)</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>导数把<strong>「速度」「斜率」「边际成本」「化学反应速率」「人口增长率」「损失函数下降方向」</strong>统一成了同一个数学对象。一个概念，无数面孔。这就是抽象的力量——发现表面无关的事物背后共享同一个结构。Tao 在博客里写过：「微积分的真正魔法不在于公式，而在于它让我们能<em>系统地</em>谈论变化。」</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>整个机器学习训练 = 计算损失函数对权重的导数，沿梯度反方向调整。<strong>反向传播</strong> 就是用链式法则 $\frac{dL}{dw} = \frac{dL}{dy}\cdot\frac{dy}{dw}$ 高效地计算几亿参数的偏导。GPT-5 训练的每一步，本质都是导数在指路。物理上 $F = ma$ 中的 $a$ 是位置对时间的<em>二阶导数</em>。生物学里增长 = 一阶导数，加速增长 = 二阶导数。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">历史与人物</div>
-    <p>1666 年，瘟疫迫使剑桥关闭，23 岁的牛顿回到乡下 Woolsthorpe，独立发明了流数法 (method of fluxions)。几乎同时（1670s 末），莱布尼茨在欧洲大陆独立发展出 $dy/dx$ 记号。两人后续的<em>优先权之争</em>是数学史上最著名的撕逼，但今天我们用的几乎都是莱布尼茨的记号——更清晰、更结构化。</p>
-  </div>
-
-  <div class="section resources">
-    <div class="label">深入资源</div>
-    <ul>
-      <li>3Blue1Brown · <em>Essence of Calculus, Ch.2: The paradox of the derivative</em>（导数即放大）</li>
-      <li>Spivak · <em>Calculus</em>（严谨派经典）</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <div class="label">English Insight</div>
-    <div class="english"><strong>derivative · differentiable · tangent line · rate of change · chain rule</strong>。「对 x 求导」= <em>take the derivative with respect to x</em>。「光滑函数」= <em>smooth function</em>（任意阶可导）。「梯度」= <em>gradient</em>（多元导数的向量推广）。</div>
-  </div>
-
-  <div class="section">
-    <div class="label">思考题</div>
-    <div class="think">为什么 $|x|$（绝对值函数）在 $x=0$ 处没有导数？画出来看看——它的图像在原点有个尖。"尖"在数学上意味着什么？神经网络里的 ReLU 激活函数也有这个尖，那么梯度下降是怎么处理它的？</div>
-  </div>
+<div class="card" data-tts="d5ab4d541f75abf8">
+<h2>导数 = 瞬时变化率</h2>
+<div class="en-name">Derivative as Instantaneous Rate of Change</div>
+<span class="tag">Differential Calculus</span>
+<div class="formula-box">$$f'(x) = \lim_{h \to 0}\frac{f(x+h)-f(x)}{h}$$</div>
+<div class="section">
+<div class="label">直觉版</div>
+<p>你开车，速度表显示 60 km/h。<strong>什么叫"此刻"的速度？</strong>「此刻」是一个点，0 时间内没有位移，0/0 没有意义。但你的速度表偏偏给出了一个数。导数就是这个谜的解答：<em>在越来越短的时间窗口里平均速度收敛到的那个值。</em><br/><br/>几何上，导数 = 函数图像在某点的<strong>切线斜率</strong>。把曲线放大放大再放大——足够近时，任何光滑曲线看上去都像一条直线。那条直线的斜率，就是导数。这是 3Blue1Brown 反复强调的一点："zoom in until curved becomes straight"。导数不是「除以零」的魔法，它是「在无限放大下曲线变直线」的几何事实。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
+<!-- 函数曲线 + 割线变切线 -->
+<line stroke="#aaa" stroke-width="0.6" x1="20" x2="340" y1="170" y2="170"></line>
+<line stroke="#aaa" stroke-width="0.6" x1="40" x2="40" y1="20" y2="190"></line>
+<path d="M 40 170 Q 120 160 180 110 T 320 30" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<!-- 切点 -->
+<circle cx="180" cy="110" fill="#c9544a" r="3.5"></circle>
+<text fill="#c9544a" font-size="10" x="186" y="108">x</text>
+<!-- 第一条割线 (远) -->
+<line stroke="#c9a96b" stroke-dasharray="4,3" stroke-width="1.2" x1="120" x2="280" y1="160" y2="55"></line>
+<circle cx="280" cy="55" fill="#c9a96b" r="2.5"></circle>
+<text fill="#8a7340" font-size="9" font-style="italic" x="286" y="58">割线 h 大</text>
+<!-- 第二条割线 (近) -->
+<line stroke="#7a9a6a" stroke-dasharray="2,2" stroke-width="1.2" x1="160" x2="210" y1="125" y2="92"></line>
+<circle cx="210" cy="92" fill="#7a9a6a" r="2.5"></circle>
+<!-- 切线 -->
+<line stroke="#c9544a" stroke-width="1.8" x1="100" x2="260" y1="160" y2="55"></line>
+<text fill="#c9544a" font-size="10" font-style="italic" x="240" y="50">切线 = f'(x)</text>
+<text fill="#666" font-size="10" text-anchor="end" x="320" y="186">x</text>
+<text fill="#666" font-size="10" x="46" y="28">f(x)</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>导数把<strong>「速度」「斜率」「边际成本」「化学反应速率」「人口增长率」「损失函数下降方向」</strong>统一成了同一个数学对象。一个概念，无数面孔。这就是抽象的力量——发现表面无关的事物背后共享同一个结构。Tao 在博客里写过：「微积分的真正魔法不在于公式，而在于它让我们能<em>系统地</em>谈论变化。」</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>整个机器学习训练 = 计算损失函数对权重的导数，沿梯度反方向调整。<strong>反向传播</strong> 就是用链式法则 $\frac{dL}{dw} = \frac{dL}{dy}\cdot\frac{dy}{dw}$ 高效地计算几亿参数的偏导。GPT-5 训练的每一步，本质都是导数在指路。物理上 $F = ma$ 中的 $a$ 是位置对时间的<em>二阶导数</em>。生物学里增长 = 一阶导数，加速增长 = 二阶导数。</p>
+</div>
+<div class="section">
+<div class="label">历史与人物</div>
+<p>1666 年，瘟疫迫使剑桥关闭，23 岁的牛顿回到乡下 Woolsthorpe，独立发明了流数法 (method of fluxions)。几乎同时（1670s 末），莱布尼茨在欧洲大陆独立发展出 $dy/dx$ 记号。两人后续的<em>优先权之争</em>是数学史上最著名的撕逼，但今天我们用的几乎都是莱布尼茨的记号——更清晰、更结构化。</p>
+</div>
+<div class="section resources">
+<div class="label">深入资源</div>
+<ul>
+<li>3Blue1Brown · <em>Essence of Calculus, Ch.2: The paradox of the derivative</em>（导数即放大）</li>
+<li>Spivak · <em>Calculus</em>（严谨派经典）</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">English Insight</div>
+<div class="english"><strong>derivative · differentiable · tangent line · rate of change · chain rule</strong>。「对 x 求导」= <em>take the derivative with respect to x</em>。「光滑函数」= <em>smooth function</em>（任意阶可导）。「梯度」= <em>gradient</em>（多元导数的向量推广）。</div>
+</div>
+<div class="section">
+<div class="label">思考题</div>
+<div class="think">为什么 $|x|$（绝对值函数）在 $x=0$ 处没有导数？画出来看看——它的图像在原点有个尖。"尖"在数学上意味着什么？神经网络里的 ReLU 激活函数也有这个尖，那么梯度下降是怎么处理它的？</div>
+</div>
+</div>
 <!-- 概念 3：积分 -->
-<div class="card">
-  <h2>积分 = 无穷小累加</h2>
-  <div class="en-name">Integral as Continuous Sum</div>
-  <span class="tag">Integral Calculus</span>
-
-  <div class="formula-box">$$\int_a^b f(x)\,dx = \lim_{n\to\infty}\sum_{i=1}^{n} f(x_i)\,\Delta x$$</div>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>积分号 $\int$ 是拉长的 S，代表 <em>Sum</em>——求和。$dx$ 是「无穷小的宽度」，$f(x)$ 是「那一瞬间的高度」，乘起来是「一个超薄矩形的面积」。把无穷多个超薄矩形加起来，就是曲线下的总面积。<br><br>但「面积」只是积分的一张脸。它真正在做的是：<strong>把一个连续变化的量在一段区间上累加起来</strong>。速度积分得位移、功率积分得能量、概率密度积分得概率、人口增长率积分得人口、GPU 利用率积分得算力消耗。任何「率」乘上时间累加，都是积分。3Blue1Brown 的精彩翻译：<em>积分回答的是「总共发生了多少」，导数回答的是「现在变化多快」。</em></p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>积分让我们能精确计算<em>不规则形状</em>的面积、<em>非匀变速</em>的位移、<em>非均匀分布</em>的质量——所有「不能用初等几何/算术算的累加」。这是希腊人「穷竭法」(method of exhaustion) 的现代形态，阿基米德用类似思想算出了圆面积 $\pi r^2$、抛物线弓形的面积。两千年后，牛顿—莱布尼茨给了它一个通用机器。Hardy 会说：这种「把无限多个零相乘相加居然得到有限非零」的能力，是数学最不像常识的胜利。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>电荷的总量 = 电流对时间的积分；信号的能量 = $\int |x(t)|^2 dt$；概率论中的期望 = $\int x\,p(x)\,dx$；Diffusion 模型里训练目标是对噪声水平 $t$ 的积分。麦克斯韦方程组、薛定谔方程、Black-Scholes 期权定价、流体力学的 Navier-Stokes——现代科学的方程几乎全部是<strong>微分/积分方程</strong>。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">历史与人物</div>
-    <p>积分思想比微分更古老。阿基米德（约公元前 250 年）已经用「穷竭法」算出了球的体积公式 $\frac{4}{3}\pi r^3$，他本人最自豪的发现——以至于他要求把这个图刻在墓碑上。Cavalieri 在 17 世纪初提出"不可分量"原理，是积分的雏形。莱布尼茨在 1675 年 10 月 29 日第一次在笔记中写下 $\int$ 号——数学史上少有的可以精确日期的诞生时刻。</p>
-  </div>
-
-  <div class="section resources">
-    <div class="label">深入资源</div>
-    <ul>
-      <li>3Blue1Brown · <em>Essence of Calculus, Ch.1 & Ch.8</em>（积分与面积的直觉）</li>
-      <li>Strogatz · <em>Infinite Powers</em>（阿基米德到牛顿的脉络）</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <div class="label">English Insight</div>
-    <div class="english"><strong>integral · integrand · antiderivative · Riemann sum</strong>。「定积分」= <em>definite integral</em>。「不定积分」= <em>indefinite integral / antiderivative</em>。「被积函数」= <em>integrand</em>。「黎曼和」= <em>Riemann sum</em>。</div>
-  </div>
-
-  <div class="section">
-    <div class="label">思考题</div>
-    <div class="think">考虑 $\int_0^\infty \frac{\sin x}{x}\,dx = \frac{\pi}{2}$。被积函数永远在正负之间震荡，却得到一个干净的 $\pi/2$。这种「无穷的振荡居然收敛到 $\pi$」的现象，为什么让数学家觉得宇宙有一种诡异的秩序？</div>
-  </div>
+<div class="card" data-tts="9240caee13391c2e">
+<h2>积分 = 无穷小累加</h2>
+<div class="en-name">Integral as Continuous Sum</div>
+<span class="tag">Integral Calculus</span>
+<div class="formula-box">$$\int_a^b f(x)\,dx = \lim_{n\to\infty}\sum_{i=1}^{n} f(x_i)\,\Delta x$$</div>
+<div class="section">
+<div class="label">直觉版</div>
+<p>积分号 $\int$ 是拉长的 S，代表 <em>Sum</em>——求和。$dx$ 是「无穷小的宽度」，$f(x)$ 是「那一瞬间的高度」，乘起来是「一个超薄矩形的面积」。把无穷多个超薄矩形加起来，就是曲线下的总面积。<br/><br/>但「面积」只是积分的一张脸。它真正在做的是：<strong>把一个连续变化的量在一段区间上累加起来</strong>。速度积分得位移、功率积分得能量、概率密度积分得概率、人口增长率积分得人口、GPU 利用率积分得算力消耗。任何「率」乘上时间累加，都是积分。3Blue1Brown 的精彩翻译：<em>积分回答的是「总共发生了多少」，导数回答的是「现在变化多快」。</em></p>
 </div>
-
+<div class="section">
+<div class="label">为什么美</div>
+<p>积分让我们能精确计算<em>不规则形状</em>的面积、<em>非匀变速</em>的位移、<em>非均匀分布</em>的质量——所有「不能用初等几何/算术算的累加」。这是希腊人「穷竭法」(method of exhaustion) 的现代形态，阿基米德用类似思想算出了圆面积 $\pi r^2$、抛物线弓形的面积。两千年后，牛顿—莱布尼茨给了它一个通用机器。Hardy 会说：这种「把无限多个零相乘相加居然得到有限非零」的能力，是数学最不像常识的胜利。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>电荷的总量 = 电流对时间的积分；信号的能量 = $\int |x(t)|^2 dt$；概率论中的期望 = $\int x\,p(x)\,dx$；Diffusion 模型里训练目标是对噪声水平 $t$ 的积分。麦克斯韦方程组、薛定谔方程、Black-Scholes 期权定价、流体力学的 Navier-Stokes——现代科学的方程几乎全部是<strong>微分/积分方程</strong>。</p>
+</div>
+<div class="section">
+<div class="label">历史与人物</div>
+<p>积分思想比微分更古老。阿基米德（约公元前 250 年）已经用「穷竭法」算出了球的体积公式 $\frac{4}{3}\pi r^3$，他本人最自豪的发现——以至于他要求把这个图刻在墓碑上。Cavalieri 在 17 世纪初提出"不可分量"原理，是积分的雏形。莱布尼茨在 1675 年 10 月 29 日第一次在笔记中写下 $\int$ 号——数学史上少有的可以精确日期的诞生时刻。</p>
+</div>
+<div class="section resources">
+<div class="label">深入资源</div>
+<ul>
+<li>3Blue1Brown · <em>Essence of Calculus, Ch.1 &amp; Ch.8</em>（积分与面积的直觉）</li>
+<li>Strogatz · <em>Infinite Powers</em>（阿基米德到牛顿的脉络）</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">English Insight</div>
+<div class="english"><strong>integral · integrand · antiderivative · Riemann sum</strong>。「定积分」= <em>definite integral</em>。「不定积分」= <em>indefinite integral / antiderivative</em>。「被积函数」= <em>integrand</em>。「黎曼和」= <em>Riemann sum</em>。</div>
+</div>
+<div class="section">
+<div class="label">思考题</div>
+<div class="think">考虑 $\int_0^\infty \frac{\sin x}{x}\,dx = \frac{\pi}{2}$。被积函数永远在正负之间震荡，却得到一个干净的 $\pi/2$。这种「无穷的振荡居然收敛到 $\pi$」的现象，为什么让数学家觉得宇宙有一种诡异的秩序？</div>
+</div>
+</div>
 <!-- 概念 4：微积分基本定理 -->
-<div class="card">
-  <h2>微积分基本定理</h2>
-  <div class="en-name">Fundamental Theorem of Calculus — 微分与积分是同一枚硬币的两面</div>
-  <span class="tag">Fundamental Theorem</span>
-
-  <div class="formula-box">$$\int_a^b f(x)\,dx = F(b) - F(a),\quad \text{其中 } F'(x)=f(x)$$</div>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>导数把「累积量」变成「变化率」（位置 → 速度），积分把「变化率」变回「累积量」（速度 → 位置）。<strong>它们是互逆的</strong>。这个看似平凡的事实，是微积分整个学科存在的理由。<br><br>更深的直觉：假设 $F(x)$ 表示「从起点到 $x$ 累积的面积」。那么从 $x$ 多走一点点 $dx$，新增的面积 ≈ 高度 $f(x)$ × 宽度 $dx$。换句话说：$dF = f\,dx$，即 $F'(x) = f(x)$。<em>「累积函数的瞬时变化率，就是被累积的那个量本身」</em>——这就是基本定理的几何灵魂。它把「求面积」这个看上去要无穷次相加的难事，转化成了「找一个反导数，相减两个值」的简单事。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 360 180" xmlns="http://www.w3.org/2000/svg">
-      <!-- 累积面积图 -->
-      <line x1="20" y1="150" x2="340" y2="150" stroke="#aaa" stroke-width="0.6"/>
-      <line x1="40" y1="20" x2="40" y2="160" stroke="#aaa" stroke-width="0.6"/>
-      <!-- 函数 f -->
-      <path d="M 40 130 Q 120 90 200 80 T 320 40" fill="none" stroke="#1e3a5f" stroke-width="2"/>
-      <text x="328" y="46" font-size="11" fill="#1e3a5f" font-style="italic">f(x)</text>
-      <!-- 累积阴影 -->
-      <path d="M 40 150 L 40 130 Q 120 90 200 80 L 200 150 z" fill="#3a6088" fill-opacity="0.25"/>
-      <text x="120" y="125" font-size="11" fill="#1e3a5f" font-style="italic" text-anchor="middle">F(x) = ∫f</text>
-      <!-- 新增条 -->
-      <rect x="200" y="80" width="14" height="70" fill="#c9544a" fill-opacity="0.55" stroke="#c9544a" stroke-width="0.6"/>
-      <line x1="200" y1="155" x2="200" y2="165" stroke="#c9544a" stroke-width="1"/>
-      <line x1="214" y1="155" x2="214" y2="165" stroke="#c9544a" stroke-width="1"/>
-      <text x="207" y="176" font-size="9.5" fill="#c9544a" text-anchor="middle">dx</text>
-      <text x="248" y="92" font-size="10.5" fill="#c9544a" font-style="italic">dF = f·dx</text>
-      <text x="320" y="166" font-size="10" fill="#666" text-anchor="end">x</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>17 世纪之前，「求曲线下面积」(quadrature) 和「求切线斜率」(tangent problem) 是两门毫不相关的手艺——前者属于阿基米德传统，后者属于费马、笛卡尔的解析几何。<strong>牛顿和莱布尼茨独立发现：它们居然互为逆运算。</strong>这就好比有人突然证明了「上楼梯」和「下楼梯」是同一个动作的两个方向——一个让两千年的两个独立领域合并成一个统一学科。这是数学史上少有的「桥被发现，两岸合并」的时刻之一。Strogatz 称之为「微积分的奇迹」(<em>the miracle of calculus</em>)。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>计算物理量、概率、统计中的<em>所有</em>积分，本质都靠基本定理：找反导数，代入端点相减。在数值计算里，这是辛普森法、龙格-库塔法等算法的理论基础。在自动微分（PyTorch/JAX）中，<strong>前向 = 累积，反向 = 求导</strong>，本质就是这个对偶关系在算法层面的体现。物理学中 Stokes 定理、Green 定理、Gauss 散度定理都是它在高维的推广——同一首乐曲不同声部。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">历史与人物</div>
-    <p>这个定理的雏形最早见于 17 世纪 50 年代 Isaac Barrow（牛顿的剑桥导师）的几何讲义中——但 Barrow 自己没意识到它的革命性。牛顿和莱布尼茨从不同角度独立地系统化了它。<strong>有趣的是</strong>，两人都没有用现代「函数」概念表述——「函数」要等到 18 世纪 Euler 才正式建立。所以严格的、我们今天教科书上的形式，是 19 世纪 Cauchy 才完成的。从直觉发现到严格表述，整整两百年。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">3Blue1Brown 视角</div>
-    <div class="intuition">Grant Sanderson 的话："如果你只能从微积分课记住一件事，让它是这个：导数和积分是互逆的。所有公式、所有技巧、所有应用，都从这一句话长出来。"</div>
-  </div>
-
-  <div class="section resources">
-    <div class="label">深入资源</div>
-    <ul>
-      <li>3Blue1Brown · <em>Essence of Calculus, Ch.8: Integration & the fundamental theorem</em></li>
-      <li>Tristan Needham · <em>Visual Complex Analysis</em>（几何视角下的微积分推广）</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <div class="label">English Insight</div>
-    <div class="english"><strong>fundamental theorem of calculus (FTC) · antiderivative · evaluate at endpoints</strong>。「互逆运算」= <em>inverse operations</em>。「累积函数」= <em>accumulation function</em>。在高维里它的推广是 <em>Stokes' theorem</em>——「边界上的积分 = 内部的导数积分」。</div>
-  </div>
-
-  <div class="section">
-    <div class="label">思考题</div>
-    <div class="think">设想你只测量了某一天每小时的降雨速率（毫米/小时），怎么算这一天的总降雨量？这个简单的实际问题里，藏着微积分基本定理的全部精神。再问：如果你测得的不是「率」而是「累积量」，怎么反推出「率」？这两个方向，你能感受到导数与积分的对偶吗？</div>
-  </div>
+<div class="card" data-tts="23497386eb46aa4a">
+<h2>微积分基本定理</h2>
+<div class="en-name">Fundamental Theorem of Calculus — 微分与积分是同一枚硬币的两面</div>
+<span class="tag">Fundamental Theorem</span>
+<div class="formula-box">$$\int_a^b f(x)\,dx = F(b) - F(a),\quad \text{其中 } F'(x)=f(x)$$</div>
+<div class="section">
+<div class="label">直觉版</div>
+<p>导数把「累积量」变成「变化率」（位置 → 速度），积分把「变化率」变回「累积量」（速度 → 位置）。<strong>它们是互逆的</strong>。这个看似平凡的事实，是微积分整个学科存在的理由。<br/><br/>更深的直觉：假设 $F(x)$ 表示「从起点到 $x$ 累积的面积」。那么从 $x$ 多走一点点 $dx$，新增的面积 ≈ 高度 $f(x)$ × 宽度 $dx$。换句话说：$dF = f\,dx$，即 $F'(x) = f(x)$。<em>「累积函数的瞬时变化率，就是被累积的那个量本身」</em>——这就是基本定理的几何灵魂。它把「求面积」这个看上去要无穷次相加的难事，转化成了「找一个反导数，相减两个值」的简单事。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 360 180" xmlns="http://www.w3.org/2000/svg">
+<!-- 累积面积图 -->
+<line stroke="#aaa" stroke-width="0.6" x1="20" x2="340" y1="150" y2="150"></line>
+<line stroke="#aaa" stroke-width="0.6" x1="40" x2="40" y1="20" y2="160"></line>
+<!-- 函数 f -->
+<path d="M 40 130 Q 120 90 200 80 T 320 40" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<text fill="#1e3a5f" font-size="11" font-style="italic" x="328" y="46">f(x)</text>
+<!-- 累积阴影 -->
+<path d="M 40 150 L 40 130 Q 120 90 200 80 L 200 150 z" fill="#3a6088" fill-opacity="0.25"></path>
+<text fill="#1e3a5f" font-size="11" font-style="italic" text-anchor="middle" x="120" y="125">F(x) = ∫f</text>
+<!-- 新增条 -->
+<rect fill="#c9544a" fill-opacity="0.55" height="70" stroke="#c9544a" stroke-width="0.6" width="14" x="200" y="80"></rect>
+<line stroke="#c9544a" stroke-width="1" x1="200" x2="200" y1="155" y2="165"></line>
+<line stroke="#c9544a" stroke-width="1" x1="214" x2="214" y1="155" y2="165"></line>
+<text fill="#c9544a" font-size="9.5" text-anchor="middle" x="207" y="176">dx</text>
+<text fill="#c9544a" font-size="10.5" font-style="italic" x="248" y="92">dF = f·dx</text>
+<text fill="#666" font-size="10" text-anchor="end" x="320" y="166">x</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>17 世纪之前，「求曲线下面积」(quadrature) 和「求切线斜率」(tangent problem) 是两门毫不相关的手艺——前者属于阿基米德传统，后者属于费马、笛卡尔的解析几何。<strong>牛顿和莱布尼茨独立发现：它们居然互为逆运算。</strong>这就好比有人突然证明了「上楼梯」和「下楼梯」是同一个动作的两个方向——一个让两千年的两个独立领域合并成一个统一学科。这是数学史上少有的「桥被发现，两岸合并」的时刻之一。Strogatz 称之为「微积分的奇迹」(<em>the miracle of calculus</em>)。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>计算物理量、概率、统计中的<em>所有</em>积分，本质都靠基本定理：找反导数，代入端点相减。在数值计算里，这是辛普森法、龙格-库塔法等算法的理论基础。在自动微分（PyTorch/JAX）中，<strong>前向 = 累积，反向 = 求导</strong>，本质就是这个对偶关系在算法层面的体现。物理学中 Stokes 定理、Green 定理、Gauss 散度定理都是它在高维的推广——同一首乐曲不同声部。</p>
+</div>
+<div class="section">
+<div class="label">历史与人物</div>
+<p>这个定理的雏形最早见于 17 世纪 50 年代 Isaac Barrow（牛顿的剑桥导师）的几何讲义中——但 Barrow 自己没意识到它的革命性。牛顿和莱布尼茨从不同角度独立地系统化了它。<strong>有趣的是</strong>，两人都没有用现代「函数」概念表述——「函数」要等到 18 世纪 Euler 才正式建立。所以严格的、我们今天教科书上的形式，是 19 世纪 Cauchy 才完成的。从直觉发现到严格表述，整整两百年。</p>
+</div>
+<div class="section">
+<div class="label">3Blue1Brown 视角</div>
+<div class="intuition">Grant Sanderson 的话："如果你只能从微积分课记住一件事，让它是这个：导数和积分是互逆的。所有公式、所有技巧、所有应用，都从这一句话长出来。"</div>
+</div>
+<div class="section resources">
+<div class="label">深入资源</div>
+<ul>
+<li>3Blue1Brown · <em>Essence of Calculus, Ch.8: Integration &amp; the fundamental theorem</em></li>
+<li>Tristan Needham · <em>Visual Complex Analysis</em>（几何视角下的微积分推广）</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">English Insight</div>
+<div class="english"><strong>fundamental theorem of calculus (FTC) · antiderivative · evaluate at endpoints</strong>。「互逆运算」= <em>inverse operations</em>。「累积函数」= <em>accumulation function</em>。在高维里它的推广是 <em>Stokes' theorem</em>——「边界上的积分 = 内部的导数积分」。</div>
+</div>
+<div class="section">
+<div class="label">思考题</div>
+<div class="think">设想你只测量了某一天每小时的降雨速率（毫米/小时），怎么算这一天的总降雨量？这个简单的实际问题里，藏着微积分基本定理的全部精神。再问：如果你测得的不是「率」而是「累积量」，怎么反推出「率」？这两个方向，你能感受到导数与积分的对偶吗？</div>
+</div>
+</div>
 <nav class="bottom">
-  <a href="index.html">← 返回 Mathematics</a>
+<a href="index.html">← 返回 Mathematics</a>
 </nav>
-
 </div>
-<script src="https://hub.cissychen.com/comments.js" defer></script>
-<script src="https://hub.cissychen.com/search.js" defer></script>
-<script src="https://hub.cissychen.com/index-button.js" defer></script>
-<script src="https://hub.cissychen.com/i18n-tts.js" defer></script>
+<script defer="" src="https://hub.cissychen.com/comments.js"></script>
+<script defer="" src="https://hub.cissychen.com/search.js"></script>
+<script defer="" src="https://hub.cissychen.com/index-button.js"></script>
+<script defer="" src="https://hub.cissychen.com/i18n-tts.js"></script>
 </body>
 </html>

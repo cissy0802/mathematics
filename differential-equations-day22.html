@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>微分方程 · Day 22 — Mathematics</title>
 <script>
 window.MathJax = {
@@ -14,7 +15,7 @@ window.MathJax = {
   options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
 };
 </script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
@@ -55,232 +56,197 @@ nav.bottom a:hover{color:#1e3a5f}
 </head>
 <body>
 <div class="container">
-
 <header>
-  <div class="kicker">Day 22 · 2026.07.14</div>
-  <h1>微分方程</h1>
-  <div class="meta">Differential Equations — 用变化率书写世界运行的法则</div>
-  <div class="epigraph">"自牛顿以来，人类逐渐领悟：物理定律总是用微分方程的语言写就。" — Steven Strogatz</div>
+<div class="kicker">Day 22 · 2026.07.14</div>
+<h1 data-tts="bfdb24a9ef4b5a3b">微分方程</h1>
+<div class="meta">Differential Equations — 用变化率书写世界运行的法则</div>
+<div class="epigraph">"自牛顿以来，人类逐渐领悟：物理定律总是用微分方程的语言写就。" — Steven Strogatz</div>
 </header>
-
 <!-- 概念 1：常微分方程与人口模型 -->
-<div class="card">
-  <h2>常微分方程</h2>
-  <div class="en-name">Ordinary Differential Equations · 用「此刻的变化率」推演整段未来</div>
-  <span class="tag">常微分方程</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>微分方程不直接告诉你「你在哪」，而是告诉你「<strong>在这个位置上，你正以多快的速度改变</strong>」。它是一条局部规则；把它一小步一小步顺下去，就长出整条命运轨迹。<br><br>看人口。最朴素的假设：新增人数正比于现有人数——人越多生得越多，于是 $\frac{dP}{dt}=rP$，解出来是<strong>指数爆炸</strong>。但地球装不下无穷多人，资源一紧增长就该刹车。Verhulst 加了个「刹车项」：当 $P$ 逼近环境容量 $K$，增长率被自己按到零。方程成了 $\frac{dP}{dt}=rP\left(1-\frac{P}{K}\right)$，轨迹从爆炸的指数曲线弯成一条优雅的 <strong>S 形（logistic）曲线</strong>：先缓、再猛、后饱和。<em>没人「设计」这条 S 曲线——它是那条局部规则自己生长出来的形状。</em></p>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <div class="formula-box">$$\frac{dP}{dt}=rP\left(1-\frac{P}{K}\right)$$</div>
-    <p>$P(t)$ 是随时间变的种群数，$r$ 是内禀增长率，$K$ 是环境容量（可承载上限）。括号里的 $1-P/K$ 是那个刹车：$P$ 很小时它约等于 $1$（近乎指数增长），$P$ 接近 $K$ 时它趋于 $0$（增长停住）。只需给一个初值 $P(0)$，整条曲线就被唯一确定。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 380 200" xmlns="http://www.w3.org/2000/svg">
-      <line x1="34" y1="170" x2="360" y2="170" stroke="#aaa" stroke-width="0.8"/>
-      <line x1="34" y1="20" x2="34" y2="170" stroke="#aaa" stroke-width="0.8"/>
-      <line x1="34" y1="46" x2="360" y2="46" stroke="#c0c8d4" stroke-width="0.8" stroke-dasharray="4,3"/>
-      <text x="42" y="42" font-size="10" fill="#5a7090" font-style="italic">K 容量上限</text>
-      <!-- 指数曲线 -->
-      <path d="M 34 168 Q 150 160 210 40 T 250 -10" fill="none" stroke="#c9a96b" stroke-width="1.8" stroke-dasharray="5,3"/>
-      <text x="196" y="34" font-size="10" fill="#8a7340" font-style="italic">指数 rP</text>
-      <!-- logistic S 曲线 -->
-      <path d="M 34 168 C 120 165 150 120 190 90 C 240 52 300 48 360 47" fill="none" stroke="#1e3a5f" stroke-width="2.2"/>
-      <text x="300" y="66" font-size="10.5" fill="#1e3a5f" font-style="italic">logistic S 形</text>
-      <text x="350" y="186" font-size="10" fill="#666" text-anchor="end">t</text>
-      <text x="40" y="30" font-size="10" fill="#666">P</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>同一个 logistic 方程，几乎原封不动地描述了：细菌繁殖、谣言与病毒传播、新技术采纳曲线、肿瘤生长。<strong>这些表面毫不相干的现象，共享同一条「自我限制的增长」骨架。</strong>这正是微分方程最惊人之处——它不描述某个具体故事，而是捕捉一整类故事背后共同的<em>生长语法</em>。一条方程，写尽万物由盛转饱的宿命。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>流行病学的 SIR 模型是一组耦合 ODE，各国封控决策靠它推演；化学动力学、电路、控制系统全是 ODE。在 AI 里，<strong>Neural ODE</strong> 把神经网络的「层」看成连续时间——残差网络逐层前向传播，本质是数值求解一个 ODE，深度成了「积分时长」。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华 + 思考题</div>
-    <div class="think"><strong>微分方程给的是局部规则「此刻怎么变」，解出的却是全局命运「整条轨迹」——初值加规则，未来即被锁定。</strong><br>思考题：logistic 方程完全确定（无随机项），为何仍能描述看似「不可预测」的增长？「确定的规则」与「可预测的未来」是一回事吗？（Day 16 动力系统会给出否定的答案。）</div>
-  </div>
+<div class="card" data-tts="0190bf81dc66f660">
+<h2>常微分方程</h2>
+<div class="en-name">Ordinary Differential Equations · 用「此刻的变化率」推演整段未来</div>
+<span class="tag">常微分方程</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>微分方程不直接告诉你「你在哪」，而是告诉你「<strong>在这个位置上，你正以多快的速度改变</strong>」。它是一条局部规则；把它一小步一小步顺下去，就长出整条命运轨迹。<br/><br/>看人口。最朴素的假设：新增人数正比于现有人数——人越多生得越多，于是 $\frac{dP}{dt}=rP$，解出来是<strong>指数爆炸</strong>。但地球装不下无穷多人，资源一紧增长就该刹车。Verhulst 加了个「刹车项」：当 $P$ 逼近环境容量 $K$，增长率被自己按到零。方程成了 $\frac{dP}{dt}=rP\left(1-\frac{P}{K}\right)$，轨迹从爆炸的指数曲线弯成一条优雅的 <strong>S 形（logistic）曲线</strong>：先缓、再猛、后饱和。<em>没人「设计」这条 S 曲线——它是那条局部规则自己生长出来的形状。</em></p>
 </div>
-
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\frac{dP}{dt}=rP\left(1-\frac{P}{K}\right)$$</div>
+<p>$P(t)$ 是随时间变的种群数，$r$ 是内禀增长率，$K$ 是环境容量（可承载上限）。括号里的 $1-P/K$ 是那个刹车：$P$ 很小时它约等于 $1$（近乎指数增长），$P$ 接近 $K$ 时它趋于 $0$（增长停住）。只需给一个初值 $P(0)$，整条曲线就被唯一确定。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 200" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.8" x1="34" x2="360" y1="170" y2="170"></line>
+<line stroke="#aaa" stroke-width="0.8" x1="34" x2="34" y1="20" y2="170"></line>
+<line stroke="#c0c8d4" stroke-dasharray="4,3" stroke-width="0.8" x1="34" x2="360" y1="46" y2="46"></line>
+<text fill="#5a7090" font-size="10" font-style="italic" x="42" y="42">K 容量上限</text>
+<!-- 指数曲线 -->
+<path d="M 34 168 Q 150 160 210 40 T 250 -10" fill="none" stroke="#c9a96b" stroke-dasharray="5,3" stroke-width="1.8"></path>
+<text fill="#8a7340" font-size="10" font-style="italic" x="196" y="34">指数 rP</text>
+<!-- logistic S 曲线 -->
+<path d="M 34 168 C 120 165 150 120 190 90 C 240 52 300 48 360 47" fill="none" stroke="#1e3a5f" stroke-width="2.2"></path>
+<text fill="#1e3a5f" font-size="10.5" font-style="italic" x="300" y="66">logistic S 形</text>
+<text fill="#666" font-size="10" text-anchor="end" x="350" y="186">t</text>
+<text fill="#666" font-size="10" x="40" y="30">P</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>同一个 logistic 方程，几乎原封不动地描述了：细菌繁殖、谣言与病毒传播、新技术采纳曲线、肿瘤生长。<strong>这些表面毫不相干的现象，共享同一条「自我限制的增长」骨架。</strong>这正是微分方程最惊人之处——它不描述某个具体故事，而是捕捉一整类故事背后共同的<em>生长语法</em>。一条方程，写尽万物由盛转饱的宿命。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>流行病学的 SIR 模型是一组耦合 ODE，各国封控决策靠它推演；化学动力学、电路、控制系统全是 ODE。在 AI 里，<strong>Neural ODE</strong> 把神经网络的「层」看成连续时间——残差网络逐层前向传播，本质是数值求解一个 ODE，深度成了「积分时长」。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>微分方程给的是局部规则「此刻怎么变」，解出的却是全局命运「整条轨迹」——初值加规则，未来即被锁定。</strong><br/>思考题：logistic 方程完全确定（无随机项），为何仍能描述看似「不可预测」的增长？「确定的规则」与「可预测的未来」是一回事吗？（Day 16 动力系统会给出否定的答案。）</div>
+</div>
+</div>
 <!-- 概念 2：热方程 -->
-<div class="card">
-  <h2>热方程</h2>
-  <div class="en-name">The Heat Equation · 万物趋于平滑，时间不可倒流</div>
-  <span class="tag">偏微分方程</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>把一根铁棒中间烧红，热会往两边冷处流。流多快？取决于「这点比邻居热多少」。数学把「与邻居的落差」精确化为<strong>二阶空间导数</strong>（曲率）：一个点若像凸起的尖峰（高于邻居）就降温，若像凹陷的谷（低于邻居）就升温。<em>于是所有尖角被磨圆、起伏被抹平，最终归于均匀。</em><br><br>这就是<strong>扩散</strong>——不只是热，墨水在水中散开、气味在房间弥漫，遵循同一条方程。而它藏着一个秘密：<strong>时间有方向。</strong>你能看着墨水散开，却从没见过散开的墨水自己聚回一点。热方程正向温和地抹平一切，倒着运行却会疯狂放大最细微的噪声——它给了「时间箭头」一个纯数学的解释。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <div class="formula-box">$$\frac{\partial u}{\partial t}=\alpha\,\frac{\partial^2 u}{\partial x^2}$$</div>
-    <p>$u(x,t)$ 是位置 $x$、时刻 $t$ 的温度，$\alpha>0$ 是热扩散系数。左边「温度随时间怎么变」，右边正是那个曲率：$\frac{\partial^2 u}{\partial x^2}>0$（凹谷）则升温，$<0$（凸峰）则降温。方程说的就是一句话——<strong>越不平的地方，被抹平得越急</strong>。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">
-      <line x1="30" y1="150" x2="360" y2="150" stroke="#aaa" stroke-width="0.8"/>
-      <!-- t0 尖峰 -->
-      <path d="M 30 150 L 180 150 L 195 30 L 210 150 L 360 150" fill="none" stroke="#c9544a" stroke-width="1.8"/>
-      <text x="205" y="26" font-size="10" fill="#c9544a" font-style="italic">t=0</text>
-      <!-- 中间 -->
-      <path d="M 30 150 Q 120 148 195 78 Q 270 148 360 150" fill="none" stroke="#c9a96b" stroke-width="1.6"/>
-      <!-- t 大 平缓钟形 -->
-      <path d="M 30 148 Q 130 140 195 116 Q 260 140 360 148" fill="none" stroke="#1e3a5f" stroke-width="1.8"/>
-      <text x="300" y="128" font-size="10" fill="#1e3a5f" font-style="italic">t 增大 → 抹平</text>
-      <text x="350" y="166" font-size="10" fill="#666" text-anchor="end">x</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>热方程的解有一个惊艳的显式形式：一个初始点热源，随时间散开成一条<strong>正态分布（高斯钟形）</strong>，且越散越宽，标准差正比于 $\sqrt{t}$。这条「热核」把两个看似无关的世界焊在一起：<em>确定性的热扩散</em>与<em>随机的布朗运动</em>。无数分子的随机乱撞，宏观上竟精确遵守一条光滑的偏微分方程。概率与分析，在此握手。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>图像处理的<strong>高斯模糊</strong>就是让像素亮度按热方程扩散几步；金融的 Black-Scholes 期权定价方程，换元后正是一个热方程。最惊人的是<strong>扩散生成模型</strong>（Stable Diffusion、Sora 的底层）：训练时把图像扩散加噪「抹平」成纯噪声，生成时再学着<em>反转</em>这个不可逆过程——AI 画画，本质是在数学上倒放一部热方程的电影。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华 + 思考题</div>
-    <div class="think"><strong>热方程把「变化率正比于与邻居的落差」写成一行公式，抹平一切起伏，并给了时间一个不可逆的方向。</strong><br>思考题：既然反向热方程会放大噪声、数学上「病态」，扩散模型凭什么还能稳定地反转它、生成清晰图像？靠的是什么额外信息填补了这份不可逆？</div>
-  </div>
+<div class="card" data-tts="fce05c51b1767bdb">
+<h2>热方程</h2>
+<div class="en-name">The Heat Equation · 万物趋于平滑，时间不可倒流</div>
+<span class="tag">偏微分方程</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>把一根铁棒中间烧红，热会往两边冷处流。流多快？取决于「这点比邻居热多少」。数学把「与邻居的落差」精确化为<strong>二阶空间导数</strong>（曲率）：一个点若像凸起的尖峰（高于邻居）就降温，若像凹陷的谷（低于邻居）就升温。<em>于是所有尖角被磨圆、起伏被抹平，最终归于均匀。</em><br/><br/>这就是<strong>扩散</strong>——不只是热，墨水在水中散开、气味在房间弥漫，遵循同一条方程。而它藏着一个秘密：<strong>时间有方向。</strong>你能看着墨水散开，却从没见过散开的墨水自己聚回一点。热方程正向温和地抹平一切，倒着运行却会疯狂放大最细微的噪声——它给了「时间箭头」一个纯数学的解释。</p>
 </div>
-
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\frac{\partial u}{\partial t}=\alpha\,\frac{\partial^2 u}{\partial x^2}$$</div>
+<p>$u(x,t)$ 是位置 $x$、时刻 $t$ 的温度，$\alpha&gt;0$ 是热扩散系数。左边「温度随时间怎么变」，右边正是那个曲率：$\frac{\partial^2 u}{\partial x^2}&gt;0$（凹谷）则升温，$&lt;0$（凸峰）则降温。方程说的就是一句话——<strong>越不平的地方，被抹平得越急</strong>。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.8" x1="30" x2="360" y1="150" y2="150"></line>
+<!-- t0 尖峰 -->
+<path d="M 30 150 L 180 150 L 195 30 L 210 150 L 360 150" fill="none" stroke="#c9544a" stroke-width="1.8"></path>
+<text fill="#c9544a" font-size="10" font-style="italic" x="205" y="26">t=0</text>
+<!-- 中间 -->
+<path d="M 30 150 Q 120 148 195 78 Q 270 148 360 150" fill="none" stroke="#c9a96b" stroke-width="1.6"></path>
+<!-- t 大 平缓钟形 -->
+<path d="M 30 148 Q 130 140 195 116 Q 260 140 360 148" fill="none" stroke="#1e3a5f" stroke-width="1.8"></path>
+<text fill="#1e3a5f" font-size="10" font-style="italic" x="300" y="128">t 增大 → 抹平</text>
+<text fill="#666" font-size="10" text-anchor="end" x="350" y="166">x</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>热方程的解有一个惊艳的显式形式：一个初始点热源，随时间散开成一条<strong>正态分布（高斯钟形）</strong>，且越散越宽，标准差正比于 $\sqrt{t}$。这条「热核」把两个看似无关的世界焊在一起：<em>确定性的热扩散</em>与<em>随机的布朗运动</em>。无数分子的随机乱撞，宏观上竟精确遵守一条光滑的偏微分方程。概率与分析，在此握手。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>图像处理的<strong>高斯模糊</strong>就是让像素亮度按热方程扩散几步；金融的 Black-Scholes 期权定价方程，换元后正是一个热方程。最惊人的是<strong>扩散生成模型</strong>（Stable Diffusion、Sora 的底层）：训练时把图像扩散加噪「抹平」成纯噪声，生成时再学着<em>反转</em>这个不可逆过程——AI 画画，本质是在数学上倒放一部热方程的电影。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>热方程把「变化率正比于与邻居的落差」写成一行公式，抹平一切起伏，并给了时间一个不可逆的方向。</strong><br/>思考题：既然反向热方程会放大噪声、数学上「病态」，扩散模型凭什么还能稳定地反转它、生成清晰图像？靠的是什么额外信息填补了这份不可逆？</div>
+</div>
+</div>
 <!-- 概念 3：波方程 -->
-<div class="card">
-  <h2>波方程</h2>
-  <div class="en-name">The Wave Equation · 一字之差，命运翻转</div>
-  <span class="tag">偏微分方程</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>波方程和热方程长得几乎一样——只把左边的<strong>一阶时间导</strong>换成<strong>二阶</strong>。就这一个字之差，行为天翻地覆。<br><br>一阶时间导（热方程）说「曲率决定<em>速度</em>」，系统单调滑向平衡、再不回头。二阶时间导（波方程）说「曲率决定<em>加速度</em>」——这就像弹簧：拉离平衡越远，回拉的力越大，于是它<strong>冲过</strong>平衡点、荡到另一侧、再荡回来，<em>永不停歇地振荡</em>。琴弦、水波、传播的声与光，都是这份「过冲—回弹」在空间里一站站接力。热方程让扰动<em>消失</em>，波方程让扰动<em>旅行</em>。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <div class="formula-box">$$\frac{\partial^2 u}{\partial t^2}=c^2\,\frac{\partial^2 u}{\partial x^2}$$</div>
-    <p>$u(x,t)$ 是位移（弦的高度、气压、场强），$c$ 是波速。左边是加速度，右边仍是曲率。d'Alembert 给出了它惊人干净的通解：$u=f(x-ct)+g(x+ct)$——<strong>任意</strong>一个右行波加一个左行波，保持形状匀速前进。整个解空间，就是「向左走的形状」与「向右走的形状」的自由叠加。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>把一阶时间导升成二阶，系统整个性格就翻了个面：<strong>耗散变守恒、不可逆变可逆</strong>。波方程能量不随时间衰减，且<em>时间可逆</em>——一段波动录像倒放，仍是合法解（热扩散倒放则荒谬）。更震撼的是，Maxwell 把电与磁的方程组合并，得到的正是一个波方程，波速 $c$ 恰好等于光速——<strong>光，就此被「预言」成一种电磁波。</strong>一个方程结构，统一了声、水、光、地震与引力波。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>声学与乐器设计、地震波成像（给地球做 CT）、超声与雷达、光纤通信，全都在解波方程。2015 年 LIGO 探测到的<strong>引力波</strong>，是爱因斯坦场方程在弱场下退化出的波方程之解，迟到百年的验证。量子力学的薛定谔方程，更是波方程与热方程间用复数搭起的近亲。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华 + 思考题</div>
-    <div class="think"><strong>把时间导数从一阶提到二阶，抹平的扩散就变成不衰减的振荡——同一副数学骨架，因一个数字而分出「消失」与「旅行」两种世界。</strong><br>思考题：为什么正是「二阶时间导」带来了时间可逆与能量守恒？物理定律的基本方程大多是二阶时间导（$F=ma$ 也是），这暗示了宇宙怎样的一种深层对称？</div>
-  </div>
+<div class="card" data-tts="f4e18b33d94130be">
+<h2>波方程</h2>
+<div class="en-name">The Wave Equation · 一字之差，命运翻转</div>
+<span class="tag">偏微分方程</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>波方程和热方程长得几乎一样——只把左边的<strong>一阶时间导</strong>换成<strong>二阶</strong>。就这一个字之差，行为天翻地覆。<br/><br/>一阶时间导（热方程）说「曲率决定<em>速度</em>」，系统单调滑向平衡、再不回头。二阶时间导（波方程）说「曲率决定<em>加速度</em>」——这就像弹簧：拉离平衡越远，回拉的力越大，于是它<strong>冲过</strong>平衡点、荡到另一侧、再荡回来，<em>永不停歇地振荡</em>。琴弦、水波、传播的声与光，都是这份「过冲—回弹」在空间里一站站接力。热方程让扰动<em>消失</em>，波方程让扰动<em>旅行</em>。</p>
 </div>
-
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\frac{\partial^2 u}{\partial t^2}=c^2\,\frac{\partial^2 u}{\partial x^2}$$</div>
+<p>$u(x,t)$ 是位移（弦的高度、气压、场强），$c$ 是波速。左边是加速度，右边仍是曲率。d'Alembert 给出了它惊人干净的通解：$u=f(x-ct)+g(x+ct)$——<strong>任意</strong>一个右行波加一个左行波，保持形状匀速前进。整个解空间，就是「向左走的形状」与「向右走的形状」的自由叠加。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>把一阶时间导升成二阶，系统整个性格就翻了个面：<strong>耗散变守恒、不可逆变可逆</strong>。波方程能量不随时间衰减，且<em>时间可逆</em>——一段波动录像倒放，仍是合法解（热扩散倒放则荒谬）。更震撼的是，Maxwell 把电与磁的方程组合并，得到的正是一个波方程，波速 $c$ 恰好等于光速——<strong>光，就此被「预言」成一种电磁波。</strong>一个方程结构，统一了声、水、光、地震与引力波。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>声学与乐器设计、地震波成像（给地球做 CT）、超声与雷达、光纤通信，全都在解波方程。2015 年 LIGO 探测到的<strong>引力波</strong>，是爱因斯坦场方程在弱场下退化出的波方程之解，迟到百年的验证。量子力学的薛定谔方程，更是波方程与热方程间用复数搭起的近亲。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>把时间导数从一阶提到二阶，抹平的扩散就变成不衰减的振荡——同一副数学骨架，因一个数字而分出「消失」与「旅行」两种世界。</strong><br/>思考题：为什么正是「二阶时间导」带来了时间可逆与能量守恒？物理定律的基本方程大多是二阶时间导（$F=ma$ 也是），这暗示了宇宙怎样的一种深层对称？</div>
+</div>
+</div>
 <!-- 概念 4：数值方法 -->
-<div class="card">
-  <h2>数值方法</h2>
-  <div class="en-name">Numerical Methods · 当公式解不存在时，就顺着斜率走</div>
-  <span class="tag">数值分析</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>残酷的事实：<strong>绝大多数微分方程没有初等函数写成的解。</strong>三体问题、天气、湍流——你永远得不到一个干净的 $u(t)=\dots$ 公式。但方程给了你一样宝贵的东西：<em>每一点的斜率</em>。那就够了。<br><br>最朴素的 Euler 法像蒙眼走山路：站在当前点，摸一下脚下的坡度（方程算出的斜率），沿这方向迈一小步 $h$，落到新点，再摸坡度、再迈步……一步步把连续曲线近似成一条折线。步子越小越贴合真解，但每步的微小误差会<strong>累积</strong>，折线慢慢偏离真曲线。改进的思路是 <strong>Runge-Kutta（RK4）</strong>：迈步前先在步内多处试探斜率、取加权平均，让这一步「预判」曲线的弯度，精度陡增数个数量级。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <div class="formula-box">$$y_{n+1}=y_n+h\,f(t_n,y_n)$$</div>
-    <p>这是 Euler 法：$y_n$ 是当前值，$f(t_n,y_n)$ 是方程给出的当前斜率，$h$ 是步长。「当前值 + 斜率 × 步长」= 下一点，它是所有数值积分器的原子。RK4 只是把这步的斜率 $f$ 换成四次探测的加权平均，误差从与 $h^2$ 成正比压到与 $h^5$ 成正比。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 380 190" xmlns="http://www.w3.org/2000/svg">
-      <line x1="30" y1="160" x2="360" y2="160" stroke="#aaa" stroke-width="0.8"/>
-      <line x1="34" y1="18" x2="34" y2="160" stroke="#aaa" stroke-width="0.8"/>
-      <!-- 真解曲线 -->
-      <path d="M 34 150 Q 140 138 220 78 T 350 22" fill="none" stroke="#1e3a5f" stroke-width="2"/>
-      <text x="300" y="40" font-size="10" fill="#1e3a5f" font-style="italic">真解</text>
-      <!-- Euler 折线（偏下） -->
-      <polyline points="34,150 100,138 166,120 232,102 298,86 350,74" fill="none" stroke="#c9544a" stroke-width="1.6" stroke-dasharray="1,0"/>
-      <g fill="#c9544a">
-        <circle cx="34" cy="150" r="2.6"/><circle cx="100" cy="138" r="2.6"/><circle cx="166" cy="120" r="2.6"/>
-        <circle cx="232" cy="102" r="2.6"/><circle cx="298" cy="86" r="2.6"/><circle cx="350" cy="74" r="2.6"/>
-      </g>
-      <text x="250" y="118" font-size="10" fill="#c9544a" font-style="italic">Euler 折线（误差累积）</text>
-      <!-- 步长标注 -->
-      <line x1="34" y1="168" x2="100" y2="168" stroke="#666" stroke-width="0.7"/>
-      <text x="60" y="182" font-size="9" fill="#666" text-anchor="middle">h</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>数值方法是<strong>微积分的逆向工程</strong>：微积分把离散求和推向连续极限，数值方法再把连续切回离散，让沉默的方程说出具体数字。它逼你直面一个三角权衡——<strong>精度、步长、稳定性</strong>：步子太大会失真，太小则误差累积且算得慢；而某些方法步长一旦超过阈值，误差还会指数爆炸、彻底发散。连续与离散的这场对话，是全部科学计算的底色。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>天气预报、流体与热仿真、游戏物理引擎、火箭轨道（阿波罗与 SpaceX 的制导），全靠数值求解微分方程。在 AI 里，<strong>扩散模型的每一次采样，就是在数值求解一个反向 ODE/SDE</strong>——DDIM、DPM-Solver 这些「加速采样器」，本质是更聪明的 Runge-Kutta。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华 + 思考题</div>
-    <div class="think"><strong>解不出公式，就顺着方程给的斜率一步步走——数值方法把连续切回离散，代价是精度、步长与稳定性之间永恒的权衡。</strong><br>思考题：既然步长越小越准，为何不取无穷小的步长？（提示：浮点舍入误差与计算成本会从另一头反扑——见 Day 62。）</div>
-  </div>
+<div class="card" data-tts="a33ee55104f04d1a">
+<h2>数值方法</h2>
+<div class="en-name">Numerical Methods · 当公式解不存在时，就顺着斜率走</div>
+<span class="tag">数值分析</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>残酷的事实：<strong>绝大多数微分方程没有初等函数写成的解。</strong>三体问题、天气、湍流——你永远得不到一个干净的 $u(t)=\dots$ 公式。但方程给了你一样宝贵的东西：<em>每一点的斜率</em>。那就够了。<br/><br/>最朴素的 Euler 法像蒙眼走山路：站在当前点，摸一下脚下的坡度（方程算出的斜率），沿这方向迈一小步 $h$，落到新点，再摸坡度、再迈步……一步步把连续曲线近似成一条折线。步子越小越贴合真解，但每步的微小误差会<strong>累积</strong>，折线慢慢偏离真曲线。改进的思路是 <strong>Runge-Kutta（RK4）</strong>：迈步前先在步内多处试探斜率、取加权平均，让这一步「预判」曲线的弯度，精度陡增数个数量级。</p>
 </div>
-
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$y_{n+1}=y_n+h\,f(t_n,y_n)$$</div>
+<p>这是 Euler 法：$y_n$ 是当前值，$f(t_n,y_n)$ 是方程给出的当前斜率，$h$ 是步长。「当前值 + 斜率 × 步长」= 下一点，它是所有数值积分器的原子。RK4 只是把这步的斜率 $f$ 换成四次探测的加权平均，误差从与 $h^2$ 成正比压到与 $h^5$ 成正比。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 190" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.8" x1="30" x2="360" y1="160" y2="160"></line>
+<line stroke="#aaa" stroke-width="0.8" x1="34" x2="34" y1="18" y2="160"></line>
+<!-- 真解曲线 -->
+<path d="M 34 150 Q 140 138 220 78 T 350 22" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<text fill="#1e3a5f" font-size="10" font-style="italic" x="300" y="40">真解</text>
+<!-- Euler 折线（偏下） -->
+<polyline fill="none" points="34,150 100,138 166,120 232,102 298,86 350,74" stroke="#c9544a" stroke-dasharray="1,0" stroke-width="1.6"></polyline>
+<g fill="#c9544a">
+<circle cx="34" cy="150" r="2.6"></circle><circle cx="100" cy="138" r="2.6"></circle><circle cx="166" cy="120" r="2.6"></circle>
+<circle cx="232" cy="102" r="2.6"></circle><circle cx="298" cy="86" r="2.6"></circle><circle cx="350" cy="74" r="2.6"></circle>
+</g>
+<text fill="#c9544a" font-size="10" font-style="italic" x="250" y="118">Euler 折线（误差累积）</text>
+<!-- 步长标注 -->
+<line stroke="#666" stroke-width="0.7" x1="34" x2="100" y1="168" y2="168"></line>
+<text fill="#666" font-size="9" text-anchor="middle" x="60" y="182">h</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>数值方法是<strong>微积分的逆向工程</strong>：微积分把离散求和推向连续极限，数值方法再把连续切回离散，让沉默的方程说出具体数字。它逼你直面一个三角权衡——<strong>精度、步长、稳定性</strong>：步子太大会失真，太小则误差累积且算得慢；而某些方法步长一旦超过阈值，误差还会指数爆炸、彻底发散。连续与离散的这场对话，是全部科学计算的底色。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>天气预报、流体与热仿真、游戏物理引擎、火箭轨道（阿波罗与 SpaceX 的制导），全靠数值求解微分方程。在 AI 里，<strong>扩散模型的每一次采样，就是在数值求解一个反向 ODE/SDE</strong>——DDIM、DPM-Solver 这些「加速采样器」，本质是更聪明的 Runge-Kutta。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>解不出公式，就顺着方程给的斜率一步步走——数值方法把连续切回离散，代价是精度、步长与稳定性之间永恒的权衡。</strong><br/>思考题：既然步长越小越准，为何不取无穷小的步长？（提示：浮点舍入误差与计算成本会从另一头反扑——见 Day 62。）</div>
+</div>
+</div>
 <!-- 深入思考 -->
-<div class="card">
-  <h2>深入思考</h2>
-  <div class="en-name">开放问题 · 推向边界与跨学科</div>
-
-  <details>
-    <summary>为什么热方程不可逆、波方程却可逆？差别只在一个时间导数的阶数？</summary>
-    <div>关键在时间反演 $t\to -t$。二阶导 $\partial^2/\partial t^2$ 在此替换下不变（负负得正），波方程原封不动——倒放的波仍是合法解，能量守恒。一阶导 $\partial/\partial t$ 却变号，正向抹平的热方程一倒放就成了放大噪声的「反扩散」，数学上病态、物理上从不发生。<strong>方程的时间对称性，直接决定了它描述的世界有没有「时间箭头」</strong>——一个符号之差，划开可逆与不可逆两个宇宙。</div>
-  </details>
-
-  <details>
-    <summary>扩散模型如何「反转」本该不可逆的热方程？</summary>
-    <div>诀窍是它并不真的反解那个病态方程，而是<em>额外学了一个东西</em>：一个神经网络在海量图像上训练，学会在每个噪声水平下估计「往哪个方向去噪最像真实图像」（即数据分布对数密度的梯度，score）。这份从数据偷来的先验，恰好填补了不可逆过程丢失的信息，把病态反演变成一个有唯一稳定解的<strong>反向随机微分方程</strong>。不可逆性并未被违背——是数据的知识替时间倒流付了账。</div>
-  </details>
-
-  <details>
-    <summary>什么是「适定问题」（well-posed）？为什么它是应用数学的生死线？</summary>
-    <div>Hadamard 提出三条：解<strong>存在</strong>、<strong>唯一</strong>、且<strong>连续依赖初值</strong>（输入微扰只引起输出微扰）。第三条最关键：反向热方程正栽在这里——初始数据一点点测量噪声，会被放大成解里的滔天巨浪，任何数值计算都不可信。现实中的「反问题」（从模糊照片反推清晰图、从地表数据反推地下结构）大多病态，必须靠<em>正则化</em>——人为注入先验假设——才能驯服。适定与否，决定一个模型能不能真的拿来算。</div>
-  </details>
-
-  <details>
-    <summary>数值误差在混沌系统里为何注定失控，这是否意味着长期预测不可能？</summary>
-    <div>混沌系统对初值<strong>指数敏感</strong>（蝴蝶效应，见 Day 16）。数值方法每步引入的微小舍入误差，等于不断给系统注入新的初值扰动，而它们以指数速度被放大。于是无论算法多精、步长多小，超过某个「可预测时长」后，数值轨迹与真解必然面目全非——这正是天气预报到两周就失效的根本原因。但这不等于全盘无知：单条轨迹算不准，其<em>统计规律</em>（吸引子形状、长期平均）却往往稳定可算。确定性方程 → 不可长期预测的个体 + 可预测的整体，是微分方程最深的一课。</div>
-  </details>
+<div class="card" data-tts="482562a5246ae41e">
+<h2>深入思考</h2>
+<div class="en-name">开放问题 · 推向边界与跨学科</div>
+<details>
+<summary>为什么热方程不可逆、波方程却可逆？差别只在一个时间导数的阶数？</summary>
+<div>关键在时间反演 $t\to -t$。二阶导 $\partial^2/\partial t^2$ 在此替换下不变（负负得正），波方程原封不动——倒放的波仍是合法解，能量守恒。一阶导 $\partial/\partial t$ 却变号，正向抹平的热方程一倒放就成了放大噪声的「反扩散」，数学上病态、物理上从不发生。<strong>方程的时间对称性，直接决定了它描述的世界有没有「时间箭头」</strong>——一个符号之差，划开可逆与不可逆两个宇宙。</div>
+</details>
+<details>
+<summary>扩散模型如何「反转」本该不可逆的热方程？</summary>
+<div>诀窍是它并不真的反解那个病态方程，而是<em>额外学了一个东西</em>：一个神经网络在海量图像上训练，学会在每个噪声水平下估计「往哪个方向去噪最像真实图像」（即数据分布对数密度的梯度，score）。这份从数据偷来的先验，恰好填补了不可逆过程丢失的信息，把病态反演变成一个有唯一稳定解的<strong>反向随机微分方程</strong>。不可逆性并未被违背——是数据的知识替时间倒流付了账。</div>
+</details>
+<details>
+<summary>什么是「适定问题」（well-posed）？为什么它是应用数学的生死线？</summary>
+<div>Hadamard 提出三条：解<strong>存在</strong>、<strong>唯一</strong>、且<strong>连续依赖初值</strong>（输入微扰只引起输出微扰）。第三条最关键：反向热方程正栽在这里——初始数据一点点测量噪声，会被放大成解里的滔天巨浪，任何数值计算都不可信。现实中的「反问题」（从模糊照片反推清晰图、从地表数据反推地下结构）大多病态，必须靠<em>正则化</em>——人为注入先验假设——才能驯服。适定与否，决定一个模型能不能真的拿来算。</div>
+</details>
+<details>
+<summary>数值误差在混沌系统里为何注定失控，这是否意味着长期预测不可能？</summary>
+<div>混沌系统对初值<strong>指数敏感</strong>（蝴蝶效应，见 Day 16）。数值方法每步引入的微小舍入误差，等于不断给系统注入新的初值扰动，而它们以指数速度被放大。于是无论算法多精、步长多小，超过某个「可预测时长」后，数值轨迹与真解必然面目全非——这正是天气预报到两周就失效的根本原因。但这不等于全盘无知：单条轨迹算不准，其<em>统计规律</em>（吸引子形状、长期平均）却往往稳定可算。确定性方程 → 不可长期预测的个体 + 可预测的整体，是微分方程最深的一课。</div>
+</details>
 </div>
-
 <nav class="bottom">
-  <a href="index.html">← 返回 Mathematics</a>
+<a href="index.html">← 返回 Mathematics</a>
 </nav>
-
 </div>
-<script src="https://hub.cissychen.com/comments.js" defer></script>
-<script src="https://hub.cissychen.com/search.js" defer></script>
-<script src="https://hub.cissychen.com/index-button.js" defer></script>
-<script src="https://hub.cissychen.com/i18n-tts.js" defer></script>
+<script defer="" src="https://hub.cissychen.com/comments.js"></script>
+<script defer="" src="https://hub.cissychen.com/search.js"></script>
+<script defer="" src="https://hub.cissychen.com/index-button.js"></script>
+<script defer="" src="https://hub.cissychen.com/i18n-tts.js"></script>
 </body>
 </html>

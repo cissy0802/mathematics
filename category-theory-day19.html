@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>范畴论入门 · Day 19 — Mathematics</title>
 <script>
 window.MathJax = {
@@ -15,7 +16,7 @@ window.MathJax = {
 };
 </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
@@ -57,257 +58,220 @@ nav.bottom a:hover{color:#1e3a5f}
 </head>
 <body>
 <div class="container">
-
 <header>
-  <div class="kicker">Day 19 · 2026.07.11</div>
-  <h1>范畴论入门</h1>
-  <div class="meta">Category Theory — 别打开盒子看里面，看它和世界的连线</div>
-  <div class="epigraph">"范畴论是数学的数学——它不研究某个结构，而研究一切结构共有的骨架。" — 改写自 Saunders Mac Lane</div>
+<div class="kicker">Day 19 · 2026.07.11</div>
+<h1 data-tts="5f94f33f8a76916d">范畴论入门</h1>
+<div class="meta">Category Theory — 别打开盒子看里面，看它和世界的连线</div>
+<div class="epigraph">"范畴论是数学的数学——它不研究某个结构，而研究一切结构共有的骨架。" — 改写自 Saunders Mac Lane</div>
 </header>
-
 <!-- 概念 1：范畴 -->
-<div class="card">
-  <h2>范畴</h2>
-  <div class="en-name">Category · 关系先于对象</div>
-  <span class="tag">Foundations</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>传统数学总在「打开盒子」：集合里装着哪些元素、群里有哪些运算。范畴论换了个视角——<strong>忘掉对象内部长什么样，只看对象之间的箭头，以及箭头怎么接龙。</strong><br><br>一个范畴就三样东西：一堆点（对象）、一堆箭头（态射，$f:A\to B$）、一条接龙规则（能首尾相接的箭头可以复合成一支）。惊人的主张是：<strong>一个数学对象的全部性质，都能从「它周围的箭头」读出来</strong>——你根本不用打开盒子。这一步——把注意力从「东西是什么」搬到「东西之间怎么映射」——是范畴论的全部起点。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 380 160" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <marker id="ah1" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
-          <path d="M0,0 L7,3 L0,6 z" fill="#3a6088"/>
-        </marker>
-        <marker id="ah1r" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
-          <path d="M0,0 L7,3 L0,6 z" fill="#c9544a"/>
-        </marker>
-      </defs>
-      <!-- objects -->
-      <circle cx="60" cy="118" r="4.5" fill="#1e3a5f"/><text x="48" y="138" font-size="14" fill="#1e3a5f" font-style="italic">A</text>
-      <circle cx="190" cy="42" r="4.5" fill="#1e3a5f"/><text x="184" y="30" font-size="14" fill="#1e3a5f" font-style="italic">B</text>
-      <circle cx="320" cy="118" r="4.5" fill="#1e3a5f"/><text x="328" y="138" font-size="14" fill="#1e3a5f" font-style="italic">C</text>
-      <!-- f: A->B -->
-      <line x1="66" y1="113" x2="182" y2="48" stroke="#3a6088" stroke-width="1.5" marker-end="url(#ah1)"/>
-      <text x="108" y="68" font-size="13" fill="#3a6088" font-style="italic">f</text>
-      <!-- g: B->C -->
-      <line x1="198" y1="48" x2="314" y2="113" stroke="#3a6088" stroke-width="1.5" marker-end="url(#ah1)"/>
-      <text x="262" y="68" font-size="13" fill="#3a6088" font-style="italic">g</text>
-      <!-- g∘f: A->C -->
-      <line x1="68" y1="123" x2="312" y2="123" stroke="#c9544a" stroke-width="1.8" marker-end="url(#ah1r)"/>
-      <text x="175" y="143" font-size="13" fill="#c9544a" font-style="italic">g ∘ f（复合）</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>范畴 $\mathcal{C}$ 由<strong>对象</strong>与<strong>态射</strong>构成，每个态射 $f:A\to B$ 有明确的起点和终点，并满足三条：<strong>可复合</strong>——若 $f:A\to B$、$g:B\to C$，则存在 $g\circ f:A\to C$；<strong>结合律</strong>——$h\circ(g\circ f)=(h\circ g)\circ f$；<strong>有恒等</strong>——每个对象 $A$ 都有 $\mathrm{id}_A:A\to A$，接龙时不起作用。<br>眼熟吗？这三条正是<em>群</em>的公理去掉「逆元」——事实上，<strong>一个群就是「只有一个对象、每支箭头都可逆」的范畴。</strong></p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>把视角从「元素」移到「关系」，是数学的一次哥白尼式转向。集合与函数、群与同态、拓扑空间与连续映射、向量空间与线性映射——这些貌似互不相干的领域，<strong>全都是范畴</strong>。于是一个定理只要在范畴层面证一次，就在所有具体范畴里同时成立。范畴论因此被称作「数学的数学」：它研究的不是某个结构，而是一切结构共享的骨架。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>数据库的 schema 就是范畴（表是对象，外键是态射）——这是 David Spivak 把范畴论用于数据集成的基础。函数式编程里，类型是对象、函数是态射，范畴论直接塑造了 Haskell 的类型系统。物理学中，拓扑量子场论（TQFT）干脆被 Atiyah 定义成「从流形范畴到向量空间范畴的一个函子」。</p>
-  </div>
-
-  <div class="essence">一句话精华：要理解一个东西，别打开它，看它和世界的连线——<strong>结构藏在关系里，不在元素里。</strong></div>
-  <div class="think">思考题：如果两个对象与其余所有对象之间的「箭头模式」完全一致，它们还能被区分吗？（这正通向「万有性质」与「同构即相等」的思想。）</div>
+<div class="card" data-tts="8d9ae74e908f4dd5">
+<h2>范畴</h2>
+<div class="en-name">Category · 关系先于对象</div>
+<span class="tag">Foundations</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>传统数学总在「打开盒子」：集合里装着哪些元素、群里有哪些运算。范畴论换了个视角——<strong>忘掉对象内部长什么样，只看对象之间的箭头，以及箭头怎么接龙。</strong><br/><br/>一个范畴就三样东西：一堆点（对象）、一堆箭头（态射，$f:A\to B$）、一条接龙规则（能首尾相接的箭头可以复合成一支）。惊人的主张是：<strong>一个数学对象的全部性质，都能从「它周围的箭头」读出来</strong>——你根本不用打开盒子。这一步——把注意力从「东西是什么」搬到「东西之间怎么映射」——是范畴论的全部起点。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 380 160" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="ah1" markerheight="9" markerwidth="9" orient="auto" refx="7" refy="3">
+<path d="M0,0 L7,3 L0,6 z" fill="#3a6088"></path>
+</marker>
+<marker id="ah1r" markerheight="9" markerwidth="9" orient="auto" refx="7" refy="3">
+<path d="M0,0 L7,3 L0,6 z" fill="#c9544a"></path>
+</marker>
+</defs>
+<!-- objects -->
+<circle cx="60" cy="118" fill="#1e3a5f" r="4.5"></circle><text fill="#1e3a5f" font-size="14" font-style="italic" x="48" y="138">A</text>
+<circle cx="190" cy="42" fill="#1e3a5f" r="4.5"></circle><text fill="#1e3a5f" font-size="14" font-style="italic" x="184" y="30">B</text>
+<circle cx="320" cy="118" fill="#1e3a5f" r="4.5"></circle><text fill="#1e3a5f" font-size="14" font-style="italic" x="328" y="138">C</text>
+<!-- f: A->B -->
+<line marker-end="url(#ah1)" stroke="#3a6088" stroke-width="1.5" x1="66" x2="182" y1="113" y2="48"></line>
+<text fill="#3a6088" font-size="13" font-style="italic" x="108" y="68">f</text>
+<!-- g: B->C -->
+<line marker-end="url(#ah1)" stroke="#3a6088" stroke-width="1.5" x1="198" x2="314" y1="48" y2="113"></line>
+<text fill="#3a6088" font-size="13" font-style="italic" x="262" y="68">g</text>
+<!-- g∘f: A->C -->
+<line marker-end="url(#ah1r)" stroke="#c9544a" stroke-width="1.8" x1="68" x2="312" y1="123" y2="123"></line>
+<text fill="#c9544a" font-size="13" font-style="italic" x="175" y="143">g ∘ f（复合）</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>范畴 $\mathcal{C}$ 由<strong>对象</strong>与<strong>态射</strong>构成，每个态射 $f:A\to B$ 有明确的起点和终点，并满足三条：<strong>可复合</strong>——若 $f:A\to B$、$g:B\to C$，则存在 $g\circ f:A\to C$；<strong>结合律</strong>——$h\circ(g\circ f)=(h\circ g)\circ f$；<strong>有恒等</strong>——每个对象 $A$ 都有 $\mathrm{id}_A:A\to A$，接龙时不起作用。<br/>眼熟吗？这三条正是<em>群</em>的公理去掉「逆元」——事实上，<strong>一个群就是「只有一个对象、每支箭头都可逆」的范畴。</strong></p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>把视角从「元素」移到「关系」，是数学的一次哥白尼式转向。集合与函数、群与同态、拓扑空间与连续映射、向量空间与线性映射——这些貌似互不相干的领域，<strong>全都是范畴</strong>。于是一个定理只要在范畴层面证一次，就在所有具体范畴里同时成立。范畴论因此被称作「数学的数学」：它研究的不是某个结构，而是一切结构共享的骨架。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>数据库的 schema 就是范畴（表是对象，外键是态射）——这是 David Spivak 把范畴论用于数据集成的基础。函数式编程里，类型是对象、函数是态射，范畴论直接塑造了 Haskell 的类型系统。物理学中，拓扑量子场论（TQFT）干脆被 Atiyah 定义成「从流形范畴到向量空间范畴的一个函子」。</p>
+</div>
+<div class="essence">一句话精华：要理解一个东西，别打开它，看它和世界的连线——<strong>结构藏在关系里，不在元素里。</strong></div>
+<div class="think">思考题：如果两个对象与其余所有对象之间的「箭头模式」完全一致，它们还能被区分吗？（这正通向「万有性质」与「同构即相等」的思想。）</div>
+</div>
 <!-- 概念 2：函子 -->
-<div class="card">
-  <h2>函子</h2>
-  <div class="en-name">Functor · 保结构的搬运工</div>
-  <span class="tag">Category Theory</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>范畴是一张「点 + 箭头」的网。函子就是把<strong>一整张网整体搬到另一张网上</strong>：对象搬到对象、箭头搬到箭头，并且保持接龙关系——原来 $A\to B\to C$ 接得起来，搬过去照样接得起来。<br><br>类比一张地图：它把真实地形（一个范畴）映射到纸面（另一个范畴），山川的具体形状丢了，但「相邻」「连通」这些<em>关系</em>被忠实保留。函子不是随便的映射，而是<strong>「尊重结构的翻译」</strong>——这个「尊重」正是它全部的分量所在。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <marker id="ah2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
-          <path d="M0,0 L7,3 L0,6 z" fill="#3a6088"/>
-        </marker>
-        <marker id="ah2g" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-          <path d="M0,0 L6,3 L0,6 z" fill="#8a92a0"/>
-        </marker>
-      </defs>
-      <!-- Category C -->
-      <rect x="14" y="18" width="150" height="134" rx="8" fill="#3a6088" fill-opacity="0.06" stroke="#c0c8d4"/>
-      <text x="26" y="36" font-size="12" fill="#3a6088" font-style="italic">范畴 C</text>
-      <circle cx="55" cy="70" r="4" fill="#1e3a5f"/><text x="40" y="74" font-size="12" fill="#1e3a5f" font-style="italic">A</text>
-      <circle cx="125" cy="120" r="4" fill="#1e3a5f"/><text x="132" y="124" font-size="12" fill="#1e3a5f" font-style="italic">B</text>
-      <line x1="60" y1="74" x2="120" y2="115" stroke="#3a6088" stroke-width="1.4" marker-end="url(#ah2)"/>
-      <text x="78" y="106" font-size="12" fill="#3a6088" font-style="italic">f</text>
-      <!-- Category D -->
-      <rect x="236" y="18" width="150" height="134" rx="8" fill="#c9a96b" fill-opacity="0.08" stroke="#c0c8d4"/>
-      <text x="248" y="36" font-size="12" fill="#8a7340" font-style="italic">范畴 D</text>
-      <circle cx="277" cy="70" r="4" fill="#1e3a5f"/><text x="256" y="74" font-size="11" fill="#1e3a5f" font-style="italic">FA</text>
-      <circle cx="347" cy="120" r="4" fill="#1e3a5f"/><text x="354" y="124" font-size="11" fill="#1e3a5f" font-style="italic">FB</text>
-      <line x1="282" y1="74" x2="342" y2="115" stroke="#c9544a" stroke-width="1.5" marker-end="url(#ah2)"/>
-      <text x="298" y="106" font-size="11" fill="#c9544a" font-style="italic">Ff</text>
-      <!-- F arrows -->
-      <line x1="60" y1="66" x2="272" y2="66" stroke="#8a92a0" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#ah2g)"/>
-      <line x1="130" y1="122" x2="342" y2="122" stroke="#8a92a0" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#ah2g)"/>
-      <text x="185" y="58" font-size="13" fill="#5a7090" font-style="italic">F</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>函子 $F:\mathcal{C}\to\mathcal{D}$ 把每个对象 $A$ 映到 $F(A)$、每个态射 $f:A\to B$ 映到 $F(f):F(A)\to F(B)$，满足两条：<strong>保恒等</strong> $F(\mathrm{id}_A)=\mathrm{id}_{F(A)}$；<strong>保复合</strong> $F(g\circ f)=F(g)\circ F(f)$。第二条是灵魂——它说「先在原范畴组合、再搬」与「先搬、再在目标范畴组合」结果<em>必然相同</em>。正是这条等式，让「翻译」不会走样。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>函子是「同一个思想在不同世界之间的翻译器」。基本群 $\pi_1$ 就是从<em>拓扑空间范畴</em>到<em>群范畴</em>的函子——它把「甜甜圈上的洞」翻译成「群里的元素」，于是难缠的几何问题变成可计算的代数问题。整门<strong>代数拓扑</strong>就靠这台翻译机运转。函子保结构的性质保证翻译忠实：几何里的连续形变，翻译到代数后仍是合法的等式。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>编程里 <code>List</code>、<code>Option/Maybe</code>、<code>Future</code> 都是函子——<code>map</code> 就是 $F(f)$，它把「作用在值上的函数」<strong>提升</strong>成「作用在容器上的函数」。这就是你能写 <code>[1,2,3].map(f)</code> 的原因。而保复合定律 <code>map(g∘f)=map(g)∘map(f)</code> 不只是漂亮：编译器据此把两次遍历融合成一次（fusion 优化），程序员也能放心重构而不改变语义。</p>
-  </div>
-
-  <div class="essence">一句话精华：函子 = <strong>保持结构的翻译</strong>；它让「几何→代数」「值→容器」这样的跨界，成为一台可靠、可复用的机器。</div>
-  <div class="think">思考题：把一个函数 <code>map</code> 进列表时，为什么「先合成两个函数再 map」与「map 两次」结果必然一致？若某个 <code>map</code> 违反了这条定律，它还配叫函子吗？会带来什么灾难？</div>
+<div class="card" data-tts="c4e3acf4be1f94b4">
+<h2>函子</h2>
+<div class="en-name">Functor · 保结构的搬运工</div>
+<span class="tag">Category Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>范畴是一张「点 + 箭头」的网。函子就是把<strong>一整张网整体搬到另一张网上</strong>：对象搬到对象、箭头搬到箭头，并且保持接龙关系——原来 $A\to B\to C$ 接得起来，搬过去照样接得起来。<br/><br/>类比一张地图：它把真实地形（一个范畴）映射到纸面（另一个范畴），山川的具体形状丢了，但「相邻」「连通」这些<em>关系</em>被忠实保留。函子不是随便的映射，而是<strong>「尊重结构的翻译」</strong>——这个「尊重」正是它全部的分量所在。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="ah2" markerheight="9" markerwidth="9" orient="auto" refx="7" refy="3">
+<path d="M0,0 L7,3 L0,6 z" fill="#3a6088"></path>
+</marker>
+<marker id="ah2g" markerheight="8" markerwidth="8" orient="auto" refx="6" refy="3">
+<path d="M0,0 L6,3 L0,6 z" fill="#8a92a0"></path>
+</marker>
+</defs>
+<!-- Category C -->
+<rect fill="#3a6088" fill-opacity="0.06" height="134" rx="8" stroke="#c0c8d4" width="150" x="14" y="18"></rect>
+<text fill="#3a6088" font-size="12" font-style="italic" x="26" y="36">范畴 C</text>
+<circle cx="55" cy="70" fill="#1e3a5f" r="4"></circle><text fill="#1e3a5f" font-size="12" font-style="italic" x="40" y="74">A</text>
+<circle cx="125" cy="120" fill="#1e3a5f" r="4"></circle><text fill="#1e3a5f" font-size="12" font-style="italic" x="132" y="124">B</text>
+<line marker-end="url(#ah2)" stroke="#3a6088" stroke-width="1.4" x1="60" x2="120" y1="74" y2="115"></line>
+<text fill="#3a6088" font-size="12" font-style="italic" x="78" y="106">f</text>
+<!-- Category D -->
+<rect fill="#c9a96b" fill-opacity="0.08" height="134" rx="8" stroke="#c0c8d4" width="150" x="236" y="18"></rect>
+<text fill="#8a7340" font-size="12" font-style="italic" x="248" y="36">范畴 D</text>
+<circle cx="277" cy="70" fill="#1e3a5f" r="4"></circle><text fill="#1e3a5f" font-size="11" font-style="italic" x="256" y="74">FA</text>
+<circle cx="347" cy="120" fill="#1e3a5f" r="4"></circle><text fill="#1e3a5f" font-size="11" font-style="italic" x="354" y="124">FB</text>
+<line marker-end="url(#ah2)" stroke="#c9544a" stroke-width="1.5" x1="282" x2="342" y1="74" y2="115"></line>
+<text fill="#c9544a" font-size="11" font-style="italic" x="298" y="106">Ff</text>
+<!-- F arrows -->
+<line marker-end="url(#ah2g)" stroke="#8a92a0" stroke-dasharray="4 3" stroke-width="1" x1="60" x2="272" y1="66" y2="66"></line>
+<line marker-end="url(#ah2g)" stroke="#8a92a0" stroke-dasharray="4 3" stroke-width="1" x1="130" x2="342" y1="122" y2="122"></line>
+<text fill="#5a7090" font-size="13" font-style="italic" x="185" y="58">F</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>函子 $F:\mathcal{C}\to\mathcal{D}$ 把每个对象 $A$ 映到 $F(A)$、每个态射 $f:A\to B$ 映到 $F(f):F(A)\to F(B)$，满足两条：<strong>保恒等</strong> $F(\mathrm{id}_A)=\mathrm{id}_{F(A)}$；<strong>保复合</strong> $F(g\circ f)=F(g)\circ F(f)$。第二条是灵魂——它说「先在原范畴组合、再搬」与「先搬、再在目标范畴组合」结果<em>必然相同</em>。正是这条等式，让「翻译」不会走样。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>函子是「同一个思想在不同世界之间的翻译器」。基本群 $\pi_1$ 就是从<em>拓扑空间范畴</em>到<em>群范畴</em>的函子——它把「甜甜圈上的洞」翻译成「群里的元素」，于是难缠的几何问题变成可计算的代数问题。整门<strong>代数拓扑</strong>就靠这台翻译机运转。函子保结构的性质保证翻译忠实：几何里的连续形变，翻译到代数后仍是合法的等式。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>编程里 <code>List</code>、<code>Option/Maybe</code>、<code>Future</code> 都是函子——<code>map</code> 就是 $F(f)$，它把「作用在值上的函数」<strong>提升</strong>成「作用在容器上的函数」。这就是你能写 <code>[1,2,3].map(f)</code> 的原因。而保复合定律 <code>map(g∘f)=map(g)∘map(f)</code> 不只是漂亮：编译器据此把两次遍历融合成一次（fusion 优化），程序员也能放心重构而不改变语义。</p>
+</div>
+<div class="essence">一句话精华：函子 = <strong>保持结构的翻译</strong>；它让「几何→代数」「值→容器」这样的跨界，成为一台可靠、可复用的机器。</div>
+<div class="think">思考题：把一个函数 <code>map</code> 进列表时，为什么「先合成两个函数再 map」与「map 两次」结果必然一致？若某个 <code>map</code> 违反了这条定律，它还配叫函子吗？会带来什么灾难？</div>
+</div>
 <!-- 概念 3：自然变换 -->
-<div class="card">
-  <h2>自然变换</h2>
-  <div class="en-name">Natural Transformation · 把「自然」变成定理</div>
-  <span class="tag">Category Theory · 皇冠</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>函子是两张网之间的「搬运方案」。如果你手上有<em>两套</em>方案 $F$ 和 $G$，自然变换就是<strong>从方案 $F$ 平滑过渡到方案 $G$ 的一套统一规则</strong>——而且这套过渡对每个对象都用「同一种方式」，绝不因对象不同而临时特殊处理。<br><br>「自然」二字的精确含义正是：<strong>这个变换不依赖任何人为选择</strong>，对所有对象、所有箭头一致成立。一段历史八卦：Eilenberg 与 Mac Lane 在 1945 年发明整个范畴论，最初的唯一动机就是给「自然」这个含糊的词一个精确定义——范畴和函子，其实是为了定义「自然变换」才被引入的配角。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <marker id="ah3" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
-          <path d="M0,0 L7,3 L0,6 z" fill="#3a6088"/>
-        </marker>
-        <marker id="ah3r" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
-          <path d="M0,0 L7,3 L0,6 z" fill="#c9544a"/>
-        </marker>
-      </defs>
-      <!-- corners -->
-      <text x="60" y="46" font-size="14" fill="#1e3a5f" font-style="italic" text-anchor="middle">F(A)</text>
-      <text x="320" y="46" font-size="14" fill="#1e3a5f" font-style="italic" text-anchor="middle">F(B)</text>
-      <text x="60" y="160" font-size="14" fill="#1e3a5f" font-style="italic" text-anchor="middle">G(A)</text>
-      <text x="320" y="160" font-size="14" fill="#1e3a5f" font-style="italic" text-anchor="middle">G(B)</text>
-      <!-- top: F(f) -->
-      <line x1="92" y1="40" x2="288" y2="40" stroke="#3a6088" stroke-width="1.5" marker-end="url(#ah3)"/>
-      <text x="190" y="30" font-size="12" fill="#3a6088" font-style="italic" text-anchor="middle">F(f)</text>
-      <!-- bottom: G(f) -->
-      <line x1="92" y1="154" x2="288" y2="154" stroke="#3a6088" stroke-width="1.5" marker-end="url(#ah3)"/>
-      <text x="190" y="174" font-size="12" fill="#3a6088" font-style="italic" text-anchor="middle">G(f)</text>
-      <!-- left: η_A -->
-      <line x1="60" y1="56" x2="60" y2="140" stroke="#c9544a" stroke-width="1.7" marker-end="url(#ah3r)"/>
-      <text x="42" y="102" font-size="12" fill="#c9544a" font-style="italic">η_A</text>
-      <!-- right: η_B -->
-      <line x1="320" y1="56" x2="320" y2="140" stroke="#c9544a" stroke-width="1.7" marker-end="url(#ah3r)"/>
-      <text x="326" y="102" font-size="12" fill="#c9544a" font-style="italic">η_B</text>
-      <text x="190" y="105" font-size="12" fill="#8a92a0" text-anchor="middle" font-style="italic">方块交换</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>给两个函子 $F,G:\mathcal{C}\to\mathcal{D}$，自然变换 $\eta:F\Rightarrow G$ 为<em>每个</em>对象 $A$ 指定一支态射 $\eta_A:F(A)\to G(A)$（称「分量」），使得对每支 $f:A\to B$，下面这个<strong>自然性方块</strong>都交换（两条路径相等）：</p>
-    <div class="formula-box">$$G(f)\circ\eta_A \;=\; \eta_B\circ F(f)$$</div>
-    <p>读作：先用 $\eta$ 变换、再搬（走下-右），与先搬、再用 $\eta$ 变换（走右-下），<strong>殊途同归</strong>。这条「无论从哪个对象出发都成立」的一致性，就是「自然」的数学本体。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>数学家几百年来一直在用「自然的同构」这个说法却说不清它。经典例子：有限维向量空间 $V$ 与它的<strong>双重对偶</strong> $V^{**}$「自然地」同构，而与对偶 $V^*$ 只是「同构但不自然」——后者必须人为<em>选定一组基</em>才能建立。自然变换第一次把这种直觉钉成精确陈述：<strong>把一个哲学级别的形容词，变成了可证明或证伪的定理。</strong>这是范畴论最优雅的胜利之一。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>编程里，<code>List → Option</code> 的取首元素 <code>headOption</code>、列表 <code>reverse</code>，都是自然变换：它们对任何元素类型都用<em>同一套</em>逻辑，从不窥看里面装的是 <code>Int</code> 还是 <code>String</code>。这种「对类型参数一致」的性质，在 Haskell 里叫<strong>参数化多态</strong>（parametricity），正是 Philip Wadler「Theorems for free!」的核心——<strong>光看类型签名，无需看实现，就能免费推出函数必然满足的定律。</strong></p>
-  </div>
-
-  <div class="essence">一句话精华：自然变换 = <strong>函子之间「不搞特殊化」的一致过渡</strong>；它把「自然」这个含糊的赞美，钉成了精确定理。</div>
-  <div class="think">思考题：为什么 $V\cong V^*$ 需要选基而「不自然」，$V\cong V^{**}$ 却「天然成立」？「需要人为选择」这件事，在范畴论里是如何被精确地识别并否定的？</div>
+<div class="card" data-tts="0e76d705caa57d86">
+<h2>自然变换</h2>
+<div class="en-name">Natural Transformation · 把「自然」变成定理</div>
+<span class="tag">Category Theory · 皇冠</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>函子是两张网之间的「搬运方案」。如果你手上有<em>两套</em>方案 $F$ 和 $G$，自然变换就是<strong>从方案 $F$ 平滑过渡到方案 $G$ 的一套统一规则</strong>——而且这套过渡对每个对象都用「同一种方式」，绝不因对象不同而临时特殊处理。<br/><br/>「自然」二字的精确含义正是：<strong>这个变换不依赖任何人为选择</strong>，对所有对象、所有箭头一致成立。一段历史八卦：Eilenberg 与 Mac Lane 在 1945 年发明整个范畴论，最初的唯一动机就是给「自然」这个含糊的词一个精确定义——范畴和函子，其实是为了定义「自然变换」才被引入的配角。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="ah3" markerheight="9" markerwidth="9" orient="auto" refx="7" refy="3">
+<path d="M0,0 L7,3 L0,6 z" fill="#3a6088"></path>
+</marker>
+<marker id="ah3r" markerheight="9" markerwidth="9" orient="auto" refx="7" refy="3">
+<path d="M0,0 L7,3 L0,6 z" fill="#c9544a"></path>
+</marker>
+</defs>
+<!-- corners -->
+<text fill="#1e3a5f" font-size="14" font-style="italic" text-anchor="middle" x="60" y="46">F(A)</text>
+<text fill="#1e3a5f" font-size="14" font-style="italic" text-anchor="middle" x="320" y="46">F(B)</text>
+<text fill="#1e3a5f" font-size="14" font-style="italic" text-anchor="middle" x="60" y="160">G(A)</text>
+<text fill="#1e3a5f" font-size="14" font-style="italic" text-anchor="middle" x="320" y="160">G(B)</text>
+<!-- top: F(f) -->
+<line marker-end="url(#ah3)" stroke="#3a6088" stroke-width="1.5" x1="92" x2="288" y1="40" y2="40"></line>
+<text fill="#3a6088" font-size="12" font-style="italic" text-anchor="middle" x="190" y="30">F(f)</text>
+<!-- bottom: G(f) -->
+<line marker-end="url(#ah3)" stroke="#3a6088" stroke-width="1.5" x1="92" x2="288" y1="154" y2="154"></line>
+<text fill="#3a6088" font-size="12" font-style="italic" text-anchor="middle" x="190" y="174">G(f)</text>
+<!-- left: η_A -->
+<line marker-end="url(#ah3r)" stroke="#c9544a" stroke-width="1.7" x1="60" x2="60" y1="56" y2="140"></line>
+<text fill="#c9544a" font-size="12" font-style="italic" x="42" y="102">η_A</text>
+<!-- right: η_B -->
+<line marker-end="url(#ah3r)" stroke="#c9544a" stroke-width="1.7" x1="320" x2="320" y1="56" y2="140"></line>
+<text fill="#c9544a" font-size="12" font-style="italic" x="326" y="102">η_B</text>
+<text fill="#8a92a0" font-size="12" font-style="italic" text-anchor="middle" x="190" y="105">方块交换</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>给两个函子 $F,G:\mathcal{C}\to\mathcal{D}$，自然变换 $\eta:F\Rightarrow G$ 为<em>每个</em>对象 $A$ 指定一支态射 $\eta_A:F(A)\to G(A)$（称「分量」），使得对每支 $f:A\to B$，下面这个<strong>自然性方块</strong>都交换（两条路径相等）：</p>
+<div class="formula-box">$$G(f)\circ\eta_A \;=\; \eta_B\circ F(f)$$</div>
+<p>读作：先用 $\eta$ 变换、再搬（走下-右），与先搬、再用 $\eta$ 变换（走右-下），<strong>殊途同归</strong>。这条「无论从哪个对象出发都成立」的一致性，就是「自然」的数学本体。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>数学家几百年来一直在用「自然的同构」这个说法却说不清它。经典例子：有限维向量空间 $V$ 与它的<strong>双重对偶</strong> $V^{**}$「自然地」同构，而与对偶 $V^*$ 只是「同构但不自然」——后者必须人为<em>选定一组基</em>才能建立。自然变换第一次把这种直觉钉成精确陈述：<strong>把一个哲学级别的形容词，变成了可证明或证伪的定理。</strong>这是范畴论最优雅的胜利之一。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>编程里，<code>List → Option</code> 的取首元素 <code>headOption</code>、列表 <code>reverse</code>，都是自然变换：它们对任何元素类型都用<em>同一套</em>逻辑，从不窥看里面装的是 <code>Int</code> 还是 <code>String</code>。这种「对类型参数一致」的性质，在 Haskell 里叫<strong>参数化多态</strong>（parametricity），正是 Philip Wadler「Theorems for free!」的核心——<strong>光看类型签名，无需看实现，就能免费推出函数必然满足的定律。</strong></p>
+</div>
+<div class="essence">一句话精华：自然变换 = <strong>函子之间「不搞特殊化」的一致过渡</strong>；它把「自然」这个含糊的赞美，钉成了精确定理。</div>
+<div class="think">思考题：为什么 $V\cong V^*$ 需要选基而「不自然」，$V\cong V^{**}$ 却「天然成立」？「需要人为选择」这件事，在范畴论里是如何被精确地识别并否定的？</div>
+</div>
 <!-- 概念 4：范畴论与编程 -->
-<div class="card">
-  <h2>证明、程序、态射：同一件事</h2>
-  <div class="en-name">Curry–Howard–Lambek &amp; Monads · 抽象的顶点最实用</div>
-  <span class="tag">Type Theory · CS</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>三样看似毫不相干的东西——<strong>逻辑里的证明、程序里的类型、范畴里的态射</strong>——竟是同一件事的三种方言。这叫 Curry–Howard–Lambek 对应：「类型 $A\to B$ 的一个程序」＝「命题『$A$ 蕴含 $B$』的一个证明」＝「范畴里从 $A$ 到 $B$ 的一支态射」。<strong>写对一个有类型的程序，就等于构造性地证明了一条定理。</strong><br><br>而 <strong>Monad</strong>，是范畴论嫁给编程后最出名的孩子。纯函数容不下副作用（异常、状态、IO、异步），可真实程序离不开它们。Monad 用一个统一的结构把副作用<em>装进盒子</em>，让本会破坏纯粹性的东西重新变得可组合。</p>
-  </div>
-
-  <table class="ntable">
-    <tr><th>逻辑</th><th>类型 / 程序</th><th>范畴</th></tr>
-    <tr><td>命题 $A$</td><td>类型 $A$</td><td>对象 $A$</td></tr>
-    <tr><td>证明 $A\Rightarrow B$</td><td>函数 $A\to B$</td><td>态射 $A\to B$</td></tr>
-    <tr><td>合取 $A\wedge B$</td><td>元组 $(A,B)$</td><td>积 $A\times B$</td></tr>
-    <tr><td>析取 $A\vee B$</td><td>联合类型 $A|B$</td><td>余积 $A+B$</td></tr>
-  </table>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>一个 <strong>Monad</strong> 是一个自函子 $M:\mathcal{C}\to\mathcal{C}$，配两支自然变换：$\eta:\mathrm{Id}\Rightarrow M$（把纯值装进盒子，即 <code>return</code>）与 $\mu:M\circ M\Rightarrow M$（把双层盒子压平，即 <code>join</code>），且满足结合律与单位律。这就是那句著名「玩笑」的来历——<em>「Monad 不过是自函子范畴里的一个幺半群」</em>——听着像绕口令，其实字字精确：把幺半群定义里的「集合」换成「自函子」、「乘法」换成「函子复合」即可。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>Curry–Howard 揭示<strong>逻辑与计算是同一枚硬币</strong>——这是 20 世纪最深的思想统一之一。它让「证明即程序」成真，催生了 Coq、Lean、Agda 这类<em>证明助手</em>：机器能逐行检查数学证明的正确性，Kevin Buzzard 正用 Lean 把整个本科数学形式化。而 Monad 展示了反直觉的一面：一个纯抽象的范畴结构，居然精确解决了「如何在纯函数语言里做 IO」这个最接地气的工程难题。<strong>抽象的顶点，恰恰最实用。</strong></p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>Haskell 的 <code>IO</code>、<code>Maybe</code>、<code>State</code> 全是 Monad；<code>do</code> 记号就是 Monad 组合的语法糖，async/await 本质也是这套结构。Curry–Howard 让「类型检查通过」等价于「证明正确」，已被用于产出<strong>带数学证明的软件</strong>：经形式验证的编译器 CompCert、操作系统内核 seL4，以及四色定理的机器验证证明，都建立在这条对应之上。</p>
-  </div>
-
-  <div class="essence">一句话精华：<strong>证明、程序、态射本是同一件事</strong>；Monad 更证明了最抽象的范畴结构，能解决最具体的工程问题。</div>
-  <div class="think">思考题：若「写一个类型正确的程序」等价于「证明一条定理」，那么类型系统越强的语言，是否就越接近一个数学证明助手？这条路的尽头，人类数学家还剩下什么？</div>
+<div class="card" data-tts="1fc9fa7c2b975c4e">
+<h2>证明、程序、态射：同一件事</h2>
+<div class="en-name">Curry–Howard–Lambek &amp; Monads · 抽象的顶点最实用</div>
+<span class="tag">Type Theory · CS</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>三样看似毫不相干的东西——<strong>逻辑里的证明、程序里的类型、范畴里的态射</strong>——竟是同一件事的三种方言。这叫 Curry–Howard–Lambek 对应：「类型 $A\to B$ 的一个程序」＝「命题『$A$ 蕴含 $B$』的一个证明」＝「范畴里从 $A$ 到 $B$ 的一支态射」。<strong>写对一个有类型的程序，就等于构造性地证明了一条定理。</strong><br/><br/>而 <strong>Monad</strong>，是范畴论嫁给编程后最出名的孩子。纯函数容不下副作用（异常、状态、IO、异步），可真实程序离不开它们。Monad 用一个统一的结构把副作用<em>装进盒子</em>，让本会破坏纯粹性的东西重新变得可组合。</p>
 </div>
-
+<table class="ntable">
+<tr><th>逻辑</th><th>类型 / 程序</th><th>范畴</th></tr>
+<tr><td>命题 $A$</td><td>类型 $A$</td><td>对象 $A$</td></tr>
+<tr><td>证明 $A\Rightarrow B$</td><td>函数 $A\to B$</td><td>态射 $A\to B$</td></tr>
+<tr><td>合取 $A\wedge B$</td><td>元组 $(A,B)$</td><td>积 $A\times B$</td></tr>
+<tr><td>析取 $A\vee B$</td><td>联合类型 $A|B$</td><td>余积 $A+B$</td></tr>
+</table>
+<div class="section">
+<div class="label">正式定义</div>
+<p>一个 <strong>Monad</strong> 是一个自函子 $M:\mathcal{C}\to\mathcal{C}$，配两支自然变换：$\eta:\mathrm{Id}\Rightarrow M$（把纯值装进盒子，即 <code>return</code>）与 $\mu:M\circ M\Rightarrow M$（把双层盒子压平，即 <code>join</code>），且满足结合律与单位律。这就是那句著名「玩笑」的来历——<em>「Monad 不过是自函子范畴里的一个幺半群」</em>——听着像绕口令，其实字字精确：把幺半群定义里的「集合」换成「自函子」、「乘法」换成「函子复合」即可。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>Curry–Howard 揭示<strong>逻辑与计算是同一枚硬币</strong>——这是 20 世纪最深的思想统一之一。它让「证明即程序」成真，催生了 Coq、Lean、Agda 这类<em>证明助手</em>：机器能逐行检查数学证明的正确性，Kevin Buzzard 正用 Lean 把整个本科数学形式化。而 Monad 展示了反直觉的一面：一个纯抽象的范畴结构，居然精确解决了「如何在纯函数语言里做 IO」这个最接地气的工程难题。<strong>抽象的顶点，恰恰最实用。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>Haskell 的 <code>IO</code>、<code>Maybe</code>、<code>State</code> 全是 Monad；<code>do</code> 记号就是 Monad 组合的语法糖，async/await 本质也是这套结构。Curry–Howard 让「类型检查通过」等价于「证明正确」，已被用于产出<strong>带数学证明的软件</strong>：经形式验证的编译器 CompCert、操作系统内核 seL4，以及四色定理的机器验证证明，都建立在这条对应之上。</p>
+</div>
+<div class="essence">一句话精华：<strong>证明、程序、态射本是同一件事</strong>；Monad 更证明了最抽象的范畴结构，能解决最具体的工程问题。</div>
+<div class="think">思考题：若「写一个类型正确的程序」等价于「证明一条定理」，那么类型系统越强的语言，是否就越接近一个数学证明助手？这条路的尽头，人类数学家还剩下什么？</div>
+</div>
 <div class="deep-title">— 深入思考 —</div>
-
 <details><summary>「万有性质」为什么能取代具体构造？</summary>
 <div>范畴论定义「积」「余积」「极限」时，从不说它们<em>由什么造成</em>，只说它们<strong>满足什么关系</strong>——例如两个对象的积 $A\times B$，是「任何同时映向 $A$ 和 $B$ 的对象，都唯一地经它中转」的那个对象。这叫<strong>万有性质</strong>。它的威力在于：满足同一万有性质的对象必然唯一（在同构意义下），于是「怎么造」无关紧要，「起什么作用」才是本质。集合的笛卡尔积、群的直积、拓扑的乘积空间——同一个万有性质，一次定义处处适用。这正是范畴论「关系先于对象」哲学的最锋利体现。</div></details>
-
 <details><summary>伴随函子（adjunction）为什么被称为范畴论的心脏？</summary>
 <div>Mac Lane 有句名言：「Adjoint functors arise everywhere.」两个方向相反的函子 $F\dashv G$ 成伴随，是指 $\mathcal{D}(F A, B)\cong \mathcal{C}(A, G B)$ 自然地成立——一边的箭头总能一一对应到另一边。自由群构造 ⊣ 遗忘函子、张量积 ⊣ Hom、存在量词 ⊣ 替换……数学中大量「最优」「最自由」的构造，本质都是某个伴随。伴随捕捉的是「以最省力的方式跨越两个世界」的普遍模式，比函子更深一层，被认为是范畴论真正的核心。</div></details>
-
 <details><summary>Yoneda 引理到底在说什么？</summary>
 <div>Yoneda 引理是范畴论最基础也最深的定理，一句话概括：<strong>一个对象，被它「射向所有其他对象的箭头模式」唯一决定。</strong>你不必打开对象，只要知道「所有人怎么看它」（即所有 $\mathrm{Hom}(A,-)$），就完全掌握了它。这把概念 1 的直觉——「结构藏在关系里」——升级成了严格定理：对象与它的「关系画像」信息等价。它是现代代数几何、以及编程中「面向接口而非实现」思想的数学源头。</div></details>
-
 <details><summary>范畴论被讥为「general abstract nonsense」，它真有内容吗？</summary>
 <div>这绰号半是调侃半是敬意。批评者说它太抽象、只把已知结果换个说法；辩护者指出：正是这种抽象让 Grothendieck 重写了代数几何、让 Eilenberg–Steenrod 用几条公理统一了同调论。真正的答案或许是：范畴论本身少有「深定理」，价值在于<strong>提供正确的语言</strong>——一旦用对语言，原本晦涩的类比会变成一行显然的等式。它不常是结论，却常是让结论变得不可避免的框架。</div></details>
-
 <details><summary>范畴论能取代集合论，成为数学的基础吗？</summary>
 <div>这是一个真实的现代争论。传统上 ZFC 集合论是数学的地基——万物皆集合。但 Lawvere 与后来的 topos 理论提出：可以用「范畴」而非「集合」作基础，其中「元素」是派生概念、「关系」才是原初。topos 是一种「行为像集合范畴」的范畴，却能容纳直觉主义逻辑、内蕴不同的连续统。它把「结构」放在最底层，与范畴论「关系先于对象」的气质一脉相承——尽管它作为通用基础是否比 ZFC 更优，至今没有定论。</div></details>
-
 <nav class="bottom">
-  <a href="index.html">← 返回 Mathematics</a>
+<a href="index.html">← 返回 Mathematics</a>
 </nav>
-
 </div>
-<script src="https://hub.cissychen.com/comments.js" defer></script>
-<script src="https://hub.cissychen.com/search.js" defer></script>
-<script src="https://hub.cissychen.com/index-button.js" defer></script>
-<script src="https://hub.cissychen.com/i18n-tts.js" defer></script>
+<script defer="" src="https://hub.cissychen.com/comments.js"></script>
+<script defer="" src="https://hub.cissychen.com/search.js"></script>
+<script defer="" src="https://hub.cissychen.com/index-button.js"></script>
+<script defer="" src="https://hub.cissychen.com/i18n-tts.js"></script>
 </body>
 </html>

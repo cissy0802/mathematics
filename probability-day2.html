@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>概率与不确定性 · Day 2 — Mathematics</title>
 <script>
 window.MathJax = {
@@ -14,7 +15,7 @@ window.MathJax = {
   options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
 };
 </script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
@@ -51,287 +52,244 @@ nav.bottom a:hover{color:#1e3a5f}
 </style>
 </head>
 <body>
-<a href="https://cissy0802.github.io/" style="position:fixed;top:14px;left:14px;font-size:0.82rem;color:inherit;opacity:0.55;text-decoration:none;padding:6px 12px;border:1px solid currentColor;border-radius:20px;z-index:100;backdrop-filter:blur(6px);transition:opacity 0.2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.55">← Hub</a>
+<a href="https://cissy0802.github.io/" onmouseout="this.style.opacity=0.55" onmouseover="this.style.opacity=1" style="position:fixed;top:14px;left:14px;font-size:0.82rem;color:inherit;opacity:0.55;text-decoration:none;padding:6px 12px;border:1px solid currentColor;border-radius:20px;z-index:100;backdrop-filter:blur(6px);transition:opacity 0.2s">← Hub</a>
 <div class="container">
-
 <header>
-  <div class="kicker">Day 2 · 2026.05.22</div>
-  <h1>概率与不确定性</h1>
-  <div class="meta">Probability &amp; Uncertainty — 如何在看不清的世界里做出更少错误的判断</div>
-  <div class="epigraph">"The theory of probabilities is at bottom nothing but common sense reduced to calculus." — Pierre-Simon Laplace, <em>Essai philosophique sur les probabilités</em> (1814)</div>
+<div class="kicker">Day 2 · 2026.05.22</div>
+<h1 data-tts="61dc5c4d5d56ecea">概率与不确定性</h1>
+<div class="meta">Probability &amp; Uncertainty — 如何在看不清的世界里做出更少错误的判断</div>
+<div class="epigraph">"The theory of probabilities is at bottom nothing but common sense reduced to calculus." — Pierre-Simon Laplace, <em>Essai philosophique sur les probabilités</em> (1814)</div>
 </header>
-
 <!-- 概念 1 -->
-<div class="card">
-  <h2>Bayes 定理：信念如何更新</h2>
-  <div class="en-name">Bayes' Theorem · 推断 / 概率论</div>
-  <span class="tag">Inference</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>你做了某癌症筛查，结果阳性。这种癌症在你这个年龄段的发病率是 <strong>1%</strong>。检测灵敏度 90%（有病时 90% 概率测出），特异度也 90%（没病时 90% 概率正常）。你真的患癌的概率是多少？大多数人脱口而出 90%。<strong>真实答案约 8.3%</strong>。</p>
-    <p>用 1000 个像你一样的人来想：10 个真有病，约 9 个被测出阳性；剩下 990 个健康人里，10% 被误测——99 个假阳。一共 9 + 99 = 108 个阳性结果，真正有病的只有 9 个。$9/108 \approx 8.3\%$。这就是 Bayes 定理在做的事——它把"先验信念"（基础发病率）和"证据"（测试结果）融合成"后验信念"。一行话：<em>新信念 = 旧信念 × 这条证据有多支持它</em>。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 360 220" xmlns="http://www.w3.org/2000/svg">
-      <text x="180" y="20" font-size="11" fill="#1e3a5f" text-anchor="middle" font-weight="700">1000 人 · 自然频率视角</text>
-      <rect x="150" y="32" width="60" height="22" fill="#f0f4f9" stroke="#1e3a5f"/>
-      <text x="180" y="47" font-size="11" fill="#1e3a5f" text-anchor="middle">1000</text>
-      <line x1="180" y1="54" x2="80" y2="78" stroke="#3a6088" stroke-width="0.8"/>
-      <line x1="180" y1="54" x2="280" y2="78" stroke="#3a6088" stroke-width="0.8"/>
-      <text x="120" y="72" font-size="9" fill="#666">1% 有病</text>
-      <text x="220" y="72" font-size="9" fill="#666">99% 无病</text>
-      <rect x="50" y="80" width="60" height="22" fill="#fbe3e0" stroke="#c9544a"/>
-      <text x="80" y="95" font-size="11" fill="#c9544a" text-anchor="middle">10 有病</text>
-      <rect x="250" y="80" width="60" height="22" fill="#e6ecf3" stroke="#3a6088"/>
-      <text x="280" y="95" font-size="11" fill="#3a6088" text-anchor="middle">990 无病</text>
-      <line x1="80" y1="102" x2="50" y2="130" stroke="#c9544a" stroke-width="0.8"/>
-      <line x1="80" y1="102" x2="110" y2="130" stroke="#c9544a" stroke-width="0.8"/>
-      <line x1="280" y1="102" x2="250" y2="130" stroke="#3a6088" stroke-width="0.8"/>
-      <line x1="280" y1="102" x2="310" y2="130" stroke="#3a6088" stroke-width="0.8"/>
-      <rect x="22" y="132" width="60" height="22" fill="#c9544a"/>
-      <text x="52" y="147" font-size="11" fill="#fff" text-anchor="middle" font-weight="700">9 阳 ✓</text>
-      <rect x="92" y="132" width="50" height="22" fill="#fbe3e0" stroke="#c9544a" stroke-dasharray="2,2"/>
-      <text x="117" y="147" font-size="10" fill="#c9544a" text-anchor="middle">1 阴</text>
-      <rect x="218" y="132" width="64" height="22" fill="#c9a96b"/>
-      <text x="250" y="147" font-size="11" fill="#fff" text-anchor="middle" font-weight="700">99 假阳</text>
-      <rect x="290" y="132" width="50" height="22" fill="#e6ecf3" stroke="#3a6088" stroke-dasharray="2,2"/>
-      <text x="315" y="147" font-size="10" fill="#3a6088" text-anchor="middle">891 阴</text>
-      <text x="180" y="185" font-size="12" fill="#1e3a5f" text-anchor="middle" font-style="italic">阳性合计 = 9 + 99 = 108</text>
-      <text x="180" y="205" font-size="12" fill="#c9544a" text-anchor="middle" font-weight="700">P(有病 | 阳性) = 9 / 108 ≈ 8.3%</text>
-    </svg>
-  </div>
-
-  <div class="formula-box">$$P(H \mid E) = \frac{P(E \mid H)\, P(H)}{P(E)}$$</div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>Bayes 公式把"理性更新"从直觉升级成代数。它说明：忽视先验（base rate neglect）是人类思维最系统的错误之一——Kahneman 用整本《思考，快与慢》在论证这点。在贝叶斯主义者眼中，<strong>概率不是世界的属性，而是观察者信念的强度</strong>。这是 20 世纪科学哲学最大的分歧之一（频率派 vs 贝叶斯派）。E.T. Jaynes 在《Probability Theory: The Logic of Science》开篇说："概率论是逻辑学的扩展——把布尔代数从 {真, 假} 扩展到 [0, 1] 上的可信度。"</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>垃圾邮件过滤（每个词都是证据，更新邮件是否为垃圾的后验）；医学诊断（不读基础发病率就解读阳性，几乎必错）；AI / 机器学习里的 Bayesian networks、MCMC、变分推断、Bayesian deep learning；法庭推理（辛普森案中辩方故意混淆 $P(\text{凶手} \mid \text{证据})$ 与 $P(\text{证据} \mid \text{凶手})$，被称为<em>检察官谬误</em> prosecutor's fallacy）。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">历史与人物</div>
-    <p>Thomas Bayes（1701–1761）是英国长老会牧师兼业余数学家，生前没发表这个定理，逝后由朋友 Richard Price 在 1763 年向皇家学会宣读。真正把它推广的是 Pierre-Simon Laplace——他独立重新发现并系统化。但 19 世纪末 R.A. Fisher 等频率派学者把贝叶斯派打入冷宫近一个世纪。直到 1980 年代借助计算机与 MCMC 算法，贝叶斯主义才"复活"为现代统计与 AI 的主流之一。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">深入资源</div>
-    <p class="resources">
-      • 3Blue1Brown — <a href="https://www.youtube.com/watch?v=lG4VkPoG3ko">《The medical test paradox》</a><br>
+<div class="card" data-tts="405f5e526a594fa4">
+<h2>Bayes 定理：信念如何更新</h2>
+<div class="en-name">Bayes' Theorem · 推断 / 概率论</div>
+<span class="tag">Inference</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>你做了某癌症筛查，结果阳性。这种癌症在你这个年龄段的发病率是 <strong>1%</strong>。检测灵敏度 90%（有病时 90% 概率测出），特异度也 90%（没病时 90% 概率正常）。你真的患癌的概率是多少？大多数人脱口而出 90%。<strong>真实答案约 8.3%</strong>。</p>
+<p>用 1000 个像你一样的人来想：10 个真有病，约 9 个被测出阳性；剩下 990 个健康人里，10% 被误测——99 个假阳。一共 9 + 99 = 108 个阳性结果，真正有病的只有 9 个。$9/108 \approx 8.3\%$。这就是 Bayes 定理在做的事——它把"先验信念"（基础发病率）和"证据"（测试结果）融合成"后验信念"。一行话：<em>新信念 = 旧信念 × 这条证据有多支持它</em>。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 360 220" xmlns="http://www.w3.org/2000/svg">
+<text fill="#1e3a5f" font-size="11" font-weight="700" text-anchor="middle" x="180" y="20">1000 人 · 自然频率视角</text>
+<rect fill="#f0f4f9" height="22" stroke="#1e3a5f" width="60" x="150" y="32"></rect>
+<text fill="#1e3a5f" font-size="11" text-anchor="middle" x="180" y="47">1000</text>
+<line stroke="#3a6088" stroke-width="0.8" x1="180" x2="80" y1="54" y2="78"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="180" x2="280" y1="54" y2="78"></line>
+<text fill="#666" font-size="9" x="120" y="72">1% 有病</text>
+<text fill="#666" font-size="9" x="220" y="72">99% 无病</text>
+<rect fill="#fbe3e0" height="22" stroke="#c9544a" width="60" x="50" y="80"></rect>
+<text fill="#c9544a" font-size="11" text-anchor="middle" x="80" y="95">10 有病</text>
+<rect fill="#e6ecf3" height="22" stroke="#3a6088" width="60" x="250" y="80"></rect>
+<text fill="#3a6088" font-size="11" text-anchor="middle" x="280" y="95">990 无病</text>
+<line stroke="#c9544a" stroke-width="0.8" x1="80" x2="50" y1="102" y2="130"></line>
+<line stroke="#c9544a" stroke-width="0.8" x1="80" x2="110" y1="102" y2="130"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="280" x2="250" y1="102" y2="130"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="280" x2="310" y1="102" y2="130"></line>
+<rect fill="#c9544a" height="22" width="60" x="22" y="132"></rect>
+<text fill="#fff" font-size="11" font-weight="700" text-anchor="middle" x="52" y="147">9 阳 ✓</text>
+<rect fill="#fbe3e0" height="22" stroke="#c9544a" stroke-dasharray="2,2" width="50" x="92" y="132"></rect>
+<text fill="#c9544a" font-size="10" text-anchor="middle" x="117" y="147">1 阴</text>
+<rect fill="#c9a96b" height="22" width="64" x="218" y="132"></rect>
+<text fill="#fff" font-size="11" font-weight="700" text-anchor="middle" x="250" y="147">99 假阳</text>
+<rect fill="#e6ecf3" height="22" stroke="#3a6088" stroke-dasharray="2,2" width="50" x="290" y="132"></rect>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="315" y="147">891 阴</text>
+<text fill="#1e3a5f" font-size="12" font-style="italic" text-anchor="middle" x="180" y="185">阳性合计 = 9 + 99 = 108</text>
+<text fill="#c9544a" font-size="12" font-weight="700" text-anchor="middle" x="180" y="205">P(有病 | 阳性) = 9 / 108 ≈ 8.3%</text>
+</svg>
+</div>
+<div class="formula-box">$$P(H \mid E) = \frac{P(E \mid H)\, P(H)}{P(E)}$$</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>Bayes 公式把"理性更新"从直觉升级成代数。它说明：忽视先验（base rate neglect）是人类思维最系统的错误之一——Kahneman 用整本《思考，快与慢》在论证这点。在贝叶斯主义者眼中，<strong>概率不是世界的属性，而是观察者信念的强度</strong>。这是 20 世纪科学哲学最大的分歧之一（频率派 vs 贝叶斯派）。E.T. Jaynes 在《Probability Theory: The Logic of Science》开篇说："概率论是逻辑学的扩展——把布尔代数从 {真, 假} 扩展到 [0, 1] 上的可信度。"</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>垃圾邮件过滤（每个词都是证据，更新邮件是否为垃圾的后验）；医学诊断（不读基础发病率就解读阳性，几乎必错）；AI / 机器学习里的 Bayesian networks、MCMC、变分推断、Bayesian deep learning；法庭推理（辛普森案中辩方故意混淆 $P(\text{凶手} \mid \text{证据})$ 与 $P(\text{证据} \mid \text{凶手})$，被称为<em>检察官谬误</em> prosecutor's fallacy）。</p>
+</div>
+<div class="section">
+<div class="label">历史与人物</div>
+<p>Thomas Bayes（1701–1761）是英国长老会牧师兼业余数学家，生前没发表这个定理，逝后由朋友 Richard Price 在 1763 年向皇家学会宣读。真正把它推广的是 Pierre-Simon Laplace——他独立重新发现并系统化。但 19 世纪末 R.A. Fisher 等频率派学者把贝叶斯派打入冷宫近一个世纪。直到 1980 年代借助计算机与 MCMC 算法，贝叶斯主义才"复活"为现代统计与 AI 的主流之一。</p>
+</div>
+<div class="section">
+<div class="label">深入资源</div>
+<p class="resources">
+      • 3Blue1Brown — <a href="https://www.youtube.com/watch?v=lG4VkPoG3ko">《The medical test paradox》</a><br/>
       • E.T. Jaynes — 《<em>Probability Theory: The Logic of Science</em>》（贝叶斯派的"圣经"）
     </p>
+</div>
+<div class="english">
+<strong>English Insight：</strong> <strong>prior</strong> 先验；<strong>posterior</strong> 后验；<strong>likelihood</strong> 似然（$P(E \mid H)$，注意它不是 $P(H \mid E)$——这是最常被混淆的两件事）；<strong>base rate neglect</strong> 基础率忽视；<strong>prosecutor's fallacy</strong> 检察官谬误。
   </div>
-
-  <div class="english">
-    <strong>English Insight：</strong> <strong>prior</strong> 先验；<strong>posterior</strong> 后验；<strong>likelihood</strong> 似然（$P(E \mid H)$，注意它不是 $P(H \mid E)$——这是最常被混淆的两件事）；<strong>base rate neglect</strong> 基础率忽视；<strong>prosecutor's fallacy</strong> 检察官谬误。
-  </div>
-
-  <div class="think">
-    <strong>思考题：</strong>如果一个 AI 分类器始终猜最常见的类别，它的准确率可能很高，但它是好分类器吗？这和"癌症阳性时其实大概率没病"是同一类陷阱吗？为什么"准确率 (accuracy)"在罕见类问题上是个具有误导性的指标？
+<div class="think">
+<strong>思考题：</strong>如果一个 AI 分类器始终猜最常见的类别，它的准确率可能很高，但它是好分类器吗？这和"癌症阳性时其实大概率没病"是同一类陷阱吗？为什么"准确率 (accuracy)"在罕见类问题上是个具有误导性的指标？
   </div>
 </div>
-
 <!-- 概念 2 -->
-<div class="card">
-  <h2>蒙特卡罗：用随机性破题</h2>
-  <div class="en-name">Monte Carlo Method · 计算 / 模拟</div>
-  <span class="tag">Computation</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>你想算圆周率 $\pi$，但不会微积分。画一个 $2 \times 2$ 的正方形，内切一个半径 1 的圆——圆面积 $\pi$，正方形面积 4，所以圆/正方形 = $\pi/4$。然后你<strong>闭着眼往正方形里随机扔豆子</strong>。扔 10 万颗，统计落入圆内的比例，乘 4，就是 $\pi$ 的近似值。</p>
-    <p>这就是蒙特卡罗：<strong>当一个问题难以解析求解，就用随机模拟无数次，让大数定律帮你算出答案</strong>。它把不确定性反过来当作工具——你不再被随机性折磨，而是用随机性破题。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
-      <rect x="60" y="20" width="160" height="160" fill="none" stroke="#1e3a5f" stroke-width="1.5"/>
-      <circle cx="140" cy="100" r="80" fill="#f0f4f9" stroke="#3a6088" stroke-width="1.2"/>
-      <g fill="#c9544a"><circle cx="78" cy="35" r="1.8"/><circle cx="210" cy="42" r="1.8"/><circle cx="72" cy="160" r="1.8"/><circle cx="215" cy="170" r="1.8"/><circle cx="68" cy="80" r="1.8"/><circle cx="212" cy="125" r="1.8"/><circle cx="195" cy="28" r="1.8"/><circle cx="75" cy="172" r="1.8"/></g>
-      <g fill="#3a6088"><circle cx="120" cy="60" r="1.8"/><circle cx="160" cy="80" r="1.8"/><circle cx="100" cy="110" r="1.8"/><circle cx="155" cy="130" r="1.8"/><circle cx="135" cy="95" r="1.8"/><circle cx="180" cy="100" r="1.8"/><circle cx="115" cy="140" r="1.8"/><circle cx="170" cy="55" r="1.8"/><circle cx="90" cy="95" r="1.8"/><circle cx="140" cy="155" r="1.8"/><circle cx="125" cy="125" r="1.8"/><circle cx="155" cy="45" r="1.8"/><circle cx="105" cy="75" r="1.8"/><circle cx="175" cy="140" r="1.8"/><circle cx="135" cy="115" r="1.8"/><circle cx="165" cy="115" r="1.8"/><circle cx="110" cy="60" r="1.8"/><circle cx="145" cy="75" r="1.8"/><circle cx="95" cy="125" r="1.8"/></g>
-      <text x="250" y="95" font-size="11" fill="#3a6088">圆内</text>
-      <text x="250" y="115" font-size="11" fill="#c9544a">圆外</text>
-      <text x="140" y="195" font-size="11" fill="#1e3a5f" text-anchor="middle" font-style="italic">π ≈ 4 × (圆内 / 总数)</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>要估计 $\mathbb{E}[f(X)]$，独立采样 $X_1, X_2, \ldots, X_n$，用 $\frac{1}{n}\sum_{i=1}^n f(X_i)$ 近似。误差按 $O(1/\sqrt{n})$ 收敛——慢，但<strong>与维度无关</strong>，这是它的杀手锏。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>传统数值方法（网格、有限元）在维度 $d$ 上的成本是 $O(N^d)$——3 维还行，30 维就崩。蒙特卡罗的误差只与样本数有关，<strong>维数灾难在它眼里不存在</strong>。这就是为什么金融衍生品定价（几十维资产）、贝叶斯推断（几百维参数）、AlphaGo 的树搜索（巨大状态空间）都必须用它。最美的是：蒙特卡罗不解题，它<strong>绕过</strong>问题——这是数学家精神的某种极致：当不能直击，就重新定义战场。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>曼哈顿计划：模拟中子在裂变材料中的扩散——蒙特卡罗的诞生场景。金融：期权定价、风险价值 (VaR)。物理：Ising 模型、晶格 QCD。AI：AlphaGo 的 Monte Carlo Tree Search、强化学习中的策略评估。电影 CGI：现代离线渲染的 Path Tracing 本质就是高维空间里的蒙特卡罗积分——皮克斯每一帧都在扔豆子。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">历史与人物</div>
-    <p>1946 年，物理学家 Stanislaw Ulam 在洛斯阿拉莫斯生病期间玩纸牌游戏，思考"赢一局的概率怎么算"。他突然想：与其穷举所有可能，不如直接模拟很多局取频率。他和 John von Neumann 把这个想法用于氢弹中子模拟。Nicholas Metropolis 给它起了"Monte Carlo"这个代号——因为 Ulam 叔叔总在摩纳哥赌场赌钱。1953 年的 Metropolis–Hastings 算法奠定了现代 MCMC 的基础。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">深入资源</div>
-    <p class="resources">
-      • 3Blue1Brown — <a href="https://www.youtube.com/watch?v=zeJD6dqJ5lo">《But what is the Central Limit Theorem?》</a><br>
+<div class="card" data-tts="9379b682e71c8f3b">
+<h2>蒙特卡罗：用随机性破题</h2>
+<div class="en-name">Monte Carlo Method · 计算 / 模拟</div>
+<span class="tag">Computation</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>你想算圆周率 $\pi$，但不会微积分。画一个 $2 \times 2$ 的正方形，内切一个半径 1 的圆——圆面积 $\pi$，正方形面积 4，所以圆/正方形 = $\pi/4$。然后你<strong>闭着眼往正方形里随机扔豆子</strong>。扔 10 万颗，统计落入圆内的比例，乘 4，就是 $\pi$ 的近似值。</p>
+<p>这就是蒙特卡罗：<strong>当一个问题难以解析求解，就用随机模拟无数次，让大数定律帮你算出答案</strong>。它把不确定性反过来当作工具——你不再被随机性折磨，而是用随机性破题。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+<rect fill="none" height="160" stroke="#1e3a5f" stroke-width="1.5" width="160" x="60" y="20"></rect>
+<circle cx="140" cy="100" fill="#f0f4f9" r="80" stroke="#3a6088" stroke-width="1.2"></circle>
+<g fill="#c9544a"><circle cx="78" cy="35" r="1.8"></circle><circle cx="210" cy="42" r="1.8"></circle><circle cx="72" cy="160" r="1.8"></circle><circle cx="215" cy="170" r="1.8"></circle><circle cx="68" cy="80" r="1.8"></circle><circle cx="212" cy="125" r="1.8"></circle><circle cx="195" cy="28" r="1.8"></circle><circle cx="75" cy="172" r="1.8"></circle></g>
+<g fill="#3a6088"><circle cx="120" cy="60" r="1.8"></circle><circle cx="160" cy="80" r="1.8"></circle><circle cx="100" cy="110" r="1.8"></circle><circle cx="155" cy="130" r="1.8"></circle><circle cx="135" cy="95" r="1.8"></circle><circle cx="180" cy="100" r="1.8"></circle><circle cx="115" cy="140" r="1.8"></circle><circle cx="170" cy="55" r="1.8"></circle><circle cx="90" cy="95" r="1.8"></circle><circle cx="140" cy="155" r="1.8"></circle><circle cx="125" cy="125" r="1.8"></circle><circle cx="155" cy="45" r="1.8"></circle><circle cx="105" cy="75" r="1.8"></circle><circle cx="175" cy="140" r="1.8"></circle><circle cx="135" cy="115" r="1.8"></circle><circle cx="165" cy="115" r="1.8"></circle><circle cx="110" cy="60" r="1.8"></circle><circle cx="145" cy="75" r="1.8"></circle><circle cx="95" cy="125" r="1.8"></circle></g>
+<text fill="#3a6088" font-size="11" x="250" y="95">圆内</text>
+<text fill="#c9544a" font-size="11" x="250" y="115">圆外</text>
+<text fill="#1e3a5f" font-size="11" font-style="italic" text-anchor="middle" x="140" y="195">π ≈ 4 × (圆内 / 总数)</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>要估计 $\mathbb{E}[f(X)]$，独立采样 $X_1, X_2, \ldots, X_n$，用 $\frac{1}{n}\sum_{i=1}^n f(X_i)$ 近似。误差按 $O(1/\sqrt{n})$ 收敛——慢，但<strong>与维度无关</strong>，这是它的杀手锏。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>传统数值方法（网格、有限元）在维度 $d$ 上的成本是 $O(N^d)$——3 维还行，30 维就崩。蒙特卡罗的误差只与样本数有关，<strong>维数灾难在它眼里不存在</strong>。这就是为什么金融衍生品定价（几十维资产）、贝叶斯推断（几百维参数）、AlphaGo 的树搜索（巨大状态空间）都必须用它。最美的是：蒙特卡罗不解题，它<strong>绕过</strong>问题——这是数学家精神的某种极致：当不能直击，就重新定义战场。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>曼哈顿计划：模拟中子在裂变材料中的扩散——蒙特卡罗的诞生场景。金融：期权定价、风险价值 (VaR)。物理：Ising 模型、晶格 QCD。AI：AlphaGo 的 Monte Carlo Tree Search、强化学习中的策略评估。电影 CGI：现代离线渲染的 Path Tracing 本质就是高维空间里的蒙特卡罗积分——皮克斯每一帧都在扔豆子。</p>
+</div>
+<div class="section">
+<div class="label">历史与人物</div>
+<p>1946 年，物理学家 Stanislaw Ulam 在洛斯阿拉莫斯生病期间玩纸牌游戏，思考"赢一局的概率怎么算"。他突然想：与其穷举所有可能，不如直接模拟很多局取频率。他和 John von Neumann 把这个想法用于氢弹中子模拟。Nicholas Metropolis 给它起了"Monte Carlo"这个代号——因为 Ulam 叔叔总在摩纳哥赌场赌钱。1953 年的 Metropolis–Hastings 算法奠定了现代 MCMC 的基础。</p>
+</div>
+<div class="section">
+<div class="label">深入资源</div>
+<p class="resources">
+      • 3Blue1Brown — <a href="https://www.youtube.com/watch?v=zeJD6dqJ5lo">《But what is the Central Limit Theorem?》</a><br/>
       • Christian Robert &amp; George Casella — 《<em>Monte Carlo Statistical Methods</em>》
     </p>
+</div>
+<div class="english">
+<strong>English Insight：</strong> <strong>Monte Carlo method</strong> 通常不译，直接音译；<strong>importance sampling</strong> 重要性采样；<strong>rejection sampling</strong> 拒绝采样；<strong>MCMC</strong> = Markov Chain Monte Carlo；<strong>curse of dimensionality</strong> 维数灾难。
   </div>
-
-  <div class="english">
-    <strong>English Insight：</strong> <strong>Monte Carlo method</strong> 通常不译，直接音译；<strong>importance sampling</strong> 重要性采样；<strong>rejection sampling</strong> 拒绝采样；<strong>MCMC</strong> = Markov Chain Monte Carlo；<strong>curse of dimensionality</strong> 维数灾难。
-  </div>
-
-  <div class="think">
-    <strong>思考题：</strong>扔豆子算 $\pi$，10 万颗才到 2 位精度——看起来很差。但如果你要算一个 30 维球的体积呢？传统网格法需要至少 $10^{30}$ 个格点；蒙特卡罗依然只需要几万个样本。这件事告诉我们关于"高维空间"什么直觉？为什么"高维"在某些意义上对随机方法反而<em>更友好</em>？
+<div class="think">
+<strong>思考题：</strong>扔豆子算 $\pi$，10 万颗才到 2 位精度——看起来很差。但如果你要算一个 30 维球的体积呢？传统网格法需要至少 $10^{30}$ 个格点；蒙特卡罗依然只需要几万个样本。这件事告诉我们关于"高维空间"什么直觉？为什么"高维"在某些意义上对随机方法反而<em>更友好</em>？
   </div>
 </div>
-
 <!-- 概念 3 -->
-<div class="card">
-  <h2>期望值：随机性的重心</h2>
-  <div class="en-name">Expected Value · 概率论基础</div>
-  <span class="tag">Expectation</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>掷一颗公平骰子，"期望"得到多少点？答案 3.5。但骰子没有 3.5 这一面——你永远不会单次掷出 3.5。所以"期望值"这个词其实有点误导：它不是"我期望发生什么"，而是<strong>"如果我玩这个游戏一万次，平均结果是多少"</strong>。</p>
-    <p>更好的比喻：把概率分布想成一根铁丝，每个可能结果挂一个小球，重量等于它的概率。<strong>期望值就是这根铁丝的重心</strong>——你用一根手指托在重心位置，整个分布刚好平衡。这就是为什么数学家有时把期望值叫做 <em>first moment</em>（一阶矩）——和力学里"质量 × 位置"的矩同源。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 340 180" xmlns="http://www.w3.org/2000/svg">
-      <line x1="30" y1="120" x2="310" y2="120" stroke="#1e3a5f" stroke-width="1.5"/>
-      <g fill="#3a6088" stroke="#1e3a5f" stroke-width="0.8">
-        <rect x="55" y="100" width="22" height="20"/>
-        <rect x="90" y="80" width="22" height="40"/>
-        <rect x="125" y="55" width="22" height="65"/>
-        <rect x="160" y="35" width="22" height="85"/>
-        <rect x="195" y="55" width="22" height="65"/>
-        <rect x="230" y="80" width="22" height="40"/>
-        <rect x="265" y="100" width="22" height="20"/>
-      </g>
-      <polygon points="171,120 161,140 181,140" fill="#c9544a"/>
-      <line x1="171" y1="140" x2="171" y2="150" stroke="#c9544a" stroke-width="1.5"/>
-      <text x="171" y="165" font-size="11" fill="#c9544a" text-anchor="middle" font-style="italic" font-weight="700">E[X] · 重心</text>
-      <text x="170" y="25" font-size="10" fill="#1e3a5f" text-anchor="middle" font-style="italic">概率分布</text>
-    </svg>
-  </div>
-
-  <div class="formula-box">$$\mathbb{E}[X] = \sum_i x_i \cdot P(X = x_i) \quad \text{或} \quad \int x \, f(x)\, dx$$</div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>期望最深刻的性质叫<strong>线性</strong>：$\mathbb{E}[X + Y] = \mathbb{E}[X] + \mathbb{E}[Y]$，<strong>即使 $X$ 和 $Y$ 不独立</strong>——它们可以完全相关，等式照样成立。这是概率论里少有的"无条件免费"恒等式。无数难题靠这一行救命：随机抽 $n$ 张牌，期望出现多少对子？给每对牌定义一个 0/1 指示变量，逐对求期望，相加——不需要管它们是否独立。这种"先拆成指示变量再求和"的套路在组合概率里几乎无敌。</p>
-    <p>但期望也有坑：1738 年 Daniel Bernoulli 提出<strong>圣彼得堡悖论</strong>——一个游戏的数学期望是无穷大，但没人愿意花 1000 块买入。这逼出了<em>效用理论</em>：人在乎的不只是金钱的期望，还有方差与风险厌恶。这是行为经济学的起点。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>保险定价：保费 ≈ 期望赔付 + 运营成本 + 利润；Kelly 准则：赌博 / 投资里的最优下注比例；强化学习的 Bellman 方程 $V(s) = \mathbb{E}[r + \gamma V(s')]$ 就是期望的递归；几乎所有"理性决策 = 最大化期望效用"的理论框架，都从这里出发。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">历史与人物</div>
-    <p>1654 年，法国贵族 Chevalier de Méré 向 Pascal 请教一个赌博问题："两人下注玩到一定分数算赢；中途中断怎么分钱？"Pascal 和 Fermat 通过书信讨论这个 <em>Problem of Points</em>——这段通信被公认为现代概率论的诞生。期望值是他们的核心工具。Christiaan Huygens 1657 年的小书《De Ratiociniis in Ludo Aleae》第一次正式把它写成定义。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">深入资源</div>
-    <p class="resources">
-      • Leonard Mlodinow — 《<em>The Drunkard's Walk: How Randomness Rules Our Lives</em>》<br>
+<div class="card" data-tts="61832179352c6034">
+<h2>期望值：随机性的重心</h2>
+<div class="en-name">Expected Value · 概率论基础</div>
+<span class="tag">Expectation</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>掷一颗公平骰子，"期望"得到多少点？答案 3.5。但骰子没有 3.5 这一面——你永远不会单次掷出 3.5。所以"期望值"这个词其实有点误导：它不是"我期望发生什么"，而是<strong>"如果我玩这个游戏一万次，平均结果是多少"</strong>。</p>
+<p>更好的比喻：把概率分布想成一根铁丝，每个可能结果挂一个小球，重量等于它的概率。<strong>期望值就是这根铁丝的重心</strong>——你用一根手指托在重心位置，整个分布刚好平衡。这就是为什么数学家有时把期望值叫做 <em>first moment</em>（一阶矩）——和力学里"质量 × 位置"的矩同源。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 180" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#1e3a5f" stroke-width="1.5" x1="30" x2="310" y1="120" y2="120"></line>
+<g fill="#3a6088" stroke="#1e3a5f" stroke-width="0.8">
+<rect height="20" width="22" x="55" y="100"></rect>
+<rect height="40" width="22" x="90" y="80"></rect>
+<rect height="65" width="22" x="125" y="55"></rect>
+<rect height="85" width="22" x="160" y="35"></rect>
+<rect height="65" width="22" x="195" y="55"></rect>
+<rect height="40" width="22" x="230" y="80"></rect>
+<rect height="20" width="22" x="265" y="100"></rect>
+</g>
+<polygon fill="#c9544a" points="171,120 161,140 181,140"></polygon>
+<line stroke="#c9544a" stroke-width="1.5" x1="171" x2="171" y1="140" y2="150"></line>
+<text fill="#c9544a" font-size="11" font-style="italic" font-weight="700" text-anchor="middle" x="171" y="165">E[X] · 重心</text>
+<text fill="#1e3a5f" font-size="10" font-style="italic" text-anchor="middle" x="170" y="25">概率分布</text>
+</svg>
+</div>
+<div class="formula-box">$$\mathbb{E}[X] = \sum_i x_i \cdot P(X = x_i) \quad \text{或} \quad \int x \, f(x)\, dx$$</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>期望最深刻的性质叫<strong>线性</strong>：$\mathbb{E}[X + Y] = \mathbb{E}[X] + \mathbb{E}[Y]$，<strong>即使 $X$ 和 $Y$ 不独立</strong>——它们可以完全相关，等式照样成立。这是概率论里少有的"无条件免费"恒等式。无数难题靠这一行救命：随机抽 $n$ 张牌，期望出现多少对子？给每对牌定义一个 0/1 指示变量，逐对求期望，相加——不需要管它们是否独立。这种"先拆成指示变量再求和"的套路在组合概率里几乎无敌。</p>
+<p>但期望也有坑：1738 年 Daniel Bernoulli 提出<strong>圣彼得堡悖论</strong>——一个游戏的数学期望是无穷大，但没人愿意花 1000 块买入。这逼出了<em>效用理论</em>：人在乎的不只是金钱的期望，还有方差与风险厌恶。这是行为经济学的起点。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>保险定价：保费 ≈ 期望赔付 + 运营成本 + 利润；Kelly 准则：赌博 / 投资里的最优下注比例；强化学习的 Bellman 方程 $V(s) = \mathbb{E}[r + \gamma V(s')]$ 就是期望的递归；几乎所有"理性决策 = 最大化期望效用"的理论框架，都从这里出发。</p>
+</div>
+<div class="section">
+<div class="label">历史与人物</div>
+<p>1654 年，法国贵族 Chevalier de Méré 向 Pascal 请教一个赌博问题："两人下注玩到一定分数算赢；中途中断怎么分钱？"Pascal 和 Fermat 通过书信讨论这个 <em>Problem of Points</em>——这段通信被公认为现代概率论的诞生。期望值是他们的核心工具。Christiaan Huygens 1657 年的小书《De Ratiociniis in Ludo Aleae》第一次正式把它写成定义。</p>
+</div>
+<div class="section">
+<div class="label">深入资源</div>
+<p class="resources">
+      • Leonard Mlodinow — 《<em>The Drunkard's Walk: How Randomness Rules Our Lives</em>》<br/>
       • Steven Strogatz — 《<em>The Joy of x</em>》"Chances Are" 章
     </p>
+</div>
+<div class="english">
+<strong>English Insight：</strong> <strong>expectation / expected value / mean</strong> 三者通用；<strong>variance</strong> 方差，<strong>standard deviation</strong> 标准差，<strong>moment</strong> 矩；<strong>linearity of expectation</strong> 期望的线性——概率题里最常用的杀器之一。
   </div>
-
-  <div class="english">
-    <strong>English Insight：</strong> <strong>expectation / expected value / mean</strong> 三者通用；<strong>variance</strong> 方差，<strong>standard deviation</strong> 标准差，<strong>moment</strong> 矩；<strong>linearity of expectation</strong> 期望的线性——概率题里最常用的杀器之一。
-  </div>
-
-  <div class="think">
-    <strong>思考题：</strong>圣彼得堡赌局：连掷硬币直到第一次反面出现，第 $n$ 次出现反面则赢 $2^n$ 元。数学期望是 $\sum_{n=1}^\infty 2^n \cdot 2^{-n} = \infty$。但你愿意花多少钱买这局？答案大概在 10 到 30 块之间。"无穷大的期望"与"愿付价格"的鸿沟，告诉我们关于"理性"什么？是数学错了，还是"理性"这个概念本身需要重写？
+<div class="think">
+<strong>思考题：</strong>圣彼得堡赌局：连掷硬币直到第一次反面出现，第 $n$ 次出现反面则赢 $2^n$ 元。数学期望是 $\sum_{n=1}^\infty 2^n \cdot 2^{-n} = \infty$。但你愿意花多少钱买这局？答案大概在 10 到 30 块之间。"无穷大的期望"与"愿付价格"的鸿沟，告诉我们关于"理性"什么？是数学错了，还是"理性"这个概念本身需要重写？
   </div>
 </div>
-
 <!-- 概念 4 -->
-<div class="card">
-  <h2>大数定律 vs 小数定律：人类直觉的系统性失败</h2>
-  <div class="en-name">Law of Large Numbers vs the Law of Small Numbers · 极限定理 / 认知偏差</div>
-  <span class="tag">Limit Theorems</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p><strong>大数定律 (LLN)</strong>：重复一个随机实验足够多次，样本平均一定逼近期望值。掷一枚公平硬币 100 万次，正面比例会非常接近 50%。这看起来废话——但严格证明它需要近代分析学的全部机器。</p>
-    <p>问题是，人类有个奇怪的认知 bug：我们倾向于相信<strong>小样本也已经能代表整体</strong>。Kahneman 与 Tversky 1971 年戏称这是<strong>「小数定律」</strong>(the Law of Small Numbers)。掷 4 次硬币 4 次都正面——很多人会觉得"反面已经欠了一笔账，下次该出反面了"。这是<strong>赌徒谬误</strong> (gambler's fallacy)。硬币没有记忆。反过来：篮球手连进 5 球，观众觉得他"手感来了"——这是<strong>热手谬误</strong> (hot-hand fallacy)。Gilovich 等 1985 年的研究称这是错觉，但 Miller &amp; Sanjurjo 2018 年重新分析后发现，热手在某些情境下其实<em>真实存在</em>——他们指出原研究本身犯了一个微妙的统计偏差。人类直觉容易翻车，但批评直觉的研究也会翻车。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 340 180" xmlns="http://www.w3.org/2000/svg">
-      <line x1="40" y1="160" x2="320" y2="160" stroke="#666" stroke-width="0.8"/>
-      <line x1="40" y1="20" x2="40" y2="160" stroke="#666" stroke-width="0.8"/>
-      <text x="180" y="175" font-size="10" fill="#666" text-anchor="middle">样本数 n (log 尺度)</text>
-      <text x="30" y="25" font-size="10" fill="#666" text-anchor="end">样本均值</text>
-      <line x1="40" y1="90" x2="320" y2="90" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4,3"/>
-      <text x="324" y="93" font-size="10" fill="#1e3a5f">μ = E[X]</text>
-      <path d="M 40 40 L 60 130 L 80 60 L 100 125 L 120 70 L 140 105 L 160 80 L 180 100 L 200 85 L 220 95 L 240 88 L 260 93 L 280 90 L 300 91 L 320 90" fill="none" stroke="#c9544a" stroke-width="1.5"/>
-      <text x="75" y="50" font-size="9" fill="#c9544a" font-style="italic">小 n：剧烈波动</text>
-      <text x="245" y="80" font-size="9" fill="#c9544a" font-style="italic">大 n：收敛</text>
-    </svg>
-  </div>
-
-  <div class="formula-box">$$\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i \;\xrightarrow{P}\; \mu \quad (n \to \infty)$$</div>
-
-  <div class="section">
-    <div class="label">为什么美 + 为什么我们栽跟头</div>
-    <p>LLN 是连接"概率"和"现实"的桥：没有它，期望值就只是一个空概念。它由 Jacob Bernoulli 在 1713 年遗著《Ars Conjectandi》中首次严格证明。但 LLN 只在 "$n$ 足够大" 时才适用——而人类的"足够"和数学的"足够"差得很远。投资 5 只股票 3 只赚了，不能说明你"会选股"；A/B 测试只跑 100 人不能信；流行病学小样本研究随时翻车。<strong>统计学的一半工作，就是把"看似有趣的小样本现象"打回原形。</strong></p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用 / 反例</div>
-    <p>金融：基金经理过去 5 年跑赢市场——是技能还是运气？Brinson-Hood-Beebower 论证大多数是运气；幸存者偏差 (survivorship bias) 让我们只看见赢的那群人。医学：新冠早期大量"某药有效"的小样本研究后来几乎全部翻车。AI：模型在 100 个 hold-out 样本上准确率 95%，部署后崩盘——因为分布漂移加上小样本评估方差太大。招聘 / 投资 / 创业判断：用单次面试或单次商业计划 judge 一个人，本质是在拿小样本对抗大数定律。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">历史与人物</div>
-    <p>Jacob Bernoulli（1654–1705）第一次严格证明 LLN，称之为<strong>「金科玉律」</strong> (theorema aureum)。他写道："连最愚钝的人都凭本能知道：观察越多越接近真相。但要把它变成严格数学定理，远比想象的难——我花了二十年。" Kahneman 与 Tversky 1971 年的论文《Belief in the Law of Small Numbers》正式诊断了这种认知偏差，奠定了行为经济学。Nassim Taleb 把它推到极致：在<strong>厚尾分布</strong> (fat-tailed) 下，"样本均值"本身就不可靠——黑天鹅事件可以让任何"已知"的均值崩盘。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">深入资源</div>
-    <p class="resources">
-      • Daniel Kahneman — 《<em>Thinking, Fast and Slow</em>》第 10 章 "The Law of Small Numbers"<br>
+<div class="card" data-tts="ee3a293534aefe42">
+<h2>大数定律 vs 小数定律：人类直觉的系统性失败</h2>
+<div class="en-name">Law of Large Numbers vs the Law of Small Numbers · 极限定理 / 认知偏差</div>
+<span class="tag">Limit Theorems</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p><strong>大数定律 (LLN)</strong>：重复一个随机实验足够多次，样本平均一定逼近期望值。掷一枚公平硬币 100 万次，正面比例会非常接近 50%。这看起来废话——但严格证明它需要近代分析学的全部机器。</p>
+<p>问题是，人类有个奇怪的认知 bug：我们倾向于相信<strong>小样本也已经能代表整体</strong>。Kahneman 与 Tversky 1971 年戏称这是<strong>「小数定律」</strong>(the Law of Small Numbers)。掷 4 次硬币 4 次都正面——很多人会觉得"反面已经欠了一笔账，下次该出反面了"。这是<strong>赌徒谬误</strong> (gambler's fallacy)。硬币没有记忆。反过来：篮球手连进 5 球，观众觉得他"手感来了"——这是<strong>热手谬误</strong> (hot-hand fallacy)。Gilovich 等 1985 年的研究称这是错觉，但 Miller &amp; Sanjurjo 2018 年重新分析后发现，热手在某些情境下其实<em>真实存在</em>——他们指出原研究本身犯了一个微妙的统计偏差。人类直觉容易翻车，但批评直觉的研究也会翻车。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 180" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#666" stroke-width="0.8" x1="40" x2="320" y1="160" y2="160"></line>
+<line stroke="#666" stroke-width="0.8" x1="40" x2="40" y1="20" y2="160"></line>
+<text fill="#666" font-size="10" text-anchor="middle" x="180" y="175">样本数 n (log 尺度)</text>
+<text fill="#666" font-size="10" text-anchor="end" x="30" y="25">样本均值</text>
+<line stroke="#1e3a5f" stroke-dasharray="4,3" stroke-width="1" x1="40" x2="320" y1="90" y2="90"></line>
+<text fill="#1e3a5f" font-size="10" x="324" y="93">μ = E[X]</text>
+<path d="M 40 40 L 60 130 L 80 60 L 100 125 L 120 70 L 140 105 L 160 80 L 180 100 L 200 85 L 220 95 L 240 88 L 260 93 L 280 90 L 300 91 L 320 90" fill="none" stroke="#c9544a" stroke-width="1.5"></path>
+<text fill="#c9544a" font-size="9" font-style="italic" x="75" y="50">小 n：剧烈波动</text>
+<text fill="#c9544a" font-size="9" font-style="italic" x="245" y="80">大 n：收敛</text>
+</svg>
+</div>
+<div class="formula-box">$$\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i \;\xrightarrow{P}\; \mu \quad (n \to \infty)$$</div>
+<div class="section">
+<div class="label">为什么美 + 为什么我们栽跟头</div>
+<p>LLN 是连接"概率"和"现实"的桥：没有它，期望值就只是一个空概念。它由 Jacob Bernoulli 在 1713 年遗著《Ars Conjectandi》中首次严格证明。但 LLN 只在 "$n$ 足够大" 时才适用——而人类的"足够"和数学的"足够"差得很远。投资 5 只股票 3 只赚了，不能说明你"会选股"；A/B 测试只跑 100 人不能信；流行病学小样本研究随时翻车。<strong>统计学的一半工作，就是把"看似有趣的小样本现象"打回原形。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用 / 反例</div>
+<p>金融：基金经理过去 5 年跑赢市场——是技能还是运气？Brinson-Hood-Beebower 论证大多数是运气；幸存者偏差 (survivorship bias) 让我们只看见赢的那群人。医学：新冠早期大量"某药有效"的小样本研究后来几乎全部翻车。AI：模型在 100 个 hold-out 样本上准确率 95%，部署后崩盘——因为分布漂移加上小样本评估方差太大。招聘 / 投资 / 创业判断：用单次面试或单次商业计划 judge 一个人，本质是在拿小样本对抗大数定律。</p>
+</div>
+<div class="section">
+<div class="label">历史与人物</div>
+<p>Jacob Bernoulli（1654–1705）第一次严格证明 LLN，称之为<strong>「金科玉律」</strong> (theorema aureum)。他写道："连最愚钝的人都凭本能知道：观察越多越接近真相。但要把它变成严格数学定理，远比想象的难——我花了二十年。" Kahneman 与 Tversky 1971 年的论文《Belief in the Law of Small Numbers》正式诊断了这种认知偏差，奠定了行为经济学。Nassim Taleb 把它推到极致：在<strong>厚尾分布</strong> (fat-tailed) 下，"样本均值"本身就不可靠——黑天鹅事件可以让任何"已知"的均值崩盘。</p>
+</div>
+<div class="section">
+<div class="label">深入资源</div>
+<p class="resources">
+      • Daniel Kahneman — 《<em>Thinking, Fast and Slow</em>》第 10 章 "The Law of Small Numbers"<br/>
       • Nassim Taleb — 《<em>Fooled by Randomness</em>》
     </p>
+</div>
+<div class="english">
+<strong>English Insight：</strong> <strong>Law of Large Numbers (LLN)</strong>；<strong>Central Limit Theorem (CLT)</strong> 中心极限定理；<strong>regression to the mean</strong> 均值回归；<strong>survivorship bias</strong> 幸存者偏差；<strong>gambler's fallacy</strong> / <strong>hot-hand fallacy</strong>；<strong>statistical significance</strong> 统计显著性；<strong>fat-tailed distribution</strong> 厚尾分布。
   </div>
-
-  <div class="english">
-    <strong>English Insight：</strong> <strong>Law of Large Numbers (LLN)</strong>；<strong>Central Limit Theorem (CLT)</strong> 中心极限定理；<strong>regression to the mean</strong> 均值回归；<strong>survivorship bias</strong> 幸存者偏差；<strong>gambler's fallacy</strong> / <strong>hot-hand fallacy</strong>；<strong>statistical significance</strong> 统计显著性；<strong>fat-tailed distribution</strong> 厚尾分布。
-  </div>
-
-  <div class="think">
-    <strong>思考题：</strong>如果"小样本不可信"，为什么《圣经》《史记》《古文献》里那些孤例性的奇闻轶事，依然能塑造一代代人的世界观？是不是人类大脑根本不是为大数定律设计的，而是为"单个故事的代表性"设计的？这对我们今天该相信什么、不该相信什么意味着什么？
+<div class="think">
+<strong>思考题：</strong>如果"小样本不可信"，为什么《圣经》《史记》《古文献》里那些孤例性的奇闻轶事，依然能塑造一代代人的世界观？是不是人类大脑根本不是为大数定律设计的，而是为"单个故事的代表性"设计的？这对我们今天该相信什么、不该相信什么意味着什么？
   </div>
 </div>
-
 <nav class="bottom">
-  <a href="index.html">← 返回 Mathematics 首页</a>
+<a href="index.html">← 返回 Mathematics 首页</a>
 </nav>
-
 </div>
-<script src="https://hub.cissychen.com/comments.js" defer></script>
-<script src="https://hub.cissychen.com/search.js" defer></script>
-<script src="https://hub.cissychen.com/index-button.js" defer></script>
-<script src="https://hub.cissychen.com/i18n-tts.js" defer></script>
+<script defer="" src="https://hub.cissychen.com/comments.js"></script>
+<script defer="" src="https://hub.cissychen.com/search.js"></script>
+<script defer="" src="https://hub.cissychen.com/index-button.js"></script>
+<script defer="" src="https://hub.cissychen.com/i18n-tts.js"></script>
 </body>
 </html>

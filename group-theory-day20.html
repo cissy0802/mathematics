@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>群论 · Day 20 — Mathematics</title>
 <script>
 window.MathJax = {
@@ -14,7 +15,7 @@ window.MathJax = {
   options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
 };
 </script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
@@ -52,235 +53,199 @@ nav.bottom a:hover{color:#1e3a5f}
 </head>
 <body>
 <div class="container">
-
 <header>
-  <div class="kicker">Day 20 · 2026.07.12</div>
-  <h1>群论</h1>
-  <div class="meta">Group Theory — 对称的语法：把「动作」当成研究对象</div>
-  <div class="epigraph">"群论是对称的数学。凡有对称之处，必有一个群在背后守着账。" — 改写自 Hermann Weyl</div>
+<div class="kicker">Day 20 · 2026.07.12</div>
+<h1 data-tts="3ae70966a08a215c">群论</h1>
+<div class="meta">Group Theory — 对称的语法：把「动作」当成研究对象</div>
+<div class="epigraph">"群论是对称的数学。凡有对称之处，必有一个群在背后守着账。" — 改写自 Hermann Weyl</div>
 </header>
-
 <!-- 概念 1：群 -->
-<div class="card">
-  <h2>群</h2>
-  <div class="en-name">Group · 可逆动作的代数</div>
-  <span class="tag">Algebra</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>群不是「一堆东西」，而是<strong>「一堆动作」</strong>。拿一个正三角形：你能对它做什么，让它看起来跟没动一样？转 120°、转 240°、不转、再加上沿三条对称轴各翻一次——正好 6 个动作。这 6 个动作构成一个群。<br><br>关键在三条直觉：动作能<strong>接龙</strong>（先转 120° 再翻转 = 另一个合法动作，还在这 6 个里）；每个动作都能<strong>撤销</strong>（转 120° 的逆是转 240°）；有一个<strong>「什么都不做」</strong>的动作。名词（三角形）会骗你的眼睛，<em>动词</em>（施加其上的操作）才是群研究的对象。把注意力从「物体」搬到「保持物体不变的动作」——这就是群论的起点。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 380 175" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <marker id="ah1" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
-          <path d="M0,0 L7,3 L0,6 z" fill="#c9544a"/>
-        </marker>
-      </defs>
-      <!-- triangle -->
-      <polygon points="120,30 55,140 185,140" fill="#f0f4f9" stroke="#1e3a5f" stroke-width="1.5"/>
-      <circle cx="120" cy="30" r="4" fill="#1e3a5f"/><text x="114" y="22" font-size="13" fill="#1e3a5f" font-style="italic">1</text>
-      <circle cx="55" cy="140" r="4" fill="#1e3a5f"/><text x="40" y="152" font-size="13" fill="#1e3a5f" font-style="italic">2</text>
-      <circle cx="185" cy="140" r="4" fill="#1e3a5f"/><text x="192" y="152" font-size="13" fill="#1e3a5f" font-style="italic">3</text>
-      <!-- rotation arrow -->
-      <path d="M 152 92 A 40 40 0 0 1 120 118" fill="none" stroke="#c9544a" stroke-width="1.6" marker-end="url(#ah1)"/>
-      <text x="120" y="98" font-size="12" fill="#c9544a" text-anchor="middle" font-style="italic">r：转120°</text>
-      <!-- list -->
-      <text x="245" y="52" font-size="12" fill="#3a6088">D₃ 的 6 个动作：</text>
-      <text x="245" y="76" font-size="11.5" fill="#2a3548">e（不动）</text>
-      <text x="245" y="96" font-size="11.5" fill="#2a3548">r, r²（转 120°/240°）</text>
-      <text x="245" y="116" font-size="11.5" fill="#2a3548">f₁, f₂, f₃（三次翻转）</text>
-      <text x="245" y="140" font-size="11" fill="#5a7090" font-style="italic">接龙 · 可逆 · 有单位元</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>群 $(G,\cdot)$ 是一个集合 $G$ 配上一个运算 $\cdot$，满足四条公理：<strong>封闭</strong>——$a\cdot b$ 仍在 $G$ 里；<strong>结合律</strong>——$(a\cdot b)\cdot c=a\cdot(b\cdot c)$；<strong>单位元</strong>——存在 $e$ 使 $e\cdot a=a$；<strong>逆元</strong>——每个 $a$ 都有 $a^{-1}$ 使 $a\cdot a^{-1}=e$。<br>注意<em>没有</em>要求交换律：$a\cdot b\ne b\cdot a$ 才是常态。先穿袜子再穿鞋，和先穿鞋再穿袜子，结果天差地别——顺序有意义的世界，正是群论的主场。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>四条看似贫瘠的公理，竟精确地框住了「对称」这一现象的全部本质。更惊人的是 <strong>Cayley 定理</strong>：每个群都同构于某个「置换群」——也就是说，任何抽象的群，本质上都是某组具体动作的换汤不换药。这告诉我们：<em>抽象代数并非凭空发明，而是把「可逆变换」这件事提纯到极致的结晶。</em>公理越少，能装下的世界越大。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>魔方的所有状态构成一个群（约 $4.3\times10^{19}$ 个元素），「还原魔方」= 在群里找一条回到单位元的路。密码学的地基是群：RSA 建在模 $n$ 的乘法群上，椭圆曲线加密建在曲线点构成的群上。而在物理里，一个系统「有哪些对称」直接决定它「守恒什么量」——群是连接对称与守恒的枢纽。</p>
-  </div>
-
-  <div class="essence">一句话精华：群是<strong>「动词的代数」</strong>——研究的不是物体，而是保持物体不变的那组可逆动作。</div>
-  <div class="think">思考题：为什么「不要求交换律」反而让群更强大？如果强行要求 $ab=ba$，哪些真实现象（旋转、洗牌、魔方）会立刻被排除在外？</div>
+<div class="card" data-tts="7da0740e49f626f6">
+<h2>群</h2>
+<div class="en-name">Group · 可逆动作的代数</div>
+<span class="tag">Algebra</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>群不是「一堆东西」，而是<strong>「一堆动作」</strong>。拿一个正三角形：你能对它做什么，让它看起来跟没动一样？转 120°、转 240°、不转、再加上沿三条对称轴各翻一次——正好 6 个动作。这 6 个动作构成一个群。<br/><br/>关键在三条直觉：动作能<strong>接龙</strong>（先转 120° 再翻转 = 另一个合法动作，还在这 6 个里）；每个动作都能<strong>撤销</strong>（转 120° 的逆是转 240°）；有一个<strong>「什么都不做」</strong>的动作。名词（三角形）会骗你的眼睛，<em>动词</em>（施加其上的操作）才是群研究的对象。把注意力从「物体」搬到「保持物体不变的动作」——这就是群论的起点。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 380 175" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="ah1" markerheight="9" markerwidth="9" orient="auto" refx="7" refy="3">
+<path d="M0,0 L7,3 L0,6 z" fill="#c9544a"></path>
+</marker>
+</defs>
+<!-- triangle -->
+<polygon fill="#f0f4f9" points="120,30 55,140 185,140" stroke="#1e3a5f" stroke-width="1.5"></polygon>
+<circle cx="120" cy="30" fill="#1e3a5f" r="4"></circle><text fill="#1e3a5f" font-size="13" font-style="italic" x="114" y="22">1</text>
+<circle cx="55" cy="140" fill="#1e3a5f" r="4"></circle><text fill="#1e3a5f" font-size="13" font-style="italic" x="40" y="152">2</text>
+<circle cx="185" cy="140" fill="#1e3a5f" r="4"></circle><text fill="#1e3a5f" font-size="13" font-style="italic" x="192" y="152">3</text>
+<!-- rotation arrow -->
+<path d="M 152 92 A 40 40 0 0 1 120 118" fill="none" marker-end="url(#ah1)" stroke="#c9544a" stroke-width="1.6"></path>
+<text fill="#c9544a" font-size="12" font-style="italic" text-anchor="middle" x="120" y="98">r：转120°</text>
+<!-- list -->
+<text fill="#3a6088" font-size="12" x="245" y="52">D₃ 的 6 个动作：</text>
+<text fill="#2a3548" font-size="11.5" x="245" y="76">e（不动）</text>
+<text fill="#2a3548" font-size="11.5" x="245" y="96">r, r²（转 120°/240°）</text>
+<text fill="#2a3548" font-size="11.5" x="245" y="116">f₁, f₂, f₃（三次翻转）</text>
+<text fill="#5a7090" font-size="11" font-style="italic" x="245" y="140">接龙 · 可逆 · 有单位元</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>群 $(G,\cdot)$ 是一个集合 $G$ 配上一个运算 $\cdot$，满足四条公理：<strong>封闭</strong>——$a\cdot b$ 仍在 $G$ 里；<strong>结合律</strong>——$(a\cdot b)\cdot c=a\cdot(b\cdot c)$；<strong>单位元</strong>——存在 $e$ 使 $e\cdot a=a$；<strong>逆元</strong>——每个 $a$ 都有 $a^{-1}$ 使 $a\cdot a^{-1}=e$。<br/>注意<em>没有</em>要求交换律：$a\cdot b\ne b\cdot a$ 才是常态。先穿袜子再穿鞋，和先穿鞋再穿袜子，结果天差地别——顺序有意义的世界，正是群论的主场。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>四条看似贫瘠的公理，竟精确地框住了「对称」这一现象的全部本质。更惊人的是 <strong>Cayley 定理</strong>：每个群都同构于某个「置换群」——也就是说，任何抽象的群，本质上都是某组具体动作的换汤不换药。这告诉我们：<em>抽象代数并非凭空发明，而是把「可逆变换」这件事提纯到极致的结晶。</em>公理越少，能装下的世界越大。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>魔方的所有状态构成一个群（约 $4.3\times10^{19}$ 个元素），「还原魔方」= 在群里找一条回到单位元的路。密码学的地基是群：RSA 建在模 $n$ 的乘法群上，椭圆曲线加密建在曲线点构成的群上。而在物理里，一个系统「有哪些对称」直接决定它「守恒什么量」——群是连接对称与守恒的枢纽。</p>
+</div>
+<div class="essence">一句话精华：群是<strong>「动词的代数」</strong>——研究的不是物体，而是保持物体不变的那组可逆动作。</div>
+<div class="think">思考题：为什么「不要求交换律」反而让群更强大？如果强行要求 $ab=ba$，哪些真实现象（旋转、洗牌、魔方）会立刻被排除在外？</div>
+</div>
 <!-- 概念 2：对称群 S_n -->
-<div class="card">
-  <h2>对称群 $S_n$</h2>
-  <div class="en-name">The Symmetric Group · 一切有限群之母</div>
-  <span class="tag">群论</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>把 $n$ 个东西重新排一遍——这就是<strong>洗牌</strong>。$S_n$ 是「$n$ 张牌的所有洗法」构成的群。$S_3$ 有 $3!=6$ 种洗法，$S_{52}$（一副扑克）有约 $8\times10^{67}$ 种。每一次洗牌叫一个<strong>置换</strong>。<br><br>置换有个漂亮的记法叫<strong>循环</strong>：$(1\,2\,3)$ 意思是「1 的位置给 2，2 给 3，3 回到 1」。任何一次洗牌，无论多复杂，都能唯一地拆成几个互不干扰的循环——就像把一团乱麻梳成几个独立的圈。这让「排列」这件事从眼花缭乱变得可清点、可计算。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <marker id="ah2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
-          <path d="M0,0 L7,3 L0,6 z" fill="#3a6088"/>
-        </marker>
-      </defs>
-      <circle cx="90" cy="45" r="16" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.3"/><text x="90" y="50" font-size="14" fill="#1e3a5f" text-anchor="middle">1</text>
-      <circle cx="270" cy="45" r="16" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.3"/><text x="270" y="50" font-size="14" fill="#1e3a5f" text-anchor="middle">2</text>
-      <circle cx="180" cy="120" r="16" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.3"/><text x="180" y="125" font-size="14" fill="#1e3a5f" text-anchor="middle">3</text>
-      <path d="M 106 42 Q 180 15 254 42" fill="none" stroke="#3a6088" stroke-width="1.5" marker-end="url(#ah2)"/>
-      <path d="M 268 61 Q 240 105 197 115" fill="none" stroke="#3a6088" stroke-width="1.5" marker-end="url(#ah2)"/>
-      <path d="M 165 112 Q 110 90 88 62" fill="none" stroke="#3a6088" stroke-width="1.5" marker-end="url(#ah2)"/>
-      <text x="180" y="145" font-size="13" fill="#c9544a" text-anchor="middle" font-style="italic">循环 (1 2 3)：1→2→3→1</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>$S_n$ 是集合 $\{1,2,\dots,n\}$ 上<strong>所有双射</strong>（一一对应）构成的群，运算是「先做一个再做另一个」的<strong>复合</strong>，元素个数 $|S_n|=n!$。它一般是<strong>非交换</strong>的：先换 (1 2) 再换 (2 3)，跟反过来做，结果不同。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>Cayley 定理换一个说法就是：<strong>每个有限群都是某个 $S_n$ 的子群。</strong>看起来最土、最具体的「洗牌」，竟然把所有抽象的有限群一网打尽——$S_n$ 是「一切有限群之母」。更深的一层：$S_n$ 内部的结构，藏着数学史上最戏剧的一个答案。Galois 证明当 $n\ge5$ 时 $S_n$ 「不可解」，<strong>由此推出五次以上方程没有根式解</strong>——一个两千年的解方程谜题，答案竟写在洗牌的群结构里。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>排序算法本质是在 $S_n$ 里找从「乱序」到「有序」的路径；逆序对数就是所需相邻交换的最少次数。密码学的经典分组密码用置换打乱明文。魔方群是 $S_{48}$ 的一个子群。而 Galois 理论——生长在 $S_n$ 之上——今天是编码理论、计算机代数系统（求解多项式）的根基。</p>
-  </div>
-
-  <div class="essence">一句话精华：最具体的「洗牌」装下了最抽象的一切群；$S_n$ 是有限群世界的<strong>母体与标尺</strong>。</div>
-  <div class="think">思考题：一副 52 张牌洗法比可观测宇宙的原子数还多。为什么「有限」的东西能大到这种地步？阶乘增长的这种「组合爆炸」，在你熟悉的算法复杂度里意味着什么？</div>
+<div class="card" data-tts="0e72e090c491b577">
+<h2>对称群 $S_n$</h2>
+<div class="en-name">The Symmetric Group · 一切有限群之母</div>
+<span class="tag">群论</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>把 $n$ 个东西重新排一遍——这就是<strong>洗牌</strong>。$S_n$ 是「$n$ 张牌的所有洗法」构成的群。$S_3$ 有 $3!=6$ 种洗法，$S_{52}$（一副扑克）有约 $8\times10^{67}$ 种。每一次洗牌叫一个<strong>置换</strong>。<br/><br/>置换有个漂亮的记法叫<strong>循环</strong>：$(1\,2\,3)$ 意思是「1 的位置给 2，2 给 3，3 回到 1」。任何一次洗牌，无论多复杂，都能唯一地拆成几个互不干扰的循环——就像把一团乱麻梳成几个独立的圈。这让「排列」这件事从眼花缭乱变得可清点、可计算。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="ah2" markerheight="9" markerwidth="9" orient="auto" refx="7" refy="3">
+<path d="M0,0 L7,3 L0,6 z" fill="#3a6088"></path>
+</marker>
+</defs>
+<circle cx="90" cy="45" fill="#e6ecf3" r="16" stroke="#1e3a5f" stroke-width="1.3"></circle><text fill="#1e3a5f" font-size="14" text-anchor="middle" x="90" y="50">1</text>
+<circle cx="270" cy="45" fill="#e6ecf3" r="16" stroke="#1e3a5f" stroke-width="1.3"></circle><text fill="#1e3a5f" font-size="14" text-anchor="middle" x="270" y="50">2</text>
+<circle cx="180" cy="120" fill="#e6ecf3" r="16" stroke="#1e3a5f" stroke-width="1.3"></circle><text fill="#1e3a5f" font-size="14" text-anchor="middle" x="180" y="125">3</text>
+<path d="M 106 42 Q 180 15 254 42" fill="none" marker-end="url(#ah2)" stroke="#3a6088" stroke-width="1.5"></path>
+<path d="M 268 61 Q 240 105 197 115" fill="none" marker-end="url(#ah2)" stroke="#3a6088" stroke-width="1.5"></path>
+<path d="M 165 112 Q 110 90 88 62" fill="none" marker-end="url(#ah2)" stroke="#3a6088" stroke-width="1.5"></path>
+<text fill="#c9544a" font-size="13" font-style="italic" text-anchor="middle" x="180" y="145">循环 (1 2 3)：1→2→3→1</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>$S_n$ 是集合 $\{1,2,\dots,n\}$ 上<strong>所有双射</strong>（一一对应）构成的群，运算是「先做一个再做另一个」的<strong>复合</strong>，元素个数 $|S_n|=n!$。它一般是<strong>非交换</strong>的：先换 (1 2) 再换 (2 3)，跟反过来做，结果不同。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>Cayley 定理换一个说法就是：<strong>每个有限群都是某个 $S_n$ 的子群。</strong>看起来最土、最具体的「洗牌」，竟然把所有抽象的有限群一网打尽——$S_n$ 是「一切有限群之母」。更深的一层：$S_n$ 内部的结构，藏着数学史上最戏剧的一个答案。Galois 证明当 $n\ge5$ 时 $S_n$ 「不可解」，<strong>由此推出五次以上方程没有根式解</strong>——一个两千年的解方程谜题，答案竟写在洗牌的群结构里。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>排序算法本质是在 $S_n$ 里找从「乱序」到「有序」的路径；逆序对数就是所需相邻交换的最少次数。密码学的经典分组密码用置换打乱明文。魔方群是 $S_{48}$ 的一个子群。而 Galois 理论——生长在 $S_n$ 之上——今天是编码理论、计算机代数系统（求解多项式）的根基。</p>
+</div>
+<div class="essence">一句话精华：最具体的「洗牌」装下了最抽象的一切群；$S_n$ 是有限群世界的<strong>母体与标尺</strong>。</div>
+<div class="think">思考题：一副 52 张牌洗法比可观测宇宙的原子数还多。为什么「有限」的东西能大到这种地步？阶乘增长的这种「组合爆炸」，在你熟悉的算法复杂度里意味着什么？</div>
+</div>
 <!-- 概念 3：拉格朗日定理 -->
-<div class="card">
-  <h2>拉格朗日定理</h2>
-  <div class="en-name">Lagrange's Theorem · 部分整除整体</div>
-  <span class="tag">群论</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>群里可以有「小群」——子群，像大结构里一块自洽的积木。拉格朗日定理说了一件极强的事：<strong>用这块积木，能把整个群不重不漏地铺满，而且每一块都一样大。</strong><br><br>后果立刻很硬：一个有 12 个元素的群，它的子群大小只能是 12 的因数——1、2、3、4、6、12，<strong>绝不可能存在一个 5 元素的子群</strong>。「大小」这个最朴素的计数，就把群内部可能的结构死死锁住了。这不是经验规律，是必然。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 380 120" xmlns="http://www.w3.org/2000/svg">
-      <rect x="20" y="30" width="80" height="60" fill="#c9a96b" fill-opacity="0.45" stroke="#8a7340" stroke-width="1"/>
-      <rect x="100" y="30" width="80" height="60" fill="#e6ecf3" stroke="#3a6088" stroke-width="1"/>
-      <rect x="180" y="30" width="80" height="60" fill="#e6ecf3" stroke="#3a6088" stroke-width="1"/>
-      <rect x="260" y="30" width="80" height="60" fill="#e6ecf3" stroke="#3a6088" stroke-width="1"/>
-      <text x="60" y="65" font-size="13" fill="#1e3a5f" text-anchor="middle" font-style="italic">H</text>
-      <text x="140" y="65" font-size="13" fill="#3a6088" text-anchor="middle" font-style="italic">g₁H</text>
-      <text x="220" y="65" font-size="13" fill="#3a6088" text-anchor="middle" font-style="italic">g₂H</text>
-      <text x="300" y="65" font-size="13" fill="#3a6088" text-anchor="middle" font-style="italic">g₃H</text>
-      <text x="180" y="18" font-size="12" fill="#1e3a5f" text-anchor="middle">整个群 G ＝ 4 块等大的陪集</text>
-      <text x="180" y="108" font-size="11.5" fill="#5a7090" text-anchor="middle" font-style="italic">|G| = |H| × [G:H]　→　|H| 整除 |G|</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>设有限群 $G$ 有子群 $H$，则 $|H|$ 整除 $|G|$，商 $[G:H]=|G|/|H|$ 称为 $H$ 的<strong>指数</strong>。证明的关键是<strong>陪集</strong> $gH=\{g\cdot h:h\in H\}$：可以证明所有陪集大小相等（都等于 $|H|$）、互不相交、并起来正好是 $G$。于是 $G$ 被切成 $[G:H]$ 块等大的碎片——整除关系是这幅「铺砖图」的直接读数。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>这是数学里「以简驭繁」的典范：一个纯粹的<em>计数</em>约束，反手就锁死了群的全部可能形状。一个直接推论美到极致——<strong>素数阶的群必然是循环群</strong>：若 $|G|=p$ 是素数，它除了 $\{e\}$ 和自身没有别的子群，结构别无选择。从「无穷种可能」里，一句整除就砍出了秩序。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>费马小定理 $a^{p-1}\equiv1\pmod p$ ——现代密码学的基石之一——正是拉格朗日定理用在「模 $p$ 的乘法群」上的直接推论：该群有 $p-1$ 个元素，任一元素的「阶」必整除 $p-1$。RSA 加密、素性测试、Diffie–Hellman 密钥交换的正确性，最终都回到这条整除约束。抽象的计数定理，撑起了每天数十亿次的网络加密。</p>
-  </div>
-
-  <div class="essence">一句话精华：<strong>部分的大小必整除整体的大小</strong>——一句关于「数数」的话，锁死了群能长成的所有形状。</div>
-  <div class="think">思考题：拉格朗日定理说子群的阶整除群的阶。它的<em>逆命题</em>成立吗——若 $d$ 整除 $|G|$，$G$ 一定有一个 $d$ 阶子群吗？（答案微妙：素数幂时成立即西罗定理，一般情形则不然。）</div>
+<div class="card" data-tts="56ea141356aa764c">
+<h2>拉格朗日定理</h2>
+<div class="en-name">Lagrange's Theorem · 部分整除整体</div>
+<span class="tag">群论</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>群里可以有「小群」——子群，像大结构里一块自洽的积木。拉格朗日定理说了一件极强的事：<strong>用这块积木，能把整个群不重不漏地铺满，而且每一块都一样大。</strong><br/><br/>后果立刻很硬：一个有 12 个元素的群，它的子群大小只能是 12 的因数——1、2、3、4、6、12，<strong>绝不可能存在一个 5 元素的子群</strong>。「大小」这个最朴素的计数，就把群内部可能的结构死死锁住了。这不是经验规律，是必然。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 380 120" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#c9a96b" fill-opacity="0.45" height="60" stroke="#8a7340" stroke-width="1" width="80" x="20" y="30"></rect>
+<rect fill="#e6ecf3" height="60" stroke="#3a6088" stroke-width="1" width="80" x="100" y="30"></rect>
+<rect fill="#e6ecf3" height="60" stroke="#3a6088" stroke-width="1" width="80" x="180" y="30"></rect>
+<rect fill="#e6ecf3" height="60" stroke="#3a6088" stroke-width="1" width="80" x="260" y="30"></rect>
+<text fill="#1e3a5f" font-size="13" font-style="italic" text-anchor="middle" x="60" y="65">H</text>
+<text fill="#3a6088" font-size="13" font-style="italic" text-anchor="middle" x="140" y="65">g₁H</text>
+<text fill="#3a6088" font-size="13" font-style="italic" text-anchor="middle" x="220" y="65">g₂H</text>
+<text fill="#3a6088" font-size="13" font-style="italic" text-anchor="middle" x="300" y="65">g₃H</text>
+<text fill="#1e3a5f" font-size="12" text-anchor="middle" x="180" y="18">整个群 G ＝ 4 块等大的陪集</text>
+<text fill="#5a7090" font-size="11.5" font-style="italic" text-anchor="middle" x="180" y="108">|G| = |H| × [G:H]　→　|H| 整除 |G|</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>设有限群 $G$ 有子群 $H$，则 $|H|$ 整除 $|G|$，商 $[G:H]=|G|/|H|$ 称为 $H$ 的<strong>指数</strong>。证明的关键是<strong>陪集</strong> $gH=\{g\cdot h:h\in H\}$：可以证明所有陪集大小相等（都等于 $|H|$）、互不相交、并起来正好是 $G$。于是 $G$ 被切成 $[G:H]$ 块等大的碎片——整除关系是这幅「铺砖图」的直接读数。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>这是数学里「以简驭繁」的典范：一个纯粹的<em>计数</em>约束，反手就锁死了群的全部可能形状。一个直接推论美到极致——<strong>素数阶的群必然是循环群</strong>：若 $|G|=p$ 是素数，它除了 $\{e\}$ 和自身没有别的子群，结构别无选择。从「无穷种可能」里，一句整除就砍出了秩序。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>费马小定理 $a^{p-1}\equiv1\pmod p$ ——现代密码学的基石之一——正是拉格朗日定理用在「模 $p$ 的乘法群」上的直接推论：该群有 $p-1$ 个元素，任一元素的「阶」必整除 $p-1$。RSA 加密、素性测试、Diffie–Hellman 密钥交换的正确性，最终都回到这条整除约束。抽象的计数定理，撑起了每天数十亿次的网络加密。</p>
+</div>
+<div class="essence">一句话精华：<strong>部分的大小必整除整体的大小</strong>——一句关于「数数」的话，锁死了群能长成的所有形状。</div>
+<div class="think">思考题：拉格朗日定理说子群的阶整除群的阶。它的<em>逆命题</em>成立吗——若 $d$ 整除 $|G|$，$G$ 一定有一个 $d$ 阶子群吗？（答案微妙：素数幂时成立即西罗定理，一般情形则不然。）</div>
+</div>
 <!-- 概念 4：群作用与表示 -->
-<div class="card">
-  <h2>群作用与表示</h2>
-  <div class="en-name">Group Action &amp; Representation · 从晶体到夸克</div>
-  <span class="tag">群论 · 应用</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>群本身是一套抽象动作；<strong>群作用</strong>是让这些动作真去「搬动」一个具体对象——晶体里的原子、平面上的点、量子态。而<strong>表示</strong>更进一步：把每个群元素换成一个<em>矩阵</em>，于是抽象的乘法变成了可以真刀真枪计算的矩阵乘法。<br><br>群作用带来一对孪生概念：一个点在所有动作下能到达的全部位置，叫它的<strong>轨道</strong>；把这个点钉住不动的那些动作，叫它的<strong>稳定子</strong>。二者有一条精巧的守恒律——轨道越大，稳定子越小，两者之积恰好等于群的大小。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 380 210" xmlns="http://www.w3.org/2000/svg">
-      <!-- eightfold way baryon octet: hexagon + 2 center -->
-      <line x1="120" y1="45" x2="260" y2="45" stroke="#c0c8d4" stroke-width="0.8"/>
-      <line x1="70" y1="105" x2="310" y2="105" stroke="#c0c8d4" stroke-width="0.8"/>
-      <line x1="120" y1="165" x2="260" y2="165" stroke="#c0c8d4" stroke-width="0.8"/>
-      <!-- vertices -->
-      <circle cx="120" cy="45" r="12" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.2"/><text x="120" y="49" font-size="11" fill="#1e3a5f" text-anchor="middle">n</text>
-      <circle cx="260" cy="45" r="12" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.2"/><text x="260" y="49" font-size="11" fill="#1e3a5f" text-anchor="middle">p</text>
-      <circle cx="70" cy="105" r="12" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.2"/><text x="70" y="109" font-size="10" fill="#1e3a5f" text-anchor="middle">Σ⁻</text>
-      <circle cx="310" cy="105" r="12" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.2"/><text x="310" y="109" font-size="10" fill="#1e3a5f" text-anchor="middle">Σ⁺</text>
-      <circle cx="120" cy="165" r="12" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.2"/><text x="120" y="169" font-size="10" fill="#1e3a5f" text-anchor="middle">Ξ⁻</text>
-      <circle cx="260" cy="165" r="12" fill="#e6ecf3" stroke="#1e3a5f" stroke-width="1.2"/><text x="260" y="169" font-size="10" fill="#1e3a5f" text-anchor="middle">Ξ⁰</text>
-      <!-- center two -->
-      <circle cx="190" cy="105" r="12" fill="#c9a96b" fill-opacity="0.35" stroke="#8a7340" stroke-width="1.2"/><text x="190" y="109" font-size="10" fill="#1e3a5f" text-anchor="middle">Σ⁰</text>
-      <circle cx="190" cy="105" r="20" fill="none" stroke="#c9544a" stroke-width="0.9" stroke-dasharray="3 2"/><text x="190" y="140" font-size="10" fill="#c9544a" text-anchor="middle">Λ⁰</text>
-      <text x="190" y="22" font-size="12" fill="#3a6088" text-anchor="middle" font-style="italic">SU(3) 八重态：8 个重子排成六边形</text>
-      <text x="190" y="198" font-size="11" fill="#5a7090" text-anchor="middle">对称群的一张「表示」，恰好对上真实粒子</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p><strong>群作用</strong>是一个同态 $G\to\mathrm{Sym}(X)$，即让每个群元素扮演集合 $X$ 上的一个置换；<strong>表示</strong>是同态 $\rho:G\to GL(V)$，把群元素变成向量空间上的可逆矩阵。核心工具是<strong>轨道–稳定子定理</strong>：</p>
-    <div class="formula-box">$|G| = |\mathrm{Orb}(x)|\times|\mathrm{Stab}(x)|$</div>
-    <p>$\mathrm{Orb}(x)$ 是 $x$ 在群作用下能去到的所有位置，$\mathrm{Stab}(x)$ 是固定 $x$ 不动的元素。这本质是拉格朗日定理的动态版——群的大小，被「能动多远」与「钉多牢」瓜分。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>群作用让抽象群第一次「碰到」真实世界，而表示论把群的问题翻译成线性代数——最会算的那门数学。一个群「本质上有几种作用方式」，被它的<strong>不可约表示</strong>完全刻画。于是「这个系统有哪些对称」就等价于「它的对称群有哪些不可约表示」，一个物理问题被彻底代数化。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>这是群论最惊人的战果。<strong>晶体学</strong>：三维空间里「保持晶格不变」的对称群，纯靠群论穷举，<strong>恰好只有 230 种</strong>（空间群）——不是实验统计，是数学算出的定律，而自然界所有晶体无一例外地服从。<strong>粒子物理</strong>：Gell-Mann 把已知强子按 SU(3) 的表示摆开，正好落在六边形与三角形的格点上（见上图）；空着的一格预言了当时未知的 $\Omega^-$ 粒子，几年后被实验精确证实。夸克，就是 SU(3) 的基本表示；整个标准模型，本质是规范对称群 $SU(3)\times SU(2)\times U(1)$ 的一部戏。</p>
-  </div>
-
-  <div class="essence">一句话精华：群通过<strong>作用</strong>触及世界、通过<strong>表示</strong>被线性代数驯服；自然界的基本粒子，不过是群论表格里的一个个格子。</div>
-  <div class="think">思考题：Gell-Mann 靠「表格里的空格」预言了新粒子——这和门捷列夫用元素周期表的空格预言新元素如出一辙。为什么「对称性的缺口」能预言尚未发现的真实存在？</div>
+<div class="card" data-tts="bc3d5791b7918e08">
+<h2>群作用与表示</h2>
+<div class="en-name">Group Action &amp; Representation · 从晶体到夸克</div>
+<span class="tag">群论 · 应用</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>群本身是一套抽象动作；<strong>群作用</strong>是让这些动作真去「搬动」一个具体对象——晶体里的原子、平面上的点、量子态。而<strong>表示</strong>更进一步：把每个群元素换成一个<em>矩阵</em>，于是抽象的乘法变成了可以真刀真枪计算的矩阵乘法。<br/><br/>群作用带来一对孪生概念：一个点在所有动作下能到达的全部位置，叫它的<strong>轨道</strong>；把这个点钉住不动的那些动作，叫它的<strong>稳定子</strong>。二者有一条精巧的守恒律——轨道越大，稳定子越小，两者之积恰好等于群的大小。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 380 210" xmlns="http://www.w3.org/2000/svg">
+<!-- eightfold way baryon octet: hexagon + 2 center -->
+<line stroke="#c0c8d4" stroke-width="0.8" x1="120" x2="260" y1="45" y2="45"></line>
+<line stroke="#c0c8d4" stroke-width="0.8" x1="70" x2="310" y1="105" y2="105"></line>
+<line stroke="#c0c8d4" stroke-width="0.8" x1="120" x2="260" y1="165" y2="165"></line>
+<!-- vertices -->
+<circle cx="120" cy="45" fill="#e6ecf3" r="12" stroke="#1e3a5f" stroke-width="1.2"></circle><text fill="#1e3a5f" font-size="11" text-anchor="middle" x="120" y="49">n</text>
+<circle cx="260" cy="45" fill="#e6ecf3" r="12" stroke="#1e3a5f" stroke-width="1.2"></circle><text fill="#1e3a5f" font-size="11" text-anchor="middle" x="260" y="49">p</text>
+<circle cx="70" cy="105" fill="#e6ecf3" r="12" stroke="#1e3a5f" stroke-width="1.2"></circle><text fill="#1e3a5f" font-size="10" text-anchor="middle" x="70" y="109">Σ⁻</text>
+<circle cx="310" cy="105" fill="#e6ecf3" r="12" stroke="#1e3a5f" stroke-width="1.2"></circle><text fill="#1e3a5f" font-size="10" text-anchor="middle" x="310" y="109">Σ⁺</text>
+<circle cx="120" cy="165" fill="#e6ecf3" r="12" stroke="#1e3a5f" stroke-width="1.2"></circle><text fill="#1e3a5f" font-size="10" text-anchor="middle" x="120" y="169">Ξ⁻</text>
+<circle cx="260" cy="165" fill="#e6ecf3" r="12" stroke="#1e3a5f" stroke-width="1.2"></circle><text fill="#1e3a5f" font-size="10" text-anchor="middle" x="260" y="169">Ξ⁰</text>
+<!-- center two -->
+<circle cx="190" cy="105" fill="#c9a96b" fill-opacity="0.35" r="12" stroke="#8a7340" stroke-width="1.2"></circle><text fill="#1e3a5f" font-size="10" text-anchor="middle" x="190" y="109">Σ⁰</text>
+<circle cx="190" cy="105" fill="none" r="20" stroke="#c9544a" stroke-dasharray="3 2" stroke-width="0.9"></circle><text fill="#c9544a" font-size="10" text-anchor="middle" x="190" y="140">Λ⁰</text>
+<text fill="#3a6088" font-size="12" font-style="italic" text-anchor="middle" x="190" y="22">SU(3) 八重态：8 个重子排成六边形</text>
+<text fill="#5a7090" font-size="11" text-anchor="middle" x="190" y="198">对称群的一张「表示」，恰好对上真实粒子</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p><strong>群作用</strong>是一个同态 $G\to\mathrm{Sym}(X)$，即让每个群元素扮演集合 $X$ 上的一个置换；<strong>表示</strong>是同态 $\rho:G\to GL(V)$，把群元素变成向量空间上的可逆矩阵。核心工具是<strong>轨道–稳定子定理</strong>：</p>
+<div class="formula-box">$|G| = |\mathrm{Orb}(x)|\times|\mathrm{Stab}(x)|$</div>
+<p>$\mathrm{Orb}(x)$ 是 $x$ 在群作用下能去到的所有位置，$\mathrm{Stab}(x)$ 是固定 $x$ 不动的元素。这本质是拉格朗日定理的动态版——群的大小，被「能动多远」与「钉多牢」瓜分。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>群作用让抽象群第一次「碰到」真实世界，而表示论把群的问题翻译成线性代数——最会算的那门数学。一个群「本质上有几种作用方式」，被它的<strong>不可约表示</strong>完全刻画。于是「这个系统有哪些对称」就等价于「它的对称群有哪些不可约表示」，一个物理问题被彻底代数化。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>这是群论最惊人的战果。<strong>晶体学</strong>：三维空间里「保持晶格不变」的对称群，纯靠群论穷举，<strong>恰好只有 230 种</strong>（空间群）——不是实验统计，是数学算出的定律，而自然界所有晶体无一例外地服从。<strong>粒子物理</strong>：Gell-Mann 把已知强子按 SU(3) 的表示摆开，正好落在六边形与三角形的格点上（见上图）；空着的一格预言了当时未知的 $\Omega^-$ 粒子，几年后被实验精确证实。夸克，就是 SU(3) 的基本表示；整个标准模型，本质是规范对称群 $SU(3)\times SU(2)\times U(1)$ 的一部戏。</p>
+</div>
+<div class="essence">一句话精华：群通过<strong>作用</strong>触及世界、通过<strong>表示</strong>被线性代数驯服；自然界的基本粒子，不过是群论表格里的一个个格子。</div>
+<div class="think">思考题：Gell-Mann 靠「表格里的空格」预言了新粒子——这和门捷列夫用元素周期表的空格预言新元素如出一辙。为什么「对称性的缺口」能预言尚未发现的真实存在？</div>
+</div>
 <div class="deep-title">— 深入思考 —</div>
-
 <details><summary>为什么非交换（非阿贝尔）群远比交换群「有趣」？</summary>
 <div>交换群结构极规整：有限交换群可被完全分类，都是循环群的直积，几乎没有悬念。非交换性一旦出现，$ab\ne ba$ 制造出丰富的内部张力——共轭类、正规子群等结构全部活了过来。现实世界的对称大多非交换：三维旋转 $SO(3)$、洗牌 $S_n$、魔方，都是「顺序有意义」的。物理里尤其关键——杨–米尔斯规范场论建立在非交换群 $SU(N)$ 之上，强弱相互作用的全部复杂性都源于这份「不可交换」。交换群是群论的算术，非交换群才是它的诗。</div></details>
-
 <details><summary>「有限单群分类」为什么被称为 20 世纪最大的数学工程？</summary>
 <div>单群是群的「素数」——不能再被正规子群分解的基本砖块，一切有限群都由它们搭成。给所有有限单群列一张完整清单，是耗时约半个世纪、上百位数学家、逾一万页论文的集体工程，1980 年代才宣告完成。结论是：有限单群分为几个无穷系列（循环群、交错群、李型群），外加 26 个不属于任何系列的「散在群」。最大的一个叫<strong>怪兽群（Monster）</strong>，约 $8\times10^{53}$ 个元素。更离奇的是「魔月光」(Moonshine)：怪兽群竟与数论中的模函数深刻相连——一个纯代数的庞然大物，与看似无关的复分析对象共享同一串神秘数字，至今余韵未尽。</div></details>
-
 <details><summary>群表示论为什么成了量子力学的天然语言？</summary>
 <div>量子态活在向量空间里，系统的对称（旋转、平移、粒子交换）作用在这些态上——这正是「表示」的定义场景。Wigner 指出：粒子的自旋、能级的简并度，本质都是对称群不可约表示的标签。氢原子能级为何按特定方式简并？因为它们对应 $SO(3)$（乃至隐藏的 $SO(4)$）不可约表示的维数。为何只有费米子与玻色子两类粒子？因为交换两个全同粒子的群 $S_2$ 只有两个一维表示，对应波函数的对称与反对称。表示论把「对称性」直接翻译成「可观测的量子数」，是理论物理最深的组织原理之一。</div></details>
-
 <details><summary>李群（连续群）与有限群的根本区别在哪？</summary>
 <div>有限群是离散的动作集合；<strong>李群</strong>是「能连续变形」的群——比如所有旋转 $SO(3)$，参数可平滑调节。关键新工具是<strong>李代数</strong>：在单位元附近做无穷小分析，把弯曲的群「线性化」成向量空间，乘法结构浓缩为李括号 $[X,Y]$，让微积分得以进入群论。物理意义深远：Noether 定理里「连续对称 → 守恒律」说的正是李群——时间平移不变给出能量守恒，空间旋转不变给出角动量守恒。有限群管离散对称（晶体、粒子种类），李群管连续对称（时空、规范场），二者共同构成现代物理的骨架。</div></details>
-
 <nav class="bottom">
-  <a href="index.html">← 返回 Mathematics</a>
+<a href="index.html">← 返回 Mathematics</a>
 </nav>
-
 </div>
-<script src="https://hub.cissychen.com/comments.js" defer></script>
-<script src="https://hub.cissychen.com/search.js" defer></script>
-<script src="https://hub.cissychen.com/index-button.js" defer></script>
-<script src="https://hub.cissychen.com/i18n-tts.js" defer></script>
+<script defer="" src="https://hub.cissychen.com/comments.js"></script>
+<script defer="" src="https://hub.cissychen.com/search.js"></script>
+<script defer="" src="https://hub.cissychen.com/index-button.js"></script>
+<script defer="" src="https://hub.cissychen.com/i18n-tts.js"></script>
 </body>
 </html>

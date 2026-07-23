@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>几何与曲率 · Day 10 — Mathematics</title>
 <script>
 window.MathJax = {
@@ -14,7 +15,7 @@ window.MathJax = {
   options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
 };
 </script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
@@ -51,255 +52,218 @@ nav.bottom a:hover{color:#1e3a5f}
 </head>
 <body>
 <div class="container">
-
 <header>
-  <div class="kicker">Day 10 · 2026.06.20</div>
-  <h1>几何与曲率</h1>
-  <div class="meta">The Shape of Space — 当空间本身开始弯曲</div>
-  <div class="epigraph">"几何不是真的，它只是方便的。" — Henri Poincaré</div>
+<div class="kicker">Day 10 · 2026.06.20</div>
+<h1 data-tts="e3dd410f26c8ef8f">几何与曲率</h1>
+<div class="meta">The Shape of Space — 当空间本身开始弯曲</div>
+<div class="epigraph">"几何不是真的，它只是方便的。" — Henri Poincaré</div>
 </header>
-
 <!-- 概念 1：第五公设与非欧几何 -->
-<div class="card">
-  <h2>第五公设与非欧几何</h2>
-  <div class="en-name">The Parallel Postulate · 几何的解放</div>
-  <span class="tag">Foundations / Geometry</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>欧几里得用 5 条公设搭起整座几何。前 4 条简洁得像常识；第 5 条（平行公设）却冗长别扭：<strong>过直线外一点，只能画一条平行线</strong>。它太像一个该被证明的定理，于是两千年里无数高手想用前 4 条推出它——全部失败。<br><br>转机在 19 世纪：Bolyai、Lobachevsky、Gauss 各自意识到，第 5 条<em>根本证不出来</em>，因为你可以否定它而不产生任何矛盾。把「只能一条」换成「有无穷多条」，照样长出一套自洽的几何。原来那条让人不安的公设，不是真理，而是一个<strong>选择</strong>。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 420 150" xmlns="http://www.w3.org/2000/svg">
-      <!-- 平面三角形 -->
-      <g transform="translate(20,20)">
-        <text x="50" y="-2" font-size="10" fill="#3a6088" text-anchor="middle">平面 K=0</text>
-        <polygon points="10,100 90,100 50,30" fill="#dce4ee" stroke="#1e3a5f" stroke-width="1.5"/>
-        <text x="50" y="125" font-size="10" fill="#5a7090" text-anchor="middle">内角和 = 180°</text>
-      </g>
-      <!-- 球面三角形 -->
-      <g transform="translate(160,20)">
-        <text x="50" y="-2" font-size="10" fill="#3a6088" text-anchor="middle">球面 K&gt;0</text>
-        <circle cx="50" cy="60" r="42" fill="#eef3f8" stroke="#aab6c6" stroke-width="0.8"/>
-        <path d="M 20 90 Q 50 78 80 90 Q 70 50 50 22 Q 30 50 20 90 Z" fill="#dce4ee" stroke="#c9544a" stroke-width="1.5"/>
-        <text x="50" y="125" font-size="10" fill="#5a7090" text-anchor="middle">&gt; 180°（鼓）</text>
-      </g>
-      <!-- 马鞍三角形 -->
-      <g transform="translate(300,20)">
-        <text x="50" y="-2" font-size="10" fill="#3a6088" text-anchor="middle">马鞍 K&lt;0</text>
-        <path d="M 10 95 Q 50 110 90 95 Q 70 60 50 32 Q 30 60 10 95 Z" fill="#dce4ee" stroke="#7a9a6a" stroke-width="1.5"/>
-        <text x="50" y="125" font-size="10" fill="#5a7090" text-anchor="middle">&lt; 180°（瘪）</text>
-      </g>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>三种几何由「过点外平行线条数」与「三角形内角和」区分：<strong>欧氏（平直）</strong>恰一条平行线，内角和 $=180°$；<strong>双曲（负曲率）</strong>无穷多条平行线，内角和 $<180°$；<strong>椭圆 / 球面（正曲率）</strong>没有平行线，内角和 $>180°$。三者都无矛盾，区别只在那条被替换的公设。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>这是数学史上最大的一次<strong>松绑</strong>：公理从「关于现实的真理」降格为「可自由设定的逻辑起点」，几何不再是描述世界的<em>唯一</em>方式。一个显然到没人敢碰的假设被否定后，整个新宇宙竟井然展开——这种「质疑显然之物反得新天地」的胆识，正是数学最迷人的精神。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>球面几何是 GPS 与所有地图投影的底层语言。双曲几何在 AI 里有惊人用途：<strong>双曲嵌入（hyperbolic embeddings）</strong>能近乎无失真地表示层级 / 树状数据——双曲空间「体积随半径指数膨胀」，恰好匹配树的指数分叉，用极低维度就装下平直空间装不下的层级（知识图谱、社交网络）。Escher 的《圆极限》画的正是双曲平面的庞加莱圆盘。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <p>否定一条「显然」的公理而不出矛盾，就诞生一个新世界——几何是被选择的，不是被发现的。</p>
-    <div class="think">如果平行公设可以自由替换，那「直线」「平行」这些词在不同几何里指的还是同一件事吗？当定义随系统改变，我们凭什么说它们是「同一个」概念？</div>
-  </div>
+<div class="card" data-tts="416c2ca369d9e01b">
+<h2>第五公设与非欧几何</h2>
+<div class="en-name">The Parallel Postulate · 几何的解放</div>
+<span class="tag">Foundations / Geometry</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>欧几里得用 5 条公设搭起整座几何。前 4 条简洁得像常识；第 5 条（平行公设）却冗长别扭：<strong>过直线外一点，只能画一条平行线</strong>。它太像一个该被证明的定理，于是两千年里无数高手想用前 4 条推出它——全部失败。<br/><br/>转机在 19 世纪：Bolyai、Lobachevsky、Gauss 各自意识到，第 5 条<em>根本证不出来</em>，因为你可以否定它而不产生任何矛盾。把「只能一条」换成「有无穷多条」，照样长出一套自洽的几何。原来那条让人不安的公设，不是真理，而是一个<strong>选择</strong>。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 420 150" xmlns="http://www.w3.org/2000/svg">
+<!-- 平面三角形 -->
+<g transform="translate(20,20)">
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="50" y="-2">平面 K=0</text>
+<polygon fill="#dce4ee" points="10,100 90,100 50,30" stroke="#1e3a5f" stroke-width="1.5"></polygon>
+<text fill="#5a7090" font-size="10" text-anchor="middle" x="50" y="125">内角和 = 180°</text>
+</g>
+<!-- 球面三角形 -->
+<g transform="translate(160,20)">
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="50" y="-2">球面 K&gt;0</text>
+<circle cx="50" cy="60" fill="#eef3f8" r="42" stroke="#aab6c6" stroke-width="0.8"></circle>
+<path d="M 20 90 Q 50 78 80 90 Q 70 50 50 22 Q 30 50 20 90 Z" fill="#dce4ee" stroke="#c9544a" stroke-width="1.5"></path>
+<text fill="#5a7090" font-size="10" text-anchor="middle" x="50" y="125">&gt; 180°（鼓）</text>
+</g>
+<!-- 马鞍三角形 -->
+<g transform="translate(300,20)">
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="50" y="-2">马鞍 K&lt;0</text>
+<path d="M 10 95 Q 50 110 90 95 Q 70 60 50 32 Q 30 60 10 95 Z" fill="#dce4ee" stroke="#7a9a6a" stroke-width="1.5"></path>
+<text fill="#5a7090" font-size="10" text-anchor="middle" x="50" y="125">&lt; 180°（瘪）</text>
+</g>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>三种几何由「过点外平行线条数」与「三角形内角和」区分：<strong>欧氏（平直）</strong>恰一条平行线，内角和 $=180°$；<strong>双曲（负曲率）</strong>无穷多条平行线，内角和 $&lt;180°$；<strong>椭圆 / 球面（正曲率）</strong>没有平行线，内角和 $&gt;180°$。三者都无矛盾，区别只在那条被替换的公设。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>这是数学史上最大的一次<strong>松绑</strong>：公理从「关于现实的真理」降格为「可自由设定的逻辑起点」，几何不再是描述世界的<em>唯一</em>方式。一个显然到没人敢碰的假设被否定后，整个新宇宙竟井然展开——这种「质疑显然之物反得新天地」的胆识，正是数学最迷人的精神。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>球面几何是 GPS 与所有地图投影的底层语言。双曲几何在 AI 里有惊人用途：<strong>双曲嵌入（hyperbolic embeddings）</strong>能近乎无失真地表示层级 / 树状数据——双曲空间「体积随半径指数膨胀」，恰好匹配树的指数分叉，用极低维度就装下平直空间装不下的层级（知识图谱、社交网络）。Escher 的《圆极限》画的正是双曲平面的庞加莱圆盘。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<p>否定一条「显然」的公理而不出矛盾，就诞生一个新世界——几何是被选择的，不是被发现的。</p>
+<div class="think">如果平行公设可以自由替换，那「直线」「平行」这些词在不同几何里指的还是同一件事吗？当定义随系统改变，我们凭什么说它们是「同一个」概念？</div>
+</div>
+</div>
 <!-- 概念 2：曲率 -->
-<div class="card">
-  <h2>曲率</h2>
-  <div class="en-name">Curvature · 不离开曲面就能测出的弯</div>
-  <span class="tag">Differential Geometry</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>问题很微妙：<strong>一只活在曲面上、永远跳不到三维去俯瞰的蚂蚁，能知道自己的世界弯不弯吗？</strong>高斯的回答是：能，靠测量。<br><br>在曲面上以某点为心画一个半径 $r$ 的小圆，量它的周长。平面上周长恰好是 $2\pi r$。但在<strong>球面</strong>上，周长会<em>小于</em> $2\pi r$——空间被向内挤压了；在<strong>马鞍面</strong>上，周长<em>大于</em> $2\pi r$——空间多出了褶皱要塞。这个「周长与 $2\pi r$ 的偏差」就暴露了曲率。曲率是<strong>内蕴</strong>的：不需要外部视角，量距离就够了。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 380 140" xmlns="http://www.w3.org/2000/svg">
-      <g transform="translate(20,10)">
-        <text x="45" y="10" font-size="10" fill="#3a6088" text-anchor="middle">K=0</text>
-        <circle cx="45" cy="70" r="34" fill="none" stroke="#1e3a5f" stroke-width="1.5"/>
-        <line x1="45" y1="70" x2="79" y2="70" stroke="#888" stroke-dasharray="3,2"/>
-        <text x="45" y="125" font-size="9.5" fill="#5a7090" text-anchor="middle">C = 2πr</text>
-      </g>
-      <g transform="translate(145,10)">
-        <text x="45" y="10" font-size="10" fill="#c9544a" text-anchor="middle">K&gt;0</text>
-        <circle cx="45" cy="70" r="34" fill="#eef3f8" stroke="#aab6c6" stroke-width="0.8"/>
-        <circle cx="45" cy="70" r="24" fill="none" stroke="#c9544a" stroke-width="1.5"/>
-        <line x1="45" y1="70" x2="79" y2="70" stroke="#888" stroke-dasharray="3,2"/>
-        <text x="45" y="125" font-size="9.5" fill="#5a7090" text-anchor="middle">C &lt; 2πr</text>
-      </g>
-      <g transform="translate(270,10)">
-        <text x="45" y="10" font-size="10" fill="#7a9a6a" text-anchor="middle">K&lt;0</text>
-        <path d="M 11 70 Q 45 50 79 70 Q 60 96 45 96 Q 30 96 11 70 Z" fill="none" stroke="#7a9a6a" stroke-width="1.5"/>
-        <line x1="45" y1="70" x2="79" y2="70" stroke="#888" stroke-dasharray="3,2"/>
-        <text x="45" y="125" font-size="9.5" fill="#5a7090" text-anchor="middle">C &gt; 2πr</text>
-      </g>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>用<strong>高斯曲率</strong> $K$ 度量弯曲程度：$K>0$ 球面、$K=0$ 平面、$K<0$ 双曲。它和三角形内角和直接挂钩——<strong>高斯-博内定理</strong>说，三角形的角盈（内角和减 $\pi$）等于曲率在三角形上的积分：$$\sum\theta_i-\pi=\iint_T K\,dA$$ 左边纯粹是「量角」，右边是「弯曲的总量」。角量得越鼓，里面藏的正曲率就越多。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>曲率把模糊的「形状」凝成一个<strong>可计算的数</strong>，而且这个数是内蕴的——不管你把曲面怎样塞进外部空间，只要面上的距离不变，$K$ 就不变。一张纸卷成圆筒，看着弯了，$K$ 却仍是 $0$。「弯」原来分两种：改变内蕴几何的弯，和不改变的弯。能把这二者干净地分开，是微分几何的第一缕光。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>计算机图形学用离散曲率驱动曲面网格的平滑与简化。地图投影<em>必然</em>失真，正因球面 $K\neq0$ 而纸面 $K=0$，无法保距对应。机器学习里的<strong>流形学习</strong>假设高维数据躺在低维弯曲流形上，曲率刻画其局部几何；最优传输也在弯曲的概率流形上计算。曲率更是下一张卡片——引力——的主角。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <p>曲率是住在曲面里的居民、靠量距离就能发现的弯——形状第一次有了不依赖外部视角的数字。</p>
-    <div class="think">如果我们的三维空间整体有微小的正曲率，原则上能靠测量「一个超大三角形的内角和略大于 180°」来发现。人类真的做过类似的宇宙学测量——你觉得我们该怎样设计这把「宇宙量角器」？</div>
-  </div>
+<div class="card" data-tts="1580ca7df4de1a86">
+<h2>曲率</h2>
+<div class="en-name">Curvature · 不离开曲面就能测出的弯</div>
+<span class="tag">Differential Geometry</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>问题很微妙：<strong>一只活在曲面上、永远跳不到三维去俯瞰的蚂蚁，能知道自己的世界弯不弯吗？</strong>高斯的回答是：能，靠测量。<br/><br/>在曲面上以某点为心画一个半径 $r$ 的小圆，量它的周长。平面上周长恰好是 $2\pi r$。但在<strong>球面</strong>上，周长会<em>小于</em> $2\pi r$——空间被向内挤压了；在<strong>马鞍面</strong>上，周长<em>大于</em> $2\pi r$——空间多出了褶皱要塞。这个「周长与 $2\pi r$ 的偏差」就暴露了曲率。曲率是<strong>内蕴</strong>的：不需要外部视角，量距离就够了。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 380 140" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(20,10)">
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="45" y="10">K=0</text>
+<circle cx="45" cy="70" fill="none" r="34" stroke="#1e3a5f" stroke-width="1.5"></circle>
+<line stroke="#888" stroke-dasharray="3,2" x1="45" x2="79" y1="70" y2="70"></line>
+<text fill="#5a7090" font-size="9.5" text-anchor="middle" x="45" y="125">C = 2πr</text>
+</g>
+<g transform="translate(145,10)">
+<text fill="#c9544a" font-size="10" text-anchor="middle" x="45" y="10">K&gt;0</text>
+<circle cx="45" cy="70" fill="#eef3f8" r="34" stroke="#aab6c6" stroke-width="0.8"></circle>
+<circle cx="45" cy="70" fill="none" r="24" stroke="#c9544a" stroke-width="1.5"></circle>
+<line stroke="#888" stroke-dasharray="3,2" x1="45" x2="79" y1="70" y2="70"></line>
+<text fill="#5a7090" font-size="9.5" text-anchor="middle" x="45" y="125">C &lt; 2πr</text>
+</g>
+<g transform="translate(270,10)">
+<text fill="#7a9a6a" font-size="10" text-anchor="middle" x="45" y="10">K&lt;0</text>
+<path d="M 11 70 Q 45 50 79 70 Q 60 96 45 96 Q 30 96 11 70 Z" fill="none" stroke="#7a9a6a" stroke-width="1.5"></path>
+<line stroke="#888" stroke-dasharray="3,2" x1="45" x2="79" y1="70" y2="70"></line>
+<text fill="#5a7090" font-size="9.5" text-anchor="middle" x="45" y="125">C &gt; 2πr</text>
+</g>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>用<strong>高斯曲率</strong> $K$ 度量弯曲程度：$K&gt;0$ 球面、$K=0$ 平面、$K&lt;0$ 双曲。它和三角形内角和直接挂钩——<strong>高斯-博内定理</strong>说，三角形的角盈（内角和减 $\pi$）等于曲率在三角形上的积分：$$\sum\theta_i-\pi=\iint_T K\,dA$$ 左边纯粹是「量角」，右边是「弯曲的总量」。角量得越鼓，里面藏的正曲率就越多。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>曲率把模糊的「形状」凝成一个<strong>可计算的数</strong>，而且这个数是内蕴的——不管你把曲面怎样塞进外部空间，只要面上的距离不变，$K$ 就不变。一张纸卷成圆筒，看着弯了，$K$ 却仍是 $0$。「弯」原来分两种：改变内蕴几何的弯，和不改变的弯。能把这二者干净地分开，是微分几何的第一缕光。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>计算机图形学用离散曲率驱动曲面网格的平滑与简化。地图投影<em>必然</em>失真，正因球面 $K\neq0$ 而纸面 $K=0$，无法保距对应。机器学习里的<strong>流形学习</strong>假设高维数据躺在低维弯曲流形上，曲率刻画其局部几何；最优传输也在弯曲的概率流形上计算。曲率更是下一张卡片——引力——的主角。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<p>曲率是住在曲面里的居民、靠量距离就能发现的弯——形状第一次有了不依赖外部视角的数字。</p>
+<div class="think">如果我们的三维空间整体有微小的正曲率，原则上能靠测量「一个超大三角形的内角和略大于 180°」来发现。人类真的做过类似的宇宙学测量——你觉得我们该怎样设计这把「宇宙量角器」？</div>
+</div>
+</div>
 <!-- 概念 3：高斯绝妙定理 -->
-<div class="card">
-  <h2>高斯绝妙定理</h2>
-  <div class="en-name">Theorema Egregium · 弯曲方式藏不住内蕴几何</div>
-  <span class="tag">Differential Geometry</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>拿一张平纸卷成圆筒——它在三维里显然弯了，可纸上的几何<strong>纹丝不动</strong>：直线还是直线，三角形内角和还是 $180°$。你能把纸无损地卷、弯、扭，却<em>永远</em>没法把球面摊平成纸而不撕裂或拉伸。这正是地图必然失真的根源。<br><br>厨房版最传神：一块软塌塌的披萨，沿一个方向对折出弧度后，它就<strong>不会再沿另一方向垂下来</strong>——你强行制造的曲率，逼着另一方向保持刚硬。高斯证明了背后的铁律：<strong>曲率是内蕴的，怎么弯都改不了它。</strong></p>
-  </div>
-
-  <div class="formula-box">$$K \text{ 在等距变换下不变（只依赖面上的距离，不依赖如何嵌入）}$$</div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>高斯曲率 $K$ 在<strong>等距变换</strong>（保持曲面上一切距离的形变）下不变。换句话说，$K$ 只由<em>第一基本形式</em>（曲面内部的度量，即怎么量长度和角度）决定，<strong>完全不依赖</strong>第二基本形式（曲面如何弯进外部空间）。把纸卷起来，外部弯法变了，内部度量没变，所以 $K$ 恒为 $0$。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>"Egregium" 是拉丁语「卓绝、出类拔萃」，是高斯亲自给它起的名——数学家很少为自己的定理动这种感情。美就美在<strong>出人意料</strong>：曲率看上去明明是「从外面看才看得见」的属性，高斯却证明它<em>完全由内部测距决定</em>。内与外的界限被一举打通，内蕴几何由此诞生，直接点燃了黎曼的下一步。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>它解释了为何<strong>完美地图不存在</strong>：墨卡托保角却放大极地，等积投影则扭曲形状，不可兼得。工程上，蛋壳、穹顶、薄壳屋顶之所以用极少材料就极坚固，是因为弯成曲面后曲率「锁死」了刚度——压扁它必须改变内蕴长度，代价极高。同样的原理让对折的披萨不塌、让瓦楞纸板和易拉罐壁在轻薄下抗压；钣金成形也受绝妙定理约束。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <p>你能改变一个曲面怎样弯进空间，却动不了它内在的曲率——这就是地图骗不了你、披萨不会塌的原因。</p>
-    <div class="think">绝妙定理说球面不能无损摊平。那么反过来：哪些曲面<em>可以</em>无损摊平成平面（数学叫「可展曲面」）？想想圆筒、圆锥——它们有什么共同点，又和球面差在哪里？</div>
-  </div>
+<div class="card" data-tts="f2c27076e285d21a">
+<h2>高斯绝妙定理</h2>
+<div class="en-name">Theorema Egregium · 弯曲方式藏不住内蕴几何</div>
+<span class="tag">Differential Geometry</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>拿一张平纸卷成圆筒——它在三维里显然弯了，可纸上的几何<strong>纹丝不动</strong>：直线还是直线，三角形内角和还是 $180°$。你能把纸无损地卷、弯、扭，却<em>永远</em>没法把球面摊平成纸而不撕裂或拉伸。这正是地图必然失真的根源。<br/><br/>厨房版最传神：一块软塌塌的披萨，沿一个方向对折出弧度后，它就<strong>不会再沿另一方向垂下来</strong>——你强行制造的曲率，逼着另一方向保持刚硬。高斯证明了背后的铁律：<strong>曲率是内蕴的，怎么弯都改不了它。</strong></p>
 </div>
-
+<div class="formula-box">$$K \text{ 在等距变换下不变（只依赖面上的距离，不依赖如何嵌入）}$$</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>高斯曲率 $K$ 在<strong>等距变换</strong>（保持曲面上一切距离的形变）下不变。换句话说，$K$ 只由<em>第一基本形式</em>（曲面内部的度量，即怎么量长度和角度）决定，<strong>完全不依赖</strong>第二基本形式（曲面如何弯进外部空间）。把纸卷起来，外部弯法变了，内部度量没变，所以 $K$ 恒为 $0$。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>"Egregium" 是拉丁语「卓绝、出类拔萃」，是高斯亲自给它起的名——数学家很少为自己的定理动这种感情。美就美在<strong>出人意料</strong>：曲率看上去明明是「从外面看才看得见」的属性，高斯却证明它<em>完全由内部测距决定</em>。内与外的界限被一举打通，内蕴几何由此诞生，直接点燃了黎曼的下一步。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>它解释了为何<strong>完美地图不存在</strong>：墨卡托保角却放大极地，等积投影则扭曲形状，不可兼得。工程上，蛋壳、穹顶、薄壳屋顶之所以用极少材料就极坚固，是因为弯成曲面后曲率「锁死」了刚度——压扁它必须改变内蕴长度，代价极高。同样的原理让对折的披萨不塌、让瓦楞纸板和易拉罐壁在轻薄下抗压；钣金成形也受绝妙定理约束。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<p>你能改变一个曲面怎样弯进空间，却动不了它内在的曲率——这就是地图骗不了你、披萨不会塌的原因。</p>
+<div class="think">绝妙定理说球面不能无损摊平。那么反过来：哪些曲面<em>可以</em>无损摊平成平面（数学叫「可展曲面」）？想想圆筒、圆锥——它们有什么共同点，又和球面差在哪里？</div>
+</div>
+</div>
 <!-- 概念 4：广义相对论的几何 -->
-<div class="card">
-  <h2>引力即曲率</h2>
-  <div class="en-name">The Geometry of General Relativity</div>
-  <span class="tag">Riemannian Geometry / Physics</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>牛顿说引力是一种<strong>力</strong>，跨越虚空把行星拽向太阳。爱因斯坦说：没有力，只有<strong>弯曲的时空</strong>。质量告诉时空怎么弯，弯曲的时空告诉物质怎么动。<br><br>行星绕日，不是被引力拉着转圈，而是在被太阳压弯的时空里走<strong>最直的那条路</strong>（测地线）。就像飞机走大圆航线，每一步都在「直行」，画到平面地图上却成了弧线。把蹦床中央压个铅球，滚珠绕着凹陷转——不是铅球「吸」它，而是床面弯了。引力，是时空几何的影子。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 360 170" xmlns="http://www.w3.org/2000/svg">
-      <!-- 弯曲时空网格 + 中央质量 -->
-      <g stroke="#aab6c6" stroke-width="0.8" fill="none">
-        <path d="M 20 40 Q 180 30 340 40"/>
-        <path d="M 20 70 Q 180 95 340 70"/>
-        <path d="M 20 100 Q 180 150 340 100"/>
-        <path d="M 20 130 Q 180 155 340 130"/>
-        <path d="M 40 25 Q 35 85 40 145"/>
-        <path d="M 110 25 Q 95 90 110 148"/>
-        <path d="M 180 25 Q 180 95 180 150"/>
-        <path d="M 250 25 Q 265 90 250 148"/>
-        <path d="M 320 25 Q 325 85 320 145"/>
-      </g>
-      <circle cx="180" cy="108" r="13" fill="#1e3a5f"/>
-      <ellipse cx="180" cy="105" rx="92" ry="34" fill="none" stroke="#c9544a" stroke-width="1.6" stroke-dasharray="5,3"/>
-      <circle cx="272" cy="105" r="5" fill="#c9544a"/>
-      <text x="180" y="166" font-size="10" fill="#3a6088" text-anchor="middle" font-style="italic">质量弯曲时空 · 行星沿测地线运行</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>爱因斯坦场方程把几何与物质钉在等号两端：$$G_{\mu\nu}=\frac{8\pi G}{c^{4}}\,T_{\mu\nu}$$ 左边 $G_{\mu\nu}$ 是<strong>时空曲率</strong>（由黎曼曲率缩并而来），右边 $T_{\mu\nu}$ 是<strong>物质与能量的分布</strong>。一句话：物质能量决定曲率，曲率决定物质如何运动（沿测地线自由下落）。引力被彻底翻译成了几何语言。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>黎曼在 1854 年纯粹出于抽象兴趣，发展了任意维弯曲空间的几何，没有任何物理动机。六十年后，这套「无用」的数学竟成了爱因斯坦描述引力<em>唯一</em>合适的语言。这是 Wigner 所说「<strong>数学不合理的有效性</strong>」最震撼的范例：先有几何工具静静躺了半世纪，宇宙才走来认领它。把「力」彻底消解为「弯曲」，是物理学最深的一次审美胜利。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>这不是哲学空谈：你口袋里的 <strong>GPS</strong> 每天都在用它——卫星处在较弱的引力场，时钟比地面快，若不做相对论修正，定位每天偏移约 $10$ 公里。<strong>引力透镜</strong>弯折遥远星系的光；<strong>黑洞</strong>是曲率极端到光也逃不出的区域；2015 年 LIGO 直接探测到<strong>引力波</strong>——时空本身的涟漪，把黎曼一个半世纪前的纯数学，变成了实验室里颤动的信号。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <p>引力不是一种力，而是时空的形状——物质让空间弯曲，弯曲的空间又指挥物质行走。</p>
-    <div class="think">如果引力只是几何，那「一个物体感受不到自身重力」（自由落体里失重）就顺理成章——它只是在走测地线。可我们站在地面却感到体重，是因为地面在<em>阻止</em>我们走测地线。那么：到底是谁在加速，落体还是站立者？</div>
-  </div>
+<div class="card" data-tts="962c601306069cfa">
+<h2>引力即曲率</h2>
+<div class="en-name">The Geometry of General Relativity</div>
+<span class="tag">Riemannian Geometry / Physics</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>牛顿说引力是一种<strong>力</strong>，跨越虚空把行星拽向太阳。爱因斯坦说：没有力，只有<strong>弯曲的时空</strong>。质量告诉时空怎么弯，弯曲的时空告诉物质怎么动。<br/><br/>行星绕日，不是被引力拉着转圈，而是在被太阳压弯的时空里走<strong>最直的那条路</strong>（测地线）。就像飞机走大圆航线，每一步都在「直行」，画到平面地图上却成了弧线。把蹦床中央压个铅球，滚珠绕着凹陷转——不是铅球「吸」它，而是床面弯了。引力，是时空几何的影子。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 360 170" xmlns="http://www.w3.org/2000/svg">
+<!-- 弯曲时空网格 + 中央质量 -->
+<g fill="none" stroke="#aab6c6" stroke-width="0.8">
+<path d="M 20 40 Q 180 30 340 40"></path>
+<path d="M 20 70 Q 180 95 340 70"></path>
+<path d="M 20 100 Q 180 150 340 100"></path>
+<path d="M 20 130 Q 180 155 340 130"></path>
+<path d="M 40 25 Q 35 85 40 145"></path>
+<path d="M 110 25 Q 95 90 110 148"></path>
+<path d="M 180 25 Q 180 95 180 150"></path>
+<path d="M 250 25 Q 265 90 250 148"></path>
+<path d="M 320 25 Q 325 85 320 145"></path>
+</g>
+<circle cx="180" cy="108" fill="#1e3a5f" r="13"></circle>
+<ellipse cx="180" cy="105" fill="none" rx="92" ry="34" stroke="#c9544a" stroke-dasharray="5,3" stroke-width="1.6"></ellipse>
+<circle cx="272" cy="105" fill="#c9544a" r="5"></circle>
+<text fill="#3a6088" font-size="10" font-style="italic" text-anchor="middle" x="180" y="166">质量弯曲时空 · 行星沿测地线运行</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>爱因斯坦场方程把几何与物质钉在等号两端：$$G_{\mu\nu}=\frac{8\pi G}{c^{4}}\,T_{\mu\nu}$$ 左边 $G_{\mu\nu}$ 是<strong>时空曲率</strong>（由黎曼曲率缩并而来），右边 $T_{\mu\nu}$ 是<strong>物质与能量的分布</strong>。一句话：物质能量决定曲率，曲率决定物质如何运动（沿测地线自由下落）。引力被彻底翻译成了几何语言。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>黎曼在 1854 年纯粹出于抽象兴趣，发展了任意维弯曲空间的几何，没有任何物理动机。六十年后，这套「无用」的数学竟成了爱因斯坦描述引力<em>唯一</em>合适的语言。这是 Wigner 所说「<strong>数学不合理的有效性</strong>」最震撼的范例：先有几何工具静静躺了半世纪，宇宙才走来认领它。把「力」彻底消解为「弯曲」，是物理学最深的一次审美胜利。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>这不是哲学空谈：你口袋里的 <strong>GPS</strong> 每天都在用它——卫星处在较弱的引力场，时钟比地面快，若不做相对论修正，定位每天偏移约 $10$ 公里。<strong>引力透镜</strong>弯折遥远星系的光；<strong>黑洞</strong>是曲率极端到光也逃不出的区域；2015 年 LIGO 直接探测到<strong>引力波</strong>——时空本身的涟漪，把黎曼一个半世纪前的纯数学，变成了实验室里颤动的信号。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<p>引力不是一种力，而是时空的形状——物质让空间弯曲，弯曲的空间又指挥物质行走。</p>
+<div class="think">如果引力只是几何，那「一个物体感受不到自身重力」（自由落体里失重）就顺理成章——它只是在走测地线。可我们站在地面却感到体重，是因为地面在<em>阻止</em>我们走测地线。那么：到底是谁在加速，落体还是站立者？</div>
+</div>
+</div>
 <!-- 深入思考 -->
 <div class="deep">
-  <h2>深入思考</h2>
-
-  <details>
-    <summary>「内蕴」与「外蕴」几何到底差在哪？为什么这个区分如此重要？</summary>
-    <div>外蕴几何关心曲面如何坐落在更大空间里（比如圆筒在三维中弯成一圈）；内蕴几何只关心曲面内部的居民量距离、量角能感知到什么。高斯绝妙定理证明曲率是纯内蕴的，这一步至关重要：它意味着研究弯曲空间<strong>不需要预设一个更高维的外部空间</strong>。正因如此，黎曼几何能描述四维时空本身的弯曲——我们的宇宙不必嵌进某个第五维里才能「弯」。</div>
-  </details>
-
-  <details>
-    <summary>为什么层级 / 树状数据「天生属于」双曲空间？</summary>
-    <div>一棵分叉因子为 $b$ 的树，第 $n$ 层有 $b^{n}$ 个节点——节点数随深度<strong>指数增长</strong>。欧氏空间里半径 $r$ 的球体积只按多项式（$r^{d}$）增长，根本装不下指数膨胀的节点，必然挤压失真。而双曲空间的体积随半径<em>指数</em>增长，刚好与树的扩张速率同步。于是树能以极低维度近乎保距地嵌入双曲空间——这是近年知识图谱、推荐系统采用双曲表示的数学根源。</div>
-  </details>
-
-  <details>
-    <summary>高斯-博内定理把局部曲率和全局拓扑联系起来，凭什么？</summary>
-    <div>对一个封闭曲面，把高斯曲率在<em>整个曲面</em>上积分，结果恒等于 $2\pi\chi$，其中 $\chi$ 是欧拉示性数——一个纯拓扑的整数（球面 $2$、环面 $0$）。神奇之处：你可以随意捏揉球面，让某处更鼓、某处更瘪，局部曲率千变万化，但<strong>总曲率分文不差</strong>。局部的几何自由，被全局的拓扑铁律牢牢约束。这是 Day 9 拓扑与今天几何之间最美的一座桥。</div>
-  </details>
-
-  <details>
-    <summary>如果空间可以弯曲，宇宙整体是什么形状？</summary>
-    <div>这取决于宇宙的总能量密度。正曲率 → 闭合有限（像三维球面，沿一个方向直走会绕回原点）；负曲率 → 开放无限的双曲宇宙；零曲率 → 平直无限。普朗克卫星测宇宙微波背景显示宇宙非常接近<strong>平直</strong>——但这究竟是巧合，还是暴胀理论预言的必然，仍是宇宙学核心谜题之一。</div>
-  </details>
-
-  <details>
-    <summary>黎曼几何「恰好」成为引力语言，是巧合还是必然？</summary>
-    <div>没有定论，但耐人寻味。一种观点：数学家探索的是逻辑上可能的所有结构，物理只是从中挑出现实采用的那一个，看似「预言」实为「大库存里总能找到合用的」。另一种观点（Wigner、Tegmark）更激进：物理实在本质上<em>就是</em>数学结构，所以数学有效是同义反复。无论站哪一边，黎曼几何静候半世纪才被引力认领的故事，都逼着我们追问：数学到底是被发明，还是被发现？</div>
-  </details>
+<h2 data-tts="9a6e3fd483a310d7">深入思考</h2>
+<details>
+<summary>「内蕴」与「外蕴」几何到底差在哪？为什么这个区分如此重要？</summary>
+<div>外蕴几何关心曲面如何坐落在更大空间里（比如圆筒在三维中弯成一圈）；内蕴几何只关心曲面内部的居民量距离、量角能感知到什么。高斯绝妙定理证明曲率是纯内蕴的，这一步至关重要：它意味着研究弯曲空间<strong>不需要预设一个更高维的外部空间</strong>。正因如此，黎曼几何能描述四维时空本身的弯曲——我们的宇宙不必嵌进某个第五维里才能「弯」。</div>
+</details>
+<details>
+<summary>为什么层级 / 树状数据「天生属于」双曲空间？</summary>
+<div>一棵分叉因子为 $b$ 的树，第 $n$ 层有 $b^{n}$ 个节点——节点数随深度<strong>指数增长</strong>。欧氏空间里半径 $r$ 的球体积只按多项式（$r^{d}$）增长，根本装不下指数膨胀的节点，必然挤压失真。而双曲空间的体积随半径<em>指数</em>增长，刚好与树的扩张速率同步。于是树能以极低维度近乎保距地嵌入双曲空间——这是近年知识图谱、推荐系统采用双曲表示的数学根源。</div>
+</details>
+<details>
+<summary>高斯-博内定理把局部曲率和全局拓扑联系起来，凭什么？</summary>
+<div>对一个封闭曲面，把高斯曲率在<em>整个曲面</em>上积分，结果恒等于 $2\pi\chi$，其中 $\chi$ 是欧拉示性数——一个纯拓扑的整数（球面 $2$、环面 $0$）。神奇之处：你可以随意捏揉球面，让某处更鼓、某处更瘪，局部曲率千变万化，但<strong>总曲率分文不差</strong>。局部的几何自由，被全局的拓扑铁律牢牢约束。这是 Day 9 拓扑与今天几何之间最美的一座桥。</div>
+</details>
+<details>
+<summary>如果空间可以弯曲，宇宙整体是什么形状？</summary>
+<div>这取决于宇宙的总能量密度。正曲率 → 闭合有限（像三维球面，沿一个方向直走会绕回原点）；负曲率 → 开放无限的双曲宇宙；零曲率 → 平直无限。普朗克卫星测宇宙微波背景显示宇宙非常接近<strong>平直</strong>——但这究竟是巧合，还是暴胀理论预言的必然，仍是宇宙学核心谜题之一。</div>
+</details>
+<details>
+<summary>黎曼几何「恰好」成为引力语言，是巧合还是必然？</summary>
+<div>没有定论，但耐人寻味。一种观点：数学家探索的是逻辑上可能的所有结构，物理只是从中挑出现实采用的那一个，看似「预言」实为「大库存里总能找到合用的」。另一种观点（Wigner、Tegmark）更激进：物理实在本质上<em>就是</em>数学结构，所以数学有效是同义反复。无论站哪一边，黎曼几何静候半世纪才被引力认领的故事，都逼着我们追问：数学到底是被发明，还是被发现？</div>
+</details>
 </div>
-
 <nav class="bottom">
-  <a href="index.html">← 返回 Mathematics</a>
+<a href="index.html">← 返回 Mathematics</a>
 </nav>
-
 </div>
-<script src="https://hub.cissychen.com/comments.js" defer></script>
-<script src="https://hub.cissychen.com/search.js" defer></script>
-<script src="https://hub.cissychen.com/index-button.js" defer></script>
-<script src="https://hub.cissychen.com/i18n-tts.js" defer></script>
+<script defer="" src="https://hub.cissychen.com/comments.js"></script>
+<script defer="" src="https://hub.cissychen.com/search.js"></script>
+<script defer="" src="https://hub.cissychen.com/index-button.js"></script>
+<script defer="" src="https://hub.cissychen.com/i18n-tts.js"></script>
 </body>
 </html>

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>优化理论 · Day 14 — Mathematics</title>
 <script>
 window.MathJax = {
@@ -14,7 +15,7 @@ window.MathJax = {
   options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
 };
 </script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
@@ -57,265 +58,223 @@ nav.bottom a:hover{color:#1e3a5f}
 </head>
 <body>
 <div class="container">
-
 <header>
-  <div class="kicker">Day 14 · 2026.07.06</div>
-  <h1>优化理论</h1>
-  <div class="meta">Optimization — 「找到最好的那一个」如何成为一门数学</div>
-  <div class="epigraph">"Nothing in the world takes place without optimization, and there is no doubt that all aspects of the world that have a rational basis can be explained by optimization methods." — Leonhard Euler</div>
+<div class="kicker">Day 14 · 2026.07.06</div>
+<h1 data-tts="dfe891ac7e13adbc">优化理论</h1>
+<div class="meta">Optimization — 「找到最好的那一个」如何成为一门数学</div>
+<div class="epigraph">"Nothing in the world takes place without optimization, and there is no doubt that all aspects of the world that have a rational basis can be explained by optimization methods." — Leonhard Euler</div>
 </header>
-
 <!-- 概念 1：梯度下降 -->
-<div class="card">
-  <h2>梯度下降</h2>
-  <div class="en-name">Gradient Descent · 蒙眼下山的算法</div>
-  <span class="tag">Optimization</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>你被蒙上眼睛，站在山地上要走到谷底。看不见远方，但脚能感觉到<strong>此处哪个方向最陡</strong>。策略很朴素：往最陡的下坡迈一步，再感觉、再迈一步。只要山够「规矩」，终会到谷底。<br><br>这就是梯度下降。<strong>梯度</strong>是「最陡上坡方向」的数学名字——由函数在各坐标上的偏导数拼成的向量。想下降，就朝梯度的<em>反</em>方向走。整个现代机器学习——从线性回归到 GPT——训练的本质，就是这个「感觉坡度、迈一步」的循环，在几千亿维山地上重复几百万次。</p>
-  </div>
-
-  <div class="formula-box">$$\theta_{t+1} = \theta_t - \eta\,\nabla f(\theta_t)$$</div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>$\theta_t$ 是当前位置（模型参数），$\nabla f$ 是梯度，负号让我们<em>掉头下坡</em>。$\eta$ 是<strong>学习率</strong>——步子大小：太小则爬行到天荒地老，太大则一步跨过谷底反而越走越高。这一行，就是深度学习引擎的全部主循环。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
-      <!-- 碗形谷 + 下降轨迹 -->
-      <line x1="20" y1="170" x2="340" y2="170" stroke="#aaa" stroke-width="0.6"/>
-      <path d="M 30 30 Q 180 260 330 30" fill="none" stroke="#1e3a5f" stroke-width="2"/>
-      <!-- 起点小球逐步下降 -->
-      <circle cx="52" cy="52" r="4" fill="#c9544a"/>
-      <circle cx="92" cy="98" r="4" fill="#c9544a" fill-opacity="0.75"/>
-      <circle cx="128" cy="130" r="4" fill="#c9544a" fill-opacity="0.6"/>
-      <circle cx="158" cy="147" r="4" fill="#c9544a" fill-opacity="0.5"/>
-      <circle cx="180" cy="152" r="4.5" fill="#7a9a6a"/>
-      <path d="M 52 52 L 92 98 L 128 130 L 158 147 L 180 152" fill="none" stroke="#c9544a" stroke-width="1" stroke-dasharray="3,2"/>
-      <text x="52" y="42" font-size="10" fill="#c9544a" text-anchor="middle">起点</text>
-      <text x="180" y="168" font-size="10" fill="#3d6b3d" text-anchor="middle">最小值</text>
-      <text x="322" y="26" font-size="11" fill="#1e3a5f" font-style="italic">f(θ)</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>它的美在于<strong>「局部信息驱动全局目标」</strong>。不需看见整座山、不需解方程，只靠脚下一小块坡度，就能一步步走向好答案：<em>复杂的高维问题，用最笨的「每次改进一点点」竟然可解。</em>它也呼应自然——水往低处流、光走最短路径、蛋白质折叠到能量最低态，宇宙仿佛处处在做梯度下降。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>它是深度学习不可动摇的地基：损失函数就是「山」，<strong>反向传播</strong>用链式法则一次算出几十亿个偏导，优化器据此更新权重。它还撑起物流路径规划、芯片布线、投资组合、机器人控制：凡有「目标要最小化」，它往往是第一把也最锋利的刀。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华 + 思考题</div>
-    <div class="essence"><strong>不必看清整座山——只要每一步都朝脚下最陡的下坡走，你就能抵达谷底。</strong></div>
-    <div class="think" style="margin-top:10px">如果山谷不止一个（有很多小坑），梯度下降会卡在离出发点最近的那个坑里，而非最深的。为什么在几千亿维的神经网络里，这个「卡在坏局部最优」的担忧反而没有想象中严重？</div>
-  </div>
+<div class="card" data-tts="45120127f2688555">
+<h2>梯度下降</h2>
+<div class="en-name">Gradient Descent · 蒙眼下山的算法</div>
+<span class="tag">Optimization</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>你被蒙上眼睛，站在山地上要走到谷底。看不见远方，但脚能感觉到<strong>此处哪个方向最陡</strong>。策略很朴素：往最陡的下坡迈一步，再感觉、再迈一步。只要山够「规矩」，终会到谷底。<br/><br/>这就是梯度下降。<strong>梯度</strong>是「最陡上坡方向」的数学名字——由函数在各坐标上的偏导数拼成的向量。想下降，就朝梯度的<em>反</em>方向走。整个现代机器学习——从线性回归到 GPT——训练的本质，就是这个「感觉坡度、迈一步」的循环，在几千亿维山地上重复几百万次。</p>
 </div>
-
+<div class="formula-box">$$\theta_{t+1} = \theta_t - \eta\,\nabla f(\theta_t)$$</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>$\theta_t$ 是当前位置（模型参数），$\nabla f$ 是梯度，负号让我们<em>掉头下坡</em>。$\eta$ 是<strong>学习率</strong>——步子大小：太小则爬行到天荒地老，太大则一步跨过谷底反而越走越高。这一行，就是深度学习引擎的全部主循环。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
+<!-- 碗形谷 + 下降轨迹 -->
+<line stroke="#aaa" stroke-width="0.6" x1="20" x2="340" y1="170" y2="170"></line>
+<path d="M 30 30 Q 180 260 330 30" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<!-- 起点小球逐步下降 -->
+<circle cx="52" cy="52" fill="#c9544a" r="4"></circle>
+<circle cx="92" cy="98" fill="#c9544a" fill-opacity="0.75" r="4"></circle>
+<circle cx="128" cy="130" fill="#c9544a" fill-opacity="0.6" r="4"></circle>
+<circle cx="158" cy="147" fill="#c9544a" fill-opacity="0.5" r="4"></circle>
+<circle cx="180" cy="152" fill="#7a9a6a" r="4.5"></circle>
+<path d="M 52 52 L 92 98 L 128 130 L 158 147 L 180 152" fill="none" stroke="#c9544a" stroke-dasharray="3,2" stroke-width="1"></path>
+<text fill="#c9544a" font-size="10" text-anchor="middle" x="52" y="42">起点</text>
+<text fill="#3d6b3d" font-size="10" text-anchor="middle" x="180" y="168">最小值</text>
+<text fill="#1e3a5f" font-size="11" font-style="italic" x="322" y="26">f(θ)</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它的美在于<strong>「局部信息驱动全局目标」</strong>。不需看见整座山、不需解方程，只靠脚下一小块坡度，就能一步步走向好答案：<em>复杂的高维问题，用最笨的「每次改进一点点」竟然可解。</em>它也呼应自然——水往低处流、光走最短路径、蛋白质折叠到能量最低态，宇宙仿佛处处在做梯度下降。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>它是深度学习不可动摇的地基：损失函数就是「山」，<strong>反向传播</strong>用链式法则一次算出几十亿个偏导，优化器据此更新权重。它还撑起物流路径规划、芯片布线、投资组合、机器人控制：凡有「目标要最小化」，它往往是第一把也最锋利的刀。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="essence"><strong>不必看清整座山——只要每一步都朝脚下最陡的下坡走，你就能抵达谷底。</strong></div>
+<div class="think" style="margin-top:10px">如果山谷不止一个（有很多小坑），梯度下降会卡在离出发点最近的那个坑里，而非最深的。为什么在几千亿维的神经网络里，这个「卡在坏局部最优」的担忧反而没有想象中严重？</div>
+</div>
+</div>
 <!-- 概念 2：凸性 -->
-<div class="card">
-  <h2>凸性</h2>
-  <div class="en-name">Convexity · 让「局部最优 = 全局最优」的魔法</div>
-  <span class="tag">Convex Optimization</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>想象一只碗。无论从碗壁哪个位置放一颗弹珠，它总会滚到<strong>同一个</strong>最低点。碗没有「假谷底」——没有困住弹珠的小坑。这就是<strong>凸函数</strong>的世界：地形像一只光滑的碗，任何「局部最低」必然就是「全局最低」。<br><br>直观的判别法：任取图像上两点连一条线段，若线段<em>永远在函数上方（或贴着）</em>，它就是凸的。凸性是优化理论的分水岭，因为它把「找最好」这个原本可能极难的问题，变成「往下走就对了」的简单问题——你永不必担心走错谷。</p>
-  </div>
-
-  <div class="formula-box">$$f\big(\lambda x+(1-\lambda)y\big)\;\le\;\lambda f(x)+(1-\lambda)f(y)$$</div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>左边是「两点 $x,y$ 连线上某一点的函数值」，右边是「同一点处两端函数值的加权平均」（即那条连线的高度），$\lambda\in[0,1]$ 是滑动位置。不等式说：<strong>函数曲线永远不高于它的弦</strong>。这正是「碗形、无假谷」的精确表达。等价地，若二阶导（多维时是 Hessian 矩阵）处处非负，函数就是凸的——曲率始终朝上，绝不回头向下形成陷阱。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 360 190" xmlns="http://www.w3.org/2000/svg">
-      <line x1="20" y1="165" x2="340" y2="165" stroke="#aaa" stroke-width="0.6"/>
-      <!-- 凸曲线 -->
-      <path d="M 40 40 Q 180 230 320 40" fill="none" stroke="#1e3a5f" stroke-width="2.2"/>
-      <!-- 弦 -->
-      <line x1="80" y1="78" x2="290" y2="78" stroke="#c9544a" stroke-width="1.6"/>
-      <circle cx="80" cy="78" r="3.5" fill="#c9544a"/>
-      <circle cx="290" cy="78" r="3.5" fill="#c9544a"/>
-      <text x="72" y="70" font-size="10" fill="#c9544a">x</text>
-      <text x="294" y="70" font-size="10" fill="#c9544a">y</text>
-      <!-- 曲线上对应点 -->
-      <circle cx="185" cy="128" r="3.5" fill="#7a9a6a"/>
-      <line x1="185" y1="78" x2="185" y2="128" stroke="#7a9a6a" stroke-width="0.8" stroke-dasharray="3,2"/>
-      <text x="196" y="112" font-size="9.5" fill="#3d6b3d" font-style="italic">曲线在弦下方</text>
-      <text x="312" y="36" font-size="11" fill="#1e3a5f" font-style="italic">f</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>凸性划出了优化世界的<strong>「天堂与地狱的边界」</strong>。数学家 Rockafellar 有句名言：<em>「优化的分水岭不在线性与非线性之间，而在凸与非凸之间。」</em>凸问题几乎总能被可靠地解到全局最优，还带着「这就是最好」的保证；非凸问题则可能永远无法确知是否已达最优。一个几何性质（碗形），竟决定了问题是「可解」还是「注定近似」——这种「结构决定命运」的清晰，正是数学的深刻之美。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>SVM、Lasso 与岭回归、逻辑回归、投资组合的均值-方差优化——都是凸问题，因而能被<em>可靠</em>求解。工程师会刻意把问题「凸化」：换个变量、放松约束，只为落进凸的天堂。反观深度学习的损失面<strong>剧烈非凸</strong>，我们放弃全局保证，却换来惊人的表达力——这正是当代 AI 一个耐人寻味的取舍。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华 + 思考题</div>
-    <div class="essence"><strong>凸性是一张通行证：只要地形是碗形，「往下走」就等于「走向全局最优」。</strong></div>
-    <div class="think" style="margin-top:10px">深度网络的损失面高度非凸，理论上梯度下降没有全局保证，实践中却训练得极好。这是否说明「凸才可靠」这条铁律，在超高维世界里需要被重新理解？</div>
-  </div>
+<div class="card" data-tts="cd8a607d5196b555">
+<h2>凸性</h2>
+<div class="en-name">Convexity · 让「局部最优 = 全局最优」的魔法</div>
+<span class="tag">Convex Optimization</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>想象一只碗。无论从碗壁哪个位置放一颗弹珠，它总会滚到<strong>同一个</strong>最低点。碗没有「假谷底」——没有困住弹珠的小坑。这就是<strong>凸函数</strong>的世界：地形像一只光滑的碗，任何「局部最低」必然就是「全局最低」。<br/><br/>直观的判别法：任取图像上两点连一条线段，若线段<em>永远在函数上方（或贴着）</em>，它就是凸的。凸性是优化理论的分水岭，因为它把「找最好」这个原本可能极难的问题，变成「往下走就对了」的简单问题——你永不必担心走错谷。</p>
 </div>
-
+<div class="formula-box">$$f\big(\lambda x+(1-\lambda)y\big)\;\le\;\lambda f(x)+(1-\lambda)f(y)$$</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>左边是「两点 $x,y$ 连线上某一点的函数值」，右边是「同一点处两端函数值的加权平均」（即那条连线的高度），$\lambda\in[0,1]$ 是滑动位置。不等式说：<strong>函数曲线永远不高于它的弦</strong>。这正是「碗形、无假谷」的精确表达。等价地，若二阶导（多维时是 Hessian 矩阵）处处非负，函数就是凸的——曲率始终朝上，绝不回头向下形成陷阱。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 360 190" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.6" x1="20" x2="340" y1="165" y2="165"></line>
+<!-- 凸曲线 -->
+<path d="M 40 40 Q 180 230 320 40" fill="none" stroke="#1e3a5f" stroke-width="2.2"></path>
+<!-- 弦 -->
+<line stroke="#c9544a" stroke-width="1.6" x1="80" x2="290" y1="78" y2="78"></line>
+<circle cx="80" cy="78" fill="#c9544a" r="3.5"></circle>
+<circle cx="290" cy="78" fill="#c9544a" r="3.5"></circle>
+<text fill="#c9544a" font-size="10" x="72" y="70">x</text>
+<text fill="#c9544a" font-size="10" x="294" y="70">y</text>
+<!-- 曲线上对应点 -->
+<circle cx="185" cy="128" fill="#7a9a6a" r="3.5"></circle>
+<line stroke="#7a9a6a" stroke-dasharray="3,2" stroke-width="0.8" x1="185" x2="185" y1="78" y2="128"></line>
+<text fill="#3d6b3d" font-size="9.5" font-style="italic" x="196" y="112">曲线在弦下方</text>
+<text fill="#1e3a5f" font-size="11" font-style="italic" x="312" y="36">f</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>凸性划出了优化世界的<strong>「天堂与地狱的边界」</strong>。数学家 Rockafellar 有句名言：<em>「优化的分水岭不在线性与非线性之间，而在凸与非凸之间。」</em>凸问题几乎总能被可靠地解到全局最优，还带着「这就是最好」的保证；非凸问题则可能永远无法确知是否已达最优。一个几何性质（碗形），竟决定了问题是「可解」还是「注定近似」——这种「结构决定命运」的清晰，正是数学的深刻之美。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>SVM、Lasso 与岭回归、逻辑回归、投资组合的均值-方差优化——都是凸问题，因而能被<em>可靠</em>求解。工程师会刻意把问题「凸化」：换个变量、放松约束，只为落进凸的天堂。反观深度学习的损失面<strong>剧烈非凸</strong>，我们放弃全局保证，却换来惊人的表达力——这正是当代 AI 一个耐人寻味的取舍。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="essence"><strong>凸性是一张通行证：只要地形是碗形，「往下走」就等于「走向全局最优」。</strong></div>
+<div class="think" style="margin-top:10px">深度网络的损失面高度非凸，理论上梯度下降没有全局保证，实践中却训练得极好。这是否说明「凸才可靠」这条铁律，在超高维世界里需要被重新理解？</div>
+</div>
+</div>
 <!-- 概念 3：拉格朗日乘子 -->
-<div class="card">
-  <h2>拉格朗日乘子</h2>
-  <div class="en-name">Lagrange Multipliers · 戴着镣铐找最优</div>
-  <span class="tag">Constrained Optimization</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>很多优化不是「随便找最低点」，而是<strong>带约束</strong>的：用固定长度的篱笆围出最大面积、在预算内让效用最高、让神经网络在「权重不太大」的前提下拟合数据。约束把你困在一条曲线上，只能沿它走。<br><br>拉格朗日的洞见极优雅：站在约束曲线上，只要你还能<em>沿曲线走并让目标继续变好</em>，就还没到最优。<strong>最优点恰是「目标等高线与约束曲线相切」之处</strong>——此刻沿约束的任何移动都不再改善目标。相切意味着两者的梯度方向平行、只差一个倍数——那个倍数，就是拉格朗日乘子 $\lambda$。</p>
-  </div>
-
-  <div class="formula-box">$$\nabla f = \lambda\,\nabla g,\qquad \text{约束 } g(x)=0$$</div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>$f$ 是目标，$g(x)=0$ 是约束曲面。等式说：在最优点，目标梯度 $\nabla f$ 与约束梯度 $\nabla g$ <strong>方向一致</strong>（相切的代数表达），比例系数就是 $\lambda$。它还有惊艳的经济含义——<strong>$\lambda$ 是「影子价格」</strong>：约束每放松一单位，最优目标值改善多少，就是那个 $\lambda$。它<em>量化了约束的珍贵程度</em>：预算多一块钱能多赚多少。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
-      <!-- 同心等高线 + 约束线 相切 -->
-      <ellipse cx="150" cy="100" rx="30" ry="22" fill="none" stroke="#3a6088" stroke-width="1"/>
-      <ellipse cx="150" cy="100" rx="55" ry="40" fill="none" stroke="#3a6088" stroke-width="1" stroke-opacity="0.7"/>
-      <ellipse cx="150" cy="100" rx="82" ry="60" fill="none" stroke="#3a6088" stroke-width="1" stroke-opacity="0.5"/>
-      <text x="150" y="103" font-size="9" fill="#3a6088" text-anchor="middle">f 等高线</text>
-      <!-- 约束曲线 -->
-      <path d="M 60 175 Q 240 120 320 25" fill="none" stroke="#c9544a" stroke-width="2"/>
-      <text x="300" y="40" font-size="10" fill="#c9544a" font-style="italic">g(x)=0</text>
-      <!-- 相切点 -->
-      <circle cx="217" cy="128" r="4" fill="#7a9a6a"/>
-      <text x="224" y="145" font-size="10" fill="#3d6b3d">相切=最优</text>
-      <!-- 平行梯度箭头 -->
-      <line x1="217" y1="128" x2="240" y2="112" stroke="#7a9a6a" stroke-width="1.4" marker-end="url(#ar)"/>
-      <defs><marker id="ar" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#7a9a6a"/></marker></defs>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>它把「约束」从障碍变成了<strong>方程系统里平等的一员</strong>：引入新变量 $\lambda$，约束和目标就融进同一个「拉格朗日函数」，一并求导即可。更美的是那层对偶——$\lambda$ 既是求解的中介，又恰好是约束的边际价值。<em>一个符号同时扮演「钥匙」与「价签」</em>，这种凝练是数学最令人拍案的时刻之一。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>它是约束优化的通用语言。经济学用它推导消费者均衡（$\lambda$ = 收入的边际效用）；物理学的<strong>拉格朗日力学</strong>用它统一经典力学，$\lambda$ 对应约束力；机器学习里，SVM 的对偶推导、正则化中「权重衰减 = 对参数范数施加约束」都源于此；它的推广 <em>KKT 条件</em>更是整个凸优化求解器的理论核心。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华 + 思考题</div>
-    <div class="essence"><strong>戴镣铐的最优点，是目标等高线与约束曲线相切之处；那个切比，还悄悄告诉你约束值多少钱。</strong></div>
-    <div class="think" style="margin-top:10px">「正则化」（如给损失加上 $\lambda\|\theta\|^2$）和「给权重范数设一个硬上限」在数学上是等价的两面。这个等价，正是拉格朗日乘子在机器学习里最日常的化身——你能说清 $\lambda$ 变大时，模型会发生什么吗？</div>
-  </div>
+<div class="card" data-tts="5bcbe5de7ba16e3c">
+<h2>拉格朗日乘子</h2>
+<div class="en-name">Lagrange Multipliers · 戴着镣铐找最优</div>
+<span class="tag">Constrained Optimization</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>很多优化不是「随便找最低点」，而是<strong>带约束</strong>的：用固定长度的篱笆围出最大面积、在预算内让效用最高、让神经网络在「权重不太大」的前提下拟合数据。约束把你困在一条曲线上，只能沿它走。<br/><br/>拉格朗日的洞见极优雅：站在约束曲线上，只要你还能<em>沿曲线走并让目标继续变好</em>，就还没到最优。<strong>最优点恰是「目标等高线与约束曲线相切」之处</strong>——此刻沿约束的任何移动都不再改善目标。相切意味着两者的梯度方向平行、只差一个倍数——那个倍数，就是拉格朗日乘子 $\lambda$。</p>
 </div>
-
+<div class="formula-box">$$\nabla f = \lambda\,\nabla g,\qquad \text{约束 } g(x)=0$$</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>$f$ 是目标，$g(x)=0$ 是约束曲面。等式说：在最优点，目标梯度 $\nabla f$ 与约束梯度 $\nabla g$ <strong>方向一致</strong>（相切的代数表达），比例系数就是 $\lambda$。它还有惊艳的经济含义——<strong>$\lambda$ 是「影子价格」</strong>：约束每放松一单位，最优目标值改善多少，就是那个 $\lambda$。它<em>量化了约束的珍贵程度</em>：预算多一块钱能多赚多少。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
+<!-- 同心等高线 + 约束线 相切 -->
+<ellipse cx="150" cy="100" fill="none" rx="30" ry="22" stroke="#3a6088" stroke-width="1"></ellipse>
+<ellipse cx="150" cy="100" fill="none" rx="55" ry="40" stroke="#3a6088" stroke-opacity="0.7" stroke-width="1"></ellipse>
+<ellipse cx="150" cy="100" fill="none" rx="82" ry="60" stroke="#3a6088" stroke-opacity="0.5" stroke-width="1"></ellipse>
+<text fill="#3a6088" font-size="9" text-anchor="middle" x="150" y="103">f 等高线</text>
+<!-- 约束曲线 -->
+<path d="M 60 175 Q 240 120 320 25" fill="none" stroke="#c9544a" stroke-width="2"></path>
+<text fill="#c9544a" font-size="10" font-style="italic" x="300" y="40">g(x)=0</text>
+<!-- 相切点 -->
+<circle cx="217" cy="128" fill="#7a9a6a" r="4"></circle>
+<text fill="#3d6b3d" font-size="10" x="224" y="145">相切=最优</text>
+<!-- 平行梯度箭头 -->
+<line marker-end="url(#ar)" stroke="#7a9a6a" stroke-width="1.4" x1="217" x2="240" y1="128" y2="112"></line>
+<defs><marker id="ar" markerheight="7" markerwidth="7" orient="auto" refx="5" refy="3"><path d="M0,0 L6,3 L0,6 z" fill="#7a9a6a"></path></marker></defs>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它把「约束」从障碍变成了<strong>方程系统里平等的一员</strong>：引入新变量 $\lambda$，约束和目标就融进同一个「拉格朗日函数」，一并求导即可。更美的是那层对偶——$\lambda$ 既是求解的中介，又恰好是约束的边际价值。<em>一个符号同时扮演「钥匙」与「价签」</em>，这种凝练是数学最令人拍案的时刻之一。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>它是约束优化的通用语言。经济学用它推导消费者均衡（$\lambda$ = 收入的边际效用）；物理学的<strong>拉格朗日力学</strong>用它统一经典力学，$\lambda$ 对应约束力；机器学习里，SVM 的对偶推导、正则化中「权重衰减 = 对参数范数施加约束」都源于此；它的推广 <em>KKT 条件</em>更是整个凸优化求解器的理论核心。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="essence"><strong>戴镣铐的最优点，是目标等高线与约束曲线相切之处；那个切比，还悄悄告诉你约束值多少钱。</strong></div>
+<div class="think" style="margin-top:10px">「正则化」（如给损失加上 $\lambda\|\theta\|^2$）和「给权重范数设一个硬上限」在数学上是等价的两面。这个等价，正是拉格朗日乘子在机器学习里最日常的化身——你能说清 $\lambda$ 变大时，模型会发生什么吗？</div>
+</div>
+</div>
 <!-- 概念 4：随机梯度下降与 ML 训练 -->
-<div class="card">
-  <h2>随机梯度下降</h2>
-  <div class="en-name">Stochastic Gradient Descent · 用「差一点」的梯度换「快很多」的速度</div>
-  <span class="tag">Machine Learning</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>训练模型时，「真正的坡度」要看<em>全部</em>数据算出来——几千万条样本各贡献一点。每走一步都遍历全量数据，慢得令人绝望。<strong>随机梯度下降（SGD）</strong>的赌注是：与其精确算一次坡度走一大步，不如<em>用一小批样本估个大致坡度，赶紧走出去</em>——每步方向有点抖，但走得飞快，抖动会在千万步里互相抵消。<br><br>这抖动还是意外的礼物：它像给下山者一点随机踉跄，反而能<strong>把你从浅坑里颠出来</strong>，避免过早卡死在糟糕的局部最优。噪声从缺陷变成了特性。</p>
-  </div>
-
-  <div class="formula-box">$$\theta_{t+1} = \theta_t - \eta\,\nabla f_{\mathcal{B}_t}(\theta_t)$$</div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>与梯度下降唯一的差别是下标 $\mathcal{B}_t$：每步只用一个<strong>随机小批量</strong>（mini-batch）的数据来估计梯度，而非全量。这个估计是<em>无偏的</em>——平均而言方向对，只是单次有随机误差。于是训练变成一场「用便宜、带噪的梯度，换取多得多的更新步数」的交易。在海量数据上，<strong>多走几步糙的，远胜于少走几步精的</strong>。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
-      <line x1="20" y1="170" x2="340" y2="170" stroke="#aaa" stroke-width="0.6"/>
-      <path d="M 30 30 Q 185 265 335 30" fill="none" stroke="#1e3a5f" stroke-width="1.6" stroke-opacity="0.5"/>
-      <!-- 抖动的下降路径 -->
-      <path d="M 55 55 L 78 82 L 72 100 L 105 112 L 128 138 L 118 150 L 150 155 L 178 150 L 168 158 L 185 156"
-            fill="none" stroke="#c9544a" stroke-width="1.6"/>
-      <circle cx="55" cy="55" r="4" fill="#c9544a"/>
-      <circle cx="185" cy="156" r="4.5" fill="#7a9a6a"/>
-      <text x="55" y="46" font-size="10" fill="#c9544a" text-anchor="middle">起点</text>
-      <text x="230" y="150" font-size="10" fill="#3d6b3d">抖着抵达谷底</text>
-      <text x="322" y="26" font-size="11" fill="#1e3a5f" font-style="italic">损失</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>它颠覆了一个直觉：<strong>不精确，反而更好。</strong>古典优化追求每步都最优，SGD 却证明——在数据的汪洋里，「快而糙」系统性地打败「慢而精」。既然数据本身带噪，梯度何必算得比数据还精？这种「拥抱随机性」的思路，与蒙特卡罗、退火算法乃至进化选择一脉相承——<em>噪声不是敌人，是探索的燃料</em>。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>今天几乎每个大模型都由 SGD 的后裔训练：<strong>Adam</strong> 为每个参数自适应步长、Momentum 累积惯性冲过平原、学习率调度先大步探索再小步收敛。ChatGPT、Stable Diffusion、AlphaFold 的万亿次参数更新，本质都是「取一小批数据、估个梯度、走一步」的循环。理解 SGD，就理解了当代 AI 引擎室里日夜轰鸣的那台核心机器。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华 + 思考题</div>
-    <div class="essence"><strong>用一小批数据估的「糙梯度」多走几步，胜过用全部数据算的「精梯度」少走几步；噪声还顺手帮你逃出浅坑。</strong></div>
-    <div class="think" style="margin-top:10px">批量越小，梯度越糙、噪声越大，但泛化往往更好；批量越大越精，却常过拟合到尖锐的最小值。为什么「估得不那么准」反而让模型在没见过的数据上表现更好？</div>
-  </div>
+<div class="card" data-tts="4ab42a0fc6d75b81">
+<h2>随机梯度下降</h2>
+<div class="en-name">Stochastic Gradient Descent · 用「差一点」的梯度换「快很多」的速度</div>
+<span class="tag">Machine Learning</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>训练模型时，「真正的坡度」要看<em>全部</em>数据算出来——几千万条样本各贡献一点。每走一步都遍历全量数据，慢得令人绝望。<strong>随机梯度下降（SGD）</strong>的赌注是：与其精确算一次坡度走一大步，不如<em>用一小批样本估个大致坡度，赶紧走出去</em>——每步方向有点抖，但走得飞快，抖动会在千万步里互相抵消。<br/><br/>这抖动还是意外的礼物：它像给下山者一点随机踉跄，反而能<strong>把你从浅坑里颠出来</strong>，避免过早卡死在糟糕的局部最优。噪声从缺陷变成了特性。</p>
 </div>
-
+<div class="formula-box">$$\theta_{t+1} = \theta_t - \eta\,\nabla f_{\mathcal{B}_t}(\theta_t)$$</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>与梯度下降唯一的差别是下标 $\mathcal{B}_t$：每步只用一个<strong>随机小批量</strong>（mini-batch）的数据来估计梯度，而非全量。这个估计是<em>无偏的</em>——平均而言方向对，只是单次有随机误差。于是训练变成一场「用便宜、带噪的梯度，换取多得多的更新步数」的交易。在海量数据上，<strong>多走几步糙的，远胜于少走几步精的</strong>。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.6" x1="20" x2="340" y1="170" y2="170"></line>
+<path d="M 30 30 Q 185 265 335 30" fill="none" stroke="#1e3a5f" stroke-opacity="0.5" stroke-width="1.6"></path>
+<!-- 抖动的下降路径 -->
+<path d="M 55 55 L 78 82 L 72 100 L 105 112 L 128 138 L 118 150 L 150 155 L 178 150 L 168 158 L 185 156" fill="none" stroke="#c9544a" stroke-width="1.6"></path>
+<circle cx="55" cy="55" fill="#c9544a" r="4"></circle>
+<circle cx="185" cy="156" fill="#7a9a6a" r="4.5"></circle>
+<text fill="#c9544a" font-size="10" text-anchor="middle" x="55" y="46">起点</text>
+<text fill="#3d6b3d" font-size="10" x="230" y="150">抖着抵达谷底</text>
+<text fill="#1e3a5f" font-size="11" font-style="italic" x="322" y="26">损失</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它颠覆了一个直觉：<strong>不精确，反而更好。</strong>古典优化追求每步都最优，SGD 却证明——在数据的汪洋里，「快而糙」系统性地打败「慢而精」。既然数据本身带噪，梯度何必算得比数据还精？这种「拥抱随机性」的思路，与蒙特卡罗、退火算法乃至进化选择一脉相承——<em>噪声不是敌人，是探索的燃料</em>。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>今天几乎每个大模型都由 SGD 的后裔训练：<strong>Adam</strong> 为每个参数自适应步长、Momentum 累积惯性冲过平原、学习率调度先大步探索再小步收敛。ChatGPT、Stable Diffusion、AlphaFold 的万亿次参数更新，本质都是「取一小批数据、估个梯度、走一步」的循环。理解 SGD，就理解了当代 AI 引擎室里日夜轰鸣的那台核心机器。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="essence"><strong>用一小批数据估的「糙梯度」多走几步，胜过用全部数据算的「精梯度」少走几步；噪声还顺手帮你逃出浅坑。</strong></div>
+<div class="think" style="margin-top:10px">批量越小，梯度越糙、噪声越大，但泛化往往更好；批量越大越精，却常过拟合到尖锐的最小值。为什么「估得不那么准」反而让模型在没见过的数据上表现更好？</div>
+</div>
+</div>
 <div class="deep-title">深入思考</div>
-
 <details>
-  <summary>为什么梯度是「最陡上升方向」，而不是别的方向？</summary>
-  <div class="body">朝单位方向 $u$ 走，函数的瞬时变化率是方向导数 $\nabla f\cdot u$——梯度与方向的点积。点积在两向量<strong>同向</strong>时最大，故增长最快的方向恰是 $\nabla f$，下降最快则是 $-\nabla f$。这不是定义，而是点积几何的推论。它也点出梯度下降的局限：最陡只是<em>局部</em>最优选择，在狭长弯曲的山谷里一味走最陡会来回横跳、收敛极慢——这正是 Momentum、二阶方法要修正的问题。</div>
+<summary>为什么梯度是「最陡上升方向」，而不是别的方向？</summary>
+<div class="body">朝单位方向 $u$ 走，函数的瞬时变化率是方向导数 $\nabla f\cdot u$——梯度与方向的点积。点积在两向量<strong>同向</strong>时最大，故增长最快的方向恰是 $\nabla f$，下降最快则是 $-\nabla f$。这不是定义，而是点积几何的推论。它也点出梯度下降的局限：最陡只是<em>局部</em>最优选择，在狭长弯曲的山谷里一味走最陡会来回横跳、收敛极慢——这正是 Momentum、二阶方法要修正的问题。</div>
 </details>
-
 <details>
-  <summary>凸优化「几乎总能解到全局最优」，那非凸问题就没救了吗？</summary>
-  <div class="body">理论上，一般非凸优化找全局最优是 NP-难的。但实践给了三条出路：其一，许多非凸问题有「隐藏的良性结构」（如矩阵补全），局部最优几乎都是全局最优；其二，深度网络的高维损失面里坏局部最优极其稀少，绝大多数临界点是<strong>鞍点</strong>而非坑，SGD 的噪声能有效逃离鞍点；其三，我们干脆放弃「全局最优」的执念——一个「足够好」的解已能驱动 ChatGPT。这标志优化哲学从「求最优」向「求够好」的务实转向。</div>
+<summary>凸优化「几乎总能解到全局最优」，那非凸问题就没救了吗？</summary>
+<div class="body">理论上，一般非凸优化找全局最优是 NP-难的。但实践给了三条出路：其一，许多非凸问题有「隐藏的良性结构」（如矩阵补全），局部最优几乎都是全局最优；其二，深度网络的高维损失面里坏局部最优极其稀少，绝大多数临界点是<strong>鞍点</strong>而非坑，SGD 的噪声能有效逃离鞍点；其三，我们干脆放弃「全局最优」的执念——一个「足够好」的解已能驱动 ChatGPT。这标志优化哲学从「求最优」向「求够好」的务实转向。</div>
 </details>
-
 <details>
-  <summary>拉格朗日乘子 λ 是「影子价格」——这个经济直觉能有多深？</summary>
-  <div class="body">深到贯穿整个对偶理论。$\lambda$ 精确等于「约束松动一单位时最优值的改善率」。在线性规划里，原问题（用资源最大化产出）与对偶问题（如何给资源定价）互为镜像，最优时两者目标值相等——这就是<strong>强对偶</strong>。它意味着任何资源分配问题背后，都藏着一套自洽的「价格系统」：市场价格、期权定价、带宽分配、拍卖设计，本质都是在求解某个优化问题的对偶价格。拉格朗日乘子把「最优」与「价值」焊成了同一枚硬币的两面。</div>
+<summary>拉格朗日乘子 λ 是「影子价格」——这个经济直觉能有多深？</summary>
+<div class="body">深到贯穿整个对偶理论。$\lambda$ 精确等于「约束松动一单位时最优值的改善率」。在线性规划里，原问题（用资源最大化产出）与对偶问题（如何给资源定价）互为镜像，最优时两者目标值相等——这就是<strong>强对偶</strong>。它意味着任何资源分配问题背后，都藏着一套自洽的「价格系统」：市场价格、期权定价、带宽分配、拍卖设计，本质都是在求解某个优化问题的对偶价格。拉格朗日乘子把「最优」与「价值」焊成了同一枚硬币的两面。</div>
 </details>
-
 <details>
-  <summary>SGD 的噪声为什么能帮助「泛化」，而不只是帮助「逃坑」？</summary>
-  <div class="body">一个有证据支持的假说是：SGD 的噪声偏爱<strong>平坦的最小值</strong>而非尖锐的。平坦谷底意味着「参数稍扰动，损失几乎不变」——这样的解对训练集与测试集间的微小分布差异更鲁棒，泛化更好；尖锐谷底则对扰动敏感、易过拟合。小批量的更大噪声像筛子，持续把模型摇出尖坑、留在平坦盆地。于是训练用的工具，竟悄悄塑造了最终解的泛化品质——这是深度学习理论最活跃的前沿之一。</div>
+<summary>SGD 的噪声为什么能帮助「泛化」，而不只是帮助「逃坑」？</summary>
+<div class="body">一个有证据支持的假说是：SGD 的噪声偏爱<strong>平坦的最小值</strong>而非尖锐的。平坦谷底意味着「参数稍扰动，损失几乎不变」——这样的解对训练集与测试集间的微小分布差异更鲁棒，泛化更好；尖锐谷底则对扰动敏感、易过拟合。小批量的更大噪声像筛子，持续把模型摇出尖坑、留在平坦盆地。于是训练用的工具，竟悄悄塑造了最终解的泛化品质——这是深度学习理论最活跃的前沿之一。</div>
 </details>
-
 <div class="section resources" style="max-width:780px;margin-top:10px">
-  <div class="label" style="font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">深入资源</div>
-  <ul style="padding-left:22px;color:#2a3548;font-size:0.96rem">
-    <li>Boyd &amp; Vandenberghe · <em>Convex Optimization</em>（凸优化圣经，可免费下载）</li>
-    <li>Nocedal &amp; Wright · <em>Numerical Optimization</em>（数值优化标准教材）</li>
-    <li>3Blue1Brown · <em>Gradient descent, how neural networks learn</em>（梯度下降的视觉直觉）</li>
-    <li>Sebastian Ruder · <em>An overview of gradient descent optimization algorithms</em>（Momentum 到 Adam 的清晰综述）</li>
-  </ul>
+<div class="label" style="font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">深入资源</div>
+<ul style="padding-left:22px;color:#2a3548;font-size:0.96rem">
+<li>Boyd &amp; Vandenberghe · <em>Convex Optimization</em>（凸优化圣经，可免费下载）</li>
+<li>Nocedal &amp; Wright · <em>Numerical Optimization</em>（数值优化标准教材）</li>
+<li>3Blue1Brown · <em>Gradient descent, how neural networks learn</em>（梯度下降的视觉直觉）</li>
+<li>Sebastian Ruder · <em>An overview of gradient descent optimization algorithms</em>（Momentum 到 Adam 的清晰综述）</li>
+</ul>
 </div>
-
 <nav class="bottom">
-  <a href="index.html">← 返回 Mathematics</a>
+<a href="index.html">← 返回 Mathematics</a>
 </nav>
-
 </div>
-<script src="https://hub.cissychen.com/comments.js" defer></script>
-<script src="https://hub.cissychen.com/search.js" defer></script>
-<script src="https://hub.cissychen.com/index-button.js" defer></script>
-<script src="https://hub.cissychen.com/i18n-tts.js" defer></script>
+<script defer="" src="https://hub.cissychen.com/comments.js"></script>
+<script defer="" src="https://hub.cissychen.com/search.js"></script>
+<script defer="" src="https://hub.cissychen.com/index-button.js"></script>
+<script defer="" src="https://hub.cissychen.com/i18n-tts.js"></script>
 </body>
 </html>

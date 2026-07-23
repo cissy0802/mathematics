@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>复数与几何 · Day 5 — Mathematics</title>
 <script>
 window.MathJax = {
@@ -14,7 +15,7 @@ window.MathJax = {
   options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
 };
 </script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
@@ -52,262 +53,225 @@ nav.bottom a:hover{color:#1e3a5f}
 </head>
 <body>
 <div class="container">
-
 <header>
-  <div class="kicker">Day 5 · 2026.05.29</div>
-  <h1>复数与几何</h1>
-  <div class="meta">Complex Numbers &amp; Geometry — 当数字学会了旋转</div>
-  <div class="epigraph">"两个实数真理之间最短的路径，往往要穿过复数的领域。" — Jacques Hadamard</div>
+<div class="kicker">Day 5 · 2026.05.29</div>
+<h1 data-tts="664620632098a98b">复数与几何</h1>
+<div class="meta">Complex Numbers &amp; Geometry — 当数字学会了旋转</div>
+<div class="epigraph">"两个实数真理之间最短的路径，往往要穿过复数的领域。" — Jacques Hadamard</div>
 </header>
-
 <!-- 概念 1：复平面 -->
-<div class="card">
-  <h2>复平面</h2>
-  <div class="en-name">The Complex Plane · 给数轴加一个维度</div>
-  <span class="tag">Complex Analysis</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>实数都挤在一根一维的数轴上——只能往左、往右。这根线太窄了。<strong>$i$ 的发明，等于给数轴装上了「上下」这个维度。</strong>一个复数 $a+bi$ 不再是线上的点，而是<strong>平面上的一个箭头</strong>：横走 $a$，竖走 $b$。<br><br>「虚数」(imaginary) 是数学史上最糟糕的命名。它们既不虚幻，也不比负数更「不存在」——只是住在二维而非一维。负数当年也被骂作「荒谬的数」，无理数曾让毕达哥拉斯学派恐慌到要保密。每一次数系扩张，人类都是先抗拒、后接受。复数只是这条路上的下一站。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg">
-      <line x1="20" y1="170" x2="320" y2="170" stroke="#aaa" stroke-width="0.8"/>
-      <line x1="120" y1="20" x2="120" y2="205" stroke="#aaa" stroke-width="0.8"/>
-      <text x="312" y="186" font-size="10" fill="#666">实轴 Re</text>
-      <text x="126" y="30" font-size="10" fill="#666">虚轴 Im</text>
-      <line x1="120" y1="170" x2="250" y2="80" stroke="#c9544a" stroke-width="2"/>
-      <circle cx="250" cy="80" r="3.5" fill="#c9544a"/>
-      <text x="256" y="76" font-size="11" fill="#c9544a" font-style="italic">z = a + bi</text>
-      <line x1="250" y1="80" x2="250" y2="170" stroke="#3a6088" stroke-width="0.8" stroke-dasharray="3,3"/>
-      <line x1="120" y1="80" x2="250" y2="80" stroke="#3a6088" stroke-width="0.8" stroke-dasharray="3,3"/>
-      <text x="185" y="184" font-size="10" fill="#3a6088">a</text>
-      <text x="256" y="128" font-size="10" fill="#3a6088">b</text>
-      <text x="170" y="118" font-size="10" fill="#c9544a" font-style="italic">|z|</text>
-      <path d="M 150 170 A 30 30 0 0 0 144 152" fill="none" stroke="#c9a96b" stroke-width="1.2"/>
-      <text x="150" y="160" font-size="9" fill="#8a7340">θ</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <div class="formula-box">$$z = a + bi, \qquad i^2 = -1$$</div>
-    <p>$a$ 是实部（横坐标），$b$ 是虚部（纵坐标）。<strong>模</strong> $|z|=\sqrt{a^2+b^2}$ 是箭头的长度，<strong>辐角</strong> $\arg z$ 是它与正实轴的夹角 $\theta$。换句话说，一个复数 = 一个长度 + 一个方向。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>实数轴上有「洞」：$x^2+1=0$ 无解。复平面把洞补上了。<strong>代数基本定理</strong>说：任意 $n$ 次多项式在复数域里恰好有 $n$ 个根，一个不多、一个不少。实数域是残缺的，复数域是「代数闭」的——所有多项式方程都解得开。仅仅从一维走到二维，数系就突然变得完整无缺。这种「补全」的圆满，本身就是结构之美。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>傅里叶变换把信号拆成频率，每个频率都是一个复数（同时带振幅与相位）。电路里的阻抗、控制系统的稳定性（极点落在复平面哪一侧决定系统会不会发散）、量子态——全都活在复平面上。深度学习里用 FFT 加速卷积、用复值特征处理相位信息，底层都是这块平面在运转。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <div class="essence">「虚数」住在平面上，它们和你口袋里的硬币一样真实。</div>
-    <div class="label" style="margin-top:14px">思考题</div>
-    <div class="think">人类花了上千年才接受负数，又花了几百年才接受复数。我们对「看不见、摸不着的数」的本能抗拒，究竟在抗拒什么？是数本身，还是我们想象力的边界？</div>
-  </div>
+<div class="card" data-tts="222bd39669d4cd10">
+<h2>复平面</h2>
+<div class="en-name">The Complex Plane · 给数轴加一个维度</div>
+<span class="tag">Complex Analysis</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>实数都挤在一根一维的数轴上——只能往左、往右。这根线太窄了。<strong>$i$ 的发明，等于给数轴装上了「上下」这个维度。</strong>一个复数 $a+bi$ 不再是线上的点，而是<strong>平面上的一个箭头</strong>：横走 $a$，竖走 $b$。<br/><br/>「虚数」(imaginary) 是数学史上最糟糕的命名。它们既不虚幻，也不比负数更「不存在」——只是住在二维而非一维。负数当年也被骂作「荒谬的数」，无理数曾让毕达哥拉斯学派恐慌到要保密。每一次数系扩张，人类都是先抗拒、后接受。复数只是这条路上的下一站。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 340 220" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.8" x1="20" x2="320" y1="170" y2="170"></line>
+<line stroke="#aaa" stroke-width="0.8" x1="120" x2="120" y1="20" y2="205"></line>
+<text fill="#666" font-size="10" x="312" y="186">实轴 Re</text>
+<text fill="#666" font-size="10" x="126" y="30">虚轴 Im</text>
+<line stroke="#c9544a" stroke-width="2" x1="120" x2="250" y1="170" y2="80"></line>
+<circle cx="250" cy="80" fill="#c9544a" r="3.5"></circle>
+<text fill="#c9544a" font-size="11" font-style="italic" x="256" y="76">z = a + bi</text>
+<line stroke="#3a6088" stroke-dasharray="3,3" stroke-width="0.8" x1="250" x2="250" y1="80" y2="170"></line>
+<line stroke="#3a6088" stroke-dasharray="3,3" stroke-width="0.8" x1="120" x2="250" y1="80" y2="80"></line>
+<text fill="#3a6088" font-size="10" x="185" y="184">a</text>
+<text fill="#3a6088" font-size="10" x="256" y="128">b</text>
+<text fill="#c9544a" font-size="10" font-style="italic" x="170" y="118">|z|</text>
+<path d="M 150 170 A 30 30 0 0 0 144 152" fill="none" stroke="#c9a96b" stroke-width="1.2"></path>
+<text fill="#8a7340" font-size="9" x="150" y="160">θ</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$z = a + bi, \qquad i^2 = -1$$</div>
+<p>$a$ 是实部（横坐标），$b$ 是虚部（纵坐标）。<strong>模</strong> $|z|=\sqrt{a^2+b^2}$ 是箭头的长度，<strong>辐角</strong> $\arg z$ 是它与正实轴的夹角 $\theta$。换句话说，一个复数 = 一个长度 + 一个方向。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>实数轴上有「洞」：$x^2+1=0$ 无解。复平面把洞补上了。<strong>代数基本定理</strong>说：任意 $n$ 次多项式在复数域里恰好有 $n$ 个根，一个不多、一个不少。实数域是残缺的，复数域是「代数闭」的——所有多项式方程都解得开。仅仅从一维走到二维，数系就突然变得完整无缺。这种「补全」的圆满，本身就是结构之美。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>傅里叶变换把信号拆成频率，每个频率都是一个复数（同时带振幅与相位）。电路里的阻抗、控制系统的稳定性（极点落在复平面哪一侧决定系统会不会发散）、量子态——全都活在复平面上。深度学习里用 FFT 加速卷积、用复值特征处理相位信息，底层都是这块平面在运转。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<div class="essence">「虚数」住在平面上，它们和你口袋里的硬币一样真实。</div>
+<div class="label" style="margin-top:14px">思考题</div>
+<div class="think">人类花了上千年才接受负数，又花了几百年才接受复数。我们对「看不见、摸不着的数」的本能抗拒，究竟在抗拒什么？是数本身，还是我们想象力的边界？</div>
+</div>
+</div>
 <!-- 概念 2：欧拉公式 -->
-<div class="card">
-  <h2>欧拉公式</h2>
-  <div class="en-name">Euler's Formula · 增长与旋转是同一件事</div>
-  <span class="tag">Analysis · Geometry</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>把一个数自乘「虚数」次——$e^{i\theta}$——听起来像胡话。换个角度：$e^x$ 描述<strong>持续增长</strong>，增长速度正比于当前的大小。那 $e^{i\theta}$ 呢？乘上 $i$ 意味着「把增长方向旋转 90°」。于是增长不再朝外冲，而是<strong>永远垂直于当前位置</strong>——这恰好就是绕圈的定义。所以 $e^{i\theta}$ 既不爆炸也不衰减，它只是<strong>在单位圆上匀速旋转</strong>，$\theta$ 正是转过的弧度。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
-      <line x1="20" y1="110" x2="300" y2="110" stroke="#aaa" stroke-width="0.8"/>
-      <line x1="160" y1="20" x2="160" y2="200" stroke="#aaa" stroke-width="0.8"/>
-      <circle cx="160" cy="110" r="80" fill="none" stroke="#3a6088" stroke-width="1.2"/>
-      <line x1="160" y1="110" x2="217" y2="53" stroke="#c9544a" stroke-width="2"/>
-      <circle cx="217" cy="53" r="3.5" fill="#c9544a"/>
-      <text x="222" y="50" font-size="11" fill="#c9544a" font-style="italic">e^(iθ)</text>
-      <line x1="217" y1="53" x2="217" y2="110" stroke="#7a9a6a" stroke-width="1" stroke-dasharray="3,3"/>
-      <line x1="160" y1="110" x2="217" y2="110" stroke="#c9a96b" stroke-width="1.4"/>
-      <text x="183" y="124" font-size="10" fill="#8a7340">cos θ</text>
-      <text x="222" y="88" font-size="10" fill="#5a7a4a">sin θ</text>
-      <path d="M 200 110 A 40 40 0 0 0 188 82" fill="none" stroke="#666" stroke-width="1"/>
-      <text x="196" y="100" font-size="9" fill="#666">θ</text>
-      <text x="244" y="180" font-size="10" fill="#666">单位圆 |z|=1</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <div class="formula-box">$$e^{i\theta} = \cos\theta + i\sin\theta$$</div>
-    <p>$\theta$ 是旋转角（弧度），实部是 $\cos\theta$、虚部是 $\sin\theta$——正是单位圆上那个点的坐标。令 $\theta=\pi$（转半圈到 $-1$），就得到传世的<strong>欧拉恒等式</strong> $e^{i\pi}+1=0$，五个最重要的常数一线牵。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>指数函数讲「增长」，三角函数讲「振荡」——两门看似毫不相关的手艺。欧拉公式说：它们是<strong>同一个旋转</strong>在两个方向上的投影。分析（$e$）、几何（圆与 $\pi$）、代数（$i$）三个世界，被一行公式焊死在一起。Feynman 称它是「我们的珍宝，数学中最非凡的公式」。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>它是傅里叶分析的灵魂——任何信号都能拆成一堆 $e^{i\omega t}$ 的叠加，这是音频压缩、图像处理、5G 通信的数学地基。交流电、量子波函数也全靠它。Transformer 的位置编码用 $\sin/\cos$ 给词排序，本质就是把每个位置映到单位圆上的不同角度。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <div class="essence">增长与旋转是同一件事，只看你往哪个方向推。</div>
-    <div class="label" style="margin-top:14px">思考题</div>
-    <div class="think">$i^i$ 等于多少？一个虚数的虚数次方，结果竟是个实数 $e^{-\pi/2}\approx 0.207$。为什么「最虚」的运算，会一头掉回实轴上？</div>
-  </div>
+<div class="card" data-tts="288c6abb0137a442">
+<h2>欧拉公式</h2>
+<div class="en-name">Euler's Formula · 增长与旋转是同一件事</div>
+<span class="tag">Analysis · Geometry</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>把一个数自乘「虚数」次——$e^{i\theta}$——听起来像胡话。换个角度：$e^x$ 描述<strong>持续增长</strong>，增长速度正比于当前的大小。那 $e^{i\theta}$ 呢？乘上 $i$ 意味着「把增长方向旋转 90°」。于是增长不再朝外冲，而是<strong>永远垂直于当前位置</strong>——这恰好就是绕圈的定义。所以 $e^{i\theta}$ 既不爆炸也不衰减，它只是<strong>在单位圆上匀速旋转</strong>，$\theta$ 正是转过的弧度。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.8" x1="20" x2="300" y1="110" y2="110"></line>
+<line stroke="#aaa" stroke-width="0.8" x1="160" x2="160" y1="20" y2="200"></line>
+<circle cx="160" cy="110" fill="none" r="80" stroke="#3a6088" stroke-width="1.2"></circle>
+<line stroke="#c9544a" stroke-width="2" x1="160" x2="217" y1="110" y2="53"></line>
+<circle cx="217" cy="53" fill="#c9544a" r="3.5"></circle>
+<text fill="#c9544a" font-size="11" font-style="italic" x="222" y="50">e^(iθ)</text>
+<line stroke="#7a9a6a" stroke-dasharray="3,3" stroke-width="1" x1="217" x2="217" y1="53" y2="110"></line>
+<line stroke="#c9a96b" stroke-width="1.4" x1="160" x2="217" y1="110" y2="110"></line>
+<text fill="#8a7340" font-size="10" x="183" y="124">cos θ</text>
+<text fill="#5a7a4a" font-size="10" x="222" y="88">sin θ</text>
+<path d="M 200 110 A 40 40 0 0 0 188 82" fill="none" stroke="#666" stroke-width="1"></path>
+<text fill="#666" font-size="9" x="196" y="100">θ</text>
+<text fill="#666" font-size="10" x="244" y="180">单位圆 |z|=1</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$e^{i\theta} = \cos\theta + i\sin\theta$$</div>
+<p>$\theta$ 是旋转角（弧度），实部是 $\cos\theta$、虚部是 $\sin\theta$——正是单位圆上那个点的坐标。令 $\theta=\pi$（转半圈到 $-1$），就得到传世的<strong>欧拉恒等式</strong> $e^{i\pi}+1=0$，五个最重要的常数一线牵。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>指数函数讲「增长」，三角函数讲「振荡」——两门看似毫不相关的手艺。欧拉公式说：它们是<strong>同一个旋转</strong>在两个方向上的投影。分析（$e$）、几何（圆与 $\pi$）、代数（$i$）三个世界，被一行公式焊死在一起。Feynman 称它是「我们的珍宝，数学中最非凡的公式」。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>它是傅里叶分析的灵魂——任何信号都能拆成一堆 $e^{i\omega t}$ 的叠加，这是音频压缩、图像处理、5G 通信的数学地基。交流电、量子波函数也全靠它。Transformer 的位置编码用 $\sin/\cos$ 给词排序，本质就是把每个位置映到单位圆上的不同角度。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<div class="essence">增长与旋转是同一件事，只看你往哪个方向推。</div>
+<div class="label" style="margin-top:14px">思考题</div>
+<div class="think">$i^i$ 等于多少？一个虚数的虚数次方，结果竟是个实数 $e^{-\pi/2}\approx 0.207$。为什么「最虚」的运算，会一头掉回实轴上？</div>
+</div>
+</div>
 <!-- 概念 3：复数乘法 = 旋转 -->
-<div class="card">
-  <h2>复数乘法 = 旋转</h2>
-  <div class="en-name">Multiplication as Rotation · 模相乘，角相加</div>
-  <span class="tag">Geometry · Algebra</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>你早就懂实数乘法的几何：乘 $2$ 是拉长一倍，乘 $-1$ 是「翻到对面」。但请重新看「翻到对面」——它其实是<strong>旋转 180°</strong>。那么，旋转 90° 是乘哪个数？它平方后应当等于「转 180°」，也就是等于 $-1$。<strong>平方等于 $-1$ 的数，正是 $i$。</strong>于是 $i^2=-1$ 不再神秘：转 90° 两次就是转 180°，就是翻面，就是乘 $-1$。复数乘法的全部秘密只有一句：<strong>模相乘、角相加。</strong></p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
-      <line x1="20" y1="150" x2="300" y2="150" stroke="#aaa" stroke-width="0.8"/>
-      <line x1="60" y1="20" x2="60" y2="185" stroke="#aaa" stroke-width="0.8"/>
-      <line x1="60" y1="150" x2="150" y2="120" stroke="#3a6088" stroke-width="2"/>
-      <text x="120" y="128" font-size="10" fill="#3a6088" font-style="italic">z₁ (θ₁)</text>
-      <line x1="60" y1="150" x2="135" y2="95" stroke="#7a9a6a" stroke-width="2"/>
-      <text x="100" y="92" font-size="10" fill="#5a7a4a" font-style="italic">z₂ (θ₂)</text>
-      <line x1="60" y1="150" x2="245" y2="48" stroke="#c9544a" stroke-width="2.2"/>
-      <circle cx="245" cy="48" r="3.5" fill="#c9544a"/>
-      <text x="208" y="46" font-size="10" fill="#c9544a" font-style="italic">z₁·z₂</text>
-      <text x="150" y="178" font-size="9.5" fill="#666">长度相乘，角度 θ₁+θ₂ 相加</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <div class="formula-box">$$\big(r_1 e^{i\theta_1}\big)\big(r_2 e^{i\theta_2}\big) = r_1 r_2\, e^{i(\theta_1+\theta_2)}$$</div>
-    <p>两个复数相乘：长度（模 $r$）相乘，方向（辐角 $\theta$）相加。乘法 $=$ 缩放 $+$ 旋转，一个操作打包了两件几何事。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>「乘法」是算术，「旋转」是几何——复数让它们成了一回事，代数与几何的鸿沟就此填平。许多原本要靠繁琐三角恒等式硬推的结果，现在几乎免费：把 $e^{i(\alpha+\beta)}=e^{i\alpha}e^{i\beta}$ 两边展开，<strong>三角的和角公式</strong> $\cos(\alpha+\beta)$、$\sin(\alpha+\beta)$ 一行就掉了出来。棣莫弗定理也是同理。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>计算机图形学里的 2D 旋转，就是乘一个单位复数。它的三维表亲<strong>四元数</strong>(quaternion) 是游戏引擎、机器人姿态、无人机飞控、航天器定向的标配——比旋转矩阵更省、更稳，还能避开「万向锁」。数字通信里调制解调的相位旋转，也是同一招。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <div class="essence">乘法不只放大，它还能转向。</div>
-    <div class="label" style="margin-top:14px">思考题</div>
-    <div class="think">为什么 3D 旋转需要四维的四元数，却没有「三元数」？Hamilton 为此苦思了十年。提示：想想乘法要保住哪些性质，又必须忍痛牺牲哪一条。</div>
-  </div>
+<div class="card" data-tts="e4b731e1f31cc0cd">
+<h2>复数乘法 = 旋转</h2>
+<div class="en-name">Multiplication as Rotation · 模相乘，角相加</div>
+<span class="tag">Geometry · Algebra</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>你早就懂实数乘法的几何：乘 $2$ 是拉长一倍，乘 $-1$ 是「翻到对面」。但请重新看「翻到对面」——它其实是<strong>旋转 180°</strong>。那么，旋转 90° 是乘哪个数？它平方后应当等于「转 180°」，也就是等于 $-1$。<strong>平方等于 $-1$ 的数，正是 $i$。</strong>于是 $i^2=-1$ 不再神秘：转 90° 两次就是转 180°，就是翻面，就是乘 $-1$。复数乘法的全部秘密只有一句：<strong>模相乘、角相加。</strong></p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.8" x1="20" x2="300" y1="150" y2="150"></line>
+<line stroke="#aaa" stroke-width="0.8" x1="60" x2="60" y1="20" y2="185"></line>
+<line stroke="#3a6088" stroke-width="2" x1="60" x2="150" y1="150" y2="120"></line>
+<text fill="#3a6088" font-size="10" font-style="italic" x="120" y="128">z₁ (θ₁)</text>
+<line stroke="#7a9a6a" stroke-width="2" x1="60" x2="135" y1="150" y2="95"></line>
+<text fill="#5a7a4a" font-size="10" font-style="italic" x="100" y="92">z₂ (θ₂)</text>
+<line stroke="#c9544a" stroke-width="2.2" x1="60" x2="245" y1="150" y2="48"></line>
+<circle cx="245" cy="48" fill="#c9544a" r="3.5"></circle>
+<text fill="#c9544a" font-size="10" font-style="italic" x="208" y="46">z₁·z₂</text>
+<text fill="#666" font-size="9.5" x="150" y="178">长度相乘，角度 θ₁+θ₂ 相加</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\big(r_1 e^{i\theta_1}\big)\big(r_2 e^{i\theta_2}\big) = r_1 r_2\, e^{i(\theta_1+\theta_2)}$$</div>
+<p>两个复数相乘：长度（模 $r$）相乘，方向（辐角 $\theta$）相加。乘法 $=$ 缩放 $+$ 旋转，一个操作打包了两件几何事。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>「乘法」是算术，「旋转」是几何——复数让它们成了一回事，代数与几何的鸿沟就此填平。许多原本要靠繁琐三角恒等式硬推的结果，现在几乎免费：把 $e^{i(\alpha+\beta)}=e^{i\alpha}e^{i\beta}$ 两边展开，<strong>三角的和角公式</strong> $\cos(\alpha+\beta)$、$\sin(\alpha+\beta)$ 一行就掉了出来。棣莫弗定理也是同理。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>计算机图形学里的 2D 旋转，就是乘一个单位复数。它的三维表亲<strong>四元数</strong>(quaternion) 是游戏引擎、机器人姿态、无人机飞控、航天器定向的标配——比旋转矩阵更省、更稳，还能避开「万向锁」。数字通信里调制解调的相位旋转，也是同一招。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<div class="essence">乘法不只放大，它还能转向。</div>
+<div class="label" style="margin-top:14px">思考题</div>
+<div class="think">为什么 3D 旋转需要四维的四元数，却没有「三元数」？Hamilton 为此苦思了十年。提示：想想乘法要保住哪些性质，又必须忍痛牺牲哪一条。</div>
+</div>
+</div>
 <!-- 概念 4：量子力学为何用复数 -->
-<div class="card">
-  <h2>量子力学为何用复数</h2>
-  <div class="en-name">Why Quantum Mechanics Needs Complex Numbers</div>
-  <span class="tag">Mathematical Physics</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>经典物理用实数就够了：位置、速度、温度都是实数。但量子世界里，一个粒子的状态是<strong>复数</strong>——所谓「概率幅」(probability amplitude)。为什么非要复数、实数概率不行？因为量子要<strong>干涉</strong>：两条路径的概率幅会像水波一样叠加，可以相长（更亮），也可以相消（变暗）。实数相加只会越加越大，要表达「相消」就必须有相位——而相位，正是复数的辐角。<strong>「负负抵消」的能力，是复数与生俱来的天赋。</strong></p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 340 200" xmlns="http://www.w3.org/2000/svg">
-      <text x="80" y="18" font-size="10" fill="#3a6088" text-anchor="middle">同相 → 相长</text>
-      <line x1="10" y1="55" x2="150" y2="55" stroke="#ccc" stroke-width="0.6"/>
-      <path d="M 10 55 Q 27 30 45 55 T 80 55 T 115 55 T 150 55" fill="none" stroke="#3a6088" stroke-width="1.3"/>
-      <path d="M 10 55 Q 27 32 45 55 T 80 55 T 115 55 T 150 55" fill="none" stroke="#7a9a6a" stroke-width="1.3"/>
-      <path d="M 10 90 Q 27 38 45 90 T 80 90 T 115 90 T 150 90" fill="none" stroke="#c9544a" stroke-width="2"/>
-      <text x="80" y="108" font-size="9" fill="#c9544a" text-anchor="middle">叠加：振幅翻倍</text>
-      <text x="265" y="18" font-size="10" fill="#3a6088" text-anchor="middle">反相 → 相消</text>
-      <line x1="190" y1="55" x2="330" y2="55" stroke="#ccc" stroke-width="0.6"/>
-      <path d="M 190 55 Q 207 30 225 55 T 260 55 T 295 55 T 330 55" fill="none" stroke="#3a6088" stroke-width="1.3"/>
-      <path d="M 190 55 Q 207 80 225 55 T 260 55 T 295 55 T 330 55" fill="none" stroke="#7a9a6a" stroke-width="1.3"/>
-      <line x1="190" y1="90" x2="330" y2="90" stroke="#c9544a" stroke-width="2"/>
-      <text x="260" y="108" font-size="9" fill="#c9544a" text-anchor="middle">叠加：归于平静</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <div class="formula-box">$$P = |\psi|^2, \qquad i\hbar\frac{\partial \psi}{\partial t} = \hat{H}\psi$$</div>
-    <p>波函数 $\psi$ 取复值；我们唯一能观测到的概率 $P$ 是它的<strong>模平方</strong>。当两条路径叠加 $\psi=\psi_1+\psi_2$ 时，展开 $|\psi|^2$ 会冒出交叉的「干涉项」。薛定谔方程左边那个 $i$ 无法移除——它是方程的骨架。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>复数在这里不再是「方便的计算技巧」，而是<strong>物理实在的必需品</strong>。2021 年，多个实验团队基于推广的 Bell 不等式证明：只用实数的量子力学预测不出真实观测——大自然「拒绝」了实数版本。一个 16 世纪被 Cardano 当作怪物、被冠以「虚」名的数，竟是宇宙最底层的书写语言。这是数学「凭空发明」却精准命中物理实在的极致例子。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>所有量子技术的根基。量子比特的状态是复向量，量子门是<strong>幺正变换</strong>(unitary)——保持模长的「高维旋转」。量子计算、量子化学、激光、半导体都建在复数上。机器学习里也有复值神经网络，专门处理音频、雷达、MRI 这类天生带相位的信号。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <div class="essence">大自然在最底层，是用复数书写的。</div>
-    <div class="label" style="margin-top:14px">思考题</div>
-    <div class="think">如果复数是物理不可或缺的，那它还「虚」吗？数学究竟是人类的发明，还是对早已存在结构的发现？复数恰好站在这场千年争论的正中央。</div>
-  </div>
+<div class="card" data-tts="f87071316e3438a2">
+<h2>量子力学为何用复数</h2>
+<div class="en-name">Why Quantum Mechanics Needs Complex Numbers</div>
+<span class="tag">Mathematical Physics</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>经典物理用实数就够了：位置、速度、温度都是实数。但量子世界里，一个粒子的状态是<strong>复数</strong>——所谓「概率幅」(probability amplitude)。为什么非要复数、实数概率不行？因为量子要<strong>干涉</strong>：两条路径的概率幅会像水波一样叠加，可以相长（更亮），也可以相消（变暗）。实数相加只会越加越大，要表达「相消」就必须有相位——而相位，正是复数的辐角。<strong>「负负抵消」的能力，是复数与生俱来的天赋。</strong></p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 340 200" xmlns="http://www.w3.org/2000/svg">
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="80" y="18">同相 → 相长</text>
+<line stroke="#ccc" stroke-width="0.6" x1="10" x2="150" y1="55" y2="55"></line>
+<path d="M 10 55 Q 27 30 45 55 T 80 55 T 115 55 T 150 55" fill="none" stroke="#3a6088" stroke-width="1.3"></path>
+<path d="M 10 55 Q 27 32 45 55 T 80 55 T 115 55 T 150 55" fill="none" stroke="#7a9a6a" stroke-width="1.3"></path>
+<path d="M 10 90 Q 27 38 45 90 T 80 90 T 115 90 T 150 90" fill="none" stroke="#c9544a" stroke-width="2"></path>
+<text fill="#c9544a" font-size="9" text-anchor="middle" x="80" y="108">叠加：振幅翻倍</text>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="265" y="18">反相 → 相消</text>
+<line stroke="#ccc" stroke-width="0.6" x1="190" x2="330" y1="55" y2="55"></line>
+<path d="M 190 55 Q 207 30 225 55 T 260 55 T 295 55 T 330 55" fill="none" stroke="#3a6088" stroke-width="1.3"></path>
+<path d="M 190 55 Q 207 80 225 55 T 260 55 T 295 55 T 330 55" fill="none" stroke="#7a9a6a" stroke-width="1.3"></path>
+<line stroke="#c9544a" stroke-width="2" x1="190" x2="330" y1="90" y2="90"></line>
+<text fill="#c9544a" font-size="9" text-anchor="middle" x="260" y="108">叠加：归于平静</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$P = |\psi|^2, \qquad i\hbar\frac{\partial \psi}{\partial t} = \hat{H}\psi$$</div>
+<p>波函数 $\psi$ 取复值；我们唯一能观测到的概率 $P$ 是它的<strong>模平方</strong>。当两条路径叠加 $\psi=\psi_1+\psi_2$ 时，展开 $|\psi|^2$ 会冒出交叉的「干涉项」。薛定谔方程左边那个 $i$ 无法移除——它是方程的骨架。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>复数在这里不再是「方便的计算技巧」，而是<strong>物理实在的必需品</strong>。2021 年，多个实验团队基于推广的 Bell 不等式证明：只用实数的量子力学预测不出真实观测——大自然「拒绝」了实数版本。一个 16 世纪被 Cardano 当作怪物、被冠以「虚」名的数，竟是宇宙最底层的书写语言。这是数学「凭空发明」却精准命中物理实在的极致例子。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>所有量子技术的根基。量子比特的状态是复向量，量子门是<strong>幺正变换</strong>(unitary)——保持模长的「高维旋转」。量子计算、量子化学、激光、半导体都建在复数上。机器学习里也有复值神经网络，专门处理音频、雷达、MRI 这类天生带相位的信号。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<div class="essence">大自然在最底层，是用复数书写的。</div>
+<div class="label" style="margin-top:14px">思考题</div>
+<div class="think">如果复数是物理不可或缺的，那它还「虚」吗？数学究竟是人类的发明，还是对早已存在结构的发现？复数恰好站在这场千年争论的正中央。</div>
+</div>
+</div>
 <!-- 深入思考 -->
-<div class="card">
-  <h2>深入思考</h2>
-  <div class="en-name">Going Deeper · 推到概念的边界</div>
-
-  <details>
-    <summary>1. 复数域已经「代数闭」，为什么数系扩张还要继续？四元数、八元数又付出了什么代价？</summary>
-    <div>Hurwitz 定理证明：只有 1、2、4、8 维存在「赋范可除代数」（实数、复数、四元数、八元数）。每翻一倍维度，就要牺牲一条算术定律——四元数丢掉乘法交换律，八元数连结合律也丢了。复数是唯一既「代数闭」、又完整保留我们熟悉的全部运算法则的扩张，恰好停在一个独特的甜点上。</div>
-  </details>
-
-  <details>
-    <summary>2. 单位复数 $e^{i\theta}$ 在乘法下构成 $U(1)$ 群——最简单的连续对称。为什么电磁力的规范对称恰好也是 $U(1)$？</summary>
-    <div>电磁场的规范对称正是 $U(1)$：每一点的波函数都能乘上一个局域相位 $e^{i\theta(x)}$ 而物理不变。要求这种局域相位自由，数学上「逼出」了电磁场的存在；Noether 定理再把这个对称与电荷守恒挂钩。复数的那个圆，竟是光与电的母体。</div>
-  </details>
-
-  <details>
-    <summary>3. 黎曼 ζ 函数活在复平面上，黎曼猜想关乎它的复零点。为什么素数的秘密要藏进复数才看得见？</summary>
-    <div>素数定义在整数上，本是最「实」的对象。但把 ζ 函数延拓到复平面后，它的复零点位置精确编码了素数分布的涨落——零点的虚部对应素数计数里的「频率」。这又是一次「实问题的最短路径穿过复数域」(Hadamard)：复分析的刚性，给了我们实数世界够不着的工具。</div>
-  </details>
-
-  <details>
-    <summary>4. 复可导（全纯）函数有种诡异的「刚性」：只要在小区域里复可导一次，就自动无穷可导。这从哪来？</summary>
-    <div>复可导要求极限沿平面上「任意方向」逼近都一致，这比实可导强得多（Cauchy–Riemann 方程）。后果惊人：全纯函数必解析、由边界值唯一决定（Cauchy 积分公式）、零点孤立。一维里的「随意」在二维被几何牢牢锁死——这正是复分析既美又强的根源。</div>
-  </details>
-
-  <details>
-    <summary>5. 耳蜗把声音实时拆成频率，本质是生物版傅里叶变换。大脑保留的是复数（带相位），还是只剩振幅？</summary>
-    <div>耳蜗基底膜按频率分布共振，确实在做频谱分解。但神经放电主要编码振幅（响度）与频率，绝对相位大量丢失——这也是我们对绝对相位不敏感、却对音高极敏感的原因。有趣的是，双耳之间的相位差(ITD) 又被精确保留，用来定位声源。生物系统只挑它需要的那部分「复数信息」留下。</div>
-  </details>
+<div class="card" data-tts="f26eea3005d44132">
+<h2>深入思考</h2>
+<div class="en-name">Going Deeper · 推到概念的边界</div>
+<details>
+<summary>1. 复数域已经「代数闭」，为什么数系扩张还要继续？四元数、八元数又付出了什么代价？</summary>
+<div>Hurwitz 定理证明：只有 1、2、4、8 维存在「赋范可除代数」（实数、复数、四元数、八元数）。每翻一倍维度，就要牺牲一条算术定律——四元数丢掉乘法交换律，八元数连结合律也丢了。复数是唯一既「代数闭」、又完整保留我们熟悉的全部运算法则的扩张，恰好停在一个独特的甜点上。</div>
+</details>
+<details>
+<summary>2. 单位复数 $e^{i\theta}$ 在乘法下构成 $U(1)$ 群——最简单的连续对称。为什么电磁力的规范对称恰好也是 $U(1)$？</summary>
+<div>电磁场的规范对称正是 $U(1)$：每一点的波函数都能乘上一个局域相位 $e^{i\theta(x)}$ 而物理不变。要求这种局域相位自由，数学上「逼出」了电磁场的存在；Noether 定理再把这个对称与电荷守恒挂钩。复数的那个圆，竟是光与电的母体。</div>
+</details>
+<details>
+<summary>3. 黎曼 ζ 函数活在复平面上，黎曼猜想关乎它的复零点。为什么素数的秘密要藏进复数才看得见？</summary>
+<div>素数定义在整数上，本是最「实」的对象。但把 ζ 函数延拓到复平面后，它的复零点位置精确编码了素数分布的涨落——零点的虚部对应素数计数里的「频率」。这又是一次「实问题的最短路径穿过复数域」(Hadamard)：复分析的刚性，给了我们实数世界够不着的工具。</div>
+</details>
+<details>
+<summary>4. 复可导（全纯）函数有种诡异的「刚性」：只要在小区域里复可导一次，就自动无穷可导。这从哪来？</summary>
+<div>复可导要求极限沿平面上「任意方向」逼近都一致，这比实可导强得多（Cauchy–Riemann 方程）。后果惊人：全纯函数必解析、由边界值唯一决定（Cauchy 积分公式）、零点孤立。一维里的「随意」在二维被几何牢牢锁死——这正是复分析既美又强的根源。</div>
+</details>
+<details>
+<summary>5. 耳蜗把声音实时拆成频率，本质是生物版傅里叶变换。大脑保留的是复数（带相位），还是只剩振幅？</summary>
+<div>耳蜗基底膜按频率分布共振，确实在做频谱分解。但神经放电主要编码振幅（响度）与频率，绝对相位大量丢失——这也是我们对绝对相位不敏感、却对音高极敏感的原因。有趣的是，双耳之间的相位差(ITD) 又被精确保留，用来定位声源。生物系统只挑它需要的那部分「复数信息」留下。</div>
+</details>
 </div>
-
 <nav class="bottom">
-  <a href="index.html">← 返回 Mathematics</a>
+<a href="index.html">← 返回 Mathematics</a>
 </nav>
-
 </div>
-<script src="https://hub.cissychen.com/comments.js" defer></script>
-<script src="https://hub.cissychen.com/search.js" defer></script>
-<script src="https://hub.cissychen.com/index-button.js" defer></script>
-<script src="https://hub.cissychen.com/i18n-tts.js" defer></script>
+<script defer="" src="https://hub.cissychen.com/comments.js"></script>
+<script defer="" src="https://hub.cissychen.com/search.js"></script>
+<script defer="" src="https://hub.cissychen.com/index-button.js"></script>
+<script defer="" src="https://hub.cissychen.com/i18n-tts.js"></script>
 </body>
 </html>

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>集合论与无穷 · Day 11 — Mathematics</title>
 <script>
 window.MathJax = {
@@ -14,7 +15,7 @@ window.MathJax = {
   options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
 };
 </script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
@@ -51,246 +52,211 @@ nav.bottom a:hover{color:#1e3a5f}
 </head>
 <body>
 <div class="container">
-
 <header>
-  <div class="kicker">Day 11 · 2026.06.27</div>
-  <h1>集合论与无穷</h1>
-  <div class="meta">Set Theory &amp; Infinity — 当数学第一次直视「无穷」，并发现它有大有小</div>
-  <div class="epigraph">"No one shall expel us from the paradise that Cantor has created for us." — David Hilbert</div>
+<div class="kicker">Day 11 · 2026.06.27</div>
+<h1 data-tts="68130d44d17c6714">集合论与无穷</h1>
+<div class="meta">Set Theory &amp; Infinity — 当数学第一次直视「无穷」，并发现它有大有小</div>
+<div class="epigraph">"No one shall expel us from the paradise that Cantor has created for us." — David Hilbert</div>
 </header>
-
 <!-- 概念 1：一一对应与可数无穷 -->
-<div class="card">
-  <h2>一一对应与可数无穷</h2>
-  <div class="en-name">Bijection &amp; Countable Infinity · 比较无穷的唯一工具</div>
-  <span class="tag">Set Theory</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>怎么判断两群东西「一样多」？牧羊人不识数也会：每出一只羊丢一颗石子，傍晚每回一只捡回一颗。石子不多不少，羊就没丢。<strong>不用数数，只要能配成一对一</strong>，两边就一样多。<br><br>Cantor 的胆识在于把这把尺子直接捅进无穷。整数 $1,2,3,\dots$ 和偶数 $2,4,6,\dots$ 哪个多？直觉喊「整数多一倍」——可每个整数 $n$ 都能精确配上偶数 $2n$，一个不剩、一个不重。<strong>于是它们一样多。</strong>部分竟和整体一样大，这正是无穷的指纹。能和自然数配对的无穷，叫<strong>可数无穷</strong>。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
-      <text x="40" y="24" font-size="12" fill="#3a6088">自然数 ℕ</text>
-      <text x="250" y="24" font-size="12" fill="#3a6088">偶数 2ℕ</text>
-      <g font-size="13" fill="#1e3a5f" text-anchor="middle">
-        <text x="55" y="50">1</text><text x="55" y="74">2</text><text x="55" y="98">3</text><text x="55" y="120">n</text>
-        <text x="290" y="50">2</text><text x="290" y="74">4</text><text x="290" y="98">6</text><text x="290" y="120">2n</text>
-      </g>
-      <g stroke="#c9544a" stroke-width="1.3">
-        <line x1="70" y1="46" x2="275" y2="46"/>
-        <line x1="70" y1="70" x2="275" y2="70"/>
-        <line x1="70" y1="94" x2="275" y2="94"/>
-        <line x1="70" y1="116" x2="275" y2="116" stroke-dasharray="4 3"/>
-      </g>
-      <text x="172" y="40" font-size="10" fill="#5a7090" text-anchor="middle" font-style="italic">n ↦ 2n（一一对应）</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>两集合 $A,B$ <strong>等势</strong>（基数相同），当且仅当存在双射 $f:A\to B$——即 $f$ 既<em>单</em>（不同输入给不同输出）又<em>满</em>（每个输出都被取到）。与 $\mathbb{N}$ 等势的集合叫可数无穷，基数记作 $\aleph_0$（阿列夫零）。惊人的是 $\mathbb{Q}$（全体分数）也是 $\aleph_0$：把分数排成网格再「之字形」走一遍，就给了它一个排队序号。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>它把含糊的哲学词「无穷」变成<strong>可比较的对象</strong>。两千年来「无穷」是禁忌（亚里士多德只认「潜无穷」，否认「实无穷」）。Cantor 用最朴素的尺子——能不能配对——把无穷请进数学殿堂，还发现「整体等于部分」不是悖论，而是无穷的<em>定义性特征</em>。最深的反直觉，往往来自把一个熟悉的工具诚实地用到底。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>「可数」就是计算机意义上的<strong>可枚举</strong>：能写一个程序逐个吐出所有元素。所有有限字符串、所有程序、所有有理数都可数——这划出了「能被算法处理的对象」的边界。下一张卡会证明实数<em>不</em>可数，于是「几乎所有实数都无法被任何程序生成」——这正是<strong>可计算性理论</strong>的起点，也呼应 Day 24 图灵的工作。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <p>无穷的大小不靠「数」，靠「能不能配对」；一旦如此，部分与整体一样大不再是悖论。</p>
-    <div class="think">希尔伯特旅馆住满了可数无穷位客人，又来了可数无穷辆大巴、每辆载可数无穷人——还能全部安排进去吗？（提示：和 $\mathbb{Q}$ 可数是同一招。）</div>
-  </div>
+<div class="card" data-tts="0f12525a21d93d68">
+<h2>一一对应与可数无穷</h2>
+<div class="en-name">Bijection &amp; Countable Infinity · 比较无穷的唯一工具</div>
+<span class="tag">Set Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>怎么判断两群东西「一样多」？牧羊人不识数也会：每出一只羊丢一颗石子，傍晚每回一只捡回一颗。石子不多不少，羊就没丢。<strong>不用数数，只要能配成一对一</strong>，两边就一样多。<br/><br/>Cantor 的胆识在于把这把尺子直接捅进无穷。整数 $1,2,3,\dots$ 和偶数 $2,4,6,\dots$ 哪个多？直觉喊「整数多一倍」——可每个整数 $n$ 都能精确配上偶数 $2n$，一个不剩、一个不重。<strong>于是它们一样多。</strong>部分竟和整体一样大，这正是无穷的指纹。能和自然数配对的无穷，叫<strong>可数无穷</strong>。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
+<text fill="#3a6088" font-size="12" x="40" y="24">自然数 ℕ</text>
+<text fill="#3a6088" font-size="12" x="250" y="24">偶数 2ℕ</text>
+<g fill="#1e3a5f" font-size="13" text-anchor="middle">
+<text x="55" y="50">1</text><text x="55" y="74">2</text><text x="55" y="98">3</text><text x="55" y="120">n</text>
+<text x="290" y="50">2</text><text x="290" y="74">4</text><text x="290" y="98">6</text><text x="290" y="120">2n</text>
+</g>
+<g stroke="#c9544a" stroke-width="1.3">
+<line x1="70" x2="275" y1="46" y2="46"></line>
+<line x1="70" x2="275" y1="70" y2="70"></line>
+<line x1="70" x2="275" y1="94" y2="94"></line>
+<line stroke-dasharray="4 3" x1="70" x2="275" y1="116" y2="116"></line>
+</g>
+<text fill="#5a7090" font-size="10" font-style="italic" text-anchor="middle" x="172" y="40">n ↦ 2n（一一对应）</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>两集合 $A,B$ <strong>等势</strong>（基数相同），当且仅当存在双射 $f:A\to B$——即 $f$ 既<em>单</em>（不同输入给不同输出）又<em>满</em>（每个输出都被取到）。与 $\mathbb{N}$ 等势的集合叫可数无穷，基数记作 $\aleph_0$（阿列夫零）。惊人的是 $\mathbb{Q}$（全体分数）也是 $\aleph_0$：把分数排成网格再「之字形」走一遍，就给了它一个排队序号。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它把含糊的哲学词「无穷」变成<strong>可比较的对象</strong>。两千年来「无穷」是禁忌（亚里士多德只认「潜无穷」，否认「实无穷」）。Cantor 用最朴素的尺子——能不能配对——把无穷请进数学殿堂，还发现「整体等于部分」不是悖论，而是无穷的<em>定义性特征</em>。最深的反直觉，往往来自把一个熟悉的工具诚实地用到底。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>「可数」就是计算机意义上的<strong>可枚举</strong>：能写一个程序逐个吐出所有元素。所有有限字符串、所有程序、所有有理数都可数——这划出了「能被算法处理的对象」的边界。下一张卡会证明实数<em>不</em>可数，于是「几乎所有实数都无法被任何程序生成」——这正是<strong>可计算性理论</strong>的起点，也呼应 Day 24 图灵的工作。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<p>无穷的大小不靠「数」，靠「能不能配对」；一旦如此，部分与整体一样大不再是悖论。</p>
+<div class="think">希尔伯特旅馆住满了可数无穷位客人，又来了可数无穷辆大巴、每辆载可数无穷人——还能全部安排进去吗？（提示：和 $\mathbb{Q}$ 可数是同一招。）</div>
+</div>
+</div>
 <!-- 概念 2：康托尔对角线论证 -->
-<div class="card">
-  <h2>康托尔对角线论证</h2>
-  <div class="en-name">Cantor's Diagonal Argument · 有比无穷更大的无穷</div>
-  <span class="tag">Cardinality</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>既然分数都能排队，是不是<em>所有</em>无穷都一样大？Cantor 证明：不。区间 $[0,1)$ 里的实数，<strong>排不进任何队伍</strong>。<br><br>反证：假设你真排好了一张完整名单，每个实数写成小数。我只做一件事——<strong>沿对角线走，把每一位都改掉</strong>：第 $n$ 个数的第 $n$ 位改一下。把改过的数字拼成一个新实数 $d$。$d$ 在名单上吗？它和第 1 个至少差在第 1 位，和第 2 个差在第 2 位……<strong>和每一个都至少差一位</strong>，谁都不是它。你的「完整名单」漏了一个数——而它本该完整，矛盾。实数比自然数<em>严格</em>更多。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 360 170" xmlns="http://www.w3.org/2000/svg">
-      <g font-family="monospace" font-size="14">
-        <text x="20" y="30" fill="#5a7090">r₁ = 0.</text>
-        <text x="20" y="58" fill="#5a7090">r₂ = 0.</text>
-        <text x="20" y="86" fill="#5a7090">r₃ = 0.</text>
-        <text x="20" y="114" fill="#5a7090">r₄ = 0.</text>
-        <g fill="#2a3548">
-          <text x="80" y="30">1 4 1 5 …</text>
-          <text x="80" y="58">7 0 9 2 …</text>
-          <text x="80" y="86">3 3 3 3 …</text>
-          <text x="80" y="114">8 6 0 2 …</text>
-        </g>
-        <g fill="#c9544a" font-weight="bold">
-          <rect x="76" y="18" width="14" height="16" fill="#c9544a" fill-opacity="0.18"/>
-          <rect x="100" y="46" width="14" height="16" fill="#c9544a" fill-opacity="0.18"/>
-          <rect x="124" y="74" width="14" height="16" fill="#c9544a" fill-opacity="0.18"/>
-          <rect x="148" y="102" width="14" height="16" fill="#c9544a" fill-opacity="0.18"/>
-        </g>
-      </g>
-      <text x="20" y="150" font-size="13" fill="#1e3a5f" font-family="monospace">d  = 0. 2 1 4 3 …</text>
-      <text x="200" y="150" font-size="11" fill="#c9544a" font-style="italic">每位都 +1，与谁都不同</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>对任意集合 $X$，其<strong>幂集</strong> $\mathcal{P}(X)$（所有子集构成的集合）严格大于 $X$：不存在 $X\to\mathcal{P}(X)$ 的满射，对角线法是它的特例。由此 $|\mathbb{R}|=2^{\aleph_0}>\aleph_0$，且 $\aleph_0<2^{\aleph_0}<2^{2^{\aleph_0}}<\cdots$——<strong>无穷之上还有无穷</strong>，一座没有顶的塔。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>它用一招——构造一个「和名单上每个都不同」的对象——一劳永逸地证明了无穷有等级。更美的是这招的<strong>普适性</strong>：同一个对角线，Gödel 用来造「这句话不可证」（不完备定理），图灵用来证停机问题不可判定，Russell 用来引爆下一张卡的悖论。一个几何动作——<em>走对角线、处处取反</em>——竟是 20 世纪三大极限定理共同的引擎。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>图灵把「实数名单」换成「程序名单」，对角线一走，就造出「没有任何程序能正确判断它是否停机」的情形——<strong>停机问题不可判定</strong>由此而来（Day 24）。这不是哲学清谈：它意味着不存在能检测一切死循环、一切安全漏洞的通用程序。<em>软件验证的根本极限，就刻在这条对角线里。</em></p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <p>只要能列一张「完整」名单，就总能构造出名单漏掉的那一个——无穷因此有了不可逾越的等级。</p>
-    <div class="think">对角线法证明「实数比有理数多」，可你说得出哪怕<em>一个</em>具体的、保证不在某张给定名单上的「典型」实数吗？为什么「大多数实数无法被描述」却又如此难以指认其中任何一个？</div>
-  </div>
+<div class="card" data-tts="d5631bf2a75f91bc">
+<h2>康托尔对角线论证</h2>
+<div class="en-name">Cantor's Diagonal Argument · 有比无穷更大的无穷</div>
+<span class="tag">Cardinality</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>既然分数都能排队，是不是<em>所有</em>无穷都一样大？Cantor 证明：不。区间 $[0,1)$ 里的实数，<strong>排不进任何队伍</strong>。<br/><br/>反证：假设你真排好了一张完整名单，每个实数写成小数。我只做一件事——<strong>沿对角线走，把每一位都改掉</strong>：第 $n$ 个数的第 $n$ 位改一下。把改过的数字拼成一个新实数 $d$。$d$ 在名单上吗？它和第 1 个至少差在第 1 位，和第 2 个差在第 2 位……<strong>和每一个都至少差一位</strong>，谁都不是它。你的「完整名单」漏了一个数——而它本该完整，矛盾。实数比自然数<em>严格</em>更多。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 360 170" xmlns="http://www.w3.org/2000/svg">
+<g font-family="monospace" font-size="14">
+<text fill="#5a7090" x="20" y="30">r₁ = 0.</text>
+<text fill="#5a7090" x="20" y="58">r₂ = 0.</text>
+<text fill="#5a7090" x="20" y="86">r₃ = 0.</text>
+<text fill="#5a7090" x="20" y="114">r₄ = 0.</text>
+<g fill="#2a3548">
+<text x="80" y="30">1 4 1 5 …</text>
+<text x="80" y="58">7 0 9 2 …</text>
+<text x="80" y="86">3 3 3 3 …</text>
+<text x="80" y="114">8 6 0 2 …</text>
+</g>
+<g fill="#c9544a" font-weight="bold">
+<rect fill="#c9544a" fill-opacity="0.18" height="16" width="14" x="76" y="18"></rect>
+<rect fill="#c9544a" fill-opacity="0.18" height="16" width="14" x="100" y="46"></rect>
+<rect fill="#c9544a" fill-opacity="0.18" height="16" width="14" x="124" y="74"></rect>
+<rect fill="#c9544a" fill-opacity="0.18" height="16" width="14" x="148" y="102"></rect>
+</g>
+</g>
+<text fill="#1e3a5f" font-family="monospace" font-size="13" x="20" y="150">d  = 0. 2 1 4 3 …</text>
+<text fill="#c9544a" font-size="11" font-style="italic" x="200" y="150">每位都 +1，与谁都不同</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>对任意集合 $X$，其<strong>幂集</strong> $\mathcal{P}(X)$（所有子集构成的集合）严格大于 $X$：不存在 $X\to\mathcal{P}(X)$ 的满射，对角线法是它的特例。由此 $|\mathbb{R}|=2^{\aleph_0}&gt;\aleph_0$，且 $\aleph_0&lt;2^{\aleph_0}&lt;2^{2^{\aleph_0}}&lt;\cdots$——<strong>无穷之上还有无穷</strong>，一座没有顶的塔。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它用一招——构造一个「和名单上每个都不同」的对象——一劳永逸地证明了无穷有等级。更美的是这招的<strong>普适性</strong>：同一个对角线，Gödel 用来造「这句话不可证」（不完备定理），图灵用来证停机问题不可判定，Russell 用来引爆下一张卡的悖论。一个几何动作——<em>走对角线、处处取反</em>——竟是 20 世纪三大极限定理共同的引擎。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>图灵把「实数名单」换成「程序名单」，对角线一走，就造出「没有任何程序能正确判断它是否停机」的情形——<strong>停机问题不可判定</strong>由此而来（Day 24）。这不是哲学清谈：它意味着不存在能检测一切死循环、一切安全漏洞的通用程序。<em>软件验证的根本极限，就刻在这条对角线里。</em></p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<p>只要能列一张「完整」名单，就总能构造出名单漏掉的那一个——无穷因此有了不可逾越的等级。</p>
+<div class="think">对角线法证明「实数比有理数多」，可你说得出哪怕<em>一个</em>具体的、保证不在某张给定名单上的「典型」实数吗？为什么「大多数实数无法被描述」却又如此难以指认其中任何一个？</div>
+</div>
+</div>
 <!-- 概念 3：罗素悖论 -->
-<div class="card">
-  <h2>罗素悖论</h2>
-  <div class="en-name">Russell's Paradox · 朴素集合论的崩塌</div>
-  <span class="tag">Foundations / Logic</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>朴素集合论有个看似无害的信条：<strong>任何性质都能圈出一个集合</strong>。「所有红的东西」「所有素数」——都行。Russell 1901 年问了一个要命的性质：<br><br>有些集合包含自己（「所有抽象概念的集合」本身也是抽象概念，∈ 自己），有些不（「所有猫的集合」不是猫）。那么——<strong>把所有「不包含自己」的集合收集起来</strong>，记作 $R$。问：$R$ 包含自己吗？<em>若包含，按定义它不该包含自己；若不包含，它恰好满足条件、又该被收进自己。</em>怎么答都矛盾。通俗版是「理发师悖论」：理发师「给且只给不自己刮胡子的人刮」——那他给自己刮吗？</p>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>设 $R=\{x : x\notin x\}$。代入 $x=R$ 得</p>
-    <div class="formula-box">$R \in R \iff R \notin R$</div>
-    <p>一个命题与它的否定等价——逻辑爆炸。问题的病根是<strong>无限制概括</strong>（unrestricted comprehension）：允许「拿任意性质凭空造集合」，就埋下了自指的炸药。这封信寄到时，Frege 的《算术基础》正要付印，他在附录里写下：「一个科学家最不愿遭遇的，莫过于在工作完成之际地基崩塌。」</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>它用三行字摧毁了一整套数学地基，却也<strong>指明了出路</strong>：病不在「集合」，在「自指 + 无限制」。美在于这一刀的精确——不是模糊地说「小心无穷」，而是精确定位到「$x\in x$ 这类自我指涉必须被规训」。整个 20 世纪数理逻辑、类型论乃至现代编程语言的类型系统，都是对这一刀的回应。<em>一个悖论，逼出一门学科。</em></p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>Russell 自己的解药是<strong>类型论</strong>：给对象分层，禁止「同一层的东西谈论自己」。这正是今天 Haskell、TypeScript、Rust 类型系统的祖先——编译器靠分层规则拦下「自我吞噬」的非法构造。证明助手（Coq/Lean）的类型宇宙分级也直接继承这条血脉（呼应 Day 19 范畴论与类型）。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <p>「任意性质都能造集合」太慷慨，慷慨到能造出逻辑炸弹；数学的严谨常常始于一次精准的<em>自我设限</em>。</p>
-    <div class="think">Gödel 的「这句话不可证」、停机问题、Russell 的 $R$，骨架都是「某物谈论自己的否定」。自指为何总在系统的边界处引爆？这是逻辑的缺陷，还是任何足够强的系统都逃不掉的宿命？</div>
-  </div>
+<div class="card" data-tts="595d61d0b1a2308f">
+<h2>罗素悖论</h2>
+<div class="en-name">Russell's Paradox · 朴素集合论的崩塌</div>
+<span class="tag">Foundations / Logic</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>朴素集合论有个看似无害的信条：<strong>任何性质都能圈出一个集合</strong>。「所有红的东西」「所有素数」——都行。Russell 1901 年问了一个要命的性质：<br/><br/>有些集合包含自己（「所有抽象概念的集合」本身也是抽象概念，∈ 自己），有些不（「所有猫的集合」不是猫）。那么——<strong>把所有「不包含自己」的集合收集起来</strong>，记作 $R$。问：$R$ 包含自己吗？<em>若包含，按定义它不该包含自己；若不包含，它恰好满足条件、又该被收进自己。</em>怎么答都矛盾。通俗版是「理发师悖论」：理发师「给且只给不自己刮胡子的人刮」——那他给自己刮吗？</p>
 </div>
-
+<div class="section">
+<div class="label">正式定义</div>
+<p>设 $R=\{x : x\notin x\}$。代入 $x=R$ 得</p>
+<div class="formula-box">$R \in R \iff R \notin R$</div>
+<p>一个命题与它的否定等价——逻辑爆炸。问题的病根是<strong>无限制概括</strong>（unrestricted comprehension）：允许「拿任意性质凭空造集合」，就埋下了自指的炸药。这封信寄到时，Frege 的《算术基础》正要付印，他在附录里写下：「一个科学家最不愿遭遇的，莫过于在工作完成之际地基崩塌。」</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它用三行字摧毁了一整套数学地基，却也<strong>指明了出路</strong>：病不在「集合」，在「自指 + 无限制」。美在于这一刀的精确——不是模糊地说「小心无穷」，而是精确定位到「$x\in x$ 这类自我指涉必须被规训」。整个 20 世纪数理逻辑、类型论乃至现代编程语言的类型系统，都是对这一刀的回应。<em>一个悖论，逼出一门学科。</em></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>Russell 自己的解药是<strong>类型论</strong>：给对象分层，禁止「同一层的东西谈论自己」。这正是今天 Haskell、TypeScript、Rust 类型系统的祖先——编译器靠分层规则拦下「自我吞噬」的非法构造。证明助手（Coq/Lean）的类型宇宙分级也直接继承这条血脉（呼应 Day 19 范畴论与类型）。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<p>「任意性质都能造集合」太慷慨，慷慨到能造出逻辑炸弹；数学的严谨常常始于一次精准的<em>自我设限</em>。</p>
+<div class="think">Gödel 的「这句话不可证」、停机问题、Russell 的 $R$，骨架都是「某物谈论自己的否定」。自指为何总在系统的边界处引爆？这是逻辑的缺陷，还是任何足够强的系统都逃不掉的宿命？</div>
+</div>
+</div>
 <!-- 概念 4：ZFC 公理 -->
-<div class="card">
-  <h2>ZFC 公理系统</h2>
-  <div class="en-name">The ZFC Axioms · 给整座数学浇一个地基</div>
-  <span class="tag">Axiomatic Set Theory</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>Russell 炸掉地基后，数学家不再问「集合是什么」，改问<strong>「集合该<em>守</em>什么规矩」</strong>。ZFC（Zermelo–Fraenkel + 选择公理）就是这套规矩：不准凭空造集合，只准从已有集合按几条受控操作<strong>逐层搭建</strong>——配对、取并、取幂集、取子集……像搭乐高，每块都接在已存在的块上，于是「所有集合的集合」这类危险品<em>根本造不出来</em>。Russell 的炸药被釜底抽薪。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
-      <g stroke="#3a6088" fill="#dce4ee" fill-opacity="0.5">
-        <path d="M160 10 L210 150 L110 150 Z" stroke-width="1.5"/>
-      </g>
-      <g stroke="#aab6c6" stroke-width="0.8" stroke-dasharray="3 2">
-        <line x1="123" y1="50" x2="197" y2="50"/>
-        <line x1="116" y1="90" x2="204" y2="90"/>
-        <line x1="110" y1="130" x2="210" y2="130"/>
-      </g>
-      <g font-size="11" fill="#1e3a5f" text-anchor="middle">
-        <text x="160" y="26">∅</text>
-        <text x="160" y="46">V₀</text>
-        <text x="160" y="86">V₁</text>
-        <text x="160" y="126">Vₙ</text>
-      </g>
-      <text x="245" y="80" font-size="11" fill="#5a7090" font-style="italic">每层</text>
-      <text x="245" y="96" font-size="11" fill="#5a7090" font-style="italic">取幂集</text>
-      <text x="160" y="155" font-size="9" fill="#5a7090" text-anchor="middle">从空集逐层累积的宇宙 V</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>ZFC 用约 9 条公理刻画集合。关键两条：<strong>分离公理</strong>把「无限制概括」缩成「只能从已有集合 $A$ 里筛子集」$\{x\in A: \varphi(x)\}$——挡住 Russell；<strong>选择公理（AC）</strong>断言：给一族非空集合，总能<em>同时各挑一个代表</em>，哪怕无穷多个、无明确规则。AC 直觉上显然，推论却惊世骇俗：它等价于「每个向量空间都有基」，还推出<strong>巴拿赫–塔斯基悖论</strong>——一个实心球可拆成有限块、重拼成两个等大的球。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>ZFC 的野心是当<strong>整座数学的共同地基</strong>：自然数、实数、函数、空间，原则上全是「集合」，全部行为都从这几条公理推出。更深的美在它的<em>谦卑</em>——Gödel 与 Cohen 证明，<strong>连续统假设</strong>（$\aleph_0$ 与 $2^{\aleph_0}$ 之间还有没有别的无穷？）在 ZFC 里<strong>既不能证明也不能否证</strong>。地基本身留着一个无法在内部回答的问题。数学没有上帝视角，只有一套诚实承认自身边界的规则。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>选择公理是泛函分析（Day 44）的命脉：「每个向量空间有基」靠它支撑，量子力学的 Hilbert 空间理论默默用着它。证明助手 Lean/Coq 把 ZFC（或更强的类型论）编码进计算机，让定理可被机器逐行核验——<strong>数学的地基如今真的「可运行」</strong>。CH 的独立性近年还渗进机器学习理论：某些「可学习性」问题被证明与 CH 等价，<em>即在 ZFC 内不可判定</em>——抽象集合论竟卡住了 AI 的一道门槛。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">一句话精华</div>
-    <p>地基的意义不是「证明一切」，而是<strong>明确划出能证与不能证的边界</strong>——并诚实地把边界本身也算进来。</p>
-    <div class="think">如果连续统假设在 ZFC 里既真不了也假不了，那它到底「有没有答案」？是我们公理太弱、该补一条，还是「无穷的精细结构」本就没有唯一的客观事实？数学对象是被发现的，还是被规则选定的？</div>
-  </div>
+<div class="card" data-tts="beb5745f1cec23cb">
+<h2>ZFC 公理系统</h2>
+<div class="en-name">The ZFC Axioms · 给整座数学浇一个地基</div>
+<span class="tag">Axiomatic Set Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>Russell 炸掉地基后，数学家不再问「集合是什么」，改问<strong>「集合该<em>守</em>什么规矩」</strong>。ZFC（Zermelo–Fraenkel + 选择公理）就是这套规矩：不准凭空造集合，只准从已有集合按几条受控操作<strong>逐层搭建</strong>——配对、取并、取幂集、取子集……像搭乐高，每块都接在已存在的块上，于是「所有集合的集合」这类危险品<em>根本造不出来</em>。Russell 的炸药被釜底抽薪。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+<g fill="#dce4ee" fill-opacity="0.5" stroke="#3a6088">
+<path d="M160 10 L210 150 L110 150 Z" stroke-width="1.5"></path>
+</g>
+<g stroke="#aab6c6" stroke-dasharray="3 2" stroke-width="0.8">
+<line x1="123" x2="197" y1="50" y2="50"></line>
+<line x1="116" x2="204" y1="90" y2="90"></line>
+<line x1="110" x2="210" y1="130" y2="130"></line>
+</g>
+<g fill="#1e3a5f" font-size="11" text-anchor="middle">
+<text x="160" y="26">∅</text>
+<text x="160" y="46">V₀</text>
+<text x="160" y="86">V₁</text>
+<text x="160" y="126">Vₙ</text>
+</g>
+<text fill="#5a7090" font-size="11" font-style="italic" x="245" y="80">每层</text>
+<text fill="#5a7090" font-size="11" font-style="italic" x="245" y="96">取幂集</text>
+<text fill="#5a7090" font-size="9" text-anchor="middle" x="160" y="155">从空集逐层累积的宇宙 V</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>ZFC 用约 9 条公理刻画集合。关键两条：<strong>分离公理</strong>把「无限制概括」缩成「只能从已有集合 $A$ 里筛子集」$\{x\in A: \varphi(x)\}$——挡住 Russell；<strong>选择公理（AC）</strong>断言：给一族非空集合，总能<em>同时各挑一个代表</em>，哪怕无穷多个、无明确规则。AC 直觉上显然，推论却惊世骇俗：它等价于「每个向量空间都有基」，还推出<strong>巴拿赫–塔斯基悖论</strong>——一个实心球可拆成有限块、重拼成两个等大的球。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>ZFC 的野心是当<strong>整座数学的共同地基</strong>：自然数、实数、函数、空间，原则上全是「集合」，全部行为都从这几条公理推出。更深的美在它的<em>谦卑</em>——Gödel 与 Cohen 证明，<strong>连续统假设</strong>（$\aleph_0$ 与 $2^{\aleph_0}$ 之间还有没有别的无穷？）在 ZFC 里<strong>既不能证明也不能否证</strong>。地基本身留着一个无法在内部回答的问题。数学没有上帝视角，只有一套诚实承认自身边界的规则。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>选择公理是泛函分析（Day 44）的命脉：「每个向量空间有基」靠它支撑，量子力学的 Hilbert 空间理论默默用着它。证明助手 Lean/Coq 把 ZFC（或更强的类型论）编码进计算机，让定理可被机器逐行核验——<strong>数学的地基如今真的「可运行」</strong>。CH 的独立性近年还渗进机器学习理论：某些「可学习性」问题被证明与 CH 等价，<em>即在 ZFC 内不可判定</em>——抽象集合论竟卡住了 AI 的一道门槛。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华</div>
+<p>地基的意义不是「证明一切」，而是<strong>明确划出能证与不能证的边界</strong>——并诚实地把边界本身也算进来。</p>
+<div class="think">如果连续统假设在 ZFC 里既真不了也假不了，那它到底「有没有答案」？是我们公理太弱、该补一条，还是「无穷的精细结构」本就没有唯一的客观事实？数学对象是被发现的，还是被规则选定的？</div>
+</div>
+</div>
 <!-- 深入思考 -->
 <div class="deep">
-  <h2>深入思考</h2>
-
-  <details>
-    <summary>「实无穷」与「潜无穷」之争，今天还有意义吗？</summary>
-    <div>亚里士多德只承认潜无穷（永不停止的过程，如「不断加一」），否认实无穷（已完成的无穷整体，如「全体自然数这个集合」）。Cantor 的革命正是把无穷当成<strong>完成的对象</strong>来操作。今天主流数学站在 Cantor 一边，但直觉主义（Brouwer）仍坚持潜无穷，拒绝排中律在无穷上的无条件使用——这直接影响哪些证明「合法」。计算机科学其实暗合直觉主义：程序只能逐个生成，永远「拿不到」完成的实无穷。两千年的争论，在类型论与可计算性里仍然活着。</div>
-  </details>
-
-  <details>
-    <summary>为什么同一个「对角线」能同时引爆 Cantor、Gödel、图灵与 Russell？</summary>
-    <div>四者共享一个骨架：<strong>自指 + 取反</strong>。给一张「号称完整」的清单（实数、可证命题、停机程序、集合），构造一个对象，让它在第 $n$ 项上<em>故意与第 $n$ 个不同</em>，于是它落在清单之外，矛盾。Lawvere 用范畴论说得最透：只要存在某种「自我作用」的不动点结构，对角化就必然制造出逃逸元素。这不是四个巧合，而是<strong>一条定理的四张面孔</strong>——任何足够强、能谈论自身的系统，都逃不开这道裂缝。</div>
-  </details>
-
-  <details>
-    <summary>把整座数学还原成「集合」，是洞见还是错觉？</summary>
-    <div>ZFC 能把数 1 编码成 $\{\emptyset\}$、有序对编码成嵌套集合——原则上一切都是集合。但这是「能」而非「该」：没有数学家真把 $3$ 想成一串花括号。范畴论（Day 19）提供了竞争性的地基，强调「对象间的关系」而非「由什么构成」，对很多领域更自然。这逼问一个深层问题：数学需要<em>唯一</em>的地基吗？还是说「地基」本身就是视角的选择，集合论与范畴论只是看同一座大厦的两扇窗？</div>
-  </details>
-
-  <details>
-    <summary>「几乎所有实数都不可描述」——这句话本身可描述吗？</summary>
-    <div>可描述的数（能用有限文字定义，如 $\pi$、$\sqrt2$）只有可数个，因为有限字符串可数；而实数不可数，故<strong>不可描述的实数占绝对多数</strong>。诡异的是你永远举不出具体例子——一旦举出，就描述了它。数学断言「它们存在且几乎是全部」，却原则上无法<em>指认</em>任何一个。这也与算法信息论相通：绝大多数实数是「不可压缩」的随机序列，没有比它本身更短的描述。无穷之大，已超出语言能命名的范围。</div>
-  </details>
+<h2 data-tts="19c73eaf03a14bb1">深入思考</h2>
+<details>
+<summary>「实无穷」与「潜无穷」之争，今天还有意义吗？</summary>
+<div>亚里士多德只承认潜无穷（永不停止的过程，如「不断加一」），否认实无穷（已完成的无穷整体，如「全体自然数这个集合」）。Cantor 的革命正是把无穷当成<strong>完成的对象</strong>来操作。今天主流数学站在 Cantor 一边，但直觉主义（Brouwer）仍坚持潜无穷，拒绝排中律在无穷上的无条件使用——这直接影响哪些证明「合法」。计算机科学其实暗合直觉主义：程序只能逐个生成，永远「拿不到」完成的实无穷。两千年的争论，在类型论与可计算性里仍然活着。</div>
+</details>
+<details>
+<summary>为什么同一个「对角线」能同时引爆 Cantor、Gödel、图灵与 Russell？</summary>
+<div>四者共享一个骨架：<strong>自指 + 取反</strong>。给一张「号称完整」的清单（实数、可证命题、停机程序、集合），构造一个对象，让它在第 $n$ 项上<em>故意与第 $n$ 个不同</em>，于是它落在清单之外，矛盾。Lawvere 用范畴论说得最透：只要存在某种「自我作用」的不动点结构，对角化就必然制造出逃逸元素。这不是四个巧合，而是<strong>一条定理的四张面孔</strong>——任何足够强、能谈论自身的系统，都逃不开这道裂缝。</div>
+</details>
+<details>
+<summary>把整座数学还原成「集合」，是洞见还是错觉？</summary>
+<div>ZFC 能把数 1 编码成 $\{\emptyset\}$、有序对编码成嵌套集合——原则上一切都是集合。但这是「能」而非「该」：没有数学家真把 $3$ 想成一串花括号。范畴论（Day 19）提供了竞争性的地基，强调「对象间的关系」而非「由什么构成」，对很多领域更自然。这逼问一个深层问题：数学需要<em>唯一</em>的地基吗？还是说「地基」本身就是视角的选择，集合论与范畴论只是看同一座大厦的两扇窗？</div>
+</details>
+<details>
+<summary>「几乎所有实数都不可描述」——这句话本身可描述吗？</summary>
+<div>可描述的数（能用有限文字定义，如 $\pi$、$\sqrt2$）只有可数个，因为有限字符串可数；而实数不可数，故<strong>不可描述的实数占绝对多数</strong>。诡异的是你永远举不出具体例子——一旦举出，就描述了它。数学断言「它们存在且几乎是全部」，却原则上无法<em>指认</em>任何一个。这也与算法信息论相通：绝大多数实数是「不可压缩」的随机序列，没有比它本身更短的描述。无穷之大，已超出语言能命名的范围。</div>
+</details>
 </div>
-
 <nav class="bottom">
-  <a href="index.html">← 返回 Mathematics</a>
+<a href="index.html">← 返回 Mathematics</a>
 </nav>
-
 </div>
-<script src="https://hub.cissychen.com/comments.js" defer></script>
-<script src="https://hub.cissychen.com/search.js" defer></script>
-<script src="https://hub.cissychen.com/index-button.js" defer></script>
-<script src="https://hub.cissychen.com/i18n-tts.js" defer></script>
+<script defer="" src="https://hub.cissychen.com/comments.js"></script>
+<script defer="" src="https://hub.cissychen.com/search.js"></script>
+<script defer="" src="https://hub.cissychen.com/index-button.js"></script>
+<script defer="" src="https://hub.cissychen.com/i18n-tts.js"></script>
 </body>
 </html>

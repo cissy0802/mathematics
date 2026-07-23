@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>图论 · Day 8 — Mathematics</title>
 <script>
 window.MathJax = {
@@ -14,7 +15,7 @@ window.MathJax = {
   options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
 };
 </script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
@@ -52,317 +53,281 @@ nav.bottom a:hover{color:#1e3a5f}
 </head>
 <body>
 <div class="container">
-
 <header>
-  <div class="kicker">Day 8 · 2026.06.05</div>
-  <h1>图论</h1>
-  <div class="meta">Graph Theory — 当世界被剥成「谁连着谁」</div>
-  <div class="epigraph">"图论的对象不是图画，而是关系本身的骨架。" — 改写自 Frank Harary</div>
+<div class="kicker">Day 8 · 2026.06.05</div>
+<h1 data-tts="6111242d64fa17e0">图论</h1>
+<div class="meta">Graph Theory — 当世界被剥成「谁连着谁」</div>
+<div class="epigraph">"图论的对象不是图画，而是关系本身的骨架。" — 改写自 Frank Harary</div>
 </header>
-
 <!-- 概念 1：图（节点与边） -->
-<div class="card">
-  <h2>图：节点与边</h2>
-  <div class="en-name">Graph: Nodes &amp; Edges · 关系的最小骨架</div>
-  <span class="tag">Discrete Math</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>把任何「东西之间有关系」的系统抽掉一切多余细节，只留下两样：<strong>谁</strong>（节点）和<strong>谁连着谁</strong>（边）。地铁图是经典——它谎报了距离、方向、真实地理，却精确保留了「哪一站能到哪一站」。这种「故意忘掉几何、只记住连接」就是图论的核心动作。<br><br>所以一张图<strong>不是一幅画，而是一组关系</strong>。同一组关系画成什么形状都算同一张图：图论只关心拓扑（怎么连），不关心摆位（画在哪）。下图左右两块，正是同一张图的两种画法。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 380 170" xmlns="http://www.w3.org/2000/svg">
-      <g stroke="#3a6088" stroke-width="1.6">
-        <!-- 左：方形布局 -->
-        <line x1="40" y1="40" x2="130" y2="40"/>
-        <line x1="40" y1="40" x2="40" y2="130"/>
-        <line x1="40" y1="40" x2="130" y2="130"/>
-        <line x1="130" y1="40" x2="130" y2="130"/>
-      </g>
-      <g fill="#1e3a5f">
-        <circle cx="40" cy="40" r="9"/><circle cx="130" cy="40" r="9"/>
-        <circle cx="130" cy="130" r="9"/><circle cx="40" cy="130" r="9"/>
-      </g>
-      <g fill="#fff" font-size="11" text-anchor="middle" font-family="Georgia">
-        <text x="40" y="44">1</text><text x="130" y="44">2</text>
-        <text x="130" y="134">3</text><text x="40" y="134">4</text>
-      </g>
-      <text x="85" y="162" font-size="10" fill="#5a7090" text-anchor="middle" font-style="italic">方形布局</text>
-      <!-- 中线 -->
-      <line x1="200" y1="20" x2="200" y2="150" stroke="#d0d8e2" stroke-width="1" stroke-dasharray="3 3"/>
-      <!-- 右：星形布局，同一组连接 -->
-      <g stroke="#c9544a" stroke-width="1.6">
-        <line x1="300" y1="85" x2="250" y2="40"/>
-        <line x1="300" y1="85" x2="300" y2="145"/>
-        <line x1="300" y1="85" x2="350" y2="85"/>
-        <line x1="250" y1="40" x2="350" y2="85"/>
-      </g>
-      <g fill="#1e3a5f">
-        <circle cx="300" cy="85" r="9"/><circle cx="250" cy="40" r="9"/>
-        <circle cx="350" cy="85" r="9"/><circle cx="300" cy="145" r="9"/>
-      </g>
-      <g fill="#fff" font-size="11" text-anchor="middle" font-family="Georgia">
-        <text x="300" y="89">1</text><text x="250" y="44">2</text>
-        <text x="350" y="89">3</text><text x="300" y="149">4</text>
-      </g>
-      <text x="300" y="167" font-size="10" fill="#5a7090" text-anchor="middle" font-style="italic">星形布局 · 同一张图</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <div class="formula-box">$G=(V,E),\quad E\subseteq V\times V,\quad \deg(v)=$ 连到 $v$ 的边数</div>
-    <p><strong>$V$</strong> 是节点集合，<strong>$E$</strong> 是边集合（节点的配对）。$\deg(v)$ 叫节点 $v$ 的<strong>度</strong>——它身上插了几条边。边可带方向（有向图）、可带数字（带权图）。整套图论就建在这一对集合上。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>图是「关系」这个抽象概念的<strong>最小数学骨架</strong>。惊人之处在普适：社交网络、分子结构、互联网、神经元、论文引用、棋局状态，剥掉表象后都是同一种对象。一旦翻译成图，关于「连通」「最短」「环」的定理立刻通用——这正是数学的核心魔法：<em>找到正确的抽象层，一个证明照亮一千个领域</em>。最朴素的例子是握手引理 $\sum_v \deg(v)=2|E|$：每条边给两端各贡献 1 个度，于是<strong>奇度节点必成对出现</strong>。一句几乎显然的话，却是下一个概念的钥匙。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>编译器把程序建成依赖图做<strong>拓扑排序</strong>定编译顺序；Google 的 PageRank 把网页链接看成图上的随机游走来排序；<strong>图神经网络（GNN）</strong>直接在图结构上做深度学习，用于药物分子性质预测与推荐系统；分布式系统的死锁检测、区块链的一致性，本质都是图上的环检测与连通性问题。</p>
-  </div>
-
-  <div class="section">
-    <div class="essence"><strong>一句话精华：</strong>图论的第一步，是有勇气扔掉一张地图上除了「连接」之外的一切。</div>
-    <div class="label" style="margin-top:14px">思考题</div>
-    <div class="think">你的大脑约 860 亿神经元、上百万亿突触，本身就是一张巨型图。「你是谁」更多由节点（神经元本身）决定，还是由边（它们的连接方式）决定？</div>
-  </div>
+<div class="card" data-tts="701ea83157ee681b">
+<h2>图：节点与边</h2>
+<div class="en-name">Graph: Nodes &amp; Edges · 关系的最小骨架</div>
+<span class="tag">Discrete Math</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>把任何「东西之间有关系」的系统抽掉一切多余细节，只留下两样：<strong>谁</strong>（节点）和<strong>谁连着谁</strong>（边）。地铁图是经典——它谎报了距离、方向、真实地理，却精确保留了「哪一站能到哪一站」。这种「故意忘掉几何、只记住连接」就是图论的核心动作。<br/><br/>所以一张图<strong>不是一幅画，而是一组关系</strong>。同一组关系画成什么形状都算同一张图：图论只关心拓扑（怎么连），不关心摆位（画在哪）。下图左右两块，正是同一张图的两种画法。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 380 170" xmlns="http://www.w3.org/2000/svg">
+<g stroke="#3a6088" stroke-width="1.6">
+<!-- 左：方形布局 -->
+<line x1="40" x2="130" y1="40" y2="40"></line>
+<line x1="40" x2="40" y1="40" y2="130"></line>
+<line x1="40" x2="130" y1="40" y2="130"></line>
+<line x1="130" x2="130" y1="40" y2="130"></line>
+</g>
+<g fill="#1e3a5f">
+<circle cx="40" cy="40" r="9"></circle><circle cx="130" cy="40" r="9"></circle>
+<circle cx="130" cy="130" r="9"></circle><circle cx="40" cy="130" r="9"></circle>
+</g>
+<g fill="#fff" font-family="Georgia" font-size="11" text-anchor="middle">
+<text x="40" y="44">1</text><text x="130" y="44">2</text>
+<text x="130" y="134">3</text><text x="40" y="134">4</text>
+</g>
+<text fill="#5a7090" font-size="10" font-style="italic" text-anchor="middle" x="85" y="162">方形布局</text>
+<!-- 中线 -->
+<line stroke="#d0d8e2" stroke-dasharray="3 3" stroke-width="1" x1="200" x2="200" y1="20" y2="150"></line>
+<!-- 右：星形布局，同一组连接 -->
+<g stroke="#c9544a" stroke-width="1.6">
+<line x1="300" x2="250" y1="85" y2="40"></line>
+<line x1="300" x2="300" y1="85" y2="145"></line>
+<line x1="300" x2="350" y1="85" y2="85"></line>
+<line x1="250" x2="350" y1="40" y2="85"></line>
+</g>
+<g fill="#1e3a5f">
+<circle cx="300" cy="85" r="9"></circle><circle cx="250" cy="40" r="9"></circle>
+<circle cx="350" cy="85" r="9"></circle><circle cx="300" cy="145" r="9"></circle>
+</g>
+<g fill="#fff" font-family="Georgia" font-size="11" text-anchor="middle">
+<text x="300" y="89">1</text><text x="250" y="44">2</text>
+<text x="350" y="89">3</text><text x="300" y="149">4</text>
+</g>
+<text fill="#5a7090" font-size="10" font-style="italic" text-anchor="middle" x="300" y="167">星形布局 · 同一张图</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$G=(V,E),\quad E\subseteq V\times V,\quad \deg(v)=$ 连到 $v$ 的边数</div>
+<p><strong>$V$</strong> 是节点集合，<strong>$E$</strong> 是边集合（节点的配对）。$\deg(v)$ 叫节点 $v$ 的<strong>度</strong>——它身上插了几条边。边可带方向（有向图）、可带数字（带权图）。整套图论就建在这一对集合上。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>图是「关系」这个抽象概念的<strong>最小数学骨架</strong>。惊人之处在普适：社交网络、分子结构、互联网、神经元、论文引用、棋局状态，剥掉表象后都是同一种对象。一旦翻译成图，关于「连通」「最短」「环」的定理立刻通用——这正是数学的核心魔法：<em>找到正确的抽象层，一个证明照亮一千个领域</em>。最朴素的例子是握手引理 $\sum_v \deg(v)=2|E|$：每条边给两端各贡献 1 个度，于是<strong>奇度节点必成对出现</strong>。一句几乎显然的话，却是下一个概念的钥匙。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>编译器把程序建成依赖图做<strong>拓扑排序</strong>定编译顺序；Google 的 PageRank 把网页链接看成图上的随机游走来排序；<strong>图神经网络（GNN）</strong>直接在图结构上做深度学习，用于药物分子性质预测与推荐系统；分布式系统的死锁检测、区块链的一致性，本质都是图上的环检测与连通性问题。</p>
+</div>
+<div class="section">
+<div class="essence"><strong>一句话精华：</strong>图论的第一步，是有勇气扔掉一张地图上除了「连接」之外的一切。</div>
+<div class="label" style="margin-top:14px">思考题</div>
+<div class="think">你的大脑约 860 亿神经元、上百万亿突触，本身就是一张巨型图。「你是谁」更多由节点（神经元本身）决定，还是由边（它们的连接方式）决定？</div>
+</div>
+</div>
 <!-- 概念 2：七桥问题与欧拉路径 -->
-<div class="card">
-  <h2>七桥问题与欧拉路径</h2>
-  <div class="en-name">Königsberg Bridges &amp; Eulerian Paths · 图论的诞生</div>
-  <span class="tag">Topology</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>1736 年，哥尼斯堡有七座桥连着两岸与两座小岛。市民的消遣：<strong>能否走一圈，每座桥恰好过一次？</strong>欧拉没有去穷举所有路线，而是问了个更深的问题——什么样的结构才<em>可能</em>？<br><br>他的洞察简单得惊人：走路时，每当你「进入」一块陆地，就必须有另一座桥让你「走出去」。桥总是成对地被用掉。所以除了起点和终点，<strong>每块陆地碰到的桥数（度）必须是偶数</strong>，否则你迟早被困在那里出不来。而哥尼斯堡四块陆地的桥数全是奇数——于是根本不可能。不必试，结构本身就否决了它。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 360 180" xmlns="http://www.w3.org/2000/svg">
-      <!-- 节点：N上岸 S下岸 A中岛 B右岛 -->
-      <g stroke="#3a6088" stroke-width="1.5" fill="none">
-        <!-- A-N 两座桥 -->
-        <path d="M 130 90 Q 100 55 130 30"/>
-        <path d="M 130 90 Q 160 55 130 30"/>
-        <!-- A-S 两座桥 -->
-        <path d="M 130 90 Q 100 125 130 150"/>
-        <path d="M 130 90 Q 160 125 130 150"/>
-        <!-- A-B 一座桥 -->
-        <line x1="130" y1="90" x2="250" y2="90"/>
-        <!-- B-N 一座桥 -->
-        <line x1="250" y1="90" x2="130" y2="30"/>
-        <!-- B-S 一座桥 -->
-        <line x1="250" y1="90" x2="130" y2="150"/>
-      </g>
-      <g fill="#1e3a5f">
-        <circle cx="130" cy="30" r="13"/><circle cx="130" cy="150" r="13"/>
-        <circle cx="130" cy="90" r="13"/><circle cx="250" cy="90" r="13"/>
-      </g>
-      <g fill="#fff" font-size="12" text-anchor="middle" font-family="Georgia">
-        <text x="130" y="34">N</text><text x="130" y="154">S</text>
-        <text x="130" y="94">A</text><text x="250" y="94">B</text>
-      </g>
-      <g fill="#c9544a" font-size="10" text-anchor="middle" font-style="italic">
-        <text x="130" y="14">度 3</text><text x="130" y="174">度 3</text>
-        <text x="95" y="94">度 5</text><text x="250" y="74">度 3</text>
-      </g>
-      <text x="300" y="160" font-size="10" fill="#5a7090" text-anchor="middle">四点全奇 → 无解</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <div class="formula-box">连通图有<strong>欧拉路径</strong> $\iff$ 奇度节点数 $=0$ 或 $2$</div>
-    <p>欧拉路径 = 每条边恰好走一次的路。若奇度节点为 0，可以回到起点（<strong>欧拉回路</strong>）；为 2 时，这两个奇度点只能当起点和终点。多于 2 个奇度点，无解。哥尼斯堡有 4 个奇度点，故注定失败。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>这是<strong>拓扑学的诞生时刻</strong>。欧拉证明了答案与桥的长度、岛的形状、地理位置<em>全无关</em>，只取决于连接的奇偶性。一个看似几何的问题，谜底竟是纯粹的组合奇偶——这就是莱布尼茨设想的「位置几何」（analysis situs），后世的拓扑学。它示范了数学最优雅的一招：<strong>把「搜索」变成「判据」</strong>，把指数级的试错坍缩成一句能在 $O(V+E)$ 时间内验证的话。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>欧拉回路是「一笔画」的数学，直接用于电路板布线、邮递员路线、3D 打印喷头路径优化。最深刻的应用在生物：<strong>DNA 测序</strong>把海量短片段建成 de Bruijn 图，重建完整基因组的问题正是「找一条欧拉路径」——现代基因组拼接算法的核心。中国邮递员问题则是它的带权推广。</p>
-  </div>
-
-  <div class="section">
-    <div class="essence"><strong>一句话精华：</strong>欧拉的天才不在于走遍七桥，而在于证明根本不必走——奇偶性早已写好了答案。</div>
-    <div class="label" style="margin-top:14px">思考题</div>
-    <div class="think">欧拉路径（每条边走一次）有这条简洁判据，但极其相似的<strong>哈密顿路径</strong>（每个节点访问一次）却是 NP 完全、至今没有已知的高效判据。为什么「边」比「点」温柔这么多？</div>
-  </div>
+<div class="card" data-tts="07bc0f30a2467071">
+<h2>七桥问题与欧拉路径</h2>
+<div class="en-name">Königsberg Bridges &amp; Eulerian Paths · 图论的诞生</div>
+<span class="tag">Topology</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>1736 年，哥尼斯堡有七座桥连着两岸与两座小岛。市民的消遣：<strong>能否走一圈，每座桥恰好过一次？</strong>欧拉没有去穷举所有路线，而是问了个更深的问题——什么样的结构才<em>可能</em>？<br/><br/>他的洞察简单得惊人：走路时，每当你「进入」一块陆地，就必须有另一座桥让你「走出去」。桥总是成对地被用掉。所以除了起点和终点，<strong>每块陆地碰到的桥数（度）必须是偶数</strong>，否则你迟早被困在那里出不来。而哥尼斯堡四块陆地的桥数全是奇数——于是根本不可能。不必试，结构本身就否决了它。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 360 180" xmlns="http://www.w3.org/2000/svg">
+<!-- 节点：N上岸 S下岸 A中岛 B右岛 -->
+<g fill="none" stroke="#3a6088" stroke-width="1.5">
+<!-- A-N 两座桥 -->
+<path d="M 130 90 Q 100 55 130 30"></path>
+<path d="M 130 90 Q 160 55 130 30"></path>
+<!-- A-S 两座桥 -->
+<path d="M 130 90 Q 100 125 130 150"></path>
+<path d="M 130 90 Q 160 125 130 150"></path>
+<!-- A-B 一座桥 -->
+<line x1="130" x2="250" y1="90" y2="90"></line>
+<!-- B-N 一座桥 -->
+<line x1="250" x2="130" y1="90" y2="30"></line>
+<!-- B-S 一座桥 -->
+<line x1="250" x2="130" y1="90" y2="150"></line>
+</g>
+<g fill="#1e3a5f">
+<circle cx="130" cy="30" r="13"></circle><circle cx="130" cy="150" r="13"></circle>
+<circle cx="130" cy="90" r="13"></circle><circle cx="250" cy="90" r="13"></circle>
+</g>
+<g fill="#fff" font-family="Georgia" font-size="12" text-anchor="middle">
+<text x="130" y="34">N</text><text x="130" y="154">S</text>
+<text x="130" y="94">A</text><text x="250" y="94">B</text>
+</g>
+<g fill="#c9544a" font-size="10" font-style="italic" text-anchor="middle">
+<text x="130" y="14">度 3</text><text x="130" y="174">度 3</text>
+<text x="95" y="94">度 5</text><text x="250" y="74">度 3</text>
+</g>
+<text fill="#5a7090" font-size="10" text-anchor="middle" x="300" y="160">四点全奇 → 无解</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">连通图有<strong>欧拉路径</strong> $\iff$ 奇度节点数 $=0$ 或 $2$</div>
+<p>欧拉路径 = 每条边恰好走一次的路。若奇度节点为 0，可以回到起点（<strong>欧拉回路</strong>）；为 2 时，这两个奇度点只能当起点和终点。多于 2 个奇度点，无解。哥尼斯堡有 4 个奇度点，故注定失败。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>这是<strong>拓扑学的诞生时刻</strong>。欧拉证明了答案与桥的长度、岛的形状、地理位置<em>全无关</em>，只取决于连接的奇偶性。一个看似几何的问题，谜底竟是纯粹的组合奇偶——这就是莱布尼茨设想的「位置几何」（analysis situs），后世的拓扑学。它示范了数学最优雅的一招：<strong>把「搜索」变成「判据」</strong>，把指数级的试错坍缩成一句能在 $O(V+E)$ 时间内验证的话。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>欧拉回路是「一笔画」的数学，直接用于电路板布线、邮递员路线、3D 打印喷头路径优化。最深刻的应用在生物：<strong>DNA 测序</strong>把海量短片段建成 de Bruijn 图，重建完整基因组的问题正是「找一条欧拉路径」——现代基因组拼接算法的核心。中国邮递员问题则是它的带权推广。</p>
+</div>
+<div class="section">
+<div class="essence"><strong>一句话精华：</strong>欧拉的天才不在于走遍七桥，而在于证明根本不必走——奇偶性早已写好了答案。</div>
+<div class="label" style="margin-top:14px">思考题</div>
+<div class="think">欧拉路径（每条边走一次）有这条简洁判据，但极其相似的<strong>哈密顿路径</strong>（每个节点访问一次）却是 NP 完全、至今没有已知的高效判据。为什么「边」比「点」温柔这么多？</div>
+</div>
+</div>
 <!-- 概念 3：Dijkstra 最短路径 -->
-<div class="card">
-  <h2>Dijkstra 最短路径</h2>
-  <div class="en-name">Dijkstra's Shortest Path · 不后悔的贪心</div>
-  <span class="tag">Algorithms</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>想象从起点放一滴水，沿所有边按「距离」匀速向外渗透——近的先湿，远的后湿。Dijkstra 算法就是这道水波：每一步，取出当前<strong>已知最近、且尚未确定</strong>的那个节点，宣布它的最短距离已成定局，再用它去「松弛」（更新）邻居。<br><br>为什么这种贪心不会出错？关键直觉：<strong>既然所有边权非负，当前最近的待定节点，不可能再被任何更远的路径绕近</strong>——绕路只会更长。所以可以放心地锁定它，永不反悔。非负这个温和条件，恰好为贪心提供了让它成立的地基。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 360 170" xmlns="http://www.w3.org/2000/svg">
-      <!-- 水波同心圆 -->
-      <g fill="none" stroke="#9bbce0" stroke-width="1" stroke-dasharray="3 3" opacity="0.7">
-        <circle cx="50" cy="85" r="45"/><circle cx="50" cy="85" r="90"/><circle cx="50" cy="85" r="135"/>
-      </g>
-      <!-- 边与权 -->
-      <g stroke="#3a6088" stroke-width="1.4">
-        <line x1="50" y1="85" x2="160" y2="40"/>
-        <line x1="50" y1="85" x2="160" y2="135"/>
-        <line x1="160" y1="40" x2="270" y2="85"/>
-        <line x1="160" y1="135" x2="270" y2="85"/>
-        <line x1="160" y1="40" x2="160" y2="135"/>
-      </g>
-      <g fill="#8a7340" font-size="11" font-style="italic">
-        <text x="95" y="55">2</text><text x="95" y="120">5</text>
-        <text x="220" y="55">3</text><text x="220" y="120">1</text>
-        <text x="168" y="92">1</text>
-      </g>
-      <!-- 节点 -->
-      <g>
-        <circle cx="50" cy="85" r="13" fill="#c9544a"/>
-        <circle cx="160" cy="40" r="13" fill="#1e3a5f"/>
-        <circle cx="160" cy="135" r="13" fill="#1e3a5f"/>
-        <circle cx="270" cy="85" r="13" fill="#1e3a5f"/>
-      </g>
-      <g fill="#fff" font-size="11" text-anchor="middle" font-family="Georgia">
-        <text x="50" y="89">S</text><text x="160" y="44">A</text>
-        <text x="160" y="139">B</text><text x="270" y="89">T</text>
-      </g>
-      <!-- 距离标注 -->
-      <g fill="#c9544a" font-size="10" text-anchor="middle">
-        <text x="50" y="112">0</text><text x="160" y="22">2</text>
-        <text x="160" y="160">3</text><text x="290" y="78">5</text>
-      </g>
-      <text x="270" y="160" font-size="9.5" fill="#5a7090" text-anchor="middle">S→A→T=5，非走 B</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <div class="formula-box">$d[v]\leftarrow\min\big(d[v],\; d[u]+w(u,v)\big)$</div>
-    <p>$d[v]$ 是起点到 $v$ 的当前最短估计。反复取未定节点中 $d$ 最小者 $u$ 锁定，再对它每条出边 $(u,v)$ 做上面的<strong>松弛</strong>：若经 $u$ 中转更短就更新。$w$ 是边权。用优先队列实现，复杂度 $O\big((V+E)\log V\big)$。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>它把「全局最优」拆成一串「局部不后悔」的决策——<strong>贪心竟能给出全局最优解</strong>，这在算法世界里是罕见的恩赐。多数问题的贪心都会犯错，而「非负边权」这个条件恰好提供了让贪心成立的单调结构：锁定的距离再不会被推翻。更美的是它统一的视角：把优先队列的排序键一换，同一副「优先队列 + 松弛」的骨架就长出了 <strong>A\* 搜索</strong>和 <strong>Prim 最小生成树</strong>——三个经典算法，同一个灵魂。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>地图导航的路径规划内核（高德 / Google Maps，实际用 A\* 加速）；网络路由的 <strong>OSPF 协议</strong>用 Dijkstra 算最短转发路径；游戏 AI 的寻路；机器人运动规划。当边权可为负（如套利检测中的汇率对数），就得换成 Bellman-Ford——这恰恰反证了非负条件的分量。</p>
-  </div>
-
-  <div class="section">
-    <div class="essence"><strong>一句话精华：</strong>当每一步都没有回头的代价（非负权），局部最贪心的选择，累积起来恰好是全局最优。</div>
-    <div class="label" style="margin-top:14px">思考题</div>
-    <div class="think">Dijkstra 在含负权边的图上会失效。直觉上，「负权」意味着绕远反而可能更短——这破坏了哪一种单调性，让「锁定即定局」不再成立？</div>
-  </div>
+<div class="card" data-tts="6229813bb411a764">
+<h2>Dijkstra 最短路径</h2>
+<div class="en-name">Dijkstra's Shortest Path · 不后悔的贪心</div>
+<span class="tag">Algorithms</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>想象从起点放一滴水，沿所有边按「距离」匀速向外渗透——近的先湿，远的后湿。Dijkstra 算法就是这道水波：每一步，取出当前<strong>已知最近、且尚未确定</strong>的那个节点，宣布它的最短距离已成定局，再用它去「松弛」（更新）邻居。<br/><br/>为什么这种贪心不会出错？关键直觉：<strong>既然所有边权非负，当前最近的待定节点，不可能再被任何更远的路径绕近</strong>——绕路只会更长。所以可以放心地锁定它，永不反悔。非负这个温和条件，恰好为贪心提供了让它成立的地基。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 360 170" xmlns="http://www.w3.org/2000/svg">
+<!-- 水波同心圆 -->
+<g fill="none" opacity="0.7" stroke="#9bbce0" stroke-dasharray="3 3" stroke-width="1">
+<circle cx="50" cy="85" r="45"></circle><circle cx="50" cy="85" r="90"></circle><circle cx="50" cy="85" r="135"></circle>
+</g>
+<!-- 边与权 -->
+<g stroke="#3a6088" stroke-width="1.4">
+<line x1="50" x2="160" y1="85" y2="40"></line>
+<line x1="50" x2="160" y1="85" y2="135"></line>
+<line x1="160" x2="270" y1="40" y2="85"></line>
+<line x1="160" x2="270" y1="135" y2="85"></line>
+<line x1="160" x2="160" y1="40" y2="135"></line>
+</g>
+<g fill="#8a7340" font-size="11" font-style="italic">
+<text x="95" y="55">2</text><text x="95" y="120">5</text>
+<text x="220" y="55">3</text><text x="220" y="120">1</text>
+<text x="168" y="92">1</text>
+</g>
+<!-- 节点 -->
+<g>
+<circle cx="50" cy="85" fill="#c9544a" r="13"></circle>
+<circle cx="160" cy="40" fill="#1e3a5f" r="13"></circle>
+<circle cx="160" cy="135" fill="#1e3a5f" r="13"></circle>
+<circle cx="270" cy="85" fill="#1e3a5f" r="13"></circle>
+</g>
+<g fill="#fff" font-family="Georgia" font-size="11" text-anchor="middle">
+<text x="50" y="89">S</text><text x="160" y="44">A</text>
+<text x="160" y="139">B</text><text x="270" y="89">T</text>
+</g>
+<!-- 距离标注 -->
+<g fill="#c9544a" font-size="10" text-anchor="middle">
+<text x="50" y="112">0</text><text x="160" y="22">2</text>
+<text x="160" y="160">3</text><text x="290" y="78">5</text>
+</g>
+<text fill="#5a7090" font-size="9.5" text-anchor="middle" x="270" y="160">S→A→T=5，非走 B</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$d[v]\leftarrow\min\big(d[v],\; d[u]+w(u,v)\big)$</div>
+<p>$d[v]$ 是起点到 $v$ 的当前最短估计。反复取未定节点中 $d$ 最小者 $u$ 锁定，再对它每条出边 $(u,v)$ 做上面的<strong>松弛</strong>：若经 $u$ 中转更短就更新。$w$ 是边权。用优先队列实现，复杂度 $O\big((V+E)\log V\big)$。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它把「全局最优」拆成一串「局部不后悔」的决策——<strong>贪心竟能给出全局最优解</strong>，这在算法世界里是罕见的恩赐。多数问题的贪心都会犯错，而「非负边权」这个条件恰好提供了让贪心成立的单调结构：锁定的距离再不会被推翻。更美的是它统一的视角：把优先队列的排序键一换，同一副「优先队列 + 松弛」的骨架就长出了 <strong>A\* 搜索</strong>和 <strong>Prim 最小生成树</strong>——三个经典算法，同一个灵魂。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>地图导航的路径规划内核（高德 / Google Maps，实际用 A\* 加速）；网络路由的 <strong>OSPF 协议</strong>用 Dijkstra 算最短转发路径；游戏 AI 的寻路；机器人运动规划。当边权可为负（如套利检测中的汇率对数），就得换成 Bellman-Ford——这恰恰反证了非负条件的分量。</p>
+</div>
+<div class="section">
+<div class="essence"><strong>一句话精华：</strong>当每一步都没有回头的代价（非负权），局部最贪心的选择，累积起来恰好是全局最优。</div>
+<div class="label" style="margin-top:14px">思考题</div>
+<div class="think">Dijkstra 在含负权边的图上会失效。直觉上，「负权」意味着绕远反而可能更短——这破坏了哪一种单调性，让「锁定即定局」不再成立？</div>
+</div>
+</div>
 <!-- 概念 4：网络效应数学 -->
-<div class="card">
-  <h2>网络效应数学</h2>
-  <div class="en-name">The Mathematics of Network Effects · 价值藏在边里</div>
-  <span class="tag">Complex Networks</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>一部电话毫无价值，两部能通话，一百万部就是一张网。价值不在节点本身，而在它们之间<strong>可能的连接</strong>。$n$ 个节点的潜在连接数是 $\binom{n}{2}\approx n^2/2$——所以网络价值大致随节点数的<strong>平方</strong>增长（Metcalfe 定律）。这正是「赢家通吃」的引擎：用户越多 → 连接越多 → 价值越大 → 吸引更多用户。<br><br>但真实网络绝不均匀。少数<strong>枢纽</strong>节点连着极多边，绝大多数节点只连着寥寥几条——度分布是<strong>幂律</strong>（无标度网络），像机场系统（几个超级枢纽 + 大量小机场）而非公路网（每个路口都差不多）。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 360 175" xmlns="http://www.w3.org/2000/svg">
-      <!-- 无标度网络：两个枢纽 + 大量叶子 -->
-      <g stroke="#9bbce0" stroke-width="1">
-        <line x1="120" y1="85" x2="50" y2="35"/><line x1="120" y1="85" x2="40" y2="80"/>
-        <line x1="120" y1="85" x2="55" y2="130"/><line x1="120" y1="85" x2="100" y2="150"/>
-        <line x1="120" y1="85" x2="90" y2="25"/><line x1="120" y1="85" x2="155" y2="30"/>
-        <line x1="120" y1="85" x2="240" y2="85"/>
-        <line x1="240" y1="85" x2="310" y2="40"/><line x1="240" y1="85" x2="325" y2="90"/>
-        <line x1="240" y1="85" x2="300" y2="135"/><line x1="240" y1="85" x2="245" y2="150"/>
-        <line x1="240" y1="85" x2="200" y2="40"/>
-      </g>
-      <!-- 叶子节点 -->
-      <g fill="#5a7090">
-        <circle cx="50" cy="35" r="4"/><circle cx="40" cy="80" r="4"/><circle cx="55" cy="130" r="4"/>
-        <circle cx="100" cy="150" r="4"/><circle cx="90" cy="25" r="4"/><circle cx="155" cy="30" r="4"/>
-        <circle cx="310" cy="40" r="4"/><circle cx="325" cy="90" r="4"/><circle cx="300" cy="135" r="4"/>
-        <circle cx="245" cy="150" r="4"/><circle cx="200" cy="40" r="4"/>
-      </g>
-      <!-- 两个枢纽 -->
-      <circle cx="120" cy="85" r="12" fill="#c9544a"/>
-      <circle cx="240" cy="85" r="11" fill="#c9544a"/>
-      <text x="180" y="172" font-size="10" fill="#5a7090" text-anchor="middle" font-style="italic">少数枢纽（红）+ 大量低度节点 = 无标度</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <div class="formula-box">$V_{\text{net}}\propto \binom{n}{2}\sim n^2 \qquad\qquad P(k)\sim k^{-\gamma}$</div>
-    <p>左：Metcalfe 定律，价值随节点数平方增长。右：无标度网络的度分布——度为 $k$ 的节点比例随 $k$ 按幂律衰减（$\gamma$ 常在 2 到 3 之间）。幂律没有「典型」度数：从小机场到巨型枢纽，跨越好几个数量级却服从同一条曲线——故称<strong>无标度</strong>（没有特征尺度）。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>同一条幂律 $P(k)\sim k^{-\gamma}$ 同时出现在互联网拓扑、论文引用、蛋白质相互作用、社交关注里——它揭示了一条跨领域的<strong>生成机制：优先连接</strong>（preferential attachment），即「富者愈富」，新节点更倾向连向已经热门的节点。复杂性科学最深的母题之一就藏在这里：<em>简单的局部规则（随机 + 偏好），自发涌现出全局的、可重复的统计结构</em>。Metcalfe 的 $n^2$ 讲规模，幂律的长尾讲不均，合起来道破了网络为何不像普通市场。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>平台经济（社交、支付、市场）估值的理论根基；<strong>流行病传播</strong>——无标度网络没有传播阈值，枢纽就是超级传播者，这解释了为何「优先给高连接者免疫」效率奇高；同一结构让互联网对随机故障极其鲁棒（坏的多半是低度节点），却对针对枢纽的攻击异常脆弱。理解了度分布，就理解了垄断、瘟疫与系统韧性的共同语法。</p>
-  </div>
-
-  <div class="section">
-    <div class="essence"><strong>一句话精华：</strong>网络的价值藏在边里而非点里，而边的分配极不平等——这同时解释了垄断、超级传播者与系统的脆弱。</div>
-    <div class="label" style="margin-top:14px">思考题</div>
-    <div class="think">无标度网络对随机失效极其鲁棒，却对「精准打击枢纽」极其脆弱——同一个结构既是它的强壮之源，也是它的阿喀琉斯之踵。这个权衡在金融系统的「大而不能倒」、电网、生态食物网里，是如何反复重演的？</div>
-  </div>
+<div class="card" data-tts="7291552dff2d730a">
+<h2>网络效应数学</h2>
+<div class="en-name">The Mathematics of Network Effects · 价值藏在边里</div>
+<span class="tag">Complex Networks</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>一部电话毫无价值，两部能通话，一百万部就是一张网。价值不在节点本身，而在它们之间<strong>可能的连接</strong>。$n$ 个节点的潜在连接数是 $\binom{n}{2}\approx n^2/2$——所以网络价值大致随节点数的<strong>平方</strong>增长（Metcalfe 定律）。这正是「赢家通吃」的引擎：用户越多 → 连接越多 → 价值越大 → 吸引更多用户。<br/><br/>但真实网络绝不均匀。少数<strong>枢纽</strong>节点连着极多边，绝大多数节点只连着寥寥几条——度分布是<strong>幂律</strong>（无标度网络），像机场系统（几个超级枢纽 + 大量小机场）而非公路网（每个路口都差不多）。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 360 175" xmlns="http://www.w3.org/2000/svg">
+<!-- 无标度网络：两个枢纽 + 大量叶子 -->
+<g stroke="#9bbce0" stroke-width="1">
+<line x1="120" x2="50" y1="85" y2="35"></line><line x1="120" x2="40" y1="85" y2="80"></line>
+<line x1="120" x2="55" y1="85" y2="130"></line><line x1="120" x2="100" y1="85" y2="150"></line>
+<line x1="120" x2="90" y1="85" y2="25"></line><line x1="120" x2="155" y1="85" y2="30"></line>
+<line x1="120" x2="240" y1="85" y2="85"></line>
+<line x1="240" x2="310" y1="85" y2="40"></line><line x1="240" x2="325" y1="85" y2="90"></line>
+<line x1="240" x2="300" y1="85" y2="135"></line><line x1="240" x2="245" y1="85" y2="150"></line>
+<line x1="240" x2="200" y1="85" y2="40"></line>
+</g>
+<!-- 叶子节点 -->
+<g fill="#5a7090">
+<circle cx="50" cy="35" r="4"></circle><circle cx="40" cy="80" r="4"></circle><circle cx="55" cy="130" r="4"></circle>
+<circle cx="100" cy="150" r="4"></circle><circle cx="90" cy="25" r="4"></circle><circle cx="155" cy="30" r="4"></circle>
+<circle cx="310" cy="40" r="4"></circle><circle cx="325" cy="90" r="4"></circle><circle cx="300" cy="135" r="4"></circle>
+<circle cx="245" cy="150" r="4"></circle><circle cx="200" cy="40" r="4"></circle>
+</g>
+<!-- 两个枢纽 -->
+<circle cx="120" cy="85" fill="#c9544a" r="12"></circle>
+<circle cx="240" cy="85" fill="#c9544a" r="11"></circle>
+<text fill="#5a7090" font-size="10" font-style="italic" text-anchor="middle" x="180" y="172">少数枢纽（红）+ 大量低度节点 = 无标度</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$V_{\text{net}}\propto \binom{n}{2}\sim n^2 \qquad\qquad P(k)\sim k^{-\gamma}$</div>
+<p>左：Metcalfe 定律，价值随节点数平方增长。右：无标度网络的度分布——度为 $k$ 的节点比例随 $k$ 按幂律衰减（$\gamma$ 常在 2 到 3 之间）。幂律没有「典型」度数：从小机场到巨型枢纽，跨越好几个数量级却服从同一条曲线——故称<strong>无标度</strong>（没有特征尺度）。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>同一条幂律 $P(k)\sim k^{-\gamma}$ 同时出现在互联网拓扑、论文引用、蛋白质相互作用、社交关注里——它揭示了一条跨领域的<strong>生成机制：优先连接</strong>（preferential attachment），即「富者愈富」，新节点更倾向连向已经热门的节点。复杂性科学最深的母题之一就藏在这里：<em>简单的局部规则（随机 + 偏好），自发涌现出全局的、可重复的统计结构</em>。Metcalfe 的 $n^2$ 讲规模，幂律的长尾讲不均，合起来道破了网络为何不像普通市场。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>平台经济（社交、支付、市场）估值的理论根基；<strong>流行病传播</strong>——无标度网络没有传播阈值，枢纽就是超级传播者，这解释了为何「优先给高连接者免疫」效率奇高；同一结构让互联网对随机故障极其鲁棒（坏的多半是低度节点），却对针对枢纽的攻击异常脆弱。理解了度分布，就理解了垄断、瘟疫与系统韧性的共同语法。</p>
+</div>
+<div class="section">
+<div class="essence"><strong>一句话精华：</strong>网络的价值藏在边里而非点里，而边的分配极不平等——这同时解释了垄断、超级传播者与系统的脆弱。</div>
+<div class="label" style="margin-top:14px">思考题</div>
+<div class="think">无标度网络对随机失效极其鲁棒，却对「精准打击枢纽」极其脆弱——同一个结构既是它的强壮之源，也是它的阿喀琉斯之踵。这个权衡在金融系统的「大而不能倒」、电网、生态食物网里，是如何反复重演的？</div>
+</div>
+</div>
 <div class="foot-h">深入思考</div>
-
 <details>
 <summary>「六度分隔」：为什么巨大的网络里任意两人却只隔几步？</summary>
 <div>直觉上 80 亿人的网络应该「很大」，但只要每个人有少量「远程」连接（跨地域、跨圈子的弱关系），网络直径就会从线性坍缩成对数级——这就是 Watts-Strogatz 的<strong>小世界</strong>模型：高聚类（朋友的朋友也是朋友）加上稀疏的长程捷径。Granovetter 的「弱关系的强度」恰是其社会学版本：真正缩短世界的，不是你的密友，而是那些把远方圈子接进来的桥。无标度网络里的枢纽则把这一效应再放大一层。</div>
 </details>
-
 <details>
 <summary>图同构问题的复杂度地位为何如此微妙？</summary>
 <div>「两张图是不是同一张图的不同画法」听起来简单，却长期卡在 P 与 NP 完全之间的灰色地带——既没找到多项式算法，也没证明它是 NP 完全。2015 年 Babai 给出准多项式时间算法，是复杂性理论的里程碑。它的微妙呼应了概念 1 的主题：判断「拓扑是否相同」远比画出它难，因为我们必须看穿一切布局的伪装，直抵连接的本质。</div>
 </details>
-
 <details>
 <summary>谱图论：为什么图的「特征值」能听出它的形状？</summary>
 <div>把图写成邻接矩阵或拉普拉斯矩阵，它的特征值（图谱）编码了惊人多的结构信息：第二小的特征值（代数连通度）衡量图有多「难切断」，特征值的间隙决定随机游走多快混合、社区如何划分。这把离散的图论接上了连续的线性代数与微积分——谱聚类、PageRank、扩展图（expander）全都生于此。一句话：图的「声音」（谱）几乎决定了它的「样子」。</div>
 </details>
-
 <details>
 <summary>小世界 + 无标度 + 模块化：为什么大脑、互联网、代谢网络反复收敛到同一种结构？</summary>
 <div>这些天差地别的系统，都面临同一组约束：要高效（短路径、低布线成本）、要鲁棒（容错）、要可演化（模块化便于局部修改）。在这些压力下，可行的拓扑被大幅压缩，演化与工程便不约而同地收敛到「枢纽 + 短捷径 + 模块」的混合结构。这是复杂性科学的核心猜想之一：不是巧合，而是<strong>约束之下的趋同</strong>——结构从功能需求中被反复逼出来。</div>
 </details>
-
 <nav class="bottom">
-  <a href="index.html">← 返回 Mathematics</a>
+<a href="index.html">← 返回 Mathematics</a>
 </nav>
-
 </div>
-<script src="https://hub.cissychen.com/comments.js" defer></script>
-<script src="https://hub.cissychen.com/search.js" defer></script>
-<script src="https://hub.cissychen.com/index-button.js" defer></script>
-<script src="https://hub.cissychen.com/i18n-tts.js" defer></script>
+<script defer="" src="https://hub.cissychen.com/comments.js"></script>
+<script defer="" src="https://hub.cissychen.com/search.js"></script>
+<script defer="" src="https://hub.cissychen.com/index-button.js"></script>
+<script defer="" src="https://hub.cissychen.com/i18n-tts.js"></script>
 </body>
 </html>

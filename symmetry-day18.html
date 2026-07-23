@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>对称性与 Noether 定理 · Day 18 — Mathematics</title>
 <script>
 window.MathJax = {
@@ -15,7 +16,7 @@ window.MathJax = {
 };
 </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
@@ -57,206 +58,171 @@ nav.bottom a:hover{color:#1e3a5f}
 </head>
 <body>
 <div class="container">
-
 <header>
-  <div class="kicker">Day 18 · 2026.07.10</div>
-  <h1>对称性与 Noether 定理</h1>
-  <div class="meta">Symmetry &amp; Noether's Theorem — 为什么能量守恒？答案藏在时间的对称里</div>
-  <div class="epigraph">"每一个对称背后，都站着一条守恒律。" — Emmy Noether 的定理，1918</div>
+<div class="kicker">Day 18 · 2026.07.10</div>
+<h1 data-tts="7f9c0c040b5f435b">对称性与 Noether 定理</h1>
+<div class="meta">Symmetry &amp; Noether's Theorem — 为什么能量守恒？答案藏在时间的对称里</div>
+<div class="epigraph">"每一个对称背后，都站着一条守恒律。" — Emmy Noether 的定理，1918</div>
 </header>
-
 <!-- 概念 1：对称性 -->
-<div class="card">
-  <h2>对称性</h2>
-  <div class="en-name">Symmetry · 不变，才是本质</div>
-  <span class="tag">Group Theory</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>一片六角雪花，转 60° 后你分不出它动过没有；一个圆，转任意角度都还是它自己。<strong>对称，不是「长得好看」，而是「你对它做了某个操作，却看不出区别」。</strong><br><br>这里藏着一次视角的革命：数学家不再问「这东西长什么样」，而问「我能对它做哪些操作而不改变它」。答案——那一整套「不改变它的操作」——比外形更深刻地刻画了这个对象。圆和正方形的真正区别，不在边的数目，而在：圆能被无穷多个旋转保持不变，正方形只能被 8 个。<strong>对称性把「形状」翻译成了「动作的集合」。</strong></p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
-      <!-- 正方形对称轴 -->
-      <g transform="translate(70,75)">
-        <rect x="-45" y="-45" width="90" height="90" fill="#3a6088" fill-opacity="0.12" stroke="#1e3a5f" stroke-width="1.5"/>
-        <line x1="0" y1="-58" x2="0" y2="58" stroke="#c9544a" stroke-width="0.8" stroke-dasharray="3 3"/>
-        <line x1="-58" y1="0" x2="58" y2="0" stroke="#c9544a" stroke-width="0.8" stroke-dasharray="3 3"/>
-        <line x1="-52" y1="-52" x2="52" y2="52" stroke="#c9544a" stroke-width="0.8" stroke-dasharray="3 3"/>
-        <line x1="-52" y1="52" x2="52" y2="-52" stroke="#c9544a" stroke-width="0.8" stroke-dasharray="3 3"/>
-        <text x="0" y="76" font-size="10" fill="#3a6088" text-anchor="middle">8 个对称</text>
-      </g>
-      <!-- 圆的旋转对称 -->
-      <g transform="translate(230,75)">
-        <circle cx="0" cy="0" r="45" fill="#c9a96b" fill-opacity="0.15" stroke="#1e3a5f" stroke-width="1.5"/>
-        <path d="M 30 -30 A 42 42 0 0 1 42 0" fill="none" stroke="#c9544a" stroke-width="1.4"/>
-        <polygon points="42,0 38,-6 46,-5" fill="#c9544a"/>
-        <text x="0" y="76" font-size="10" fill="#3a6088" text-anchor="middle">∞ 个旋转对称</text>
-      </g>
-      <text x="330" y="79" font-size="22" fill="#5a7090" text-anchor="middle">→ 更对称</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>若变换 $g$ 作用在对象上后对象保持不变（$g$ 让它「看不出变化」），就说该对象在 $g$ 下具有一个对称。所有这样的 $g$ 合在一起，构成一个 <strong>群</strong>——这正是下一张卡片的主角。物理学家 Hermann Weyl 一句话点破：<em>「一个东西是对称的，如果你能对它做某件事，做完后它和原来一模一样。」</em></p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>把注意力从「物体」移到「物体的对称群」，是 20 世纪数学与物理最深的一次转向。物理定律的对称尤其惊人：实验结果不因你在<strong>哪里</strong>做、<strong>朝哪个方向</strong>做、<strong>什么时候</strong>做而改变。这些「看不见的不变」，下文会揭示，正是守恒律的源头。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>晶体学用 230 种「空间群」穷尽了所有晶体的对称，这是化学的分类基石。在 AI 里，卷积神经网络的<strong>平移等变性</strong>——图像里的猫平移后仍被识别为猫——本质就是把「平移对称」硬编码进网络结构。新兴的<em>几何深度学习</em>（Geometric Deep Learning）更进一步，直接把对称群当作设计神经网络的第一性原理：数据有什么对称，网络就该尊重什么对称。</p>
-  </div>
-
-  <div class="essence">一句话精华：对称不是外形的装饰，而是<strong>「一套让对象不变的操作」</strong>——描述这套操作，比描述外形更接近本质。</div>
-  <div class="think">思考题：如果对称是「看不出区别的操作」，那么一个完全没有任何对称的对象（除了「什么都不做」），是否反而携带了最多的信息？</div>
+<div class="card" data-tts="f5ef86aa45ae23e3">
+<h2>对称性</h2>
+<div class="en-name">Symmetry · 不变，才是本质</div>
+<span class="tag">Group Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>一片六角雪花，转 60° 后你分不出它动过没有；一个圆，转任意角度都还是它自己。<strong>对称，不是「长得好看」，而是「你对它做了某个操作，却看不出区别」。</strong><br/><br/>这里藏着一次视角的革命：数学家不再问「这东西长什么样」，而问「我能对它做哪些操作而不改变它」。答案——那一整套「不改变它的操作」——比外形更深刻地刻画了这个对象。圆和正方形的真正区别，不在边的数目，而在：圆能被无穷多个旋转保持不变，正方形只能被 8 个。<strong>对称性把「形状」翻译成了「动作的集合」。</strong></p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+<!-- 正方形对称轴 -->
+<g transform="translate(70,75)">
+<rect fill="#3a6088" fill-opacity="0.12" height="90" stroke="#1e3a5f" stroke-width="1.5" width="90" x="-45" y="-45"></rect>
+<line stroke="#c9544a" stroke-dasharray="3 3" stroke-width="0.8" x1="0" x2="0" y1="-58" y2="58"></line>
+<line stroke="#c9544a" stroke-dasharray="3 3" stroke-width="0.8" x1="-58" x2="58" y1="0" y2="0"></line>
+<line stroke="#c9544a" stroke-dasharray="3 3" stroke-width="0.8" x1="-52" x2="52" y1="-52" y2="52"></line>
+<line stroke="#c9544a" stroke-dasharray="3 3" stroke-width="0.8" x1="-52" x2="52" y1="52" y2="-52"></line>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="0" y="76">8 个对称</text>
+</g>
+<!-- 圆的旋转对称 -->
+<g transform="translate(230,75)">
+<circle cx="0" cy="0" fill="#c9a96b" fill-opacity="0.15" r="45" stroke="#1e3a5f" stroke-width="1.5"></circle>
+<path d="M 30 -30 A 42 42 0 0 1 42 0" fill="none" stroke="#c9544a" stroke-width="1.4"></path>
+<polygon fill="#c9544a" points="42,0 38,-6 46,-5"></polygon>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="0" y="76">∞ 个旋转对称</text>
+</g>
+<text fill="#5a7090" font-size="22" text-anchor="middle" x="330" y="79">→ 更对称</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>若变换 $g$ 作用在对象上后对象保持不变（$g$ 让它「看不出变化」），就说该对象在 $g$ 下具有一个对称。所有这样的 $g$ 合在一起，构成一个 <strong>群</strong>——这正是下一张卡片的主角。物理学家 Hermann Weyl 一句话点破：<em>「一个东西是对称的，如果你能对它做某件事，做完后它和原来一模一样。」</em></p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>把注意力从「物体」移到「物体的对称群」，是 20 世纪数学与物理最深的一次转向。物理定律的对称尤其惊人：实验结果不因你在<strong>哪里</strong>做、<strong>朝哪个方向</strong>做、<strong>什么时候</strong>做而改变。这些「看不见的不变」，下文会揭示，正是守恒律的源头。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>晶体学用 230 种「空间群」穷尽了所有晶体的对称，这是化学的分类基石。在 AI 里，卷积神经网络的<strong>平移等变性</strong>——图像里的猫平移后仍被识别为猫——本质就是把「平移对称」硬编码进网络结构。新兴的<em>几何深度学习</em>（Geometric Deep Learning）更进一步，直接把对称群当作设计神经网络的第一性原理：数据有什么对称，网络就该尊重什么对称。</p>
+</div>
+<div class="essence">一句话精华：对称不是外形的装饰，而是<strong>「一套让对象不变的操作」</strong>——描述这套操作，比描述外形更接近本质。</div>
+<div class="think">思考题：如果对称是「看不出区别的操作」，那么一个完全没有任何对称的对象（除了「什么都不做」），是否反而携带了最多的信息？</div>
+</div>
 <!-- 概念 2：群 -->
-<div class="card">
-  <h2>群</h2>
-  <div class="en-name">Group · 对称的代数语法</div>
-  <span class="tag">Abstract Algebra</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>盯着魔方的所有拧法，你会发现三条规律：任意两步可以<strong>接起来</strong>算一步（先转右面再转上面，合起来是某一步）；每一步都能<strong>撤销</strong>（逆时针拧回去）；还有一个「<strong>什么都不做</strong>」的动作。群，就是把这三条——可复合、可撤销、有恒等——从魔方、从旋转、从整数加法里抽出来，只留下这副「骨架」。<br><br>妙处在于：一旦抽掉「具体是什么」，只留「怎么组合」，你会发现<strong>表面毫不相干的东西共享同一副骨架</strong>——因而同一个证明，一次写成，处处通用。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>群 $(G,\cdot)$ 是一个集合 $G$ 配一个「组合」运算 $\cdot$，满足四条：<br>
-    <strong>封闭</strong>——两个元素组合还在 $G$ 里；<strong>结合律</strong>——$(a\cdot b)\cdot c=a\cdot(b\cdot c)$，加括号的方式不影响结果；<strong>单位元</strong>——存在 $e$ 使 $e\cdot a=a$（就是「什么都不做」）；<strong>逆元</strong>——每个 $a$ 都有 $a^{-1}$ 使 $a\cdot a^{-1}=e$（每步都能撤销）。四条，恰好就是「对称操作」必然满足的性质。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>群论的美，是<strong>抽象的杠杆</strong>。整数加法、魔方群、分子的对称、基本粒子的分类——外表毫无关系，内里是同一个结构。19 世纪少年 Galois 正是用群，证明了「五次以上方程没有根式解」——不是没人聪明到解出来，而是它的对称群结构上就不允许。这是数学第一次用「结构」回答「不可能」。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>粒子物理的标准模型，骨架就是一个对称群 $SU(3)\times SU(2)\times U(1)$——夸克、电子、光子如何相互作用，全由这个群决定。椭圆曲线上的点构成群，撑起了现代公钥密码（比特币的签名即用此）。纠错码、化学光谱、魔方最优解算法，背后都是群。<strong>凡是「对称」出现的地方，群就是它的数学语言。</strong></p>
-  </div>
-
-  <div class="essence">一句话精华：群抽掉了「是什么」，只留「怎么组合」——于是<strong>一个结构，同时是旋转、是加法、是粒子对称</strong>。</div>
-  <div class="think">思考题：为什么「结合律」这条看似平凡的规则如此关键？如果去掉它，「复合多个对称操作」这件事还能有唯一确定的意义吗？</div>
+<div class="card" data-tts="83aeda950d4ca5f0">
+<h2>群</h2>
+<div class="en-name">Group · 对称的代数语法</div>
+<span class="tag">Abstract Algebra</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>盯着魔方的所有拧法，你会发现三条规律：任意两步可以<strong>接起来</strong>算一步（先转右面再转上面，合起来是某一步）；每一步都能<strong>撤销</strong>（逆时针拧回去）；还有一个「<strong>什么都不做</strong>」的动作。群，就是把这三条——可复合、可撤销、有恒等——从魔方、从旋转、从整数加法里抽出来，只留下这副「骨架」。<br/><br/>妙处在于：一旦抽掉「具体是什么」，只留「怎么组合」，你会发现<strong>表面毫不相干的东西共享同一副骨架</strong>——因而同一个证明，一次写成，处处通用。</p>
 </div>
-
+<div class="section">
+<div class="label">正式定义</div>
+<p>群 $(G,\cdot)$ 是一个集合 $G$ 配一个「组合」运算 $\cdot$，满足四条：<br/>
+<strong>封闭</strong>——两个元素组合还在 $G$ 里；<strong>结合律</strong>——$(a\cdot b)\cdot c=a\cdot(b\cdot c)$，加括号的方式不影响结果；<strong>单位元</strong>——存在 $e$ 使 $e\cdot a=a$（就是「什么都不做」）；<strong>逆元</strong>——每个 $a$ 都有 $a^{-1}$ 使 $a\cdot a^{-1}=e$（每步都能撤销）。四条，恰好就是「对称操作」必然满足的性质。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>群论的美，是<strong>抽象的杠杆</strong>。整数加法、魔方群、分子的对称、基本粒子的分类——外表毫无关系，内里是同一个结构。19 世纪少年 Galois 正是用群，证明了「五次以上方程没有根式解」——不是没人聪明到解出来，而是它的对称群结构上就不允许。这是数学第一次用「结构」回答「不可能」。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>粒子物理的标准模型，骨架就是一个对称群 $SU(3)\times SU(2)\times U(1)$——夸克、电子、光子如何相互作用，全由这个群决定。椭圆曲线上的点构成群，撑起了现代公钥密码（比特币的签名即用此）。纠错码、化学光谱、魔方最优解算法，背后都是群。<strong>凡是「对称」出现的地方，群就是它的数学语言。</strong></p>
+</div>
+<div class="essence">一句话精华：群抽掉了「是什么」，只留「怎么组合」——于是<strong>一个结构，同时是旋转、是加法、是粒子对称</strong>。</div>
+<div class="think">思考题：为什么「结合律」这条看似平凡的规则如此关键？如果去掉它，「复合多个对称操作」这件事还能有唯一确定的意义吗？</div>
+</div>
 <!-- 概念 3：最小作用量与 Lagrangian -->
-<div class="card">
-  <h2>最小作用量原理</h2>
-  <div class="en-name">Least Action &amp; the Lagrangian · 自然界的「最省」</div>
-  <span class="tag">Analytical Mechanics</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>光从空气射入水中会拐个弯——它走的是「用时最短」的路径（费马原理）。把这思想推到极致：<strong>自然界的一切运动都像在「最省」。</strong> 在所有想象得到的路径里，真实发生的那一条，让一个叫「<strong>作用量</strong>」的总账取到极值。<br><br>这和牛顿的世界观截然不同。牛顿说：此刻受这个力，于是下一刻这样动——因果一步步推。最小作用量却说：<strong>整条路径被「一次性」选出来</strong>，仿佛粒子出发前就比较了所有走法、挑了最优的那条。两种图景，同一套物理。</p>
-  </div>
-
-  <div class="viz">
-    <svg viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="40" cy="110" r="4" fill="#1e3a5f"/>
-      <text x="30" y="128" font-size="11" fill="#3a6088">A</text>
-      <circle cx="340" cy="40" r="4" fill="#1e3a5f"/>
-      <text x="345" y="44" font-size="11" fill="#3a6088">B</text>
-      <!-- 备选路径（虚线） -->
-      <path d="M 40 110 Q 120 20 340 40" fill="none" stroke="#b0b8c4" stroke-width="1" stroke-dasharray="4 3"/>
-      <path d="M 40 110 Q 260 140 340 40" fill="none" stroke="#b0b8c4" stroke-width="1" stroke-dasharray="4 3"/>
-      <path d="M 40 110 Q 190 30 340 40" fill="none" stroke="#b0b8c4" stroke-width="1" stroke-dasharray="4 3"/>
-      <!-- 真实路径（实线红） -->
-      <path d="M 40 110 Q 190 95 340 40" fill="none" stroke="#c9544a" stroke-width="2.2"/>
-      <text x="185" y="118" font-size="11" fill="#c9544a" font-style="italic">真实路径：δS = 0</text>
-      <text x="150" y="35" font-size="10" fill="#8a92a0">备选路径</text>
-    </svg>
-  </div>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>定义作用量 $S=\displaystyle\int_{t_1}^{t_2} L\,dt$，其中 <strong>Lagrangian</strong> $L=T-V$（动能减去势能）。真实路径满足<strong>驻定条件</strong> $\delta S=0$：微微扰动路径，作用量在一阶不变（如同山顶或谷底，斜率为零）。由它可推出 <strong>Euler–Lagrange 方程</strong>
-    </p>
-    <div class="formula-box">$\dfrac{d}{dt}\dfrac{\partial L}{\partial \dot q}-\dfrac{\partial L}{\partial q}=0$</div>
-    <p>其中 $q$ 是位置、$\dot q$ 是速度。对最简单的 $L=\tfrac12 m\dot q^2-V(q)$，这个方程算出来<strong>正是牛顿第二定律</strong> $m\ddot q=-\partial V/\partial q$。同一个物理，换了副面孔。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>Lagrangian 形式有个牛顿没有的天赋：<strong>它不在乎你用什么坐标</strong>（直角、极坐标、任意曲线坐标都同一个方程）。正因为它是「坐标无关」的，它天然能和「对称性」对话——你问「哪个变换让 $S$ 不变」，它立刻能回答。这正是通往 Noether 的那扇门。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>广义相对论中，行星沿测地线运动，就是作用量取极值；量子场论的<em>费曼路径积分</em>更激进——粒子「真的」同时尝试所有路径，各路径按作用量加权叠加。工程上的最优控制、机器人轨迹规划，用的是同一套变分思想：定义一个「代价」，求让它极小的路径。</p>
-  </div>
-
-  <div class="essence">一句话精华：牛顿讲「局部的因果一步步推」，Lagrangian 讲「整条路径的全局最优」——<strong>数学等价，直觉相反</strong>。</div>
-  <div class="think">思考题：粒子并没有「大脑」去比较所有路径，为什么它却总能「选中」作用量极值的那条？路径积分给了怎样一个不需要「选择」的解释？</div>
+<div class="card" data-tts="825694aa9542e1c7">
+<h2>最小作用量原理</h2>
+<div class="en-name">Least Action &amp; the Lagrangian · 自然界的「最省」</div>
+<span class="tag">Analytical Mechanics</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>光从空气射入水中会拐个弯——它走的是「用时最短」的路径（费马原理）。把这思想推到极致：<strong>自然界的一切运动都像在「最省」。</strong> 在所有想象得到的路径里，真实发生的那一条，让一个叫「<strong>作用量</strong>」的总账取到极值。<br/><br/>这和牛顿的世界观截然不同。牛顿说：此刻受这个力，于是下一刻这样动——因果一步步推。最小作用量却说：<strong>整条路径被「一次性」选出来</strong>，仿佛粒子出发前就比较了所有走法、挑了最优的那条。两种图景，同一套物理。</p>
 </div>
-
+<div class="viz">
+<svg viewbox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+<circle cx="40" cy="110" fill="#1e3a5f" r="4"></circle>
+<text fill="#3a6088" font-size="11" x="30" y="128">A</text>
+<circle cx="340" cy="40" fill="#1e3a5f" r="4"></circle>
+<text fill="#3a6088" font-size="11" x="345" y="44">B</text>
+<!-- 备选路径（虚线） -->
+<path d="M 40 110 Q 120 20 340 40" fill="none" stroke="#b0b8c4" stroke-dasharray="4 3" stroke-width="1"></path>
+<path d="M 40 110 Q 260 140 340 40" fill="none" stroke="#b0b8c4" stroke-dasharray="4 3" stroke-width="1"></path>
+<path d="M 40 110 Q 190 30 340 40" fill="none" stroke="#b0b8c4" stroke-dasharray="4 3" stroke-width="1"></path>
+<!-- 真实路径（实线红） -->
+<path d="M 40 110 Q 190 95 340 40" fill="none" stroke="#c9544a" stroke-width="2.2"></path>
+<text fill="#c9544a" font-size="11" font-style="italic" x="185" y="118">真实路径：δS = 0</text>
+<text fill="#8a92a0" font-size="10" x="150" y="35">备选路径</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>定义作用量 $S=\displaystyle\int_{t_1}^{t_2} L\,dt$，其中 <strong>Lagrangian</strong> $L=T-V$（动能减去势能）。真实路径满足<strong>驻定条件</strong> $\delta S=0$：微微扰动路径，作用量在一阶不变（如同山顶或谷底，斜率为零）。由它可推出 <strong>Euler–Lagrange 方程</strong>
+</p>
+<div class="formula-box">$\dfrac{d}{dt}\dfrac{\partial L}{\partial \dot q}-\dfrac{\partial L}{\partial q}=0$</div>
+<p>其中 $q$ 是位置、$\dot q$ 是速度。对最简单的 $L=\tfrac12 m\dot q^2-V(q)$，这个方程算出来<strong>正是牛顿第二定律</strong> $m\ddot q=-\partial V/\partial q$。同一个物理，换了副面孔。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>Lagrangian 形式有个牛顿没有的天赋：<strong>它不在乎你用什么坐标</strong>（直角、极坐标、任意曲线坐标都同一个方程）。正因为它是「坐标无关」的，它天然能和「对称性」对话——你问「哪个变换让 $S$ 不变」，它立刻能回答。这正是通往 Noether 的那扇门。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>广义相对论中，行星沿测地线运动，就是作用量取极值；量子场论的<em>费曼路径积分</em>更激进——粒子「真的」同时尝试所有路径，各路径按作用量加权叠加。工程上的最优控制、机器人轨迹规划，用的是同一套变分思想：定义一个「代价」，求让它极小的路径。</p>
+</div>
+<div class="essence">一句话精华：牛顿讲「局部的因果一步步推」，Lagrangian 讲「整条路径的全局最优」——<strong>数学等价，直觉相反</strong>。</div>
+<div class="think">思考题：粒子并没有「大脑」去比较所有路径，为什么它却总能「选中」作用量极值的那条？路径积分给了怎样一个不需要「选择」的解释？</div>
+</div>
 <!-- 概念 4：Noether 定理 -->
-<div class="card">
-  <h2>Noether 定理</h2>
-  <div class="en-name">Noether's Theorem · 对称与守恒，本是一回事</div>
-  <span class="tag">Mathematical Physics · 皇冠</span>
-
-  <div class="section">
-    <div class="label">直觉版</div>
-    <p>为什么能量守恒？不是巧合，不是实验碰巧凑出来的规律。1918 年，Emmy Noether 证明了一件震撼的事：<strong>每一个连续对称，都精确对应一条守恒律。</strong><br><br>物理定律不随<strong>时间</strong>改变——今天做的实验，明年重做结果一样——这条时间平移对称，正是<strong>能量守恒</strong>的根。定律不随<strong>位置</strong>改变 → <strong>动量守恒</strong>。不随<strong>方向</strong>改变（空间各向同性）→ <strong>角动量守恒</strong>。守恒律从此不再是一条条孤立的经验事实，而是<strong>时空对称投下的影子</strong>。</p>
-  </div>
-
-  <table class="ntable">
-    <tr><th>连续对称</th><th>守恒量</th></tr>
-    <tr><td>时间平移（何时做实验无关）</td><td>能量</td></tr>
-    <tr><td>空间平移（在哪做实验无关）</td><td>动量</td></tr>
-    <tr><td>旋转（朝哪个方向无关）</td><td>角动量</td></tr>
-    <tr><td>相位对称（量子波函数的相位）</td><td>电荷</td></tr>
-  </table>
-
-  <div class="section">
-    <div class="label">正式定义</div>
-    <p>若作用量 $S$ 在某个<strong>连续</strong>变换群下保持不变，则必存在一个守恒流 $j^\mu$，满足 $\partial_\mu j^\mu=0$——由它积出的「荷」不随时间变化，$\dfrac{dQ}{dt}=0$。关键词是「连续」：变换要能被一个连续参数（如角度、位移）平滑地调节，也就是构成一个<strong>李群</strong>。离散对称（如镜像）不在此定理管辖之内。</p>
-  </div>
-
-  <div class="section">
-    <div class="label">为什么美</div>
-    <p>这是数学史上最深刻的定理之一。它把两样看似风马牛不相及的东西——<strong>几何上的「对称」和物理上的「守恒」——证明为同一枚硬币的两面。</strong> 守恒定律曾被当作独立的自然律，一条条从实验里总结；Noether 一举揭示它们<strong>全都发源于时空的对称结构</strong>。Feynman 说：「对物理学家而言，这简直令人瞠目。」</p>
-  </div>
-
-  <div class="section">
-    <div class="label">应用</div>
-    <p>Noether 定理是现代物理的<strong>操作系统</strong>：物理学家先假设一个对称群，定理便自动交出对应的守恒量，反过来指导理论构造。把「相位对称」升级为<strong>局域（规范）对称</strong>，Noether 逻辑会「逼」出电磁力乃至整个标准模型的相互作用。在 AI 中，<em>等变神经网络</em>沿用同一思想：让网络内建物理对称，可守恒的自由度就无需从数据里苦学——这正是 AlphaFold、分子性质预测样本效率惊人的原因之一。</p>
-  </div>
-
-  <div class="essence">一句话精华：守恒律不是自然的「规定」，而是<strong>对称性的必然推论</strong>——问「什么守恒」，先问「什么对称」。</div>
-  <div class="think">思考题：如果宇宙在极早期时间平移对称被破坏（膨胀使空间不断变化），那么在宇宙尺度上「能量守恒」还严格成立吗？</div>
+<div class="card" data-tts="4b8cf8bb4e7e4bb9">
+<h2>Noether 定理</h2>
+<div class="en-name">Noether's Theorem · 对称与守恒，本是一回事</div>
+<span class="tag">Mathematical Physics · 皇冠</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>为什么能量守恒？不是巧合，不是实验碰巧凑出来的规律。1918 年，Emmy Noether 证明了一件震撼的事：<strong>每一个连续对称，都精确对应一条守恒律。</strong><br/><br/>物理定律不随<strong>时间</strong>改变——今天做的实验，明年重做结果一样——这条时间平移对称，正是<strong>能量守恒</strong>的根。定律不随<strong>位置</strong>改变 → <strong>动量守恒</strong>。不随<strong>方向</strong>改变（空间各向同性）→ <strong>角动量守恒</strong>。守恒律从此不再是一条条孤立的经验事实，而是<strong>时空对称投下的影子</strong>。</p>
 </div>
-
+<table class="ntable">
+<tr><th>连续对称</th><th>守恒量</th></tr>
+<tr><td>时间平移（何时做实验无关）</td><td>能量</td></tr>
+<tr><td>空间平移（在哪做实验无关）</td><td>动量</td></tr>
+<tr><td>旋转（朝哪个方向无关）</td><td>角动量</td></tr>
+<tr><td>相位对称（量子波函数的相位）</td><td>电荷</td></tr>
+</table>
+<div class="section">
+<div class="label">正式定义</div>
+<p>若作用量 $S$ 在某个<strong>连续</strong>变换群下保持不变，则必存在一个守恒流 $j^\mu$，满足 $\partial_\mu j^\mu=0$——由它积出的「荷」不随时间变化，$\dfrac{dQ}{dt}=0$。关键词是「连续」：变换要能被一个连续参数（如角度、位移）平滑地调节，也就是构成一个<strong>李群</strong>。离散对称（如镜像）不在此定理管辖之内。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>这是数学史上最深刻的定理之一。它把两样看似风马牛不相及的东西——<strong>几何上的「对称」和物理上的「守恒」——证明为同一枚硬币的两面。</strong> 守恒定律曾被当作独立的自然律，一条条从实验里总结；Noether 一举揭示它们<strong>全都发源于时空的对称结构</strong>。Feynman 说：「对物理学家而言，这简直令人瞠目。」</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>Noether 定理是现代物理的<strong>操作系统</strong>：物理学家先假设一个对称群，定理便自动交出对应的守恒量，反过来指导理论构造。把「相位对称」升级为<strong>局域（规范）对称</strong>，Noether 逻辑会「逼」出电磁力乃至整个标准模型的相互作用。在 AI 中，<em>等变神经网络</em>沿用同一思想：让网络内建物理对称，可守恒的自由度就无需从数据里苦学——这正是 AlphaFold、分子性质预测样本效率惊人的原因之一。</p>
+</div>
+<div class="essence">一句话精华：守恒律不是自然的「规定」，而是<strong>对称性的必然推论</strong>——问「什么守恒」，先问「什么对称」。</div>
+<div class="think">思考题：如果宇宙在极早期时间平移对称被破坏（膨胀使空间不断变化），那么在宇宙尺度上「能量守恒」还严格成立吗？</div>
+</div>
 <div class="deep-title">— 深入思考 —</div>
-
 <details><summary>连续对称给守恒律，那离散对称给什么？</summary>
 <div>Noether 定理只管<strong>连续</strong>对称（李群），因为它需要一个能无限微调的参数来构造守恒流。离散对称——如空间反射（宇称 P）、时间反演（T）——不给连续守恒量，而给出<strong>乘性量子数</strong>与选择定则。更微妙的是：1956 年吴健雄实验证明弱相互作用中<strong>宇称不守恒</strong>，震动了「对称必然成立」的信念。对称是强有力的假设，但大自然保留了打破它的权利。</div></details>
-
 <details><summary>什么是「对称性自发破缺」？</summary>
 <div>定律对称，不等于状态对称。一支竖直的铅笔，方程左右对称，可它一旦倒下必朝某个具体方向——对称的定律，选出了不对称的态。这就是<strong>自发对称破缺</strong>。它解释了磁体为何有确定的南北极、宇宙为何不是均匀一团。Higgs 机制正是真空发生对称破缺，赋予基本粒子质量——2012 年 Higgs 玻色子的发现，是对这一图景的直接确认。对称，有时以「被打破」的方式显现威力。</div></details>
-
 <details><summary>「规范对称」为什么被称为现代物理的引擎？</summary>
 <div>把一个<strong>全局</strong>对称（处处同步变换）升级成<strong>局域</strong>对称（每一点可独立变换），方程会「破」；为了修补它，必须引入一个新场——而这个场，恰恰就是<strong>相互作用力</strong>本身。要求电子波函数有局域相位对称，电磁场就被「逼」了出来；推广到 $SU(3)\times SU(2)\times U(1)$，强、弱、电磁三种力一并现身。物理学家因此说：<strong>力，是对称性的代价。</strong> 这是 20 世纪最深的物理洞见之一。</div></details>
-
 <details><summary>Noether 定理和机器学习真有关系，还是牵强类比？</summary>
 <div>有真实的数学联系。若数据带有已知对称（图像的平移、分子的三维旋转、图的节点置换），把这份对称作为<strong>先验</strong>硬编码进网络（等变性），等价于告诉模型「这些方向不必学习」——自由度减少，样本效率上升，泛化更好。CNN 的平移等变、图神经网络的置换等变、AlphaFold 对三维旋转的等变，都是此思想的产物。区别在于：物理里对称<em>产生</em>守恒量，ML 里我们<em>利用</em>对称削减待学的参数。</div></details>
-
 <details><summary>对称性是发现的，还是我们强加给自然的？</summary>
 <div>这触及数学哲学的核心。一派认为对称是自然的客观结构，我们只是发现它（时间平移对称是宇宙的事实）；另一派认为对称常是我们为「组织经验」而选的框架，是描述的经济性而非世界的本体。有趣的是，现代物理越来越把对称当作<strong>第一性原理</strong>——不是从现象归纳出对称，而是先假定对称、再推演现象。这种「以对称为公理」的方法论异常成功，却也让「对称究竟是发现还是发明」这个古老问题愈发尖锐。</div></details>
-
 </div>
-<script src="https://hub.cissychen.com/comments.js" defer></script>
-<script src="https://hub.cissychen.com/search.js" defer></script>
-<script src="https://hub.cissychen.com/index-button.js" defer></script>
-<script src="https://hub.cissychen.com/i18n-tts.js" defer></script>
+<script defer="" src="https://hub.cissychen.com/comments.js"></script>
+<script defer="" src="https://hub.cissychen.com/search.js"></script>
+<script defer="" src="https://hub.cissychen.com/index-button.js"></script>
+<script defer="" src="https://hub.cissychen.com/i18n-tts.js"></script>
 </body>
 </html>
