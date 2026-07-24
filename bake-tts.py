@@ -112,15 +112,15 @@ def normalize_for_tts(text: str) -> str:
     # Inline / block LaTeX ($...$, $$...$$) reads as gibberish; swap the math
     # for a short spoken placeholder so the sentence still flows.
     import re as _re0
-    text = _re0.sub(r"\$\$.+?\$\$", "（公式）", text, flags=_re0.S)
-    text = _re0.sub(r"\\\[.+?\\\]", "（公式）", text, flags=_re0.S)
-    text = _re0.sub(r"\\\(.+?\\\)", "（公式）", text)
+    text = _re0.sub(r"\$\$.+?\$\$", "", text, flags=_re0.S)
+    text = _re0.sub(r"\\\[.+?\\\]", "", text, flags=_re0.S)
+    text = _re0.sub(r"\\\(.+?\\\)", "", text)
     def _inline_math(mm):
         inner = mm.group(1).strip()
         # LaTeX markup (backslash cmd, _, ^, {}) → formula, even if CJK inside
         # (e.g. $\forall x\text{爱}(x,y)$).
         if _re0.search(r"[\\_^{}]", inner):
-            return "（公式）"
+            return ""
         # pure number in dollars ($10000$) → read the number, drop delimiters
         if _re0.fullmatch(r"[0-9][0-9,\.]*", inner):
             return inner
@@ -128,9 +128,14 @@ def normalize_for_tts(text: str) -> str:
         if _re0.fullmatch(r"[A-Za-z\u0370-\u03ff][A-Za-z0-9,\.\s\u0370-\u03ff]{0,10}", inner):
             return inner
         # anything else between $…$ is a formula (O(n), \frac, subscripts…)
-        return "（公式）"
+        return ""
     text = _re0.sub(r"\$([^$\n]{1,240}?)\$", _inline_math, text)
     text = text.replace("$", "")  # drop any stray dollar left by malformed source
+    # Removing a formula can leave dangling punctuation ("套娃：。") or double
+    # spaces; tidy so the sentence reads smoothly.
+    text = _re0.sub(r"[：:，,]\s*(?=[。；;！？])", "", text)
+    text = _re0.sub(r"\s{2,}", " ", text)
+    text = _re0.sub(r"(（\s*）|\(\s*\))", "", text)
     text = text.replace("❌ ", "反例，").replace("❌ ", "反例，").replace("❌", "反例，")
     text = text.replace("✅ ", "正例，").replace("✅", "正例，")
     text = text.replace("⚠️ ", "注意，").replace("⚠ ", "注意，").replace("⚠", "注意，")
