@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>密码学数学 · Day 32 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;flex-direction:column;align-items:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.viz .cap{font-size:0.82rem;color:#5a7090;margin-top:10px;font-style:italic;text-align:center}
+.essence{background:#eef4ee;border-left:3px solid #5a8a5a;padding:14px 18px;margin-top:6px;color:#243024;font-weight:600}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fafbfd;border:1px solid #d8e0ea;border-radius:6px;padding:12px 18px;margin-bottom:12px}
+details summary{cursor:pointer;color:#1e3a5f;font-weight:600;font-size:0.98rem}
+details .body{margin-top:10px;font-size:0.95rem;color:#3a4658;line-height:1.8}
+.deep h2{font-size:1.3rem;color:#1e3a5f;margin-bottom:18px;text-align:center;font-family:"Times New Roman",Georgia,serif}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 32 · 2026.07.24</div>
+<h1>密码学数学</h1>
+<div class="meta">The Mathematics of Cryptography — 如何在敌人窃听的世界里守住一个秘密</div>
+<div class="epigraph">"敌人了解你的系统。" 安全从不靠算法保密，只靠一把无人能反推的钥匙。—— Kerckhoffs 原则</div>
+</header>
+
+<!-- 概念 1：模运算与 RSA -->
+<div class="card">
+<h2>模运算与 RSA</h2>
+<div class="en-name">Modular Arithmetic &amp; RSA · 一扇只朝一个方向开的门</div>
+<span class="tag">Number Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>钟表算术：走到 12 点再走一步回到 1，数字被卷成一个圈。密码学看中的，是这个圈里藏着一类<strong>单向门</strong>——正着走轻而易举，倒着走却近乎不可能。把两个大素数相乘，一秒钟的事；可拿到那个几百位的乘积，想把它拆回原来的两个因子，全世界的算力一起上也要天文年数。<br/><br/>RSA 就把秘密锁在这道不对称里：<strong>相乘是锁门，分解是唯一的钥匙孔</strong>。任何人都能照着公开的规则加密（锁门），却只有握着素因子的人能解开——因为只有他绕过了那道分解难题。</p>
+</div>
+<div class="formula-box">$$c \equiv m^{e}\pmod{n},\qquad m \equiv c^{d}\pmod{n}$$</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>取两个大素数 $p,q$，令 $n=pq$。公钥是 $(n,e)$，私钥是 $d$，两者由 $ed\equiv 1\pmod{\varphi(n)}$ 绑定（$\varphi(n)=(p-1)(q-1)$ 是欧拉函数）。加密算 $m^e$、解密算 $c^d$，一来一回正好还原明文 $m$——这靠<strong>欧拉定理</strong> $m^{\varphi(n)}\equiv 1$ 保证。要害在于：算 $\varphi(n)$ 等价于分解 $n$，而<em>不知道 $p,q$ 就求不出 $d$</em>。公开 $n$ 无妨，它反推不出私钥。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>美在<strong>加密与解密是同一个操作的两次施行</strong>：连乘 $e$ 次、再连乘 $d$ 次，因为 $ed\equiv1$，绕模一圈精准回到原点。一个纯粹的数论事实——欧拉定理——被反过来当作工程的地基。更妙的是这里的「难」并非已被<em>证明</em>的难，而是三百年来无人攻破的经验之难：整个数字世界的信任，悬在一个<em>尚未解决的数学问题</em>之上。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>你每次看到浏览器的小锁，背后都有它的血脉：TLS/HTTPS 握手、SSH、PGP 邮件加密。<strong>数字签名</strong>更是把它反着用——私钥「解密」一段摘要，任何人用公钥「加密」即可验真，于是软件更新、证书、电子合同有了不可抵赖的签名。</p>
+</div>
+<div class="essence">一句话精华：RSA 把「保密」变成一道人类还不会做的算术题——分解大数。</div>
+<div class="think">思考题：RSA 的安全不是被证明的，而是「暂时没人会分解」。把整个金融系统的信任押在一个未解数学难题上，这是勇敢，还是我们别无选择？</div>
+</div>
+
+<!-- 概念 2：椭圆曲线密码 -->
+<div class="card">
+<h2>椭圆曲线密码</h2>
+<div class="en-name">Elliptic Curve Cryptography · 在一条曲线上重新发明加法</div>
+<span class="tag">Algebraic Geometry</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>先别管公式，看一条对称的光滑曲线。规定一种古怪的「加法」：过曲线上两点 $P,Q$ 画一条直线，它必再穿过曲线上第三点，把那点<strong>沿横轴翻到对面</strong>，就是 $P+Q$。荒唐吗？可这套规则竟严丝合缝地构成一个群——有单位元、有逆元、可结合。<br/><br/>把一个点 $P$ 自己加 $k$ 次得到 $kP$，如同在曲线上跳 $k$ 步；跳很快。但反过来：只给你起点 $P$ 和落点 $kP$，要问跳了<strong>几步</strong>——这就是又一道单向门，比分解大数还陡峭。</p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 300 200" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+<line x1="20" y1="150" x2="285" y2="150" stroke="#c0c8d4" stroke-width="1"/>
+<path d="M60,30 C40,90 40,120 70,150 C95,175 130,178 165,150 C210,113 250,80 285,55" fill="none" stroke="#1e3a5f" stroke-width="2"/>
+<line x1="70" y1="150" x2="245" y2="70" stroke="#c9a96b" stroke-width="1.4" stroke-dasharray="4 3"/>
+<circle cx="88" cy="140" r="4" fill="#3a6088"/><text x="80" y="132" font-size="12" fill="#3a6088" font-style="italic">P</text>
+<circle cx="150" cy="164" r="4" fill="#3a6088"/><text x="150" y="182" font-size="12" fill="#3a6088" font-style="italic">Q</text>
+<circle cx="222" cy="82" r="4" fill="#8a5a5a"/><text x="228" y="80" font-size="12" fill="#8a5a5a" font-style="italic">R</text>
+<circle cx="222" cy="118" r="4" fill="#5a8a5a"/><text x="228" y="128" font-size="12" fill="#5a8a5a" font-style="italic">P+Q</text>
+<line x1="222" y1="82" x2="222" y2="118" stroke="#5a8a5a" stroke-width="1" stroke-dasharray="2 2"/>
+</svg>
+<div class="cap">过 $P$、$Q$ 画线交曲线于 $R$，再翻到横轴对面，即得 $P+Q$——几何作图，就是群里的加法。</div>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>曲线取 $y^2=x^3+ax+b$（在有限域上离散取点）。点加法如上，重复相加定义标量乘 $kP$。安全建在<strong>椭圆曲线离散对数问题</strong>（ECDLP）：已知 $P$ 与 $kP$，求整数 $k$ 在计算上不可行。因为最快的攻击算法都对它无从下手，<em>ECC 用 256 位密钥就达到 RSA 3072 位的安全强度</em>——同等安全，钥匙短一大截。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>美在<strong>几何与代数的合一</strong>：一条你能用铅笔画出的曲线，「画直线取交点」这个纯视觉动作，恰好就是一个抽象群的运算律。看得见的作图与看不见的代数结构，原来是同一件事的两张面孔。而它的实用之美同样惊人——把安全塞进更短的密钥，正合手机、芯片卡、物联网这些锱铢必较的场景。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>比特币与以太坊的每一笔签名都跑在曲线 secp256k1 上；现代 TLS 的密钥交换（ECDHE）、苹果/安卓的安全芯片、Signal 的端到端加密，几乎全面用 ECC 取代了 RSA。<strong>短密钥 = 快握手 + 省电</strong>，这是移动时代的刚需。</p>
+</div>
+<div class="essence">一句话精华：在一条曲线上重定义「加法」，就把几何作图炼成了密码学的锁。</div>
+<div class="think">思考题：同样的安全，ECC 的钥匙只有 RSA 的十几分之一。「更短却更强」在直觉上像悖论——安全到底来自密钥的长度，还是来自背后难题的陡峭？</div>
+</div>
+
+<!-- 概念 3：格密码与后量子 -->
+<div class="card">
+<h2>格密码与后量子</h2>
+<div class="en-name">Lattice-based &amp; Post-Quantum · 为量子时代重砌地基</div>
+<span class="tag">Geometry of Numbers</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>坏消息先说：<strong>Shor 算法</strong>让理想量子计算机能高效分解大数、破解离散对数——RSA 与 ECC 的两道单向门，在量子面前<em>同时坍塌</em>。密码学需要一个量子也撬不动的新难题。<br/><br/>答案藏在高维「格」里：想象空间中无限延展的规则网格点。给你一个乱糟糟的坐标基，要找离某点<strong>最近的格点</strong>——维度一高，这就成了大海捞针；可若你手里有一组「漂亮」的基，同样的问题瞬间可解。那组好基，就是陷门。量子计算机对这道高维几何难题，至今束手无策。</p>
+</div>
+<div class="formula-box">$$\mathbf{b}=A\mathbf{s}+\mathbf{e}\pmod{q}$$</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>主力难题是<strong>带误差学习</strong>（LWE）：给定随机矩阵 $A$ 与向量 $\mathbf b$，其中 $\mathbf b$ 由秘密 $\mathbf s$ 经线性变换、再<em>掺入一点小噪声 $\mathbf e$</em> 得到，求回 $\mathbf s$。没有噪声，这是中学解方程；<strong>加了噪声，问题就等价于在高维格里找最近点</strong>——已知的最难问题之一。关键是它可归约到格的<em>最坏情况</em>难度：破解平均实例，不比破解最难实例更容易。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>美在<strong>那一撮噪声</strong>：仅仅往干净的线性方程里撒一把小误差，就把一道小学生能解的题，抬升成量子计算机也翻不动的高墙。「难」不再是运气好没人破，而是被牢牢<em>钉在最坏情况</em>上——这种从平均到最坏的安全归约，是密码学梦寐以求的严谨。数论的门被量子撞开后，几何接过了守夜的火把。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>2024 年 NIST 正式标准化了格密码 <strong>Kyber</strong>（密钥封装）与 <strong>Dilithium</strong>（签名），全球开始「后量子迁移」。更远处，格还撑起了<strong>全同态加密</strong>——让云端在<em>不解密</em>的前提下直接对密文做计算，为隐私 AI 与机密数据托管打开大门。</p>
+</div>
+<div class="essence">一句话精华：往方程里掺一撮噪声，就筑起一道连量子计算机都撞不开的高维几何之墙。</div>
+<div class="think">思考题：我们正提前几十年为一台还不存在的量子计算机换锁。「先攻后守」的对手——今天窃取密文、留待将来解密——如何改变了「现在就该加密什么」的判断？</div>
+</div>
+
+<!-- 概念 4：零知识证明 -->
+<div class="card">
+<h2>零知识证明</h2>
+<div class="en-name">Zero-Knowledge Proofs · 证明我知道，却不告诉你我知道什么</div>
+<span class="tag">Complexity Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>阿里巴巴的环形山洞，深处有一道咒语才能开的门。你想让朋友相信你会咒语，又<strong>一个字都不肯泄露</strong>。怎么办？让他站在洞口，你先随便走进左道或右道；他再喊「从右边出来」。若你真会咒语，无论进的哪条道都能应命而出；若你在蒙，只有一半概率恰好站对边。<br/><br/>喊一次，你蒙对的概率 $1/2$；重复二十次，蒙混的概率跌到百万分之一。他<strong>确信你会咒语，却始终没听到咒语半个音节</strong>——证明了「我知道」，泄露的知识量是零。</p>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>一个零知识证明须同时满足三条：<strong>完备性</strong>（命题为真，诚实证明者总能说服验证者）、<strong>可靠性</strong>（命题为假，任何骗子都只有极小概率蒙混过关）、<strong>零知识</strong>（验证者除了「命题为真」这一比特，学不到任何别的东西）。第三条怎么严格证明？靠<em>模拟器</em>：若验证者<strong>不与真证明者交互、单凭自己就能伪造出一段以假乱真的对话</strong>，那么真实对话里显然也没藏任何有用信息——因为假的和真的无从分辨。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>美在它<strong>把「证明」与「知识」干净地剥离</strong>：我们向来以为，要让你信服，就得把理由摊给你看；零知识证明却说服你「我有答案」而不交出答案分毫。这近乎悖论的能力，最终由一个反直觉的论证坐实——<em>能被凭空模拟出来的东西，不可能携带真信息</em>。密码学在此触到了认识论的深水：<strong>说服，原来可以与揭示彻底分家</strong>。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>隐私币 Zcash 用 <strong>zk-SNARK</strong> 证明「这笔转账合法」却不暴露收付款人与金额；以太坊的 <strong>zk-Rollup</strong> 把成千上万笔交易压成一个简短证明，链上只验证书、不重算，一举扩容。更广地，它让你<em>证明「我已成年 / 我有资格」而不交出身份证</em>——隐私身份认证的基石。</p>
+</div>
+<div class="essence">一句话精华：零知识证明让「说服」与「揭示」彻底分家——我能让你确信，却不必让你知道。</div>
+<div class="think">思考题：若一切资格审查都能「证明满足条件而不暴露任何细节」，隐私与问责的天平会怎样重新摆放？「什么都不必透露」是自由，还是新的失控？</div>
+</div>
+
+<!-- 深入思考 -->
+<div class="card deep">
+<h2>深入思考</h2>
+<details>
+<summary>整个现代密码学，为什么建在「难题」而非「铁证」之上？</summary>
+<div class="body">RSA 靠分解难、ECC 靠离散对数难、格密码靠最近格点难——没有一个被<strong>证明</strong>为真的难。它们的安全都暗含一个更深的赌注：<em>单向函数存在</em>（正向易、反向难的函数）。而单向函数存在，将直接推出 $P\neq NP$——数学最大的悬案之一。换句话说，若有朝一日证明了 $P=NP$，几乎全部公钥密码会一夜崩塌。我们日日仰赖的保密，其地基正是一个人类尚未证明的猜想。</div>
+</details>
+<details>
+<summary>四个概念——RSA、ECC、格、零知识——共同的骨架是什么？</summary>
+<div class="body">都是<strong>刻意制造的不对称</strong>：一个方向易如反掌，反方向难于登天，而秘密就是那条抄近路的陷门。RSA 的陷门是素因子，ECC 是标量 $k$，格是那组好基，零知识里则是你握有的「见证」。密码学的全部艺术，几乎可归结为一句：<em>如何锻造正反悬殊的门，并把钥匙牢牢攥在一方手里</em>。难题的形态在换（数论→几何→交互），这条骨架始终不变。</div>
+</details>
+<details>
+<summary>Shor 算法能秒破 RSA 与 ECC，为何对格问题无能为力？</summary>
+<div class="body">Shor 的威力来自<strong>周期查找</strong>：分解与离散对数都能化归为「找一个隐藏的周期结构」，而量子傅里叶变换正擅长此道。可格里的最近向量问题<em>没有这种可被量子放大的周期对称</em>——它是高维空间里赤裸裸的组合搜索。这提示一个深刻教训：一个问题量子脆不脆弱，取决于它藏没藏着量子能撬动的代数结构。后量子密码的赌注，正是格问题<strong>结构上</strong>缺这道缝。</div>
+</details>
+<details>
+<summary>密码学与 AI 对齐，是否在共享同一种「不对称」直觉？</summary>
+<div class="body">耐人寻味的呼应：密码学要造「验证易、伪造难」的门，对齐要造「有益行为易、有害行为被激励堵死」的系统；两者都在设计一种<em>结构性的不对称</em>，让「我们想要的」比「对手想要的」廉价得多。零知识证明尤其像一座桥——它已被用来<strong>验证一个 AI 确实按声明的模型跑过、却不泄露权重</strong>。当「可信」比「透明」更急迫时，密码学恰好提供了「证明而不揭示」的语言。</div>
+</details>
+<details>
+<summary>如果 $P=NP$ 明天被证明，密码学会彻底终结吗？</summary>
+<div class="body">公钥密码几乎必亡——陷门单向函数将不复存在。但未必全盘皆输：<strong>一次性密码本</strong>提供的是信息论安全，与计算难度无关，永不可破（代价是密钥必须和消息一样长且不可复用）。<em>量子密钥分发</em>则把安全押在物理定律而非数学难题上。密码学或将被迫从「计算上不可行」退守到「信息论上不可能」与「物理上被禁止」——更昂贵、更笨重，却也更绝对。</div>
+</details>
+</div>
+
+<nav class="bottom">
+<a href="index.html">← 返回 Mathematics</a>
+</nav>
+</div>
+</body>
+</html>
