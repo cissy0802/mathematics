@@ -56,13 +56,12 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="container">
 <header>
 <div class="kicker">Day 32 · 2026.07.24</div>
-<h1>密码学数学</h1>
+<h1 data-tts="acb27ef1b339e492">密码学数学</h1>
 <div class="meta">The Mathematics of Cryptography — 如何在敌人窃听的世界里守住一个秘密</div>
 <div class="epigraph">"敌人了解你的系统。" 安全从不靠算法保密，只靠一把无人能反推的钥匙。—— Kerckhoffs 原则</div>
 </header>
-
 <!-- 概念 1：模运算与 RSA -->
-<div class="card">
+<div class="card" data-tts="0d0af221314f4323">
 <h2>模运算与 RSA</h2>
 <div class="en-name">Modular Arithmetic &amp; RSA · 一扇只朝一个方向开的门</div>
 <span class="tag">Number Theory</span>
@@ -86,9 +85,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="essence">一句话精华：RSA 把「保密」变成一道人类还不会做的算术题——分解大数。</div>
 <div class="think">思考题：RSA 的安全不是被证明的，而是「暂时没人会分解」。把整个金融系统的信任押在一个未解数学难题上，这是勇敢，还是我们别无选择？</div>
 </div>
-
 <!-- 概念 2：椭圆曲线密码 -->
-<div class="card">
+<div class="card" data-tts="c6f000bbb294e465">
 <h2>椭圆曲线密码</h2>
 <div class="en-name">Elliptic Curve Cryptography · 在一条曲线上重新发明加法</div>
 <span class="tag">Algebraic Geometry</span>
@@ -97,15 +95,15 @@ nav.bottom a:hover{color:#1e3a5f}
 <p>先别管公式，看一条对称的光滑曲线。规定一种古怪的「加法」：过曲线上两点 $P,Q$ 画一条直线，它必再穿过曲线上第三点，把那点<strong>沿横轴翻到对面</strong>，就是 $P+Q$。荒唐吗？可这套规则竟严丝合缝地构成一个群——有单位元、有逆元、可结合。<br/><br/>把一个点 $P$ 自己加 $k$ 次得到 $kP$，如同在曲线上跳 $k$ 步；跳很快。但反过来：只给你起点 $P$ 和落点 $kP$，要问跳了<strong>几步</strong>——这就是又一道单向门，比分解大数还陡峭。</p>
 </div>
 <div class="viz">
-<svg viewBox="0 0 300 200" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
-<line x1="20" y1="150" x2="285" y2="150" stroke="#c0c8d4" stroke-width="1"/>
-<path d="M60,30 C40,90 40,120 70,150 C95,175 130,178 165,150 C210,113 250,80 285,55" fill="none" stroke="#1e3a5f" stroke-width="2"/>
-<line x1="70" y1="150" x2="245" y2="70" stroke="#c9a96b" stroke-width="1.4" stroke-dasharray="4 3"/>
-<circle cx="88" cy="140" r="4" fill="#3a6088"/><text x="80" y="132" font-size="12" fill="#3a6088" font-style="italic">P</text>
-<circle cx="150" cy="164" r="4" fill="#3a6088"/><text x="150" y="182" font-size="12" fill="#3a6088" font-style="italic">Q</text>
-<circle cx="222" cy="82" r="4" fill="#8a5a5a"/><text x="228" y="80" font-size="12" fill="#8a5a5a" font-style="italic">R</text>
-<circle cx="222" cy="118" r="4" fill="#5a8a5a"/><text x="228" y="128" font-size="12" fill="#5a8a5a" font-style="italic">P+Q</text>
-<line x1="222" y1="82" x2="222" y2="118" stroke="#5a8a5a" stroke-width="1" stroke-dasharray="2 2"/>
+<svg height="200" viewbox="0 0 300 200" width="300" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#c0c8d4" stroke-width="1" x1="20" x2="285" y1="150" y2="150"></line>
+<path d="M60,30 C40,90 40,120 70,150 C95,175 130,178 165,150 C210,113 250,80 285,55" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<line stroke="#c9a96b" stroke-dasharray="4 3" stroke-width="1.4" x1="70" x2="245" y1="150" y2="70"></line>
+<circle cx="88" cy="140" fill="#3a6088" r="4"></circle><text fill="#3a6088" font-size="12" font-style="italic" x="80" y="132">P</text>
+<circle cx="150" cy="164" fill="#3a6088" r="4"></circle><text fill="#3a6088" font-size="12" font-style="italic" x="150" y="182">Q</text>
+<circle cx="222" cy="82" fill="#8a5a5a" r="4"></circle><text fill="#8a5a5a" font-size="12" font-style="italic" x="228" y="80">R</text>
+<circle cx="222" cy="118" fill="#5a8a5a" r="4"></circle><text fill="#5a8a5a" font-size="12" font-style="italic" x="228" y="128">P+Q</text>
+<line stroke="#5a8a5a" stroke-dasharray="2 2" stroke-width="1" x1="222" x2="222" y1="82" y2="118"></line>
 </svg>
 <div class="cap">过 $P$、$Q$ 画线交曲线于 $R$，再翻到横轴对面，即得 $P+Q$——几何作图，就是群里的加法。</div>
 </div>
@@ -124,9 +122,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="essence">一句话精华：在一条曲线上重定义「加法」，就把几何作图炼成了密码学的锁。</div>
 <div class="think">思考题：同样的安全，ECC 的钥匙只有 RSA 的十几分之一。「更短却更强」在直觉上像悖论——安全到底来自密钥的长度，还是来自背后难题的陡峭？</div>
 </div>
-
 <!-- 概念 3：格密码与后量子 -->
-<div class="card">
+<div class="card" data-tts="5cc4f053bb51e8e7">
 <h2>格密码与后量子</h2>
 <div class="en-name">Lattice-based &amp; Post-Quantum · 为量子时代重砌地基</div>
 <span class="tag">Geometry of Numbers</span>
@@ -150,9 +147,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="essence">一句话精华：往方程里掺一撮噪声，就筑起一道连量子计算机都撞不开的高维几何之墙。</div>
 <div class="think">思考题：我们正提前几十年为一台还不存在的量子计算机换锁。「先攻后守」的对手——今天窃取密文、留待将来解密——如何改变了「现在就该加密什么」的判断？</div>
 </div>
-
 <!-- 概念 4：零知识证明 -->
-<div class="card">
+<div class="card" data-tts="52b07c0965f8ed71">
 <h2>零知识证明</h2>
 <div class="en-name">Zero-Knowledge Proofs · 证明我知道，却不告诉你我知道什么</div>
 <span class="tag">Complexity Theory</span>
@@ -175,9 +171,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="essence">一句话精华：零知识证明让「说服」与「揭示」彻底分家——我能让你确信，却不必让你知道。</div>
 <div class="think">思考题：若一切资格审查都能「证明满足条件而不暴露任何细节」，隐私与问责的天平会怎样重新摆放？「什么都不必透露」是自由，还是新的失控？</div>
 </div>
-
 <!-- 深入思考 -->
-<div class="card deep">
+<div class="card deep" data-tts="aae41245855e6507">
 <h2>深入思考</h2>
 <details>
 <summary>整个现代密码学，为什么建在「难题」而非「铁证」之上？</summary>
@@ -200,7 +195,6 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="body">公钥密码几乎必亡——陷门单向函数将不复存在。但未必全盘皆输：<strong>一次性密码本</strong>提供的是信息论安全，与计算难度无关，永不可破（代价是密钥必须和消息一样长且不可复用）。<em>量子密钥分发</em>则把安全押在物理定律而非数学难题上。密码学或将被迫从「计算上不可行」退守到「信息论上不可能」与「物理上被禁止」——更昂贵、更笨重，却也更绝对。</div>
 </details>
 </div>
-
 <nav class="bottom">
 <a href="index.html">← 返回 Mathematics</a>
 </nav>
