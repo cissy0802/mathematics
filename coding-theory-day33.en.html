@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Coding &amp; Error Correction · Day 33 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;flex-direction:column;align-items:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.viz .cap{font-size:0.82rem;color:#5a7090;margin-top:10px;font-style:italic;text-align:center}
+.essence{background:#eef4ee;border-left:3px solid #5a8a5a;padding:14px 18px;margin-top:6px;color:#243024;font-weight:600}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fafbfd;border:1px solid #d8e0ea;border-radius:6px;padding:12px 18px;margin-bottom:12px}
+details summary{cursor:pointer;color:#1e3a5f;font-weight:600;font-size:0.98rem}
+details .body{margin-top:10px;font-size:0.95rem;color:#3a4658;line-height:1.8}
+.deep h2{font-size:1.3rem;color:#1e3a5f;margin-bottom:18px;text-align:center;font-family:"Times New Roman",Georgia,serif}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 33 · 2026.07.25</div>
+<h1>Coding &amp; Error Correction</h1>
+<div class="meta">How a message arrives intact through a world that is guaranteed to corrupt it</div>
+<div class="epigraph">"Can we communicate with arbitrary reliability over a channel that makes mistakes?" In 1948, Shannon's answer was: yes — and there is an exact price.</div>
+</header>
+<!-- Concept 1: the Shannon limit -->
+<div class="card">
+<h2>Channel Capacity &amp; the Shannon Limit</h2>
+<div class="en-name">A cliff edge in a noisy world</div>
+<span class="tag">Information Theory</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Channels make errors, and the crudest defence is repetition: send each bit three times and take a majority vote. The error rate falls, but the rate collapses to 1/3; want more reliability and you send it five or seven times — so <strong>"almost never wrong" seems to demand that the rate go to zero</strong>.</p>
+<p style="margin-top:10px">Shannon said no. Every channel has a definite number $C$ (its <strong>capacity</strong>): so long as your rate $R&lt;C$, there exists a code driving the error rate <em>arbitrarily close to 0</em> with <strong>no</strong> loss of rate; once $R&gt;C$, no code however clever can succeed. Fast and accurate are not a seesaw — they are separated by a <strong>cliff</strong>. The trick is <strong>not to armour bits one at a time but to encode in blocks</strong>: map a long message as a whole to a single point in a high-dimensional space. If the points sit far enough apart, noise can shove one around and it still lies closest to where it started.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#888" stroke-width="1" x1="40" x2="370" y1="140" y2="140"></line>
+<line stroke="#888" stroke-width="1" x1="40" x2="40" y1="20" y2="140"></line>
+<text fill="#5a7090" font-size="10" x="326" y="156">rate R</text>
+<text fill="#5a7090" font-size="10" x="4" y="26">error</text>
+<line stroke="#c9544a" stroke-dasharray="4 3" stroke-width="1.2" x1="250" x2="250" y1="20" y2="140"></line>
+<text fill="#c9544a" font-size="11" font-style="italic" text-anchor="middle" x="250" y="16">R = C</text>
+<path d="M 40 138 L 200 137 Q 240 136 250 100 Q 258 40 280 30 L 370 28" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="140" y="128">arbitrarily reliable</text>
+<text fill="#c9544a" font-size="10" text-anchor="middle" x="320" y="52">doomed</text>
+<text fill="#5a7090" font-size="9" x="44" y="152">0</text>
+</svg>
+<div class="cap">Capacity is a phase-transition threshold: left of the cliff error can be pushed to zero, right of it no code works.</div>
+</div>
+<div class="formula-box">$$C=\max_{p(x)} I(X;Y)\qquad\text{binary symmetric channel:}\;C=1-H(p)$$</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>$I(X;Y)$ is the <strong>mutual information</strong> between input $X$ and output $Y$ — how much of your uncertainty about $X$ is removed by seeing $Y$ (in bits). Capacity $C$ is its maximum over all input distributions $p(x)$: <em>with the channel used to its utmost, how many bits can one use carry</em>. For a channel that flips each bit with probability $p$, $C=1-H(p)$, where $H(p)=-p\log_2 p-(1-p)\log_2(1-p)$ is the entropy of the noise itself — <strong>the share the noise eats is subtracted exactly from the full bandwidth of 1</strong>.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>The beauty is in the strangeness of the proof. Shannon constructed no good code at all; what he proved was that <strong>a code drawn at random from all codes already performs well on average</strong>, so good codes must exist — <em>using randomness to prove that a deterministic object exists</em>, the probabilistic method's most startling debut. The deeper beauty is the shape of the threshold: intuition expects a smooth trade-off curve, and mathematics hands back a sharp phase transition. <strong>Reliable communication turns out to be a phase transition, like water coming to a boil.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>This limit is the origin of coordinates for the whole communications industry: every scheme is scored by "how many dB from Shannon". Turbo codes first came within 0.5 dB; <strong>LDPC codes</strong> now sit inside 5G data channels and SSD controllers. On the AI side, rate–distortion theory is the mathematical parent of variational autoencoders and the information-bottleneck view: <em>training a representation is deciding which bits to keep under a capacity budget</em>.</p>
+</div>
+<div class="essence">In one line: reliability need not be bought with rate — every channel has a fixed allowance, near-perfect inside it and doomed outside.</div>
+<div class="think">To ponder: Shannon proved good codes exist almost everywhere, yours for the grabbing; humans still needed forty-five years to build one that could actually be decoded. What other gaps between "exists" and "constructible" are that glaring?</div>
+</div>
+<!-- Concept 2: Hamming codes -->
+<div class="card">
+<h2>Hamming Codes &amp; Sphere Packing</h2>
+<div class="en-name">Spreading points out on a hypercube</div>
+<span class="tag">Algebraic Coding</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>See each 7-bit string as a vertex of a 7-dimensional cube (128 of them); noise flipping one bit is a single step along an edge. Error correction becomes geometry: <strong>choose a set of vertices as "legal words", pairwise at least 3 steps apart</strong> — then the vertices within one step of each legal word form a small ball, the balls are disjoint, and any once-flipped string must land inside exactly one of them.</p>
+<p style="margin-top:10px">Hamming's construction is slicker still: of the 7 bits, 3 are parity checks, each covering a particular subset of positions. Write the pass/fail of the three checks as a three-bit binary number and <strong>that number is the index of the corrupted bit</strong> — <em>the checks announce the street address of the error themselves.</em></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
+<circle cx="80" cy="75" fill="#3a6088" fill-opacity="0.09" r="42" stroke="#3a6088" stroke-dasharray="3 3" stroke-width="1"></circle>
+<circle cx="200" cy="75" fill="#3a6088" fill-opacity="0.09" r="42" stroke="#3a6088" stroke-dasharray="3 3" stroke-width="1"></circle>
+<circle cx="320" cy="75" fill="#3a6088" fill-opacity="0.09" r="42" stroke="#3a6088" stroke-dasharray="3 3" stroke-width="1"></circle>
+<g fill="#c0c8d4">
+<circle cx="80" cy="40" r="3"></circle><circle cx="52" cy="68" r="3"></circle><circle cx="80" cy="110" r="3"></circle><circle cx="112" cy="86" r="3"></circle><circle cx="56" cy="98" r="3"></circle>
+<circle cx="200" cy="40" r="3"></circle><circle cx="172" cy="68" r="3"></circle><circle cx="200" cy="110" r="3"></circle><circle cx="232" cy="86" r="3"></circle><circle cx="176" cy="98" r="3"></circle>
+<circle cx="320" cy="40" r="3"></circle><circle cx="292" cy="68" r="3"></circle><circle cx="320" cy="110" r="3"></circle><circle cx="348" cy="86" r="3"></circle><circle cx="296" cy="98" r="3"></circle>
+</g>
+<g fill="#1e3a5f">
+<circle cx="80" cy="75" r="5.5"></circle><circle cx="200" cy="75" r="5.5"></circle><circle cx="320" cy="75" r="5.5"></circle>
+</g>
+<circle cx="232" cy="86" fill="#c9544a" r="5"></circle>
+<path d="M 226 82 L 207 77" fill="none" marker-end="url(#ar)" stroke="#c9544a" stroke-width="1.4"></path>
+<defs><marker id="ar" markerHeight="6" markerWidth="6" orient="auto" refX="5" refY="3"><path d="M0,0 L6,3 L0,6 z" fill="#c9544a"></path></marker></defs>
+<text fill="#5a7090" font-size="10" text-anchor="middle" x="200" y="140">distance ≥ 3 ⟹ radius-1 balls disjoint ⟹ single errors always corrected</text>
+</svg>
+<div class="cap">An error-correcting code is sphere packing in a discrete space: codewords are centres, noise is the radius.</div>
+</div>
+<div class="formula-box">$$s=H\mathbf{r}\pmod 2,\qquad 2^{k}\cdot\!\!\sum_{i=0}^{t}\binom{n}{i}\le 2^{n}$$</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>An $[n,k,d]$ linear code encodes $k$ bits into $n$, any two codewords differing in at least $d$ places (the <strong>minimum Hamming distance</strong>), so it corrects $t=\lfloor (d-1)/2\rfloor$ errors; Hamming(7,4) is $[7,4,3]$. The columns of the parity-check matrix $H$ are exactly the 7 non-zero three-bit vectors; given a received $\mathbf r$, compute the <strong>syndrome</strong> $s=H\mathbf r$: $s=0$ means clean, otherwise $s$ read as a binary number is the index of the faulty column. The <strong>Hamming bound</strong> then says: $2^k$ balls of $\sum_{i\le t}\binom{n}{i}$ points each cannot exceed the whole space.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>Put the numbers in: $2^4\times(1+7)=128=2^7$. <strong>The inequality is an equality</strong> — 128 vertices tiled seamlessly by 16 balls, none missed, none overlapping. This is a <strong>perfect code</strong>: the discrete counterpart of Kepler's packing problem, where the answer is not "about 74%" but exactly 100%. Such gems are vanishingly rare: in the binary case only the Hamming family and two Golay codes exist, proved exhaustive in 1973.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>In 1947 Hamming's weekend batch jobs kept being discarded by the Bell Labs machine over a single wrong bit, and he demanded in exasperation: "If the machine can <em>find</em> the error, why can it not <em>fix</em> it?" — the whole discipline grew from that question. Today's server <strong>ECC memory</strong> runs SECDED (correct one bit, detect two), and every bit flip a cosmic ray induces in DRAM is repaired silently right there.</p>
+</div>
+<div class="essence">In one line: correction means spreading points far apart in a discrete space — and Hamming codes pack the balls so they tile it exactly, without a single gap.</div>
+<div class="think">To ponder: perfect codes are rare because the ball volume $\sum\binom{n}{i}$ seldom divides $2^n$; when exact tiling is impossible, waste must be accepted. Is "approaching the optimum but never reaching it" peculiar to coding, or the normal condition of optimisation?</div>
+</div>
+<!-- Concept 3: Reed-Solomon -->
+<div class="card">
+<h2>Reed–Solomon Codes</h2>
+<div class="en-name">Two points fix a line; send a few more and nothing is lost</div>
+<span class="tag">Finite Fields</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Two points determine a line. If the message I want to send <em>is</em> the two coefficients of a line, I do not send the coefficients — I sample <strong>5 points</strong> on the line and send those. Lose three and it hardly matters: any surviving two reconstruct the line. <em>Redundancy is not repeating the message; it is oversampling it.</em></p>
+<p style="margin-top:10px">In general: treat $k$ data symbols as the coefficients of a degree-$(k-1)$ polynomial, evaluate it at $n$ points, and send the values; any $k$ of them interpolate the original back. If a value is <strong>altered</strong> rather than lost, it strays off the curve and stands out among its collinear neighbours — which is why correcting an error costs twice what filling a gap costs: <strong>you must spend redundancy to find who is lying, then more to set it right.</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#888" stroke-width="1" x1="30" x2="380" y1="130" y2="130"></line>
+<path d="M 40 110 Q 150 10 250 70 Q 320 110 370 55" fill="none" stroke="#1e3a5f" stroke-width="1.8"></path>
+<g fill="#3a6088">
+<circle cx="70" cy="79" r="5"></circle><circle cx="120" cy="49" r="5"></circle><circle cx="170" cy="41" r="5"></circle><circle cx="220" cy="57" r="5"></circle>
+</g>
+<g fill="#5a8a5a">
+<circle cx="270" cy="82" r="5"></circle><circle cx="320" cy="105" r="5"></circle><circle cx="360" cy="68" r="5"></circle>
+</g>
+<circle cx="220" cy="115" fill="none" r="6" stroke="#c9544a" stroke-width="1.8"></circle>
+<line stroke="#c9544a" stroke-dasharray="3 2" stroke-width="1.2" x1="220" x2="220" y1="63" y2="109"></line>
+<text fill="#c9544a" font-size="10" x="228" y="122">altered → off the curve</text>
+<text fill="#3a6088" font-size="10" x="52" y="150">k data points</text>
+<text fill="#5a8a5a" font-size="10" x="258" y="150">n−k redundant points</text>
+</svg>
+<div class="cap">The message is a polynomial and what travels are its values at chosen points: lost points interpolate back, corrupted ones betray themselves by leaving the curve.</div>
+</div>
+<div class="formula-box">$$m(x)=m_0+m_1x+\cdots+m_{k-1}x^{k-1}\;\longmapsto\;\big(m(\alpha^0),\dots,m(\alpha^{n-1})\big)$$</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>Work in the finite field $\mathrm{GF}(2^8)$ — a "world of bytes" with exactly 256 elements and full arithmetic, generated by $\alpha$. The $k$ message bytes are the coefficients of $m(x)$, evaluated at $n\le 255$ points to give the codeword. The parameters are $[n,k,n-k+1]$: <strong>the minimum distance is exactly $n-k+1$</strong>, so it corrects $t=\lfloor (n-k)/2\rfloor$ corrupted symbols, or fills $n-k$ losses whose positions are known.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>That $n-k+1$ was not cleverly engineered; it is <strong>the direct consequence of an elementary algebraic fact</strong>: two distinct degree-$(k-1)$ polynomials agree at no more than $k-1$ points, so two codewords differ in at least $n-k+1$ positions — and the <strong>Singleton bound</strong> says no code can exceed that, so Reed–Solomon <em>sits flush against the ceiling</em>. Lovelier still is the <strong>change of viewpoint</strong>: Hamming preserves distance by placing points geometrically, Reed–Solomon by algebra. <em>Change the lens and optimality stops being the reward of a careful search and becomes an incidental corollary of a theorem.</em></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>A scratch on a CD ruins thousands of consecutive bits, but RS works in <em>bytes</em>, so a wholly destroyed byte counts as a single error — add interleaving to scatter the burst across code blocks and a 2.4 mm scratch still plays through. Closer to home is <strong>erasure coding in distributed storage</strong>: HDFS, Ceph and S3 replace three-way replication with RS(10,4), tolerating any 4 simultaneous disk failures while storage overhead drops from 200% to 40%. <em>The cost curve of cloud storage was pushed down by a polynomial.</em></p>
+</div>
+<div class="essence">In one line: view the message as a polynomial and redundancy as extra sample points, and optimal distance no longer has to be designed — it follows from a theorem.</div>
+<div class="think">To ponder: erasure coding buys four-disk tolerance for 40% extra space where replication demands 200%. Why then does industry still replicate hot data so heavily? (Hint: when one disk dies, how much must be read to repair it?)</div>
+</div>
+<!-- Concept 4: QR codes -->
+<div class="card">
+<h2>QR Codes: Theory Landing on Paper</h2>
+<div class="en-name">A public performance of abstract algebra</div>
+<span class="tag">Applied Coding</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>A QR code is the three previous ideas fused into engineering. The large squares at three corners are <strong>finder patterns</strong> — the phone locates them first and thereby learns orientation and perspective, so tilted or upside-down scans still read. Data fills the grid along a zigzag path under a layer of Reed–Solomon parity; <strong>four correction levels exist, the highest (H) carrying about 30% redundancy</strong> — which is precisely why a logo stamped over the centre still scans: the covered region is, mathematically, a scratch.</p>
+<p style="margin-top:10px">One further step is easily overlooked and rather elegant: <strong>masking</strong>. The data may by chance produce broad black or white regions, or accidentally mimic a finder pattern. So the encoder XORs the data against each of 8 fixed patterns and keeps whichever balances black and white best — <em>a reversible layer of pseudo-randomness to break up unlucky regularity</em>.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#fff" height="130" stroke="#c0c8d4" width="130" x="10" y="10"></rect>
+<g fill="#1e3a5f">
+<rect height="35" width="35" x="18" y="18"></rect><rect height="35" width="35" x="97" y="18"></rect><rect height="35" width="35" x="18" y="97"></rect>
+</g>
+<g fill="#fff">
+<rect height="21" width="21" x="25" y="25"></rect><rect height="21" width="21" x="104" y="25"></rect><rect height="21" width="21" x="25" y="104"></rect>
+</g>
+<g fill="#1e3a5f">
+<rect height="9" width="9" x="31" y="31"></rect><rect height="9" width="9" x="110" y="31"></rect><rect height="9" width="9" x="31" y="110"></rect>
+</g>
+<g fill="#3a6088" fill-opacity="0.55">
+<rect height="8" width="8" x="60" y="62"></rect><rect height="8" width="8" x="78" y="62"></rect><rect height="8" width="8" x="96" y="72"></rect><rect height="8" width="8" x="60" y="82"></rect><rect height="8" width="8" x="114" y="62"></rect><rect height="8" width="8" x="78" y="92"></rect><rect height="8" width="8" x="96" y="102"></rect><rect height="8" width="8" x="60" y="102"></rect><rect height="8" width="8" x="114" y="92"></rect><rect height="8" width="8" x="78" y="112"></rect>
+</g>
+<text fill="#5a7090" font-size="9.5" x="156" y="34">◼ finder → orientation &amp; perspective</text>
+<text fill="#5a7090" font-size="9.5" x="156" y="62">▨ data + RS parity over GF(256)</text>
+<text fill="#5a7090" font-size="9.5" x="156" y="90">⊕ mask → break up flat regions</text>
+<text fill="#5a7090" font-size="9.5" x="156" y="118">↯ interleave → spread bursts</text>
+</svg>
+<div class="cap">One QR code houses finite-field arithmetic, the geometry of correction, and pseudo-randomisation at once.</div>
+</div>
+<div class="formula-box">$$g(x)=\prod_{i=0}^{2t-1}\!\left(x-\alpha^{i}\right),\qquad c(x)=x^{2t}m(x)-\big[x^{2t}m(x)\bmod g(x)\big]$$</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>Practical RS encoding uses this <strong>systematic form</strong>: shift the message polynomial $m(x)$ up by $2t$ and divide by the <strong>generator polynomial</strong> $g(x)$, appending the remainder as parity symbols. The codeword $c(x)$ is then divisible by $g(x)$ — equivalently, it vanishes at $\alpha^0,\dots,\alpha^{2t-1}$. To decode, evaluate the received polynomial at those points: <strong>a non-zero result means an error, and the system of equations woven from those non-zero values solves for where the errors are and by how much</strong>.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>The beauty is <strong>the distance the abstraction travelled</strong>. Finite fields were dreamt up by Galois before he turned twenty, purely to answer why the quintic has no radical solution; two centuries later they run billions of times a day in front of your phone's camera — a tool built to understand <em>impossibility</em>, finally deployed against coffee stains.<br/><br/>There is structural beauty too: the <strong>three defences are orthogonal</strong> — finder patterns, RS, and masking each guard a distinct failure dimension without interfering. <em>Good engineering is isomorphic to good mathematics: split a coupled problem into independent ones.</em></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Mobile payments, boarding passes and supply-chain tracking all ride on this; industry's Data Matrix codes use the same RS core, laser-etched into metal parts and still readable after cutting fluid and heat. Masahiro Hara invented the format in 1994 to track car components, and Denso's decision to waive patent royalties is what made it universal.</p>
+</div>
+<div class="essence">In one line: a QR code prints Galois's abstract algebra onto paper — an invisible layer of polynomial bought in exchange for an image that survives being defaced.</div>
+<div class="think">To ponder: the three layers each guard a different failure mode. Look at a system you know well — is its redundancy layered orthogonally, or are several layers guarding the same thing while the real failure mode goes unwatched?</div>
+</div>
+<!-- Deeper questions -->
+<div class="card deep">
+<h2>Going Deeper</h2>
+<details>
+<summary>Is the genetic code an error-correcting code?</summary>
+<div class="body">Not strictly, but it was certainly <strong>shaped by noise</strong>. The 64 codons map onto 20 amino acids with the redundancy concentrated in the third position — a mutation there usually leaves the amino acid unchanged; and similar codons tend to encode chemically similar amino acids, so even a missense mutation does limited damage. This is not detect-and-correct but <strong>"make errors cost less"</strong>. Evolution has no decoder; all it can do is align <em>semantic</em> distance between codewords with mutational distance — exactly the property one wants from an embedding space.</div>
+</details>
+<details>
+<summary>If erasure coding halves the storage bill, why is hot data still replicated?</summary>
+<div class="body">Because storage is not the only cost — <strong>repair bandwidth</strong> is the silent killer. When a replicated disk dies, you copy an equal amount from another replica; when an RS(10,4) disk dies, you must read <em>all ten surviving blocks</em> to recompute the lost one. Hence <strong>locally repairable codes</strong> (LRC): a few groups of local parity alongside the global parity, so the common single-disk failure only touches a handful of blocks. Storage overhead, fault tolerance and repair cost form a <em>three-way trade-off</em> that cannot be jointly optimised — much like CAP.</div>
+</details>
+<details>
+<summary>Can a neural network's representation be read as a code?</summary>
+<div class="body">The analogy is sharper than it looks. Distributed representations are natively codes: meaning is spread across the directions of a high-dimensional vector, and perturbing a few dimensions does not change the class — that is exactly <em>large minimum distance</em>. And <strong>adversarial examples say precisely that the distance is not large enough</strong>: in some directions an imperceptible nudge crosses the decision boundary. "Adversarial robustness" can thus be restated as "enlarge the minimum distance of the representation space", and defences such as randomised smoothing really do argue by sphere packing. The reversal is the interesting part: Shannon says higher dimension pushes random points further apart, yet deep learning finds <em>more</em> adversarial directions in high dimension. <strong>The same high-dimensional geometry is a blessing for reliable communication and a curse for robust classification</strong> — the difference being only whether the noise is random or chosen by an adversary.</div>
+</details>
+</div>
+<nav class="bottom">
+<a href="index.en.html">← Back to Mathematics</a>
+</nav>
+</div>
+</body>
+</html>
