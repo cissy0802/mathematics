@@ -56,12 +56,12 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="container">
 <header>
 <div class="kicker">Day 33 · 2026.07.25</div>
-<h1>编码与纠错</h1>
+<h1 data-tts="80d0857829dc0618">编码与纠错</h1>
 <div class="meta">Coding &amp; Error Correction — 如何让消息在必然出错的世界里安然抵达</div>
 <div class="epigraph">"能否在一条会出错的信道上实现任意可靠的通信？" 1948 年，Shannon 的答案是：能——且有确切的价钱。</div>
 </header>
 <!-- 概念 1：Shannon 极限 -->
-<div class="card">
+<div class="card" data-tts="da1111d3339bf22f">
 <h2>信道容量与 Shannon 极限</h2>
 <div class="en-name">Channel Capacity &amp; the Shannon Limit · 噪声世界里的一道悬崖</div>
 <span class="tag">Information Theory</span>
@@ -102,7 +102,7 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think">思考题：Shannon 证明好码「几乎处处存在」，随手一抓即是；人类却花了四十五年才造出能实际解码的。「存在」与「可构造」之间这道鸿沟，还有哪些同样刺眼的例子？</div>
 </div>
 <!-- 概念 2：Hamming 码 -->
-<div class="card">
+<div class="card" data-tts="e74b21b6278ab587">
 <h2>Hamming 码与球堆积</h2>
 <div class="en-name">Hamming Codes &amp; Sphere Packing · 在超立方体上把点摆开</div>
 <span class="tag">Algebraic Coding</span>
@@ -126,7 +126,7 @@ nav.bottom a:hover{color:#1e3a5f}
 </g>
 <circle cx="232" cy="86" fill="#c9544a" r="5"></circle>
 <path d="M 226 82 L 207 77" fill="none" marker-end="url(#ar)" stroke="#c9544a" stroke-width="1.4"></path>
-<defs><marker id="ar" markerHeight="6" markerWidth="6" orient="auto" refX="5" refY="3"><path d="M0,0 L6,3 L0,6 z" fill="#c9544a"></path></marker></defs>
+<defs><marker id="ar" markerheight="6" markerwidth="6" orient="auto" refx="5" refy="3"><path d="M0,0 L6,3 L0,6 z" fill="#c9544a"></path></marker></defs>
 <text fill="#5a7090" font-size="10" text-anchor="middle" x="200" y="140">距离 ≥ 3 ⟹ 半径 1 的球互不相交 ⟹ 单错必可归位</text>
 </svg>
 <div class="cap">纠错码就是离散空间里的球堆积：合法码字是球心，噪声是半径。</div>
@@ -148,7 +148,7 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think">思考题：完美码稀有，因为球的体积 $\sum\binom{n}{i}$ 极少整除 $2^n$；「刚好铺满」不可能时只能接受浪费。这种「逼近最优却达不到」，是编码独有还是所有优化的常态？</div>
 </div>
 <!-- 概念 3：Reed-Solomon -->
-<div class="card">
+<div class="card" data-tts="81f9b046bf194d61">
 <h2>Reed–Solomon 码</h2>
 <div class="en-name">Reed–Solomon Codes · 两点定一线，多给几点就防丢</div>
 <span class="tag">Finite Fields</span>
@@ -192,7 +192,7 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think">思考题：纠删码用 40% 的额外空间换来四盘容错，三副本却要 200%。既然如此，为什么工业界仍在热数据上大量使用副本？（提示：一块盘坏了，「修复」要读多少数据？）</div>
 </div>
 <!-- 概念 4：二维码 -->
-<div class="card">
+<div class="card" data-tts="9752ba3bc08452c5">
 <h2>二维码：理论落在一张纸上</h2>
 <div class="en-name">QR Codes · 抽象代数的一次公开演出</div>
 <span class="tag">Applied Coding</span>
@@ -240,7 +240,7 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think">思考题：二维码的三层防御各守一种失效模式。回看你熟悉的系统——它的冗余是「正交分层」的，还是几层都在防同一件事，而真正的失效无人看守？</div>
 </div>
 <!-- 深入思考 -->
-<div class="card deep">
+<div class="card deep" data-tts="dc0f0ed2b322dd42">
 <h2>深入思考</h2>
 <details>
 <summary>DNA 的遗传密码，是一种纠错码吗？</summary>
