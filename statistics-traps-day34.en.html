@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Traps of Statistical Inference · Day 34 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;flex-direction:column;align-items:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.viz .cap{font-size:0.82rem;color:#5a7090;margin-top:10px;font-style:italic;text-align:center}
+.essence{background:#eef4ee;border-left:3px solid #5a8a5a;padding:14px 18px;margin-top:6px;color:#243024;font-weight:600}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fafbfd;border:1px solid #d8e0ea;border-radius:6px;padding:12px 18px;margin-bottom:12px}
+details summary{cursor:pointer;color:#1e3a5f;font-weight:600;font-size:0.98rem}
+details .body{margin-top:10px;font-size:0.95rem;color:#3a4658;line-height:1.8}
+.deep h2{font-size:1.3rem;color:#1e3a5f;margin-bottom:18px;text-align:center;font-family:"Times New Roman",Georgia,serif}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 34 · 2026.07.26</div>
+<h1>The Traps of Statistical Inference</h1>
+<div class="meta">Significance, the replication crisis, and two worldviews about probability</div>
+<div class="epigraph">"Far better an approximate answer to the right question than an exact answer to the wrong question." — John Tukey</div>
+</header>
+
+<!-- Concept 1: the p-value -->
+<div class="card">
+<h2>The p-value</h2>
+<div class="en-name">Significance Testing · a ruler almost everyone reads backwards</div>
+<span class="tag">Statistical Inference</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>A jury starts by assuming the defendant is innocent, then asks: if he really were innocent, how strange would this evidence be? Strange enough, and you convict. The p-value is exactly that strangeness.</p>
+<p style="margin-top:10px">The fatal part is the direction of the conditioning. A p-value computes P(evidence | innocent); what people read off it is P(innocent | evidence). Everyone grasps this in the rare-disease screening example — yet transplanted into hypothesis testing, the same mistake has been repeated for a century.</p>
+<p style="margin-top:10px">Worse, a p-value surveys only the "innocent" world. It never asks how common this evidence would be if the effect were real (<strong>power</strong>), nor what fraction of hypotheses like this one are true to begin with (the <strong>base rate</strong>). Missing those two, it cannot answer the question anyone actually cares about.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+<text fill="#5a7090" font-size="10" x="20" y="22">1000 hypotheses tested (10% real, power 0.8)</text>
+<rect fill="#c6cedb" height="26" width="252" x="20" y="32"></rect>
+<rect fill="#3a6088" height="26" width="28" x="272" y="32"></rect>
+<text fill="#3a4658" font-size="10" x="26" y="49">no effect: 900</text>
+<text fill="#1e3a5f" font-size="9" text-anchor="middle" x="286" y="49">100</text>
+<line stroke="#a8b2c2" stroke-dasharray="3 3" stroke-width="1" x1="146" x2="106" y1="62" y2="112"></line>
+<line stroke="#a8b2c2" stroke-dasharray="3 3" stroke-width="1" x1="286" x2="260" y1="62" y2="112"></line>
+<text fill="#c9544a" font-size="9" x="150" y="86">5% slip through → 45</text>
+<text fill="#3a6088" font-size="9" x="292" y="86">80% found → 80</text>
+<text fill="#5a7090" font-size="10" x="20" y="108">125 "discoveries" with p &lt; 0.05 (different scale)</text>
+<rect fill="#c9544a" fill-opacity="0.75" height="30" width="101" x="20" y="116"></rect>
+<rect fill="#3a6088" height="30" width="179" x="121" y="116"></rect>
+<text fill="#fff" font-size="10" x="28" y="136">false: 45</text>
+<text fill="#fff" font-size="10" x="130" y="136">true: 80</text>
+<line stroke="#c9544a" stroke-width="1" x1="20" x2="121" y1="154" y2="154"></line>
+<text fill="#c9544a" font-size="11" font-weight="bold" x="20" y="172">36% of the "findings" are false</text>
+</svg>
+<div class="cap">The threshold governs only that 5% on the left. It says nothing about how many hypotheses were wrong to begin with.</div>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$p=P\big(T(X)\ \ge\ t_{\text{obs}}\ \big|\ H_0\big)$$</div>
+<p>$T(X)$ is the test statistic — the whole dataset squeezed into one number, say a difference of group means divided by its standard error; $t_{\text{obs}}$ is the value you actually got; $H_0$ is the null hypothesis of no effect. Note the $\ge$: the p-value counts <strong>more extreme data that never occurred</strong>. Your conclusion therefore depends on what you would have seen had you repeated the experiment, not only on what you did see — the backbone of the frequentist framework, and the very thing Concept 4 argues about.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>The p-value has a near-miraculous property: whenever $H_0$ is true, no matter what distribution the raw data follow or which statistic you chose, the p-value is <strong>uniform on $[0,1]$</strong>. It is a universal change of coordinates — every experiment, however exotic, pressed onto one shared ruler, so that evidence from different disciplines becomes comparable for the first time. And the trap grows out of precisely that universality: the scale is so uniform that people forget what it measures.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>The shared gatekeeper of clinical trials, A/B tests and the social sciences. Particle physics insists on $5\sigma$ ($p\approx3\times10^{-7}$) before claiming a new particle, precisely because it knows it is scanning an enormous range of energies at once. In 2016 the American Statistical Association took the rare step of issuing a formal statement refuting the common misreadings one by one — needing a policy document to teach people how to read a single number tells you how deep the trap runs.</p>
+</div>
+<div class="essence">In one line: a p-value answers "how weird would the data be if there were no effect" — never "how likely is it that an effect exists".</div>
+<div class="think">Question: if nine out of ten hypotheses in some field are false to begin with, what fraction of its "significant findings" are doomed to be false — even with everyone doing everything correctly and with ample power?</div>
+</div>
+
+<!-- Concept 2: multiple comparisons -->
+<div class="card">
+<h2>Multiple Comparisons &amp; the Garden of Forking Paths</h2>
+<div class="en-name">The paths you did not take still count</div>
+<span class="tag">Meta-Science</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Run 20 unrelated tests, each impeccably at $\alpha=0.05$, and the chance at least one comes out "significant" is $1-0.95^{20}\approx64\%$. You did nothing wrong; noise hands you a discovery all by itself.</p>
+<p style="margin-top:10px">Gelman's version is subtler: you genuinely ran only one test. But had the data looked different, you would have split the groups differently, adjusted for a different covariate, used a different outlier rule — and those <em>paths you did not walk</em> are multiple comparisons all the same. With no intent to cheat, the mere fact that your analysis depends on the data you saw has already inflated $\alpha$. <strong>You walk one path; the whole garden counts.</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 175" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#888" stroke-width="1" x1="40" x2="380" y1="150" y2="150"></line>
+<line stroke="#888" stroke-width="1" x1="40" x2="40" y1="20" y2="150"></line>
+<text fill="#5a7090" font-size="10" x="292" y="166">number of tests m</text>
+<text fill="#5a7090" font-size="10" x="8" y="18">P(at least one false positive)</text>
+<line stroke="#c6cedb" stroke-dasharray="3 3" stroke-width="1" x1="40" x2="380" y1="25" y2="25"></line>
+<text fill="#a8b2c2" font-size="9" x="356" y="22">100%</text>
+<path d="M 40 150 L 48 144 L 81 122 L 122 100 L 164 82 L 205 70 L 288 52 L 370 41" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<line stroke="#c9544a" stroke-dasharray="4 3" stroke-width="1.2" x1="205" x2="205" y1="70" y2="150"></line>
+<circle cx="205" cy="70" fill="#c9544a" r="3.5"></circle>
+<text fill="#c9544a" font-size="10" x="212" y="66">64% already at m=20</text>
+<text fill="#5a7090" font-size="9" x="196" y="164">20</text>
+<text fill="#5a7090" font-size="9" x="364" y="164">40</text>
+<text fill="#5a7090" font-size="9" x="30" y="154">0</text>
+<text fill="#3a6088" font-size="9" x="56" y="140">α=0.05</text>
+</svg>
+<div class="cap">A 5% error rate per test swells to 64% after twenty — and the steepest part of the curve is exactly where everyday research lives.</div>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>Bonferroni pushes the threshold down to $\alpha/m$ (with $m$ tests), controlling the <strong>family-wise error rate</strong> $\mathrm{FWER}=P(\text{at least one false positive})$. Benjamini–Hochberg changes the target instead: sort the $m$ p-values ascending, find the largest $k$ with $p_{(k)}\le k\alpha/m$, reject the first $k$, and you control the <strong>false discovery rate</strong> $\mathrm{FDR}=\mathbb{E}[V/R]$ — where $V$ counts false positives and $R$ counts total rejections, so the ratio is "what share of my claimed discoveries are wrong".</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>BH's breakthrough is not a stronger technique but a redefinition of the problem: from "never be wrong once" to "keep the wrong fraction bounded". That single relaxation restores the power Bonferroni strangles — <strong>lowering the bar in the right place beats redoubling effort in the wrong one</strong>. Its proof leans on exactly one fact: p-values are uniform under $H_0$, the miracle from Concept 1. And it adapts: the more real signal in the data, the looser the threshold becomes on its own.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Genome-wide association studies test millions of loci at once, which is why their significance line sits at $5\times10^{-8}$. Neuroimaging's famous "dead salmon" study found significant brain activation in a dead fish's fMRI — the canonical demonstration of skipping correction. Machine learning has the isomorphic disease, <strong>test-set reuse</strong>: repeatedly selecting models on one held-out set is multiple comparison against it, which is why leaderboard standings are systematically inflated.</p>
+</div>
+<div class="essence">In one line: multiple comparison is not about how many tests you ran, but about how many degrees of freedom your analysis path had.</div>
+<div class="think">Question: preregistration forces you to fix the analysis before seeing the data. Which degrees of freedom does that actually kill — and which ones does it leave untouched?</div>
+</div>
+
+<!-- Concept 3: effect size and the winner's curse -->
+<div class="card">
+<h2>Effect Size, Power &amp; the Winner's Curse</h2>
+<div class="en-name">What significance cannot buy you</div>
+<span class="tag">Estimation</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>With a large enough sample, any non-zero difference turns significant. Significance says "almost certainly not zero"; it never says "worth caring about".</p>
+<p style="margin-top:10px">The trap in the other direction is nastier. When the true effect is small and the sample tiny (low power), only samples that noise happened to push to an extreme clear the significance line. So <strong>once it is significant, the estimate is necessarily exaggerated</strong>: the distribution of effect sizes visible in the literature has been truncated. Gelman calls this a Type M error (magnitude inflated); drop the power further and you get Type S errors, where even the sign is wrong.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 185" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#888" stroke-width="1" x1="20" x2="380" y1="140" y2="140"></line>
+<path d="M 20 140 C 110 140 115 40 155 40 C 195 40 200 140 330 140" fill="#3a6088" fill-opacity="0.12" stroke="#3a6088" stroke-width="1.8"></path>
+<path d="M 280 140 L 280 127 C 296 133 308 139 330 140 Z" fill="#c9544a" fill-opacity="0.65" stroke="#c9544a" stroke-width="1"></path>
+<line stroke="#1e3a5f" stroke-dasharray="4 3" stroke-width="1.2" x1="155" x2="155" y1="40" y2="140"></line>
+<text fill="#1e3a5f" font-size="10" text-anchor="middle" x="155" y="34">true effect (small)</text>
+<line stroke="#c9544a" stroke-dasharray="4 3" stroke-width="1.2" x1="280" x2="280" y1="60" y2="150"></line>
+<text fill="#c9544a" font-size="10" x="222" y="56">significance line</text>
+<text fill="#c9544a" font-size="10" x="300" y="112">only this sliver</text>
+<text fill="#c9544a" font-size="10" x="300" y="126">gets published</text>
+<line stroke="#c9544a" stroke-width="1.5" x1="300" x2="300" y1="150" y2="164"></line>
+<text fill="#c9544a" font-size="10" text-anchor="middle" x="300" y="177">mean published estimate</text>
+<text fill="#5a7090" font-size="9" x="24" y="155">0</text>
+<line stroke="#5a7090" stroke-width="1" x1="20" x2="20" y1="140" y2="147"></line>
+<text fill="#3a6088" font-size="9" x="52" y="132">sampling distribution</text>
+</svg>
+<div class="cap">The threshold slices away most of the distribution; what remains has a mean far to the right of the truth. That gap is the Type M error.</div>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>Effect size divides the difference by the noise: Cohen's $d=(\mu_1-\mu_2)/\sigma$, numerator the true gap between group means, denominator the between-individual standard deviation. Dimensionless, it measures a <strong>signal-to-noise ratio</strong> rather than an absolute gap. Power $1-\beta$ is the probability of detecting an effect that genuinely exists. The Type M error is $\mathbb{E}\big[\,|\hat\theta|\ \big|\ \text{significant}\,\big]\big/|\theta|$ — how many times larger the published estimate runs than the truth. At power 0.1 that ratio is routinely above 3.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>It exposes a quiet, universal structure: <strong>the act of filtering by significance is itself what turns an unbiased estimator into a biased one</strong>. Mathematically it is just a conditioning — truncate a distribution to the right of a threshold and its mean rises; no one has to behave badly. The beauty is that the same operator surfaces everywhere: survivorship bias in investing, selection effects in evolution, the performance drop after a hiring screen, picking models on a validation set. Wherever there is selection, there is a curse.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>In 2015 the Open Science Collaboration repeated 100 psychology studies: only about a third replicated, and the effect sizes averaged half of what was originally reported — exactly what Type M predicts. Early small-sample drug trials routinely shrink in phase III; "the variant that won the experiment underdelivers after launch" is the everyday industrial version. SOTA gains on ML leaderboards are inflated for the same reason: what gets reported is always the best of many attempts.</p>
+</div>
+<div class="essence">In one line: significance only answers "is it zero"; effect size and power answer "how big, and how much should you believe it".</div>
+<div class="think">Question: a low-powered study reports "significant". Should a rational reader treat that as evidence in favour — or shrink its estimate toward zero? By how much?</div>
+</div>
+
+<!-- Concept 4: Bayesian vs frequentist -->
+<div class="card">
+<h2>Bayesian vs Frequentist Inference</h2>
+<div class="en-name">Two views of probability, two different questions</div>
+<span class="tag">Foundations</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>The two camps do not give different answers; they answer <strong>different questions</strong>. The frequentist treats the parameter as a fixed unknown constant and the data as random: a 95% confidence interval promises that "if this procedure were repeated indefinitely, 95% of the intervals would cover the truth" — a <strong>long-run property of the procedure</strong>, saying nothing about the one interval in your hand.</p>
+<p style="margin-top:10px">The Bayesian treats the data as settled fact and the parameter as random: a 95% credible interval says "given the data I have seen, the truth lies here with probability 95%" — a <strong>belief right now</strong>. Intuition has always wanted the second; the standard toolkit delivers the first. That mismatch is the root of a century of misread p-values.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 175" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#888" stroke-width="1" x1="20" x2="380" y1="135" y2="135"></line>
+<path d="M 20 135 C 90 135 90 78 140 78 C 190 78 190 135 260 135" fill="none" stroke="#c9a96b" stroke-width="2"></path>
+<path d="M 190 135 C 240 135 240 48 270 48 C 300 48 300 135 350 135" fill="none" stroke="#3a6088" stroke-dasharray="5 3" stroke-width="2"></path>
+<path d="M 160 135 C 215 135 215 34 245 34 C 275 34 275 135 330 135" fill="#1e3a5f" fill-opacity="0.12" stroke="#1e3a5f" stroke-width="2.4"></path>
+<text fill="#8a7340" font-size="10" x="54" y="72">prior p(θ)</text>
+<text fill="#3a6088" font-size="10" x="292" y="46">likelihood p(D|θ)</text>
+<text fill="#1e3a5f" font-size="10" font-weight="bold" text-anchor="middle" x="245" y="28">posterior p(θ|D)</text>
+<line stroke="#1e3a5f" stroke-dasharray="3 3" stroke-width="1" x1="245" x2="245" y1="34" y2="135"></line>
+<line stroke="#3a6088" stroke-dasharray="3 3" stroke-width="1" x1="270" x2="270" y1="48" y2="135"></line>
+<path d="M 268 148 L 248 148" fill="none" stroke="#c9544a" stroke-width="1.4"></path>
+<path d="M 248 148 L 253 145 M 248 148 L 253 151" fill="none" stroke="#c9544a" stroke-width="1.4"></path>
+<text fill="#c9544a" font-size="9" x="274" y="152">weaker data, harder pull</text>
+<text fill="#5a7090" font-size="10" x="356" y="150">θ</text>
+</svg>
+<div class="cap">The posterior peaks between prior and likelihood — that pull back is shrinkage.</div>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$p(\theta\mid D)\ \propto\ p(D\mid\theta)\,p(\theta)$$</div>
+<p>$\theta$ is the parameter you want to infer, $D$ the observed data. $p(\theta)$ is the <strong>prior</strong> — how large you believed $\theta$ might be before looking; $p(D\mid\theta)$ is the <strong>likelihood</strong> — how probable this data would be if $\theta$ took that value; multiply and normalise to get the <strong>posterior</strong>. The prior is often dismissed as subjective contamination, yet what it carries is exactly the information Concept 1 was missing: how large effects of this kind usually are, and how many hypotheses of this kind are true.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>The Bayesian view collapses the first three traps into one hole — the absence of a prior over base rates and effect sizes. The hierarchical-model repair is startlingly elegant: give the group-level parameters a shared prior and the posterior produces <strong>shrinkage</strong> automatically, pulling each group's estimate toward the overall mean, pulling hardest on the noisiest. Multiple comparison needs no patch; the winner's curse is discounted on its own. As Gelman puts it: <strong>what multiple-comparison corrections approximate, multilevel models simply do.</strong> One mechanism, three diseases cured — because it is not a patch but an honest statement of how the data were generated. The frequentist beauty is just as real: no prior required, and an auditable worst-case long-run error rate.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>A/B platforms increasingly report "probability B beats A" and expected loss directly, far closer to the language of decisions than a p-value; Thompson sampling allocates traffic by posterior probability. The most concrete counterpart in machine learning is <strong>regularisation as a prior</strong>: an $L_2$ penalty is a Gaussian prior on the weights, $L_1$ a Laplace prior, and the optimum you train to is the MAP estimate. Shrinkage for cold-start items in recommenders and credibility estimates in actuarial work are hierarchical priors doing the same job.</p>
+</div>
+<div class="essence">In one line: the frequentist guarantees a procedure is reliable in the long run, the Bayesian answers what to believe now — the misreading happens when you read the former's number in the latter's voice.</div>
+<div class="think">Question: if the prior can only be guessed at, the strength of shrinkage becomes a new degree of freedom. Has subjectivity been eliminated, or merely relocated?</div>
+</div>
+
+<!-- Going deeper -->
+<div class="card deep">
+<h2>Going Deeper</h2>
+<details>
+<summary>If p-values are so easily misread, why not retire them outright?</summary>
+<div class="body">Because every substitute has its own price. A p-value needs no agreed prior, is cheap to compute, and can be independently recomputed by a third party — a low-cost, auditable gatekeeper. The real disease is not the number but the 0.05 threshold that slices continuous evidence into "significant / not", plus an incentive structure that publishes only the significant half. That is why the ASA's 2019 recommendation was to <strong>abandon the phrase "statistically significant"</strong> rather than the p-value itself; preregistration and registered reports are the treatment that targets the cause.</div>
+</details>
+<details>
+<summary>Deep learning barely does significance testing. Has it escaped these traps?</summary>
+<div class="body">No — it only changed their appearance. Reusing one test set over and over is multiple comparison; a leaderboard that records only the best attempt is the winner's curse; tuning seeds, sweeping hyperparameters and revising cleaning rules is the garden of forking paths. Recent papers demanding multiple seeds and interval reporting are statistics' old answer arriving a round late. The theoretical response is adaptive data analysis: differential privacy yields a quantitative bound on how many times a held-out set can still be queried — <strong>treating information leakage as a measurable budget</strong>.</div>
+</details>
+<details>
+<summary>Can the Bayesian–frequentist dispute be settled mathematically?</summary>
+<div class="body">Partly. Cox's theorem shows any measure of uncertainty satisfying consistency axioms must be isomorphic to probability theory, which favours the Bayesian side; de Finetti's exchangeability theorem answers that frequencies are themselves the limit of exchangeable beliefs. The Bernstein–von Mises theorem goes further, guaranteeing that in large samples the posterior is asymptotically the frequentist sampling distribution — so the disagreement only becomes visible with small samples and influential priors. <strong>Which is precisely where the hardest and most consequential judgements have to be made.</strong></div>
+</details>
+</div>
+
+<nav class="bottom">
+<a href="index.en.html">← Back to Mathematics</a>
+</nav>
+</div>
+</body>
+</html>
