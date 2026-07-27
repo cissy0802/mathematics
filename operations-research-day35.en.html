@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Operations Research · Day 35 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 16px;text-align:center;font-style:italic;letter-spacing:1px}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 35 · 2026.07.27</div>
+<h1>Operations Research</h1>
+<div class="meta">Seeking the Optimum in a World of Constraints</div>
+<div class="epigraph">"Operations research is the art of giving bad answers to problems to which otherwise worse answers are given." — Thomas L. Saaty</div>
+</header>
+
+<!-- Concept 1: Linear programming and duality -->
+<div class="card">
+<h2>Linear Programming &amp; the Simplex Method</h2>
+<div class="en-name">The skeleton of constrained optimization</div>
+<span class="tag">Optimization</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Picture a factory: several products competing for the same limited steel, labour hours, and machines. Every resource limit slices the decision space once — "no more than 100 tons of steel" is a half-space — and stacking all the slices leaves a feasible region that is a high-dimensional <strong>polytope</strong>.<br/><br/>Profit is linear, so the "equal profit" level sets form a family of parallel planes. Push that family in the direction of increasing profit; the last point it touches before leaving the polytope is the optimum. <strong>The optimum always sits at a vertex</strong> — infinitely many feasible points collapse into finitely many corners. The simplex method exploits exactly this: stand at a vertex, find an edge along which profit rises, walk it, and repeat until no ascending edge remains. Convexity guarantees that this local optimum is the global one.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 190" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.8" x1="40" x2="340" y1="165" y2="165"></line>
+<line stroke="#aaa" stroke-width="0.8" x1="40" x2="40" y1="20" y2="165"></line>
+<polygon fill="#3a6088" fill-opacity="0.16" points="40,165 40,85 110,45 225,62 275,165" stroke="#1e3a5f" stroke-width="1.6"></polygon>
+<text fill="#3a6088" font-size="11" text-anchor="middle" x="145" y="125">feasible polytope</text>
+<circle cx="40" cy="165" fill="#c9544a" r="4"></circle>
+<circle cx="275" cy="165" fill="#c9544a" r="4"></circle>
+<circle cx="225" cy="62" fill="#c9544a" r="5.5"></circle>
+<circle cx="110" cy="45" fill="#1e3a5f" r="3"></circle>
+<circle cx="40" cy="85" fill="#1e3a5f" r="3"></circle>
+<path d="M 44 161 L 271 163" fill="none" marker-end="url(#ar)" stroke="#c9544a" stroke-dasharray="4 3" stroke-width="1.6"></path>
+<path d="M 275 160 L 227 68" fill="none" marker-end="url(#ar)" stroke="#c9544a" stroke-dasharray="4 3" stroke-width="1.6"></path>
+<defs>
+<marker id="ar" markerheight="6" markerwidth="7" orient="auto" refx="6" refy="3">
+<path d="M0,0 L7,3 L0,6 z" fill="#c9544a"></path>
+</marker>
+</defs>
+<line stroke="#8a7340" stroke-width="1" x1="300" x2="336" y1="120" y2="84"></line>
+<path d="M 318 102 L 342 78" fill="none" marker-end="url(#ar2)" stroke="#8a7340" stroke-width="2"></path>
+<defs>
+<marker id="ar2" markerheight="6" markerwidth="7" orient="auto" refx="6" refy="3">
+<path d="M0,0 L7,3 L0,6 z" fill="#8a7340"></path>
+</marker>
+</defs>
+<text fill="#8a7340" font-size="11" font-style="italic" x="288" y="136">objective c</text>
+<text fill="#c9544a" font-size="10.5" text-anchor="middle" x="240" y="50">optimal vertex</text>
+<text fill="#666" font-size="10" x="322" y="180">x₁</text>
+<text fill="#666" font-size="10" x="22" y="28">x₂</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$\max_{x}\; c^\top x \quad \text{s.t.} \quad Ax \le b,\; x \ge 0$$</div>
+<p>$x$ holds the decisions (how much of each product to make), $c$ the unit profits, $A_{ij}$ how much of resource $i$ one unit of product $j$ consumes, and $b$ the available stock. Its <strong>dual</strong> is:</p>
+<div class="formula-box">$$\min_{y}\; b^\top y \quad \text{s.t.} \quad A^\top y \ge c,\; y \ge 0$$</div>
+<p>Each component of $y$ corresponds to one constraint of the original problem and means that resource's <strong>shadow price</strong>: one more ton of steel buys you how much extra profit. Strong duality says that whenever the primal has an optimum, the two optimal values are <em>equal</em>.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>Duality is the model case of "one fact stated two ways": the primal asks "how much can I earn at most?", the dual asks "what is this pile of resources worth at least?" — and the answers must coincide, because the ceiling on profit <em>is</em> the value of the resources.<br/><br/>The deeper beauty is <strong>verifiability</strong>: any feasible $y$ hands you an upper bound, any feasible $x$ a lower bound, and when the two meet, optimality has been <em>proved</em> — no further search required. A footnote worth keeping: the simplex method is exponential in the worst case yet takes near-linear steps in practice. That mismatch between guarantee and behaviour is a classic lesson of the field.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Airline crew rostering (single models routinely carry hundreds of thousands of variables) and power-grid unit commitment — the electricity price you pay is literally a dual variable. In computing: integer programs solve their LP relaxation first to obtain bounds, which is the engine of branch and bound; the dual form of the SVM is what makes kernel methods possible; reinforcement learning can be written as an LP over occupancy measures, where <strong>the dual variables are exactly the value function</strong> — the Bellman equation and LP duality are one thing written twice.</p>
+</div>
+<div class="section">
+<div class="label">Essence &amp; question</div>
+<div class="intuition">The point of linear programming is not that you can solve it, but that optimality can be verified on the spot by a dual certificate.</div>
+<div class="think">What is the shadow price of the bottleneck resource on your team — how much extra output does one more person-day buy? And if a resource's shadow price is zero, what does that tell you?</div>
+</div>
+</div>
+
+<!-- Concept 2: Network flow -->
+<div class="card">
+<h2>Max-Flow Min-Cut</h2>
+<div class="en-name">Duality incarnate in the combinatorial world</div>
+<span class="tag">Graph · Combinatorics</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Think of the network as plumbing: water leaves the source $s$, arrives at the sink $t$, and every pipe has a capacity. How much can you push through?<br/><br/>The procedure is naive — keep hunting for a path that can still take a little more water, saturate it, look for the next, stop when none remains. What is remarkable is the moment it stops: slice the network <strong>into two halves</strong> ($s$ on one side, $t$ on the other) and the total capacity of the severed pipes exactly equals the water you were able to send. <strong>The bottleneck is never one pipe; it is a set of pipes — a cut.</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 190" xmlns="http://www.w3.org/2000/svg">
+<g fill="none" stroke="#3a6088" stroke-width="1.4">
+<line x1="46" x2="122" y1="95" y2="52"></line>
+<line x1="46" x2="122" y1="95" y2="138"></line>
+<line x1="130" x2="130" y1="60" y2="130"></line>
+<line x1="138" x2="222" y1="52" y2="52"></line>
+<line x1="138" x2="222" y1="138" y2="138"></line>
+<line x1="238" x2="314" y1="52" y2="88"></line>
+<line x1="238" x2="314" y1="138" y2="102"></line>
+</g>
+<line stroke="#c9544a" stroke-dasharray="6 4" stroke-width="1.8" x1="180" x2="180" y1="18" y2="172"></line>
+<text fill="#c9544a" font-size="10.5" text-anchor="middle" x="180" y="14">min cut</text>
+<text fill="#c9544a" font-size="10.5" text-anchor="middle" x="180" y="186">6 + 9 = 15</text>
+<g fill="#fff" stroke="#1e3a5f" stroke-width="1.6">
+<circle cx="38" cy="95" r="14"></circle>
+<circle cx="130" cy="52" r="12"></circle>
+<circle cx="130" cy="138" r="12"></circle>
+<circle cx="230" cy="52" r="12"></circle>
+<circle cx="230" cy="138" r="12"></circle>
+<circle cx="322" cy="95" r="14"></circle>
+</g>
+<g fill="#1e3a5f" font-size="12" font-style="italic" text-anchor="middle">
+<text x="38" y="99">s</text>
+<text x="130" y="56">a</text>
+<text x="130" y="142">b</text>
+<text x="230" y="56">c</text>
+<text x="230" y="142">d</text>
+<text x="322" y="99">t</text>
+</g>
+<g fill="#5a7090" font-size="10" text-anchor="middle">
+<text x="76" y="64">10</text>
+<text x="76" y="132">8</text>
+<text x="141" y="98">3</text>
+<text x="180" y="44">6</text>
+<text x="180" y="152">9</text>
+<text x="284" y="62">7</text>
+<text x="284" y="132">9</text>
+</g>
+<text fill="#8a7340" font-size="10.5" font-style="italic" text-anchor="middle" x="62" y="176">max flow = 15</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$\max_{f}\; |f| \;=\; \min_{(S,T)}\; \sum_{u\in S,\, v\in T} c(u,v)$$</div>
+<p>On the left: the largest value $|f|$ over all flows respecting capacities and conserving flow at every intermediate node (<em>in equals out</em>). On the right: the smallest total capacity of edges pointing from $S$ to $T$, over all partitions $(S,T)$ that separate $s$ from $t$. The theorem says the two are <strong>always equal</strong>.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>This is LP duality reincarnated in combinatorics, and it arrives with a bonus: <strong>integrality</strong>. When all capacities are integers, some maximum flow is integral — no "2.5 units of flow", an answer perfectly legal in an LP and meaningless on the ground. The reason is the <em>total unimodularity</em> of the incidence matrix, which forces every vertex of the polytope onto a lattice point.<br/><br/>So one theorem collapses a whole family of theorems: maximum bipartite matching is a special case (which yields König's theorem, maximum matching = minimum vertex cover), and Menger's theorem is another projection of it. You thought you were solving different problems; you were solving one.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Image segmentation: treat pixels as nodes and neighbour similarity as capacity, and <strong>the minimum cut is the most natural foreground/background boundary</strong> — graph cuts carried segmentation before deep learning and still sit at the core of CRF post-processing. Elsewhere: inter-datacenter traffic engineering, CDN bandwidth allocation, project selection. Asking "how much throughput can this architecture carry?" is, mathematically, a search for the minimum cut.</p>
+</div>
+<div class="section">
+<div class="label">Essence &amp; question</div>
+<div class="intuition">A system's capacity equals the cheapest single slice that separates it in two.</div>
+<div class="think">What is the "minimum cut" of the system you own — which <em>set</em> of components (not which single one) has to fail together before service is actually severed? Is your redundancy sitting on that cut, or somewhere that was never tight?</div>
+</div>
+</div>
+
+<!-- Concept 3: Queueing theory -->
+<div class="card">
+<h2>Queueing Theory &amp; Little's Law</h2>
+<div class="en-name">The mathematics of waiting</div>
+<span class="tag">Applied Probability</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>A motorway running at 90% average utilisation sounds like it still has headroom, yet it crawls. Why? <strong>Because cars do not arrive evenly.</strong> Enough on average is not enough at every instant; momentary crowding builds a backlog, and a backlog can only be drained during idle time — the higher the utilisation, the less idle time, the less the backlog dissipates.<br/><br/>So the pain of queueing does not grow linearly; it explodes towards infinity as utilisation $\rho$ approaches 1. Going from 50% to 60% is imperceptible; going from 90% to 95% doubles the wait.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 190" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.8" x1="40" x2="345" y1="165" y2="165"></line>
+<line stroke="#aaa" stroke-width="0.8" x1="40" x2="40" y1="18" y2="165"></line>
+<line stroke="#c9544a" stroke-dasharray="4 4" stroke-width="1.2" x1="320" x2="320" y1="18" y2="165"></line>
+<path d="M 40 158 C 140 152, 200 140, 236 126 C 262 116, 278 88, 288 54 C 291 43, 293 32, 295 22" fill="none" stroke="#1e3a5f" stroke-width="2.2"></path>
+<circle cx="180" cy="144" fill="#8a7340" r="3.5"></circle>
+<circle cx="264" cy="112" fill="#8a7340" r="3.5"></circle>
+<circle cx="292" cy="42" fill="#c9544a" r="4.5"></circle>
+<text fill="#8a7340" font-size="10" x="150" y="136">ρ=0.5</text>
+<text fill="#8a7340" font-size="10" x="228" y="106">ρ=0.8</text>
+<text fill="#c9544a" font-size="10" x="246" y="36">ρ=0.9</text>
+<text fill="#c9544a" font-size="10" text-anchor="middle" x="320" y="180">ρ→1</text>
+<text fill="#666" font-size="10" x="46" y="180">0</text>
+<text fill="#1e3a5f" font-size="11" font-style="italic" x="20" y="28">W</text>
+<text fill="#1e3a5f" font-size="11" font-style="italic" x="332" y="180">ρ</text>
+<text fill="#3a6088" font-size="10.5" font-style="italic" x="88" y="70">wait ∝ 1/(1−ρ)</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$L = \lambda W$$</div>
+<p>$L$ is the average number of customers in the system, $\lambda$ the average arrival rate (per second), $W$ the average time each customer spends inside. For the simplest M/M/1 queue (Poisson arrivals, exponential service, one server):</p>
+<div class="formula-box">$$W = \frac{1}{\mu-\lambda} = \underbrace{\frac{1}{\mu}}_{\text{service}} \cdot \underbrace{\frac{1}{1-\rho}}_{\text{congestion}},\qquad \rho=\frac{\lambda}{\mu}$$</div>
+<p>$\mu$ is the service rate, so $1/\mu$ is what the job should have cost with nobody queueing; the second factor is the amplification queueing adds — 10× at $\rho=0.9$, 100× at $\rho=0.99$.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>Little's Law is almost unreasonably general: it <strong>needs to know nothing</strong> about the arrival or service distributions, whether the discipline is first-come-first-served, or how many servers there are. Long-run stability is the only requirement. The reason is that it is really a conservation law — the area "customers × time" integrated two ways: once by customer, once by instant. <strong>Very few assumptions, very strong conclusion</strong> is a rare combination in mathematics.<br/><br/>Kingman's formula goes further: waiting time is also proportional to the coefficients of variation, $(c_a^2+c_s^2)/2$. <em>Reducing variance and adding capacity are two knobs on the same quantity</em> — which is why smoothing bursts, standardising request sizes, and isolating long-tail work often beat buying machines.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>This is the foundation of capacity planning in distributed systems: why SREs target 60–70% CPU rather than 95%; why P99 tail latency is governed by $\rho$ rather than by the mean; why "power of two choices" in load balancing cuts queue lengths so sharply. Continuous batching and KV-cache contention in LLM inference serving are a multi-class queueing problem — the throughput-versus-tail-latency trade is a choice of point on this hyperbola.</p>
+</div>
+<div class="section">
+<div class="label">Essence &amp; question</div>
+<div class="intuition">The last 10% of utilisation is paid for with waiting that tends to infinity.</div>
+<div class="think">If your service halved its variance with capacity untouched, how would perceived latency change? And why is smoothing demand usually cheaper than scaling out, yet teams reach for scaling first?</div>
+</div>
+</div>
+
+<!-- Concept 4: Scheduling and approximation -->
+<div class="card">
+<h2>Scheduling &amp; Approximation Guarantees</h2>
+<div class="en-name">Changing the question in the face of hardness</div>
+<span class="tag">Combinatorial Optimization</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Assign $n$ jobs to $m$ machines so that the last machine finishes as early as possible (the makespan). With just two machines this already amounts to splitting a pile of numbers into two piles of nearly equal sum — NP-hard.<br/><br/>The operations-research response is not to give up but to <strong>change the question</strong>: stop demanding the optimum, demand a guarantee of being close to it. The crudest rule — hand each arriving job to whichever machine is least busy — already guarantees no worse than $2-1/m$ times optimal; sorting jobs longest-first (LPT) tightens the guarantee to roughly $4/3$. <em>Big rocks first, sand into the gaps</em> — an everyday instinct, now a theorem.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 178" xmlns="http://www.w3.org/2000/svg">
+<text fill="#5a7090" font-size="11" x="10" y="12">arbitrary order: makespan = 9</text>
+<g fill="#5a7090" font-size="10" text-anchor="end">
+<text x="52" y="32">M1</text>
+<text x="52" y="52">M2</text>
+<text x="52" y="72">M3</text>
+</g>
+<g stroke="#8a7340" stroke-width="0.6">
+<rect fill="#c9a96b" fill-opacity="0.45" height="15" width="66" x="60" y="20"></rect>
+<rect fill="#c9a96b" fill-opacity="0.7" height="15" width="88" x="126" y="20"></rect>
+<rect fill="#c9a96b" fill-opacity="0.45" height="15" width="66" x="60" y="40"></rect>
+<rect fill="#c9a96b" fill-opacity="0.7" height="15" width="110" x="126" y="40"></rect>
+<rect fill="#c9a96b" fill-opacity="0.45" height="15" width="88" x="60" y="60"></rect>
+<rect fill="#c9a96b" fill-opacity="0.7" height="15" width="110" x="148" y="60"></rect>
+</g>
+<line stroke="#c9544a" stroke-dasharray="4 3" stroke-width="1.5" x1="258" x2="258" y1="16" y2="80"></line>
+<text fill="#c9544a" font-size="10" x="262" y="24">9</text>
+<text fill="#5a7090" font-size="11" x="10" y="104">LPT (longest first): makespan = 8 = optimal</text>
+<g fill="#5a7090" font-size="10" text-anchor="end">
+<text x="52" y="124">M1</text>
+<text x="52" y="144">M2</text>
+<text x="52" y="164">M3</text>
+</g>
+<g stroke="#3a6088" stroke-width="0.6">
+<rect fill="#3a6088" fill-opacity="0.55" height="15" width="110" x="60" y="112"></rect>
+<rect fill="#3a6088" fill-opacity="0.25" height="15" width="66" x="170" y="112"></rect>
+<rect fill="#3a6088" fill-opacity="0.55" height="15" width="110" x="60" y="132"></rect>
+<rect fill="#3a6088" fill-opacity="0.25" height="15" width="66" x="170" y="132"></rect>
+<rect fill="#3a6088" fill-opacity="0.4" height="15" width="88" x="60" y="152"></rect>
+<rect fill="#3a6088" fill-opacity="0.4" height="15" width="88" x="148" y="152"></rect>
+</g>
+<line stroke="#1e3a5f" stroke-dasharray="4 3" stroke-width="1.5" x1="236" x2="236" y1="108" y2="172"></line>
+<text fill="#1e3a5f" font-size="10" x="240" y="116">8</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$C_{\max}^{\text{LPT}} \;\le\; \left(\frac{4}{3}-\frac{1}{3m}\right) C_{\max}^{*}$$</div>
+<p>$C_{\max}$ is the makespan, the star marks the optimal value, $m$ is the number of machines. Inequalities of this shape are <strong>approximation ratios</strong>: on <em>any</em> input the algorithm stays within a constant factor of optimal — not on average, but as a worst-case promise.<br/><br/>The proof needs only two lower bounds: the optimal makespan is at least "total work ÷ machines" and at least "the longest single job"; and the machine that finishes last cannot have started later than the average load.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>This is where complexity theory shakes hands with engineering. NP-hardness says "do not expect the optimum"; approximation answers "then let the imprecision be <strong>quantified and guaranteed</strong>". The question shifts from "can it be solved?" to "how good a promise can I make?" — a victory at the level of problem definition.<br/><br/>It also throws in a counter-intuitive gift: <strong>Graham's anomalies</strong>. Adding machines, shortening a job, or relaxing a precedence constraint can each <em>lengthen</em> the makespan. In any system with a scheduler, "local improvement must improve the whole" is simply false.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Instruction scheduling in compilers, GPU kernel placement and operator fusion, DAG scheduling in Spark and Flink, bin-packing and preemption in Kubernetes and Borg. Minimising pipeline bubbles in LLM training is scheduling with precedence constraints: why slicing micro-batches finer fills the bubbles is answered by the same lower-bound analysis.</p>
+</div>
+<div class="section">
+<div class="label">Essence &amp; question</div>
+<div class="intuition">When the optimum is out of reach, "provably not much worse" becomes the new optimum.</div>
+<div class="think">Do you already run LPT on your own day — biggest rock first? When does that strategy break down? (Hint: when jobs have dependencies, or when the big job's duration estimate is itself unreliable.)</div>
+</div>
+</div>
+
+<h3 class="deep">Going Deeper</h3>
+
+<details>
+<summary>LP dual variables are shadow prices, and value functions in the Bellman equation are dual variables too — how far does the correspondence go?</summary>
+<div>In the LP formulation of reinforcement learning, the primal maximises expected return over an occupancy measure, the dual variables are precisely the state values $V(s)$, and the dual constraints are the Bellman inequalities; complementary slackness says an optimal policy places probability only on actions where equality holds — that is, greedily. This explains why policy iteration so closely resembles simplex: each step swaps one action at one state (a change of basis), improving monotonically and terminating in finitely many steps. But with continuous state the LP becomes infinite-dimensional, and once function approximation enters, strong duality fails — that fracture is the source of much of deep RL's instability.</div>
+</details>
+
+<details>
+<summary>How far does the "integrality miracle" of max-flow min-cut generalise?</summary>
+<div>The root cause is total unimodularity of the constraint matrix: every square minor has determinant $0,\pm 1$, so the polytope's vertices land on lattice points automatically and the LP relaxation is already the combinatorial optimum, no rounding needed. Flows, bipartite matching, and shortest paths all share this. Add a constraint like "each node used at most once" (general matching, the travelling salesman) and the matrix stops being unimodular, the relaxation returns half-integral solutions, and cutting planes become the only remedy. Hence a rule of thumb: judging whether a combinatorial problem is easy or hard is often equivalent to judging the shape of its polytope.</div>
+</details>
+
+<details>
+<summary>Why is the optimum computed by operations research so often ignored in practice?</summary>
+<div>An objective function is a projection of reality, and a projection necessarily discards things: robustness, fairness, human preference, the flexibility you were saving for next quarter. A solution wedged exactly against every constraint boundary can collapse under a small perturbation far worse than a mediocre but sturdy one — which is exactly why robust optimisation and stochastic programming exist. Saaty's line is about this: the value of the discipline is not in the word "optimal" but in forcing you to write implicit trade-offs down as explicit objectives and constraints.</div>
+</details>
+
+<details>
+<summary>Is there one idea behind all four concepts?</summary>
+<div>Yes, and it is called the bound. LP duality supplies verifiable upper and lower bounds; max-flow min-cut is that bound achieving equality on a combinatorial structure; approximation algorithms abandon equality but keep the ratio finite; queueing theory delivers bounds in the stochastic sense. The temperament of the field follows: it rarely aims to "solve the world exactly", it keeps asking "what can I prove must hold". For anyone building systems that transfers better than any single algorithm — capacity planning, SLO setting, cost estimation are all acts of drawing a defensible bound around an uncertain reality.</div>
+</details>
+
+<nav class="bottom">
+<a href="index.en.html">← Back to Mathematics</a>
+</nav>
+</div>
+</body>
+</html>
