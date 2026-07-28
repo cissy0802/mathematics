@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Computational Complexity · Day 36 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 16px;text-align:center;font-style:italic;letter-spacing:1px}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 36 · 2026.07.28</div>
+<h1>Computational Complexity</h1>
+<div class="meta">Turning "hard" into a provable mathematical object</div>
+<div class="epigraph">"If P = NP, there would be no special value in creative leaps, no fundamental gap between solving a problem and recognizing the solution once it's found." — Scott Aaronson</div>
+</header>
+<!-- Concept 1: P vs NP -->
+<div class="card">
+<h2>P and NP</h2>
+<div class="en-name">P vs NP · the gulf between solving and verifying</div>
+<span class="tag">Complexity</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Filling in a Sudoku is hard; checking a filled-in one is easy — a single pass over rows, columns and boxes. Proving a theorem can consume ten years; reading the proof may take an afternoon. <strong>The asymmetry between <em>finding</em> and <em>recognizing</em></strong> is one of the most universal facts of intellectual life.</p>
+<p style="margin-top:10px">Complexity theory writes it as two sets: <strong>P</strong> is the problems <em>solvable</em> in polynomial time, <strong>NP</strong> the problems whose answers can be <em>verified</em> in polynomial time. P vs NP asks only this: are they really different? (One widespread misreading, for the record: the N in NP is "nondeterministic," not "non-polynomial.")</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
+<g fill="none" stroke="#3a6088" stroke-width="1">
+<path d="M85 30 L45 68 M85 30 L125 68"></path>
+<path d="M45 68 L25 106 M45 68 L65 106 M125 68 L105 106 M125 68 L145 106"></path>
+<path d="M25 106 L15 140 M25 106 L37 140 M65 106 L55 140 M65 106 L77 140 M105 106 L95 140 M105 106 L117 140 M145 106 L135 140 M145 106 L157 140"></path>
+</g>
+<g fill="#1e3a5f">
+<circle cx="85" cy="30" r="4"></circle>
+<circle cx="45" cy="68" r="3.5"></circle><circle cx="125" cy="68" r="3.5"></circle>
+<circle cx="25" cy="106" r="3"></circle><circle cx="65" cy="106" r="3"></circle><circle cx="105" cy="106" r="3"></circle><circle cx="145" cy="106" r="3"></circle>
+</g>
+<g fill="#c9544a">
+<circle cx="15" cy="143" r="2.5"></circle><circle cx="37" cy="143" r="2.5"></circle><circle cx="55" cy="143" r="2.5"></circle><circle cx="77" cy="143" r="2.5"></circle><circle cx="95" cy="143" r="2.5"></circle><circle cx="117" cy="143" r="2.5"></circle><circle cx="135" cy="143" r="2.5"></circle><circle cx="157" cy="143" r="2.5"></circle>
+</g>
+<text fill="#3a6088" font-size="11" text-anchor="middle" x="85" y="16">solving: search 2ⁿ paths</text>
+<text fill="#c9544a" font-size="10" text-anchor="middle" x="85" y="162">exponentially many candidates</text>
+<line stroke="#c0c8d4" stroke-dasharray="4 4" x1="200" x2="200" y1="10" y2="160"></line>
+<text fill="#3a6088" font-size="11" text-anchor="middle" x="305" y="16">verifying: walk one path</text>
+<rect fill="#fbfaf3" height="26" rx="4" stroke="#c9a96b" width="150" x="230" y="34"></rect>
+<text fill="#3d3520" font-size="11" text-anchor="middle" x="305" y="51">certificate w = 1 0 1 1 0 …</text>
+<path d="M305 62 L305 82" stroke="#3a6088" stroke-width="1.2"></path>
+<path d="M301 76 L305 84 L309 76 z" fill="#3a6088"></path>
+<rect fill="#e6ecf3" height="28" rx="4" stroke="#3a6088" width="150" x="230" y="86"></rect>
+<text fill="#1e3a5f" font-size="12" text-anchor="middle" x="305" y="104">verifier V(x, w)</text>
+<path d="M305 116 L305 132" stroke="#3a6088" stroke-width="1.2"></path>
+<path d="M301 126 L305 134 L309 126 z" fill="#3a6088"></path>
+<text fill="#2e7d4f" font-size="15" text-anchor="middle" x="286" y="152">✓</text>
+<text fill="#5a7090" font-size="10" text-anchor="start" x="296" y="151">polynomial time</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$L \in \mathrm{NP} \iff \big(\, x \in L \iff \exists\, w,\ |w| \le p(|x|),\ V(x,w)=1 \,\big)$$</div>
+<p>$x$ is the input, $w$ the <strong>certificate</strong> (the "answer"), $V$ a polynomial-time verifier, and $p$ caps the certificate's length in terms of the input size — otherwise an unboundedly long answer could smuggle the exponential back in. <strong>$\exists$ is the guess, $V$ is the check</strong>: NP is one guess plus one check. P is the special case where $w$ is empty.</p>
+</div>
+<div class="section">
+<div class="label">Why it's beautiful</div>
+<p>The first layer is <strong>robustness of the definition</strong>. Turing machines, RAM models, any reasonable real computer — all draw the same line, because polynomials are closed under composition. Robustness usually means you have caught hold of something real.</p>
+<p style="margin-top:10px">The second layer is stranger: nearly everyone believes $\mathrm{P} \ne \mathrm{NP}$, yet fifty years have produced no real progress — but we have proved <em>why it is hard to prove</em>. Relativization, natural proofs and algebrization each rule out an entire class of technique. <strong>Mathematics rarely has impossibility theorems about proof methods themselves</strong>; here there are three.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Public-key cryptography exists only if $\mathrm{P} \ne \mathrm{NP}$: were they equal, RSA and elliptic curves would fall together. The other face is engineering realism — finding optimal neural-network weights is NP-hard, yet SGD finds good-enough solutions daily; SAT solvers blow up exponentially in the worst case, yet handle million-variable instances in chip verification and program synthesis. <strong>Worst-case hardness and typical-case ease are two different things</strong>, and modern computing stands squarely in that gap.</p>
+</div>
+<div class="section">
+<div class="label">One line · a question</div>
+<div class="intuition">To believe P ≠ NP is to believe that creation cannot be reverse-engineered from checking.</div>
+<div class="think">Which parts of your work are NP-shaped — hard to do, easy to check? Code review, peer review, hiring: do they all quietly rest on this asymmetry?</div>
+</div>
+</div>
+<!-- Concept 2: Reduction -->
+<div class="card">
+<h2>Reduction</h2>
+<div class="en-name">Reduction · the freight carrier of hardness</div>
+<span class="tag">Method</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>You can't solve A, but you can solve B. If <em>any</em> instance of A can be quickly rewritten as an instance of B with matching answers, then "I can solve B" automatically gives "I can solve A." This is mathematics' oldest move: reduce to what you know.</p>
+<p style="margin-top:10px">Complexity theory's stroke of genius is to <strong>read the arrow backwards</strong>: if A is known to be hard and A fits inside B, then B is at least as hard — otherwise solving B would solve A for free. The same arrow forwards propagates easiness and backwards propagates hardness: a reduction is <strong>a vehicle for hardness</strong>.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
+<g fill="#e6ecf3" stroke="#3a6088" stroke-width="1">
+<rect height="24" rx="4" width="86" x="6" y="18"></rect>
+<rect height="24" rx="4" width="86" x="6" y="60"></rect>
+<rect height="24" rx="4" width="86" x="6" y="102"></rect>
+</g>
+<g fill="#1e3a5f" font-size="11" text-anchor="middle">
+<text x="49" y="34">any NP problem</text>
+<text x="49" y="76">graph coloring</text>
+<text x="49" y="118">scheduling</text>
+</g>
+<g fill="none" stroke="#3a6088" stroke-width="1.2">
+<path d="M94 30 C130 30 130 64 158 70"></path>
+<path d="M94 72 L158 74"></path>
+<path d="M94 112 C130 112 130 82 158 78"></path>
+</g>
+<g fill="#3a6088">
+<path d="M152 66 L162 71 L152 76 z"></path>
+<path d="M152 70 L162 74 L152 79 z"></path>
+<path d="M152 74 L162 78 L152 83 z"></path>
+</g>
+<rect fill="#1e3a5f" height="46" rx="6" width="70" x="165" y="52"></rect>
+<text fill="#fff" font-size="16" font-style="italic" text-anchor="middle" x="200" y="80">SAT</text>
+<g fill="none" stroke="#c9a96b" stroke-width="1.2">
+<path d="M240 70 C268 64 268 30 304 30"></path>
+<path d="M240 74 L304 72"></path>
+<path d="M240 78 C268 82 268 112 304 112"></path>
+</g>
+<g fill="#c9a96b">
+<path d="M298 26 L308 30 L298 35 z"></path>
+<path d="M298 68 L308 72 L298 77 z"></path>
+<path d="M298 108 L308 112 L298 117 z"></path>
+</g>
+<g fill="#fbfaf3" stroke="#c9a96b" stroke-width="1">
+<rect height="24" rx="4" width="86" x="308" y="18"></rect>
+<rect height="24" rx="4" width="86" x="308" y="60"></rect>
+<rect height="24" rx="4" width="86" x="308" y="102"></rect>
+</g>
+<g fill="#3d3520" font-size="11" text-anchor="middle">
+<text x="351" y="34">clique</text>
+<text x="351" y="76">Hamiltonian cycle</text>
+<text x="351" y="118">knapsack</text>
+</g>
+<text fill="#5a7090" font-size="10" text-anchor="middle" x="120" y="140">Cook–Levin: everything flows in</text>
+<text fill="#5a7090" font-size="10" text-anchor="middle" x="300" y="140">Karp: and spreads out again</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$A \le_p B \quad\Longleftrightarrow\quad \exists\, f \in \mathrm{FP}: \ \ x \in A \iff f(x) \in B$$</div>
+<p>$f$ is a polynomial-time computable <strong>translation function</strong>. The crucial point is that <strong>$f$ does not solve A</strong> — it merely rewrites A's question as B's question and leaves the answering to B. Since $\le_p$ is transitive (a polynomial of a polynomial is a polynomial), hardness stops being an adjective and becomes a <em>partial order</em> on problems.</p>
+</div>
+<div class="section">
+<div class="label">Why it's beautiful</div>
+<p>Without reductions, "this problem is hard" is just a complaint; with them, hardness becomes portable, comparable, provable <strong>evidence</strong>. And a concrete reduction is often an exquisite little machine: encode each vertex as a boolean variable, encode "endpoints differ in color" as clauses — the grammar of graphs translated into the grammar of logic.</p>
+<p style="margin-top:10px">The deeper beauty is the <strong>isomorphism</strong> it exposes: boolean formulas, cliques in graphs, integer partition, Ising ground states, lattice models of protein folding — apparently unrelated, yet reductions prove they are one problem wearing different clothes.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Engineers usually run reductions <em>forwards</em>: translate rostering, routing and dependency resolution into SAT/SMT and hand them to solvers tuned over decades — package-manager version resolution does exactly this. Cryptography's notion of "provable security" is itself a reduction: breaking the protocol is reduced to solving an accepted hard problem. The PCP theorem extends the freight to <em>hardness of approximation</em> as well.</p>
+</div>
+<div class="section">
+<div class="label">One line · a question</div>
+<div class="intuition">A reduction turns "hard" from a complaint into a transferable piece of evidence.</div>
+<div class="think">Think of the last hard problem you really solved: did you solve it, or did you translate it into one somebody else had already solved? Does the second count as solving?</div>
+</div>
+</div>
+<!-- Concept 3: NP-completeness -->
+<div class="card">
+<h2>NP-Completeness</h2>
+<div class="en-name">NP-Completeness · the layer at the ceiling</div>
+<span class="tag">Complexity</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Line up every problem in NP by hardness — is there a hardest one? Intuition says no: they come from logic, graph theory, number theory, scheduling, each hard in its own way.</p>
+<p style="margin-top:10px">In 1971 Cook and Levin independently proved there is, and that boolean satisfiability (SAT) is it. The reason is startlingly plain: a verifier is itself a computer running for polynomially many steps, and a computation can be written out bit by bit as boolean constraints — each bit of the next step is determined by a few nearby bits of the previous one. So "there exists a certificate the verifier accepts" translates verbatim into "this pile of formulas is satisfiable." <strong>Computation is flattened into logic.</strong> The next year Karp used a chain of reductions to pin 21 classic problems to the same layer; today the list runs to thousands, and either all of them have polynomial algorithms or none do.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 190" xmlns="http://www.w3.org/2000/svg">
+<ellipse cx="200" cy="100" fill="#e6ecf3" rx="185" ry="82" stroke="#3a6088"></ellipse>
+<ellipse cx="200" cy="132" fill="#fff" rx="78" ry="38" stroke="#1e3a5f"></ellipse>
+<path d="M40 55 C90 22 310 22 360 55 C310 40 90 40 40 55 z" fill="#c9544a" fill-opacity="0.7" stroke="#a03f36"></path>
+<text fill="#3a6088" font-size="12" font-style="italic" text-anchor="middle" x="200" y="180">NP</text>
+<text fill="#1e3a5f" font-size="13" font-style="italic" text-anchor="middle" x="200" y="137">P</text>
+<text fill="#fff" font-size="11" text-anchor="middle" x="200" y="42">NP-complete (SAT · clique · Hamiltonian cycle …)</text>
+<text fill="#5a7090" font-size="10" text-anchor="middle" x="200" y="80">intermediate: graph isomorphism? factoring?</text>
+<text fill="#5a7090" font-size="9" text-anchor="middle" x="200" y="95">(Ladner: nonempty if P ≠ NP)</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$B \in \mathrm{NPC} \quad\Longleftrightarrow\quad B \in \mathrm{NP} \ \ \wedge\ \ \forall A \in \mathrm{NP},\ A \le_p B$$</div>
+<p>The two conditions squeeze $B$ from both sides: the first says it is <strong>no harder than NP</strong> (it lives in NP), the second that it is <strong>no easier than anything in NP</strong> (everything reduces to it). Only the ceiling is left. The corollary follows: if any single NP-complete problem falls into P, all of NP collapses into P.</p>
+</div>
+<div class="section">
+<div class="label">Why it's beautiful</div>
+<p>The beauty is the <strong>unexpected collapse</strong>: thousands of problems from unrelated fields, each presumed hard in its own way, turn out to be the same problem. Crack one and they all light up at once.</p>
+<p style="margin-top:10px">But the story does not end in two tidy layers. <strong>Ladner's theorem</strong> says that if $\mathrm{P} \ne \mathrm{NP}$, there must exist <em>intermediate</em> problems, neither in P nor NP-complete. The paradox is that we can barely name one — graph isomorphism was a long-standing candidate, but since Babai's quasipolynomial algorithm in 2015 it looks more like it is sliding toward P. <strong>The ceiling is sharp; the middle is a fog.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Establishing NP-completeness is an engineering signal to change course: stop hunting for an exact polynomial algorithm and move to approximation, heuristics, parameterized algorithms or a solver. The settings are thoroughly everyday — chip placement and routing, register allocation (graph coloring in disguise), sequence alignment, route planning. <strong>Yet "NP-complete" never means "unsolvable in practice"</strong>: CDCL solvers chew through industrial instances with tens of millions of clauses, because real inputs carry far more structure than the worst case. Reading the theorem as a prohibition is the most common misuse.</p>
+</div>
+<div class="section">
+<div class="label">One line · a question</div>
+<div class="intuition">Thousands of seemingly unrelated hard problems are dialects of a single one.</div>
+<div class="think">If someone published an $n^2$ algorithm for SAT tomorrow, the first casualty might not be cryptography but mathematics itself — "find a proof of length at most $N$" is an NP problem.</div>
+</div>
+</div>
+<!-- Concept 4: Quantum complexity -->
+<div class="card">
+<h2>Quantum Complexity</h2>
+<div class="en-name">BQP · when the limits of computing are set by physics</div>
+<span class="tag">Quantum</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>The most popular description — "a quantum computer tries every answer at once" — would, if true, have solved NP-complete problems long ago. What actually happens: every computational path carries a <strong>complex amplitude</strong>; paths leading to the same outcome are <em>added</em> first, and only the squared modulus is a probability. Complex numbers can cancel, so the algorithm's job is not to try everything but to <strong>choreograph interference: wrong answers cancel, right ones reinforce</strong>.</p>
+<p style="margin-top:10px">That marks the boundary of quantum advantage: only when a problem carries exploitable periodicity or symmetry is there anything to choreograph. Shor's algorithm turns factoring into "find the period of a function" and reads the period out with a quantum Fourier transform — the exponential speedup comes from structure, not parallelism. Against unstructured search, Grover gives only a square-root speedup, and that has been proved optimal.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 165" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#f0f4f9" height="150" rx="10" stroke="#5a7090" width="380" x="10" y="8"></rect>
+<text fill="#5a7090" font-size="11" font-style="italic" x="20" y="26">PSPACE</text>
+<ellipse cx="150" cy="90" fill="#e6ecf3" fill-opacity="0.85" rx="120" ry="55" stroke="#3a6088"></ellipse>
+<ellipse cx="270" cy="90" fill="#c9a96b" fill-opacity="0.3" rx="105" ry="52" stroke="#c9a96b"></ellipse>
+<ellipse cx="205" cy="98" fill="#fff" rx="46" ry="26" stroke="#1e3a5f"></ellipse>
+<text fill="#3a6088" font-size="12" font-style="italic" text-anchor="middle" x="72" y="60">NP</text>
+<text fill="#8a7340" font-size="12" font-style="italic" text-anchor="middle" x="340" y="60">BQP</text>
+<text fill="#1e3a5f" font-size="12" font-style="italic" text-anchor="middle" x="205" y="102">P</text>
+<circle cx="245" cy="60" fill="#2e7d4f" r="3"></circle>
+<text fill="#2e7d4f" font-size="10" text-anchor="middle" x="245" y="52">factoring</text>
+<circle cx="70" cy="112" fill="#c9544a" r="3"></circle>
+<text fill="#c9544a" font-size="10" text-anchor="middle" x="72" y="128">SAT (believed outside BQP)</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$\Pr[x] \;=\; |\alpha_x|^2 \;=\; \Big|\sum_{\gamma \,\to\, x} A_\gamma\Big|^2$$</div>
+<p>$\gamma$ is a computational path, $A_\gamma$ its complex amplitude, and the sum runs over every path ending at $x$. In classical probability this is a sum of <em>non-negative reals</em>, only ever growing; with complex numbers, two paths can cancel. <strong>The entire power of quantum computing hides in that one change of axiom.</strong> The resulting class BQP (quantum polynomial time, correct with probability $\ge 2/3$) is known to satisfy $\mathrm{P} \subseteq \mathrm{BQP} \subseteq \mathrm{PSPACE}$; its relation to NP remains unknown.</p>
+</div>
+<div class="section">
+<div class="label">Why it's beautiful</div>
+<p>First, <strong>an axiom-level tweak moves an entire complexity class</strong>: probabilities take values in $\mathbb{C}$ instead of $[0,1]$, nothing more, and out comes a degree of freedom — cancellation — that the classical world simply lacks. Moments where changing the number field changes the world are rare; the previous one was solving algebraic equations with complex numbers.</p>
+<p style="margin-top:10px">Second, <strong>negative results are theorems too</strong>. The BBBV theorem proves that any quantum algorithm needs $\Omega(\sqrt{N})$ queries for unstructured search — quantum computing <em>cannot</em> brute-force its way through NP-complete problems. That turns "what can be efficiently computed" into a <strong>question of physics</strong>: the answer depends on what dynamics the universe permits.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Shor's practical consequence is the post-quantum migration now under way: NIST has standardized lattice- and hash-based schemes, precisely because the problems RSA and elliptic curves rest on happen to have periodic structure. Grover, by contrast, only discounts symmetric crypto from 128-bit to 64-bit security, so AES-256 still stands — <strong>the threat tier is decided entirely by whether structure exists</strong>. The likeliest first real payoff is quantum chemistry and materials simulation, which was Feynman's original motive: simulating quantum systems quantumly avoids the exponential bill. As for the "exponential speedups" claimed in quantum machine learning, most depend on QRAM-style data-loading assumptions, and tend to evaporate once the assumption is removed.</p>
+</div>
+<div class="section">
+<div class="label">One line · a question</div>
+<div class="intuition">Quantum advantage is not trying everything at once — it is making the wrong answers cancel themselves out.</div>
+<div class="think">If a new physical theory allowed NP-complete problems to be solved in polynomial time, would you doubt the theory first, or doubt $\mathrm{P} \ne \mathrm{NP}$ first?</div>
+</div>
+</div>
+<h3 class="deep">Going deeper</h3>
+<details>
+<summary>Why has P vs NP gone nowhere in fifty years — do we even know where the difficulty lies?</summary>
+<div>We do, quite precisely. Relativization: there is an oracle $A$ with $\mathrm{P}^A = \mathrm{NP}^A$ and another $B$ with the two unequal, so any argument that survives being handed an oracle must fail — diagonalization is out. Natural proofs: a circuit lower bound argument that is simultaneously "broadly applicable" and "efficiently checkable" can be turned around to break pseudorandom functions, contradicting standard cryptographic assumptions. Algebrization rules out the techniques that came from interactive proofs. Together the three walls mean that what is needed is not a cleverer version of the old methods but a paradigm nobody has seen yet.</div>
+</details>
+<details>
+<summary>Is worst-case hardness simply the wrong measure?</summary>
+<div>For cryptography it is certainly insufficient. $\mathrm{P} \ne \mathrm{NP}$ only guarantees that hard instances exist, while cryptography needs a randomly drawn instance to be hard — that is average-case complexity. Impagliazzo sketched five possible worlds: Algorithmica (P=NP), Heuristica (worst case hard, typical case easy), Pessiland (random instances hard yet no one-way functions — the worst of both), Minicrypt (one-way functions but no public key), Cryptomania (public-key crypto holds). We still do not know which one we live in. The success of deep learning has a distinctly Heuristica flavor: countless NP-hard objectives, cheaply defeated again and again on the distributions of real data.</div>
+</details>
+<details>
+<summary>Is the brain bound by NP-hardness? Is creativity a matter of search efficiency?</summary>
+<div>It is bound, but differently. The brain does not solve general instances; it runs heuristics on the narrow distributions evolution has filtered for it — vision is an ill-posed inverse problem, tractable only through priors. That is isomorphic to the situation of SAT solvers: not a victory over the worst case, but never meeting it. The interesting layer is the next one down: if creativity is just efficient search in a structured space, then $\mathrm{P} \ne \mathrm{NP}$ guarantees not that machines can never match people, but that people and machines alike must lean on structure, intuition and luck — a line drawn with complete indifference to whether the substrate is carbon or silicon.</div>
+</details>
+<details>
+<summary>Is there one idea behind all four concepts?</summary>
+<div>Yes, and it is called resource. Complexity theory's real move is to convert computation from a philosophical notion into a <em>physical process with a price</em>: time, space, random bits, quantum coherence — each measurable, tradable, and susceptible to proven lower bounds. P and NP are two ways of spending the time budget; reductions are the exchange rate; NP-completeness is the sink of the exchange network; BQP says the list of available resources is issued by the laws of physics. The view transfers unusually well to systems work: latency, bandwidth, memory and consistency also reduce to one another and admit provable lower bounds on their trade-offs — the CAP theorem and complexity lower bounds are theorems of the same temperament.</div>
+</details>
+<nav class="bottom">
+<a href="index.en.html">← Back to Mathematics</a>
+</nav>
+</div>
+</body>
+</html>
