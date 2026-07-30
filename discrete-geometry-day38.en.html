@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Discrete Geometry &amp; Packing · Day 38 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 16px;text-align:center;font-style:italic;letter-spacing:1px}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 38 · 2026.07.30</div>
+<h1>Discrete Geometry &amp; Packing</h1>
+<div class="meta">How finitely many points, spheres and tiles come to govern all of space</div>
+<div class="epigraph">"The packing will be the tightest possible, so that in no other arrangement could more pellets be stuffed into the same container." — Kepler, <em>On the Six-Cornered Snowflake</em> (1611)</div>
+</header>
+<!-- Concept 1: convex hull -->
+<div class="card">
+<h2>The Convex Hull</h2>
+<div class="en-name">Convex Hull · the shape of a point set is carried by its extreme points alone</div>
+<span class="tag">Computational Geometry</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Hammer a handful of nails into a board, stretch a rubber band around them all, and let go. The ring of nails the band catches on is the <strong>convex hull</strong> of that point set.</p>
+<p>What deserves a pause is what it <em>discards</em>: the band never touches the interior nails, and deleting them changes nothing. <strong>Most points are redundant; the shape is carried by a few extreme ones.</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 290 180" xmlns="http://www.w3.org/2000/svg">
+<polygon fill="#3a6088" fill-opacity="0.08" points="30,140 70,40 130,20 200,35 250,90 230,150 150,160" stroke="#1e3a5f" stroke-width="1.6"></polygon>
+<g fill="#c9a96b">
+<circle cx="110" cy="90" r="3.2"></circle>
+<circle cx="160" cy="70" r="3.2"></circle>
+<circle cx="180" cy="120" r="3.2"></circle>
+<circle cx="100" cy="130" r="3.2"></circle>
+<circle cx="60" cy="120" r="3.2"></circle>
+<circle cx="190" cy="75" r="3.2"></circle>
+</g>
+<g fill="#1e3a5f">
+<circle cx="30" cy="140" r="4.2"></circle>
+<circle cx="70" cy="40" r="4.2"></circle>
+<circle cx="130" cy="20" r="4.2"></circle>
+<circle cx="200" cy="35" r="4.2"></circle>
+<circle cx="250" cy="90" r="4.2"></circle>
+<circle cx="230" cy="150" r="4.2"></circle>
+<circle cx="150" cy="160" r="4.2"></circle>
+</g>
+<text fill="#5a7090" font-size="10" font-style="italic" x="6" y="172">dark = extreme points (caught by the band) · light = redundant</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>The convex hull of a point set $S$ is the <em>smallest</em> convex set containing $S$. The constructive version is more computable:</p>
+<div class="formula-box">$\mathrm{conv}(S)=\Big\{\textstyle\sum_i \lambda_i x_i \;:\; x_i\in S,\ \lambda_i\ge 0,\ \sum_i\lambda_i=1\Big\}$</div>
+<p>The $x_i$ are points and the $\lambda_i$ are weights; "non-negative and summing to one" is exactly the definition of a <strong>weighted average</strong>. So the formula reads: the hull is every position a weighted average of these points can land on. Carathéodory's theorem is the quantitative version of the redundancy — in $d$ dimensions, any point of the hull needs a weighted average of <strong>at most $d+1$</strong> original points.</p>
+</div>
+<div class="section">
+<div class="label">Why it's beautiful</div>
+<p>Three unrelated definitions — an intersection of sets, a weighted average, a rubber band — land on the same object. Lovelier still is the complexity: the hull of $n$ points in the plane takes $O(n\log n)$, and that is optimal, because <strong>sorting reduces to convex hull</strong>. Map each number $x$ to the parabola point $(x,x^2)$; the parabola is convex, and the order along the lower half of the hull is precisely the sorted order. Geometry and sorting are the same problem at the level of lower bounds.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>A linear program's feasible region is the hull of its constraint vertices, and the simplex method walks from vertex to vertex. Physics engines detect collisions with GJK, which asks whether the Minkowski difference of two hulls contains the origin. The maximum-margin hyperplane of an SVM is the perpendicular bisector of the shortest segment between the two classes' hulls — the "support vectors" are exactly the extreme points that fix the hull's shape, and deleting the rest leaves the model unchanged.</p>
+</div>
+<div class="section">
+<div class="label">One line · a question</div>
+<div class="think"><strong>The convex hull is the minimum-loss encoding of an unstructured point set into an ordered boundary.</strong><br/>But in high dimensions the vertex count explodes: the hull of $n$ points in $d$ dimensions can have $n^{\lfloor d/2\rfloor}$ faces, and once $d$ is large almost every point is extreme. Is that the same phenomenon as "high-dimensional data lives on the shell"?</div>
+</div>
+</div>
+<!-- Concept 2: Voronoi -->
+<div class="card">
+<h2>Voronoi Diagrams &amp; Delaunay Triangulations</h2>
+<div class="en-name">Voronoi &amp; Delaunay · make "nearest" global and structure grows out of it</div>
+<span class="tag">Computational Geometry</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Scatter a few post offices on a map and color every location by which one is nearest. The resulting partition is the <strong>Voronoi diagram</strong>. The border between two offices is necessarily the perpendicular bisector of the segment joining them.</p>
+<p>The <strong>Delaunay triangulation</strong> is its shadow: connect every pair of sites that share a border and you get a triangular mesh. The two carry identical information — one speaks of territory, the other of adjacency. It is the cleanest <em>duality</em> in geometry.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 230 180" xmlns="http://www.w3.org/2000/svg">
+<circle cx="100" cy="96" fill="none" r="55.6" stroke="#c9a96b" stroke-dasharray="3 3" stroke-width="1"></circle>
+<g stroke="#c9544a" stroke-dasharray="4 3" stroke-width="1.3">
+<line x1="50" x2="150" y1="120" y2="120"></line>
+<line x1="50" x2="100" y1="120" y2="40"></line>
+<line x1="150" x2="100" y1="120" y2="40"></line>
+</g>
+<g stroke="#1e3a5f" stroke-width="1.8">
+<line x1="100" x2="100" y1="96" y2="176"></line>
+<line x1="100" x2="4" y1="96" y2="36"></line>
+<line x1="100" x2="196" y1="96" y2="36"></line>
+</g>
+<circle cx="100" cy="96" fill="#fff" r="3.4" stroke="#1e3a5f" stroke-width="1.5"></circle>
+<g fill="#1e3a5f">
+<circle cx="50" cy="120" r="4.5"></circle>
+<circle cx="150" cy="120" r="4.5"></circle>
+<circle cx="100" cy="40" r="4.5"></circle>
+</g>
+<text fill="#1e3a5f" font-size="10" font-style="italic" x="8" y="16">solid = Voronoi edges</text>
+<text fill="#c9544a" font-size="10" font-style="italic" x="136" y="16">dashed = Delaunay</text>
+<text fill="#c9a96b" font-size="10" font-style="italic" x="58" y="172">empty circumcircle</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>Given a site set $P$, the cell of a site $p$ is</p>
+<div class="formula-box">$V(p)=\{x\in\mathbb{R}^d:\ \|x-p\|\le\|x-q\|\ \ \forall q\in P\}$</div>
+<p>The condition says "no farther from $p$ than from any other site $q$." Each "$\le$" is a half-space and the cell is their intersection, so <strong>every cell is necessarily convex</strong> — convexity is not an assumption, it comes for free. The dual side is just as terse: three sites form a Delaunay triangle exactly when <strong>no other site lies inside their circumcircle</strong>.</p>
+</div>
+<div class="section">
+<div class="label">Why it's beautiful</div>
+<p>First, the lifting trick. Raise each planar point $(x,y)$ onto the paraboloid as $(x,y,x^2+y^2)$, take the lower half of the three-dimensional <em>convex hull</em>, and project it back down: you get exactly the Delaunay triangulation. A nearest-neighbor problem has been translated into a convex hull problem.</p>
+<p>Second, Delaunay <strong>maximizes the minimum angle</strong> among all triangulations, so it is the least prone to slivers — and slivers are precisely what makes numerical solvers diverge. A purely combinatorial definition (the empty circle) turns out to optimize a numerical property. Third, any process where several centers grow outward until they collide must produce a Voronoi diagram — metal grains, cracked mud, cell boundaries.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>The geometric body of k-means is Lloyd's algorithm: each round assigns points by the current Voronoi diagram, then moves each center to its cell's centroid — which is why a k-means decision boundary is always a piecewise-linear convex polytope. A robot travelling along Voronoi edges is travelling as far as possible from every obstacle. Mesh generation for CFD and finite elements is Delaunay by default.</p>
+</div>
+<div class="section">
+<div class="label">One line · a question</div>
+<div class="think"><strong>Take the local relation "nearest" and make it global over all of space, and you automatically get a convex partition plus a numerically optimal mesh.</strong><br/>What happens under another metric? Under the Manhattan distance the "bisector" of two points can be a polyline or even a band. So when a vector database retrieves by cosine similarity in a high-dimensional embedding space, what shape are the cells it is actually carving?</div>
+</div>
+</div>
+<!-- Concept 3: sphere packing -->
+<div class="card">
+<h2>Sphere Packing &amp; Kepler's Conjecture</h2>
+<div class="en-name">Sphere Packing · a fact every greengrocer knows, and four centuries to prove</div>
+<span class="tag">Discrete Geometry</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>How do you stack oranges most efficiently? Lay a hexagonal layer, then drop the next layer into the dimples. Kepler claimed in 1611 that this is the densest possible, at $\pi/\sqrt{18}\approx 74.05\%$.</p>
+<p>The hard part is not guessing the answer, it is ruling out <em>every alternative</em>: there are infinitely many candidate arrangements and they need not be periodic, so what must be excluded includes every irregular jumble. Worse, local information lies — a sphere can be surrounded by twelve others and still leave slack, which makes a thirteenth look plausible (Newton said no, Gregory said yes; Newton was right). <strong>Local slack does not mean the global packing can be denser.</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 130" xmlns="http://www.w3.org/2000/svg">
+<g fill="#3a6088" fill-opacity="0.25" stroke="#1e3a5f" stroke-width="1" transform="translate(10,15)">
+<circle cx="15" cy="15" r="15"></circle><circle cx="45" cy="15" r="15"></circle><circle cx="75" cy="15" r="15"></circle><circle cx="105" cy="15" r="15"></circle>
+<circle cx="15" cy="45" r="15"></circle><circle cx="45" cy="45" r="15"></circle><circle cx="75" cy="45" r="15"></circle><circle cx="105" cy="45" r="15"></circle>
+<circle cx="15" cy="75" r="15"></circle><circle cx="45" cy="75" r="15"></circle><circle cx="75" cy="75" r="15"></circle><circle cx="105" cy="75" r="15"></circle>
+</g>
+<g fill="#c9a96b" fill-opacity="0.35" stroke="#8a7340" stroke-width="1" transform="translate(190,15)">
+<circle cx="15" cy="15" r="15"></circle><circle cx="45" cy="15" r="15"></circle><circle cx="75" cy="15" r="15"></circle><circle cx="105" cy="15" r="15"></circle>
+<circle cx="30" cy="41" r="15"></circle><circle cx="60" cy="41" r="15"></circle><circle cx="90" cy="41" r="15"></circle><circle cx="120" cy="41" r="15"></circle>
+<circle cx="15" cy="67" r="15"></circle><circle cx="45" cy="67" r="15"></circle><circle cx="75" cy="67" r="15"></circle><circle cx="105" cy="67" r="15"></circle>
+</g>
+<text fill="#1e3a5f" font-size="11" font-style="italic" text-anchor="middle" x="70" y="122">square lattice · 78.5%</text>
+<text fill="#8a7340" font-size="11" font-style="italic" text-anchor="middle" x="258" y="122">hexagonal · 90.7% (planar optimum)</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>Packing density is defined as</p>
+<div class="formula-box">$\delta=\limsup_{R\to\infty}\dfrac{\mathrm{vol}\big(B_R\cap\bigcup_i S_i\big)}{\mathrm{vol}(B_R)}$</div>
+<p>The $S_i$ are non-overlapping spheres of equal radius and $B_R$ is a ball of radius $R$; letting $R\to\infty$ washes out boundary effects, leaving only the average occupancy far from anywhere. <strong>Kepler's conjecture</strong> asserts $\delta\le\pi/\sqrt{18}$ in three dimensions. Hales proved it in 1998 by compressing infinitely many configurations into a few thousand finite cases and running numerical optimization on each. The referees spent four years and would only say they were "99% certain"; Hales responded by launching Flyspeck, which delivered a machine-checkable formal proof in 2014.</p>
+</div>
+<div class="section">
+<div class="label">Why it's beautiful</div>
+<p>The terrain across dimensions is wildly non-monotone. $d=2$ was settled by Thue, $d=3$ took four centuries, and $d=4$ through $d=7$ remain <strong>entirely open</strong>. Then in 2016 Viazovska took $d=8$ and $d=24$ in one stroke — the $E_8$ and Leech lattices are so excessively perfect in those dimensions that her auxiliary function makes the linear-programming upper bound land <em>exactly</em> on the known lower bound, with zero gap. She received the 2022 Fields Medal for it. <strong>Low dimensions hard, particular high dimensions exactly solved</strong> is a rare piece of counterintuitive terrain.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Sphere packing is the geometric body of error-correcting codes: codewords are sphere centers, the correctable error radius is the sphere radius, so <strong>the denser the packing, the more codewords fit at a given correction capacity, and the higher the rate</strong>. The Leech lattice gives the best code in 24 dimensions outright and is the ancestor of deep-space modulation constellations. On the materials side, FCC and HCP are the real structures of metal crystals, while spheres simply poured into a container reach about 64% — random close packing, the number that governs powder metallurgy and concrete mix design.</p>
+</div>
+<div class="section">
+<div class="label">One line · a question</div>
+<div class="think"><strong>A greengrocer's commonplace needed a formal verifier before mathematics would accept it — Kepler's conjecture redefined what counts as a proof.</strong><br/>And what if the verifier's own kernel has a bug? Trust has been moved from "a human referee's attention" to "a small, repeatedly audited piece of code." As AI starts participating in proof search, is that transfer a net gain?</div>
+</div>
+</div>
+<!-- Concept 4: tilings -->
+<div class="card">
+<h2>Tilings &amp; Quasicrystals</h2>
+<div class="en-name">Tilings &amp; Quasicrystals · "ordered" and "periodic" are not the same word</div>
+<span class="tag">Discrete Geometry</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Tile the plane with a single regular polygon and there are exactly three answers: triangle, square, hexagon. The reason fits in your head — the angles around a vertex must sum to $360°$, and the interior angle $\frac{(n-2)180°}{n}$ of a regular $n$-gon divides $360°$ only for $n=3,4,6$. A regular pentagon has interior angle $108°$; three of them make $324°$, leaving $36°$ short.</p>
+<p>Generalized, this is the <strong>crystallographic restriction theorem</strong>: a periodic lattice can only have 2-, 3-, 4- or 6-fold rotational symmetry, and 5-fold is <em>strictly forbidden</em>. That sat in the textbooks for seventy years. Then in 1982 Shechtman saw sharp ten-fold symmetric spots in the diffraction pattern of an aluminium-manganese alloy. He was asked to leave his research group, and Pauling said "there is no such thing as quasicrystals, only quasi-scientists." He took the 2011 Nobel Prize in Chemistry.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(110,108)">
+<path d="M 0 0 L 13.9 42.8 A 45 45 0 0 1 -13.9 42.8 Z" fill="#c9544a" fill-opacity="0.3" stroke="#c9544a" stroke-dasharray="3 2" stroke-width="1"></path>
+<polygon fill="#3a6088" fill-opacity="0.16" points="0,0 -36.41,-26.45 -22.50,-69.25 22.50,-69.25 36.41,-26.45" stroke="#1e3a5f" stroke-width="1.5"></polygon>
+<polygon fill="#3a6088" fill-opacity="0.16" points="0,0 -36.41,-26.45 -22.50,-69.25 22.50,-69.25 36.41,-26.45" stroke="#1e3a5f" stroke-width="1.5" transform="rotate(108)"></polygon>
+<polygon fill="#3a6088" fill-opacity="0.16" points="0,0 -36.41,-26.45 -22.50,-69.25 22.50,-69.25 36.41,-26.45" stroke="#1e3a5f" stroke-width="1.5" transform="rotate(-108)"></polygon>
+<circle cx="0" cy="0" fill="#1e3a5f" r="3"></circle>
+</g>
+<text fill="#c9544a" font-size="11" font-style="italic" text-anchor="middle" x="110" y="184">3 × 108° = 324°, a 36° gap</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>An <strong>aperiodic set of tiles</strong> is a set that tiles the plane while <em>no</em> tiling by it has any translational symmetry. Note the strength of the claim — not "an aperiodic tiling exists" (squares manage that), but "no periodic tiling exists at all." Penrose gave a two-tile example in 1974. A <strong>quasicrystal</strong> is the material version: a solid whose diffraction pattern has sharp spots yet has no translational period. Mathematically it comes from cut-and-project — five-fold symmetry is perfectly periodic in a five-dimensional lattice, and projecting to the plane loses the period while keeping the order.</p>
+</div>
+<div class="section">
+<div class="label">Why it's beautiful</div>
+<p>"Ordered" and "periodic" were split into two concepts — before this they were treated as synonyms. Penrose tilings have an almost eerie property: <strong>any finite patch recurs infinitely often across the whole plane</strong>, so no finite window ever tells you where you are, while the whole never repeats itself. And the ratio of kites to darts is exactly the golden ratio $\varphi$ — an irrational number growing out of purely combinatorial matching rules.</p>
+<p>In 2023 David Smith and collaborators found "the hat": a <strong>single</strong> aperiodic tile, closing the sixty-year-old einstein problem (<em>ein Stein</em>, one stone). The first author is an amateur.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Quasicrystalline materials are hard, low-friction, poor heat conductors and corrosion-resistant, used in non-stick and thermal-barrier coatings (the AlCuFe family); aperiodically arranged antenna and ultrasound arrays suppress the grating lobes a periodic layout inevitably produces. The deepest link is on the computer-science side: tiling with Wang tiles is equivalent to the halting problem, so <strong>"can this tile set cover the plane?" is undecidable</strong> — and the existence of aperiodic sets is a direct consequence of that undecidability. Geometry borders computability right here.</p>
+</div>
+<div class="section">
+<div class="label">One line · a question</div>
+<div class="think"><strong>Five-fold symmetry was never impossible, only never periodic — what the theorem forbids is periodicity, not order.</strong><br/>The hat was cut out of paper by an amateur mathematician and only afterwards verified by computer: human intuition generates candidates, machines confirm by exhaustion. Will AI move that boundary, or is "knowing what shape to look for" the hardest step to automate?</div>
+</div>
+</div>
+<h3 class="deep">Going deeper</h3>
+<details>
+<summary>Why exactly dimensions 8 and 24?</summary>
+<div>Because those dimensions host abnormally perfect lattices: $E_8$ and Leech, with enormous symmetry groups and 240 and 196560 minimal vectors respectively, leaving the packing configuration too rigid to improve. Viazovska's auxiliary function must have a Fourier transform satisfying a whole family of sign conditions at a prescribed sequence of points — such functions exist only in these two dimensions, and they are deeply tied to modular forms. <strong>Difficulty is not monotone in dimension; it jumps with the presence or absence of a sufficiently symmetric object — solvability is often a by-product of symmetry rather than a function of complexity.</strong></div>
+</details>
+<details>
+<summary>Are hulls, Voronoi diagrams, packings and tilings one problem?</summary>
+<div>The shared theme is <strong>how local constraints determine global structure</strong>, but the four relate to it very differently. Hulls and Voronoi diagrams are benign: local information glues into a global answer without loss, hence the $O(n\log n)$ algorithms. Packings and tilings are malignant: local optima do not compose into global optima (the twelve-sphere problem), and some questions are outright undecidable (Wang tiles). Yet they are entangled — the volume of territory each sphere claims determines the local density, and the skeleton of Hales's proof is built on a Voronoi decomposition. <em>Using the solvable tools to attack the unsolvable problems</em> is the normal state of discrete geometry.</div>
+</details>
+<details>
+<summary>When a proof needs a computer, what happens to understanding?</summary>
+<div>The four-color theorem (1976) and Kepler's conjecture (1998) force the same question: is the value of a proof "confidence that the statement is true" or "insight into why"? Exhaustive proofs deliver the first and almost none of the second. Flyspeck moved the basis of trust onto a small, repeatedly audited formal kernel — rigor went up, comprehensibility stayed absent. The counterexample is Viazovska: her proof is <em>short</em>, structured and readable, precisely because she found the right symmetry. <strong>"Comprehensible" may not be an aesthetic preference so much as a signal that you found the right abstraction.</strong></div>
+</details>
+<details>
+<summary>Why do poured spheres settle at 64%?</summary>
+<div>Random close packing ≈ 0.64 is strikingly consistent across experiment and simulation, yet still has no agreed rigorous definition. The mainstream account is mechanical stability: under gravity each grain needs roughly 6 contacts on average to balance, and this isostatic condition squeezes the reachable configurations into a narrow band. It falls short of 0.7405 because the locally denser icosahedral clusters cannot be extended periodically — <strong>the same geometric obstruction that produces quasicrystals, seen from the other side</strong>.</div>
+</details>
+<nav class="bottom">
+<a href="index.en.html">← Back to Mathematics</a>
+</nav>
+</div>
+</body>
+</html>
