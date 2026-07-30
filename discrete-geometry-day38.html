@@ -55,12 +55,12 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="container">
 <header>
 <div class="kicker">Day 38 · 2026.07.30</div>
-<h1>离散几何与堆积</h1>
+<h1 data-tts="e9fe3d9453318f57">离散几何与堆积</h1>
 <div class="meta">Discrete Geometry &amp; Packing — 有限个点、球与瓷砖如何统治整个空间</div>
 <div class="epigraph">"这样的堆叠将是最紧密的，再没有别的排列能往同一个容器里塞进更多的球。" — Kepler,《六角雪花》(1611)</div>
 </header>
 <!-- 概念 1：凸包 -->
-<div class="card">
+<div class="card" data-tts="e7712c2e6afc555f">
 <h2>凸包</h2>
 <div class="en-name">Convex Hull · 一个点集的形状只由它的极端点决定</div>
 <span class="tag">Computational Geometry</span>
@@ -112,7 +112,7 @@ nav.bottom a:hover{color:#1e3a5f}
 </div>
 </div>
 <!-- 概念 2：Voronoi 图 -->
-<div class="card">
+<div class="card" data-tts="e027aa95a7d82af9">
 <h2>Voronoi 图与 Delaunay 三角剖分</h2>
 <div class="en-name">Voronoi Diagram &amp; Delaunay Triangulation · 「最近」一旦全局化就长出结构</div>
 <span class="tag">Computational Geometry</span>
@@ -166,7 +166,7 @@ nav.bottom a:hover{color:#1e3a5f}
 </div>
 </div>
 <!-- 概念 3：球堆积 -->
-<div class="card">
+<div class="card" data-tts="b5b28e0ebba68daa">
 <h2>球堆积与 Kepler 猜想</h2>
 <div class="en-name">Sphere Packing · 水果摊都会的事实，人类证了近四百年</div>
 <span class="tag">Discrete Geometry</span>
@@ -211,7 +211,7 @@ nav.bottom a:hover{color:#1e3a5f}
 </div>
 </div>
 <!-- 概念 4：镶嵌与准晶 -->
-<div class="card">
+<div class="card" data-tts="3da9c7488e6cbb9a">
 <h2>镶嵌与准晶</h2>
 <div class="en-name">Tilings &amp; Quasicrystals · 「有序」和「周期」不是同一个词</div>
 <span class="tag">Discrete Geometry</span>
@@ -250,7 +250,7 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>五重对称不是不可能，只是不能周期——被禁掉的从来是周期性，不是秩序。</strong><br/>「帽子」是一位业余数学家用剪纸剪出来的，随后才由计算机验证：人类直觉生成候选，机器穷举确认。这条分工边界会被 AI 移动吗，还是「想到该找什么形状」本身就是最难自动化的一步？</div>
 </div>
 </div>
-<h3 class="deep">深入思考</h3>
+<h3 class="deep" data-tts="3a3abbb9f1efe21b">深入思考</h3>
 <details>
 <summary>为什么偏偏是 8 维和 24 维被解决了？</summary>
 <div>因为这两个维度存在异常完美的格：$E_8$ 与 Leech 格，对称群巨大、最小向量多达 240 与 196560，使堆积构型「刚」到没有改进余地。Viazovska 的辅助函数要求其 Fourier 变换在一串特定点上同时满足一组符号条件，这类函数只在这两个维度存在，且与模形式深刻相连。<strong>难度不随维度单调，而随「是否有足够对称的对象」跳变——可解性常是对称性的副产品，而非复杂度的函数。</strong></div>
@@ -258,7 +258,6 @@ nav.bottom a:hover{color:#1e3a5f}
 <details>
 <summary>凸包、Voronoi、球堆积、密铺，是同一个问题吗？</summary>
 <div>母题都是<strong>局部约束如何决定全局结构</strong>，但四者态度截然不同。凸包与 Voronoi 是良性的：局部信息可无损拼成全局答案，所以有 $O(n\log n)$ 算法。球堆积与密铺是恶性的：局部最优拼不成全局最优（十二球问题），甚至根本不可判定（Wang 瓷砖）。而它们又互相缠绕——每个球分到的地盘体积决定局部密度，Hales 的证明骨架就建在 Voronoi 分解上。<em>用可解的工具攻击不可解的问题</em>，是离散几何的常态。</div>
-
 </details>
 <details>
 <summary>当证明必须依赖计算机，「理解」发生了什么？</summary>
