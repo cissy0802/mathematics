@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>复分析 · Day 39 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 16px;text-align:center;font-style:italic;letter-spacing:1px}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 39 · 2026.07.31</div>
+<h1>复分析</h1>
+<div class="meta">Complex Analysis — 加一个方向，函数就从橡皮泥变成晶体</div>
+<div class="epigraph">"实数域上两个真理之间的最短路径，往往要穿过复数域。" — Jacques Hadamard</div>
+</header>
+<!-- 概念 1：全纯函数 -->
+<div class="card">
+<h2>全纯函数</h2>
+<div class="en-name">Holomorphic Functions · 复可导远不只是"可导"换了个数域</div>
+<span class="tag">Complex Analysis</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>实函数问"可导"，是问 $h\to 0$ 时差商是否收敛——而 $h$ 只能从左右两侧来。复数的 $h$ 却可以从平面上<strong>无穷多个方向</strong>趋近 0，复可导要求这无穷多条路径给出<strong>同一个</strong>极限。这不是一个条件，是无穷多个条件同时成立。</p>
+<p>代价换来刚性。实光滑函数像橡皮泥：能造出在 $[-1,1]$ 上恒为 0、外面却不为 0 的无穷次可微函数，局部随便捏都不惊动别处。全纯函数像晶体：只要在任意一小片圆盘上知道它，整个连通区域就被唯一钉死。<strong>一次复可导，就自动无穷次可导，并且处处等于自己的泰勒级数。</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 195" xmlns="http://www.w3.org/2000/svg">
+<text fill="#5a7090" font-size="10" x="4" y="14">一般实可微映射：圆 → 椭圆，直角被剪切掉</text>
+<circle cx="58" cy="58" fill="none" r="26" stroke="#1e3a5f" stroke-width="1.4"></circle>
+<line stroke="#c9544a" stroke-width="1.8" x1="58" x2="58" y1="58" y2="32"></line>
+<line stroke="#7a9a6a" stroke-width="1.8" x1="58" x2="84" y1="58" y2="58"></line>
+<line stroke="#aaa" stroke-width="1" x1="105" x2="225" y1="58" y2="58"></line>
+<polygon fill="#aaa" points="225,58 217,54 217,62"></polygon>
+<ellipse cx="295" cy="58" fill="none" rx="46" ry="17" stroke="#1e3a5f" stroke-width="1.4" transform="rotate(-20 295 58)"></ellipse>
+<line stroke="#c9544a" stroke-width="1.8" x1="295" x2="283" y1="58" y2="45"></line>
+<line stroke="#7a9a6a" stroke-width="1.8" x1="295" x2="337" y1="58" y2="43"></line>
+<text fill="#8a7340" font-size="9" font-style="italic" x="252" y="88">夹角变了</text>
+<text fill="#5a7090" font-size="10" x="4" y="128">全纯映射：圆 → 圆，只有旋转与缩放</text>
+<circle cx="58" cy="155" fill="none" r="21" stroke="#1e3a5f" stroke-width="1.4"></circle>
+<line stroke="#c9544a" stroke-width="1.8" x1="58" x2="58" y1="155" y2="134"></line>
+<line stroke="#7a9a6a" stroke-width="1.8" x1="58" x2="79" y1="155" y2="155"></line>
+<line stroke="#aaa" stroke-width="1" x1="105" x2="225" y1="155" y2="155"></line>
+<polygon fill="#aaa" points="225,155 217,151 217,159"></polygon>
+<circle cx="295" cy="155" fill="none" r="32" stroke="#1e3a5f" stroke-width="1.4"></circle>
+<line stroke="#c9544a" stroke-width="1.8" x1="295" x2="313" y1="155" y2="129"></line>
+<line stroke="#7a9a6a" stroke-width="1.8" x1="295" x2="321" y1="155" y2="173"></line>
+<text fill="#7a9a6a" font-size="9" font-style="italic" x="248" y="192">直角原封不动</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>写 $f(z)=u(x,y)+i\,v(x,y)$，复可导等价于 Cauchy–Riemann 方程：</p>
+<div class="formula-box">$$\frac{\partial u}{\partial x}=\frac{\partial v}{\partial y},\qquad \frac{\partial u}{\partial y}=-\frac{\partial v}{\partial x}$$</div>
+<p>$u,v$ 分别是实部与虚部。两式合起来在说：沿实轴求导与沿虚轴求导必须给出同一个复数。几何上它等价于 $u$ 与 $v$ 的梯度<strong>互相垂直且等长</strong>——于是 $f$ 的导数矩阵只能是"旋转 × 缩放"，不含任何拉伸或剪切。把两式各再求一次偏导相消，立刻得到 $\nabla^2u=\nabla^2v=0$：全纯函数的实虚部自动是调和函数。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>一个纯粹局部的微分约束，逼出全局的强结论。Liouville 定理：全平面上全纯且有界的函数只能是常数——代数基本定理由此三行写完（若多项式 $p$ 无根，$1/p$ 就是有界整函数，故 $p$ 是常数）。最大模原理：$|f|$ 的最大值必落在边界上，内部不许有山峰。<strong>全部信息储存在边界上</strong>——这一主题后来在 Dirichlet 问题乃至全息原理中反复重现。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>二维静电场与理想流体：取 $u$ 为势、$v$ 为流函数，Cauchy–Riemann 自动保证无源无旋，等势线与流线处处正交。在信号与材料领域，<strong>因果性</strong>（响应不能先于激励）等价于传递函数在上半平面全纯，由此推出 Kramers–Kronig 关系：介质的折射率与吸收谱互相决定，测一个就能算出另一个——全纯性直接兑现的实验红利。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>复可导不是"可导"换了个数域，而是一个对称性条件：局部只许旋转和缩放。刚性是它的报酬。</strong><br/>Liouville 说"有界 + 全纯 ⟹ 常数"。复值神经网络若要激活函数既全纯又有界，就只剩常数可选。这是否意味着复值网络必须主动放弃全纯性？放弃之后它还剩下什么优势？</div>
+</div>
+</div>
+<!-- 概念 2：留数定理 -->
+<div class="card">
+<h2>留数定理</h2>
+<div class="en-name">The Residue Theorem · 一整条曲线上的积分，坍缩成几个点上的数</div>
+<span class="tag">Contour Integration</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>把 $f$ 想成平面上的一个流场。全纯就意味着无源、无旋，所以沿任何闭曲线绕一圈，环量为零（Cauchy 定理）。奇点则是扎在平面上的涡——全纯性失效的针孔。</p>
+<p>于是围道积分变成一件近乎荒谬的事：它<strong>只统计你围住了哪些涡、各绕了几圈</strong>。曲线多长、多曲折、离奇点多远，全都无关——只要不越过奇点，任意收缩揉捏，积分值一个数都不变。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
+<path d="M 30 95 C 30 30, 115 18, 178 34 C 250 52, 315 58, 302 112 C 290 165, 195 180, 122 168 C 55 157, 30 145, 30 95 Z" fill="#3a6088" fill-opacity="0.06" stroke="#1e3a5f" stroke-width="1.7"></path>
+<polygon fill="#1e3a5f" points="178,34 168,29 170,39"></polygon>
+<circle cx="115" cy="88" fill="none" r="20" stroke="#c9544a" stroke-dasharray="4,3" stroke-width="1.3"></circle>
+<circle cx="218" cy="118" fill="none" r="20" stroke="#c9544a" stroke-dasharray="4,3" stroke-width="1.3"></circle>
+<g fill="#c9544a" font-size="15" font-weight="bold" text-anchor="middle">
+<text x="115" y="93">×</text>
+<text x="218" y="123">×</text>
+</g>
+<text fill="#c9544a" font-size="10" font-style="italic" text-anchor="middle" x="115" y="60">奇点 z₁</text>
+<text fill="#c9544a" font-size="10" font-style="italic" text-anchor="middle" x="218" y="152">奇点 z₂</text>
+<text fill="#1e3a5f" font-size="10" font-style="italic" x="6" y="16">曲线怎么揉都无所谓，只有围住的奇点算数</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\oint_\gamma f(z)\,dz \;=\; 2\pi i \sum_k n(\gamma,z_k)\,\mathrm{Res}(f,z_k)$$</div>
+<p>$\gamma$ 是闭曲线，$z_k$ 是被围住的孤立奇点，$n(\gamma,z_k)$ 是<strong>绕数</strong>（曲线绕该点几圈，逆时针记正），$\mathrm{Res}(f,z_k)$ 是<strong>留数</strong>——$f$ 在 $z_k$ 附近 Laurent 展开中 $(z-z_k)^{-1}$ 项的系数。</p>
+<p>为什么偏偏是 $-1$ 次幂？绕小圆一圈时，$\oint(z-z_0)^n dz$ 对所有 $n\neq-1$ 都等于 0——原函数单值，绕回来正好抵消。只有 $n=-1$ 的原函数是 $\log$，而 $\log$ 绕一圈不回到原值，恰好多出 $2\pi i$。<em>整个定理悬挂在对数的多值性上。</em></p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>一条曲线上的连续积分，坍缩成有限个点上的几个代数系数。<strong>局部数据完全决定全局积分</strong>——这是"整体等于局部之和"的最早范本，此后在 Stokes 定理、de Rham 上同调、指标定理中一再重演。它还有一种越界的快感：实轴上死活算不出的积分，抬进复平面绕一圈就落地了，例如 $\int_{-\infty}^{\infty}\frac{\sin x}{x}\,dx=\pi$。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>量子场论中所有传播子都是围道积分，绕极点从上方还是下方走（$i\epsilon$ 规定）决定你得到推迟还是超前格林函数——<strong>因果性被编码成绕行方式</strong>。控制论的 Nyquist 判据：闭环是否稳定，等于开环频率响应绕 $-1$ 点的圈数（辐角原理，留数定理的推论）。算法分析里，生成函数的系数 $a_n=\frac{1}{2\pi i}\oint\frac{F(z)}{z^{n+1}}dz$，鞍点法由此给出组合计数的渐近式。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>闭曲线积分只记得自己围住了什么，不记得自己怎么走。</strong><br/>绕数是整数，无法连续变化——这正是物理里"拓扑荷"的定义（量子霍尔电导、超流涡旋）。留数定理是否在说：只要函数有奇点，积分就自动被量子化成一个拓扑不变量？</div>
+</div>
+</div>
+<!-- 概念 3：共形映射 -->
+<div class="card">
+<h2>共形映射</h2>
+<div class="en-name">Conformal Mapping · 允许任意扭曲，唯独禁止剪切</div>
+<span class="tag">Geometric Function Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>既然全纯映射的局部作用只是"旋转 + 缩放"，两条曲线在交点处的夹角就<strong>原封不动地保留</strong>。大尺度上区域可以被扭曲得面目全非，无穷小尺度上每个十字路口的夹角却分毫不差。</p>
+<p>想象一张无限可拉伸的橡皮地图：任意拽、任意弯都行，唯独不许剪切。这条限制听上去温和，结果却极其暴力——它让几乎所有形状变成同一个。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 360 172" xmlns="http://www.w3.org/2000/svg">
+<g stroke="#3a6088" stroke-width="0.9">
+<line x1="22" x2="128" y1="34" y2="34"></line>
+<line x1="22" x2="128" y1="60" y2="60"></line>
+<line x1="22" x2="128" y1="86" y2="86"></line>
+<line x1="22" x2="128" y1="112" y2="112"></line>
+<line x1="22" x2="128" y1="138" y2="138"></line>
+<line x1="22" x2="22" y1="34" y2="138"></line>
+<line x1="48" x2="48" y1="34" y2="138"></line>
+<line x1="75" x2="75" y1="34" y2="138"></line>
+<line x1="101" x2="101" y1="34" y2="138"></line>
+<line x1="128" x2="128" y1="34" y2="138"></line>
+</g>
+<line stroke="#aaa" stroke-width="1" x1="145" x2="188" y1="86" y2="86"></line>
+<polygon fill="#aaa" points="188,86 180,82 180,90"></polygon>
+<text fill="#1e3a5f" font-size="11" font-style="italic" text-anchor="middle" x="166" y="76">w = eᶻ</text>
+<g fill="none" stroke="#1e3a5f" stroke-width="1">
+<path d="M 261.8 66.2 A 20 20 0 0 1 261.8 103.8"></path>
+<path d="M 267 52.1 A 35 35 0 0 1 267 117.9"></path>
+<path d="M 272.1 38 A 50 50 0 0 1 272.1 132"></path>
+<path d="M 277.2 24.2 A 65 65 0 0 1 277.2 145.8"></path>
+</g>
+<g stroke="#3a6088" stroke-width="0.9">
+<line x1="262" x2="291" y1="72.9" y2="22.6"></line>
+<line x1="267.1" x2="317.4" y1="78" y2="49"></line>
+<line x1="269" x2="327" y1="85" y2="85"></line>
+<line x1="267.1" x2="317.4" y1="92" y2="121"></line>
+<line x1="262" x2="291" y1="97.1" y2="147.4"></line>
+</g>
+<circle cx="255" cy="85" fill="#c9544a" r="2.5"></circle>
+<text fill="#5a7090" font-size="9" font-style="italic" x="6" y="164">网格被弯成射线与圆弧，但交点处仍然处处成直角</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义（Riemann 映射定理）</div>
+<p>设 $\Omega\subsetneq\mathbb{C}$ 是单连通开区域（"单连通" = 没有洞；"$\subsetneq$" = 不是整个平面），则存在双全纯映射</p>
+<div class="formula-box">$$f:\;\Omega \;\longrightarrow\; \mathbb{D}=\{z:|z|&lt;1\}$$</div>
+<p>"双全纯"指 $f$ 可逆，且 $f$ 与 $f^{-1}$ 都全纯。指定一个内点映到 0、再固定该点导数的辐角之后，$f$ 唯一。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>心形、星形、机翼截面、一条蜿蜒无尽的河道——只要没有洞，在复分析眼里<strong>全是同一个东西</strong>：单位圆盘。看似无穷丰富的形状空间，被彻底压成一个点。反面同样锋利：区域一旦有洞，不变量立刻冒出来（圆环内外半径之比无法被共形改变）。<strong>"何时分类平凡、何时出现连续参数"，共形映射给出了最干净的分界线。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>Joukowski 变换把圆映成机翼截面，圆柱绕流的解直接搬过去就读出升力——早期空气动力学的主力工具。芯片布线的等效电阻、地下渗流、复杂电极的静电场，都靠保角变换把刁钻边界拉成矩形再解。Mercator 海图保角，所以恒向线是直线，代价是面积失真（格陵兰看起来像非洲）。计算机图形学把 3D 曲面摊平做纹理映射，靠的正是离散共形几何。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>允许任意扭曲、唯独禁止剪切——这条限制强到让所有无洞区域退化成同一个圆盘。</strong><br/>灵长类视皮层对视网膜的映射近似于共形的 $\log z$：在对数极坐标下，视野中的旋转与缩放都变成平移。演化选中一个保角映射，是几何上的巧合，还是因为"把旋转缩放化成平移"本身就是廉价不变性的来源？</div>
+</div>
+</div>
+<!-- 概念 4：黎曼曲面 -->
+<div class="card">
+<h2>黎曼曲面</h2>
+<div class="en-name">Riemann Surfaces · 不要修函数，去修定义域</div>
+<span class="tag">Complex Geometry</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>$\sqrt{z}$ 有两个值，$\log z$ 有无穷多个。教科书的处理是"取主值"：沿负实轴人为割一刀，逼函数变单值。可这一刀是人造的——割在哪里全凭约定，函数本身并没有在那里出问题。</p>
+<p>黎曼把问题反过来问：<strong>不要修函数，去修定义域。</strong>拿两张复平面沿割线交叉粘合，做成一座两层的螺旋楼梯，在这个新曲面上 $\sqrt{z}$ 完完全全是单值解析的。绕原点走一圈，你没有回到起点，而是上了一层楼；绕两圈才真正闭合。多值性没有被消灭，它被<strong>翻译成了拓扑</strong>。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 360 150" xmlns="http://www.w3.org/2000/svg">
+<g fill="none" stroke="#9fb2c8" stroke-dasharray="4,3" stroke-width="1.2">
+<path d="M 290 34 C 290 4, 70 18, 70 49"></path>
+<path d="M 290 64 C 290 34, 70 48, 70 79"></path>
+</g>
+<g fill="none" stroke="#1e3a5f" stroke-width="1.8">
+<path d="M 70 49 C 70 94, 290 98, 290 64"></path>
+<path d="M 70 79 C 70 124, 290 128, 290 94"></path>
+</g>
+<line stroke="#c9544a" stroke-dasharray="3,3" stroke-width="1.2" x1="290" x2="290" y1="34" y2="94"></line>
+<circle cx="180" cy="72" fill="#c9544a" r="3.4"></circle>
+<text fill="#c9544a" font-size="10" font-style="italic" text-anchor="middle" x="180" y="90">z = 0 分支点</text>
+<text fill="#1e3a5f" font-size="10" font-style="italic" x="298" y="40">第一层</text>
+<text fill="#1e3a5f" font-size="10" font-style="italic" x="298" y="99">第二层</text>
+<text fill="#5a7090" font-size="9" font-style="italic" x="6" y="143">绕原点一圈只是上了一层楼，绕两圈才回到起点</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>黎曼曲面是<strong>一维复流形</strong>：连通的 Hausdorff 空间，被一族坐标卡覆盖，任意两卡重叠处的转移映射都全纯。"一维复"指局部长得像 $\mathbb{C}$ 的一小片，故作为实空间是二维的——一个曲面。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>函数有几个分支 ↔ 曲面有几层；分支点 ↔ 层与层的缝合处。$\log$ 的无穷多值就是一座无限螺旋。更惊人的是<strong>单值化定理</strong>：每个单连通黎曼曲面只可能是三者之一——球面、复平面、单位圆盘，分别对应正、零、负的常曲率。而紧黎曼曲面与代数曲线是同一批对象，亏格 $g$ 同时是拓扑量、代数量与分析量，被 Riemann–Roch 定理串成一个等式。<strong>几何、代数、分析在这里不是"有联系"，而是同一件事的三种写法。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>弦论的世界面就是黎曼曲面，微扰展开的圈阶数即亏格。亏格 1 的黎曼曲面是环面，也就是<strong>椭圆曲线</strong>——ECC 公钥密码与 Wiles 证明费马大定理的共同核心对象，同一个几何体同时撑起信息安全与现代数论。工程上，多值传递函数的分支切割位置直接决定滤波器的稳定区域。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>与其阉割函数使它单值，不如放大舞台让它自然单值——矛盾常常不在对象里，而在你给它的定义域太小。</strong><br/>负数、复数、覆叠空间、层，数学一再靠"扩张定义域"消解矛盾。工程与 AI 里，embedding 维度不足导致语义冲突、上下文窗口不足导致指代失败，是否是同一个模式的另一种化身？</div>
+</div>
+</div>
+<h3 class="deep">深入思考</h3>
+<details>
+<summary>为什么实分析里"光滑"与"解析"分家，复分析里却合一？</summary>
+<div>实轴上只有两个方向，可导只是一个约束，于是能造出 $e^{-1/x^2}$ 这类在原点无穷次可导、泰勒级数却恒为 0 的怪物——局部信息不决定全局。复平面上可导是无穷多方向的约束，Cauchy 积分公式把 $f$ 在内点的所有导数写成边界积分。<strong>分水岭是"局部能否自由变形"</strong>：实光滑函数有紧支撑的 bump function，全纯函数没有，因此复分析里不存在单位分解，靠局部剪贴的技术全部失效。</div>
+</details>
+<details>
+<summary>留数定理、Stokes 定理、Gauss–Bonnet 是同一件事吗？</summary>
+<div>是同一族：都在说"内部的密度积分 = 边界上的信息"。留数定理正是 Stokes 定理在 $\mathbb{C}$ 上对带奇点 1-形式的特例，绕数是 de Rham 上同调类之间的配对；Gauss–Bonnet 把曲率密度积成 Euler 示性数。它们最终由 Atiyah–Singer 指标定理统一：<strong>解析指标（解空间维数）= 拓扑指标</strong>。留数是这个主题最早、也最容易上手的样本。</div>
+</details>
+<details>
+<summary>为什么三维几乎没有共形映射？</summary>
+<div>Liouville 的一条刚性定理：当 $n\ge 3$，任何共形映射都只能是平移、缩放、旋转与反演的复合（Möbius 变换），构成一个有限维群。二维之所以特殊，是因为共形条件恰好就是 Cauchy–Riemann，解空间是<strong>无穷维</strong>的——任意全纯函数都算数。这正是二维共形场论能被精确求解而高维不能的根源，也解释了弦论为何把世界面选在二维：只有那里共形对称性大到足以取代动力学。</div>
+</details>
+<details>
+<summary>解析延拓的唯一性有多霸道？</summary>
+<div>若两个全纯函数在一个有聚点的集合上相等，它们在整个连通区域上就完全相等。所以 $\zeta(s)=\sum n^{-s}$ 虽只在 $\mathrm{Re}(s)>1$ 收敛，它到全平面的延拓却是<strong>唯一</strong>的——"$\zeta(-1)=-1/12$"不是随意约定，而是被唯一性逼出的唯一可能值。于是一个仅在小区域被写下的函数，其"真正的"全局形态似乎早已存在，只等被发现。<em>这大概是数学柏拉图主义最有力的日常证据之一。</em></div>
+</details>
+<nav class="bottom">
+<a href="index.html">← 返回 Mathematics</a>
+</nav>
+</div>
+</body>
+</html>

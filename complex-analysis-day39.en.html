@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Complex Analysis · Day 39 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 16px;text-align:center;font-style:italic;letter-spacing:1px}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 39 · 2026.07.31</div>
+<h1>Complex Analysis</h1>
+<div class="meta">Add one more direction and functions turn from putty into crystal</div>
+<div class="epigraph">"The shortest path between two truths in the real domain passes through the complex domain." — Jacques Hadamard</div>
+</header>
+<!-- Concept 1: holomorphic functions -->
+<div class="card">
+<h2>Holomorphic Functions</h2>
+<div class="en-name">Holomorphic Functions · complex differentiability is far more than "differentiable" over a new field</div>
+<span class="tag">Complex Analysis</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Asking whether a real function is differentiable is asking whether the difference quotient converges as $h\to 0$ — and $h$ can only arrive from the left or the right. A complex $h$ can approach 0 from <strong>infinitely many directions in the plane</strong>, and complex differentiability demands that all of those paths return the <strong>same</strong> limit. That is not one condition; it is infinitely many conditions imposed at once.</p>
+<p>What you buy with that price is rigidity. A real smooth function is putty: you can build one that vanishes identically on $[-1,1]$ yet is nonzero outside, infinitely differentiable throughout — squeeze it locally and nothing elsewhere notices. A holomorphic function is crystal: know it on any small disc and its values on the entire connected region are already pinned down. <strong>One complex derivative buys you infinitely many, plus equality with your own Taylor series everywhere.</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 195" xmlns="http://www.w3.org/2000/svg">
+<text fill="#5a7090" font-size="10" x="4" y="14">generic differentiable map: circle → ellipse, right angle sheared away</text>
+<circle cx="58" cy="58" fill="none" r="26" stroke="#1e3a5f" stroke-width="1.4"></circle>
+<line stroke="#c9544a" stroke-width="1.8" x1="58" x2="58" y1="58" y2="32"></line>
+<line stroke="#7a9a6a" stroke-width="1.8" x1="58" x2="84" y1="58" y2="58"></line>
+<line stroke="#aaa" stroke-width="1" x1="105" x2="225" y1="58" y2="58"></line>
+<polygon fill="#aaa" points="225,58 217,54 217,62"></polygon>
+<ellipse cx="295" cy="58" fill="none" rx="46" ry="17" stroke="#1e3a5f" stroke-width="1.4" transform="rotate(-20 295 58)"></ellipse>
+<line stroke="#c9544a" stroke-width="1.8" x1="295" x2="283" y1="58" y2="45"></line>
+<line stroke="#7a9a6a" stroke-width="1.8" x1="295" x2="337" y1="58" y2="43"></line>
+<text fill="#8a7340" font-size="9" font-style="italic" x="248" y="88">angle changed</text>
+<text fill="#5a7090" font-size="10" x="4" y="128">holomorphic map: circle → circle, rotation and scaling only</text>
+<circle cx="58" cy="155" fill="none" r="21" stroke="#1e3a5f" stroke-width="1.4"></circle>
+<line stroke="#c9544a" stroke-width="1.8" x1="58" x2="58" y1="155" y2="134"></line>
+<line stroke="#7a9a6a" stroke-width="1.8" x1="58" x2="79" y1="155" y2="155"></line>
+<line stroke="#aaa" stroke-width="1" x1="105" x2="225" y1="155" y2="155"></line>
+<polygon fill="#aaa" points="225,155 217,151 217,159"></polygon>
+<circle cx="295" cy="155" fill="none" r="32" stroke="#1e3a5f" stroke-width="1.4"></circle>
+<line stroke="#c9544a" stroke-width="1.8" x1="295" x2="313" y1="155" y2="129"></line>
+<line stroke="#7a9a6a" stroke-width="1.8" x1="295" x2="321" y1="155" y2="173"></line>
+<text fill="#7a9a6a" font-size="9" font-style="italic" x="240" y="192">right angle untouched</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>Write $f(z)=u(x,y)+i\,v(x,y)$. Complex differentiability is equivalent to the Cauchy–Riemann equations:</p>
+<div class="formula-box">$$\frac{\partial u}{\partial x}=\frac{\partial v}{\partial y},\qquad \frac{\partial u}{\partial y}=-\frac{\partial v}{\partial x}$$</div>
+<p>Here $u$ and $v$ are the real and imaginary parts. Together the two equations say: differentiating along the real axis and along the imaginary axis must return the same complex number. Geometrically that is equivalent to the gradients of $u$ and $v$ being <strong>orthogonal and of equal length</strong> — so the derivative matrix of $f$ can only be "rotation × scaling", with no stretching and no shear. Differentiate each equation once more and subtract, and out drops $\nabla^2u=\nabla^2v=0$: the real and imaginary parts of a holomorphic function are automatically harmonic.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>A purely local differential constraint forces global conclusions. Liouville's theorem: a function holomorphic and bounded on the whole plane must be constant — from which the fundamental theorem of algebra takes three lines (if a polynomial $p$ had no root, $1/p$ would be a bounded entire function, so $p$ is constant). The maximum modulus principle: $|f|$ attains its maximum on the boundary; no peaks are permitted in the interior. <strong>All the information lives on the boundary</strong> — a theme that recurs later in the Dirichlet problem and even in the holographic principle.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Two-dimensional electrostatics and ideal fluid flow: let $u$ be the potential and $v$ the stream function, and Cauchy–Riemann automatically enforces irrotational, source-free flow with equipotentials orthogonal to streamlines everywhere. In signals and materials, <strong>causality</strong> (no response before its stimulus) is equivalent to the transfer function being holomorphic in the upper half-plane, which yields the Kramers–Kronig relations: a medium's refractive index and its absorption spectrum determine each other, so measuring one lets you compute the other — an experimental dividend paid directly by holomorphy.</p>
+</div>
+<div class="section">
+<div class="label">The one-line essence · a question</div>
+<div class="think"><strong>Complex differentiability is not differentiability over a new field; it is a symmetry condition — locally, rotation and scaling only. Rigidity is its reward.</strong><br/>Liouville says "bounded + entire ⟹ constant". A complex-valued neural network whose activation is both holomorphic and bounded is therefore left with constants alone. Does that mean complex-valued networks must deliberately give up holomorphy — and once they do, what advantage remains?</div>
+</div>
+</div>
+<!-- Concept 2: the residue theorem -->
+<div class="card">
+<h2>The Residue Theorem</h2>
+<div class="en-name">The Residue Theorem · an integral over a whole curve collapses onto a few points</div>
+<span class="tag">Contour Integration</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Picture $f$ as a flow field on the plane. Holomorphic means source-free and irrotational, so the circulation around any closed curve is zero (Cauchy's theorem). Singularities are the vortices pinned into the plane — the pinholes where holomorphy fails.</p>
+<p>Contour integration therefore becomes something close to absurd: it <strong>records only which vortices you enclosed and how many times you circled each</strong>. How long the curve is, how badly it meanders, how far it passes from a singularity — all irrelevant. Shrink it, knead it, drag it about; as long as you never cross a singularity, the value does not shift by a single digit.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
+<path d="M 30 95 C 30 30, 115 18, 178 34 C 250 52, 315 58, 302 112 C 290 165, 195 180, 122 168 C 55 157, 30 145, 30 95 Z" fill="#3a6088" fill-opacity="0.06" stroke="#1e3a5f" stroke-width="1.7"></path>
+<polygon fill="#1e3a5f" points="178,34 168,29 170,39"></polygon>
+<circle cx="115" cy="88" fill="none" r="20" stroke="#c9544a" stroke-dasharray="4,3" stroke-width="1.3"></circle>
+<circle cx="218" cy="118" fill="none" r="20" stroke="#c9544a" stroke-dasharray="4,3" stroke-width="1.3"></circle>
+<g fill="#c9544a" font-size="15" font-weight="bold" text-anchor="middle">
+<text x="115" y="93">×</text>
+<text x="218" y="123">×</text>
+</g>
+<text fill="#c9544a" font-size="10" font-style="italic" text-anchor="middle" x="115" y="60">pole z₁</text>
+<text fill="#c9544a" font-size="10" font-style="italic" text-anchor="middle" x="218" y="152">pole z₂</text>
+<text fill="#1e3a5f" font-size="10" font-style="italic" x="6" y="16">knead the curve however you like — only the enclosed poles count</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$\oint_\gamma f(z)\,dz \;=\; 2\pi i \sum_k n(\gamma,z_k)\,\mathrm{Res}(f,z_k)$$</div>
+<p>$\gamma$ is a closed curve, the $z_k$ are the enclosed isolated singularities, $n(\gamma,z_k)$ is the <strong>winding number</strong> (how many times the curve circles that point, counterclockwise positive), and $\mathrm{Res}(f,z_k)$ is the <strong>residue</strong> — the coefficient of $(z-z_k)^{-1}$ in the Laurent expansion of $f$ near $z_k$.</p>
+<p>Why exactly the power $-1$? Going once around a small circle, $\oint(z-z_0)^n dz$ vanishes for every $n\neq-1$ — the antiderivative is single-valued, so the trip cancels itself out. Only for $n=-1$ is the antiderivative $\log$, and $\log$ does not return to its original value after a loop; it comes back exactly $2\pi i$ richer. <em>The whole theorem hangs off the multivaluedness of the logarithm.</em></p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>A continuous integral along a curve collapses into a handful of algebraic coefficients at isolated points. <strong>Local data completely determines a global integral</strong> — the earliest specimen of "the whole equals the sum of the local", replayed afterwards in Stokes' theorem, de Rham cohomology, and the index theorems. It also carries a trespasser's thrill: integrals that refuse to yield on the real line land immediately once lifted into the complex plane and looped, such as $\int_{-\infty}^{\infty}\frac{\sin x}{x}\,dx=\pi$.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Every propagator in quantum field theory is a contour integral, and whether you route above or below a pole (the $i\epsilon$ prescription) decides whether you obtain the retarded or the advanced Green's function — <strong>causality encoded as a choice of detour</strong>. The Nyquist criterion in control theory: closed-loop stability equals the number of times the open-loop frequency response winds around $-1$ (the argument principle, a corollary of the residue theorem). In algorithm analysis, generating-function coefficients are $a_n=\frac{1}{2\pi i}\oint\frac{F(z)}{z^{n+1}}dz$, and saddle-point methods turn that into asymptotics for combinatorial counts.</p>
+</div>
+<div class="section">
+<div class="label">The one-line essence · a question</div>
+<div class="think"><strong>A closed contour integral remembers only what it enclosed, never how it travelled.</strong><br/>Winding numbers are integers and cannot vary continuously — which is precisely the definition of a "topological charge" in physics (quantum Hall conductance, superfluid vortices). Is the residue theorem saying that as soon as a function has singularities, its integrals are automatically quantized into topological invariants?</div>
+</div>
+</div>
+<!-- Concept 3: conformal mapping -->
+<div class="card">
+<h2>Conformal Mapping</h2>
+<div class="en-name">Conformal Mapping · any distortion permitted, shear forbidden</div>
+<span class="tag">Geometric Function Theory</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Since a holomorphic map acts locally as nothing but rotation and scaling, the angle at which two curves cross is <strong>preserved untouched</strong>. At large scale the region may be warped beyond recognition; at infinitesimal scale every intersection keeps its angle to the last decimal.</p>
+<p>Picture an infinitely stretchable rubber map: pull it, bend it, do as you please — only shear is forbidden. The restriction sounds mild and turns out to be brutal: it makes almost every shape into the same shape.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 360 172" xmlns="http://www.w3.org/2000/svg">
+<g stroke="#3a6088" stroke-width="0.9">
+<line x1="22" x2="128" y1="34" y2="34"></line>
+<line x1="22" x2="128" y1="60" y2="60"></line>
+<line x1="22" x2="128" y1="86" y2="86"></line>
+<line x1="22" x2="128" y1="112" y2="112"></line>
+<line x1="22" x2="128" y1="138" y2="138"></line>
+<line x1="22" x2="22" y1="34" y2="138"></line>
+<line x1="48" x2="48" y1="34" y2="138"></line>
+<line x1="75" x2="75" y1="34" y2="138"></line>
+<line x1="101" x2="101" y1="34" y2="138"></line>
+<line x1="128" x2="128" y1="34" y2="138"></line>
+</g>
+<line stroke="#aaa" stroke-width="1" x1="145" x2="188" y1="86" y2="86"></line>
+<polygon fill="#aaa" points="188,86 180,82 180,90"></polygon>
+<text fill="#1e3a5f" font-size="11" font-style="italic" text-anchor="middle" x="166" y="76">w = eᶻ</text>
+<g fill="none" stroke="#1e3a5f" stroke-width="1">
+<path d="M 261.8 66.2 A 20 20 0 0 1 261.8 103.8"></path>
+<path d="M 267 52.1 A 35 35 0 0 1 267 117.9"></path>
+<path d="M 272.1 38 A 50 50 0 0 1 272.1 132"></path>
+<path d="M 277.2 24.2 A 65 65 0 0 1 277.2 145.8"></path>
+</g>
+<g stroke="#3a6088" stroke-width="0.9">
+<line x1="262" x2="291" y1="72.9" y2="22.6"></line>
+<line x1="267.1" x2="317.4" y1="78" y2="49"></line>
+<line x1="269" x2="327" y1="85" y2="85"></line>
+<line x1="267.1" x2="317.4" y1="92" y2="121"></line>
+<line x1="262" x2="291" y1="97.1" y2="147.4"></line>
+</g>
+<circle cx="255" cy="85" fill="#c9544a" r="2.5"></circle>
+<text fill="#5a7090" font-size="9" font-style="italic" x="6" y="164">the grid bends into rays and arcs, yet every crossing is still a right angle</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition (the Riemann mapping theorem)</div>
+<p>Let $\Omega\subsetneq\mathbb{C}$ be a simply connected open region ("simply connected" = no holes; "$\subsetneq$" = not the whole plane). Then there exists a biholomorphic map</p>
+<div class="formula-box">$$f:\;\Omega \;\longrightarrow\; \mathbb{D}=\{z:|z|&lt;1\}$$</div>
+<p>"Biholomorphic" means $f$ is invertible with both $f$ and $f^{-1}$ holomorphic. Once you specify an interior point that maps to 0 and fix the argument of the derivative there, $f$ is unique.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>A heart, a star, an airfoil cross-section, an endlessly meandering river channel — provided there are no holes, complex analysis sees <strong>one and the same object</strong>: the unit disc. An apparently inexhaustible space of shapes is crushed down to a point. The converse is just as sharp: put a hole in the region and invariants appear at once (the ratio of an annulus's inner and outer radii cannot be changed conformally). <strong>Conformal mapping draws the cleanest line yet between "classification is trivial" and "continuous parameters appear".</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>The Joukowski transform carries a circle to an airfoil cross-section, so the solution for flow past a cylinder transfers straight across and the lift can be read off — the workhorse of early aerodynamics. Effective resistance in chip routing, groundwater seepage, and electrostatic fields with awkward electrode shapes are all solved by conformally pulling a nasty boundary into a rectangle. The Mercator chart is conformal, which is why rhumb lines are straight, at the cost of area distortion (Greenland looks like Africa). Flattening a 3D surface for texture mapping in computer graphics is discrete conformal geometry.</p>
+</div>
+<div class="section">
+<div class="label">The one-line essence · a question</div>
+<div class="think"><strong>Permit any distortion but forbid shear — a restriction strong enough to degenerate every hole-free region into the same disc.</strong><br/>The primate visual cortex maps the retina roughly by the conformal $\log z$: in log-polar coordinates, rotations and rescalings of the visual field both become translations. Is evolution's choice of an angle-preserving map a geometric accident, or is "turning rotation and scaling into translation" itself a cheap source of invariance?</div>
+</div>
+</div>
+<!-- Concept 4: Riemann surfaces -->
+<div class="card">
+<h2>Riemann Surfaces</h2>
+<div class="en-name">Riemann Surfaces · do not repair the function, repair its domain</div>
+<span class="tag">Complex Geometry</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>$\sqrt{z}$ has two values and $\log z$ has infinitely many. The textbook remedy is to "take the principal value": slit the plane along the negative real axis and force the function to be single-valued. But that cut is an artifact — where you place it is pure convention, and the function itself has no trouble there at all.</p>
+<p>Riemann inverted the question: <strong>do not repair the function, repair its domain.</strong> Take two copies of the plane, glue them crosswise along the slit, and build a two-storey spiral staircase; on this new surface $\sqrt{z}$ is perfectly single-valued and analytic. Walk once around the origin and you have not returned to your starting point — you have climbed a floor. Only after two loops does the path close. Multivaluedness has not been abolished; it has been <strong>translated into topology</strong>.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 360 150" xmlns="http://www.w3.org/2000/svg">
+<g fill="none" stroke="#9fb2c8" stroke-dasharray="4,3" stroke-width="1.2">
+<path d="M 290 34 C 290 4, 70 18, 70 49"></path>
+<path d="M 290 64 C 290 34, 70 48, 70 79"></path>
+</g>
+<g fill="none" stroke="#1e3a5f" stroke-width="1.8">
+<path d="M 70 49 C 70 94, 290 98, 290 64"></path>
+<path d="M 70 79 C 70 124, 290 128, 290 94"></path>
+</g>
+<line stroke="#c9544a" stroke-dasharray="3,3" stroke-width="1.2" x1="290" x2="290" y1="34" y2="94"></line>
+<circle cx="180" cy="72" fill="#c9544a" r="3.4"></circle>
+<text fill="#c9544a" font-size="10" font-style="italic" text-anchor="middle" x="180" y="90">branch point z = 0</text>
+<text fill="#1e3a5f" font-size="10" font-style="italic" x="298" y="40">sheet 1</text>
+<text fill="#1e3a5f" font-size="10" font-style="italic" x="298" y="99">sheet 2</text>
+<text fill="#5a7090" font-size="9" font-style="italic" x="6" y="143">one loop around the origin only climbs a floor; two loops return you home</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>A Riemann surface is a <strong>one-dimensional complex manifold</strong>: a connected Hausdorff space covered by a family of coordinate charts whose transition maps are holomorphic wherever two charts overlap. "One complex dimension" means it looks locally like a patch of $\mathbb{C}$, so as a real space it is two-dimensional — a surface.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>How many branches the function has ↔ how many sheets the surface has; branch points ↔ the seams where sheets are stitched. The infinitely many values of $\log$ are simply an infinite spiral. More striking still is the <strong>uniformization theorem</strong>: every simply connected Riemann surface is one of exactly three things — the sphere, the plane, or the unit disc, corresponding to constant positive, zero, and negative curvature. And compact Riemann surfaces are the same objects as algebraic curves, with the genus $g$ serving at once as a topological, an algebraic, and an analytic quantity, threaded into a single equation by the Riemann–Roch theorem. <strong>Here geometry, algebra, and analysis are not "related" — they are three notations for one thing.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>A string's worldsheet is a Riemann surface, and the loop order of the perturbative expansion is its genus. A genus-1 Riemann surface is a torus — that is, an <strong>elliptic curve</strong>, the shared core object of ECC public-key cryptography and of Wiles' proof of Fermat's Last Theorem; one geometric body holding up both information security and modern number theory. In engineering, where you place the branch cuts of a multivalued transfer function directly determines the stability region of a filter.</p>
+</div>
+<div class="section">
+<div class="label">The one-line essence · a question</div>
+<div class="think"><strong>Rather than mutilate a function into single-valuedness, enlarge the stage until it is single-valued on its own — the contradiction usually lies not in the object but in the domain you gave it.</strong><br/>Negative numbers, complex numbers, covering spaces, sheaves: mathematics keeps dissolving contradictions by extending domains. In engineering and AI, are semantic collisions from too few embedding dimensions, or broken reference from too short a context window, the same pattern wearing another face?</div>
+</div>
+</div>
+<h3 class="deep">Deeper Questions</h3>
+<details>
+<summary>Why do "smooth" and "analytic" part ways in real analysis but coincide in complex analysis?</summary>
+<div>The real line has only two directions, so differentiability is a single constraint — which lets you build monsters like $e^{-1/x^2}$, infinitely differentiable at the origin with a Taylor series identically zero: local information fails to determine the global function. In the plane, differentiability is a constraint in infinitely many directions, and Cauchy's integral formula writes every derivative of $f$ at an interior point as a boundary integral. <strong>The watershed is whether local deformation is free</strong>: real smooth functions admit compactly supported bump functions, holomorphic ones do not, so complex analysis has no partitions of unity and every cut-and-paste technique fails outright.</div>
+</details>
+<details>
+<summary>Are the residue theorem, Stokes' theorem, and Gauss–Bonnet the same thing?</summary>
+<div>They are one family: each says "the integral of some density inside equals information on the boundary". The residue theorem is exactly Stokes' theorem on $\mathbb{C}$ applied to a 1-form with singularities, with the winding number a pairing between de Rham cohomology classes; Gauss–Bonnet integrates curvature density into the Euler characteristic. They are finally unified by the Atiyah–Singer index theorem: <strong>the analytic index (the dimension of a solution space) equals the topological index</strong>. Residues are the earliest and most approachable specimen of that theme.</div>
+</details>
+<details>
+<summary>Why are there almost no conformal maps in three dimensions?</summary>
+<div>A rigidity theorem of Liouville: for $n\ge 3$, every conformal map is a composition of translations, scalings, rotations, and inversions (a Möbius transformation), forming a finite-dimensional group. Two dimensions are special because there the conformal condition is precisely Cauchy–Riemann, and its solution space is <strong>infinite-dimensional</strong> — every holomorphic function qualifies. This is the root of why two-dimensional conformal field theory can be solved exactly while higher dimensions cannot, and why string theory puts its worldsheet in two dimensions: only there is conformal symmetry large enough to substitute for dynamics.</div>
+</details>
+<details>
+<summary>How tyrannical is the uniqueness of analytic continuation?</summary>
+<div>If two holomorphic functions agree on a set with an accumulation point, they agree on the entire connected region. So although $\zeta(s)=\sum n^{-s}$ converges only for $\mathrm{Re}(s)>1$, its continuation to the whole plane is <strong>unique</strong> — "$\zeta(-1)=-1/12$" is not an arbitrary convention but the only value uniqueness permits. A function written down on a small region therefore seems to have its "true" global form already in existence, waiting to be found. <em>This is arguably the strongest everyday evidence for mathematical Platonism.</em></div>
+</details>
+<nav class="bottom">
+<a href="index.en.html">← Back to Mathematics</a>
+</nav>
+</div>
+</body>
+</html>
