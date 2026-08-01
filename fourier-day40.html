@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>傅里叶分析 · Day 40 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 16px;text-align:center;font-style:italic;letter-spacing:1px}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 40 · 2026.08.01</div>
+<h1>傅里叶分析</h1>
+<div class="meta">Fourier Analysis — 换一组基，混沌的信号自己排好了队</div>
+<div class="epigraph">「傅里叶定理不仅是现代分析中最优美的结果之一，还是处理几乎每个晦涩物理问题不可或缺的工具。」 — Lord Kelvin</div>
+</header>
+<!-- 概念 1：频域思维 -->
+<div class="card">
+<h2>频域思维</h2>
+<div class="en-name">The Frequency Domain · 同一个信号，换一组基去看</div>
+<span class="tag">Harmonic Analysis</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>一段录音的波形看上去毫无规律。但把它<strong>缠绕在一个圆上</strong>——以每秒 $\xi$ 圈绕行，波形高低变成离圆心的远近——奇迹就发生了：绕速与信号里某个真实频率<strong>对上</strong>时，波峰总转到同一侧，图形的<strong>质心明显偏离原点</strong>；对不上时，波峰均匀散开，质心留在原点。</p>
+<p>于是「测量某个频率」成了纯几何动作：质心跑多远是强度，朝哪是相位。<strong>信号没变，变的只是描述它的基。</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 210" xmlns="http://www.w3.org/2000/svg">
+<text fill="#5a7090" font-size="10" x="4" y="12">时域：三条正弦叠加，看不出结构</text>
+<line stroke="#c0c8d4" stroke-width="1" x1="10" x2="368" y1="60" y2="60"></line>
+<path d="M10 60 Q19 30 28 60 Q34 84 40 60 Q49 26 58 60 Q64 88 70 60 Q79 34 88 60 Q94 82 100 60 Q109 28 118 60 Q124 86 130 60 Q139 32 148 60 Q154 84 160 60 Q169 26 178 60 Q184 88 190 60 Q199 34 208 60 Q214 82 220 60 Q229 28 238 60 Q244 86 250 60 Q259 32 268 60 Q274 84 280 60 Q289 26 298 60 Q304 88 310 60 Q319 34 328 60 Q334 82 340 60 Q349 30 358 60" fill="none" stroke="#1e3a5f" stroke-width="1.5"></path>
+<text fill="#5a7090" font-size="10" x="4" y="112">频域：三根谱线，结构一目了然</text>
+<line stroke="#c0c8d4" stroke-width="1" x1="30" x2="368" y1="188" y2="188"></line>
+<line stroke="#c0c8d4" stroke-width="1" x1="30" x2="30" y1="122" y2="188"></line>
+<line stroke="#c9544a" stroke-width="3" x1="92" x2="92" y1="188" y2="128"></line>
+<line stroke="#c9544a" stroke-width="3" x1="176" x2="176" y1="188" y2="150"></line>
+<line stroke="#c9544a" stroke-width="3" x1="272" x2="272" y1="188" y2="164"></line>
+<text fill="#5a7090" font-size="9" x="80" y="202">ξ₁</text>
+<text fill="#5a7090" font-size="9" x="164" y="202">ξ₂</text>
+<text fill="#5a7090" font-size="9" x="260" y="202">ξ₃</text>
+<text fill="#5a7090" font-size="9" font-style="italic" x="322" y="202">frequency</text>
+<text fill="#5a7090" font-size="9" font-style="italic" x="34" y="132">amplitude</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>把「缠绕并求质心」写成积分，就是傅里叶变换：</p>
+<div class="formula-box">$$\hat f(\xi)=\int_{-\infty}^{\infty} f(t)\,e^{-2\pi i\xi t}\,\mathrm{d}t$$</div>
+<p>$e^{-2\pi i\xi t}$ 是单位圆上以每秒 $\xi$ 圈转动的点，即那台缠绕机；乘上 $f(t)$ 把该时刻的信号值当作到圆心的距离；积分把所有位置加起来求质心，结果的模长为强度、辐角为相位。这组基的特权在于它是<strong>平移算子的特征函数</strong>：平移 $\tau$ 后形状不变，只整体乘上 $e^{2\pi i\xi\tau}$——一切线性时不变系统于是在此基下<strong>对角化</strong>。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>对角化把最难的运算变成最容易的。卷积——那个烦人的滑动求和——在频域退化为逐点相乘：</p>
+<div class="formula-box">$$\widehat{f*g}=\hat f\cdot\hat g$$</div>
+<p>微分同样退化：$\widehat{f'}(\xi)=2\pi i\xi\,\hat f(\xi)$，<strong>求导变成乘一个数，微分方程变成代数方程。</strong>Fourier 1807 年正是靠它解开热方程：各频率互不干扰地按 $e^{-4\pi^2\xi^2 kt}$ 独立衰减，高频衰减极快——这就是「热让一切变平滑」的数学原因。而由此引发的收敛性之争，逼出了严格的极限概念：<strong>一个解物理题的技巧，改写了分析学的地基。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>核磁共振不是先拍图再变换——梯度磁场让扫描仪<strong>直接采集傅里叶系数</strong>（k-空间），图像是最后一步反变换的产物。量子力学中位置与动量表象互为傅里叶变换，海森堡不确定性正是「函数与其变换不能同时都窄」的推论。深度学习里，隐式神经场靠傅里叶特征编码破解 MLP 对高频的迟钝。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>傅里叶变换不是计算技巧，而是换到「线性时不变系统的特征基」上；难题变简单，是因为矩阵变成了对角阵。</strong><br/>若系统并非时不变（如注意力权重随位置而变），什么才算它的「特征基」？还有办法找出来吗？</div>
+</div>
+</div>
+<!-- 概念 2：FFT -->
+<div class="card">
+<h2>快速傅里叶变换</h2>
+<div class="en-name">The FFT · 用对称性把 N² 砍成 N log N</div>
+<span class="tag">Algorithms</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>离散版本要算 $N$ 个频率，每个都得扫过 $N$ 个采样点——$N^2$ 次乘法。$N=10^6$ 时是 $10^{12}$ 次，超出实用范围。</p>
+<p>关键观察：这 $N^2$ 个旋转因子里<strong>只有 $N$ 个不同的值</strong>，因为转满 $N$ 步就回到原地，巨量重复被白白重算。FFT 于是分治：把采样点<strong>按下标奇偶劈成两半</strong>，各做一次 $N/2$ 点变换，再花 $O(N)$ 拼回去，$\log N$ 次到底。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+<text fill="#5a7090" font-size="10" x="4" y="12">分治：按奇偶拆开，拼回时一次旋转服务两个输出</text>
+<rect fill="#e6ecf3" height="20" rx="3" stroke="#3a6088" width="120" x="130" y="24"></rect>
+<text fill="#1e3a5f" font-size="10" text-anchor="middle" x="190" y="38">N 点 DFT</text>
+<line stroke="#aaa" stroke-width="1" x1="170" x2="98" y1="44" y2="64"></line>
+<line stroke="#aaa" stroke-width="1" x1="210" x2="282" y1="44" y2="64"></line>
+<rect fill="#fafbfd" height="20" rx="3" stroke="#3a6088" width="98" x="42" y="64"></rect>
+<text fill="#1e3a5f" font-size="10" text-anchor="middle" x="91" y="78">偶数项 E</text>
+<rect fill="#fafbfd" height="20" rx="3" stroke="#3a6088" width="98" x="240" y="64"></rect>
+<text fill="#1e3a5f" font-size="10" text-anchor="middle" x="289" y="78">奇数项 O</text>
+<line stroke="#c9544a" stroke-width="1.4" x1="91" x2="140" y1="84" y2="108"></line>
+<line stroke="#c9544a" stroke-width="1.4" x1="91" x2="252" y1="84" y2="108"></line>
+<line stroke="#7a9a6a" stroke-width="1.4" x1="289" x2="140" y1="84" y2="108"></line>
+<line stroke="#7a9a6a" stroke-width="1.4" x1="289" x2="252" y1="84" y2="108"></line>
+<text fill="#1e3a5f" font-size="10" text-anchor="middle" x="118" y="122">Xₖ = E + ωO</text>
+<text fill="#1e3a5f" font-size="10" text-anchor="middle" x="276" y="122">Xₖ₊ɴ⁄₂ = E − ωO</text>
+<text fill="#8a7340" font-size="9" font-style="italic" text-anchor="middle" x="190" y="142">同一个 ωO，加一次减一次 —— 蝶形</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>记 $\omega_N=e^{-2\pi i/N}$（把圆周 $N$ 等分的那一步旋转），$E_k$、$O_k$ 是偶下标与奇下标子序列的 $N/2$ 点变换。则</p>
+<div class="formula-box">$$X_k=E_k+\omega_N^{\,k}O_k,\qquad X_{k+N/2}=E_k-\omega_N^{\,k}O_k$$</div>
+<p>秘密全在那个减号：$\omega_N^{\,k+N/2}=-\omega_N^{\,k}$，多转半圈就是反号。所以<strong>算一次 $\omega_N^{\,k}O_k$ 能同时供两个输出使用</strong>，工作量当场减半。递推 $T(N)=2T(N/2)+O(N)$ 给出 $O(N\log N)$：$N=10^6$ 时降到约 $2\times 10^7$ 次，快了五万倍。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>加速<strong>不是工程优化，而是群论的红利</strong>。$N$ 点变换本质是循环群 $\mathbb{Z}/N\mathbb{Z}$ 上的调和分析；$N=2^m$ 时这个群有一条完整的子群链，每往下一层就把问题对半劈开。<strong>复杂度的下降，直接对应代数结构的可分解性</strong>——素数长度的 FFT 因此需要完全不同的技巧。顺带一提，Gauss 早在 1805 年就写下过这个算法，比 Fourier 发表论文还早两年，却沉睡到 1965 年才被 Cooley 与 Tukey 重新发现。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>你此刻连着的 Wi-Fi 与 5G 用的是 OFDM：数据分散到上千个正交子载波上，收发端各跑一次 FFT，频率选择性衰落就退化成每个子载波上的一次复数除法。大整数乘法借「乘法即卷积」用 FFT 做到近线性时间，是计算数论的基础设施；Shor 算法提取周期的那一步，同样是量子版傅里叶变换。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>FFT 的万倍加速不来自更快的机器，而来自发现「计算里全是重复」——对称性一旦被看见，就能兑换成时间。</strong><br/>反向传播同样靠共享重复的中间梯度取胜，这是同一类思想吗？还有哪些 $O(N^2)$ 算法在等它的 Cooley–Tukey？</div>
+</div>
+</div>
+<!-- 概念 3：小波 -->
+<div class="card">
+<h2>小波变换</h2>
+<div class="en-name">Wavelets · 傅里叶知道有什么频率，却不知道它在何时</div>
+<span class="tag">Time-Frequency</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>傅里叶的基是无限长的正弦。表示一次短促的鼓点，得靠海量正弦的精妙抵消——除那一瞬外全部相消。频谱因此被涂满，却<strong>说不出鼓点发生在第几秒</strong>。而乐谱恰恰是横轴时间、纵轴音高：我们要的是<strong>局部的频率信息</strong>。</p>
+<p>小波换了基元：一个摆动几次就衰减到零的短促「波包」。<strong>平移</strong>它是问「在哪」，<strong>伸缩</strong>它是问「多快」。关键在于伸缩不均匀——高频用又窄又快的版本（时间定位准），低频用又宽又慢的（频率定位准）。这正是耳蜗的策略：<strong>对快事件问「什么时候」，对慢事件问「是什么」。</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 168" xmlns="http://www.w3.org/2000/svg">
+<text fill="#5a7090" font-size="10" x="4" y="12">短时傅里叶：格子一样大</text>
+<text fill="#5a7090" font-size="10" x="196" y="12">小波：高频用扁格子，低频用高格子</text>
+<rect fill="none" height="112" stroke="#c0c8d4" width="160" x="10" y="22"></rect>
+<line stroke="#3a6088" stroke-width="0.8" x1="10" x2="170" y1="50" y2="50"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="10" x2="170" y1="78" y2="78"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="10" x2="170" y1="106" y2="106"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="50" x2="50" y1="22" y2="134"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="90" x2="90" y1="22" y2="134"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="130" x2="130" y1="22" y2="134"></line>
+<rect fill="none" height="112" stroke="#c0c8d4" width="160" x="210" y="22"></rect>
+<line stroke="#3a6088" stroke-width="0.8" x1="210" x2="370" y1="36" y2="36"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="210" x2="370" y1="50" y2="50"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="210" x2="370" y1="78" y2="78"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="230" x2="230" y1="22" y2="50"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="250" x2="250" y1="22" y2="50"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="270" x2="270" y1="22" y2="50"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="290" x2="290" y1="22" y2="50"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="310" x2="310" y1="22" y2="50"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="330" x2="330" y1="22" y2="50"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="350" x2="350" y1="22" y2="50"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="250" x2="250" y1="50" y2="78"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="290" x2="290" y1="50" y2="78"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="330" x2="330" y1="50" y2="78"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="290" x2="290" y1="78" y2="134"></line>
+<text fill="#5a7090" font-size="9" font-style="italic" x="10" y="150">横轴 time　纵轴 frequency</text>
+<text fill="#5a7090" font-size="9" font-style="italic" x="210" y="150">横轴 time　纵轴 frequency</text>
+<text fill="#8a7340" font-size="9" font-style="italic" x="10" y="164">每格面积有下限，只能重新分配</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>取一个均值为零、快速衰减的母小波 $\psi$，整族基由平移与伸缩生成：</p>
+<div class="formula-box">$$\psi_{a,b}(t)=\frac{1}{\sqrt{a}}\,\psi\!\left(\frac{t-b}{a}\right)$$</div>
+<p>$b$ 是平移（定位在哪一刻），$a$ 是尺度（小 = 窄而高频，大 = 宽而低频），$1/\sqrt{a}$ 保证不同尺度能量可比。为什么不能既窄又精确定频？因为有一条硬边界：</p>
+<div class="formula-box">$$\Delta t\cdot\Delta\xi\ \ge\ \frac{1}{4\pi}$$</div>
+<p>$\Delta t$、$\Delta\xi$ 是时间与频率上的展宽。这是<strong>海森堡不确定性原理的数学原型</strong>——与量子力学中的那条是同一个定理，只是那里把 $t,\xi$ 叫作位置与动量。<strong>时频平面上每块砖的面积有下限：你不能让它变小，只能选择做扁还是做高。</strong></p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>小波带来「多分辨率分析」：嵌套空间 $V_0\subset V_1\subset V_2\subset\cdots$ 中，$V_j$ 是到第 $j$ 层为止的近似，相邻两层之差恰好由小波张成——<strong>那正是「新增的细节」</strong>。信号于是被拆成「粗糙轮廓 + 逐层细节」，正是人先看整体再看局部的顺序。</p>
+<p>更漂亮的是它的自指结构：Daubechies 小波写不出初等表达式，只能由尺度方程 $\varphi(t)=\sqrt2\sum_k h_k\varphi(2t-k)$ <strong>递归定义</strong>——函数由自己的压缩副本拼成，与分形同源，而实现层面只剩滤波器系数的卷积与降采样。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>LIGO 探测引力波时用时频图看到那道从 35 Hz 扫到 250 Hz 的 chirp——纯傅里叶谱只会把它糊成宽带噪声。图像领域小波系数天然稀疏（平滑处近乎为零，只在边缘显著），阈值化即可去噪，JPEG2000 与数字电影母版都基于它。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>时频分辨率的总账守恒；小波不增加信息，只把它<em>分配</em>到最该花的地方——对高频问时间，对低频问频率。</strong><br/>神经网络浅层看纹理、深层看语义，是否也是一种学出来的多分辨率分析？</div>
+</div>
+</div>
+<!-- 概念 4：变换编码与稀疏性 -->
+<div class="card">
+<h2>变换编码与稀疏性</h2>
+<div class="en-name">Transform Coding · 压缩的本质是找到让信号变稀疏的那组基</div>
+<span class="tag">Information</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>一张照片在像素基下，每个像素都携带信息，几乎无处可省。换到余弦基下，能量却<strong>戏剧性地集中</strong>：绝大部分系数近乎为零——自然图像本就以平缓区域为主，剧烈跳变只发生在边缘。</p>
+<p>压缩的三步逻辑于是浮现：<strong>换基让信号稀疏 → 把不重要的系数粗暴量化甚至丢弃 → 对剩下的做无损熵编码</strong>。JPEG 正是如此：8×8 分块做离散余弦变换，除以一张按人眼敏感度设计的量化表，再熵编码。<strong>丢掉的不是随机信息，而是人眼本就看不见的那部分。</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 160" xmlns="http://www.w3.org/2000/svg">
+<text fill="#5a7090" font-size="10" x="4" y="12">系数按幅值排序后的衰减：换基决定能否压缩</text>
+<line stroke="#c0c8d4" stroke-width="1" x1="30" x2="360" y1="132" y2="132"></line>
+<line stroke="#c0c8d4" stroke-width="1" x1="30" x2="30" y1="26" y2="132"></line>
+<path d="M30 44 L110 46 L200 50 L290 52 L360 56" fill="none" stroke="#5a7090" stroke-dasharray="4 3" stroke-width="1.6"></path>
+<path d="M30 30 C60 92 100 118 160 126 C230 131 300 132 360 132" fill="none" stroke="#c9544a" stroke-width="1.8"></path>
+<text fill="#5a7090" font-size="9" x="146" y="40">像素基：全都重要，压不动</text>
+<text fill="#c9544a" font-size="9" x="116" y="110">余弦基：少数系数扛下全部能量</text>
+<text fill="#5a7090" font-size="9" font-style="italic" x="240" y="148">系数序号（由大到小）</text>
+<text fill="#5a7090" font-size="9" font-style="italic" x="34" y="24">幅值</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>DCT 是傅里叶变换的实数版本：先把信号偶对称延拓再变换，块边界不再有人为跳变，也就不会凭空造出高频。真正丢信息的只有量化一步：</p>
+<div class="formula-box">$$\hat c_{uv}=\mathrm{round}\!\left(\frac{c_{uv}}{q_{uv}}\right)$$</div>
+<p>$c_{uv}$ 是位置 $(u,v)$ 处的变换系数，$q_{uv}$ 是量化表中对应的步长——高频处 $q$ 取得大，除完取整就大量归零；软件里的「质量档位」调的正是整张表的缩放因子。至于最多能压到多小，Shannon 的率失真函数 $R(D)$ 给出下界：<strong>允许的失真越大，所需码率越低</strong>，这条曲线是任何编码器都穿不透的地板。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>「哪组基最好」有确定答案：使系数彻底去相关的 KLT（即 PCA）对每类信号都最优——但它依赖信号统计量、要额外传输基本身、且没有快速算法。而对相邻像素高度相关的一阶马尔可夫模型，<strong>DCT 是 KLT 的极佳渐近逼近，又享有 FFT 级别的快速算法</strong>。理论最优与工程可行在此会合，这才是 JPEG 统治三十年的原因。</p>
+<p>更深一层：稀疏性还能反过来<strong>削减采样本身</strong>。压缩感知说，若信号在某组基下 $k$-稀疏，约 $O(k\log n)$ 个随机线性测量便足以重建，远低于 Nyquist 率——<strong>既然采完九成都要扔掉，何必先采？</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>MP3 与 AAC 用心理声学模型生成量化表——响音会掩蔽邻近的弱音，被掩蔽的部分直接丢掉。H.264/H.265 在运动补偿后的残差上做整数 DCT，把视频流量压低两个数量级。压缩感知让 MRI 扫描时间缩短数倍。神经网络的权重量化（INT8/INT4）是同一套逻辑：<strong>先找到让权重分布集中的表示，再在指标察觉不到处削位宽。</strong></p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>压缩不是「删掉一些数据」，而是「换到一组基，让不重要的东西自己变成零」；找到那组基，才是全部的智力活动。</strong><br/>大模型的预训练是不是在为人类语料寻找这样一组基？那张决定丢弃什么的「量化表」又是谁写的？</div>
+</div>
+</div>
+<h3 class="deep">深入思考</h3>
+<details>
+<summary>为什么正弦是「自然的」基？换成方波会怎样？</summary>
+<div>方波也能构成正交基（Walsh–Hadamard）。正弦的特权不在形状，而在它是<strong>平移算子的特征函数</strong>：物理定律与时间起点无关，于是描述世界的线性算子都在正弦基下对角化；方波一经平移就变成其他方波的组合。若某系统的对称性是缩放而非平移，它的「正弦」便是幂函数 $t^s$，对应 Mellin 变换。<strong>是对称性在选择基，而不是我们。</strong></div>
+</details>
+<details>
+<summary>不确定性原理为什么在数学与量子力学里是同一个定理？</summary>
+<div>数学上它只说：函数与其傅里叶变换不能同时集中，证明仅用 Cauchy–Schwarz 不等式与分部积分，与物理无关。量子力学的额外输入只有一条假设——动量表象是位置表象的傅里叶变换。接受它之后，海森堡不等式便<strong>自动成为那条数学定理的物理翻译</strong>：它不是「测量会干扰系统」那种技术限制，而是波动描述的内在结构。</div>
+</details>
+<details>
+<summary>压缩、预测、理解，是不是同一件事？</summary>
+<div>信息论给出了肯定的形式化：好的概率模型可兑换成短编码，压缩率因此就是模型质量的度量；Kolmogorov 复杂度更进一步——最短的生成程序就是数据的最佳解释。大模型「预测下一个 token」的目标，数学上等价于对语料做无损压缩。但压缩只求<strong>再现</strong>，理解还要求<strong>可干预</strong>：知道 $P(\text{下一词})$ 未必知道改变什么会导致什么改变。</div>
+</details>
+</div>
+</body></html>

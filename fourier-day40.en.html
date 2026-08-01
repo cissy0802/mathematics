@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fourier Analysis · Day 40 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 16px;text-align:center;font-style:italic;letter-spacing:1px}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 40 · 2026.08.01</div>
+<h1>Fourier Analysis</h1>
+<div class="meta">Change the basis, and a chaotic signal sorts itself into line</div>
+<div class="epigraph">"Fourier's theorem is not only one of the most beautiful results of modern analysis, but it is said to furnish an indispensable instrument in the treatment of nearly every recondite question in modern physics." — Lord Kelvin</div>
+</header>
+<!-- Concept 1: the frequency domain -->
+<div class="card">
+<h2>The Frequency Domain</h2>
+<div class="en-name">One signal, seen through a different basis</div>
+<span class="tag">Harmonic Analysis</span>
+<div class="section">
+<div class="label">Intuition First</div>
+<p>The waveform of a recording looks like nothing at all. But <strong>wind it around a circle</strong> — travelling $\xi$ turns per second, with the height of the wave becoming distance from the centre — and something remarkable happens. When the winding rate <strong>matches</strong> a frequency genuinely present in the signal, the peaks keep landing on the same side and the figure's <strong>centre of mass drifts far off the origin</strong>. When it doesn't match, the peaks scatter evenly and the centre of mass stays put.</p>
+<p>So "measuring a frequency" becomes pure geometry: how far the centre of mass travels is the amplitude, which way it points is the phase. <strong>The signal hasn't changed — only the basis describing it has.</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 210" xmlns="http://www.w3.org/2000/svg">
+<text fill="#5a7090" font-size="10" x="4" y="12">Time domain: three sines summed, no visible structure</text>
+<line stroke="#c0c8d4" stroke-width="1" x1="10" x2="368" y1="60" y2="60"></line>
+<path d="M10 60 Q19 30 28 60 Q34 84 40 60 Q49 26 58 60 Q64 88 70 60 Q79 34 88 60 Q94 82 100 60 Q109 28 118 60 Q124 86 130 60 Q139 32 148 60 Q154 84 160 60 Q169 26 178 60 Q184 88 190 60 Q199 34 208 60 Q214 82 220 60 Q229 28 238 60 Q244 86 250 60 Q259 32 268 60 Q274 84 280 60 Q289 26 298 60 Q304 88 310 60 Q319 34 328 60 Q334 82 340 60 Q349 30 358 60" fill="none" stroke="#1e3a5f" stroke-width="1.5"></path>
+<text fill="#5a7090" font-size="10" x="4" y="112">Frequency domain: three lines, structure at a glance</text>
+<line stroke="#c0c8d4" stroke-width="1" x1="30" x2="368" y1="188" y2="188"></line>
+<line stroke="#c0c8d4" stroke-width="1" x1="30" x2="30" y1="122" y2="188"></line>
+<line stroke="#c9544a" stroke-width="3" x1="92" x2="92" y1="188" y2="128"></line>
+<line stroke="#c9544a" stroke-width="3" x1="176" x2="176" y1="188" y2="150"></line>
+<line stroke="#c9544a" stroke-width="3" x1="272" x2="272" y1="188" y2="164"></line>
+<text fill="#5a7090" font-size="9" x="80" y="202">ξ₁</text>
+<text fill="#5a7090" font-size="9" x="164" y="202">ξ₂</text>
+<text fill="#5a7090" font-size="9" x="260" y="202">ξ₃</text>
+<text fill="#5a7090" font-size="9" font-style="italic" x="322" y="202">frequency</text>
+<text fill="#5a7090" font-size="9" font-style="italic" x="34" y="132">amplitude</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal Definition</div>
+<p>Write "wind it up and take the centre of mass" as an integral and you have the Fourier transform:</p>
+<div class="formula-box">$$\hat f(\xi)=\int_{-\infty}^{\infty} f(t)\,e^{-2\pi i\xi t}\,\mathrm{d}t$$</div>
+<p>$e^{-2\pi i\xi t}$ is a point circling the unit circle $\xi$ times per second — the winding machine itself; multiplying by $f(t)$ treats the signal's value at time $t$ as a distance from the centre; the integral adds up every position to find the centre of mass. The result is complex: modulus is amplitude, argument is phase. This basis is privileged because it consists of <strong>eigenfunctions of the translation operator</strong>: shift by $\tau$ and the shape is untouched, merely multiplied by the constant $e^{2\pi i\xi\tau}$ — so every linear time-invariant system is <strong>diagonalized</strong> here.</p>
+</div>
+<div class="section">
+<div class="label">Why It Is Beautiful</div>
+<p>Diagonalization turns the hardest operation into the easiest. Convolution — that irritating sliding sum — degenerates into pointwise multiplication:</p>
+<div class="formula-box">$$\widehat{f*g}=\hat f\cdot\hat g$$</div>
+<p>Differentiation degenerates too: $\widehat{f'}(\xi)=2\pi i\xi\,\hat f(\xi)$. <strong>Taking a derivative becomes multiplying by a number, and a differential equation becomes an algebraic one.</strong> This is exactly how Fourier cracked the heat equation in 1807: each frequency decays independently as $e^{-4\pi^2\xi^2 kt}$, the high ones fastest — the mathematical reason heat smooths everything out. And the fight over convergence that his work provoked forced analysis to make "limit" rigorous: <strong>a trick for solving a physics problem rewrote the foundations of a field.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>An MRI scanner does not photograph and then transform — gradient fields let it <strong>acquire Fourier coefficients directly</strong> (k-space), and the image is the inverse transform taken at the very end. In quantum mechanics the position and momentum representations are Fourier transforms of each other, and Heisenberg's uncertainty is the corollary that a function and its transform cannot both be narrow. In deep learning, implicit neural fields use Fourier feature encoding to break an MLP's native reluctance to fit high-frequency detail.</p>
+</div>
+<div class="section">
+<div class="label">The Essence · A Question</div>
+<div class="think"><strong>The Fourier transform is not a computational trick but a move into the eigenbasis of linear time-invariant systems; hard problems get easy because the matrix becomes diagonal.</strong><br/>If a system is not time-invariant — attention weights that vary with position, say — what counts as its eigenbasis? Is there still a way to find it?</div>
+</div>
+</div>
+<!-- Concept 2: the FFT -->
+<div class="card">
+<h2>The Fast Fourier Transform</h2>
+<div class="en-name">Symmetry cuts N² down to N log N</div>
+<span class="tag">Algorithms</span>
+<div class="section">
+<div class="label">Intuition First</div>
+<p>The discrete version needs $N$ frequencies, each sweeping $N$ samples — $N^2$ multiplications. At $N=10^6$ that is $10^{12}$ operations, past the edge of practicality.</p>
+<p>The key observation: among those $N^2$ twiddle factors there are <strong>only $N$ distinct values</strong>, since $N$ steps around the circle return you to the start. Enormous redundancy is being recomputed for nothing. So the FFT divides and conquers: <strong>split the samples by even and odd index</strong>, run an $N/2$-point transform on each, and spend $O(N)$ stitching them back — $\log N$ times down to the bottom.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+<text fill="#5a7090" font-size="10" x="4" y="12">Divide and conquer: one rotation serves two outputs</text>
+<rect fill="#e6ecf3" height="20" rx="3" stroke="#3a6088" width="120" x="130" y="24"></rect>
+<text fill="#1e3a5f" font-size="10" text-anchor="middle" x="190" y="38">N-point DFT</text>
+<line stroke="#aaa" stroke-width="1" x1="170" x2="98" y1="44" y2="64"></line>
+<line stroke="#aaa" stroke-width="1" x1="210" x2="282" y1="44" y2="64"></line>
+<rect fill="#fafbfd" height="20" rx="3" stroke="#3a6088" width="98" x="42" y="64"></rect>
+<text fill="#1e3a5f" font-size="10" text-anchor="middle" x="91" y="78">even terms E</text>
+<rect fill="#fafbfd" height="20" rx="3" stroke="#3a6088" width="98" x="240" y="64"></rect>
+<text fill="#1e3a5f" font-size="10" text-anchor="middle" x="289" y="78">odd terms O</text>
+<line stroke="#c9544a" stroke-width="1.4" x1="91" x2="140" y1="84" y2="108"></line>
+<line stroke="#c9544a" stroke-width="1.4" x1="91" x2="252" y1="84" y2="108"></line>
+<line stroke="#7a9a6a" stroke-width="1.4" x1="289" x2="140" y1="84" y2="108"></line>
+<line stroke="#7a9a6a" stroke-width="1.4" x1="289" x2="252" y1="84" y2="108"></line>
+<text fill="#1e3a5f" font-size="10" text-anchor="middle" x="118" y="122">Xₖ = E + ωO</text>
+<text fill="#1e3a5f" font-size="10" text-anchor="middle" x="276" y="122">Xₖ₊ɴ⁄₂ = E − ωO</text>
+<text fill="#8a7340" font-size="9" font-style="italic" text-anchor="middle" x="190" y="142">the same ωO, added once and subtracted once — the butterfly</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal Definition</div>
+<p>Let $\omega_N=e^{-2\pi i/N}$ (the single rotation that cuts the circle into $N$ parts), and let $E_k$, $O_k$ be the $N/2$-point transforms of the even- and odd-indexed subsequences. Then</p>
+<div class="formula-box">$$X_k=E_k+\omega_N^{\,k}O_k,\qquad X_{k+N/2}=E_k-\omega_N^{\,k}O_k$$</div>
+<p>The whole secret lives in that minus sign: $\omega_N^{\,k+N/2}=-\omega_N^{\,k}$, half a turn more is a change of sign. So <strong>computing $\omega_N^{\,k}O_k$ once serves two outputs at once</strong>, halving the work on the spot. The recurrence $T(N)=2T(N/2)+O(N)$ gives $O(N\log N)$: at $N=10^6$ we drop to about $2\times 10^7$ operations, fifty thousand times faster.</p>
+</div>
+<div class="section">
+<div class="label">Why It Is Beautiful</div>
+<p>The speed-up is <strong>not an engineering optimization but a dividend of group theory</strong>. An $N$-point transform is harmonic analysis on the cyclic group $\mathbb{Z}/N\mathbb{Z}$; when $N=2^m$ that group has a full chain of subgroups, and each level down halves the problem. <strong>The fall in complexity corresponds directly to the decomposability of an algebraic structure</strong> — which is why an FFT of prime length needs an entirely different trick. Worth noting in passing: Gauss wrote this algorithm down in 1805, two years before Fourier published, and it slept until Cooley and Tukey rediscovered it in 1965.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>The Wi-Fi and 5G you are connected to right now run OFDM: data is spread across thousands of orthogonal subcarriers, each end runs one FFT, and frequency-selective fading collapses into a single complex division per subcarrier. Large-integer multiplication uses "multiplication is convolution" to reach near-linear time via the FFT — infrastructure for computational number theory; the period-finding step of Shor's algorithm is likewise a quantum Fourier transform.</p>
+</div>
+<div class="section">
+<div class="label">The Essence · A Question</div>
+<div class="think"><strong>The FFT's ten-thousand-fold speed-up comes not from faster machines but from noticing that a computation is mostly repetition — once seen, symmetry can be cashed in for time.</strong><br/>Backpropagation wins the same way, by sharing repeated intermediate gradients. Is that the same idea twice? What other $O(N^2)$ algorithms are waiting for their Cooley–Tukey?</div>
+</div>
+</div>
+<!-- Concept 3: wavelets -->
+<div class="card">
+<h2>Wavelets</h2>
+<div class="en-name">Fourier knows which frequencies are there, not when</div>
+<span class="tag">Time-Frequency</span>
+<div class="section">
+<div class="label">Intuition First</div>
+<p>Fourier's basis functions are infinitely long sines. To represent one short drum hit you need a delicate cancellation among vast numbers of them — everything outside that instant must cancel away. The spectrum gets smeared across the board, yet <strong>says nothing about which second the hit occurred</strong>. A musical score, by contrast, has time on one axis and pitch on the other: what we actually want is <strong>local</strong> frequency information.</p>
+<p>Wavelets change the building block to a short packet that oscillates a few times and decays to zero. <strong>Translating</strong> it asks "where"; <strong>dilating</strong> it asks "how fast". The point is that the dilation is not uniform — high frequencies get the narrow, fast version (sharp in time), low frequencies the wide, slow one (sharp in frequency). This is exactly the cochlea's strategy: <strong>ask fast events when, ask slow events what.</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 168" xmlns="http://www.w3.org/2000/svg">
+<text fill="#5a7090" font-size="10" x="4" y="12">Short-time Fourier: uniform tiles</text>
+<text fill="#5a7090" font-size="10" x="196" y="12">Wavelets: wide tiles high up, tall tiles low down</text>
+<rect fill="none" height="112" stroke="#c0c8d4" width="160" x="10" y="22"></rect>
+<line stroke="#3a6088" stroke-width="0.8" x1="10" x2="170" y1="50" y2="50"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="10" x2="170" y1="78" y2="78"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="10" x2="170" y1="106" y2="106"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="50" x2="50" y1="22" y2="134"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="90" x2="90" y1="22" y2="134"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="130" x2="130" y1="22" y2="134"></line>
+<rect fill="none" height="112" stroke="#c0c8d4" width="160" x="210" y="22"></rect>
+<line stroke="#3a6088" stroke-width="0.8" x1="210" x2="370" y1="36" y2="36"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="210" x2="370" y1="50" y2="50"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="210" x2="370" y1="78" y2="78"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="230" x2="230" y1="22" y2="50"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="250" x2="250" y1="22" y2="50"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="270" x2="270" y1="22" y2="50"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="290" x2="290" y1="22" y2="50"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="310" x2="310" y1="22" y2="50"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="330" x2="330" y1="22" y2="50"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="350" x2="350" y1="22" y2="50"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="250" x2="250" y1="50" y2="78"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="290" x2="290" y1="50" y2="78"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="330" x2="330" y1="50" y2="78"></line>
+<line stroke="#3a6088" stroke-width="0.8" x1="290" x2="290" y1="78" y2="134"></line>
+<text fill="#5a7090" font-size="9" font-style="italic" x="10" y="150">x: time　y: frequency</text>
+<text fill="#5a7090" font-size="9" font-style="italic" x="210" y="150">x: time　y: frequency</text>
+<text fill="#8a7340" font-size="9" font-style="italic" x="10" y="164">every tile has a minimum area — you can only redistribute it</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal Definition</div>
+<p>Take a mother wavelet $\psi$ with zero mean and fast decay; the whole family is generated by translation and dilation:</p>
+<div class="formula-box">$$\psi_{a,b}(t)=\frac{1}{\sqrt{a}}\,\psi\!\left(\frac{t-b}{a}\right)$$</div>
+<p>$b$ is the shift (which instant we are looking at), $a$ the scale (small = narrow and high-frequency, large = wide and low-frequency), and $1/\sqrt{a}$ keeps energies comparable across scales. Why can't we be narrow and frequency-precise at once? Because of a hard boundary:</p>
+<div class="formula-box">$$\Delta t\cdot\Delta\xi\ \ge\ \frac{1}{4\pi}$$</div>
+<p>$\Delta t$ and $\Delta\xi$ are the spreads in time and in frequency. This is <strong>the mathematical prototype of Heisenberg's uncertainty principle</strong> — literally the same theorem as in quantum mechanics, where $t$ and $\xi$ are called position and momentum instead. <strong>Every tile in the time-frequency plane has a minimum area: you cannot shrink it, only choose whether it is wide or tall.</strong></p>
+</div>
+<div class="section">
+<div class="label">Why It Is Beautiful</div>
+<p>Wavelets deliver multiresolution analysis: in a nest of spaces $V_0\subset V_1\subset V_2\subset\cdots$, $V_j$ holds the approximation down to level $j$, and the difference between consecutive levels is spanned precisely by the wavelets — <strong>which is to say, by the detail newly added</strong>. A signal thus splits into "coarse outline plus successive detail", the order in which people look at things anyway.</p>
+<p>Prettier still is the self-reference: a Daubechies wavelet has no closed form in elementary functions and can only be <strong>defined recursively</strong> by the scaling equation $\varphi(t)=\sqrt2\sum_k h_k\varphi(2t-k)$ — a function assembled from shrunken copies of itself, self-similar in the way fractals are, while in implementation nothing survives but convolutions with filter coefficients and downsampling.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>When LIGO detected gravitational waves, it was a time-frequency plot that showed the chirp sweeping from 35 Hz to 250 Hz — a plain Fourier spectrum would have smeared it into broadband noise. In imaging, wavelet coefficients are naturally sparse (near zero over smooth regions, large only at edges), so thresholding alone denoises; JPEG2000 and digital cinema masters are built on this.</p>
+</div>
+<div class="section">
+<div class="label">The Essence · A Question</div>
+<div class="think"><strong>The time-frequency budget is conserved; wavelets add no information, they only <em>allocate</em> resolution where it is worth spending — asking high frequencies when, and low frequencies what.</strong><br/>Shallow layers of a network see texture and deep layers see meaning: is that a learned multiresolution analysis?</div>
+</div>
+</div>
+<!-- Concept 4: transform coding and sparsity -->
+<div class="card">
+<h2>Transform Coding &amp; Sparsity</h2>
+<div class="en-name">Compression is finding the basis in which a signal goes sparse</div>
+<span class="tag">Information</span>
+<div class="section">
+<div class="label">Intuition First</div>
+<p>In the pixel basis every pixel of a photograph carries information and there is almost nothing to spare. Move to a cosine basis and the energy <strong>collapses dramatically inward</strong>: the vast majority of coefficients are nearly zero — natural images are mostly gentle regions, with abrupt jumps only at edges.</p>
+<p>Hence the three-step logic of compression: <strong>change basis so the signal is sparse → quantize the unimportant coefficients brutally or throw them away → entropy-code what remains losslessly</strong>. JPEG does exactly this: an 8×8 block DCT, division by a quantization table designed around human visual sensitivity, then entropy coding. <strong>What is discarded is not random information but the part the eye was never going to see.</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 160" xmlns="http://www.w3.org/2000/svg">
+<text fill="#5a7090" font-size="10" x="4" y="12">Decay of sorted coefficients: the basis decides compressibility</text>
+<line stroke="#c0c8d4" stroke-width="1" x1="30" x2="360" y1="132" y2="132"></line>
+<line stroke="#c0c8d4" stroke-width="1" x1="30" x2="30" y1="26" y2="132"></line>
+<path d="M30 44 L110 46 L200 50 L290 52 L360 56" fill="none" stroke="#5a7090" stroke-dasharray="4 3" stroke-width="1.6"></path>
+<path d="M30 30 C60 92 100 118 160 126 C230 131 300 132 360 132" fill="none" stroke="#c9544a" stroke-width="1.8"></path>
+<text fill="#5a7090" font-size="9" x="140" y="40">pixel basis: all of it matters</text>
+<text fill="#c9544a" font-size="9" x="110" y="110">cosine basis: a few coefficients carry the energy</text>
+<text fill="#5a7090" font-size="9" font-style="italic" x="236" y="148">coefficient rank (largest first)</text>
+<text fill="#5a7090" font-size="9" font-style="italic" x="34" y="24">magnitude</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal Definition</div>
+<p>The DCT is the real-valued cousin of the Fourier transform: extend the signal evenly before transforming and the block boundary no longer has an artificial jump, so no spurious high frequencies are manufactured. The only step that loses information is quantization:</p>
+<div class="formula-box">$$\hat c_{uv}=\mathrm{round}\!\left(\frac{c_{uv}}{q_{uv}}\right)$$</div>
+<p>$c_{uv}$ is the transform coefficient at position $(u,v)$ and $q_{uv}$ the matching step size in the quantization table — $q$ is large at high frequencies, so dividing and rounding sends a great many coefficients to zero; the "quality" slider in your software is scaling that whole table. As for how small a file can ever get, Shannon's rate-distortion function $R(D)$ sets the floor: <strong>the more distortion you allow, the lower the rate you need</strong>, and no encoder gets under that curve.</p>
+</div>
+<div class="section">
+<div class="label">Why It Is Beautiful</div>
+<p>"Which basis is best" has a definite answer: the KLT (that is, PCA), which decorrelates the coefficients completely, is optimal for any class of signal — but it depends on the signal's statistics, must transmit the basis itself, and has no fast algorithm. For a first-order Markov model of highly correlated neighbouring pixels, <strong>the DCT is an excellent asymptotic approximation to the KLT while also enjoying an FFT-class fast algorithm</strong>. Theoretical optimum and engineering feasibility meet exactly here, which is the real reason JPEG has ruled for thirty years.</p>
+<p>Deeper still: sparsity can also cut back <strong>the sampling itself</strong>. Compressed sensing says that if a signal is $k$-sparse in some basis, roughly $O(k\log n)$ random linear measurements suffice to reconstruct it — far below the Nyquist rate. <strong>If nine tenths of what you sample is going to be thrown away, why sample it?</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>MP3 and AAC derive their quantization tables from psychoacoustic models — a loud tone masks nearby quiet ones, and whatever is masked is simply discarded. H.264/H.265 run an integer DCT over the residual after motion compensation, cutting video bandwidth by two orders of magnitude. Compressed sensing shortens MRI scans several-fold. Weight quantization in neural networks (INT8/INT4) is the same logic: <strong>find a representation in which the weights cluster, then shave bits where the metrics cannot notice.</strong></p>
+</div>
+<div class="section">
+<div class="label">The Essence · A Question</div>
+<div class="think"><strong>Compression is not "deleting some data" but "changing basis until the unimportant turns into zeros"; finding that basis is where all the intellectual work lives.</strong><br/>Is pretraining a large model a search for such a basis over the whole human corpus? And who wrote its quantization table — the one that decides what gets thrown away?</div>
+</div>
+</div>
+<h3 class="deep">Going Deeper</h3>
+<details>
+<summary>Why are sines the "natural" basis? What if we used square waves?</summary>
+<div>Square waves also form an orthogonal basis (Walsh–Hadamard). The privilege of sines lies not in their shape but in their being <strong>eigenfunctions of the translation operator</strong>: physical law does not care where you set the origin of time, so the linear operators that describe the world are all diagonal in the sine basis, whereas a shifted square wave becomes a combination of other square waves. And if a system's symmetry were scaling rather than translation, its "sines" would be the power functions $t^s$ and the corresponding transform the Mellin transform. <strong>Symmetry chooses the basis, not us.</strong></div>
+</details>
+<details>
+<summary>Why is the uncertainty principle the same theorem in mathematics and in quantum mechanics?</summary>
+<div>Mathematically it says only that a function and its Fourier transform cannot both be concentrated, and the proof uses nothing but Cauchy–Schwarz and integration by parts — no physics at all. Quantum mechanics adds exactly one physical assumption: the momentum representation is the Fourier transform of the position representation. Accept that, and Heisenberg's inequality <strong>becomes the physical translation of a mathematical theorem automatically</strong>. It is not the technical limitation "measurement disturbs the system" but an intrinsic feature of describing anything by waves.</div>
+</details>
+<details>
+<summary>Are compression, prediction and understanding the same thing?</summary>
+<div>Information theory gives an affirmative formalization: a good probabilistic model converts directly into a short code, so compression ratio <em>is</em> a measure of model quality; Kolmogorov complexity goes further, making the shortest generating program the best explanation of the data. Training a large model to predict the next token is mathematically equivalent to compressing the corpus losslessly. But compression only wants <strong>reproduction</strong>, whereas understanding also demands <strong>intervenability</strong>: knowing $P(\text{next word})$ is not knowing what change would cause what.</div>
+</details>
+</div>
+</body></html>
