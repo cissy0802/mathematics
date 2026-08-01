@@ -52,12 +52,12 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="container">
 <header>
 <div class="kicker">Day 40 · 2026.08.01</div>
-<h1>傅里叶分析</h1>
+<h1 data-tts="15341d00269009fc">傅里叶分析</h1>
 <div class="meta">Fourier Analysis — 换一组基，混沌的信号自己排好了队</div>
 <div class="epigraph">「傅里叶定理不仅是现代分析中最优美的结果之一，还是处理几乎每个晦涩物理问题不可或缺的工具。」 — Lord Kelvin</div>
 </header>
 <!-- 概念 1：频域思维 -->
-<div class="card">
+<div class="card" data-tts="be74e2a86f8b3f74">
 <h2>频域思维</h2>
 <div class="en-name">The Frequency Domain · 同一个信号，换一组基去看</div>
 <span class="tag">Harmonic Analysis</span>
@@ -106,7 +106,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 </div>
 </div>
 <!-- 概念 2：FFT -->
-<div class="card">
+<div class="card" data-tts="6ddf48f28caa5fd1">
 <h2>快速傅里叶变换</h2>
 <div class="en-name">The FFT · 用对称性把 N² 砍成 N log N</div>
 <span class="tag">Algorithms</span>
@@ -155,7 +155,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 </div>
 </div>
 <!-- 概念 3：小波 -->
-<div class="card">
+<div class="card" data-tts="901619a006fe3d21">
 <h2>小波变换</h2>
 <div class="en-name">Wavelets · 傅里叶知道有什么频率，却不知道它在何时</div>
 <span class="tag">Time-Frequency</span>
@@ -218,7 +218,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 </div>
 </div>
 <!-- 概念 4：变换编码与稀疏性 -->
-<div class="card">
+<div class="card" data-tts="2ad86ed9bb3929cd">
 <h2>变换编码与稀疏性</h2>
 <div class="en-name">Transform Coding · 压缩的本质是找到让信号变稀疏的那组基</div>
 <span class="tag">Information</span>
@@ -260,7 +260,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="think"><strong>压缩不是「删掉一些数据」，而是「换到一组基，让不重要的东西自己变成零」；找到那组基，才是全部的智力活动。</strong><br/>大模型的预训练是不是在为人类语料寻找这样一组基？那张决定丢弃什么的「量化表」又是谁写的？</div>
 </div>
 </div>
-<h3 class="deep">深入思考</h3>
+<h3 class="deep" data-tts="d90ad7cddfb144dc">深入思考</h3>
 <details>
 <summary>为什么正弦是「自然的」基？换成方波会怎样？</summary>
 <div>方波也能构成正交基（Walsh–Hadamard）。正弦的特权不在形状，而在它是<strong>平移算子的特征函数</strong>：物理定律与时间起点无关，于是描述世界的线性算子都在正弦基下对角化；方波一经平移就变成其他方波的组合。若某系统的对称性是缩放而非平移，它的「正弦」便是幂函数 $t^s$，对应 Mellin 变换。<strong>是对称性在选择基，而不是我们。</strong></div>
