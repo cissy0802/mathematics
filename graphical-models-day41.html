@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"/>
@@ -51,13 +52,12 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="container">
 <header>
 <div class="kicker">Day 41 · 2026.08.02</div>
-<h1>概率图模型</h1>
+<h1 data-tts="1cafa4d8480b27c1">概率图模型</h1>
 <div class="meta">Probabilistic Graphical Models — 画一张图，就是宣布了一整套「什么与什么无关」</div>
 <div class="epigraph">「概率的本质不在数字，而在数字背后的推理结构。」 — Judea Pearl</div>
 </header>
-
 <!-- 概念 1 -->
-<div class="card">
+<div class="card" data-tts="70e05270ca686279">
 <h2>贝叶斯网络</h2>
 <div class="en-name">Bayesian Network · 用缺失的边编码独立性</div>
 <span class="tag">Directed Models</span>
@@ -67,8 +67,8 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <p>更反直觉的是<strong>「解释消解」</strong>：草地湿可能因下雨，也可能因洒水器，两者本来无关；可一旦看到草地湿了，再得知昨夜下过雨，你对「洒水器开过」的信念立刻下降——雨已把湿解释掉。<strong>观测一个共同结果，会让它的两个原因凭空相关。</strong></p>
 </div>
 <div class="viz">
-<svg viewBox="0 0 400 190" xmlns="http://www.w3.org/2000/svg">
-<defs><marker id="ar" markerHeight="6" markerWidth="7" orient="auto" refX="6" refY="3"><path d="M0 0 L7 3 L0 6 z" fill="#3a6088"></path></marker></defs>
+<svg viewbox="0 0 400 190" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar" markerheight="6" markerwidth="7" orient="auto" refx="6" refy="3"><path d="M0 0 L7 3 L0 6 z" fill="#3a6088"></path></marker></defs>
 <ellipse cx="200" cy="26" fill="#e6ecf3" rx="46" ry="18" stroke="#3a6088"></ellipse>
 <text fill="#1e3a5f" font-size="12" text-anchor="middle" x="200" y="31">阴天</text>
 <ellipse cx="108" cy="96" fill="#e6ecf3" rx="46" ry="18" stroke="#3a6088"></ellipse>
@@ -104,9 +104,8 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="think"><strong>贝叶斯网络的信息量不在画出的边里，而在没画的边里——建模就是负责任地声明「什么与什么无关」。</strong><br/>你画的系统依赖图是否也隐含地断言了一组「无关」？它被违反时你察觉得到吗？</div>
 </div>
 </div>
-
 <!-- 概念 2 -->
-<div class="card">
+<div class="card" data-tts="617238a7fedd8d0d">
 <h2>马尔可夫链</h2>
 <div class="en-name">Markov Chain · 局部规则决定全局不变量</div>
 <span class="tag">Stochastic Processes</span>
@@ -116,8 +115,8 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <p>想象一大群人在状态图上随机游走，每步按同样的规则跳。无论起始分布多古怪，走够多步后，人群的整体分布会<strong>停下来不再变化</strong>——每个状态的流入恰好等于流出。个体仍在乱跳，宏观形状已经凝固。</p>
 </div>
 <div class="viz">
-<svg viewBox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
-<defs><marker id="ar2" markerHeight="6" markerWidth="7" orient="auto" refX="6" refY="3"><path d="M0 0 L7 3 L0 6 z" fill="#3a6088"></path></marker></defs>
+<svg viewbox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar2" markerheight="6" markerwidth="7" orient="auto" refx="6" refy="3"><path d="M0 0 L7 3 L0 6 z" fill="#3a6088"></path></marker></defs>
 <circle cx="60" cy="60" fill="#e6ecf3" r="24" stroke="#3a6088"></circle>
 <text fill="#1e3a5f" font-size="13" text-anchor="middle" x="60" y="65">A</text>
 <circle cx="170" cy="40" fill="#e6ecf3" r="24" stroke="#3a6088"></circle>
@@ -167,9 +166,8 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="think"><strong>「记住现在就够了」这一条约束，把随机过程压成一个矩阵，把长期行为压成一个特征向量。</strong><br/>你的系统里哪些「状态」其实是充分统计量？马尔可夫假设失效时，通常是漏掉了哪个变量？</div>
 </div>
 </div>
-
 <!-- 概念 3 -->
-<div class="card">
+<div class="card" data-tts="6f7ffeadd76d538d">
 <h2>隐马尔可夫模型</h2>
 <div class="en-name">Hidden Markov Model · 隔着毛玻璃看一条链</div>
 <span class="tag">Latent Variables</span>
@@ -179,7 +177,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <p>难处在于：长度 $T$ 的观测有 $|S|^T$ 条隐藏路径都能解释它。救命的正是马尔可夫性质——<strong>历史不同但此刻停在同一状态的路径，对未来的影响完全一样，可以就地合并成一个数。</strong></p>
 </div>
 <div class="viz">
-<svg viewBox="0 0 400 175" xmlns="http://www.w3.org/2000/svg">
+<svg viewbox="0 0 400 175" xmlns="http://www.w3.org/2000/svg">
 <text fill="#5a7090" font-size="10" x="4" y="12">隐状态格子（红 = Viterbi 最优路径）</text>
 <g stroke="#d4dbe5" stroke-width="0.8">
 <path d="M60 34 L150 34 M60 34 L150 76 M60 34 L150 118"></path>
@@ -230,9 +228,8 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="think"><strong>动态规划击败指数爆炸靠的不是技巧，而是模型自身的条件独立结构——马尔可夫性质就是「可合并」的许可证。</strong><br/>若隐状态对更早的历史仍有依赖，你会怎样扩充状态把它重新变成马尔可夫的？代价是什么？</div>
 </div>
 </div>
-
 <!-- 概念 4 -->
-<div class="card">
+<div class="card" data-tts="42313852f290e17e">
 <h2>推断即消息传递</h2>
 <div class="en-name">Inference as Message Passing · 从图模型到深度学习</div>
 <span class="tag">Inference &amp; ML</span>
@@ -261,8 +258,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="think"><strong>结构即约束，约束即可算：图模型的力量来自敢于声明「这里没有边」，推断不过是让局部信念在这张骨架上传到收敛。</strong><br/>只学势函数、不声明结构的模型，是真学到了那些条件独立，还是用海量参数把它们背了下来？</div>
 </div>
 </div>
-
-<h3 class="deep">深入思考</h3>
+<h3 class="deep" data-tts="c3c771038406d69e">深入思考</h3>
 <details>
 <summary>为什么「条件独立」比「独立」更基本？</summary>
 <div>无条件独立在真实世界里几乎不成立，因而没什么用。条件独立却比比皆是：给定直接原因后，远处的东西不再提供额外信息。更关键的是它<strong>可拼装</strong>——整个联合分布能由一堆条件独立断言组合出来。图模型之所以可能，正因世界的依赖稀疏且局部；这大概也是物理定律能写成微分方程（只涉及邻域）的同一个原因。</div>
