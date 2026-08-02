@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Probabilistic Graphical Models · Day 41 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 16px;text-align:center;font-style:italic;letter-spacing:1px}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 41 · 2026.08.02</div>
+<h1>Probabilistic Graphical Models</h1>
+<div class="meta">Drawing a graph is declaring a whole catalogue of what is irrelevant to what</div>
+<div class="epigraph">"Probability is not really about numbers; it is about the structure of reasoning." — Judea Pearl</div>
+</header>
+
+<!-- Concept 1 -->
+<div class="card">
+<h2>Bayesian Networks</h2>
+<div class="en-name">Encoding independence in the edges you leave out</div>
+<span class="tag">Directed Models</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>A joint distribution over $n$ binary variables needs $2^n-1$ numbers; at 30 variables that already exceeds a billion. But the world is never fully connected. <strong>Draw direct dependencies as arrows, and the real information lives in the edges you did not draw</strong>—every missing edge asserts a conditional independence, and the joint collapses from exponential into a product of small tables.</p>
+<p>Stranger still is <strong>explaining away</strong>. Wet grass may be caused by rain or by the sprinkler; the two causes start out unrelated. Yet once you see that the grass is wet, learning that it rained last night immediately lowers your belief that the sprinkler ran—the rain has already accounted for the wetness. <strong>Observing a common effect makes its two causes dependent out of thin air.</strong></p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 400 190" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar" markerHeight="6" markerWidth="7" orient="auto" refX="6" refY="3"><path d="M0 0 L7 3 L0 6 z" fill="#3a6088"></path></marker></defs>
+<ellipse cx="200" cy="26" fill="#e6ecf3" rx="46" ry="18" stroke="#3a6088"></ellipse>
+<text fill="#1e3a5f" font-size="12" text-anchor="middle" x="200" y="31">Cloudy</text>
+<ellipse cx="108" cy="96" fill="#e6ecf3" rx="46" ry="18" stroke="#3a6088"></ellipse>
+<text fill="#1e3a5f" font-size="12" text-anchor="middle" x="108" y="101">Sprinkler</text>
+<ellipse cx="292" cy="96" fill="#e6ecf3" rx="46" ry="18" stroke="#3a6088"></ellipse>
+<text fill="#1e3a5f" font-size="12" text-anchor="middle" x="292" y="101">Rain</text>
+<ellipse cx="200" cy="166" fill="#fbf0ee" rx="46" ry="18" stroke="#c9544a"></ellipse>
+<text fill="#c9544a" font-size="12" text-anchor="middle" x="200" y="171">Wet grass</text>
+<line marker-end="url(#ar)" stroke="#3a6088" stroke-width="1.4" x1="172" x2="130" y1="40" y2="79"></line>
+<line marker-end="url(#ar)" stroke="#3a6088" stroke-width="1.4" x1="228" x2="270" y1="40" y2="79"></line>
+<line marker-end="url(#ar)" stroke="#3a6088" stroke-width="1.4" x1="132" x2="174" y1="110" y2="149"></line>
+<line marker-end="url(#ar)" stroke="#3a6088" stroke-width="1.4" x1="268" x2="226" y1="110" y2="149"></line>
+<path d="M154 96 Q200 74 246 96" fill="none" stroke="#c9544a" stroke-dasharray="4 3" stroke-width="1.2"></path>
+<text fill="#c9544a" font-size="10" text-anchor="middle" x="200" y="80">opened by observing the collider</text>
+<text fill="#5a7090" font-size="10" x="8" y="184">red = observed</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$P(X_1,\dots,X_n)=\prod_{i=1}^{n} P\!\left(X_i \mid \mathrm{pa}(X_i)\right)$$</div>
+<p>$\mathrm{pa}(X_i)$ is the set of parents of $X_i$ in the directed acyclic graph. The line says one thing: <strong>given its direct causes, a variable is independent of all its non-descendants</strong>. Storage drops from $2^n$ to $\sum_i 2^{|\mathrm{pa}(X_i)|}$. The graph is not an illustration of the distribution—the graph <em>is</em> half its definition; the other half is just the local conditional probability tables.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>There is a <strong>dictionary</strong> here between graph theory and probability. d-separation is a purely combinatorial test: trace the paths, note which nodes are observed, touch no integral. Its conclusion, however, is about the distribution—<strong>separation in the graph implies conditional independence in the distribution</strong>, and for almost all parameter values the converse holds too. A question you can answer by running a finger along arrows is equivalent to whether a family of high-dimensional integrals coincide. This syntax–semantics correspondence is not an isolated case (Day 19, Day 47): mathematics rewards, again and again, those who demote a semantic question to a syntactic one.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>The QMR-DT diagnostic system links hundreds of diseases to thousands of symptoms through a two-layer network; genetic linkage analysis propagates genotype beliefs along pedigree graphs. The deepest step was Pearl's promotion of arrows from dependence to <strong>causation</strong>: with the intervention operator $do(x)$, the graph can decide whether a causal effect is <strong>identifiable</strong> from purely observational data (the back-door criterion)—"correlation is not causation" became a computable proposition.</p>
+</div>
+<div class="section">
+<div class="label">The essential line · a question</div>
+<div class="think"><strong>A Bayesian network's information content lies not in the edges you drew but in the ones you did not—modelling is the act of responsibly declaring what is irrelevant to what.</strong><br/>Does the dependency graph you draw for a system also implicitly assert a set of irrelevancies? Would you notice when one is violated?</div>
+</div>
+</div>
+
+<!-- Concept 2 -->
+<div class="card">
+<h2>Markov Chains</h2>
+<div class="en-name">A local rule that fixes a global invariant</div>
+<span class="tag">Stochastic Processes</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>The Markov property is a single sentence: <strong>the future depends on the past only through the present</strong>. The current state is a sufficient statistic for the entire history—remember it and you can throw the logs away.</p>
+<p>Picture a crowd doing a random walk on a state graph, each person stepping by the same rule. However strange the starting distribution, after enough steps the crowd's overall distribution <strong>stops changing</strong>—inflow into each state exactly balances outflow. Individuals still jump about; the macroscopic shape has frozen.</p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar2" markerHeight="6" markerWidth="7" orient="auto" refX="6" refY="3"><path d="M0 0 L7 3 L0 6 z" fill="#3a6088"></path></marker></defs>
+<circle cx="60" cy="60" fill="#e6ecf3" r="24" stroke="#3a6088"></circle>
+<text fill="#1e3a5f" font-size="13" text-anchor="middle" x="60" y="65">A</text>
+<circle cx="170" cy="40" fill="#e6ecf3" r="24" stroke="#3a6088"></circle>
+<text fill="#1e3a5f" font-size="13" text-anchor="middle" x="170" y="45">B</text>
+<circle cx="120" cy="135" fill="#e6ecf3" r="24" stroke="#3a6088"></circle>
+<text fill="#1e3a5f" font-size="13" text-anchor="middle" x="120" y="140">C</text>
+<path d="M83 53 Q115 34 147 40" fill="none" marker-end="url(#ar2)" stroke="#3a6088" stroke-width="1.3"></path>
+<path d="M168 64 Q152 104 137 116" fill="none" marker-end="url(#ar2)" stroke="#3a6088" stroke-width="1.3"></path>
+<path d="M97 128 Q68 105 63 85" fill="none" marker-end="url(#ar2)" stroke="#3a6088" stroke-width="1.3"></path>
+<path d="M52 37 Q46 12 72 20 Q86 26 78 44" fill="none" marker-end="url(#ar2)" stroke="#3a6088" stroke-width="1.3"></path>
+<text fill="#5a7090" font-size="10" x="112" y="28">0.7</text>
+<text fill="#5a7090" font-size="10" x="166" y="94">0.6</text>
+<text fill="#5a7090" font-size="10" x="60" y="118">0.9</text>
+<text fill="#5a7090" font-size="10" x="230" y="20">the distribution converges to π</text>
+<line stroke="#c0c8d4" x1="228" x2="228" y1="30" y2="150"></line>
+<line stroke="#c0c8d4" x1="228" x2="392" y1="150" y2="150"></line>
+<rect fill="#9db4cc" height="90" width="12" x="238" y="60"></rect>
+<rect fill="#9db4cc" height="14" width="12" x="254" y="136"></rect>
+<rect fill="#9db4cc" height="26" width="12" x="270" y="124"></rect>
+<rect fill="#7d9cbb" height="52" width="12" x="296" y="98"></rect>
+<rect fill="#7d9cbb" height="38" width="12" x="312" y="112"></rect>
+<rect fill="#7d9cbb" height="40" width="12" x="328" y="110"></rect>
+<rect fill="#c9544a" height="46" width="12" x="354" y="104"></rect>
+<rect fill="#c9544a" height="42" width="12" x="370" y="108"></rect>
+<rect fill="#c9544a" height="42" width="12" x="386" y="108"></rect>
+<text fill="#5a7090" font-size="9" x="240" y="163">t=0</text>
+<text fill="#5a7090" font-size="9" x="300" y="163">t=5</text>
+<text fill="#c9544a" font-size="9" x="356" y="163">t→∞</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$\pi P=\pi,\qquad \textstyle\sum_i \pi_i=1$$</div>
+<p>$P$ is the transition matrix, $P_{ij}$ the probability of jumping from $i$ to $j$; the row vector $\pi$ is a distribution over states. The equation says <strong>$\pi$ is the left eigenvector of $P$ for eigenvalue 1</strong>—one step leaves the distribution untouched. If the chain is irreducible and aperiodic, $\pi$ is unique; error decays like $|\lambda_2|^t$, so <strong>the larger the spectral gap, the faster the mixing</strong> (Day 4, Day 48).</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>The rule is entirely local—each state knows only where it jumps—yet the result is global and unique, and it is the most basic object in linear algebra: an eigenvector. PageRank is exactly this sentence cashed out: "an important page is one linked to by important pages" <strong>is a circular definition, and the eigenvector equation unwinds it</strong>.</p>
+<p>Lovelier still is running the logic backwards: instead of taking a chain and finding its stationary distribution, <strong>take the distribution you want to sample and design a chain that has it as its stationary distribution</strong>. Detailed balance $\pi_i P_{ij}=\pi_j P_{ji}$ involves only <strong>ratios</strong> of $\pi$, so the intractable normalizing constant cancels—which is precisely why high-dimensional posteriors you cannot write down can still be sampled from.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>PageRank and the random walks behind recommender systems; MCMC, which underpins modern Bayesian statistics and Ising-model simulation; queueing theory, where the stationary distribution gives waiting times. Shannon modelled English letter sequences as a Markov chain—the prehistory of language models (Day 13). The newest instance is diffusion models: <strong>the forward noising process is a Markov chain that grinds data into Gaussian noise, and the network learns its time reversal</strong>.</p>
+</div>
+<div class="section">
+<div class="label">The essential line · a question</div>
+<div class="think"><strong>The single constraint "remembering the present is enough" compresses a stochastic process into one matrix and its long-run behaviour into one eigenvector.</strong><br/>Which "states" in your own systems are genuinely sufficient statistics? When the Markov assumption fails, which variable was usually left out?</div>
+</div>
+</div>
+
+<!-- Concept 3 -->
+<div class="card">
+<h2>Hidden Markov Models</h2>
+<div class="en-name">Watching a chain through frosted glass</div>
+<span class="tag">Latent Variables</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>The real state evolves backstage as a Markov chain—the phoneme a speaker intends, a bull or bear regime, whether a stretch of genome is coding or not. You see only what it randomly "renders": a waveform, a day's return, a base pair. <strong>The chain walks in the dark; you guess from the light.</strong></p>
+<p>The difficulty: a length-$T$ observation admits $|S|^T$ hidden paths that all explain it. What saves you is the Markov property—<strong>two paths with different histories that sit in the same state right now have identical influence on the future, so they can be merged on the spot into a single number.</strong></p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 400 175" xmlns="http://www.w3.org/2000/svg">
+<text fill="#5a7090" font-size="10" x="4" y="12">state trellis (red = the Viterbi path)</text>
+<g stroke="#d4dbe5" stroke-width="0.8">
+<path d="M60 34 L150 34 M60 34 L150 76 M60 34 L150 118"></path>
+<path d="M60 76 L150 34 M60 76 L150 76 M60 76 L150 118"></path>
+<path d="M60 118 L150 34 M60 118 L150 76 M60 118 L150 118"></path>
+<path d="M150 34 L240 34 M150 34 L240 76 M150 34 L240 118"></path>
+<path d="M150 76 L240 34 M150 76 L240 76 M150 76 L240 118"></path>
+<path d="M150 118 L240 34 M150 118 L240 76 M150 118 L240 118"></path>
+<path d="M240 34 L330 34 M240 34 L330 76 M240 34 L330 118"></path>
+<path d="M240 76 L330 34 M240 76 L330 76 M240 76 L330 118"></path>
+<path d="M240 118 L330 34 M240 118 L330 76 M240 118 L330 118"></path>
+</g>
+<path d="M60 76 L150 34 L240 34 L330 118" fill="none" stroke="#c9544a" stroke-width="2.2"></path>
+<g fill="#e6ecf3" stroke="#3a6088">
+<circle cx="60" cy="34" r="9"></circle><circle cx="60" cy="76" r="9"></circle><circle cx="60" cy="118" r="9"></circle>
+<circle cx="150" cy="34" r="9"></circle><circle cx="150" cy="76" r="9"></circle><circle cx="150" cy="118" r="9"></circle>
+<circle cx="240" cy="34" r="9"></circle><circle cx="240" cy="76" r="9"></circle><circle cx="240" cy="118" r="9"></circle>
+<circle cx="330" cy="34" r="9"></circle><circle cx="330" cy="76" r="9"></circle><circle cx="330" cy="118" r="9"></circle>
+</g>
+<text fill="#5a7090" font-size="10" x="24" y="38">s₁</text>
+<text fill="#5a7090" font-size="10" x="24" y="80">s₂</text>
+<text fill="#5a7090" font-size="10" x="24" y="122">s₃</text>
+<g fill="#3a6088" font-size="10" text-anchor="middle">
+<rect fill="#f0f4f9" height="18" stroke="#c0c8d4" width="26" x="47" y="145"></rect><text x="60" y="158">x₁</text>
+<rect fill="#f0f4f9" height="18" stroke="#c0c8d4" width="26" x="137" y="145"></rect><text x="150" y="158">x₂</text>
+<rect fill="#f0f4f9" height="18" stroke="#c0c8d4" width="26" x="227" y="145"></rect><text x="240" y="158">x₃</text>
+<rect fill="#f0f4f9" height="18" stroke="#c0c8d4" width="26" x="317" y="145"></rect><text x="330" y="158">x₄</text>
+</g>
+<text fill="#5a7090" font-size="10" x="348" y="158">observed</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>Two parameter sets: transitions $A_{ij}=P(z_t=j\mid z_{t-1}=i)$ and emissions $B_{jk}=P(x_t=k\mid z_t=j)$. The forward recursion is</p>
+<div class="formula-box">$$\alpha_t(j)=\Big[\sum_i \alpha_{t-1}(i)\,A_{ij}\Big]\,B_{j\,x_t}$$</div>
+<p>Read $\alpha_t(j)$ as the joint probability of "having produced every observation $x_{1:t}$ so far, and sitting in state $j$ right now". The sum inside the bracket is the whole secret: <strong>it merges every history leading into $j$ into one number</strong>, because the future depends on $j$ and not on how you reached $j$. Outside the bracket, the emission term absorbs the current observation's evidence. Cost falls from $O(|S|^T)$ to $O(|S|^2T)$.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>On the same trellis, replace $\sum$ with $\max$ and you no longer compute a marginal but the single most likely hidden path—that is Viterbi. The two algorithms looking identical is no coincidence: they are the same recursion instantiated over different <strong>semirings</strong>, with $(+,\times)$ giving a sum of probabilities and $(\max,\times)$ giving an optimal path. <strong>The skeleton of an algorithm has been cleanly separated from the algebra it computes over</strong>: change the semiring and you change the meaning; shortest paths and sequence alignment sit in the same table. You thought you were solving one problem and proved a whole family (Day 19).</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Speech recognition was ruled by HMMs for thirty years before deep learning: hidden states were phonemes, emissions modelled acoustics. Bioinformatics uses them for gene prediction and sequence alignment; Viterbi decoding runs in the convolutional-code decoder of nearly every mobile phone (Day 33). <strong>Even today, the CTC loss in end-to-end speech models runs the same forward–backward recursion</strong>—only the emission probabilities now come from a neural network.</p>
+</div>
+<div class="section">
+<div class="label">The essential line · a question</div>
+<div class="think"><strong>Dynamic programming beats exponential blow-up not through cleverness but through the model's own conditional-independence structure—the Markov property is the licence to merge.</strong><br/>If the hidden state still depended on older history, how would you enlarge the state to make it Markov again? What does that cost?</div>
+</div>
+</div>
+
+<!-- Concept 4 -->
+<div class="card">
+<h2>Inference as Message Passing</h2>
+<div class="en-name">From graphical models to deep learning</div>
+<span class="tag">Inference &amp; ML</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>The first three concepts are special cases of one algorithm. Read the graph as a <strong>communication network</strong>: each node knows only its relationships to its neighbours, summarizes "here is what I think you should look like" into a message, and updates its own belief once its neighbours have replied. Run this protocol once on a tree and every node ends up holding <strong>exactly the correct marginal</strong>—yet global inference was never executed as a whole by any node. It emerges out of local conversation. This is the worldview of distributed systems: no central coordinator, global consistency guaranteed by a local protocol.</p>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$m_{i\to j}(x_j)=\sum_{x_i}\psi_{ij}(x_i,x_j)\,\phi_i(x_i)\!\!\prod_{k\in N(i)\setminus j}\!\! m_{k\to i}(x_i)$$</div>
+<p>$\phi_i$ is node $i$'s own evidence, $\psi_{ij}$ the edge compatibility (how plausible this pair of values is), and $N(i)\setminus j$ the neighbours <strong>other than $j$</strong>—what $j$ just told you must not be handed back to $j$, or belief reinforces itself into an echo chamber. The sum marginalizes out $i$'s possibilities, leaving only its opinion about $j$.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>Once the graph has cycles the protocol loses its guarantees, yet people run it anyway (loopy BP) and it often works absurdly well; only a decade later did it become clear that it optimizes the Bethe free energy from statistical physics. <strong>The same equation was discovered independently in three unrelated fields</strong>: the cavity method in statistical physics, LDPC decoding in coding theory, and belief propagation in AI.</p>
+<p>When exact inference really is out of reach there is a second road: <strong>turn inference into optimization</strong>—search a family of simple distributions $q$ for the one closest to the true posterior by maximizing the lower bound</p>
+<div class="formula-box">$$\log P(x)\;\ge\;\mathbb{E}_{q}\!\left[\log P(x,z)\right]-\mathbb{E}_{q}\!\left[\log q(z)\right]$$</div>
+<p>The first term pushes $q$ onto high-probability regions; the second is $q$'s entropy, stopping it from collapsing to a point. The gap between the bound and $\log P(x)$ is exactly a KL divergence. <strong>"Compute an integral" has become "run gradient descent"</strong>—which is precisely the VAE objective.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>LDPC and turbo codes decode with loopy BP and push rates close to the Shannon limit (Day 13, Day 33). The training objectives of VAEs and diffusion models are both variants of the ELBO. Every layer of a graph neural network is a learnable version of message passing—<strong>the hand-designed potentials replaced by neural networks</strong>; attention, too, can be read as one round of message passing on a fully connected graph. Deep learning did not abolish graphical models, <strong>it parameterized their inference step</strong>.</p>
+</div>
+<div class="section">
+<div class="label">The essential line · a question</div>
+<div class="think"><strong>Structure is constraint and constraint is tractability: a graphical model's power comes from daring to declare "there is no edge here", and inference is only local belief propagating along that skeleton until it settles.</strong><br/>When a model learns potentials without ever declaring structure, has it truly learned those conditional independences—or merely memorized them with enough parameters?</div>
+</div>
+</div>
+
+<h3 class="deep">Going deeper</h3>
+<details>
+<summary>Why is conditional independence more fundamental than independence?</summary>
+<div>Unconditional independence almost never holds in the real world, which makes it of little use. Conditional independence is everywhere: once the direct causes are given, distant things carry no extra information. More importantly it <strong>composes</strong>—an entire joint distribution can be assembled out of a pile of conditional-independence assertions. Graphical models are possible because the world's dependencies are sparse and local, which is probably the same reason physical laws can be written as differential equations that involve only a neighbourhood.</div>
+</details>
+<details>
+<summary>What does a causal graph have that a probabilistic one does not?</summary>
+<div>A <strong>commitment about interventions</strong>. Different directed graphs can induce exactly the same joint distribution (a Markov equivalence class), and observational data cannot tell them apart. A causal graph asserts something extra: after cutting all incoming edges to a node—that is, $do(x)$—the remaining mechanisms are unchanged. This "modularity" assumption is not verifiable from data; it is a stance taken by the modeller. Only with it can you ask "if I change $X$, what happens to $Y$"—the watershed between prediction and decision.</div>
+</details>
+<details>
+<summary>When is explicit structure still irreplaceable?</summary>
+<div>When data is scarce, when you must extrapolate to an intervention never observed, or when calibrated uncertainty is required. A purely fitted model can only interpolate within its training distribution; the moment the question becomes "what if I change $X$", there is nothing to answer with unless structure was declared. That is why clinical trial design, epidemic modelling, and failure attribution still hand-draw graphs—there, the cost of being wrong is too high to let parameters guess the structure.</div>
+</details>
+<details>
+<summary>Is the brain running approximate inference?</summary>
+<div>Predictive coding holds that cortex sends predictions downward and prediction errors upward, formally close to message passing on a hierarchical Gaussian graphical model; the free-energy principle goes further and unifies perception and action as optimization of one variational bound—perception changes $q$ to fit the world, action changes the world to fit $q$. The evidence remains contested, and critics note it can be framed so broadly as to be nearly unfalsifiable. Still, the analogy poses a sharp question: <strong>if intelligence is approximate inference over a structured model, which is the harder part—learning the structure, or inferring on it?</strong></div>
+</details>
+</div>
+</body>
+</html>
