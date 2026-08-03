@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>数学中的不可能 · Day 42 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 16px;text-align:center;font-style:italic;letter-spacing:1px}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 42 · 2026.08.03</div>
+<h1>数学中的不可能</h1>
+<div class="meta">The Impossible in Mathematics — 证明「做不到」，比做到更需要看清工具本身</div>
+<div class="epigraph">「在数学里没有不可知。」 — David Hilbert, 1930（次年，哥德尔的定理登场）</div>
+</header>
+<!-- 概念 1：尺规作图 -->
+<div class="card">
+<h2>尺规作图的三大难题</h2>
+<div class="en-name">The Three Classical Constructions · 工具能力的代数刻画</div>
+<span class="tag">Field Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>尺规只有两条规则：过两点画直线，以一点为心画圆。<strong>钥匙是把画图动作翻译成算术。</strong>直线交直线解一次方程，圆交直线或圆解二次方程——每一步新交点的坐标，最多是已有的数加减乘除再开一次平方根。<strong>尺规是一台只会开平方的机器。</strong></p>
+<p>于是可作图的数被关进一座塔：从有理数起步，每步只能把「维度」翻一倍，可达层级永远是 $1,2,4,8,\ldots$；而倍立方要的 $\sqrt[3]{2}$ 维度是 3。<strong>不是画法不够巧妙，是 3 永远挤不进 2 的幂里。</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 160" xmlns="http://www.w3.org/2000/svg">
+<text fill="#3a6088" font-size="10" font-style="italic" x="8" y="14">可达层级（每步 ×2）</text>
+<line stroke="#3a6088" stroke-width="1.4" x1="30" x2="250" y1="60" y2="60"></line>
+<g fill="#1e3a5f" font-size="11" text-anchor="middle">
+<circle cx="30" cy="60" fill="#1e3a5f" r="4"></circle><text y="80" x="30">1</text>
+<circle cx="85" cy="60" fill="#1e3a5f" r="4"></circle><text y="80" x="85">2</text>
+<circle cx="140" cy="60" fill="#1e3a5f" r="4"></circle><text y="80" x="140">4</text>
+<circle cx="195" cy="60" fill="#1e3a5f" r="4"></circle><text y="80" x="195">8</text>
+<circle cx="250" cy="60" fill="#1e3a5f" r="4"></circle><text y="80" x="250">16</text>
+</g>
+<text fill="#5a7090" font-size="10" x="262" y="64">…</text>
+<circle cx="112" cy="120" fill="#c9544a" r="4"></circle>
+<text fill="#c9544a" font-size="11" text-anchor="middle" x="112" y="140">3</text>
+<line stroke="#c9544a" stroke-dasharray="3,3" stroke-width="1" x1="112" x2="112" y1="116" y2="66"></line>
+<text fill="#c9544a" font-size="10.5" font-style="italic" x="126" y="122">∛2 · cos20° 落在这里</text>
+<text fill="#8a7340" font-size="10" font-style="italic" x="8" y="152">化圆为方更远：π 超越，连有限维都不是</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\alpha \text{ 可尺规作图} \implies [\mathbb{Q}(\alpha):\mathbb{Q}] = 2^k$$</div>
+<p>$\mathbb{Q}(\alpha)$ 是把 $\alpha$ 添进有理数后得到的数系；方括号是它作为 $\mathbb{Q}$ 上向量空间的维数，即<em>「描述 $\alpha$ 要几个独立的有理坐标」</em>。$\sqrt[3]{2}$ 的极小多项式 $x^3-2$ 不可约，维数 3，出局；三等分 $60^\circ$ 即作 $\cos 20^\circ$，它满足不可约的 $8x^3-6x-1=0$，同样是 3；化圆为方要作 $\sqrt{\pi}$，而 Lindemann 1882 年证明 $\pi$ 超越，连有限维都不是。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>两千年里人们在几何里找答案，答案却在代数里：Wantzel 1837 年的证明不研究任何一种画法，而是<strong>给工具本身建了一个模型</strong>，再指出目标不在它的值域内。这就是不可能性证明的通用配方——找一个所有合法操作都保持的不变量，再证明目标不具备它。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>同一套理论也给出惊人的正面结果：正 $n$ 边形可尺规作图 $\iff$ $n$ 是 2 的幂乘上若干相异费马素数（高斯 19 岁据此作出正十七边形）。这条线上的<strong>分圆环</strong> $\mathbb{Z}[x]/(x^n+1)$ 今天正是 Ring-LWE 格密码的运算舞台（Day 32）。而「刻画一台机器能生成什么」，正是可计算性（Day 24）与复杂性归约（Day 36）的原型。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>不可能不是「还没人足够聪明」，而是工具的代数封闭性早已写死了值域。</strong><br/>思考：只要允许一条带刻度的直尺（neusis），三等分角立刻可行。「加工具就解禁」与「给图灵机加神谕」，是同一件事吗？</div>
+</div>
+</div>
+<!-- 概念 2：五次方程 -->
+<div class="card">
+<h2>五次方程不可解</h2>
+<div class="en-name">Unsolvability of the Quintic · 对称性决定可解性</div>
+<span class="tag">Galois Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>二次方程的求根公式人人会背，三次、四次也在 16 世纪被 Cardano 一派攻下；五次卡了两百多年，人们以为只是更难。Abel 与 Galois 的回答是：<strong>不是难，是不存在。</strong></p>
+<p>根式公式无非是「加减乘除 + 反复开方」。而方程的根之间有一种对称——任意交换它们，系数不变（系数本就是根的对称函数），这些置换构成一个群。<strong>每开一次方，就打破一点对称性</strong>，把群剥掉一层；根式可解，就是能一层层剥到什么都不剩，且每层都「温和」（交换）。而 $S_5$ 里藏着 $A_5$：非交换，又不含真正规子群，<strong>像一块剥不开的原子</strong>——链在这里断了。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
+<text fill="#3a6088" font-size="10" font-style="italic" x="8" y="14">n ≤ 4：一层层剥到底</text>
+<g fill="#1e3a5f" font-size="11" text-anchor="middle">
+<text x="40" y="46">S₄</text><text x="110" y="46">A₄</text><text x="180" y="46">V₄</text><text x="250" y="46">C₂</text><text x="320" y="46">1</text>
+</g>
+<g stroke="#3a6088" stroke-width="1.2">
+<line x1="55" x2="95" y1="42" y2="42"></line><line x1="125" x2="165" y1="42" y2="42"></line>
+<line x1="195" x2="235" y1="42" y2="42"></line><line x1="265" x2="305" y1="42" y2="42"></line>
+</g>
+<text fill="#7a9a6a" font-size="9.5" font-style="italic" text-anchor="middle" x="180" y="62">每步的商群都交换 → 有求根公式</text>
+<text fill="#c9544a" font-size="10" font-style="italic" x="8" y="102">n ≥ 5：第一步就卡住</text>
+<g fill="#1e3a5f" font-size="11" text-anchor="middle">
+<text x="40" y="132">S₅</text><text x="110" y="132">A₅</text>
+</g>
+<line stroke="#3a6088" stroke-width="1.2" x1="55" x2="95" y1="128" y2="128"></line>
+<line stroke="#c9544a" stroke-dasharray="4,3" stroke-width="1.4" x1="125" x2="175" y1="128" y2="128"></line>
+<text fill="#c9544a" font-size="17" x="176" y="133">✕</text>
+<text fill="#c9544a" font-size="9.5" font-style="italic" x="196" y="132">A₅ 单群：无处可剥</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\{\text{中间域}\}\;\longleftrightarrow\;\{\mathrm{Gal}(K/F)\text{ 的子群}\}$$</div>
+<p>左边是夹在系数域 $F$ 与根所在域 $K$ 之间的所有数系，右边是「保持 $F$ 每个数不动」的那些对称（自同构）所成群的子群。两边一一对应且<strong>反序</strong>：域越大，能保持它的对称越少。核心定理是——方程根式可解 $\iff$ 其 Galois 群<em>可解</em>，即存在一条子群链，相邻两层的商群都交换；而 $n\ge 5$ 时 $S_n$ 不可解。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>这是数学史上第一次，一个问题被整体搬到另一个范畴解决：<strong>「能不能解出来」被翻译成「这个群长什么样」</strong>——而后者可以有限地检查。这套手法后来成了现代数学的主发动机。附带的美感是：$A_5$ 的单性既杀死了五次求根公式，又正是正二十面体对称群的来源——<em>同一块「剥不开」，一边是禁令，一边是柏拉图立体。</em></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>有限域上的 Galois 理论是 Reed-Solomon 纠错码（Day 33）与 AES 中 $\mathrm{GF}(2^8)$ 运算的地基。<strong>微分</strong> Galois 理论支撑 Risch 算法：SymPy 说 $\int e^{-x^2}dx$「积不出来」不是搜索超时，而是已证明初等原函数不存在。Galois 表示则是 Wiles 证明费马大定理的语言。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>一个方程解不出来，不是因为它复杂，而是因为它的根太对称。</strong><br/>思考：五次方程当然有五个根，只是写不成根式——「存在」与「可表达」的裂缝在此第一次被量化。计算机科学里的同构裂缝是什么？</div>
+</div>
+</div>
+<!-- 概念 3：平行公设 -->
+<div class="card">
+<h2>平行公设的独立性</h2>
+<div class="en-name">Independence of the Parallel Postulate · 造一个世界代替一个证明</div>
+<span class="tag">Axiomatics</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>欧几里得的前四条公设朴素得像常识，第五条却啰嗦得像定理：过直线外一点恰有一条平行线。两千年里无数人想把它从前四条推出来。Saccheri（1733）假设平行线不唯一，指望撞出矛盾，却只撞出「奇怪」——三角形内角和小于 $180^\circ$。他宣布这些「与直线的本性相悖」，其实已经在写双曲几何的定理了。</p>
+<p><strong>突破不是更用力地证明，而是换了问题：造一个世界。</strong>庞加莱圆盘把整个双曲平面塞进一个圆内，「直线」是垂直于边界的圆弧，越靠边缘尺子缩得越短，边界永远走不到。那里过一点可画出无穷多条平行线，而前四条公设全部成立。<strong>第五条推不出来——因为存在一个世界，前四条真而它假。</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+<circle cx="150" cy="100" fill="#fafbfd" r="88" stroke="#1e3a5f" stroke-width="1.6"></circle>
+<path d="M 62 100 A 88 88 0 0 0 238 100" fill="none" stroke="#1e3a5f" stroke-width="0" ></path>
+<!-- 给定"直线" L：垂直于边界的圆弧 -->
+<path d="M 78 145 A 70 70 0 0 1 78 55" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<text fill="#1e3a5f" font-size="11" font-style="italic" x="118" y="104">L</text>
+<!-- 点 P -->
+<circle cx="196" cy="100" fill="#c9544a" r="3.5"></circle>
+<text fill="#c9544a" font-size="11" x="202" y="97">P</text>
+<!-- 三条不与 L 相交的"直线" -->
+<path d="M 196 100 A 120 120 0 0 1 168 18" fill="none" stroke="#c9544a" stroke-dasharray="4,3" stroke-width="1.4"></path>
+<path d="M 196 100 A 120 120 0 0 0 168 182" fill="none" stroke="#c9544a" stroke-dasharray="4,3" stroke-width="1.4"></path>
+<path d="M 196 100 A 200 200 0 0 1 232 30" fill="none" stroke="#c9544a" stroke-dasharray="4,3" stroke-width="1.4"></path>
+<text fill="#8a7340" font-size="10" font-style="italic" text-anchor="middle" x="150" y="196">过 P 有无穷多条「平行线」；圆周是无穷远，永远走不到</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>命题 $P$ <strong>独立于</strong>公理集 $A$：存在 $A$ 的一个模型使 $P$ 真，另一个使 $P$ 假。「模型」即一套具体解释，让公理全部成为真陈述——庞加莱圆盘正是把「点」与「线」重新解释了一遍。更精细的是<strong>相对一致性</strong>：该模型由欧氏平面的点与圆造出，故双曲几何若矛盾，矛盾可逐字翻译回欧氏几何。一致性无法凭空建立，只能相对转嫁。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>这是数学「元层次」的诞生：此前公理是<em>关于空间的真理</em>，此后成为<em>一组规则，可以有很多模型</em>。<strong>「证不出来」第一次从失败变成一种可被证明的性质。</strong>这条路径直通希尔伯特纲领、哥德尔不完备定理（Day 12）与 Cohen 的力迫法（Day 11）；而这个玩具世界，六十年后成了广义相对论的语言（Day 10）。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>双曲空间的体积随半径指数增长，恰好匹配树的分支增长，因此<strong>双曲嵌入</strong>能用远低的维数保住层级结构，知识图谱的表示学习都在用。工程一侧，形式验证问「这条性质是否被规格蕴含」，SMT 求解器的回答正是找一个反模型——与两千年前造圆盘完全同构。<em>找不到证明时，就去构造一个反例世界。</em></p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>无法证明一件事，最干净的证据是造两个世界：一个它真，一个它假。</strong><br/>思考：两种几何都自洽，真实空间究竟是哪一种？这已从数学问题变成物理测量问题。还有哪些「真理之争」，其实只是选了不同公理？</div>
+</div>
+</div>
+<!-- 概念 4：不确定性原理 -->
+<div class="card">
+<h2>不确定性原理</h2>
+<div class="en-name">The Uncertainty Principle · 一条数学定理，物理只是它的实例</div>
+<span class="tag">Harmonic Analysis</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>拨一下吉他弦，听一秒你能说出音高；只听千分之一秒，只听到一声「啪」。<strong>越短的声音，频谱越宽。</strong>这不是仪器的不足——频率的定义就是「每秒重复多少次」，不给它时间重复，它就没有确定的频率。</p>
+<p>把信号在时间轴压窄 $a$ 倍，傅里叶变换必然在频率轴展宽 $a$ 倍，<strong>两边宽度的乘积有一个压不破的下界。</strong>海森堡的测不准原理正是它的物理实例：位置与动量的波函数恰是一对傅里叶变换。<em>物理的限制，是数学结构的影子。</em></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
+<text fill="#3a6088" font-size="10" font-style="italic" x="12" y="14">时域</text>
+<text fill="#3a6088" font-size="10" font-style="italic" x="222" y="14">频域</text>
+<g transform="translate(10,20)">
+<line stroke="#aaa" stroke-width="0.6" x1="0" x2="170" y1="110" y2="110"></line>
+<path d="M 0 110 Q 70 110 85 30 Q 100 110 170 110" fill="#3a6088" fill-opacity="0.18" stroke="#1e3a5f" stroke-width="1.6"></path>
+<text fill="#1e3a5f" font-size="9.5" text-anchor="middle" x="85" y="126">窄脉冲</text>
+<path d="M 0 110 Q 40 110 85 62 Q 130 110 170 110" fill="none" stroke="#c9544a" stroke-dasharray="4,3" stroke-width="1.4"></path>
+<text fill="#c9544a" font-size="9.5" text-anchor="middle" x="85" y="140">拉宽 →</text>
+</g>
+<g transform="translate(220,20)">
+<line stroke="#aaa" stroke-width="0.6" x1="0" x2="170" y1="110" y2="110"></line>
+<path d="M 0 110 Q 40 108 85 40 Q 130 108 170 110" fill="#3a6088" fill-opacity="0.18" stroke="#1e3a5f" stroke-width="1.6"></path>
+<text fill="#1e3a5f" font-size="9.5" text-anchor="middle" x="85" y="126">宽频谱</text>
+<path d="M 0 110 Q 68 110 85 52 Q 102 110 170 110" fill="none" stroke="#c9544a" stroke-dasharray="4,3" stroke-width="1.4"></path>
+<text fill="#c9544a" font-size="9.5" text-anchor="middle" x="85" y="140">← 变窄</text>
+</g>
+<text fill="#8a7340" font-size="10" font-style="italic" text-anchor="middle" x="200" y="166">一边压窄，另一边必然展宽：乘积有下界</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\Big(\int x^{2}|f(x)|^{2}dx\Big)\Big(\int \xi^{2}|\hat f(\xi)|^{2}d\xi\Big)\;\ge\;\frac{\|f\|_2^{4}}{16\pi^{2}}$$</div>
+<p>$f$ 是信号，$\hat f$ 是它的频谱；两个积分分别衡量能量在时间轴与频率轴上的<em>分散程度</em>（以能量为权重的方差），$\|f\|_2$ 是总能量。不等式说<strong>两个方差不能同时小</strong>，而右端是与 $f$ 无关的常数——这道墙对一切信号一视同仁。等号仅在 $f$ 为高斯时成立，这正是 Gabor 变换爱用高斯窗的原因。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>在这四种不可能里，它最「结构性」：不来自逻辑，不来自工具，而来自伸缩对称本身——$f(ax)$ 的频谱是 $\hat f(\xi/a)/|a|$，压缩与展宽被绑在同一变换的两端，下界只是这个绑定的定量化。<strong>「测不准」由此从物理的神秘感中被剥离</strong>，还原成一条关于函数的不等式：粒子测不准与听不清音高，是同一定理的两次现身。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>短时傅里叶与小波（Day 40）的设计张力全在这里：窗开得短则时间定位准、频率糊，反之亦然，音频修音软件的「金属味」正是窗长取舍的副作用。雷达的距离分辨率与多普勒分辨率受同一模糊函数约束，无法同时最优。<strong>一个常见误解</strong>：压缩感知靠稀疏先验绕开的是 Nyquist 采样率，不是这条不等式——它无法被任何先验绕过。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>它不禁止你测得更准，只禁止你在两个互为傅里叶对偶的方向上同时测得更准。</strong><br/>思考：机器学习里也有大量「不能同时要」——偏差与方差、探索与利用。哪些是有严格下界的结构性约束，哪些只是当前方法的局限？</div>
+</div>
+</div>
+<h3 class="deep">深入思考</h3>
+<details>
+<summary>今天这四种「不可能」，是同一种东西吗？</summary>
+<div>不是，是四个层次，逃脱性逐级递减。尺规作图受限于<strong>工具的值域</strong>，换工具即可。五次方程受限于<strong>表达式类</strong>：根存在，只是写不成根式。平行公设是<strong>公理信息量</strong>不足：不是假，是没被决定。不确定性原理则是<strong>结构的推论</strong>，连换公理也逃不掉。认清是哪一层，直接决定你该找新工具、找新表示，还是换问题。</div>
+</details>
+<details>
+<summary>为什么不可能性证明往往比构造性结果更有生产力？</summary>
+<div>因为要证明「任何方法都不行」，你必须先给「所有方法」建一个模型——而这个模型往往比原问题更有价值。Wantzel 为否定倍立方需要域扩张，Galois 为否定五次公式造出群论，为否定平行公设可证则催生了非欧几何。<strong>否定性结果的副产品是一套新语言</strong>，构造性结果却常常只解决它自己。P vs NP 至今未决，多半也因为我们还没有足够好的「所有算法」模型。</div>
+</details>
+<details>
+<summary>分布式系统的 FLP 与 CAP，属于上面哪一层？</summary>
+<div>FLP（异步网络中即便只有一个进程可能崩溃，也不存在确定性共识算法）最接近第一层：它给「所有确定性算法」建模，再用一个不变量——双值可达的临界配置总能被延迟一步维持——证明无穷执行存在。逃逸方式也印证了「找新工具」：加随机性、加故障检测器、加部分同步，共识立刻可行；CAP 则更像折衷陈述而非深定理。<strong>读不可能性定理，最该读的是它的前提</strong>——前提就是逃生门的位置。</div>
+</details>
+<details>
+<summary>连续统假设独立于 ZFC 之后，数学还是「被发现的」吗？</summary>
+<div>柏拉图主义者说 CH 有确定真值，只是 ZFC 太弱，应继续寻找更强的公理。多元宇宙观则认为不存在唯一的集合论宇宙，只有一族模型，CH 在其中有真有假，正如平行公设。耐人寻味的是，争论并未妨碍数学运行：绝大多数数学在 CH 之下与之上完全一样。<strong>数学的客观性或许不在于每个命题都有答案，而在于推理本身的强制性。</strong></div>
+</details>
+</div>
+</body>
+</html>
