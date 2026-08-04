@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>组合优化 · Day 43 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 16px;text-align:center;font-style:italic;letter-spacing:1px}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 43 · 2026.08.04</div>
+<h1>组合优化</h1>
+<div class="meta">Combinatorial Optimization — 在指数大的离散空间里，找到那唯一最好的一个</div>
+<div class="epigraph">「我主张，作为一个数学结果：存在一个求最大匹配的<em>好</em>算法。」 — Jack Edmonds, 1965（「好算法 = 多项式时间」这个定义，就诞生在这篇讲匹配的论文里）</div>
+</header>
+<!-- 概念 1：旅行商问题 -->
+<div class="card">
+<h2>旅行商问题</h2>
+<div class="en-name">The Traveling Salesman Problem · 组合爆炸的标准样本</div>
+<span class="tag">NP-Hard</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>$n$ 座城市各访问一次再回到起点，求总里程最短的走法。可行解有 $(n-1)!/2$ 条，$n=20$ 就是 $6\times10^{16}$。但真正的困难不是数量，而是<strong>这个空间没有梯度</strong>：任何改动都是整段边的替换，你无法「稍微调整一点点」。连续优化里「沿坡往下走」的全部直觉，在这里一句都用不上。</p>
+<p>但 TSP 并非一团乱麻。在平面上，<strong>最优路线一定不自交</strong>：两条边若交叉，换个接法必然更短（三角不等式）。这就是 2-opt——一条几何事实立刻砍掉一大片搜索空间。组合优化的全部功夫，就是找这种能砍掉一大片的结构。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 160" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(10,18)">
+<text fill="#c9544a" font-size="10" font-style="italic" text-anchor="middle" x="65" y="-4">有交叉 → 必不最优</text>
+<polygon fill="none" points="120,65 53,114 53,16 15,43 15,87 99,26 99,104" stroke="#c9544a" stroke-width="1.6"></polygon>
+<g fill="#1e3a5f"><circle cx="120" cy="65" r="3.5"></circle><circle cx="99" cy="26" r="3.5"></circle><circle cx="53" cy="16" r="3.5"></circle><circle cx="15" cy="43" r="3.5"></circle><circle cx="15" cy="87" r="3.5"></circle><circle cx="53" cy="114" r="3.5"></circle><circle cx="99" cy="104" r="3.5"></circle></g>
+</g>
+<text fill="#5a7090" font-size="15" x="155" y="88">→</text>
+<g transform="translate(190,18)">
+<text fill="#3a6088" font-size="10" font-style="italic" text-anchor="middle" x="65" y="-4">2-opt 交换后更短</text>
+<polygon fill="#3a6088" fill-opacity="0.08" points="120,65 99,26 53,16 15,43 15,87 53,114 99,104" stroke="#1e3a5f" stroke-width="1.6"></polygon>
+<g fill="#1e3a5f"><circle cx="120" cy="65" r="3.5"></circle><circle cx="99" cy="26" r="3.5"></circle><circle cx="53" cy="16" r="3.5"></circle><circle cx="15" cy="43" r="3.5"></circle><circle cx="15" cy="87" r="3.5"></circle><circle cx="53" cy="114" r="3.5"></circle><circle cx="99" cy="104" r="3.5"></circle></g>
+</g>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\min_{\pi \in S_n} \sum_{i=1}^{n} d\big(c_{\pi(i)},\, c_{\pi(i+1)}\big)$$</div>
+<p>$\pi$ 是走访顺序的一个排列，$S_n$ 是全部 $n!$ 个排列，$d$ 是两城距离，下标循环回到起点。写成整数规划更有用：$x_{ij}\in\{0,1\}$ 表示是否走边 $(i,j)$，约束每城进出各一次，外加<strong>子回路消除约束</strong>——否则解会退化成几个互不相连的小圈。这类约束有指数多条；Dantzig 等人 1954 年的对策是<em>不预先写下</em>，先解松弛，哪条被违反就补哪条——<strong>割平面法</strong>由此诞生。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>TSP 同时是两件相反事情的样本：它是 NP-hard 的教科书例子，可 Concorde 求解器已<strong>精确</strong>解出 85900 城的实例并给出最优性证明。这不矛盾——NP-hard 是关于<em>最坏情况</em>的陈述，现实实例却带着几何结构，割平面正把它一条条兑换成约束。「理论上难」与「这个实例可解」之间那道缝隙，是整个运筹学工业站立的地方。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>电路板钻孔与激光切割的走刀路径、基因组测序中 contig 的排序、望远镜观测调度、快递最后一公里，都是 TSP 或其变体。启发式一侧，LKH 用可变深度的边交换，在百万级实例上逼近最优 1% 以内。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>离散空间没有梯度可循，这才是组合优化的根本困难；一切算法都在为它临时造一个「方向」。</strong><br/>思考：神经网络上亿参数却训练得动，TSP 二十城就爆炸。差别在维度，还是在「局部信息能否指出全局方向」？</div>
+</div>
+</div>
+<!-- 概念 2：近似算法 -->
+<div class="card">
+<h2>近似算法</h2>
+<div class="en-name">Approximation Algorithms · 给「接近」标一个可证明的价码</div>
+<span class="tag">Algorithm Design</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>既然求不到最优，退一步：能否保证「我的解不超过最优的 1.5 倍」，且<strong>对所有输入都成立</strong>？这与启发式有本质区别——启发式是「通常还行」，近似算法是<em>带证明的承诺</em>。</p>
+<p>难点是个悖论：你根本不知道最优值 $\mathrm{OPT}$，怎么证明自己离它多近？出路是<strong>找一个算得出来的下界</strong>。TSP 中任何回路删掉一条边都是生成树，所以最小生成树长度 $\le \mathrm{OPT}$；于是只需证明「我 $\le c\times$ 下界 $\le c\times \mathrm{OPT}$」。<strong>整个近似算法领域，本质是一门构造好下界的手艺。</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#3a6088" stroke-width="1.4" x1="20" x2="340" y1="60" y2="60"></line>
+<text fill="#5a7090" font-size="9.5" x="20" y="22">可近似 ←</text>
+<text fill="#5a7090" font-size="9.5" text-anchor="end" x="340" y="22">→ 几乎不可近似</text>
+<g fill="#1e3a5f" font-size="10" text-anchor="middle">
+<circle cx="55" cy="60" fill="#3a6088" r="4.5"></circle><text x="55" y="80">1+ε</text><text fill="#5a7090" font-size="9" x="55" y="96">背包</text>
+<circle cx="140" cy="60" fill="#3a6088" r="4.5"></circle><text x="140" y="80">3/2</text><text fill="#5a7090" font-size="9" x="140" y="96">度量 TSP</text>
+<circle cx="225" cy="60" fill="#c9a96b" r="4.5"></circle><text x="225" y="80">ln n</text><text fill="#5a7090" font-size="9" x="225" y="96">集合覆盖</text>
+<circle cx="310" cy="60" fill="#c9544a" r="4.5"></circle><text x="310" y="80">n^(1-ε)</text><text fill="#5a7090" font-size="9" x="310" y="96">最大团</text>
+</g>
+<text fill="#c9544a" font-size="9.5" font-style="italic" text-anchor="middle" x="180" y="122">每个位置都是定理：既是算法的上界，也是 PCP 给出的硬度下界</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\rho\text{-近似}:\quad \frac{\mathrm{ALG}(I)}{\mathrm{OPT}(I)} \le \rho \quad \text{对每一个实例 } I$$</div>
+<p>$\mathrm{ALG}(I)$ 是算法在实例 $I$ 上的输出，$\mathrm{OPT}(I)$ 是真实最优值，$\rho$ 与实例无关。Christofides 算法用<em>最小生成树 + 奇度顶点上的最小完美匹配</em>，对满足三角不等式的 TSP 给出 $\rho=3/2$；这个 1976 年的纪录直到 2020 年才被 $3/2-10^{-36}$ 撼动——数值微不足道，意义在于 $3/2$ 不是墙。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>近似把 P vs NP 的<em>二值</em>问题展开成一条连续光谱：不再只问「能不能高效解」，而问「能高效逼近到什么程度」。更漂亮的是这条光谱本身有可证的硬边界——<strong>PCP 定理</strong>说明，除非 P=NP，集合覆盖的 $\ln n$ 已是最优，最大团连 $n^{1-\varepsilon}$ 都做不到。<strong>「有多难」从一句抱怨变成了可精确计算的量。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>贪心的 $\ln n$ 集合覆盖是数据子集选择与测试精简的骨架；LP 松弛加随机舍入是云调度与预算分配的通用套路。机器学习里最直接的一条：子模函数在拟阵约束下最大化有 $1-1/e$ 的贪心保证（Nemhauser 等，1978），用于传感器布点、数据蒸馏、少样本示例挑选——<strong>「选一个多样又有代表性的子集」几乎总能写成这个形式</strong>。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>求不到最优时，就求「可证明的接近」——而能接近到什么程度，本身是一条定理。</strong><br/>思考：工程中常用毫无保证的启发式，实测却很好。可证明的保证何时值得付出代价，何时只是理论洁癖？</div>
+</div>
+</div>
+<!-- 概念 3：匹配理论 -->
+<div class="card">
+<h2>匹配理论</h2>
+<div class="en-name">Matching Theory · 「多项式时间」这个概念的诞生地</div>
+<span class="tag">Graph Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>一边是任务，一边是工人，连线表示「能做」，求最多的一对一配对。贪心会卡住：先配掉的一对，可能正好堵死后面两对。</p>
+<p>解法是<strong>增广路</strong>：从一个未配对的点出发，交替走「未匹配边、已匹配边、未匹配边……」，若最终停在另一个未配对的点上，就把这条路上所有边的状态<em>整体翻转</em>——原来匹配的松开，原来没匹配的接上。路上匹配边比未匹配边少一条，翻转后总数恰好 $+1$。妙处是：<strong>它自动拆掉你先前的错误配法，无需回溯。</strong>Berge 定理更进一步：匹配最大 $\iff$ 不存在增广路——全局最优性被压缩成一个可局部验证的条件。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 300 175" xmlns="http://www.w3.org/2000/svg">
+<g stroke="#c8d0dc" stroke-width="1"><line x1="70" x2="200" y1="30" y2="65"></line><line x1="70" x2="200" y1="100" y2="65"></line><line x1="70" x2="200" y1="135" y2="135"></line></g>
+<g stroke="#1e3a5f" stroke-width="2.6"><line x1="70" x2="200" y1="30" y2="30"></line><line x1="70" x2="200" y1="100" y2="65"></line><line x1="70" x2="200" y1="135" y2="100"></line></g>
+<g stroke="#c9544a" stroke-dasharray="4,3" stroke-width="2"><line x1="70" x2="200" y1="65" y2="30"></line><line x1="70" x2="200" y1="30" y2="65"></line><line x1="70" x2="200" y1="100" y2="100"></line><line x1="70" x2="200" y1="135" y2="135"></line></g>
+<g fill="#1e3a5f"><circle cx="70" cy="30" r="6"></circle><circle cx="70" cy="100" r="6"></circle><circle cx="70" cy="135" r="6"></circle><circle cx="200" cy="30" r="6"></circle><circle cx="200" cy="65" r="6"></circle><circle cx="200" cy="100" r="6"></circle></g>
+<g fill="#fff" stroke="#c9544a" stroke-width="2.4"><circle cx="70" cy="65" r="6"></circle><circle cx="200" cy="135" r="6"></circle></g>
+<text fill="#c9544a" font-size="10" text-anchor="end" x="58" y="69">未配对</text>
+<text fill="#c9544a" font-size="10" x="212" y="139">未配对</text>
+<text fill="#1e3a5f" font-size="10" text-anchor="middle" x="135" y="14">粗蓝 = 当前匹配　红虚 = 增广路</text>
+<text fill="#3a6088" font-size="10" font-style="italic" text-anchor="middle" x="135" y="168">沿红虚线全体翻转 → 匹配数 3 → 4</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\text{König: } \max_{M}|M| = \min_{C}|C| \qquad \text{Hall: } \exists\,\text{完美匹配} \iff \forall S\subseteq L,\ |N(S)|\ge|S|$$</div>
+<p>左式中 $M$ 取遍所有匹配，$C$ 取遍所有<em>顶点覆盖</em>（碰到每条边的顶点集）：最大匹配数等于最小覆盖数，这是<strong>对偶</strong>——「最多能配几对」的答案，同时就是「为何不能更多」的证明。右式中 $N(S)$ 是 $S$ 的邻居集：完美匹配失败当且仅当某个子集的候选人太少。<strong>瓶颈永远是一个具体子集，而非玄学的全局拥挤。</strong></p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>一般图里增广路会失效：奇圈让交替路绕回自身。Edmonds 1965 年的对策是<strong>「花」（blossom）——把整个奇圈缩成一个点</strong>，在缩图上继续搜索，找到后再展开。也正是在这篇论文里，他第一次主张「好算法」应定义为运行时间<em>多项式</em>增长。复杂性理论最核心的类 P，定义来自一篇讲怎么配对的论文。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>全美肾脏配对交换（UNOS）靠最大权匹配救人；住院医师分配、广告位实时投放（在线二分匹配的 RANKING 算法有 $1-1/e$ 竞争比）、目标跟踪的数据关联，跑的都是同一套算法。而<strong>最优传输</strong>正是匹配的连续松弛，Sinkhorn 迭代把它变得可微，如今用于扩散模型与域自适应。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>最大匹配能多项式求解，是因为它的最优性可以被一个局部对象——「不存在增广路」——完全刻画。</strong><br/>思考：「无增广路 $\Rightarrow$ 全局最优」是从局部到全局的跃迁；梯度下降里「梯度为零 $\Rightarrow$ 全局最优」只在凸时成立。匹配问题的「凸性」藏在哪里？</div>
+</div>
+</div>
+<!-- 概念 4：拟阵 -->
+<div class="card">
+<h2>拟阵</h2>
+<div class="en-name">Matroid · 贪心算法为何有效的完整答案</div>
+<span class="tag">Combinatorial Structure</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>贪心——每次拿当前看起来最好的，绝不反悔——有时对得惊人（Kruskal 求最小生成树），有时错得离谱（TSP 的最近邻）。什么时候贪心是对的？拟阵给出了完整回答。</p>
+<p>先看一个巧合：线性代数里的「线性无关向量组」与图论里的「不含圈的边集（森林）」，行为一模一样。其一，子集仍然无关；其二，<strong>两个无关集大小不同时，大的那个里一定能挑出一个元素补进小的，仍保持无关</strong>。把这两条抽出来当公理，就得到拟阵。第二条是关键：它保证你无论从哪起步，都不会走进「还没到最大却再加不进任何元素」的死胡同。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 360 150" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#f0f4f9" height="70" rx="6" stroke="#3a6088" stroke-width="1.2" width="110" x="15" y="35"></rect>
+<text fill="#3a6088" font-size="11" font-style="italic" x="20" y="28">A（较小的无关集）</text>
+<g fill="#1e3a5f"><circle cx="45" cy="70" r="6"></circle><circle cx="70" cy="70" r="6"></circle></g>
+<rect fill="#fbfaf3" height="70" rx="6" stroke="#c9a96b" stroke-width="1.2" width="130" x="215" y="35"></rect>
+<text fill="#8a7340" font-size="11" font-style="italic" x="220" y="28">B（较大的无关集）</text>
+<g fill="#1e3a5f"><circle cx="245" cy="70" r="6"></circle><circle cx="270" cy="70" r="6"></circle><circle cx="320" cy="70" r="6"></circle></g>
+<circle cx="295" cy="70" fill="#c9544a" r="6"></circle>
+<path d="M 288 88 Q 190 130 100 88" fill="none" marker-end="url(#ar)" stroke="#c9544a" stroke-width="1.6"></path>
+<defs><marker id="ar" markerHeight="6" markerWidth="6" orient="auto" refX="5" refY="3"><path d="M0,0 L6,3 L0,6 z" fill="#c9544a"></path></marker></defs>
+<text fill="#c9544a" font-size="10.5" font-style="italic" text-anchor="middle" x="185" y="145">交换公理：总存在 e ∈ B∖A 使 A+e 仍无关 ⟹ 贪心不会卡死</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$A,B\in\mathcal{I},\ |A|<|B| \ \Longrightarrow\ \exists\, e\in B\setminus A,\ A\cup\{e\}\in\mathcal{I}$$</div>
+<p>拟阵是一对 $(E,\mathcal{I})$：$E$ 是有限地面集（所有边、所有向量），$\mathcal{I}$ 是称作「无关集」的子集族，满足空集属于 $\mathcal{I}$、对取子集封闭，以及上式这条<strong>交换公理</strong>。直接推论是：所有极大无关集等大，这个公共大小就是<em>秩</em>——在向量空间里它是矩阵的秩，在图里是生成森林的边数。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>Rado–Edmonds 定理：<strong>贪心对所有权重函数都返回最优解，当且仅当该结构是拟阵。</strong>这是精确的「当且仅当」，不是「贪心通常管用」这类经验之谈——数学难得能把一整类算法的适用范围一次划清。界线还往前走：两个拟阵的<em>交</em>仍可多项式求解（二分匹配恰是两个划分拟阵的交），三个就 NP-hard。分水岭画在「二」与「三」之间。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>Kruskal 算法就是图拟阵上的贪心；带截止期的单机排程、网络可靠性同样落在拟阵框架里；编码理论中线性码对应向量拟阵。机器学习方面，<strong>子模函数是拟阵秩函数的推广</strong>：数据子集选择、主动学习、推荐多样性、上下文示例挑选，几乎都是「在拟阵约束下最大化子模函数」，概念 2 那个 $1-1/e$ 正从这个结构长出来。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>贪心可行不是运气，而是「交换公理」这条组合律的直接后果——先验结构，后得算法。</strong><br/>思考：若你的问题存在某种「局部可交换」结构，是否意味着最简单的算法就已足够？反过来，难问题是否都可理解为交换性被破坏之处？</div>
+</div>
+</div>
+<h3 class="deep">深入思考</h3>
+<details>
+<summary>最小生成树容易、旅行商困难——两者不是只差一个「回路」约束吗？</summary>
+<div>差别在可行集的组合结构。生成树的可行集是森林，构成拟阵：子集仍是森林，交换公理成立，贪心直接最优。哈密顿回路却连下闭性都没有——去掉一条边就不再是回路，「部分解」根本不存在，你无法边走边判断自己是否还在正轨上。<strong>决定难度的是约束的组合结构，而非问题描述的长短。</strong>实用直觉：拿到新问题先问「可行集对取子集封闭吗」。</div>
+</details>
+<details>
+<summary>近似硬度（PCP 定理）究竟在说什么？</summary>
+<div>PCP 定理说：每个 NP 问题的证明都能改写成一种格式，验证者只随机读常数个比特就能高概率判定对错。这个改写把「对」与「错」的差距<em>放大</em>成常数比例的间隙，于是难的不再只是求解，而是<strong>连区分「存在很好的解」与「所有解都差」都难</strong>。世界观意义：某些界限不是我们还不够聪明，而是可证的结构事实。</div>
+</details>
+<details>
+<summary>深度学习真的能取代组合优化求解器吗？</summary>
+<div>有两条现实路线。其一把离散松弛为连续：Gumbel-softmax、最优传输、可微排序让梯度穿过组合结构，代价是只得近似解且丢失最优性证明。其二是<strong>学习求解器内部的决策</strong>——用图神经网络为分支定界挑选分支变量、预测割平面价值，这一层已进入商用求解器。但端到端神经网络至今很少在大规模精确求解上胜过 Concorde 或 CPLEX：增量在「学习加速搜索」，不在「学习替代搜索」。</div>
+</details>
+<details>
+<summary>分布式系统里的调度与放置，该套用哪一套框架？</summary>
+<div>副本放置、任务调度、分片分配纸面上都是带约束的组合优化，但多了两个离线理论没有的条件：目标函数随时间漂移，决策时信息不完整。此时「相对离线最优的近似比」意义有限——离线最优本身不可达。正确的框架是<strong>在线算法的竞争比</strong>：与事后诸葛的最优解比较，接受恒定倍数差距（在线二分匹配的 $1-1/e$ 即此形式）。<strong>换框架的判断，常比在旧框架里优化更值钱。</strong></div>
+</details>
+</div>
+</body>
+</html>

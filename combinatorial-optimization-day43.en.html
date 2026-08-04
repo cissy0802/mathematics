@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Combinatorial Optimization · Day 43 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 16px;text-align:center;font-style:italic;letter-spacing:1px}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 43 · 2026.08.04</div>
+<h1>Combinatorial Optimization</h1>
+<div class="meta">Finding the single best object inside a discrete space of exponential size</div>
+<div class="epigraph">"I am claiming, as a mathematical result, the existence of a <em>good</em> algorithm for finding a maximum cardinality matching." — Jack Edmonds, 1965 (the definition "good algorithm = polynomial time" was born in a paper about matching)</div>
+</header>
+<!-- Concept 1: TSP -->
+<div class="card">
+<h2>The Traveling Salesman Problem</h2>
+<div class="en-name">The canonical specimen of combinatorial explosion</div>
+<span class="tag">NP-Hard</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Visit $n$ cities once each and return to the start, minimizing total distance. There are $(n-1)!/2$ feasible tours; at $n=20$ that is $6\times10^{16}$. But the real difficulty is not the count — it is that <strong>this space has no gradient</strong>. Every change replaces whole edges at once; you cannot "adjust the route slightly." Every intuition from continuous optimization about walking downhill is useless here.</p>
+<p>Yet TSP is not formless. In the plane, <strong>an optimal tour never crosses itself</strong>: if two edges cross, reconnecting them is strictly shorter (triangle inequality). That is 2-opt — one geometric fact instantly deletes a huge slice of the search space. All the craft in combinatorial optimization consists of finding structure that deletes slices like that.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 160" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(10,18)">
+<text fill="#c9544a" font-size="10" font-style="italic" text-anchor="middle" x="65" y="-4">crossing → never optimal</text>
+<polygon fill="none" points="120,65 53,114 53,16 15,43 15,87 99,26 99,104" stroke="#c9544a" stroke-width="1.6"></polygon>
+<g fill="#1e3a5f"><circle cx="120" cy="65" r="3.5"></circle><circle cx="99" cy="26" r="3.5"></circle><circle cx="53" cy="16" r="3.5"></circle><circle cx="15" cy="43" r="3.5"></circle><circle cx="15" cy="87" r="3.5"></circle><circle cx="53" cy="114" r="3.5"></circle><circle cx="99" cy="104" r="3.5"></circle></g>
+</g>
+<text fill="#5a7090" font-size="15" x="155" y="88">→</text>
+<g transform="translate(190,18)">
+<text fill="#3a6088" font-size="10" font-style="italic" text-anchor="middle" x="65" y="-4">shorter after a 2-opt swap</text>
+<polygon fill="#3a6088" fill-opacity="0.08" points="120,65 99,26 53,16 15,43 15,87 53,114 99,104" stroke="#1e3a5f" stroke-width="1.6"></polygon>
+<g fill="#1e3a5f"><circle cx="120" cy="65" r="3.5"></circle><circle cx="99" cy="26" r="3.5"></circle><circle cx="53" cy="16" r="3.5"></circle><circle cx="15" cy="43" r="3.5"></circle><circle cx="15" cy="87" r="3.5"></circle><circle cx="53" cy="114" r="3.5"></circle><circle cx="99" cy="104" r="3.5"></circle></g>
+</g>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$\min_{\pi \in S_n} \sum_{i=1}^{n} d\big(c_{\pi(i)},\, c_{\pi(i+1)}\big)$$</div>
+<p>$\pi$ is one visiting order, $S_n$ is the set of all $n!$ permutations, $d$ is the distance between two cities, and the index wraps back to the start. The integer-programming form is more useful: $x_{ij}\in\{0,1\}$ says whether edge $(i,j)$ is used, each city gets one entry and one exit, plus <strong>subtour elimination constraints</strong> — without them the solution degenerates into several disconnected loops. There are exponentially many such constraints; Dantzig and colleagues in 1954 chose <em>not to write them down</em>, solving a relaxation and adding only the ones found violated. <strong>The cutting-plane method</strong> was born there.</p>
+</div>
+<div class="section">
+<div class="label">Why it's beautiful</div>
+<p>TSP is simultaneously a specimen of two opposite things: it is the textbook NP-hard problem, yet the Concorde solver has <strong>exactly</strong> solved an 85,900-city instance with a certificate of optimality. No contradiction — NP-hardness is a statement about the <em>worst case</em>, while real instances carry geometric structure, and cutting planes convert that structure into constraints one at a time. The gap between "hard in theory" and "this instance is solvable" is where the entire operations-research industry stands.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Drill paths on circuit boards, laser cutting sequences, contig ordering in genome assembly, telescope observation scheduling, last-mile delivery — all are TSP or variants. On the heuristic side, LKH uses variable-depth edge exchanges and routinely lands within 1% of optimal on million-node instances.</p>
+</div>
+<div class="section">
+<div class="label">One line · a question</div>
+<div class="think"><strong>A discrete space offers no gradient to follow — that is the root difficulty of combinatorial optimization, and every algorithm improvises a "direction" in its place.</strong><br/>Consider: a neural network trains fine with a billion parameters, while TSP explodes at twenty cities. Is the difference dimensionality, or whether local information points anywhere globally useful?</div>
+</div>
+</div>
+<!-- Concept 2: approximation -->
+<div class="card">
+<h2>Approximation Algorithms</h2>
+<div class="en-name">Putting a provable price tag on "close enough"</div>
+<span class="tag">Algorithm Design</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>If the optimum is out of reach, retreat one step: can you guarantee "my answer is never worse than 1.5× optimal," <strong>on every input</strong>? This differs from a heuristic in kind, not degree — a heuristic is "usually fine," an approximation algorithm is <em>a promise with a proof</em>.</p>
+<p>The difficulty is a paradox: you do not know $\mathrm{OPT}$, so how can you prove you are near it? The way out is <strong>a computable lower bound</strong>. In TSP, deleting one edge from any tour leaves a spanning tree, so the minimum spanning tree is $\le \mathrm{OPT}$; it then suffices to prove "mine $\le c\times$ bound $\le c\times\mathrm{OPT}$." <strong>The whole field is, at bottom, the craft of constructing good lower bounds.</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#3a6088" stroke-width="1.4" x1="20" x2="340" y1="60" y2="60"></line>
+<text fill="#5a7090" font-size="9.5" x="20" y="22">approximable ←</text>
+<text fill="#5a7090" font-size="9.5" text-anchor="end" x="340" y="22">→ hopeless</text>
+<g fill="#1e3a5f" font-size="10" text-anchor="middle">
+<circle cx="55" cy="60" fill="#3a6088" r="4.5"></circle><text x="55" y="80">1+ε</text><text fill="#5a7090" font-size="9" x="55" y="96">knapsack</text>
+<circle cx="140" cy="60" fill="#3a6088" r="4.5"></circle><text x="140" y="80">3/2</text><text fill="#5a7090" font-size="9" x="140" y="96">metric TSP</text>
+<circle cx="225" cy="60" fill="#c9a96b" r="4.5"></circle><text x="225" y="80">ln n</text><text fill="#5a7090" font-size="9" x="225" y="96">set cover</text>
+<circle cx="310" cy="60" fill="#c9544a" r="4.5"></circle><text x="310" y="80">n^(1-ε)</text><text fill="#5a7090" font-size="9" x="310" y="96">max clique</text>
+</g>
+<text fill="#c9544a" font-size="9.5" font-style="italic" text-anchor="middle" x="180" y="122">each position is a theorem: an algorithmic upper bound and a PCP hardness lower bound</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$\rho\text{-approximation}:\quad \frac{\mathrm{ALG}(I)}{\mathrm{OPT}(I)} \le \rho \quad \text{for every instance } I$$</div>
+<p>$\mathrm{ALG}(I)$ is what the algorithm returns on instance $I$, $\mathrm{OPT}(I)$ is the true optimum, and $\rho$ does not depend on the instance. Christofides' algorithm — <em>a minimum spanning tree plus a minimum perfect matching on the odd-degree vertices</em> — gives $\rho=3/2$ for TSP with the triangle inequality. That 1976 record stood until 2020, when it was nudged to $3/2-10^{-36}$: numerically negligible, but proof that $3/2$ is not a wall.</p>
+</div>
+<div class="section">
+<div class="label">Why it's beautiful</div>
+<p>Approximation unfolds the <em>binary</em> P vs NP question into a continuous spectrum: not "can it be solved efficiently" but "how closely can it be approached efficiently." Better still, the spectrum has provable hard edges — the <strong>PCP theorem</strong> shows that unless P=NP, the $\ln n$ for set cover is already optimal and max clique resists even $n^{1-\varepsilon}$. <strong>"How hard" stops being a complaint and becomes a quantity you can compute.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Greedy $\ln n$ set cover is the skeleton of data subset selection and test-suite minimization; LP relaxation with randomized rounding is the standard recipe for cloud scheduling and budget allocation. The most direct link to machine learning: maximizing a submodular function under a matroid constraint carries a $1-1/e$ greedy guarantee (Nemhauser et al., 1978), used for sensor placement, dataset distillation, and few-shot exemplar selection — <strong>"pick a diverse, representative subset" almost always takes this form</strong>.</p>
+</div>
+<div class="section">
+<div class="label">One line · a question</div>
+<div class="think"><strong>When you cannot have the optimum, ask for provable nearness — and how near you can get is itself a theorem.</strong><br/>Consider: engineering runs on heuristics with no guarantees and they often measure well. When is a provable guarantee worth paying for, and when is it merely theoretical fastidiousness?</div>
+</div>
+</div>
+<!-- Concept 3: matching -->
+<div class="card">
+<h2>Matching Theory</h2>
+<div class="en-name">Where the notion of "polynomial time" was born</div>
+<span class="tag">Graph Theory</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Tasks on one side, workers on the other, an edge meaning "can do it"; find the largest set of disjoint pairs. Greedy gets stuck: a pair taken early can block two pairs later.</p>
+<p>The fix is the <strong>augmenting path</strong>: start from an unmatched vertex and alternate unmatched edge, matched edge, unmatched edge…; if you end at another unmatched vertex, <em>flip every edge along the path</em> — matched ones release, unmatched ones connect. The path holds one fewer matched edge than unmatched, so flipping raises the total by exactly $+1$. The elegance: <strong>it dismantles your earlier mistakes automatically, with no backtracking.</strong> Berge's theorem goes further — a matching is maximum $\iff$ no augmenting path exists. Global optimality compresses into a locally checkable condition.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 300 175" xmlns="http://www.w3.org/2000/svg">
+<g stroke="#c8d0dc" stroke-width="1"><line x1="70" x2="200" y1="30" y2="65"></line><line x1="70" x2="200" y1="100" y2="65"></line><line x1="70" x2="200" y1="135" y2="135"></line></g>
+<g stroke="#1e3a5f" stroke-width="2.6"><line x1="70" x2="200" y1="30" y2="30"></line><line x1="70" x2="200" y1="100" y2="65"></line><line x1="70" x2="200" y1="135" y2="100"></line></g>
+<g stroke="#c9544a" stroke-dasharray="4,3" stroke-width="2"><line x1="70" x2="200" y1="65" y2="30"></line><line x1="70" x2="200" y1="30" y2="65"></line><line x1="70" x2="200" y1="100" y2="100"></line><line x1="70" x2="200" y1="135" y2="135"></line></g>
+<g fill="#1e3a5f"><circle cx="70" cy="30" r="6"></circle><circle cx="70" cy="100" r="6"></circle><circle cx="70" cy="135" r="6"></circle><circle cx="200" cy="30" r="6"></circle><circle cx="200" cy="65" r="6"></circle><circle cx="200" cy="100" r="6"></circle></g>
+<g fill="#fff" stroke="#c9544a" stroke-width="2.4"><circle cx="70" cy="65" r="6"></circle><circle cx="200" cy="135" r="6"></circle></g>
+<text fill="#c9544a" font-size="10" text-anchor="end" x="58" y="69">free</text>
+<text fill="#c9544a" font-size="10" x="212" y="139">free</text>
+<text fill="#1e3a5f" font-size="10" text-anchor="middle" x="135" y="14">bold blue = current matching; red dashed = augmenting path</text>
+<text fill="#3a6088" font-size="10" font-style="italic" text-anchor="middle" x="135" y="168">flip the whole path → matching size 3 → 4</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$\text{König: } \max_{M}|M| = \min_{C}|C| \qquad \text{Hall: } \exists\,\text{perfect matching} \iff \forall S\subseteq L,\ |N(S)|\ge|S|$$</div>
+<p>On the left $M$ ranges over all matchings and $C$ over all <em>vertex covers</em> (vertex sets touching every edge): the maximum matching equals the minimum cover. That is <strong>duality</strong> — the answer to "how many pairs at most" is simultaneously the proof of "why not more." On the right $N(S)$ is the neighborhood of $S$: a perfect matching fails exactly when some subset has too few candidates. <strong>The bottleneck is always a specific subset, never some mystical global congestion.</strong></p>
+</div>
+<div class="section">
+<div class="label">Why it's beautiful</div>
+<p>In general graphs augmenting paths break down: an odd cycle lets the alternating walk fold back on itself. Edmonds' 1965 answer was the <strong>blossom — contract the entire odd cycle to a single vertex</strong>, keep searching in the contracted graph, expand afterward. In that same paper he first argued that a "good algorithm" should mean one whose running time grows <em>polynomially</em>. The definition of P, the central class of complexity theory, comes from a paper about how to pair things up.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>The US kidney paired-exchange program (UNOS) saves lives with maximum-weight matching; residency assignment, real-time ad allocation (online bipartite matching's RANKING algorithm has competitive ratio $1-1/e$), and data association in object tracking all run the same machinery. And <strong>optimal transport</strong> is precisely the continuous relaxation of matching; Sinkhorn iteration makes it differentiable, which is why it now appears in diffusion models and domain adaptation.</p>
+</div>
+<div class="section">
+<div class="label">One line · a question</div>
+<div class="think"><strong>Maximum matching is solvable in polynomial time because its optimality is fully characterized by a local object — the absence of an augmenting path.</strong><br/>Consider: "no augmenting path $\Rightarrow$ globally optimal" is a leap from local to global; in gradient descent "zero gradient $\Rightarrow$ global optimum" holds only under convexity. Where is the "convexity" of matching hiding?</div>
+</div>
+</div>
+<!-- Concept 4: matroids -->
+<div class="card">
+<h2>Matroids</h2>
+<div class="en-name">The complete answer to why greedy algorithms work</div>
+<span class="tag">Combinatorial Structure</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Greedy — always take what looks best right now, never reconsider — is sometimes astonishingly right (Kruskal's minimum spanning tree) and sometimes catastrophically wrong (nearest-neighbor TSP). When exactly is greedy correct? Matroids answer this completely.</p>
+<p>Start from a coincidence: "linearly independent sets of vectors" in linear algebra and "acyclic edge sets (forests)" in graph theory behave identically. First, subsets stay independent. Second, <strong>whenever two independent sets differ in size, some element of the larger can be added to the smaller while keeping it independent</strong>. Take those two as axioms and you have a matroid. The second is the crux: it guarantees that wherever you start, you never reach a dead end where the set is not yet maximum but nothing can be added.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 360 150" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#f0f4f9" height="70" rx="6" stroke="#3a6088" stroke-width="1.2" width="110" x="15" y="35"></rect>
+<text fill="#3a6088" font-size="11" font-style="italic" x="20" y="28">A (smaller independent set)</text>
+<g fill="#1e3a5f"><circle cx="45" cy="70" r="6"></circle><circle cx="70" cy="70" r="6"></circle></g>
+<rect fill="#fbfaf3" height="70" rx="6" stroke="#c9a96b" stroke-width="1.2" width="130" x="215" y="35"></rect>
+<text fill="#8a7340" font-size="11" font-style="italic" x="220" y="28">B (larger independent set)</text>
+<g fill="#1e3a5f"><circle cx="245" cy="70" r="6"></circle><circle cx="270" cy="70" r="6"></circle><circle cx="320" cy="70" r="6"></circle></g>
+<circle cx="295" cy="70" fill="#c9544a" r="6"></circle>
+<path d="M 288 88 Q 190 130 100 88" fill="none" marker-end="url(#ar)" stroke="#c9544a" stroke-width="1.6"></path>
+<defs><marker id="ar" markerHeight="6" markerWidth="6" orient="auto" refX="5" refY="3"><path d="M0,0 L6,3 L0,6 z" fill="#c9544a"></path></marker></defs>
+<text fill="#c9544a" font-size="10.5" font-style="italic" text-anchor="middle" x="185" y="145">exchange axiom: some e ∈ B∖A keeps A+e independent ⟹ greedy never stalls</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$A,B\in\mathcal{I},\ |A|<|B| \ \Longrightarrow\ \exists\, e\in B\setminus A,\ A\cup\{e\}\in\mathcal{I}$$</div>
+<p>A matroid is a pair $(E,\mathcal{I})$: $E$ is a finite ground set (all edges, all vectors) and $\mathcal{I}$ is a family of subsets called independent, containing the empty set, closed under taking subsets, and satisfying the <strong>exchange axiom</strong> above. An immediate consequence: all maximal independent sets have the same size, and that common size is the <em>rank</em> — the rank of a matrix in a vector space, the number of edges in a spanning forest in a graph.</p>
+</div>
+<div class="section">
+<div class="label">Why it's beautiful</div>
+<p>The Rado–Edmonds theorem: <strong>greedy returns the optimum for every weight function if and only if the structure is a matroid.</strong> This is an exact "if and only if," not folklore about greedy usually working — mathematics rarely gets to fence off the applicability of an entire class of algorithms in one stroke. The line extends: the <em>intersection</em> of two matroids is still polynomially solvable (bipartite matching is exactly the intersection of two partition matroids), while three is NP-hard. The watershed sits between two and three.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Kruskal's algorithm is simply greedy on a graphic matroid; single-machine scheduling with deadlines and network reliability live in the same framework; linear codes in coding theory correspond to vector matroids. In machine learning, <strong>submodular functions generalize matroid rank functions</strong>: data subset selection, active learning, recommendation diversity, and in-context exemplar choice are nearly all "maximize a submodular function under a matroid constraint" — the $1-1/e$ from Concept 2 grows out of exactly this structure.</p>
+</div>
+<div class="section">
+<div class="label">One line · a question</div>
+<div class="think"><strong>Greedy working is not luck; it is a direct consequence of one combinatorial law, the exchange axiom — structure first, algorithm after.</strong><br/>Consider: if your problem carries some "locally exchangeable" structure, does that mean the simplest algorithm already suffices? Conversely, are hard problems always the places where exchangeability breaks?</div>
+</div>
+</div>
+<h3 class="deep">Going deeper</h3>
+<details>
+<summary>Spanning trees are easy and TSP is hard — don't they differ by only a "return to start" constraint?</summary>
+<div>The difference lies in the combinatorial structure of the feasible set. Spanning trees live inside forests, which form a matroid: subsets stay forests, the exchange axiom holds, greedy is immediately optimal. Hamiltonian cycles lack even downward closure — delete one edge and it is no longer a cycle, so "partial solution" does not exist and you cannot tell along the way whether you are still on track. <strong>Difficulty is decided by the structure of the constraints, not the length of the problem statement.</strong> A practical instinct: on a new problem, first ask whether the feasible set is closed under taking subsets.</div>
+</details>
+<details>
+<summary>What is the PCP theorem actually saying about hardness of approximation?</summary>
+<div>It says every NP proof can be rewritten in a format where a verifier reads a constant number of random bits and decides correctly with high probability. That rewriting <em>amplifies</em> the difference between "correct" and "incorrect" into a constant-fraction gap. So the hard part is no longer only finding a solution but <strong>even distinguishing "a very good solution exists" from "every solution is bad."</strong> Its worldview consequence: some limits are not our failure to be clever, they are provable structural facts.</div>
+</details>
+<details>
+<summary>Can deep learning actually replace combinatorial solvers?</summary>
+<div>Two realistic paths exist. One relaxes the discrete into the continuous: Gumbel-softmax, optimal transport, and differentiable sorting let gradients pass through combinatorial structure, at the cost of approximate answers with no optimality certificate. The other is <strong>learning the solver's internal decisions</strong> — graph neural networks selecting branching variables or predicting the value of cutting planes, a layer already shipping in commercial solvers. But end-to-end networks still rarely beat Concorde or CPLEX on large exact instances: the real gain is in learning to accelerate search, not in learning to replace it.</div>
+</details>
+<details>
+<summary>Which framework fits scheduling and placement in distributed systems?</summary>
+<div>Replica placement, task scheduling, and shard assignment are all constrained combinatorial optimization on paper, but carry two conditions offline theory lacks: the objective drifts over time, and decisions are made with incomplete information. An approximation ratio against the offline optimum then means little, because that optimum is itself unreachable. The right frame is <strong>the competitive ratio of online algorithms</strong>: compare against a hindsight-optimal solution and accept a constant-factor gap (online bipartite matching's $1-1/e$ has exactly this shape). <strong>Knowing when to switch frameworks is usually worth more than optimizing inside the old one.</strong></div>
+</details>
+</div>
+</body>
+</html>
