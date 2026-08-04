@@ -53,12 +53,12 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="container">
 <header>
 <div class="kicker">Day 43 · 2026.08.04</div>
-<h1>组合优化</h1>
+<h1 data-tts="b23bb58af4d19340">组合优化</h1>
 <div class="meta">Combinatorial Optimization — 在指数大的离散空间里，找到那唯一最好的一个</div>
 <div class="epigraph">「我主张，作为一个数学结果：存在一个求最大匹配的<em>好</em>算法。」 — Jack Edmonds, 1965（「好算法 = 多项式时间」这个定义，就诞生在这篇讲匹配的论文里）</div>
 </header>
 <!-- 概念 1：旅行商问题 -->
-<div class="card">
+<div class="card" data-tts="95288e3aa1e9af40">
 <h2>旅行商问题</h2>
 <div class="en-name">The Traveling Salesman Problem · 组合爆炸的标准样本</div>
 <span class="tag">NP-Hard</span>
@@ -101,7 +101,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 </div>
 </div>
 <!-- 概念 2：近似算法 -->
-<div class="card">
+<div class="card" data-tts="203b9618888c5566">
 <h2>近似算法</h2>
 <div class="en-name">Approximation Algorithms · 给「接近」标一个可证明的价码</div>
 <span class="tag">Algorithm Design</span>
@@ -143,7 +143,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 </div>
 </div>
 <!-- 概念 3：匹配理论 -->
-<div class="card">
+<div class="card" data-tts="a94f1bd2474360e6">
 <h2>匹配理论</h2>
 <div class="en-name">Matching Theory · 「多项式时间」这个概念的诞生地</div>
 <span class="tag">Graph Theory</span>
@@ -184,7 +184,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 </div>
 </div>
 <!-- 概念 4：拟阵 -->
-<div class="card">
+<div class="card" data-tts="c869198c45b8626e">
 <h2>拟阵</h2>
 <div class="en-name">Matroid · 贪心算法为何有效的完整答案</div>
 <span class="tag">Combinatorial Structure</span>
@@ -203,13 +203,13 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <g fill="#1e3a5f"><circle cx="245" cy="70" r="6"></circle><circle cx="270" cy="70" r="6"></circle><circle cx="320" cy="70" r="6"></circle></g>
 <circle cx="295" cy="70" fill="#c9544a" r="6"></circle>
 <path d="M 288 88 Q 190 130 100 88" fill="none" marker-end="url(#ar)" stroke="#c9544a" stroke-width="1.6"></path>
-<defs><marker id="ar" markerHeight="6" markerWidth="6" orient="auto" refX="5" refY="3"><path d="M0,0 L6,3 L0,6 z" fill="#c9544a"></path></marker></defs>
+<defs><marker id="ar" markerheight="6" markerwidth="6" orient="auto" refx="5" refy="3"><path d="M0,0 L6,3 L0,6 z" fill="#c9544a"></path></marker></defs>
 <text fill="#c9544a" font-size="10.5" font-style="italic" text-anchor="middle" x="185" y="145">交换公理：总存在 e ∈ B∖A 使 A+e 仍无关 ⟹ 贪心不会卡死</text>
 </svg>
 </div>
 <div class="section">
 <div class="label">正式定义</div>
-<div class="formula-box">$$A,B\in\mathcal{I},\ |A|<|B| \ \Longrightarrow\ \exists\, e\in B\setminus A,\ A\cup\{e\}\in\mathcal{I}$$</div>
+<div class="formula-box">$$A,B\in\mathcal{I},\ |A|&lt;|B| \ \Longrightarrow\ \exists\, e\in B\setminus A,\ A\cup\{e\}\in\mathcal{I}$$</div>
 <p>拟阵是一对 $(E,\mathcal{I})$：$E$ 是有限地面集（所有边、所有向量），$\mathcal{I}$ 是称作「无关集」的子集族，满足空集属于 $\mathcal{I}$、对取子集封闭，以及上式这条<strong>交换公理</strong>。直接推论是：所有极大无关集等大，这个公共大小就是<em>秩</em>——在向量空间里它是矩阵的秩，在图里是生成森林的边数。</p>
 </div>
 <div class="section">
@@ -225,7 +225,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="think"><strong>贪心可行不是运气，而是「交换公理」这条组合律的直接后果——先验结构，后得算法。</strong><br/>思考：若你的问题存在某种「局部可交换」结构，是否意味着最简单的算法就已足够？反过来，难问题是否都可理解为交换性被破坏之处？</div>
 </div>
 </div>
-<h3 class="deep">深入思考</h3>
+<h3 class="deep" data-tts="edfc7fe02fa0e479">深入思考</h3>
 <details>
 <summary>最小生成树容易、旅行商困难——两者不是只差一个「回路」约束吗？</summary>
 <div>差别在可行集的组合结构。生成树的可行集是森林，构成拟阵：子集仍是森林，交换公理成立，贪心直接最优。哈密顿回路却连下闭性都没有——去掉一条边就不再是回路，「部分解」根本不存在，你无法边走边判断自己是否还在正轨上。<strong>决定难度的是约束的组合结构，而非问题描述的长短。</strong>实用直觉：拿到新问题先问「可行集对取子集封闭吗」。</div>
