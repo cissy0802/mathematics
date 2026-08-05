@@ -53,13 +53,12 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="container">
 <header>
 <div class="kicker">Day 44 · 2026.08.05</div>
-<h1>泛函分析</h1>
+<h1 data-tts="19393b7cfb69af75">泛函分析</h1>
 <div class="meta">Functional Analysis — 当一个「向量」有无穷多个坐标，几何还剩下什么</div>
 <div class="epigraph">「好的数学家看得见定理之间的类比，最好的数学家看得见类比之间的类比。」 — Stefan Banach</div>
 </header>
-
 <!-- 概念 1：无穷维空间 -->
-<div class="card">
+<div class="card" data-tts="2af7f300a7d8e906">
 <h2>函数即向量</h2>
 <div class="en-name">Function Spaces · 把分析问题搬进几何</div>
 <span class="tag">Analysis</span>
@@ -86,9 +85,8 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="think"><strong>函数空间把「求解方程」变成了「在几何空间里定位一个点」。</strong><br/>思考：单位球不紧使「取收敛子列」失效，补偿是发明更弱的收敛来换回紧致性。你熟悉的工程问题里，是否也有「放宽判据以换回保证」的同构操作？</div>
 </div>
 </div>
-
 <!-- 概念 2：Hilbert 空间 -->
-<div class="card">
+<div class="card" data-tts="49efbbc57280be38">
 <h2>Hilbert 空间</h2>
 <div class="en-name">Hilbert Space · 内积把角度还给了无穷维</div>
 <span class="tag">Geometry</span>
@@ -138,9 +136,8 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="think"><strong>内积把「最优逼近」这个分析问题，化归为「作垂线」这个几何动作。</strong><br/>思考：为什么「残差与子空间正交」等价于「误差最小」？若残差还有落在子空间里的分量，你能否指出该怎样改进当前解？</div>
 </div>
 </div>
-
 <!-- 概念 3：算子与谱 -->
-<div class="card">
+<div class="card" data-tts="da1ac0d9f426da9f">
 <h2>算子与谱</h2>
 <div class="en-name">Operators and Spectrum · 特征值在无穷维的命运</div>
 <span class="tag">Operator Theory</span>
@@ -188,9 +185,8 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="think"><strong>谱是算子的指纹——它可能连续、可能没有对应的特征向量，却仍完全决定算子的行为。</strong><br/>思考：Kac 问「能否听出鼓的形状」——答案是否定的，存在同谱而不同形的鼓面。那么这枚指纹丢失的究竟是哪部分信息？</div>
 </div>
 </div>
-
 <!-- 概念 4：量子力学的数学 -->
-<div class="card">
+<div class="card" data-tts="517bcbb949451285">
 <h2>量子力学的数学</h2>
 <div class="en-name">The Mathematics of Quantum Mechanics · 冯·诺依曼的公理化</div>
 <span class="tag">Mathematical Physics</span>
@@ -224,8 +220,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="think"><strong>量子力学不是「用到了数学」，它的公理本身就是自伴算子的谱理论。</strong><br/>思考：若一个物理量的算子谱连续，「测得某个精确值」的概率严格为零。那实验室里读出的数字是什么——「测量」指的是否其实是谱区间，而非谱点？</div>
 </div>
 </div>
-
-<h3 class="deep">深入思考</h3>
+<h3 class="deep" data-tts="4e504f99f43ae25a">深入思考</h3>
 <details>
 <summary>为什么在所有 $L^p$ 里偏偏 $L^2$ 特殊？</summary>
 <div>只有 $p=2$ 时范数由内积诱导，因此只有 $L^2$ 是 Hilbert 空间，只有它有角度、正交基与投影定理。这解释了统计学上一个常被当成惯例的选择：最小二乘之所以主导，不是因为平方误差更「正确」，而是因为它把估计变成投影，从而有闭式解。改用 $L^1$（LASSO、分位数回归）便失去投影结构，换来稀疏与稳健，代价是只能迭代求解。<strong>选损失函数，实际上是在选一套几何。</strong></div>
