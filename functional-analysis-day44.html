@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>泛函分析 · Day 44 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 16px;text-align:center;font-style:italic;letter-spacing:1px}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 44 · 2026.08.05</div>
+<h1>泛函分析</h1>
+<div class="meta">Functional Analysis — 当一个「向量」有无穷多个坐标，几何还剩下什么</div>
+<div class="epigraph">「好的数学家看得见定理之间的类比，最好的数学家看得见类比之间的类比。」 — Stefan Banach</div>
+</header>
+
+<!-- 概念 1：无穷维空间 -->
+<div class="card">
+<h2>函数即向量</h2>
+<div class="en-name">Function Spaces · 把分析问题搬进几何</div>
+<span class="tag">Analysis</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>向量 $(3,1,4)$ 是三个数排成一列。把它拉长到 100 万个坐标，再把下标从整数换成实数 $x$，得到的就是函数 $f(x)$：<strong>函数就是坐标连续排布的向量</strong>。加法与数乘的规则一字不改，于是「两个函数的距离」「一族函数张成的子空间」都有了意义——把函数、信号、方程的解当成空间里的点用几何处理，这就是泛函分析的原始动作。</p>
+<p>但无穷维不是有限维的放大版：有限维里闭且有界即紧致，无穷维的单位球<strong>不紧</strong>——取正交归一列 $e_n$，两两距离恒为 $\sqrt{2}$，永远游荡而无收敛子列。支撑整个有限维分析的存在性工具在此失效。</p>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p><strong>Banach 空间</strong> = 完备的赋范线性空间。范数 $\|\cdot\|$ 给每个向量一个「长度」并满足三角不等式；<strong>完备</strong>指每个 Cauchy 列都在空间内收敛——空间没有洞。典型例子 $L^2[0,1]$：所有平方可积函数，$\|f\|_2=\left(\int_0^1|f|^2\right)^{1/2}$。</p>
+<p>完备性不是技术细节：构造对象几乎总是先造一列越来越好的逼近再取极限，完备性保证<strong>那个极限还在空间里</strong>——正如有理数不完备，$\sqrt{2}$ 便不在其中。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>完备性把「存在性」变成可施工的东西。Banach 不动点定理：完备空间上任何压缩映射有唯一不动点，从任意起点迭代必收敛到它。于是常微分方程解的存在唯一性（Picard–Lindelöf）不必解出公式——把方程改写成积分算子，验证它是压缩的，解就存在了。<strong>存在性由空间的结构给出，而不是靠找出答案：先问对象住在哪个空间，再问它长什么样。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>Sobolev 空间是偏微分方程「弱解」的居所：先在足够大的空间里保证解存在，再回头证明它其实光滑；有限元法把这套框架直接变成了工程数值算法。机器学习的再生核 Hilbert 空间让核方法在无穷维特征空间里做回归，却始终不必显式写出特征。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>函数空间把「求解方程」变成了「在几何空间里定位一个点」。</strong><br/>思考：单位球不紧使「取收敛子列」失效，补偿是发明更弱的收敛来换回紧致性。你熟悉的工程问题里，是否也有「放宽判据以换回保证」的同构操作？</div>
+</div>
+</div>
+
+<!-- 概念 2：Hilbert 空间 -->
+<div class="card">
+<h2>Hilbert 空间</h2>
+<div class="en-name">Hilbert Space · 内积把角度还给了无穷维</div>
+<span class="tag">Geometry</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>Banach 空间只有长度没有角度——你能说两个函数相距多远，却不能说它们的夹角。加上<strong>内积</strong> $\langle f,g\rangle=\int f\bar g$，「垂直」立刻有了意义：正交即内积为零，即两个函数互不包含对方的成分。</p>
+<p>有了正交就有了<strong>投影</strong>：把函数向某个闭子空间投影，得到其中离它最近的点，残差与整个子空间垂直。这幅三维里画得出来的图在无穷维一字不变地成立——而它同时就是最小二乘、傅里叶级数、条件期望这三件事的定理。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+<!-- 子空间平面 -->
+<path d="M 40 150 L 250 150 L 350 105 L 140 105 z" fill="#e6ecf3" fill-opacity="0.85" stroke="#3a6088" stroke-width="1"></path>
+<text fill="#3a6088" font-size="11" font-style="italic" x="290" y="145">闭子空间 M</text>
+<!-- 向量 f -->
+<line stroke="#c9544a" stroke-width="2" x1="150" x2="215" y1="140" y2="40"></line>
+<polygon fill="#c9544a" points="215,40 209,52 219,53"></polygon>
+<text fill="#c9544a" font-size="13" font-style="italic" x="220" y="38">f</text>
+<!-- 投影 Pf -->
+<line stroke="#1e3a5f" stroke-width="2" x1="150" x2="245" y1="140" y2="126"></line>
+<polygon fill="#1e3a5f" points="245,126 234,122 235,131"></polygon>
+<text fill="#1e3a5f" font-size="13" font-style="italic" x="250" y="132">Pf</text>
+<!-- 残差 -->
+<line stroke="#8a7340" stroke-dasharray="4 3" stroke-width="1.6" x1="215" x2="245" y1="40" y2="126"></line>
+<text fill="#8a7340" font-size="11" font-style="italic" x="248" y="85">f − Pf ⊥ M</text>
+<!-- 直角标记 -->
+<path d="M 236 122 L 230 124 L 232 131" fill="none" stroke="#8a7340" stroke-width="1.2"></path>
+<circle cx="150" cy="140" fill="#1e3a5f" r="3"></circle>
+<text fill="#5a7090" font-size="10.5" text-anchor="middle" x="200" y="188">最优逼近 = 作垂线：残差正交于整个子空间</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p><strong>投影定理</strong>：设 $M$ 是 Hilbert 空间的闭子空间，则任意 $f$ 有唯一分解 $f=Pf+(f-Pf)$，其中 $Pf\in M$ 且 $f-Pf\perp M$；$Pf$ 是 $M$ 中唯一使 $\|f-g\|$ 最小的 $g$。若 $\{e_n\}$ 是 $M$ 的正交归一基：</p>
+<div class="formula-box">$$Pf=\sum_n \langle f,e_n\rangle\, e_n,\qquad \|f\|^2=\sum_n |\langle f,e_n\rangle|^2$$</div>
+<p>符号含义：$\langle f,e_n\rangle$ 是 $f$ 投影到轴 $e_n$ 上的长度，求和即把各方向分量拼回来。右式是 <strong>Parseval 恒等式</strong>——无穷维的勾股定理：长度平方等于各坐标平方之和。取 $e_n(x)=e^{2\pi i n x}$，展开式就是傅里叶级数；傅里叶不是一个技巧，是<strong>换一组正交基</strong>。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>三件表面上毫无关系的事其实是同一句话。线性回归的残差正交于设计矩阵的列空间；信号分解成频率分量是同一组正交基上的投影；条件期望 $E[X\mid\mathcal G]$ 是 $X$ 在「$\mathcal G$-可测函数」这个闭子空间上的投影，塔性质 $E[E[X\mid\mathcal G]]=E[X]$ 不过是「投影两次等于投影一次」。<strong>这不是修辞式的类比，它们共用同一条定理的同一个证明。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>最小二乘的正规方程直接来自投影；卡尔曼滤波的每步更新就是把新观测投影到已有信息张成的子空间上；PCA 和一切「取前 $k$ 个分量」的压缩，误差由 Parseval 精确给出——等于丢掉那些系数的平方和，取舍因此可算而非凭感觉。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>内积把「最优逼近」这个分析问题，化归为「作垂线」这个几何动作。</strong><br/>思考：为什么「残差与子空间正交」等价于「误差最小」？若残差还有落在子空间里的分量，你能否指出该怎样改进当前解？</div>
+</div>
+</div>
+
+<!-- 概念 3：算子与谱 -->
+<div class="card">
+<h2>算子与谱</h2>
+<div class="en-name">Operators and Spectrum · 特征值在无穷维的命运</div>
+<span class="tag">Operator Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>有限维里矩阵作用在向量上，无穷维里<strong>算子</strong>作用在函数上——求导 $Df=f'$、乘以 $x$、卷积都是算子。特征值问题原样搬来：哪些函数被作用后只是被拉伸了一个倍数？$-f''=\lambda f$ 的解是正弦，所以<strong>振动模态就是微分算子的特征向量</strong>——琴弦、鼓面、量子阱因此共用同一套数学。</p>
+<p>但无穷维长出新现象：算子可以完全没有特征向量，却依然不可逆。于是定义放宽为谱 $\sigma(T)=\{\lambda: T-\lambda I\ \text{不可逆}\}$。位置算子 $(Xf)(x)=xf(x)$ 在 $L^2[0,1]$ 上谱是整个 $[0,1]$，却一个特征函数都没有——$xf=\lambda f$ 迫使 $f$ 几乎处处为零。<strong>连续谱不是特征值的推广，而是它的替代品。</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 130" xmlns="http://www.w3.org/2000/svg">
+<text fill="#3a6088" font-size="11" font-style="italic" x="14" y="20">有限维矩阵：谱 = 有限个特征值</text>
+<line stroke="#888" stroke-width="1" x1="20" x2="380" y1="40" y2="40"></line>
+<circle cx="70" cy="40" fill="#1e3a5f" r="4"></circle>
+<circle cx="140" cy="40" fill="#1e3a5f" r="4"></circle>
+<circle cx="200" cy="40" fill="#1e3a5f" r="4"></circle>
+<circle cx="300" cy="40" fill="#1e3a5f" r="4"></circle>
+<text fill="#3a6088" font-size="11" font-style="italic" x="14" y="82">无穷维自伴算子：离散谱 + 连续谱</text>
+<line stroke="#888" stroke-width="1" x1="20" x2="380" y1="102" y2="102"></line>
+<circle cx="60" cy="102" fill="#1e3a5f" r="4"></circle>
+<circle cx="110" cy="102" fill="#1e3a5f" r="3.4"></circle>
+<circle cx="145" cy="102" fill="#1e3a5f" r="2.8"></circle>
+<circle cx="168" cy="102" fill="#1e3a5f" r="2.2"></circle>
+<circle cx="182" cy="102" fill="#1e3a5f" r="1.7"></circle>
+<rect fill="#c9544a" fill-opacity="0.45" height="9" stroke="#c9544a" stroke-width="0.8" width="130" x="240" y="97.5"></rect>
+<text fill="#1e3a5f" font-size="10" text-anchor="middle" x="120" y="122">束缚态：能级离散</text>
+<text fill="#c9544a" font-size="10" text-anchor="middle" x="305" y="122">散射态：能量连续</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p><strong>自伴</strong>指 $\langle Tf,g\rangle=\langle f,Tg\rangle$——把算子从内积一侧挪到另一侧不改变结果，是对称矩阵 $A=A^{\top}$ 的无穷维版本。<strong>谱定理</strong>：自伴算子可写成</p>
+<div class="formula-box">$$T=\int_{\sigma(T)} \lambda\, dE_\lambda$$</div>
+<p>其中 $E_\lambda$ 是投影值测度，把每段谱区间对应到一个投影算子。读法：有限维的对角化是 $T=\sum\lambda_i P_i$，按特征值加权求和各特征方向上的投影；无穷维只是把求和换成对谱的积分，因为谱可能连成一片、没有可数的特征方向。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>谱定理一句话概括了无穷维分析的哲学：<strong>一条代数性质（自伴）强制出一整套几何结构（可对角化），哪怕特征向量根本不存在。</strong>另一处深刻来自无界算子，它逼出了「定义域」——算子不只是一个公式，还包括它作用在哪些函数上。同一个 $-d^2/dx^2$ 配不同边界条件就是不同算子，谱也不同：盒中粒子能级离散、自由粒子能量连续，差别不在公式而在定义域。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>谱方法解 PDE：在特征函数基上展开后微分算子变成对角乘法，偏微分方程退化为一族独立的常微分方程——热方程的解 $\sum c_n e^{-\lambda_n t}\phi_n$ 一眼看出高频衰减最快。图拉普拉斯算子的谱支撑谱聚类与图神经网络的滤波器设计。Koopman 算子则把非线性动力系统重写成无穷维上的<strong>线性</strong>算子，用其谱做数据驱动预测。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>谱是算子的指纹——它可能连续、可能没有对应的特征向量，却仍完全决定算子的行为。</strong><br/>思考：Kac 问「能否听出鼓的形状」——答案是否定的，存在同谱而不同形的鼓面。那么这枚指纹丢失的究竟是哪部分信息？</div>
+</div>
+</div>
+
+<!-- 概念 4：量子力学的数学 -->
+<div class="card">
+<h2>量子力学的数学</h2>
+<div class="en-name">The Mathematics of Quantum Mechanics · 冯·诺依曼的公理化</div>
+<span class="tag">Mathematical Physics</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>1920 年代的量子力学有两套互相看不顺眼的形式：海森堡的矩阵力学与薛定谔的波动力学，算出的谱线却完全一致，谁也说不清为什么。冯·诺依曼 1932 年给出答案：两者是<strong>同一个 Hilbert 空间在不同正交基下的坐标表示</strong>，是同一个向量的两种写法。</p>
+<p>而最值得记住的是他那张字典，它把物理概念逐条翻译成算子理论的对象：</p>
+<ul>
+<li>状态 = Hilbert 空间中的单位向量 $\psi$</li>
+<li>可观测量 = 自伴算子 $A$（自伴 ⟹ 谱是实数 ⟹ 测量值是实数）</li>
+<li>可能的测量结果 = $A$ 的谱；测得某结果的概率 = 谱投影的长度平方 $\|E_\lambda\psi\|^2$</li>
+<li>期望值 = $\langle\psi,A\psi\rangle$；时间演化 = 幺正群 $U_t=e^{-iHt}$，由自伴的 $H$ 生成</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>不确定性原理的一般形式（Robertson）：</p>
+<div class="formula-box">$$\sigma_A\,\sigma_B \ \ge\ \tfrac{1}{2}\left|\langle\psi,[A,B]\psi\rangle\right|$$</div>
+<p>符号含义：$\sigma_A$ 是 $A$ 在状态 $\psi$ 上的标准差，即测量结果的分散程度；$[A,B]=AB-BA$ 是<strong>对易子</strong>，衡量两个操作换序后的差异，为零表示先做哪个都一样。整条不等式说的是：<strong>两个操作越不能换序，它们的测量值就越不能同时确定。</strong>代入 $[X,P]=i\hbar$ 立得 $\sigma_X\sigma_P\ge\hbar/2$。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>不确定性原理常被讲成「测量必然打扰粒子」的实验事实——但上式的推导只用了 Cauchy–Schwarz 不等式，没有任何物理假设：<strong>任何两个不对易的自伴算子都自动满足这条下界</strong>，这是一条数学定理伪装成的物理定律。同样地，「量子化」的字面意思就是谱的离散性——束缚态谱离散所以能级一级一级，自由粒子谱连续所以能量连成一片。<strong>物理里最反直觉的那部分，恰恰是算子谱结构的直接读数。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>量子计算完全运行在这张字典上：量子门是幺正算子，测量是投影，整套形式就是有限维 Hilbert 空间上的谱理论。量子化学的变分法把基态问题限制到有限维子空间上求最小 Rayleigh 商，本质是投影定理。Stone 定理（幺正群 ↔ 自伴生成元）的经典对应则是马尔可夫半群与其生成元。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>量子力学不是「用到了数学」，它的公理本身就是自伴算子的谱理论。</strong><br/>思考：若一个物理量的算子谱连续，「测得某个精确值」的概率严格为零。那实验室里读出的数字是什么——「测量」指的是否其实是谱区间，而非谱点？</div>
+</div>
+</div>
+
+<h3 class="deep">深入思考</h3>
+<details>
+<summary>为什么在所有 $L^p$ 里偏偏 $L^2$ 特殊？</summary>
+<div>只有 $p=2$ 时范数由内积诱导，因此只有 $L^2$ 是 Hilbert 空间，只有它有角度、正交基与投影定理。这解释了统计学上一个常被当成惯例的选择：最小二乘之所以主导，不是因为平方误差更「正确」，而是因为它把估计变成投影，从而有闭式解。改用 $L^1$（LASSO、分位数回归）便失去投影结构，换来稀疏与稳健，代价是只能迭代求解。<strong>选损失函数，实际上是在选一套几何。</strong></div>
+</details>
+<details>
+<summary>神经网络的万能逼近定理是泛函分析的结果吗？</summary>
+<div>是，但它给出的比人们以为的少得多。该定理断言单隐层网络在连续函数空间中<strong>稠密</strong>，只说「存在一个网络任意接近目标函数」；它对所需宽度不给有用的界，对如何找到那组权重完全沉默，更没有泛化保证。深度学习真正的难题在优化与泛化，稠密性不触及其中任何一个。<strong>把存在性误当成可达性，是最常见的误读。</strong></div>
+</details>
+<details>
+<summary>算子谱与分布式系统有什么真实联系？</summary>
+<div>马尔可夫链的转移矩阵是一个算子，其谱隙（最大与次大特征值之差）直接控制混合时间。这一结论一字不改地适用于 gossip 协议——图拉普拉斯的第二小特征值决定信息扩散到全网所需的轮数，所以选网络拓扑本质上是在挑一个谱。同一个量还解释了图神经网络的过平滑：反复聚合即反复作用同一算子，非主导谱分量按特征值的幂次衰减，节点表示最终坍缩到主特征向量。<strong>「收敛快慢」常常就是谱结构问题。</strong></div>
+</details>
+</div>
+</body>
+</html>
