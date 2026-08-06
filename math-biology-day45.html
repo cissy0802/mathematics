@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"/>
@@ -51,13 +52,12 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="container">
 <header>
 <div class="kicker">Day 45 · 2026.08.06</div>
-<h1>数学与生物</h1>
+<h1 data-tts="9f00a036dba61801">数学与生物</h1>
 <div class="meta">Mathematics &amp; Biology — 形态、族谱与折叠：活的系统里的方程</div>
 <div class="epigraph">「一个物体的形状，是一张力的图解。」 — D'Arcy Thompson，《On Growth and Form》</div>
 </header>
-
 <!-- 概念 1：种群动力学 -->
-<div class="card">
+<div class="card" data-tts="9945e817ebbd8424">
 <h2>种群动力学</h2>
 <div class="en-name">Population Dynamics · 为什么生态系统不停在平衡点上</div>
 <span class="tag">Dynamical Systems</span>
@@ -66,9 +66,9 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <p>兔子多，狐狸繁盛；狐狸多，兔子被吃光；兔子少，狐狸挨饿；狐狸少，兔子回升。回路<strong>不会停在平衡点上</strong>，因为每环反馈都滞后：狐狸此刻的数量由它此前吃到的兔子决定。<strong>带延迟的负反馈不产生静止，产生振荡。</strong></p>
 </div>
 <div class="viz">
-<svg viewBox="0 0 340 205" xmlns="http://www.w3.org/2000/svg">
+<svg viewbox="0 0 340 205" xmlns="http://www.w3.org/2000/svg">
 <defs>
-<marker id="ar1" markerHeight="8" markerWidth="8" orient="auto" refX="4" refY="3"><path d="M0,0 L6,3 L0,6 z" fill="#3a6088"></path></marker>
+<marker id="ar1" markerheight="8" markerwidth="8" orient="auto" refx="4" refy="3"><path d="M0,0 L6,3 L0,6 z" fill="#3a6088"></path></marker>
 </defs>
 <line stroke="#8fa0b8" stroke-width="1" x1="42" x2="325" y1="172" y2="172"></line>
 <line stroke="#8fa0b8" stroke-width="1" x1="42" x2="42" y1="172" y2="18"></line>
@@ -106,9 +106,8 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="think"><strong>种群不趋向平衡，是因为反馈需要时间；延迟的负反馈是振荡的通用配方。</strong><br/>思考：自适应限流同样是延迟负反馈。生态学花了一个世纪才明白「只减少捕食者」救不了猎物——控制系统里的对应教训是？</div>
 </div>
 </div>
-
 <!-- 概念 2：图灵斑图 -->
-<div class="card">
+<div class="card" data-tts="3473e11b1c81d4fc">
 <h2>图灵斑图</h2>
 <div class="en-name">Turing Patterns · 抹平差异的力量如何制造图案</div>
 <span class="tag">PDE · Morphogenesis</span>
@@ -118,7 +117,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <p>机制一句话说得清：激活剂促进自己也促进抑制剂，抑制剂压制激活剂，而抑制剂扩散得<strong>快得多</strong>。于是随机小凸起在原地被自我放大，同时把抑制信号远远撒出去压住邻近的凸起——<strong>局部激活 + 长程抑制</strong>，峰只能隔一定距离出现。</p>
 </div>
 <div class="viz">
-<svg viewBox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
+<svg viewbox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
 <line stroke="#8fa0b8" stroke-width="1" x1="18" x2="152" y1="72" y2="72"></line>
 <path d="M 20 72 C 32 72 36 26 52 26 C 68 26 72 72 84 96 C 94 114 116 106 136 82 C 143 74 148 72 152 72" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
 <text fill="#3a6088" font-size="10" x="30" y="20">局部激活</text>
@@ -163,9 +162,8 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="think"><strong>图案不必被画出来，它可以是均匀态失稳之后自己剩下的东西。</strong><br/>思考：若「哪里长什么」不写在基因组的任何坐标表里，而是浮现于动力学之中，「遗传信息」的边界该划在哪？</div>
 </div>
 </div>
-
 <!-- 概念 3：系统发育树 -->
-<div class="card">
+<div class="card" data-tts="28f3bf43b5c63400">
 <h2>系统发育树</h2>
 <div class="en-name">Phylogenetics · 从今天的叶子倒推昨天的分叉</div>
 <span class="tag">Combinatorics · Statistics</span>
@@ -174,7 +172,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <p>你手上只有今天活着的物种（或今天采到的病毒）的序列，要反推家谱：谁与谁最晚分家、分在多久以前。祖先没留下样本，只能从「表兄弟有多像」倒推。难处有两层：候选树的数量在爆炸，而且<strong>像不等于亲</strong>——独立演化的两支也可能碰巧相似。</p>
 </div>
 <div class="viz">
-<svg viewBox="0 0 340 165" xmlns="http://www.w3.org/2000/svg">
+<svg viewbox="0 0 340 165" xmlns="http://www.w3.org/2000/svg">
 <path d="M 40 100 L 40 40 M 40 40 L 90 40 M 40 100 L 90 100" fill="none" stroke="#3a6088" stroke-width="1.6"></path>
 <path d="M 90 40 L 90 22 M 90 40 L 90 58" fill="none" stroke="#3a6088" stroke-width="1.6"></path>
 <path d="M 90 100 L 90 82 M 90 100 L 90 118" fill="none" stroke="#3a6088" stroke-width="1.6"></path>
@@ -225,9 +223,8 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="think"><strong>建树的难点不在算得快，而在相似性会撒谎；模型的作用是把「碰巧相同」从「同源相同」里减掉。</strong><br/>思考：长枝吸引的根源是简约法暗中假设了替换稀少。你常用的哪个估计量，也藏着从未检验过的隐含假设？</div>
 </div>
 </div>
-
 <!-- 概念 4：蛋白质折叠 -->
-<div class="card">
+<div class="card" data-tts="b5abbe94836ce32e">
 <h2>蛋白质折叠</h2>
 <div class="en-name">Protein Folding · 难度是地形的性质，不是维数的性质</div>
 <span class="tag">Optimization · Geometry</span>
@@ -237,7 +234,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <p>把构象空间想成地貌，高度是自由能。若它像高尔夫球场——大片平坦、洞藏在某处——盲搜无望；若它是<strong>漏斗</strong>，四面八方朝同一底部倾斜，从任何起点滑下去都会到底。</p>
 </div>
 <div class="viz">
-<svg viewBox="0 0 340 175" xmlns="http://www.w3.org/2000/svg">
+<svg viewbox="0 0 340 175" xmlns="http://www.w3.org/2000/svg">
 <line stroke="#8fa0b8" stroke-width="1" x1="26" x2="26" y1="18" y2="130"></line>
 <text fill="#5a7090" font-size="10" font-style="italic" transform="rotate(-90 14 86)" x="14" y="86">自由能</text>
 <path d="M 36 42 L 148 42" fill="none" stroke="#a05a4a" stroke-width="2"></path>
@@ -274,8 +271,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="think"><strong>折叠之所以可能，不是因为搜索够快，而是因为进化把地形削成了漏斗；难题的出路常在改造地形，而非加速搜索。</strong><br/>思考：AlphaFold 给出的是静态结构，而功能往往依赖构象集合与变构切换——「预测结构」与「理解折叠」之间还差什么？</div>
 </div>
 </div>
-
-<h3 class="deep">深入思考</h3>
+<h3 class="deep" data-tts="1240583eb8eaec6e">深入思考</h3>
 <details>
 <summary>图灵斑图在生物学里究竟被证实到什么程度？</summary>
 <div>比科普里说的少，比怀疑者说的多。豹纹、蝶翅斑中相当一部分实由细胞迁移或预置的形态发生素梯度决定；确立的案例则都有明确分子对——斑马鱼条纹、指头数目、毛囊间距，其中斑马鱼靠的还是色素细胞间接触依赖的相互作用，是「局部激活 + 长程抑制」的细胞版而非化学版。<strong>更稳妥的说法是：图灵机制是一类会被反复独立发明的解，而不是发育的统一语言</strong>——它之所以到处出现，正因为它是在均匀介质里生成离散结构的最小方案。</div>
