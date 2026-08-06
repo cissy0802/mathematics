@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mathematics &amp; Biology · Day 45 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.viz{display:flex;flex-direction:column;align-items:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.viz .cap{margin-top:10px;font-size:0.85rem;color:#5a7090;font-style:italic;text-align:center}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 16px;text-align:center;font-style:italic;letter-spacing:1px}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 45 · 2026.08.06</div>
+<h1>Mathematics &amp; Biology</h1>
+<div class="meta">Form, ancestry, and folding — the equations hiding inside living systems</div>
+<div class="epigraph">"The form of an object is a diagram of forces." — D'Arcy Thompson, <em>On Growth and Form</em></div>
+</header>
+
+<!-- Concept 1: population dynamics -->
+<div class="card">
+<h2>Population Dynamics</h2>
+<div class="en-name">Why ecosystems never settle at equilibrium</div>
+<span class="tag">Dynamical Systems</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>More rabbits, well-fed foxes; more foxes, the rabbits are eaten out; fewer rabbits, the foxes starve; fewer foxes, the rabbits recover. The loop <strong>never settles at the equilibrium point</strong>, because every link in it lags: how many foxes there are now is set by the rabbits they ate earlier. <strong>Negative feedback with delay does not produce rest, it produces oscillation.</strong></p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 340 205" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="ar1" markerHeight="8" markerWidth="8" orient="auto" refX="4" refY="3"><path d="M0,0 L6,3 L0,6 z" fill="#3a6088"></path></marker>
+</defs>
+<line stroke="#8fa0b8" stroke-width="1" x1="42" x2="325" y1="172" y2="172"></line>
+<line stroke="#8fa0b8" stroke-width="1" x1="42" x2="42" y1="172" y2="18"></line>
+<text fill="#5a7090" font-size="11" font-style="italic" x="262" y="189">prey x</text>
+<text fill="#5a7090" font-size="11" font-style="italic" x="48" y="16">predator y</text>
+<ellipse cx="168" cy="100" fill="none" rx="28" ry="17" stroke="#c9a96b" stroke-width="1.6"></ellipse>
+<ellipse cx="168" cy="100" fill="none" rx="58" ry="34" stroke="#3a6088" stroke-width="1.6"></ellipse>
+<path d="M 168 40 C 108 40 74 66 80 100 C 86 138 130 158 178 156 C 236 154 268 128 264 100 C 260 66 218 40 168 40 Z" fill="none" stroke="#1e3a5f" stroke-width="1.8"></path>
+<circle cx="168" cy="100" fill="#1e3a5f" r="3"></circle>
+<text fill="#5a7090" font-size="10" x="176" y="104">equilibrium</text>
+<path d="M 232 128 C 218 142 200 150 182 154" fill="none" marker-end="url(#ar1)" stroke="#3a6088" stroke-width="1.6"></path>
+<path d="M 104 72 C 116 58 136 45 158 41" fill="none" marker-end="url(#ar1)" stroke="#3a6088" stroke-width="1.6"></path>
+</svg>
+<div class="cap">Phase plane: each closed orbit is one boom-and-bust cycle, its amplitude fixed entirely by the initial condition.</div>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$\dot{x} = \alpha x - \beta xy, \qquad \dot{y} = \delta xy - \gamma y$$</div>
+<p>$x,y$ are prey and predator densities; $\alpha$ is the prey's intrinsic growth rate, $\gamma$ the predator's death rate without food, $\delta$ the efficiency of turning eaten prey into offspring. The term $\beta xy$ is the encounter rate — assume the two mix at random and encounters go as the product of densities, which is exactly chemistry's <strong>law of mass action</strong>.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>The system hides a conserved quantity $V = \delta x - \gamma\ln x + \beta y - \alpha\ln y$, constant along every orbit, acting just like energy in mechanics — so all orbits are closed curves. That neutral stability also means structural instability: add a touch of density limitation on the prey and the closed orbits immediately collapse into spirals. <strong>A model too clean to be beautiful is usually a model too idealized to be true.</strong></p>
+<p>And the same biological assumption written one generation at a time, $x_{n+1}=rx_n(1-x_n)$, period-doubles into chaos as $r$ grows. <strong>Discrete or continuous is not a modelling detail; it decides which class of system you have.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<ul>
+<li><strong>Volterra's principle</strong>: killing indiscriminately (a pesticide that takes out pest and natural enemy alike) on average <strong>increases</strong> the prey and reduces the predator — which is why broad-spectrum pesticides so often trigger secondary pest outbreaks.</li>
+<li><strong>Same family of equations</strong>: the SIR threshold theorem $R_0&gt;1$ is the same bifurcation analysis; the replicator equation is equivalent to Lotka–Volterra, so competing species and competing strategies share one dynamics.</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">In one line · a question</div>
+<div class="think"><strong>Populations do not converge to equilibrium because feedback takes time; delayed negative feedback is the universal recipe for oscillation.</strong><br/>Consider: adaptive rate limiting is delayed negative feedback too. Ecology took a century to learn that culling predators alone will not save the prey — what is the corresponding lesson for control systems?</div>
+</div>
+</div>
+
+<!-- Concept 2: Turing patterns -->
+<div class="card">
+<h2>Turing Patterns</h2>
+<div class="en-name">How the force that erases differences manufactures pattern</div>
+<span class="tag">PDE · Morphogenesis</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Diffusion is the force that erases differences: ink in water always ends up uniform. In 1952 Turing proved the opposite — when two mutually reacting substances diffuse at the same time and at <strong>different speeds</strong>, the uniform state spontaneously collapses into spots or stripes.</p>
+<p>The mechanism fits in a sentence: the activator promotes itself and also the inhibitor, the inhibitor suppresses the activator, and the inhibitor diffuses <strong>much faster</strong>. Any random bump is amplified where it stands while broadcasting inhibition far afield, suppressing bumps nearby — <strong>local activation plus long-range inhibition</strong>, so peaks can only appear a fixed distance apart.</p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#8fa0b8" stroke-width="1" x1="18" x2="152" y1="72" y2="72"></line>
+<path d="M 20 72 C 32 72 36 26 52 26 C 68 26 72 72 84 96 C 94 114 116 106 136 82 C 143 74 148 72 152 72" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<text fill="#3a6088" font-size="10" x="22" y="20">local activation</text>
+<text fill="#3a6088" font-size="10" x="80" y="126">long-range inhibition</text>
+<text fill="#5a7090" font-size="10" font-style="italic" x="18" y="152">net influence vs distance</text>
+<line stroke="#c0c8d4" stroke-width="1" x1="172" x2="172" y1="14" y2="176"></line>
+<line stroke="#8fa0b8" stroke-width="1" x1="192" x2="326" y1="112" y2="112"></line>
+<path d="M 192 112 C 200 112 202 48 214 48 C 226 48 228 112 236 112 C 244 112 246 48 258 48 C 270 48 272 112 280 112 C 288 112 290 48 302 48 C 314 48 316 112 324 112" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<line stroke="#c9a96b" stroke-dasharray="3,3" stroke-width="1.4" x1="214" x2="258" y1="40" y2="40"></line>
+<text fill="#8a7440" font-size="10" x="222" y="34">wavelength λ</text>
+<rect fill="#3a6088" height="14" width="14" x="200" y="130"></rect>
+<rect fill="#e6ecf3" height="14" width="14" x="214" y="130"></rect>
+<rect fill="#3a6088" height="14" width="14" x="228" y="130"></rect>
+<rect fill="#e6ecf3" height="14" width="14" x="242" y="130"></rect>
+<rect fill="#3a6088" height="14" width="14" x="256" y="130"></rect>
+<rect fill="#e6ecf3" height="14" width="14" x="270" y="130"></rect>
+<rect fill="#3a6088" height="14" width="14" x="284" y="130"></rect>
+<rect fill="#e6ecf3" height="14" width="14" x="298" y="130"></rect>
+<text fill="#5a7090" font-size="10" font-style="italic" x="192" y="168">the periodic solution left standing</text>
+</svg>
+<div class="cap">A net-influence curve that is positive nearby and negative far off picks out one wavenumber, and the uniform state collapses into stripes.</div>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$\partial_t u = f(u,v) + D_u\nabla^2 u, \qquad \partial_t v = g(u,v) + D_v\nabla^2 v$$</div>
+<p>$u,v$ are activator and inhibitor concentrations, $f,g$ the local reactions, $D$ the diffusion coefficients. The operator $\nabla^2$ measures how far a point sits below its neighbourhood average — positive means the point is a "dip" that matter will flow into, which is precisely what diffusion does.</p>
+<p>Turing instability demands a seemingly contradictory pair of conditions: the uniform steady state is <strong>stable without diffusion</strong>, yet once diffusion is switched on some nonzero wavenumber $k$ has a positive growth rate. This requires $D_v \gg D_u$, and the selected $k^*$ corresponds to a wavelength $\lambda \sim \sqrt{D/\text{reaction rate}}$.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>Two individually stable mechanisms couple into an instability, and the term responsible for the instability is the one whose whole job is smoothing — hence the name <strong>diffusion-driven instability</strong>. Lovelier still is where the scale comes from: the wavelength depends only on local parameters, <strong>not on the size of the container</strong>. It is an intrinsic length carried by the medium rather than something the boundary drew, which is why a leopard's spots and a house cat's are about the same size. <strong>Form needs no blueprint, only a set of rules that destabilize on their own.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<ul>
+<li><strong>Zebrafish stripes</strong> are an experimentally confirmed Turing system: Shigeru Kondo ablated pigment cells with a laser, and the stripes that regrew followed the reaction–diffusion prediction rather than simply restoring the original. <strong>Digit number</strong> is set by a BMP/Sox9/Wnt Turing network (Sharpe lab, 2014) — tune the parameters down as the model says and mice grow more, thinner digits.</li>
+<li><strong>Non-living versions</strong>: dune spacing, banded vegetation in drylands, the BZ reaction; the computational echo is neural cellular automata.</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">In one line · a question</div>
+<div class="think"><strong>A pattern need not be drawn; it can be what is left over after a uniform state loses stability.</strong><br/>Consider: if "what grows where" is written in no coordinate table anywhere in the genome but emerges from the dynamics, where should the boundary of "genetic information" be drawn?</div>
+</div>
+</div>
+
+<!-- Concept 3: phylogenetics -->
+<div class="card">
+<h2>Phylogenetic Trees</h2>
+<div class="en-name">Inferring yesterday's branchings from today's leaves</div>
+<span class="tag">Combinatorics · Statistics</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>All you hold are sequences from species alive today (or viruses sampled today), and you must reconstruct the family tree: who split from whom last, and how long ago. The ancestors left no samples, so everything is inferred from how alike the cousins are. There are two difficulties: the number of candidate trees explodes, and <strong>similar does not mean related</strong> — two independently evolving lineages can drift into resemblance by accident.</p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 340 165" xmlns="http://www.w3.org/2000/svg">
+<path d="M 40 100 L 40 40 M 40 40 L 90 40 M 40 100 L 90 100" fill="none" stroke="#3a6088" stroke-width="1.6"></path>
+<path d="M 90 40 L 90 22 M 90 40 L 90 58" fill="none" stroke="#3a6088" stroke-width="1.6"></path>
+<path d="M 90 100 L 90 82 M 90 100 L 90 118" fill="none" stroke="#3a6088" stroke-width="1.6"></path>
+<line stroke="#1e3a5f" stroke-width="3.4" x1="90" x2="142" y1="22" y2="22"></line>
+<line stroke="#8fa0b8" stroke-width="1.6" x1="90" x2="112" y1="58" y2="58"></line>
+<line stroke="#1e3a5f" stroke-width="3.4" x1="90" x2="142" y1="82" y2="82"></line>
+<line stroke="#8fa0b8" stroke-width="1.6" x1="90" x2="112" y1="118" y2="118"></line>
+<text fill="#1e3a5f" font-size="11" font-weight="bold" x="147" y="26">A</text>
+<text fill="#5a7090" font-size="11" x="117" y="62">B</text>
+<text fill="#1e3a5f" font-size="11" font-weight="bold" x="147" y="86">C</text>
+<text fill="#5a7090" font-size="11" x="117" y="122">D</text>
+<text fill="#5a7090" font-size="10" font-style="italic" x="30" y="150">true tree (A,B),(C,D)</text>
+<line stroke="#c0c8d4" stroke-width="1" x1="186" x2="186" y1="12" y2="150"></line>
+<path d="M 210 100 L 210 40 M 210 40 L 260 40 M 210 100 L 260 100" fill="none" stroke="#a05a4a" stroke-width="1.6"></path>
+<path d="M 260 40 L 260 22 M 260 40 L 260 58" fill="none" stroke="#a05a4a" stroke-width="1.6"></path>
+<path d="M 260 100 L 260 82 M 260 100 L 260 118" fill="none" stroke="#a05a4a" stroke-width="1.6"></path>
+<line stroke="#a05a4a" stroke-width="3.4" x1="260" x2="300" y1="22" y2="22"></line>
+<line stroke="#a05a4a" stroke-width="3.4" x1="260" x2="300" y1="58" y2="58"></line>
+<line stroke="#c3a49c" stroke-width="1.6" x1="260" x2="284" y1="82" y2="82"></line>
+<line stroke="#c3a49c" stroke-width="1.6" x1="260" x2="284" y1="118" y2="118"></line>
+<text fill="#a05a4a" font-size="11" font-weight="bold" x="305" y="26">A</text>
+<text fill="#a05a4a" font-size="11" font-weight="bold" x="305" y="62">C</text>
+<text fill="#8a6b63" font-size="11" x="289" y="86">B</text>
+<text fill="#8a6b63" font-size="11" x="289" y="122">D</text>
+<text fill="#a05a4a" font-size="10" font-style="italic" x="196" y="150">parsimony infers (A,C),(B,D)</text>
+</svg>
+<div class="cap">Long-branch attraction: A and C each evolve fast (thick branches), and their coincidentally identical bases are misread as evidence of common descent.</div>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>There are $(2n-5)!!$ unrooted binary trees on $n$ leaves: at $n=20$ that is already about $2\times 10^{20}$, so enumeration is hopeless.</p>
+<p>Maximum likelihood models base substitution as a continuous-time Markov chain: with rate matrix $Q$, the transition probability along a branch of length $t$ is $P(t)=e^{Qt}$, where $t$ is measured in <em>expected substitutions</em>, not years. The likelihood at each site sums over all ancestral states — naively $4^{\text{internal nodes}}$ terms — but Felsenstein's pruning algorithm folds the tree bottom-up, storing only a length-4 conditional likelihood vector per node, so one post-order traversal suffices. <strong>This is the same algorithm as belief propagation on a tree in graphical models.</strong></p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p><strong>The four-point condition</strong>: a distance matrix $d$ is exactly realizable by some weighted tree if and only if, for any four points, the largest two of the three pairings $d_{ij}+d_{kl}$, $d_{ik}+d_{jl}$, $d_{il}+d_{jk}$ are equal. A purely combinatorial object — a tree — turns out to be completely characterized by inequalities on continuous distances. That is what a tree metric is.</p>
+<p>The converse is equally deep: maximum parsimony is <strong>statistically inconsistent</strong> when two lineages evolve unusually fast and are not neighbours on the true tree — more data makes it more certain of a wrong tree. <strong>An estimator can be intuitively unimpeachable and computationally efficient while converging, in the limit, to the wrong answer; consistency has to be proved, not felt.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<ul>
+<li><strong>Viral tracing</strong>: SARS-CoV-2 lineage assignment and molecular-clock dating are real-time maximum-likelihood tree building; Omicron appeared as a startlingly long branch, and that branch is what suggested the hypothesis of prolonged evolution inside a chronically infected host.</li>
+<li><strong>Elsewhere</strong>: treating somatic mutations from different biopsy sites as "species" reconstructs a tumour's clonal tree; the same reconstruction for HIV transmission chains has been accepted as courtroom evidence; language phylogenies and manuscript stemmatics run the identical algorithm — all it takes is vertical inheritance plus random change.</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">In one line · a question</div>
+<div class="think"><strong>Tree building is hard not because it is slow but because similarity lies; the model exists to subtract "identical by chance" from "identical by descent."</strong><br/>Consider: long-branch attraction arises because parsimony quietly assumes substitutions are rare. Which estimator you use daily hides an assumption you have never tested?</div>
+</div>
+</div>
+
+<!-- Concept 4: protein folding -->
+<div class="card">
+<h2>Protein Folding</h2>
+<div class="en-name">Difficulty is a property of the landscape, not of the dimension</div>
+<span class="tag">Optimization · Geometry</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>An amino acid chain is synthesized and within milliseconds curls itself into a precise three-dimensional shape — the same one every time. Levinthal did the arithmetic in 1969: 100 residues, a conservative 3 conformations each, gives $3^{100}\approx 10^{47}$ possibilities; trying one every $10^{-13}$ seconds would still take $10^{27}$ years. There is only one conclusion: <strong>folding is not searching, it is going downhill.</strong></p>
+<p>Picture conformation space as terrain whose height is free energy. If it were a golf course — mostly flat, one hole somewhere — blind search really would be hopeless; if it is a <strong>funnel</strong>, sloping from all sides toward one bottom, then sliding down from any starting point gets you there.</p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 340 175" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#8fa0b8" stroke-width="1" x1="26" x2="26" y1="18" y2="130"></line>
+<text fill="#5a7090" font-size="10" font-style="italic" transform="rotate(-90 16 92)" x="16" y="92">free energy</text>
+<path d="M 36 42 L 148 42" fill="none" stroke="#a05a4a" stroke-width="2"></path>
+<path d="M 88 42 L 88 118 L 96 118 L 96 42" fill="none" stroke="#a05a4a" stroke-width="2"></path>
+<circle cx="60" cy="36" fill="#a05a4a" r="4"></circle>
+<text fill="#a05a4a" font-size="10" font-style="italic" x="36" y="150">golf-course landscape:</text>
+<text fill="#a05a4a" font-size="10" font-style="italic" x="36" y="164">blind search over 10⁴⁷ states</text>
+<line stroke="#c0c8d4" stroke-width="1" x1="176" x2="176" y1="12" y2="168"></line>
+<path d="M 196 26 C 214 32 226 58 234 84 C 240 104 244 116 250 118 C 256 116 260 104 266 84 C 274 58 286 32 304 26" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<path d="M 208 46 C 216 52 220 62 224 72 M 292 46 C 284 52 280 62 276 72" fill="none" stroke="#9fb0c6" stroke-width="1.2"></path>
+<circle cx="200" cy="28" fill="#3a6088" r="4"></circle>
+<circle cx="250" cy="118" fill="#c9a96b" r="4.5"></circle>
+<text fill="#8a7440" font-size="10" x="256" y="122">native state</text>
+<text fill="#1e3a5f" font-size="10" font-style="italic" x="192" y="150">folding funnel:</text>
+<text fill="#1e3a5f" font-size="10" font-style="italic" x="192" y="164">any start slides to the bottom</text>
+</svg>
+<div class="cap">Those conformations all still exist; the difference is that they are never visited.</div>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>Energy landscape theory: define a free energy $F(x)$ over configuration space, with the native state as the global minimum. The key quantity is <strong>frustration</strong> — in a random sequence the interactions conflict (optimize one contact and another suffers), so the landscape is rugged and full of traps; sequences selected by evolution instead satisfy the <em>principle of minimal frustration</em>, where nearly every contact in the native state is close to its own optimum at once, and the landscape as a whole becomes a funnel.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>The resolution of Levinthal's paradox is not a faster search but the observation that <strong>difficulty is a property of the landscape, not of the dimension</strong>. Those $10^{47}$ conformations are still there; they are simply never visited.</p>
+<p>The insight reappears word for word in AI: a deep network's loss function is high-dimensional and non-convex, which classical optimization theory says should be hopeless, yet gradient descent trains it anyway — because an overparameterized loss landscape is also funnel-like, dominated by saddle points rather than local minima. <strong>"High-dimensional and non-convex" was never sufficient for hard; the geometry of the landscape is what matters — and geometry can be chosen. Biology chooses it by evolution, we choose it by architecture and initialization.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>AlphaFold2's core move is not simulating physics but reading <strong>co-evolutionary signal</strong>: if two residues touch in the folded structure, a mutation in one usually needs a compensating mutation in the other, so across a multiple sequence alignment those two columns are correlated. The trouble is that correlation propagates ($i$–$j$ plus $j$–$k$ fabricates an apparent $i$–$k$), and the fix is to fit a Potts model and invert its coupling matrix — precisely the standard move from "correlated" to "conditionally independent" in graphical models, which AlphaFold replaces with learnable attention. Methods like RFdiffusion go further, running diffusion models over structure space for <strong>de novo design</strong>, generating enzymes that do not exist in nature.</p>
+</div>
+<div class="section">
+<div class="label">In one line · a question</div>
+<div class="think"><strong>Folding works not because the search is fast but because evolution carved the landscape into a funnel; the way out of a hard problem is often to reshape the terrain rather than to search it faster.</strong><br/>Consider: AlphaFold returns a static structure, while function usually depends on a conformational ensemble and allosteric switching — what still lies between "predicting structure" and "understanding folding"?</div>
+</div>
+</div>
+
+<h3 class="deep">Going deeper</h3>
+<details>
+<summary>How well established are Turing patterns in actual biology?</summary>
+<div>Less than the popular accounts claim, more than the sceptics allow. A good share of the canonical examples — leopard rosettes, butterfly wing spots — are in fact set by cell migration or pre-existing morphogen gradients, not by genuine reaction–diffusion. The established cases all come with an identified molecular pair: zebrafish stripes, digit number, hair-follicle spacing — and zebrafish in fact relies on contact-dependent interactions between pigment cells, a cellular rather than chemical version of local activation with long-range inhibition. <strong>The safer statement is that the Turing mechanism is a solution repeatedly and independently invented, not the universal language of development</strong> — it turns up everywhere because it is the minimal way to generate discrete structure in a uniform medium.</div>
+</details>
+<details>
+<summary>Can evolution be written as an optimization problem?</summary>
+<div>Only locally. Fisher's fundamental theorem says the rate of increase in mean fitness equals its additive genetic variance, which reads like gradient ascent — provided the landscape is fixed. But real fitness depends on everyone else's strategy: when predators get faster, the payoff to "running fast" changes. The landscape deforms along with the population distribution, and optimizing a fixed objective becomes game dynamics. <strong>Hence the Red Queen: every species keeps improving while mean fitness does not rise.</strong> This is the same mathematical difficulty wearing different faces in the non-stationarity of multi-agent RL and the cyclic oscillations of GAN training.</div>
+</details>
+<details>
+<summary>Must life be described with continuous mathematics?</summary>
+<div>No — and in the cases that matter, it must not be. Differential equations assume concentrations are continuous, which holds only when molecule counts are large. A transcription factor often exists in a few dozen copies per cell, where "half a molecule" is meaningless and fluctuations are the same size as the mean; the right object is the chemical master equation and the practical algorithm is Gillespie stochastic simulation. Nor is this a small correction to precision: noise produces qualitatively new behaviour, such as random flipping of genetic switches and genetically identical cells taking different fates (which is how bacterial persisters survive antibiotics). <strong>What the continuous approximation discards is not a few decimal places but an entire class of phenomena.</strong></div>
+</details>
+</div>
+</body>
+</html>

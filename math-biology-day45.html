@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>数学与生物 · Day 45 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.viz{display:flex;flex-direction:column;align-items:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.viz .cap{margin-top:10px;font-size:0.85rem;color:#5a7090;font-style:italic;text-align:center}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 16px;text-align:center;font-style:italic;letter-spacing:1px}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 45 · 2026.08.06</div>
+<h1>数学与生物</h1>
+<div class="meta">Mathematics &amp; Biology — 形态、族谱与折叠：活的系统里的方程</div>
+<div class="epigraph">「一个物体的形状，是一张力的图解。」 — D'Arcy Thompson，《On Growth and Form》</div>
+</header>
+
+<!-- 概念 1：种群动力学 -->
+<div class="card">
+<h2>种群动力学</h2>
+<div class="en-name">Population Dynamics · 为什么生态系统不停在平衡点上</div>
+<span class="tag">Dynamical Systems</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>兔子多，狐狸繁盛；狐狸多，兔子被吃光；兔子少，狐狸挨饿；狐狸少，兔子回升。回路<strong>不会停在平衡点上</strong>，因为每环反馈都滞后：狐狸此刻的数量由它此前吃到的兔子决定。<strong>带延迟的负反馈不产生静止，产生振荡。</strong></p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 340 205" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="ar1" markerHeight="8" markerWidth="8" orient="auto" refX="4" refY="3"><path d="M0,0 L6,3 L0,6 z" fill="#3a6088"></path></marker>
+</defs>
+<line stroke="#8fa0b8" stroke-width="1" x1="42" x2="325" y1="172" y2="172"></line>
+<line stroke="#8fa0b8" stroke-width="1" x1="42" x2="42" y1="172" y2="18"></line>
+<text fill="#5a7090" font-size="11" font-style="italic" x="268" y="189">猎物 x</text>
+<text fill="#5a7090" font-size="11" font-style="italic" x="48" y="16">捕食者 y</text>
+<ellipse cx="168" cy="100" fill="none" rx="28" ry="17" stroke="#c9a96b" stroke-width="1.6"></ellipse>
+<ellipse cx="168" cy="100" fill="none" rx="58" ry="34" stroke="#3a6088" stroke-width="1.6"></ellipse>
+<path d="M 168 40 C 108 40 74 66 80 100 C 86 138 130 158 178 156 C 236 154 268 128 264 100 C 260 66 218 40 168 40 Z" fill="none" stroke="#1e3a5f" stroke-width="1.8"></path>
+<circle cx="168" cy="100" fill="#1e3a5f" r="3"></circle>
+<text fill="#5a7090" font-size="10" x="176" y="104">平衡点</text>
+<path d="M 232 128 C 218 142 200 150 182 154" fill="none" marker-end="url(#ar1)" stroke="#3a6088" stroke-width="1.6"></path>
+<path d="M 104 72 C 116 58 136 45 158 41" fill="none" marker-end="url(#ar1)" stroke="#3a6088" stroke-width="1.6"></path>
+</svg>
+<div class="cap">相平面：每条闭轨是一次此消彼长，振幅只由初始条件决定。</div>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\dot{x} = \alpha x - \beta xy, \qquad \dot{y} = \delta xy - \gamma y$$</div>
+<p>$x,y$ 是猎物与捕食者密度；$\alpha$ 是猎物固有增长率，$\gamma$ 是捕食者无食物时的死亡率，$\delta$ 是猎物转化为后代的效率。$\beta xy$ 是相遇项——假设两者随机混合，相遇次数正比于密度之积，与化学的<strong>质量作用定律</strong>同一个假设。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>系统藏着守恒量 $V = \delta x - \gamma\ln x + \beta y - \alpha\ln y$，沿轨道恒定，作用如同力学里的能量，于是轨道都是闭曲线。这种中性稳定同时意味着结构不稳定——给猎物加一点密度制约，闭轨立刻塌成螺旋。<strong>模型美得太干净，常正说明它太理想。</strong></p>
+<p>而同一句假设写成一年一代的 $x_{n+1}=rx_n(1-x_n)$，随 $r$ 增大便倍周期分岔直至混沌。<strong>离散还是连续不是建模细节，它决定系统属于哪一类。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<ul>
+<li><strong>Volterra 原理</strong>：无差别杀伤（杀虫剂同杀害虫与天敌）平均使猎物<strong>增加</strong>、捕食者减少——广谱杀虫剂常引发害虫二次爆发即出于此。</li>
+<li><strong>同族方程</strong>：SIR 的阈值定理 $R_0&gt;1$ 是同一种分岔分析；复制子方程与 Lotka–Volterra 等价，物种竞争与策略竞争共用一套动力学。</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>种群不趋向平衡，是因为反馈需要时间；延迟的负反馈是振荡的通用配方。</strong><br/>思考：自适应限流同样是延迟负反馈。生态学花了一个世纪才明白「只减少捕食者」救不了猎物——控制系统里的对应教训是？</div>
+</div>
+</div>
+
+<!-- 概念 2：图灵斑图 -->
+<div class="card">
+<h2>图灵斑图</h2>
+<div class="en-name">Turing Patterns · 抹平差异的力量如何制造图案</div>
+<span class="tag">PDE · Morphogenesis</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>扩散是抹平差异的力量：墨水滴进水里终归均匀。1952 年图灵证明了相反的事——两种能互相反应的物质同时扩散、且<strong>扩散速度不同</strong>时，均匀态会自发崩溃成斑点或条纹。</p>
+<p>机制一句话说得清：激活剂促进自己也促进抑制剂，抑制剂压制激活剂，而抑制剂扩散得<strong>快得多</strong>。于是随机小凸起在原地被自我放大，同时把抑制信号远远撒出去压住邻近的凸起——<strong>局部激活 + 长程抑制</strong>，峰只能隔一定距离出现。</p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#8fa0b8" stroke-width="1" x1="18" x2="152" y1="72" y2="72"></line>
+<path d="M 20 72 C 32 72 36 26 52 26 C 68 26 72 72 84 96 C 94 114 116 106 136 82 C 143 74 148 72 152 72" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<text fill="#3a6088" font-size="10" x="30" y="20">局部激活</text>
+<text fill="#3a6088" font-size="10" x="92" y="126">长程抑制</text>
+<text fill="#5a7090" font-size="10" font-style="italic" x="18" y="152">净影响 vs 距离</text>
+<line stroke="#c0c8d4" stroke-width="1" x1="172" x2="172" y1="14" y2="176"></line>
+<line stroke="#8fa0b8" stroke-width="1" x1="192" x2="326" y1="112" y2="112"></line>
+<path d="M 192 112 C 200 112 202 48 214 48 C 226 48 228 112 236 112 C 244 112 246 48 258 48 C 270 48 272 112 280 112 C 288 112 290 48 302 48 C 314 48 316 112 324 112" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<line stroke="#c9a96b" stroke-dasharray="3,3" stroke-width="1.4" x1="214" x2="258" y1="40" y2="40"></line>
+<text fill="#8a7440" font-size="10" x="220" y="34">波长 λ</text>
+<rect fill="#3a6088" height="14" width="14" x="200" y="130"></rect>
+<rect fill="#e6ecf3" height="14" width="14" x="214" y="130"></rect>
+<rect fill="#3a6088" height="14" width="14" x="228" y="130"></rect>
+<rect fill="#e6ecf3" height="14" width="14" x="242" y="130"></rect>
+<rect fill="#3a6088" height="14" width="14" x="256" y="130"></rect>
+<rect fill="#e6ecf3" height="14" width="14" x="270" y="130"></rect>
+<rect fill="#3a6088" height="14" width="14" x="284" y="130"></rect>
+<rect fill="#e6ecf3" height="14" width="14" x="298" y="130"></rect>
+<text fill="#5a7090" font-size="10" font-style="italic" x="192" y="168">失稳后被选出的周期解</text>
+</svg>
+<div class="cap">短程正、长程负的净影响曲线挑出一个波数，均匀态崩成条纹。</div>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\partial_t u = f(u,v) + D_u\nabla^2 u, \qquad \partial_t v = g(u,v) + D_v\nabla^2 v$$</div>
+<p>$u,v$ 是激活剂与抑制剂浓度，$f,g$ 描述局部反应，$D$ 是扩散系数。$\nabla^2$ 度量某点与邻域平均之差——为正说明此处是「坑」、物质将流入，这正是扩散。</p>
+<p>图灵不稳定要求一对看似矛盾的条件：均匀定态在<strong>没有扩散时稳定</strong>，加入扩散后却有某个非零波数 $k$ 的扰动增长率转正。这需要 $D_v \gg D_u$，被选中的 $k^*$ 对应波长 $\lambda \sim \sqrt{D/\text{反应速率}}$。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>两个各自稳定的机制耦合出了不稳定，负责失稳的还恰是那个以「抹平」为天职的项——所以它叫<strong>扩散驱动不稳定性</strong>。更漂亮的是尺度的来源：波长只由局部参数决定，<strong>与容器大小无关</strong>，是介质自带的内禀长度而非边界画出来的，豹和家猫的斑点因此大小相仿。<strong>形态不需要蓝图，只需一组会自发失稳的规则。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<ul>
+<li><strong>斑马鱼条纹</strong>是被实验证实的图灵系统：近藤滋用激光烧掉部分色素细胞，重新长出的条纹走向与模型预测一致，而非简单复原。<strong>指头数目</strong>则由 BMP/Sox9/Wnt 图灵网络设定（Sharpe 组，2014）——按模型调低参数，小鼠长出更多更细的指头。</li>
+<li><strong>同款非生物</strong>：沙丘间距、干旱区植被条带、BZ 反应；计算上的回响是 neural cellular automata。</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>图案不必被画出来，它可以是均匀态失稳之后自己剩下的东西。</strong><br/>思考：若「哪里长什么」不写在基因组的任何坐标表里，而是浮现于动力学之中，「遗传信息」的边界该划在哪？</div>
+</div>
+</div>
+
+<!-- 概念 3：系统发育树 -->
+<div class="card">
+<h2>系统发育树</h2>
+<div class="en-name">Phylogenetics · 从今天的叶子倒推昨天的分叉</div>
+<span class="tag">Combinatorics · Statistics</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>你手上只有今天活着的物种（或今天采到的病毒）的序列，要反推家谱：谁与谁最晚分家、分在多久以前。祖先没留下样本，只能从「表兄弟有多像」倒推。难处有两层：候选树的数量在爆炸，而且<strong>像不等于亲</strong>——独立演化的两支也可能碰巧相似。</p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 340 165" xmlns="http://www.w3.org/2000/svg">
+<path d="M 40 100 L 40 40 M 40 40 L 90 40 M 40 100 L 90 100" fill="none" stroke="#3a6088" stroke-width="1.6"></path>
+<path d="M 90 40 L 90 22 M 90 40 L 90 58" fill="none" stroke="#3a6088" stroke-width="1.6"></path>
+<path d="M 90 100 L 90 82 M 90 100 L 90 118" fill="none" stroke="#3a6088" stroke-width="1.6"></path>
+<line stroke="#1e3a5f" stroke-width="3.4" x1="90" x2="142" y1="22" y2="22"></line>
+<line stroke="#8fa0b8" stroke-width="1.6" x1="90" x2="112" y1="58" y2="58"></line>
+<line stroke="#1e3a5f" stroke-width="3.4" x1="90" x2="142" y1="82" y2="82"></line>
+<line stroke="#8fa0b8" stroke-width="1.6" x1="90" x2="112" y1="118" y2="118"></line>
+<text fill="#1e3a5f" font-size="11" font-weight="bold" x="147" y="26">A</text>
+<text fill="#5a7090" font-size="11" x="117" y="62">B</text>
+<text fill="#1e3a5f" font-size="11" font-weight="bold" x="147" y="86">C</text>
+<text fill="#5a7090" font-size="11" x="117" y="122">D</text>
+<text fill="#5a7090" font-size="10" font-style="italic" x="34" y="150">真实树 (A,B),(C,D)</text>
+<line stroke="#c0c8d4" stroke-width="1" x1="186" x2="186" y1="12" y2="150"></line>
+<path d="M 210 100 L 210 40 M 210 40 L 260 40 M 210 100 L 260 100" fill="none" stroke="#a05a4a" stroke-width="1.6"></path>
+<path d="M 260 40 L 260 22 M 260 40 L 260 58" fill="none" stroke="#a05a4a" stroke-width="1.6"></path>
+<path d="M 260 100 L 260 82 M 260 100 L 260 118" fill="none" stroke="#a05a4a" stroke-width="1.6"></path>
+<line stroke="#a05a4a" stroke-width="3.4" x1="260" x2="300" y1="22" y2="22"></line>
+<line stroke="#a05a4a" stroke-width="3.4" x1="260" x2="300" y1="58" y2="58"></line>
+<line stroke="#c3a49c" stroke-width="1.6" x1="260" x2="284" y1="82" y2="82"></line>
+<line stroke="#c3a49c" stroke-width="1.6" x1="260" x2="284" y1="118" y2="118"></line>
+<text fill="#a05a4a" font-size="11" font-weight="bold" x="305" y="26">A</text>
+<text fill="#a05a4a" font-size="11" font-weight="bold" x="305" y="62">C</text>
+<text fill="#8a6b63" font-size="11" x="289" y="86">B</text>
+<text fill="#8a6b63" font-size="11" x="289" y="122">D</text>
+<text fill="#a05a4a" font-size="10" font-style="italic" x="204" y="150">简约法推出 (A,C),(B,D)</text>
+</svg>
+<div class="cap">长枝吸引：A 与 C 各自快速演化（粗枝），偶然的相同碱基被误读成同源证据。</div>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>$n$ 个叶子的无根二叉树共有 $(2n-5)!!$ 棵：$n=20$ 已约 $2\times 10^{20}$，穷举无望。</p>
+<p>最大似然法把碱基替换建成连续时间马尔可夫链：速率矩阵 $Q$，沿长度 $t$ 的枝转移概率为 $P(t)=e^{Qt}$；$t$ 的单位是「期望替换数」而非年数。每个位点的似然要对所有祖先状态求和，朴素做法有 $4^{\text{内部节点数}}$ 项，Felsenstein 剪枝算法则自底向上折叠，每节点只存长度 4 的条件似然向量，一次后序遍历即得。<strong>这与概率图模型中树上的置信传播是同一个算法。</strong></p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p><strong>四点条件</strong>：距离矩阵 $d$ 能被某棵带权树精确实现，当且仅当对任意四点，三个配对和 $d_{ij}+d_{kl}$、$d_{ik}+d_{jl}$、$d_{il}+d_{jk}$ 中最大的两个相等。纯组合的对象（树）竟被一组连续距离的不等式完全刻画——这就是「树度量」。</p>
+<p>反面同样深刻：最大简约法在两支演化特别快、且在真实树上不相邻时<strong>统计不一致</strong>，数据越多越确信一棵错树。<strong>一个估计量可以直觉上无懈可击、计算上高效，却在极限下收敛到错误答案；一致性必须证明，不能靠感觉。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<ul>
+<li><strong>病毒溯源</strong>：SARS-CoV-2 的谱系划分与分子钟定年就是实时最大似然建树；奥密克戎是树上一条突兀的超长枝，正是它提示了「在慢性感染者体内演化」的假说。</li>
+<li><strong>此外</strong>：把活检位点的体细胞突变当「物种」可重建肿瘤克隆树；HIV 传播链的同类重建已被法庭采信；语言谱系与古抄本校勘用的也是这套算法——只要「垂直遗传 + 随机改变」成立即可。</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>建树的难点不在算得快，而在相似性会撒谎；模型的作用是把「碰巧相同」从「同源相同」里减掉。</strong><br/>思考：长枝吸引的根源是简约法暗中假设了替换稀少。你常用的哪个估计量，也藏着从未检验过的隐含假设？</div>
+</div>
+</div>
+
+<!-- 概念 4：蛋白质折叠 -->
+<div class="card">
+<h2>蛋白质折叠</h2>
+<div class="en-name">Protein Folding · 难度是地形的性质，不是维数的性质</div>
+<span class="tag">Optimization · Geometry</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>一条氨基酸链刚合成出来，几毫秒内自己蜷成精确的三维形状，每次都是同一个。Levinthal 1969 年算过一笔账：100 个残基、每个保守取 3 种构象共 $3^{100}\approx 10^{47}$ 种，即使每 $10^{-13}$ 秒试一个也要 $10^{27}$ 年。结论只能是：<strong>折叠不是在搜索，而是在下坡。</strong></p>
+<p>把构象空间想成地貌，高度是自由能。若它像高尔夫球场——大片平坦、洞藏在某处——盲搜无望；若它是<strong>漏斗</strong>，四面八方朝同一底部倾斜，从任何起点滑下去都会到底。</p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 340 175" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#8fa0b8" stroke-width="1" x1="26" x2="26" y1="18" y2="130"></line>
+<text fill="#5a7090" font-size="10" font-style="italic" transform="rotate(-90 14 86)" x="14" y="86">自由能</text>
+<path d="M 36 42 L 148 42" fill="none" stroke="#a05a4a" stroke-width="2"></path>
+<path d="M 88 42 L 88 118 L 96 118 L 96 42" fill="none" stroke="#a05a4a" stroke-width="2"></path>
+<circle cx="60" cy="36" fill="#a05a4a" r="4"></circle>
+<text fill="#a05a4a" font-size="10" font-style="italic" x="36" y="150">高尔夫球场地形：</text>
+<text fill="#a05a4a" font-size="10" font-style="italic" x="36" y="164">只能盲搜，10⁴⁷ 种构象</text>
+<line stroke="#c0c8d4" stroke-width="1" x1="176" x2="176" y1="12" y2="168"></line>
+<path d="M 196 26 C 214 32 226 58 234 84 C 240 104 244 116 250 118 C 256 116 260 104 266 84 C 274 58 286 32 304 26" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<path d="M 208 46 C 216 52 220 62 224 72 M 292 46 C 284 52 280 62 276 72" fill="none" stroke="#9fb0c6" stroke-width="1.2"></path>
+<circle cx="200" cy="28" fill="#3a6088" r="4"></circle>
+<circle cx="250" cy="118" fill="#c9a96b" r="4.5"></circle>
+<text fill="#8a7440" font-size="10" x="256" y="122">天然态</text>
+<text fill="#1e3a5f" font-size="10" font-style="italic" x="192" y="150">折叠漏斗：</text>
+<text fill="#1e3a5f" font-size="10" font-style="italic" x="192" y="164">任意起点滑下即到底</text>
+</svg>
+<div class="cap">那些构象都还在，区别只是从未被访问。</div>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>能量地形理论：在构型空间上定义自由能 $F(x)$，天然态是全局极小。关键量是<strong>受挫程度</strong>——随机序列的相互作用彼此冲突（一处接触最优，另一处就吃亏），地形崎岖多陷阱；进化选出的序列则满足「最小受挫原理」：天然态里几乎所有接触同时接近各自最优，地形整体呈漏斗形。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>Levinthal 悖论的解不是更快的搜索，而是指出：<strong>难度是地形的性质，不是维数的性质。</strong>那 $10^{47}$ 个构象照样存在，只是从未被访问。</p>
+<p>这个洞见在人工智能里一字不改地重现：深度网络的损失函数高维非凸，按经典优化理论本该无望，梯度下降却照样训得动——因为过参数化的损失地形同样接近漏斗，鞍点而非局部极小占主导。<strong>「高维非凸」不是困难的充分条件，地形的几何才是；而几何可以选择——生物用进化选，我们用架构与初始化选。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>AlphaFold2 的核心并非模拟物理，而是读<strong>共进化信号</strong>：两个残基若在三维结构中接触，其一突变往往需要另一个补偿，于是跨物种的多序列比对里这两列取值相关。麻烦在于相关会传递（$i$–$j$ 与 $j$–$k$ 相关会伪造出 $i$–$k$ 相关），解法是拟合 Potts 模型并取耦合矩阵的逆——正是概率图模型里从「相关」走向「条件独立」的标准动作，AlphaFold 把它换成了可学习的注意力。RFdiffusion 则把扩散模型建在结构空间上做<strong>从头设计</strong>，生成自然界不存在的酶。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>折叠之所以可能，不是因为搜索够快，而是因为进化把地形削成了漏斗；难题的出路常在改造地形，而非加速搜索。</strong><br/>思考：AlphaFold 给出的是静态结构，而功能往往依赖构象集合与变构切换——「预测结构」与「理解折叠」之间还差什么？</div>
+</div>
+</div>
+
+<h3 class="deep">深入思考</h3>
+<details>
+<summary>图灵斑图在生物学里究竟被证实到什么程度？</summary>
+<div>比科普里说的少，比怀疑者说的多。豹纹、蝶翅斑中相当一部分实由细胞迁移或预置的形态发生素梯度决定；确立的案例则都有明确分子对——斑马鱼条纹、指头数目、毛囊间距，其中斑马鱼靠的还是色素细胞间接触依赖的相互作用，是「局部激活 + 长程抑制」的细胞版而非化学版。<strong>更稳妥的说法是：图灵机制是一类会被反复独立发明的解，而不是发育的统一语言</strong>——它之所以到处出现，正因为它是在均匀介质里生成离散结构的最小方案。</div>
+</details>
+<details>
+<summary>进化能被写成一个优化问题吗？</summary>
+<div>只能局部地写。Fisher 基本定理说平均适应度的增速等于其加性遗传方差，形式上很像梯度上升，前提是地形固定。但真实适应度依赖于别人的策略：捕食者变快，「跑得快」的收益就变了。地形随种群分布一起变形，优化固定目标就变成了博弈动力学。<strong>于是有红皇后现象：所有物种都在持续改进，平均适应度却不上升。</strong>这与多智能体强化学习的非平稳性、GAN 训练的循环震荡是同一困难的不同面孔。</div>
+</details>
+<details>
+<summary>描述生命，必须用连续数学吗？</summary>
+<div>不必，而且在关键场合不能。微分方程默认浓度连续，这只在分子数很大时成立。转录因子在单个细胞里常只有几十个拷贝，「半个分子」没有意义，涨落与均值同量级——正确的对象是化学主方程，实用算法是 Gillespie 随机模拟。这也不是精度上的小修正：噪声带来定性上的新行为，如遗传开关的随机翻转、同基因型细胞走向不同命运（持留菌因此能在抗生素下存活）。<strong>连续近似丢掉的不是小数点后几位，而是整类现象。</strong></div>
+</details>
+</div>
+</body>
+</html>
