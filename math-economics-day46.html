@@ -52,12 +52,12 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="container">
 <header>
 <div class="kicker">Day 46 · 2026.08.07</div>
-<h1>数学与经济</h1>
+<h1 data-tts="535ccf7dfb00c368">数学与经济</h1>
 <div class="meta">Mathematics &amp; Economics — 存在、定价、与不可能</div>
 <div class="epigraph">「对严格性的忠诚要求分析采取公理化的形式：在严格的意义上，理论与它的解释在逻辑上是完全脱钩的。」 — Gérard Debreu，《Theory of Value》</div>
 </header>
 <!-- 概念 1：不动点定理 -->
-<div class="card">
+<div class="card" data-tts="f81f2f346f9e3c83">
 <h2>不动点定理</h2>
 <div class="en-name">Fixed-Point Theorems · 为什么「存在」是一个拓扑问题</div>
 <span class="tag">Topology · Analysis</span>
@@ -66,15 +66,15 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <p>把一杯咖啡搅拌一番——只要液体没断裂、没溅出，搅完后一定有至少一点回到了原位。理由是纯几何的：若每一点都动了，「从 $f(x)$ 指向 $x$」这个方向便处处连续，顺着它把每点推到边界，就得到一个从圆盘到边界圆的连续收缩；可圆盘能缩成一点，边界圆不能。<strong>不动点的存在，是「圆盘没有洞」逼出来的。</strong></p>
 </div>
 <div class="viz">
-<svg viewBox="0 0 340 200" xmlns="http://www.w3.org/2000/svg">
-<rect x="60" y="20" width="220" height="160" fill="none" stroke="#c0c8d4" stroke-width="1"></rect>
-<line x1="60" y1="180" x2="280" y2="20" stroke="#8fa0b8" stroke-width="1.2" stroke-dasharray="4 3"></line>
+<svg viewbox="0 0 340 200" xmlns="http://www.w3.org/2000/svg">
+<rect fill="none" height="160" stroke="#c0c8d4" stroke-width="1" width="220" x="60" y="20"></rect>
+<line stroke="#8fa0b8" stroke-dasharray="4 3" stroke-width="1.2" x1="60" x2="280" y1="180" y2="20"></line>
 <path d="M 60 60 C 110 40 140 120 180 100 C 220 85 240 170 280 150" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
-<circle cx="165" cy="102" r="4" fill="#c9a96b" stroke="#1e3a5f" stroke-width="1.4"></circle>
-<text x="174" y="98" fill="#1e3a5f" font-size="11">不动点 x*</text>
-<text x="248" y="34" fill="#5a7090" font-size="11" font-style="italic">y = x</text>
-<text x="66" y="52" fill="#5a7090" font-size="11" font-style="italic">y = f(x)</text>
-<text x="150" y="196" fill="#5a7090" font-size="11">定义域 = 值域</text>
+<circle cx="165" cy="102" fill="#c9a96b" r="4" stroke="#1e3a5f" stroke-width="1.4"></circle>
+<text fill="#1e3a5f" font-size="11" x="174" y="98">不动点 x*</text>
+<text fill="#5a7090" font-size="11" font-style="italic" x="248" y="34">y = x</text>
+<text fill="#5a7090" font-size="11" font-style="italic" x="66" y="52">y = f(x)</text>
+<text fill="#5a7090" font-size="11" x="150" y="196">定义域 = 值域</text>
 </svg>
 <div class="cap">一维版本：起点在对角线上方、终点在下方，连续就必须穿过一次。高维版本是它的拓扑翻译。</div>
 </div>
@@ -102,7 +102,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 </div>
 </div>
 <!-- 概念 2：一般均衡 -->
-<div class="card">
+<div class="card" data-tts="42da7240eca55275">
 <h2>一般均衡</h2>
 <div class="en-name">General Equilibrium (Arrow–Debreu) · 把「看不见的手」变成定理</div>
 <span class="tag">Economics · Fixed Point</span>
@@ -111,16 +111,16 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <p>「看不见的手」本是一句比喻，1954 年 Arrow 与 Debreu 把它变成了定理。想法很朴素：给定一组价格，每个人各自算出想买多少、想卖多少，加总得到每种商品的<strong>超额需求</strong>；供不应求就涨价，供过于求就降价。这条「涨跌规则」本身就是一个价格到价格的连续映射——<strong>它的不动点，就是所有市场同时出清的那组价格。</strong>均衡不是谁算出来的，它是这个映射自我复现的那一点。</p>
 </div>
 <div class="viz">
-<svg viewBox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
-<line x1="45" y1="105" x2="322" y2="105" stroke="#8fa0b8" stroke-width="1"></line>
-<line x1="45" y1="25" x2="45" y2="175" stroke="#8fa0b8" stroke-width="1"></line>
+<svg viewbox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#8fa0b8" stroke-width="1" x1="45" x2="322" y1="105" y2="105"></line>
+<line stroke="#8fa0b8" stroke-width="1" x1="45" x2="45" y1="25" y2="175"></line>
 <path d="M 60 42 C 110 55 130 95 165 108 C 205 122 250 150 310 160" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
-<circle cx="160" cy="105" r="4" fill="#c9a96b" stroke="#1e3a5f" stroke-width="1.4"></circle>
-<text x="168" y="98" fill="#1e3a5f" font-size="11">均衡价 p*</text>
-<text x="272" y="122" fill="#5a7090" font-size="11">价格 p</text>
-<text x="52" y="22" fill="#5a7090" font-size="11">超额需求 Z(p)</text>
-<text x="66" y="76" fill="#3a6088" font-size="10">供不应求 → 涨价</text>
-<text x="212" y="176" fill="#3a6088" font-size="10">供过于求 → 降价</text>
+<circle cx="160" cy="105" fill="#c9a96b" r="4" stroke="#1e3a5f" stroke-width="1.4"></circle>
+<text fill="#1e3a5f" font-size="11" x="168" y="98">均衡价 p*</text>
+<text fill="#5a7090" font-size="11" x="272" y="122">价格 p</text>
+<text fill="#5a7090" font-size="11" x="52" y="22">超额需求 Z(p)</text>
+<text fill="#3a6088" font-size="10" x="66" y="76">供不应求 → 涨价</text>
+<text fill="#3a6088" font-size="10" x="212" y="176">供过于求 → 降价</text>
 </svg>
 <div class="cap">单市场：$Z$ 连续且两端异号，零点必然存在。多市场的难处在于各曲线互相牵动——这才需要 Brouwer。</div>
 </div>
@@ -144,7 +144,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 </div>
 </div>
 <!-- 概念 3：无套利与 Black–Scholes -->
-<div class="card">
+<div class="card" data-tts="61f09f31904f7053">
 <h2>无套利与期权定价</h2>
 <div class="en-name">No-Arbitrage &amp; Black–Scholes · 价格来自复制，不来自预测</div>
 <span class="tag">Stochastic Calculus · PDE</span>
@@ -154,27 +154,27 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <p>关键在「调整比例」：涨时多持股、跌时少持股，这个比例正是 $\Delta=\partial V/\partial S$。方向风险被对冲后，剩下的唯一风险是股价<strong>抖动的幅度</strong>——于是预期收益率 $\mu$ 彻底消失，只剩波动率 $\sigma$。</p>
 </div>
 <div class="viz">
-<svg viewBox="0 0 340 175" xmlns="http://www.w3.org/2000/svg">
-<circle cx="58" cy="88" r="17" fill="#fff" stroke="#1e3a5f" stroke-width="1.8"></circle>
-<text x="52" y="93" fill="#1e3a5f" font-size="13" font-style="italic">S</text>
-<line x1="74" y1="78" x2="168" y2="44" stroke="#3a6088" stroke-width="1.6"></line>
-<line x1="74" y1="98" x2="168" y2="132" stroke="#3a6088" stroke-width="1.6"></line>
-<circle cx="186" cy="40" r="17" fill="#fff" stroke="#3a6088" stroke-width="1.6"></circle>
-<text x="177" y="45" fill="#1e3a5f" font-size="12" font-style="italic">uS</text>
-<circle cx="186" cy="136" r="17" fill="#fff" stroke="#3a6088" stroke-width="1.6"></circle>
-<text x="177" y="141" fill="#1e3a5f" font-size="12" font-style="italic">dS</text>
-<text x="216" y="45" fill="#1e3a5f" font-size="12">→ 期权值 Vu</text>
-<text x="216" y="141" fill="#1e3a5f" font-size="12">→ 期权值 Vd</text>
-<text x="96" y="66" fill="#5a7090" font-size="10">涨</text>
-<text x="96" y="122" fill="#5a7090" font-size="10">跌</text>
-<text x="30" y="160" fill="#3a6088" font-size="11">两种结局 · 两个未知数（持股 Δ、现金 B）· 解唯一</text>
+<svg viewbox="0 0 340 175" xmlns="http://www.w3.org/2000/svg">
+<circle cx="58" cy="88" fill="#fff" r="17" stroke="#1e3a5f" stroke-width="1.8"></circle>
+<text fill="#1e3a5f" font-size="13" font-style="italic" x="52" y="93">S</text>
+<line stroke="#3a6088" stroke-width="1.6" x1="74" x2="168" y1="78" y2="44"></line>
+<line stroke="#3a6088" stroke-width="1.6" x1="74" x2="168" y1="98" y2="132"></line>
+<circle cx="186" cy="40" fill="#fff" r="17" stroke="#3a6088" stroke-width="1.6"></circle>
+<text fill="#1e3a5f" font-size="12" font-style="italic" x="177" y="45">uS</text>
+<circle cx="186" cy="136" fill="#fff" r="17" stroke="#3a6088" stroke-width="1.6"></circle>
+<text fill="#1e3a5f" font-size="12" font-style="italic" x="177" y="141">dS</text>
+<text fill="#1e3a5f" font-size="12" x="216" y="45">→ 期权值 Vu</text>
+<text fill="#1e3a5f" font-size="12" x="216" y="141">→ 期权值 Vd</text>
+<text fill="#5a7090" font-size="10" x="96" y="66">涨</text>
+<text fill="#5a7090" font-size="10" x="96" y="122">跌</text>
+<text fill="#3a6088" font-size="11" x="30" y="160">两种结局 · 两个未知数（持股 Δ、现金 B）· 解唯一</text>
 </svg>
 <div class="cap">一步二叉树：结局数等于工具数时，复制组合被唯一确定，期权价格随之钉死。BS 是其连续极限。</div>
 </div>
 <div class="section">
 <div class="label">正式定义</div>
 <div class="formula-box">$$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^2S^2\frac{\partial^2 V}{\partial S^2}+rS\frac{\partial V}{\partial S}-rV=0$$</div>
-<p>$V(S,t)$ 是期权价值，$\sigma$ 是波动率，$r$ 是无风险利率。第二项来自 Itô 引理：随机路径的二阶项不可忽略（$(\mathrm{d}W)^2=\mathrm{d}t$），所以凸性 $\partial^2V/\partial S^2>0$ 本身就在创造价值——抖动越剧烈，期权越值钱。第三、四项是对冲组合的资金成本。注意 $\mu$ <strong>不在其中</strong>。</p>
+<p>$V(S,t)$ 是期权价值，$\sigma$ 是波动率，$r$ 是无风险利率。第二项来自 Itô 引理：随机路径的二阶项不可忽略（$(\mathrm{d}W)^2=\mathrm{d}t$），所以凸性 $\partial^2V/\partial S^2&gt;0$ 本身就在创造价值——抖动越剧烈，期权越值钱。第三、四项是对冲组合的资金成本。注意 $\mu$ <strong>不在其中</strong>。</p>
 </div>
 <div class="section">
 <div class="label">为什么美</div>
@@ -191,7 +191,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 </div>
 </div>
 <!-- 概念 4：Arrow 不可能定理 -->
-<div class="card">
+<div class="card" data-tts="bbb1835c31d1ef4b">
 <h2>投票悖论与 Arrow 定理</h2>
 <div class="en-name">Arrow's Impossibility Theorem · 个体理性无法自动加总</div>
 <span class="tag">Social Choice · Impossibility</span>
@@ -200,23 +200,23 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <p>三个人对 A、B、C 的偏好分别是 A&gt;B&gt;C、B&gt;C&gt;A、C&gt;A&gt;B。两两投票：A 对 B，2:1 A 胜；B 对 C，2:1 B 胜；C 对 A，2:1 C 胜。于是「多数意见」成了 A&gt;B&gt;C&gt;A——一个循环。<strong>每个人的偏好都是有序的，加总出来的却不是。</strong>这是 Condorcet 悖论。1951 年 Arrow 把它推到极致：这不是多数决这一种规则的毛病。</p>
 </div>
 <div class="viz">
-<svg viewBox="0 0 340 185" xmlns="http://www.w3.org/2000/svg">
+<svg viewbox="0 0 340 185" xmlns="http://www.w3.org/2000/svg">
 <defs>
-<marker id="ar2" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#3a6088"></path></marker>
+<marker id="ar2" markerheight="8" markerwidth="8" orient="auto" refx="5" refy="3"><path d="M0,0 L6,3 L0,6 z" fill="#3a6088"></path></marker>
 </defs>
-<circle cx="170" cy="38" r="20" fill="#fff" stroke="#1e3a5f" stroke-width="1.8"></circle>
-<text x="164" y="44" fill="#1e3a5f" font-size="15" font-style="italic">A</text>
-<circle cx="88" cy="142" r="20" fill="#fff" stroke="#1e3a5f" stroke-width="1.8"></circle>
-<text x="82" y="148" fill="#1e3a5f" font-size="15" font-style="italic">B</text>
-<circle cx="252" cy="142" r="20" fill="#fff" stroke="#1e3a5f" stroke-width="1.8"></circle>
-<text x="246" y="148" fill="#1e3a5f" font-size="15" font-style="italic">C</text>
-<path d="M 155 53 L 105 125" fill="none" stroke="#3a6088" stroke-width="1.8" marker-end="url(#ar2)"></path>
-<path d="M 110 148 L 228 148" fill="none" stroke="#3a6088" stroke-width="1.8" marker-end="url(#ar2)"></path>
-<path d="M 240 124 L 188 52" fill="none" stroke="#3a6088" stroke-width="1.8" marker-end="url(#ar2)"></path>
-<text x="98" y="92" fill="#5a7090" font-size="10">2:1</text>
-<text x="162" y="166" fill="#5a7090" font-size="10">2:1</text>
-<text x="228" y="92" fill="#5a7090" font-size="10">2:1</text>
-<text x="120" y="20" fill="#3a6088" font-size="11">箭头 = 多数票胜出</text>
+<circle cx="170" cy="38" fill="#fff" r="20" stroke="#1e3a5f" stroke-width="1.8"></circle>
+<text fill="#1e3a5f" font-size="15" font-style="italic" x="164" y="44">A</text>
+<circle cx="88" cy="142" fill="#fff" r="20" stroke="#1e3a5f" stroke-width="1.8"></circle>
+<text fill="#1e3a5f" font-size="15" font-style="italic" x="82" y="148">B</text>
+<circle cx="252" cy="142" fill="#fff" r="20" stroke="#1e3a5f" stroke-width="1.8"></circle>
+<text fill="#1e3a5f" font-size="15" font-style="italic" x="246" y="148">C</text>
+<path d="M 155 53 L 105 125" fill="none" marker-end="url(#ar2)" stroke="#3a6088" stroke-width="1.8"></path>
+<path d="M 110 148 L 228 148" fill="none" marker-end="url(#ar2)" stroke="#3a6088" stroke-width="1.8"></path>
+<path d="M 240 124 L 188 52" fill="none" marker-end="url(#ar2)" stroke="#3a6088" stroke-width="1.8"></path>
+<text fill="#5a7090" font-size="10" x="98" y="92">2:1</text>
+<text fill="#5a7090" font-size="10" x="162" y="166">2:1</text>
+<text fill="#5a7090" font-size="10" x="228" y="92">2:1</text>
+<text fill="#3a6088" font-size="11" x="120" y="20">箭头 = 多数票胜出</text>
 </svg>
 <div class="cap">三个有序的个体偏好，聚合出一个有向环：集体没有「最优选项」，只能转圈。</div>
 </div>
@@ -244,7 +244,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="think"><strong>个体的理性不能自动加总成集体的理性；任何聚合规则都在某处偷偷做了一次价值判断。</strong><br/>思考：若标注者群体的偏好内部存在 Condorcet 循环，被训练来拟合它的奖励模型会表现出什么？</div>
 </div>
 </div>
-<h3 class="deep">深入思考</h3>
+<h3 class="deep" data-tts="cfa2e9fe48d3caff">深入思考</h3>
 <details>
 <summary>为什么经济学如此依赖不动点定理，而物理学不？</summary>
 <div>因为被描述的对象不同。物理定律描述的系统不会因为被描述而改变行为。经济系统里的主体则在<strong>预测系统本身</strong>：我的最优选择依赖于别人的选择，别人的又依赖于我的，于是「解」天然是一个自我一致性条件——而自我一致性的数学名字就叫不动点。物理学里出现不动点的地方（重整化群、平均场自洽方程）恰恰也是「部分依赖于整体」的场合。<strong>不动点是自指的数学形式。</strong></div>
