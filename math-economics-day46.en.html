@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mathematics &amp; Economics · Day 46 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.viz{display:flex;flex-direction:column;align-items:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.viz .cap{margin-top:10px;font-size:0.85rem;color:#5a7090;font-style:italic;text-align:center}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 16px;text-align:center;font-style:italic;letter-spacing:1px}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 46 · 2026.08.07</div>
+<h1>Mathematics &amp; Economics</h1>
+<div class="meta">Existence, Pricing, and Impossibility</div>
+<div class="epigraph">"Allegiance to rigor dictates the axiomatic form of the analysis where the theory, in the strict sense, is logically entirely disconnected from its interpretations." — Gérard Debreu, <em>Theory of Value</em></div>
+</header>
+<!-- Concept 1: Fixed-Point Theorems -->
+<div class="card">
+<h2>Fixed-Point Theorems</h2>
+<div class="en-name">Why "existence" is a topological question</div>
+<span class="tag">Topology · Analysis</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Stir a cup of coffee. As long as the liquid never tears and nothing spills, at least one point ends up exactly where it started. The reason is purely geometric: if every point had moved, the direction "from $f(x)$ toward $x$" would be defined and continuous everywhere; follow it to push each point out to the boundary and you get a continuous retraction of the disk onto its boundary circle. But a disk can be shrunk to a point and the circle cannot. <strong>Fixed points exist because the disk has no hole.</strong></p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 340 200" xmlns="http://www.w3.org/2000/svg">
+<rect x="60" y="20" width="220" height="160" fill="none" stroke="#c0c8d4" stroke-width="1"></rect>
+<line x1="60" y1="180" x2="280" y2="20" stroke="#8fa0b8" stroke-width="1.2" stroke-dasharray="4 3"></line>
+<path d="M 60 60 C 110 40 140 120 180 100 C 220 85 240 170 280 150" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<circle cx="165" cy="102" r="4" fill="#c9a96b" stroke="#1e3a5f" stroke-width="1.4"></circle>
+<text x="174" y="98" fill="#1e3a5f" font-size="11">fixed point x*</text>
+<text x="248" y="34" fill="#5a7090" font-size="11" font-style="italic">y = x</text>
+<text x="66" y="52" fill="#5a7090" font-size="11" font-style="italic">y = f(x)</text>
+<text x="140" y="196" fill="#5a7090" font-size="11">domain = codomain</text>
+</svg>
+<div class="cap">One dimension: the curve starts above the diagonal and ends below it, so continuity forces a crossing. Higher dimensions are the topological translation of that sentence.</div>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$K\subset\mathbb{R}^n \text{ compact, convex, nonempty},\ f:K\to K \text{ continuous}\ \Longrightarrow\ \exists\,x^*\in K,\ f(x^*)=x^*$$</div>
+<p>None of the three conditions can be dropped. <strong>Compact</strong> (closed and bounded) stops points from escaping to infinity; <strong>convex</strong> guarantees no hole — rotation of an annulus has no fixed point; <strong>continuous</strong> forbids the map from tearing neighbouring points apart. Kakutani extended $f$ to set-valued maps, because the "best choice" is often not unique — and that is the version game theory uses.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>A topological fact about holes became the universal currency of existence in economics: Nash equilibrium, general equilibrium, and solutions of the Bellman equation all come out of this one mould. But the beauty carries a crack — Brouwer's proof is <strong>non-constructive</strong>: it tells you the solution is there, not where. That crack was later formalised as the complexity class PPAD.</p>
+<p>By contrast, Banach's theorem demands that the map be a contraction ($d(f(x),f(y))\le c\,d(x,y)$, $c&lt;1$). A far stronger hypothesis, and a far larger payoff: the fixed point is unique, iteration is guaranteed to converge, and you get a rate for free. <strong>Contraction means you can compute it; mere continuity means you can only know it exists.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<ul>
+<li><strong>The foundation of reinforcement learning</strong>: the Bellman optimality operator is a $\gamma$-contraction in the sup norm, so value iteration converges by Banach's theorem. The discount factor $\gamma$ is not merely "how much you weigh the future" — it <em>is</em> the contraction modulus.</li>
+<li><strong>A diagnosis for non-convergence</strong>: GAN updates are the saddle-point dynamics of a zero-sum game, not a contraction, so cycling is the norm rather than a bug.</li>
+<li><strong>The semantics of recursion</strong>: a recursively defined object in a program denotes a least fixed point, and the Y combinator of the $\lambda$-calculus (Day 24) is the syntactic version of the same mould.</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">Essence · Question</div>
+<div class="think"><strong>Existence is the weakest promise mathematics can make, and often the hardest step; the strength of your hypotheses decides whether you get "there is a solution" or "here it is".</strong><br/>Question: deep Q-learning composes the Bellman operator with a function-approximation projection, and the composite is no longer a contraction. Which engineering pathologies does that explain?</div>
+</div>
+</div>
+<!-- Concept 2: General Equilibrium -->
+<div class="card">
+<h2>General Equilibrium</h2>
+<div class="en-name">Arrow–Debreu · turning the invisible hand into a theorem</div>
+<span class="tag">Economics · Fixed Point</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>The "invisible hand" was a metaphor until Arrow and Debreu turned it into a theorem in 1954. The idea is plain: fix a vector of prices, let everyone work out how much they want to buy and sell, and add it all up to get the <strong>excess demand</strong> for each good. Raise the price where demand exceeds supply, lower it where supply exceeds demand. That price-adjustment rule is itself a continuous map from prices to prices — <strong>and its fixed point is exactly the price vector at which every market clears at once.</strong> Equilibrium is not computed by anyone; it is the point at which the map reproduces itself.</p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
+<line x1="45" y1="105" x2="322" y2="105" stroke="#8fa0b8" stroke-width="1"></line>
+<line x1="45" y1="25" x2="45" y2="175" stroke="#8fa0b8" stroke-width="1"></line>
+<path d="M 60 42 C 110 55 130 95 165 108 C 205 122 250 150 310 160" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<circle cx="160" cy="105" r="4" fill="#c9a96b" stroke="#1e3a5f" stroke-width="1.4"></circle>
+<text x="168" y="98" fill="#1e3a5f" font-size="11">market-clearing p*</text>
+<text x="272" y="122" fill="#5a7090" font-size="11">price p</text>
+<text x="52" y="22" fill="#5a7090" font-size="11">excess demand Z(p)</text>
+<text x="62" y="76" fill="#3a6088" font-size="10">shortage → raise price</text>
+<text x="196" y="176" fill="#3a6088" font-size="10">glut → lower price</text>
+</svg>
+<div class="cap">A single market: $Z$ is continuous and changes sign, so a zero must exist. In many markets the curves pull on one another — that is where Brouwer is needed.</div>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$T(p)_i=\frac{p_i+\max\!\big(0,\,Z_i(p)\big)}{\sum_j\Big(p_j+\max\!\big(0,\,Z_j(p)\big)\Big)}$$</div>
+<p>$p$ is the price vector and $Z(p)$ total excess demand. The numerator is "raise the price in proportion to excess demand"; the denominator normalises onto the simplex — which both supplies the compact convex set Brouwer requires and encodes the fact that scaling all prices changes nobody's choice. A fixed point of $T$ means no price needs adjusting; Walras's law $p\cdot Z(p)=0$ (everyone spends what they earn) then implies markets really do clear.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>First, Walras's law means $n$ markets carry only $n-1$ independent equations — exactly matching that scale invariance. <strong>One symmetry consumes precisely one degree of freedom</strong>, the same bookkeeping as Noether's theorem (Day 18).</p>
+<p>Second, and more worth remembering: the Sonnenschein–Mantel–Debreu theorem proves that aggregate excess demand can be <strong>almost any shape at all</strong>, beyond being continuous, homogeneous of degree zero, and obeying Walras's law. Individual rationality places almost no constraint on the aggregate. <strong>Micro-level order does not propagate upward into macro-level order</strong>: existence is secured, uniqueness and stability are lost together.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Locational marginal pricing in electricity markets is a general equilibrium actually being solved every day: many goods clearing at once under network constraints, with prices read off as Lagrange multipliers; cloud spot markets and ad-slot allocation share the mechanism. But there is a hard computational wall — solving general equilibrium, like Nash equilibrium, is PPAD-complete. <strong>"The market will find the equilibrium" is a claim about computation, and that computation may admit no efficient algorithm.</strong></p>
+</div>
+<div class="section">
+<div class="label">Essence · Question</div>
+<div class="think"><strong>The rigorous version of the invisible hand promises only that an equilibrium exists — not that it is unique, stable, or computable.</strong><br/>Question: tâtonnement is not guaranteed to converge in theory, yet real markets broadly function. Which extra structures — inventories, futures, market makers — are patching the gap the mathematics leaves open?</div>
+</div>
+</div>
+<!-- Concept 3: No-Arbitrage & Black-Scholes -->
+<div class="card">
+<h2>No-Arbitrage and Option Pricing</h2>
+<div class="en-name">Black–Scholes · price comes from replication, not prediction</div>
+<span class="tag">Stochastic Calculus · PDE</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>What is an option worth? Intuition says: look at how much the stock rises on average. The answer is that you <strong>don't</strong>. An option can be <strong>replicated</strong> — hold a certain number of shares plus some cash, continually adjusting the share count as the price moves, and the portfolio matches the option's value in every possible state. Two paths that agree everywhere must agree in price now, or buying one and selling the other is riskless arbitrage. <strong>Price comes from replication, not prediction.</strong></p>
+<p>Everything hinges on "adjusting": hold more shares when the price rises, fewer when it falls. That ratio is exactly $\Delta=\partial V/\partial S$. Once directional risk is hedged away, the only risk left is the <strong>size of the wobble</strong> — so the expected return $\mu$ vanishes from the formula entirely, leaving only the volatility $\sigma$.</p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 340 175" xmlns="http://www.w3.org/2000/svg">
+<circle cx="58" cy="88" r="17" fill="#fff" stroke="#1e3a5f" stroke-width="1.8"></circle>
+<text x="52" y="93" fill="#1e3a5f" font-size="13" font-style="italic">S</text>
+<line x1="74" y1="78" x2="168" y2="44" stroke="#3a6088" stroke-width="1.6"></line>
+<line x1="74" y1="98" x2="168" y2="132" stroke="#3a6088" stroke-width="1.6"></line>
+<circle cx="186" cy="40" r="17" fill="#fff" stroke="#3a6088" stroke-width="1.6"></circle>
+<text x="177" y="45" fill="#1e3a5f" font-size="12" font-style="italic">uS</text>
+<circle cx="186" cy="136" r="17" fill="#fff" stroke="#3a6088" stroke-width="1.6"></circle>
+<text x="177" y="141" fill="#1e3a5f" font-size="12" font-style="italic">dS</text>
+<text x="216" y="45" fill="#1e3a5f" font-size="12">→ payoff Vu</text>
+<text x="216" y="141" fill="#1e3a5f" font-size="12">→ payoff Vd</text>
+<text x="94" y="66" fill="#5a7090" font-size="10">up</text>
+<text x="92" y="122" fill="#5a7090" font-size="10">down</text>
+<text x="18" y="164" fill="#3a6088" font-size="11">two outcomes · two unknowns (shares Δ, cash B) · unique solution</text>
+</svg>
+<div class="cap">One-step binomial tree: when outcomes equal instruments, the replicating portfolio is pinned down, and so is the option price. Black–Scholes is its continuous limit.</div>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^2S^2\frac{\partial^2 V}{\partial S^2}+rS\frac{\partial V}{\partial S}-rV=0$$</div>
+<p>$V(S,t)$ is the option's value, $\sigma$ the volatility, $r$ the risk-free rate. The second term comes from Itô's lemma: along a random path the second-order term cannot be dropped ($(\mathrm{d}W)^2=\mathrm{d}t$), so convexity $\partial^2V/\partial S^2>0$ is itself value-creating — the wilder the wobble, the more the option is worth. The third and fourth terms are the financing cost of the hedge. Note that $\mu$ is <strong>absent</strong>.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>After a change of variables it <strong>is the heat equation</strong> (Day 22): uncertainty diffusing through probability space and heat diffusing through a metal bar share one operator.</p>
+<p>The second layer of beauty is a change of measure (Day 21). Eliminating $\mu$ is equivalent to swapping the real-world probability for the <strong>risk-neutral measure</strong> — a fictitious world in which every asset earns $r$, and pricing is a single expectation taken there. <strong>Change the measure and a PDE becomes an integral.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>The everyday use is <strong>implied volatility</strong>: feed the traded price back into the formula and solve for $\sigma$. Black–Scholes earns its keep not by producing prices but by translating prices into a comparable quantity. And the recovered $\sigma$ traces a "volatility smile" across strikes, which is precisely a refutation of the model's lognormal assumption — <strong>practitioners knowingly use a wrong model as a coordinate system.</strong> LTCM in 1998 and the 2008 crisis point at the same place: the model assumes continuous trading and unlimited liquidity, and markets go illiquid exactly when the hedge is needed.</p>
+</div>
+<div class="section">
+<div class="label">Essence · Question</div>
+<div class="think"><strong>If you can replicate it you can price it, with no forecast required; and the variable that cancels tells you more about the model than the ones that remain.</strong><br/>Question: the volatility smile says the market expects extremes more often than a lognormal allows. Under a fat-tailed model perfect replication is impossible — who should price the risk that cannot be hedged?</div>
+</div>
+</div>
+<!-- Concept 4: Arrow's Impossibility Theorem -->
+<div class="card">
+<h2>Voting Paradoxes and Arrow's Theorem</h2>
+<div class="en-name">Individual rationality does not aggregate on its own</div>
+<span class="tag">Social Choice · Impossibility</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Three voters rank A, B, C as A&gt;B&gt;C, B&gt;C&gt;A, and C&gt;A&gt;B. Pairwise: A beats B 2:1, B beats C 2:1, C beats A 2:1. The "majority view" is therefore A&gt;B&gt;C&gt;A — a cycle. <strong>Every individual preference is a well-formed order; the aggregate is not.</strong> That is Condorcet's paradox, and in 1951 Arrow pushed it to its limit: this is not a defect of majority rule in particular.</p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 340 185" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="ar2" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#3a6088"></path></marker>
+</defs>
+<circle cx="170" cy="38" r="20" fill="#fff" stroke="#1e3a5f" stroke-width="1.8"></circle>
+<text x="164" y="44" fill="#1e3a5f" font-size="15" font-style="italic">A</text>
+<circle cx="88" cy="142" r="20" fill="#fff" stroke="#1e3a5f" stroke-width="1.8"></circle>
+<text x="82" y="148" fill="#1e3a5f" font-size="15" font-style="italic">B</text>
+<circle cx="252" cy="142" r="20" fill="#fff" stroke="#1e3a5f" stroke-width="1.8"></circle>
+<text x="246" y="148" fill="#1e3a5f" font-size="15" font-style="italic">C</text>
+<path d="M 155 53 L 105 125" fill="none" stroke="#3a6088" stroke-width="1.8" marker-end="url(#ar2)"></path>
+<path d="M 110 148 L 228 148" fill="none" stroke="#3a6088" stroke-width="1.8" marker-end="url(#ar2)"></path>
+<path d="M 240 124 L 188 52" fill="none" stroke="#3a6088" stroke-width="1.8" marker-end="url(#ar2)"></path>
+<text x="98" y="92" fill="#5a7090" font-size="10">2:1</text>
+<text x="162" y="166" fill="#5a7090" font-size="10">2:1</text>
+<text x="228" y="92" fill="#5a7090" font-size="10">2:1</text>
+<text x="112" y="20" fill="#3a6088" font-size="11">arrow = wins the majority vote</text>
+</svg>
+<div class="cap">Three well-ordered individual preferences aggregate into a directed cycle: the collective has no best option, only a loop.</div>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>A social choice function aggregates everyone's ranking into one social ranking. Three requirements, all of which look mild:</p>
+<ul>
+<li><strong>Unanimity (Pareto)</strong>: if everyone prefers A to B, so should society.</li>
+<li><strong>Independence of irrelevant alternatives (IIA)</strong>: society's ranking of A against B depends only on each person's ranking of A against B, not on where C sits.</li>
+<li><strong>Non-dictatorship</strong>: no single individual's preference always becomes the social ranking outright.</li>
+</ul>
+<p>Arrow's theorem: with three or more alternatives, no aggregation rule satisfies all three. It <strong>does not exist</strong>.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>It converts "what counts as fair" from an endless moral argument into a decidable mathematical proposition — and the answer is that the kind of fairness you wanted is unavailable. This belongs to the family of Gödel, Turing, and Galois (Day 42): <strong>not that we have yet to find the method, but that the method cannot exist.</strong></p>
+<p>Watch IIA above all. It forbids the rule from using any information about the <strong>intensity</strong> of preference, permitting only order. Relax it and you escape the theorem — Borda counts and score voting both violate IIA, at the cost of opening room for strategic manipulation. <strong>An impossibility theorem is a list telling you what you must give up.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Fusing several ranking signals in search and recommendation is social choice in disguise, and optimal Kemeny aggregation is NP-hard. Closer to home is RLHF: the reward model compresses the pairwise preferences of many annotators into a single scalar reward function. Arrow's warning is that this is not a technical detail but a <strong>normative choice</strong> — flattening orders into a scalar quietly assumes that preference intensities are comparable and additive (that is, it abandons IIA). <strong>Mathematically, nothing guarantees that "human values" admit a consistent aggregate.</strong></p>
+</div>
+<div class="section">
+<div class="label">Essence · Question</div>
+<div class="think"><strong>Individual rationality does not sum into collective rationality; every aggregation rule smuggles a value judgement in somewhere.</strong><br/>Question: if the annotator population harbours a Condorcet cycle internally, how will a reward model trained to fit it behave?</div>
+</div>
+</div>
+<h3 class="deep">Going Deeper</h3>
+<details>
+<summary>Why does economics lean so heavily on fixed-point theorems while physics does not?</summary>
+<div>Because the objects differ. A physical system does not change its behaviour because it is being described. The agents in an economy are <strong>forecasting the system itself</strong>: my best choice depends on yours, and yours on mine, so the "solution" is inherently a self-consistency condition — and self-consistency is precisely what a fixed point is. Where fixed points do appear in physics (the renormalisation group, mean-field self-consistency equations), it is likewise where the part depends on the whole. <strong>A fixed point is the mathematical form of self-reference.</strong></div>
+</details>
+<details>
+<summary>A model can reshape the market it describes — is there an analogue in the natural sciences?</summary>
+<div>This is called performativity. After Black–Scholes was published, traded option prices drifted toward the formula; the model became a shared coordinate system and was thereby "confirmed". The nearest natural-science analogue is measurement back-action, but that is physical coupling and involves no beliefs. The true isomorph is Goodhart's law — once a metric becomes the optimisation target, its correlation with the original goal starts to fail. The dangerous version is a risk model that makes every institution sell at the same moment: <strong>the model manufactures the very correlation it set out to measure.</strong></div>
+</details>
+<details>
+<summary>Equilibrium exists but may be intractable — what does that do to "markets beat planning"?</summary>
+<div>It means the claim needs a different foundation. PPAD-completeness is a worst-case statement, and real economies need not sit on worst-case instances; more importantly, a market does not "solve" for equilibrium at all — it merely keeps evolving and never arrives. The market's advantage is not that it computes the optimal price but that it is a <strong>distributed, incremental, locally-informed</strong> process requiring no agent to hold global state. That is the substance of Hayek's argument, and it is about communication complexity rather than computational complexity. <strong>The comparison is not about solution quality but about how much information must be gathered as input.</strong> The same sentence settles centralised schedulers versus decentralised protocols.</div>
+</details>
+</div>
+</body>
+</html>

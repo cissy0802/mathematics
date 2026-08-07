@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>数学与经济 · Day 46 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.viz{display:flex;flex-direction:column;align-items:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.viz .cap{margin-top:10px;font-size:0.85rem;color:#5a7090;font-style:italic;text-align:center}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 16px;text-align:center;font-style:italic;letter-spacing:1px}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 46 · 2026.08.07</div>
+<h1>数学与经济</h1>
+<div class="meta">Mathematics &amp; Economics — 存在、定价、与不可能</div>
+<div class="epigraph">「对严格性的忠诚要求分析采取公理化的形式：在严格的意义上，理论与它的解释在逻辑上是完全脱钩的。」 — Gérard Debreu，《Theory of Value》</div>
+</header>
+<!-- 概念 1：不动点定理 -->
+<div class="card">
+<h2>不动点定理</h2>
+<div class="en-name">Fixed-Point Theorems · 为什么「存在」是一个拓扑问题</div>
+<span class="tag">Topology · Analysis</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>把一杯咖啡搅拌一番——只要液体没断裂、没溅出，搅完后一定有至少一点回到了原位。理由是纯几何的：若每一点都动了，「从 $f(x)$ 指向 $x$」这个方向便处处连续，顺着它把每点推到边界，就得到一个从圆盘到边界圆的连续收缩；可圆盘能缩成一点，边界圆不能。<strong>不动点的存在，是「圆盘没有洞」逼出来的。</strong></p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 340 200" xmlns="http://www.w3.org/2000/svg">
+<rect x="60" y="20" width="220" height="160" fill="none" stroke="#c0c8d4" stroke-width="1"></rect>
+<line x1="60" y1="180" x2="280" y2="20" stroke="#8fa0b8" stroke-width="1.2" stroke-dasharray="4 3"></line>
+<path d="M 60 60 C 110 40 140 120 180 100 C 220 85 240 170 280 150" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<circle cx="165" cy="102" r="4" fill="#c9a96b" stroke="#1e3a5f" stroke-width="1.4"></circle>
+<text x="174" y="98" fill="#1e3a5f" font-size="11">不动点 x*</text>
+<text x="248" y="34" fill="#5a7090" font-size="11" font-style="italic">y = x</text>
+<text x="66" y="52" fill="#5a7090" font-size="11" font-style="italic">y = f(x)</text>
+<text x="150" y="196" fill="#5a7090" font-size="11">定义域 = 值域</text>
+</svg>
+<div class="cap">一维版本：起点在对角线上方、终点在下方，连续就必须穿过一次。高维版本是它的拓扑翻译。</div>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$K\subset\mathbb{R}^n \text{ 紧凸非空},\ f:K\to K \text{ 连续}\ \Longrightarrow\ \exists\,x^*\in K,\ f(x^*)=x^*$$</div>
+<p>三个条件都不能删：<strong>紧</strong>（闭且有界）不让点逃向无穷；<strong>凸</strong>保证没有洞——圆环上的旋转就没有不动点；<strong>连续</strong>不许映射把邻近的点撕开。Kakutani 把 $f$ 推广到集值映射，因为「最优选择」常常不唯一——博弈论用的正是这个版本。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>一个关于洞的拓扑事实，成了整个经济学的「存在性货币」：Nash 均衡、一般均衡、Bellman 方程的解都由这一个模具压出。但美中带着裂缝——Brouwer 的证明是<strong>非构造</strong>的：它告诉你解在那里，不告诉你在哪。这道裂缝后来被形式化成复杂性类 PPAD。</p>
+<p>对照之下 Banach 定理要求映射是压缩的（$d(f(x),f(y))\le c\,d(x,y)$，$c&lt;1$），条件强得多，回报也大：不动点唯一、迭代必然收敛、还附赠速率。<strong>能压缩就能算，只连续就只能「知道有」。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<ul>
+<li><strong>强化学习的地基</strong>：Bellman 最优算子在 sup 范数下是 $\gamma$-压缩，值迭代收敛即 Banach 定理；折扣因子 $\gamma$ 不只是「重视未来的程度」，它就是压缩系数。</li>
+<li><strong>训练不收敛的诊断</strong>：GAN 的更新是零和博弈的鞍点动力学而非压缩映射，循环震荡是常态而非 bug。</li>
+<li><strong>递归的语义</strong>：程序中递归定义的对象取的是最小不动点，$\lambda$ 演算的 Y 组合子（Day 24）即其语法版。</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>存在性是数学能给的最低承诺，却常是最难的一步；条件的强弱直接决定你拿到的是「有解」还是「算得出」。</strong><br/>思考：深度 Q 学习把 Bellman 算子与函数逼近的投影复合，复合后不再是压缩——这能解释哪些工程现象？</div>
+</div>
+</div>
+<!-- 概念 2：一般均衡 -->
+<div class="card">
+<h2>一般均衡</h2>
+<div class="en-name">General Equilibrium (Arrow–Debreu) · 把「看不见的手」变成定理</div>
+<span class="tag">Economics · Fixed Point</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>「看不见的手」本是一句比喻，1954 年 Arrow 与 Debreu 把它变成了定理。想法很朴素：给定一组价格，每个人各自算出想买多少、想卖多少，加总得到每种商品的<strong>超额需求</strong>；供不应求就涨价，供过于求就降价。这条「涨跌规则」本身就是一个价格到价格的连续映射——<strong>它的不动点，就是所有市场同时出清的那组价格。</strong>均衡不是谁算出来的，它是这个映射自我复现的那一点。</p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
+<line x1="45" y1="105" x2="322" y2="105" stroke="#8fa0b8" stroke-width="1"></line>
+<line x1="45" y1="25" x2="45" y2="175" stroke="#8fa0b8" stroke-width="1"></line>
+<path d="M 60 42 C 110 55 130 95 165 108 C 205 122 250 150 310 160" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<circle cx="160" cy="105" r="4" fill="#c9a96b" stroke="#1e3a5f" stroke-width="1.4"></circle>
+<text x="168" y="98" fill="#1e3a5f" font-size="11">均衡价 p*</text>
+<text x="272" y="122" fill="#5a7090" font-size="11">价格 p</text>
+<text x="52" y="22" fill="#5a7090" font-size="11">超额需求 Z(p)</text>
+<text x="66" y="76" fill="#3a6088" font-size="10">供不应求 → 涨价</text>
+<text x="212" y="176" fill="#3a6088" font-size="10">供过于求 → 降价</text>
+</svg>
+<div class="cap">单市场：$Z$ 连续且两端异号，零点必然存在。多市场的难处在于各曲线互相牵动——这才需要 Brouwer。</div>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$T(p)_i=\frac{p_i+\max\!\big(0,\,Z_i(p)\big)}{\sum_j\Big(p_j+\max\!\big(0,\,Z_j(p)\big)\Big)}$$</div>
+<p>$p$ 是价格向量，$Z(p)$ 是总超额需求。分子即「按超额需求涨价」，分母归一化到单纯形上——既凑出 Brouwer 要的紧凸集，也对应「价格同比例缩放不改变任何人的选择」。$T$ 的不动点意味着无人需要调价；再由 Walras 法则 $p\cdot Z(p)=0$（每人花掉的等于赚到的）可推出它确实出清。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>其一，Walras 法则意味着 $n$ 个市场只有 $n-1$ 个独立方程，恰好对应上面那个尺度不变性——<strong>一个对称性正好吃掉一个自由度</strong>，与 Noether 定理（Day 18）是同一种记账。</p>
+<p>其二更该记住：SMD 定理（Sonnenschein–Mantel–Debreu）证明，总超额需求函数除了连续、零次齐次、满足 Walras 法则，<strong>几乎可以是任意形状</strong>——个体理性对总量几乎不施加约束。<strong>微观的秩序不会自动向上传递成宏观的秩序</strong>：存在性拿到了，唯一性与稳定性一并失去。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>电力市场的节点边际电价（LMP）就是每天在真求解的一般均衡：电网约束下多商品同时出清，价格即拉格朗日乘子；云资源竞价与广告位分配同源。但计算侧有硬墙——一般均衡与 Nash 均衡的求解都是 PPAD-完全：<strong>「市场终会找到均衡」是一个关于计算的断言，而这个计算未必有高效算法。</strong></p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>看不见的手的严格版本只承诺均衡存在，没承诺它唯一、稳定、或算得出来。</strong><br/>思考：试错调价（tâtonnement）理论上不保证收敛，真实市场却大体运转——是存货、期货、做市商中的哪些结构在替数学补这个缺口？</div>
+</div>
+</div>
+<!-- 概念 3：无套利与 Black–Scholes -->
+<div class="card">
+<h2>无套利与期权定价</h2>
+<div class="en-name">No-Arbitrage &amp; Black–Scholes · 价格来自复制，不来自预测</div>
+<span class="tag">Stochastic Calculus · PDE</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>一份期权值多少钱？直觉说：看这只股票平均会涨多少。答案是<strong>不看</strong>。因为期权可以被<strong>复制</strong>——持有一定数量的股票加一笔现金，随股价变动不断调整持股比例，就能让组合价值在任何情形下都与期权分毫不差。两条路径处处同值，此刻就必须同价，否则买低卖高即是无风险套利。<strong>价格不来自预测，来自复制。</strong></p>
+<p>关键在「调整比例」：涨时多持股、跌时少持股，这个比例正是 $\Delta=\partial V/\partial S$。方向风险被对冲后，剩下的唯一风险是股价<strong>抖动的幅度</strong>——于是预期收益率 $\mu$ 彻底消失，只剩波动率 $\sigma$。</p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 340 175" xmlns="http://www.w3.org/2000/svg">
+<circle cx="58" cy="88" r="17" fill="#fff" stroke="#1e3a5f" stroke-width="1.8"></circle>
+<text x="52" y="93" fill="#1e3a5f" font-size="13" font-style="italic">S</text>
+<line x1="74" y1="78" x2="168" y2="44" stroke="#3a6088" stroke-width="1.6"></line>
+<line x1="74" y1="98" x2="168" y2="132" stroke="#3a6088" stroke-width="1.6"></line>
+<circle cx="186" cy="40" r="17" fill="#fff" stroke="#3a6088" stroke-width="1.6"></circle>
+<text x="177" y="45" fill="#1e3a5f" font-size="12" font-style="italic">uS</text>
+<circle cx="186" cy="136" r="17" fill="#fff" stroke="#3a6088" stroke-width="1.6"></circle>
+<text x="177" y="141" fill="#1e3a5f" font-size="12" font-style="italic">dS</text>
+<text x="216" y="45" fill="#1e3a5f" font-size="12">→ 期权值 Vu</text>
+<text x="216" y="141" fill="#1e3a5f" font-size="12">→ 期权值 Vd</text>
+<text x="96" y="66" fill="#5a7090" font-size="10">涨</text>
+<text x="96" y="122" fill="#5a7090" font-size="10">跌</text>
+<text x="30" y="160" fill="#3a6088" font-size="11">两种结局 · 两个未知数（持股 Δ、现金 B）· 解唯一</text>
+</svg>
+<div class="cap">一步二叉树：结局数等于工具数时，复制组合被唯一确定，期权价格随之钉死。BS 是其连续极限。</div>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^2S^2\frac{\partial^2 V}{\partial S^2}+rS\frac{\partial V}{\partial S}-rV=0$$</div>
+<p>$V(S,t)$ 是期权价值，$\sigma$ 是波动率，$r$ 是无风险利率。第二项来自 Itô 引理：随机路径的二阶项不可忽略（$(\mathrm{d}W)^2=\mathrm{d}t$），所以凸性 $\partial^2V/\partial S^2>0$ 本身就在创造价值——抖动越剧烈，期权越值钱。第三、四项是对冲组合的资金成本。注意 $\mu$ <strong>不在其中</strong>。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>换元之后，它<strong>就是热方程</strong>（Day 22）：不确定性在概率空间中的扩散，与温度在金属棒里的扩散共用同一个算子。</p>
+<p>另一层美是测度的转换（Day 21）——消掉 $\mu$ 等价于把真实概率换成<strong>风险中性测度</strong>：在那个虚构世界里所有资产的期望收益都是 $r$，定价只需在其中取一次期望。<strong>换一个测度，偏微分方程变成积分。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>日常用途其实是<strong>隐含波动率</strong>：把成交价代回公式反解 $\sigma$——BS 的角色不是给出价格，而是把价格翻译成可比较的量。而反解出的 $\sigma$ 随执行价呈「波动率微笑」，恰恰证伪了模型的对数正态假设：<strong>从业者明知模型是错的，仍拿它当坐标系用。</strong>LTCM 与 2008 年的教训指向同一处——模型假设连续可交易、流动性无限，市场偏偏在最需要对冲时不流动。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>能复制就能定价，无需预测；被消掉的那个变量，比留下的更能说明模型在讲什么。</strong><br/>思考：波动率微笑说明市场认为极端行情比对数正态更常见。换成厚尾分布后「完美复制」不再可能——那份无法对冲的风险该由谁定价？</div>
+</div>
+</div>
+<!-- 概念 4：Arrow 不可能定理 -->
+<div class="card">
+<h2>投票悖论与 Arrow 定理</h2>
+<div class="en-name">Arrow's Impossibility Theorem · 个体理性无法自动加总</div>
+<span class="tag">Social Choice · Impossibility</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>三个人对 A、B、C 的偏好分别是 A&gt;B&gt;C、B&gt;C&gt;A、C&gt;A&gt;B。两两投票：A 对 B，2:1 A 胜；B 对 C，2:1 B 胜；C 对 A，2:1 C 胜。于是「多数意见」成了 A&gt;B&gt;C&gt;A——一个循环。<strong>每个人的偏好都是有序的，加总出来的却不是。</strong>这是 Condorcet 悖论。1951 年 Arrow 把它推到极致：这不是多数决这一种规则的毛病。</p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 340 185" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="ar2" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#3a6088"></path></marker>
+</defs>
+<circle cx="170" cy="38" r="20" fill="#fff" stroke="#1e3a5f" stroke-width="1.8"></circle>
+<text x="164" y="44" fill="#1e3a5f" font-size="15" font-style="italic">A</text>
+<circle cx="88" cy="142" r="20" fill="#fff" stroke="#1e3a5f" stroke-width="1.8"></circle>
+<text x="82" y="148" fill="#1e3a5f" font-size="15" font-style="italic">B</text>
+<circle cx="252" cy="142" r="20" fill="#fff" stroke="#1e3a5f" stroke-width="1.8"></circle>
+<text x="246" y="148" fill="#1e3a5f" font-size="15" font-style="italic">C</text>
+<path d="M 155 53 L 105 125" fill="none" stroke="#3a6088" stroke-width="1.8" marker-end="url(#ar2)"></path>
+<path d="M 110 148 L 228 148" fill="none" stroke="#3a6088" stroke-width="1.8" marker-end="url(#ar2)"></path>
+<path d="M 240 124 L 188 52" fill="none" stroke="#3a6088" stroke-width="1.8" marker-end="url(#ar2)"></path>
+<text x="98" y="92" fill="#5a7090" font-size="10">2:1</text>
+<text x="162" y="166" fill="#5a7090" font-size="10">2:1</text>
+<text x="228" y="92" fill="#5a7090" font-size="10">2:1</text>
+<text x="120" y="20" fill="#3a6088" font-size="11">箭头 = 多数票胜出</text>
+</svg>
+<div class="cap">三个有序的个体偏好，聚合出一个有向环：集体没有「最优选项」，只能转圈。</div>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>一个社会选择函数把每个人的排序聚合成一个社会排序。三条要求看起来都很温和：</p>
+<ul>
+<li><strong>一致性（Pareto）</strong>：所有人都认为 A 优于 B，社会排序也应如此。</li>
+<li><strong>无关选项独立性（IIA）</strong>：社会对 A、B 的相对排序只依赖于每个人对 A、B 的相对排序，与 C 排在哪无关。</li>
+<li><strong>非独裁</strong>：不存在某个人，其偏好总是直接成为社会排序。</li>
+</ul>
+<p>Arrow 定理：选项不少于三个时，同时满足这三条的聚合规则<strong>不存在</strong>。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它把「什么算公平」从无止境的道德辩论，变成一个可判定的数学命题——而答案是「你要的那种公平不存在」。这与 Gödel、图灵、Galois 同族（Day 42）：<strong>不是我们还没找到方法，是方法不可能存在。</strong></p>
+<p>最该盯住的是 IIA：它禁止聚合规则使用偏好的<strong>强度</strong>信息，只准用次序。放松它就能逃出定理——Borda 计数、评分投票都违反 IIA，代价是让出了策略操纵的空间。<strong>不可能定理是一张清单，写明你必须放弃什么。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>搜索与推荐融合多路排序信号本质上就是社会选择，其中 Kemeny 最优聚合已被证明是 NP-难。更切近的是 RLHF——奖励模型把众多标注者的成对偏好压成一个标量奖励函数。Arrow 提醒我们这不是技术细节而是<strong>规范性选择</strong>：把次序压成标量，等于偷偷假设了偏好强度可比可加（即放弃 IIA）。<strong>所谓「人类价值」，在数学上并不保证存在一个一致的聚合。</strong></p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>个体的理性不能自动加总成集体的理性；任何聚合规则都在某处偷偷做了一次价值判断。</strong><br/>思考：若标注者群体的偏好内部存在 Condorcet 循环，被训练来拟合它的奖励模型会表现出什么？</div>
+</div>
+</div>
+<h3 class="deep">深入思考</h3>
+<details>
+<summary>为什么经济学如此依赖不动点定理，而物理学不？</summary>
+<div>因为被描述的对象不同。物理定律描述的系统不会因为被描述而改变行为。经济系统里的主体则在<strong>预测系统本身</strong>：我的最优选择依赖于别人的选择，别人的又依赖于我的，于是「解」天然是一个自我一致性条件——而自我一致性的数学名字就叫不动点。物理学里出现不动点的地方（重整化群、平均场自洽方程）恰恰也是「部分依赖于整体」的场合。<strong>不动点是自指的数学形式。</strong></div>
+</details>
+<details>
+<summary>模型会改变它所描述的市场——这在自然科学里有对应吗？</summary>
+<div>这叫述行性（performativity）。BS 公式发表后，期权成交价逐步向公式靠拢，模型成了共同坐标系，于是被「验证」。自然科学里最接近的是测量反作用，但那是物理耦合，不涉及信念。真正同构的是 Goodhart 定律——指标一旦成为优化目标，它与原目标的相关性就开始失效。最危险的版本是风控模型让所有机构同时卖出：<strong>模型制造了它本要度量的那个相关性。</strong></div>
+</details>
+<details>
+<summary>一般均衡存在却可能不可计算，这对「市场优于计划」的论断意味着什么？</summary>
+<div>意味着这个论断需要换一个地基。PPAD-完全说的是最坏情况，真实经济未必落在最坏实例上；更要紧的是市场并不「求解」均衡，它只是持续演化，从不到达。市场的优势不在于算出最优价格，而在于它是一个<strong>分布式的、增量的、由局部信息驱动的</strong>过程，无需任何主体掌握全局状态——这正是哈耶克论点的实质：它关乎通信复杂性而非计算复杂性。<strong>对比不在解的质量，而在获取输入所需的信息量。</strong>中心化调度器与去中心化协议之争同理。</div>
+</details>
+</div>
+</body>
+</html>
