@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Model Theory &amp; Foundations · Day 47 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.viz{display:flex;flex-direction:column;align-items:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.viz .cap{margin-top:10px;font-size:0.85rem;color:#5a7090;font-style:italic;text-align:center}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 16px;text-align:center;font-style:italic;letter-spacing:1px}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 47 · 2026.08.08</div>
+<h1>Model Theory &amp; Foundations</h1>
+<div class="meta">However much a language can say, that is how many worlds there are</div>
+<div class="epigraph">"universal algebra + logic = model theory" — C. C. Chang &amp; H. J. Keisler, <em>Model Theory</em></div>
+</header>
+<!-- Concept 1: first-order logic and completeness -->
+<div class="card">
+<h2>First-Order Logic &amp; Completeness</h2>
+<div class="en-name">Why proof and truth coincide</div>
+<span class="tag">Logic · Foundations</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Write down the group axioms — associativity, identity, inverses. Those few lines of symbols point at nothing on their own; they are a <strong>sieve</strong>: integer addition passes, invertible matrices pass, addition on the naturals does not. Every structure that passes is a <strong>model</strong> of the axioms.</p>
+<p>So mathematicians work on two levels. The <strong>syntactic</strong> level: rearrange symbols by rules, step by step — finite, mechanical, delegable to a machine ($T\vdash\varphi$). The <strong>semantic</strong> level: go into every model and check whether the sentence holds — a single $\forall x$ demands checking infinitely many $x$, which no human finishes ($T\models\varphi$). In 1929 Gödel proved: <strong>the two levels agree exactly.</strong></p>
+<p>Do not confuse this with incompleteness: completeness (1929) says the <em>rules of inference</em> suffice; incompleteness (1931) says the <em>axioms of arithmetic</em> do not. The first is about logic, the second about one particular theory.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 180" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#fff" height="120" rx="5" stroke="#1e3a5f" stroke-width="1.4" width="120" x="16" y="34"></rect>
+<rect fill="#fff" height="120" rx="5" stroke="#1e3a5f" stroke-width="1.4" width="120" x="204" y="34"></rect>
+<text fill="#1e3a5f" font-size="11.5" text-anchor="middle" x="76" y="26">syntax · finite</text>
+<text fill="#1e3a5f" font-size="11.5" text-anchor="middle" x="264" y="26">semantics · infinite</text>
+<text fill="#3a6088" font-size="11" text-anchor="middle" x="76" y="60">axioms T</text>
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="76" y="82">↓ finite derivation</text>
+<text fill="#1e3a5f" font-size="13" text-anchor="middle" x="76" y="112">T ⊢ φ</text>
+<text fill="#5a7090" font-size="9.5" text-anchor="middle" x="76" y="136">machine-enumerable</text>
+<circle cx="234" cy="62" fill="#c9a96b" fill-opacity="0.5" r="9" stroke="#8a7340" stroke-width="0.8"></circle>
+<circle cx="264" cy="62" fill="#c9a96b" fill-opacity="0.5" r="9" stroke="#8a7340" stroke-width="0.8"></circle>
+<circle cx="294" cy="62" fill="#c9a96b" fill-opacity="0.5" r="9" stroke="#8a7340" stroke-width="0.8"></circle>
+<text fill="#5a7090" font-size="10.5" text-anchor="middle" x="264" y="84">every model M ⊨ T</text>
+<text fill="#1e3a5f" font-size="13" text-anchor="middle" x="264" y="112">T ⊨ φ</text>
+<text fill="#5a7090" font-size="9.5" text-anchor="middle" x="264" y="136">cannot be checked one by one</text>
+<line stroke="#c9544a" stroke-width="1.6" x1="140" x2="200" y1="82" y2="82"></line>
+<path d="M 200 82 l -7 -3.5 l 0 7 z" fill="#c9544a"></path>
+<path d="M 140 82 l 7 -3.5 l 0 7 z" fill="#c9544a"></path>
+<text fill="#c9544a" font-size="10" text-anchor="middle" x="170" y="74">completeness</text>
+<text fill="#c9544a" font-size="10" text-anchor="middle" x="170" y="100">theorem</text>
+</svg>
+<div class="cap">Finite and enumerable on the left, infinite and untraversable on the right — completeness declares the two have the same extension.</div>
+</div>
+<div class="section">
+<div class="label">Formal statement</div>
+<div class="formula-box">$$T\models\varphi\quad\Longleftrightarrow\quad T\vdash\varphi$$</div>
+<p>The left side is semantic entailment: <em>every</em> model of $T$ makes $\varphi$ true. The right side is syntactic derivability: some <em>finite</em> formal derivation exists. The $\Leftarrow$ direction is soundness, and it is easy; all the content sits in $\Rightarrow$ — there is no first-order sentence that holds in every model yet can never be proved.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>Truth is a statement about infinity, a proof is a finite object, and the two turn out to have the same extension. This is the first precise version of "the infinite captured by the finite," and it is the bedrock of automated theorem proving — a machine only shuffles symbols, and completeness guarantees that shuffling symbols misses no universal truth.</p>
+<p>The flip side surfaces immediately: since a proof is finite, it can invoke only finitely many axioms. The world-building machine of the next card grows straight out of that remark.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Relational query languages are first-order logic made industrial: relational algebra corresponds one-to-one with first-order formulas, and SQL's <em>WHERE</em> and <em>EXISTS</em> are its connectives and quantifiers; Datalog and Prolog share the ancestry. In formal verification, Lean and Coq rest on stronger type theory, but the layer that actually discharges subgoals automatically — SMT — still runs on first-order logic.</p>
+</div>
+<div class="section">
+<div class="label">One line · a question</div>
+<div class="think"><strong>A formal proof is not a substitute for truth; completeness is what makes it truth's equivalent.</strong><br/>Question: if first-order logic is complete, why is automated theorem proving still hard? What lies between "a proof exists" and "a proof is found"?</div>
+</div>
+</div>
+<!-- Concept 2: compactness -->
+<div class="card">
+<h2>The Compactness Theorem</h2>
+<div class="en-name">A machine that builds worlds out of nothing</div>
+<span class="tag">Model Theory</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>If a pile of sentences contradicts itself, the contradiction is already exposed within <strong>finitely</strong> many of them — the derivation of the contradiction is itself finite and only has time to use finitely many premises. Turned around, that is compactness: <strong>if every finite subset has a model, the whole (possibly infinite) set has a model.</strong></p>
+<p>The principle sounds like a triviality and is in fact a machine for building worlds. Want an "infinitely large natural number"? Add to the language of arithmetic a constant $c$ and infinitely many axioms $c>0,\ c>1,\ c>2,\dots$. Take any finite batch: the harshest one merely says $c>n$, so letting $c$ be $n+1$ satisfies it — the ordinary naturals are a model. Compactness therefore asserts that the whole set has a model, and inside it lives an element greater than every standard natural number. The conclusion is unsettling — <strong>first-order language cannot say "finite," and cannot pin down "this is the natural numbers."</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
+<text fill="#1e3a5f" font-size="11" x="14" y="22">infinite axiom set T</text>
+<text fill="#2a3548" font-size="12" x="26" y="46">c &gt; 0</text>
+<text fill="#2a3548" font-size="12" x="26" y="66">c &gt; 1</text>
+<text fill="#2a3548" font-size="12" x="26" y="86">c &gt; 2</text>
+<text fill="#2a3548" font-size="12" x="26" y="106">⋮</text>
+<text fill="#2a3548" font-size="12" x="26" y="126">c &gt; n</text>
+<text fill="#2a3548" font-size="12" x="26" y="146">⋮</text>
+<path d="M 82 34 q 8 0 8 8 l 0 78 q 0 8 8 8" fill="none" stroke="#c9a96b" stroke-width="1.6"></path>
+<text fill="#8a7340" font-size="10" x="100" y="82">any finite batch</text>
+<text fill="#8a7340" font-size="10" x="100" y="100">→ take c = n+1, ℕ is a model</text>
+<line stroke="#c9544a" stroke-width="1.6" x1="150" x2="214" y1="150" y2="150"></line>
+<path d="M 214 150 l -7 -3.5 l 0 7 z" fill="#c9544a"></path>
+<text fill="#c9544a" font-size="10" x="146" y="143">compactness</text>
+<rect fill="#fff" height="86" rx="5" stroke="#1e3a5f" stroke-width="1.4" width="112" x="220" y="30"></rect>
+<text fill="#1e3a5f" font-size="10.5" text-anchor="middle" x="276" y="50">a model of all of T</text>
+<line stroke="#3a6088" stroke-width="1.2" x1="232" x2="320" y1="72" y2="72"></line>
+<circle cx="240" cy="72" fill="#3a6088" r="2.4"></circle>
+<circle cx="252" cy="72" fill="#3a6088" r="2.4"></circle>
+<circle cx="264" cy="72" fill="#3a6088" r="2.4"></circle>
+<text fill="#5a7090" font-size="9.5" x="272" y="68">⋯</text>
+<circle cx="310" cy="72" fill="#c9544a" r="4"></circle>
+<text fill="#c9544a" font-size="10" text-anchor="middle" x="302" y="94">c: infinite</text>
+<text fill="#5a7090" font-size="9" x="226" y="110">all standard naturals sit to the left</text>
+</svg>
+<div class="cap">Every finite fragment is satisfiable in the ordinary naturals, so the whole set must have a model — and that model must contain a non-standard element.</div>
+</div>
+<div class="section">
+<div class="label">Formal statement</div>
+<div class="formula-box">$$\text{every finite } T_0\subseteq T \text{ has a model}\ \Longrightarrow\ T \text{ has a model}$$</div>
+<p>"Compact" is not a metaphor: take complete theories as points and the sets carved out by single sentences as basic open sets, and the resulting topological space (the Stone space) is literally compact — the theorem is the logical translation of "finite subcover."</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>It converts the unremarkable observation that proofs are finite into existence from nothing. Löwenheim–Skolem is the same machine's other exit: a theory in a countable language with any infinite model has models of every infinite cardinality. So if ZFC is consistent it has a <strong>countable</strong> model, even though ZFC internally proves that uncountable sets exist. Skolem's paradox is no contradiction: "uncountable" is a verdict passed <em>inside</em> the model, meaning the bijection is absent from the model; seen from outside, it is of course available. <strong>How many there are depends on where you stand to count.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>The de Bruijn–Erdős theorem — an infinite graph whose every finite subgraph is $k$-colorable is itself $k$-colorable — falls straight out of compactness. The converse view is more interesting: compactness <strong>fails</strong> on finite models, which is exactly why database theory had to build a separate "finite model theory." Real tables are finite, and there the workhorse theorems of classical model theory are all void.</p>
+</div>
+<div class="section">
+<div class="label">One line · a question</div>
+<div class="think"><strong>Anything a first-order language can say is subject to compactness — and so it can never pin down an infinite structure.</strong><br/>Question: safety properties of distributed systems are often argued as "holds for all finite executions." Under what conditions does compactness let you lift that to infinite executions?</div>
+</div>
+</div>
+<!-- Concept 3: non-standard analysis -->
+<div class="card">
+<h2>Non-standard Analysis</h2>
+<div class="en-name">The legal return of the infinitesimal</div>
+<span class="tag">Analysis · Logic</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>The infinitesimal $dx$ of Newton and Leibniz — smaller than every positive number yet not zero — was mocked by Bishop Berkeley as "the ghost of a departed quantity" and expelled in the nineteenth century by $\varepsilon$–$\delta$. In 1960 Robinson used the machine of the previous card to bring it back: add to the theory of the reals a constant $\epsilon$ and infinitely many axioms $0&lt;\epsilon&lt;1/n$. Every finite subset is plainly satisfiable, so an ordered field containing genuine infinitesimals exists — the <strong>hyperreals</strong> $^*\mathbb{R}$.</p>
+<p>In $^*\mathbb{R}$ the derivative is no longer a limit; it is the difference quotient itself: compute $\frac{f(x+\epsilon)-f(x)}{\epsilon}$ and take its <strong>standard part</strong> (the nearest real number). Continuity no longer needs the three-quantifier dance either: if $x$ and $y$ are infinitely close then so are $f(x)$ and $f(y)$.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 180" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#3a6088" stroke-width="1.3" x1="20" x2="290" y1="46" y2="46"></line>
+<circle cx="60" cy="46" fill="#1e3a5f" r="3"></circle>
+<circle cx="110" cy="46" fill="#1e3a5f" r="3"></circle>
+<circle cx="160" cy="46" fill="#1e3a5f" r="3"></circle>
+<text fill="#1e3a5f" font-size="10.5" text-anchor="middle" x="60" y="36">0</text>
+<text fill="#1e3a5f" font-size="10.5" text-anchor="middle" x="110" y="36">1</text>
+<text fill="#1e3a5f" font-size="10.5" text-anchor="middle" x="160" y="36">2</text>
+<text fill="#5a7090" font-size="10.5" x="192" y="36">⋯ the reals ℝ ⋯</text>
+<circle cx="304" cy="46" fill="#c9544a" r="4"></circle>
+<text fill="#c9544a" font-size="10.5" text-anchor="middle" x="306" y="66">ω = 1/ε</text>
+<text fill="#c9544a" font-size="9.5" text-anchor="middle" x="304" y="24">infinite</text>
+<line stroke="#8fa0b8" stroke-dasharray="3 3" stroke-width="0.9" x1="52" x2="96" y1="52" y2="106"></line>
+<line stroke="#8fa0b8" stroke-dasharray="3 3" stroke-width="0.9" x1="68" x2="244" y1="52" y2="106"></line>
+<circle cx="170" cy="140" fill="#fafbfd" r="74" stroke="#c9a96b" stroke-width="1.6"></circle>
+<line stroke="#3a6088" stroke-width="1.2" x1="102" x2="238" y1="140" y2="140"></line>
+<circle cx="170" cy="140" fill="#1e3a5f" r="3.2"></circle>
+<circle cx="134" cy="140" fill="#c9a96b" r="2.6"></circle>
+<circle cx="152" cy="140" fill="#c9a96b" r="2.6"></circle>
+<circle cx="188" cy="140" fill="#c9a96b" r="2.6"></circle>
+<circle cx="206" cy="140" fill="#c9a96b" r="2.6"></circle>
+<text fill="#1e3a5f" font-size="10" text-anchor="middle" x="170" y="132">0</text>
+<text fill="#8a7340" font-size="9.5" text-anchor="middle" x="188" y="158">ε</text>
+<text fill="#8a7340" font-size="9.5" text-anchor="middle" x="208" y="158">2ε</text>
+<text fill="#8a7340" font-size="9.5" text-anchor="middle" x="150" y="158">−ε</text>
+<text fill="#8a7340" font-size="10" text-anchor="middle" x="170" y="184">the halo of 0</text>
+</svg>
+<div class="cap">Every real is wrapped in a halo of infinitesimals; taking the standard part collapses the whole halo back onto its center.</div>
+</div>
+<div class="section">
+<div class="label">Formal statement</div>
+<div class="formula-box">$$\mathbb{R}\models\varphi\quad\Longleftrightarrow\quad{}^*\mathbb{R}\models\varphi\qquad(\varphi\ \text{a first-order sentence})$$</div>
+<p>This is the <strong>transfer principle</strong>: any property expressible in first-order language holds in the reals exactly when it holds in the hyperreals. Every reason $^*\mathbb{R}$ is usable lives here — it is automatically an ordered field, and every real function automatically extends. <strong>"First-order" is the crucial restriction</strong>: "every subset with an upper bound has a supremum" quantifies over <em>subsets</em>, is second-order, does not transfer, and indeed $^*\mathbb{R}$ is not complete. When old-style infinitesimal arguments went off the rails, this is the rail they left.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>An intuition exiled for a century and a half was rehabilitated not by analysis but by <strong>logic</strong>. Better still, it explains the history: why those "non-rigorous" arguments so often produced correct results — they were informal instances of the transfer principle, and transfer is a theorem. It also marks precisely where such arguments break.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<ul>
+<li><strong>Stochastic analysis</strong>: Loeb measure represents Brownian motion as a "hyperfinite" random walk, so combinatorial counting arguments can be applied to a continuous model.</li>
+<li><strong>Shorter proofs</strong>: Tao has repeatedly shown how to trade an asymptotic statement about "$n\to\infty$" for the algebraic statement "fix an infinite $n$," at which point the layered $\varepsilon$ bookkeeping evaporates.</li>
+<li><strong>A computational cousin</strong>: the dual numbers $a+b\epsilon$ of automatic differentiation ($\epsilon^2=0$) are not hyperreals — no order, no transfer principle — but they too let an infinitesimal genuinely participate in arithmetic. Forward-mode differentiation in JAX and PyTorch is exactly this.</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">One line · a question</div>
+<div class="think"><strong>Infinitesimals were never non-rigorous; there was simply no language yet able to carry them.</strong><br/>Question: analysis over $^*\mathbb{R}$ proves exactly the same theorems about the reals as classical analysis does — it is a conservative extension. If it buys not a single new theorem, where does its value actually lie?</div>
+</div>
+</div>
+<!-- Concept 4: decidability -->
+<div class="card">
+<h2>Decidability: the Computability of a Theory</h2>
+<div class="en-name">Quantifier elimination and the price of expressiveness</div>
+<span class="tag">Computability · Logic</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Incompleteness says "PA contains sentences that are true but unprovable." The question here is a more engineering one: <strong>given a theory, is there an algorithm that decides whether an arbitrary sentence is one of its theorems?</strong></p>
+<p>The watershed is astonishingly narrow. Arithmetic on the naturals with addition only (Presburger arithmetic) is <strong>decidable</strong>; add multiplication and you have PA, which is instantly <strong>undecidable</strong>; yet the first-order theory of the reals with both addition and multiplication (real closed fields) was proved <strong>decidable</strong> by Tarski in 1951 — the seemingly larger structure is the tamer one.</p>
+<p>What matters is not how many objects there are but whether the integers can be <strong>defined</strong> inside the theory: with the integers you can encode a Turing machine, and with that you have smuggled in the halting problem. No first-order formula in a real closed field picks out the integers, so it stays decidable. <strong>Undecidability has exactly one source — the capacity for self-reference.</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 160" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#e6ecf3" height="26" rx="4" width="150" x="16" y="46"></rect>
+<rect fill="#f7ece9" height="26" rx="4" width="158" x="166" y="46"></rect>
+<line stroke="#c9544a" stroke-dasharray="4 3" stroke-width="1.6" x1="166" x2="166" y1="30" y2="112"></line>
+<text fill="#c9544a" font-size="9.5" text-anchor="middle" x="166" y="24">can it encode a Turing machine?</text>
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="90" y="42">decidable</text>
+<text fill="#c9544a" font-size="10.5" text-anchor="middle" x="246" y="42">undecidable</text>
+<text fill="#1e3a5f" font-size="9" text-anchor="middle" x="42" y="64">propositional</text>
+<text fill="#1e3a5f" font-size="9" text-anchor="middle" x="98" y="64">Presburger</text>
+<text fill="#1e3a5f" font-size="9" text-anchor="middle" x="146" y="64">RCF</text>
+<text fill="#1e3a5f" font-size="9" text-anchor="middle" x="196" y="64">PA</text>
+<text fill="#1e3a5f" font-size="9" text-anchor="middle" x="248" y="64">FO validity</text>
+<text fill="#1e3a5f" font-size="9" text-anchor="middle" x="306" y="64">ZFC</text>
+<line stroke="#8fa0b8" stroke-width="1" x1="16" x2="324" y1="86" y2="86"></line>
+<path d="M 324 86 l -7 -3.5 l 0 7 z" fill="#8fa0b8"></path>
+<text fill="#5a7090" font-size="10" x="16" y="102">expressiveness →</text>
+<text fill="#5a7090" font-size="9" x="56" y="124">NP-complete</text>
+<text fill="#5a7090" font-size="9" x="116" y="124">doubly exponential</text>
+<text fill="#5a7090" font-size="9" x="222" y="124">halting reduces into it</text>
+<text fill="#5a7090" font-size="9" x="16" y="146">decidable ≠ feasible</text>
+</svg>
+<div class="cap">The watershed is not the size of the objects but whether computation can be simulated inside the structure.</div>
+</div>
+<div class="section">
+<div class="label">Formal statement</div>
+<div class="formula-box">$$\exists x\,(ax^2+bx+c=0)\iff\big(a\neq0\wedge b^2-4ac\ge0\big)\vee\big(a=0\wedge(b\neq0\vee c=0)\big)$$</div>
+<p>Tarski's method is <strong>quantifier elimination</strong>: every formula can be rewritten as an equivalent quantifier-free one. The line above is the smallest example — the left side searches over infinitely many $x$, the right side needs only finitely many arithmetic tests on the coefficients. Quantifier-free truth can be computed directly, so eliminating quantifiers one by one renders the whole theory decidable.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>Decidable does not mean easy: the decision problem for Presburger arithmetic has a doubly exponential lower bound, and a whole wilderness of complexity separates decidable from feasible. The real beauty is the watershed itself — it lands precisely on "can this structure simulate computation inside itself?" Gödel (incompleteness), Turing (halting), and Tarski (undefinability of truth) converge here into one sentence: <strong>whatever can refer to itself loses decidability.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>SMT solvers (Z3, CVC5) are exactly these decidable fragments made industrial: linear integer arithmetic, bit-vectors, arrays and uninterpreted functions each get a decision procedure, then the procedures are combined. Compiler verification (CompCert), kernel verification (seL4), symbolic execution and program synthesis all run on top of them. The line also runs backwards into design — Datalog endures precisely because it deliberately stops on the decidable side: <strong>choosing a specification language for a system is really choosing a point on the trade between expressiveness and decidability.</strong></p>
+</div>
+<div class="section">
+<div class="label">One line · a question</div>
+<div class="think"><strong>Expressiveness is conserved: every extra thing a language can say costs you something you can no longer decide.</strong><br/>Question: a type system is a theory of programs. Why must dependent types (expressive enough to approach first-order arithmetic) surrender decidable checking or inference, while Hindley–Milner need not?</div>
+</div>
+</div>
+<h3 class="deep">Going deeper</h3>
+<details>
+<summary>If first-order language cannot pin down the naturals, why do we still believe "the natural numbers" is a determinate object?</summary>
+<div>The second-order induction axiom quantifies over <em>all subsets</em> and does pin down $\mathbb{N}$ uniquely (categoricity), at the cost that second-order logic has no complete proof system — you fix the object but lose the ability to reason about it mechanically. <strong>Categoricity and completeness cannot both be had</strong>; that is logic's own uncertainty principle. A Platonist says the standard model objectively exists and language merely cannot reach it; a formalist says "standard" is only a relative notion selected from a metatheory. What is certain is just this: whatever determinacy there is, it does not live in first-order syntax.</div>
+</details>
+<details>
+<summary>Is the connection between model theory and machine learning real, or only an analogy?</summary>
+<div>It is real. Shelah's stability theory classifies theories by whether a formula can encode arbitrarily long binary orders inside a structure, and the combinatorial parameters that fall out match the dimensions of learning theory one for one: NIP theories correspond to finite VC dimension (PAC learnability), stable theories to finite Littlestone dimension (online learnability). Work by Chase, Freitag and others aligned two taxonomies that had developed independently for half a century. The shared intuition: <strong>complexity that admits a finite description is equivalent to the inability to encode arbitrarily complex patterns.</strong></div>
+</details>
+<details>
+<summary>Why does finite model theory have to start over from scratch?</summary>
+<div>Because both pillars of classical model theory assume infinite models are allowed. Compactness fails outright — each finite subset of the family "the model has at least $n$ elements" has a finite model, while the whole family does not. Completeness fails too: the set of first-order sentences valid on finite structures is not recursively enumerable (Trakhtenbrot's theorem). What is lost buys something else, though: over finite structures, logical expressiveness corresponds exactly to computational complexity, and Fagin's theorem shows NP is precisely the class of properties expressible in existential second-order logic. This is descriptive complexity — <strong>there, P vs NP becomes a question purely about what a language can say.</strong></div>
+</details>
+</div>
+</body>
+</html>

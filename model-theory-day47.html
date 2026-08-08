@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>模型论与基础 · Day 47 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.viz{display:flex;flex-direction:column;align-items:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.viz .cap{margin-top:10px;font-size:0.85rem;color:#5a7090;font-style:italic;text-align:center}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin:36px 0 16px;text-align:center;font-style:italic;letter-spacing:1px}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 47 · 2026.08.08</div>
+<h1>模型论与基础</h1>
+<div class="meta">Model Theory &amp; Foundations — 语言能说什么，世界就有多少种</div>
+<div class="epigraph">「泛代数 + 逻辑 = 模型论。」 — C. C. Chang &amp; H. J. Keisler，《Model Theory》</div>
+</header>
+<!-- 概念 1：一阶逻辑与完备性 -->
+<div class="card">
+<h2>一阶逻辑与完备性</h2>
+<div class="en-name">First-Order Logic &amp; Completeness · 证明与真理为何重合</div>
+<span class="tag">Logic · Foundations</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>写下群的公理——结合律、单位元、逆元。这几行符号本身不指任何东西，它只是一张<strong>筛子</strong>：整数加法通过，可逆矩阵通过，自然数加法没通过。通过的结构就是它的<strong>模型</strong>。</p>
+<p>数学家因此在两个层面工作。<strong>语法</strong>层：按规则重排符号，一步步推，全程有限、机械、可交给机器（$T\vdash\varphi$）。<strong>语义</strong>层：到每个模型里看它真不真——一句 $\forall x$ 要检查无穷多个 $x$，人查不完（$T\models\varphi$）。1929 年哥德尔证明：<strong>两层结果完全一样。</strong></p>
+<p>别与不完备定理混淆：完备性（1929）说<em>推演规则</em>够用，不完备（1931）说<em>算术公理</em>不够；前者关于逻辑，后者关于某个理论。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 180" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#fff" height="120" rx="5" stroke="#1e3a5f" stroke-width="1.4" width="120" x="16" y="34"></rect>
+<rect fill="#fff" height="120" rx="5" stroke="#1e3a5f" stroke-width="1.4" width="120" x="204" y="34"></rect>
+<text fill="#1e3a5f" font-size="12" text-anchor="middle" x="76" y="26">语法 · 有限</text>
+<text fill="#1e3a5f" font-size="12" text-anchor="middle" x="264" y="26">语义 · 无穷</text>
+<text fill="#3a6088" font-size="11" text-anchor="middle" x="76" y="60">公理 T</text>
+<text fill="#3a6088" font-size="11" text-anchor="middle" x="76" y="82">↓ 有限步推导</text>
+<text fill="#1e3a5f" font-size="13" text-anchor="middle" x="76" y="112">T ⊢ φ</text>
+<text fill="#5a7090" font-size="10" text-anchor="middle" x="76" y="136">机器可枚举</text>
+<circle cx="234" cy="62" fill="#c9a96b" fill-opacity="0.5" r="9" stroke="#8a7340" stroke-width="0.8"></circle>
+<circle cx="264" cy="62" fill="#c9a96b" fill-opacity="0.5" r="9" stroke="#8a7340" stroke-width="0.8"></circle>
+<circle cx="294" cy="62" fill="#c9a96b" fill-opacity="0.5" r="9" stroke="#8a7340" stroke-width="0.8"></circle>
+<text fill="#5a7090" font-size="11" text-anchor="middle" x="264" y="84">所有模型 M ⊨ T</text>
+<text fill="#1e3a5f" font-size="13" text-anchor="middle" x="264" y="112">T ⊨ φ</text>
+<text fill="#5a7090" font-size="10" text-anchor="middle" x="264" y="136">无法逐一检查</text>
+<line stroke="#c9544a" stroke-width="1.6" x1="140" x2="200" y1="82" y2="82"></line>
+<path d="M 200 82 l -7 -3.5 l 0 7 z" fill="#c9544a"></path>
+<path d="M 140 82 l 7 -3.5 l 0 7 z" fill="#c9544a"></path>
+<text fill="#c9544a" font-size="10.5" text-anchor="middle" x="170" y="74">完备性</text>
+<text fill="#c9544a" font-size="10.5" text-anchor="middle" x="170" y="100">定理</text>
+</svg>
+<div class="cap">左边有限、可枚举，右边无穷、不可遍历——完备性定理宣称两者外延相同。</div>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$T\models\varphi\quad\Longleftrightarrow\quad T\vdash\varphi$$</div>
+<p>左边是语义蕴涵：$T$ 的<em>每个</em>模型都让 $\varphi$ 为真；右边是语法可导：存在一串<em>有限长</em>的形式推导。$\Leftarrow$ 是可靠性，容易；内容全在 $\Rightarrow$：不存在「所有模型里都成立、却永远证不出来」的一阶命题。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>真理是关于无穷的概念，证明是有限的对象，两者外延竟然相等。这是「无穷被有限捕获」的第一个精确版本，也是自动定理证明的地基——机器只会摆弄符号，完备性保证它不会漏掉任何普遍真理。</p>
+<p>反面立刻浮现：证明既然有限，就只用得到有限条公理——下一张卡片那台造世界的机器正是从这里长出来。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>关系数据库的查询语言就是一阶逻辑的工程化身：关系代数与一阶公式一一对应，SQL 的 <em>WHERE</em> 与 <em>EXISTS</em> 就是联结词与量词，Datalog 与 Prolog 同源。形式化验证里 Lean 与 Coq 的底座虽是更强的类型论，但真正把子目标自动关掉的那一层（SMT）跑的仍是一阶逻辑。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>形式证明不是真理的替代品；是完备性定理让它成为真理的等价物。</strong><br/>思考：一阶逻辑既然完备，为什么自动定理证明依然困难？「存在证明」与「找得到证明」之间隔着什么？</div>
+</div>
+</div>
+<!-- 概念 2：紧致性定理 -->
+<div class="card">
+<h2>紧致性定理</h2>
+<div class="en-name">The Compactness Theorem · 一台凭空造世界的机器</div>
+<span class="tag">Model Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>一堆句子若自相矛盾，矛盾一定在<strong>有限</strong>多句里就已暴露——推出矛盾的那个证明本身有限，只来得及用到有限条前提。反过来说就是紧致性定理：<strong>若每个有限子集都有模型，整个（可以无穷大的）集合就有模型。</strong></p>
+<p>这条听着像废话的原理，其实是一台造世界的机器。想要一个「无穷大的自然数」？在算术语言里添一个常数 $c$ 与无穷多条公理 $c>0,\ c>1,\ c>2,\dots$。任取有限多条，最苛刻的无非说 $c>n$，让 $c$ 当 $n+1$ 即可——普通自然数就是模型。于是紧致性断言整套公理有模型：那里面住着一个大于所有标准自然数的元素。结论令人不安——<strong>一阶语言说不出「有限」，也钉不死「这就是自然数」。</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
+<text fill="#1e3a5f" font-size="11.5" x="18" y="22">无穷公理集 T</text>
+<text fill="#2a3548" font-size="12" x="26" y="46">c &gt; 0</text>
+<text fill="#2a3548" font-size="12" x="26" y="66">c &gt; 1</text>
+<text fill="#2a3548" font-size="12" x="26" y="86">c &gt; 2</text>
+<text fill="#2a3548" font-size="12" x="26" y="106">⋮</text>
+<text fill="#2a3548" font-size="12" x="26" y="126">c &gt; n</text>
+<text fill="#2a3548" font-size="12" x="26" y="146">⋮</text>
+<path d="M 82 34 q 8 0 8 8 l 0 78 q 0 8 8 8" fill="none" stroke="#c9a96b" stroke-width="1.6"></path>
+<text fill="#8a7340" font-size="10.5" x="102" y="82">任取有限多条</text>
+<text fill="#8a7340" font-size="10.5" x="102" y="100">→ 取 c = n+1，ℕ 即模型</text>
+<line stroke="#c9544a" stroke-width="1.6" x1="150" x2="214" y1="150" y2="150"></line>
+<path d="M 214 150 l -7 -3.5 l 0 7 z" fill="#c9544a"></path>
+<text fill="#c9544a" font-size="10.5" x="150" y="143">紧致性</text>
+<rect fill="#fff" height="86" rx="5" stroke="#1e3a5f" stroke-width="1.4" width="112" x="220" y="30"></rect>
+<text fill="#1e3a5f" font-size="11" text-anchor="middle" x="276" y="50">T 整体的模型</text>
+<line stroke="#3a6088" stroke-width="1.2" x1="232" x2="320" y1="72" y2="72"></line>
+<circle cx="240" cy="72" fill="#3a6088" r="2.4"></circle>
+<circle cx="252" cy="72" fill="#3a6088" r="2.4"></circle>
+<circle cx="264" cy="72" fill="#3a6088" r="2.4"></circle>
+<text fill="#5a7090" font-size="9.5" x="272" y="68">⋯</text>
+<circle cx="310" cy="72" fill="#c9544a" r="4"></circle>
+<text fill="#c9544a" font-size="10.5" text-anchor="middle" x="306" y="94">c：无穷大数</text>
+<text fill="#5a7090" font-size="9.5" x="228" y="110">标准自然数全在左侧</text>
+</svg>
+<div class="cap">每个有限片段都能在普通自然数里满足，于是整体必有模型——而它必定含一个非标准元素。</div>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\text{每个有限 } T_0\subseteq T \text{ 有模型}\ \Longrightarrow\ T \text{ 有模型}$$</div>
+<p>「紧致」不是比喻：把完备理论当作点、单句划出的集合当作基本开集，得到的拓扑空间（Stone 空间）恰好紧致——这条定理就是「有限子覆盖」的逻辑翻版。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它把「证明是有限的」这条不值一提的观察，兑换成了无中生有的存在性。Löwenheim–Skolem 是同一台机器的另一个出口——可数语言的理论只要有无穷模型，就有每种无穷基数的模型。于是 ZFC 若一致就有<strong>可数</strong>模型，尽管它内部证明了不可数集存在。这个 Skolem 悖论不是矛盾：「不可数」是模型<em>内部</em>的判断，指模型里没有那个一一对应，站在外面当然找得到。<strong>「有多少」取决于你站在哪里数。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>de Bruijn–Erdős 定理：无限图若每个有限子图都可 $k$ 着色，则整图可 $k$ 着色——紧致性直接给出。反过来看更有意思：紧致性在<strong>有限</strong>模型上失效，这正是数据库理论必须另建「有限模型论」的原因——现实的表都是有限的，经典模型论的主力定理在那里全部作废。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>凡一阶语言说得出的，都逃不过紧致性——它永远钉不死一个无穷结构。</strong><br/>思考：分布式系统的安全性质常以「对所有有限执行成立」来论证。在什么条件下，紧致性允许你把它推广到无限执行？</div>
+</div>
+</div>
+<!-- 概念 3：非标准分析 -->
+<div class="card">
+<h2>非标准分析</h2>
+<div class="en-name">Non-standard Analysis · 无穷小的合法归来</div>
+<span class="tag">Analysis · Logic</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>牛顿与莱布尼茨的无穷小 $dx$——比任何正数都小却不是零——被 Berkeley 主教讥为「死去量的鬼魂」，19 世纪被 $\varepsilon$–$\delta$ 驱逐。1960 年 Robinson 用上一张卡片那台机器把它请了回来：往实数的理论里加一个常数 $\epsilon$ 与无穷多条公理 $0&lt;\epsilon&lt;1/n$，每个有限子集显然可满足，于是存在一个含真无穷小的有序域——<strong>超实数</strong> $^*\mathbb{R}$。</p>
+<p>在 $^*\mathbb{R}$ 里，导数不再是「极限」，就是差商本身：算出 $\frac{f(x+\epsilon)-f(x)}{\epsilon}$，再取它的<strong>标准部分</strong>（离它最近的那个实数）。连续性也不必再动用三重量词：$x$ 与 $y$ 无限接近就蕴含 $f(x)$ 与 $f(y)$ 无限接近。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 180" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#3a6088" stroke-width="1.3" x1="20" x2="290" y1="46" y2="46"></line>
+<circle cx="60" cy="46" fill="#1e3a5f" r="3"></circle>
+<circle cx="110" cy="46" fill="#1e3a5f" r="3"></circle>
+<circle cx="160" cy="46" fill="#1e3a5f" r="3"></circle>
+<text fill="#1e3a5f" font-size="10.5" text-anchor="middle" x="60" y="36">0</text>
+<text fill="#1e3a5f" font-size="10.5" text-anchor="middle" x="110" y="36">1</text>
+<text fill="#1e3a5f" font-size="10.5" text-anchor="middle" x="160" y="36">2</text>
+<text fill="#5a7090" font-size="10.5" x="196" y="36">⋯ 实数 ℝ ⋯</text>
+<circle cx="304" cy="46" fill="#c9544a" r="4"></circle>
+<text fill="#c9544a" font-size="10.5" text-anchor="middle" x="306" y="66">ω = 1/ε</text>
+<text fill="#c9544a" font-size="9.5" text-anchor="middle" x="304" y="24">无穷大</text>
+<line stroke="#8fa0b8" stroke-dasharray="3 3" stroke-width="0.9" x1="52" x2="96" y1="52" y2="106"></line>
+<line stroke="#8fa0b8" stroke-dasharray="3 3" stroke-width="0.9" x1="68" x2="244" y1="52" y2="106"></line>
+<circle cx="170" cy="140" fill="#fafbfd" r="74" stroke="#c9a96b" stroke-width="1.6"></circle>
+<line stroke="#3a6088" stroke-width="1.2" x1="102" x2="238" y1="140" y2="140"></line>
+<circle cx="170" cy="140" fill="#1e3a5f" r="3.2"></circle>
+<circle cx="134" cy="140" fill="#c9a96b" r="2.6"></circle>
+<circle cx="152" cy="140" fill="#c9a96b" r="2.6"></circle>
+<circle cx="188" cy="140" fill="#c9a96b" r="2.6"></circle>
+<circle cx="206" cy="140" fill="#c9a96b" r="2.6"></circle>
+<text fill="#1e3a5f" font-size="10" text-anchor="middle" x="170" y="132">0</text>
+<text fill="#8a7340" font-size="9.5" text-anchor="middle" x="188" y="158">ε</text>
+<text fill="#8a7340" font-size="9.5" text-anchor="middle" x="208" y="158">2ε</text>
+<text fill="#8a7340" font-size="9.5" text-anchor="middle" x="150" y="158">−ε</text>
+<text fill="#8a7340" font-size="10" text-anchor="middle" x="170" y="184">0 的单子（halo）</text>
+</svg>
+<div class="cap">每个实数外面都裹着一层无穷小构成的「单子」；标准部分就是把整层塌回中心那一点。</div>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\mathbb{R}\models\varphi\quad\Longleftrightarrow\quad{}^*\mathbb{R}\models\varphi\qquad(\varphi\ \text{为一阶句子})$$</div>
+<p>这叫<strong>转移原理</strong>：凡一阶语言写得出的性质，在实数里成立当且仅当在超实数里成立——$^*\mathbb{R}$ 好用的理由全在这里：它自动是有序域，每个实函数自动有延拓。<strong>「一阶」是关键限制</strong>：「有上界的子集有上确界」量化的是<em>子集</em>，属二阶，不转移，$^*\mathbb{R}$ 确实不完备。老一代无穷小论证偶尔翻车，翻的正是这类车。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>一个被放逐一个半世纪的直觉，最后不是被分析学、而是被<strong>逻辑</strong>平反。更漂亮的是它顺带解释了历史：那些「不严格」的推理为何常常给出正确结果——它们是转移原理的非形式版本，而转移原理是定理；同时它也划清了这些推理会在何处出错。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<ul>
+<li><strong>随机分析</strong>：Loeb 测度把布朗运动表示成「超有限」多步随机游走，组合式的计数论证于是能用在连续模型上。</li>
+<li><strong>简化证明</strong>：Tao 反复演示把「$n\to\infty$ 的渐近陈述」换成「取一个无穷大的 $n$」，层层 $\varepsilon$ 记账随之消失。</li>
+<li><strong>计算侧近亲</strong>：自动微分的对偶数 $a+b\epsilon$（$\epsilon^2=0$）不是超实数（缺序与转移原理），但同样让无穷小真正参与算术——JAX 与 PyTorch 的前向模式跑的就是它。</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>无穷小不是不严格，只是当年缺一门能承载它的语言。</strong><br/>思考：$^*\mathbb{R}$ 上的分析证出的实数定理与经典分析完全相同（它是保守扩张）。既然一个新定理都换不来，用它的价值究竟在哪？</div>
+</div>
+</div>
+<!-- 概念 4：可判定性 -->
+<div class="card">
+<h2>可判定性：理论的可计算性</h2>
+<div class="en-name">Decidability &amp; Quantifier Elimination · 表达力的代价</div>
+<span class="tag">Computability · Logic</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>不完备定理说「PA 里有真而不可证的句子」。这里问的是另一个更工程的问题：<strong>给定一个理论，有没有算法判断任意一句话是不是它的定理？</strong></p>
+<p>分水岭窄得惊人。只含加法的自然数算术（Presburger）<strong>可判定</strong>；补上乘法就是 PA，立刻<strong>不可判定</strong>；而实数上带加法乘法的一阶理论（实闭域），Tarski 1951 年证明它<strong>又可判定</strong>——看似更大的结构反而更驯服。</p>
+<p>关键不在对象多不多，而在能否在理论内部把整数<strong>定义出来</strong>：有了整数就能编码图灵机，也就把停机问题塞了进来。实闭域里没有一阶公式挑得出整数，于是可判定。<strong>不可判定性只有一个源头——自指的能力。</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 160" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#e6ecf3" height="26" rx="4" width="150" x="16" y="46"></rect>
+<rect fill="#f7ece9" height="26" rx="4" width="158" x="166" y="46"></rect>
+<line stroke="#c9544a" stroke-dasharray="4 3" stroke-width="1.6" x1="166" x2="166" y1="30" y2="112"></line>
+<text fill="#c9544a" font-size="10" text-anchor="middle" x="166" y="24">能否编码图灵机</text>
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="90" y="42">可判定</text>
+<text fill="#c9544a" font-size="10.5" text-anchor="middle" x="246" y="42">不可判定</text>
+<text fill="#1e3a5f" font-size="9.5" text-anchor="middle" x="42" y="64">命题逻辑</text>
+<text fill="#1e3a5f" font-size="9.5" text-anchor="middle" x="98" y="64">Presburger</text>
+<text fill="#1e3a5f" font-size="9.5" text-anchor="middle" x="146" y="64">实闭域</text>
+<text fill="#1e3a5f" font-size="9.5" text-anchor="middle" x="200" y="64">PA</text>
+<text fill="#1e3a5f" font-size="9.5" text-anchor="middle" x="248" y="64">一阶逻辑有效性</text>
+<text fill="#1e3a5f" font-size="9.5" text-anchor="middle" x="306" y="64">ZFC</text>
+<line stroke="#8fa0b8" stroke-width="1" x1="16" x2="324" y1="86" y2="86"></line>
+<path d="M 324 86 l -7 -3.5 l 0 7 z" fill="#8fa0b8"></path>
+<text fill="#5a7090" font-size="10" x="16" y="102">表达力 →</text>
+<text fill="#5a7090" font-size="9.5" x="60" y="124">NP 完全</text>
+<text fill="#5a7090" font-size="9.5" x="118" y="124">双指数下界</text>
+<text fill="#5a7090" font-size="9.5" x="234" y="124">可归约停机问题</text>
+<text fill="#5a7090" font-size="9.5" x="16" y="146">可判定 ≠ 可行</text>
+</svg>
+<div class="cap">分水岭不在对象大小，而在能否在结构内部模拟计算。</div>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\exists x\,(ax^2+bx+c=0)\iff\big(a\neq0\wedge b^2-4ac\ge0\big)\vee\big(a=0\wedge(b\neq0\vee c=0)\big)$$</div>
+<p>Tarski 的方法叫<strong>量词消去</strong>：每个公式都能等价改写成不含量词的形式。上式是最小的例子——左边要在无穷多个 $x$ 里搜索，右边只需对系数做有限次算术判断。无量词公式的真假可以直接算，量词逐个消去，整个理论便可判定。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>可判定不等于容易：Presburger 算术的判定问题有双指数时间下界，可判定与可行之间还隔着一整片荒原。真正的美在那条分水岭本身——它精确落在「结构能否在自身内部模拟计算」上。哥德尔（不完备）、图灵（停机）、Tarski（真理不可定义）三条路在这里汇成一句话：<strong>能自指者，必失判定。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>SMT 求解器（Z3、CVC5）正是这些可判定片段的工程化：线性整数算术、位向量、数组、未解释函数各配一套判定过程再拼装，编译器验证（CompCert）、内核验证（seL4）、符号执行与程序合成底下跑的都是它。这条线也反过来指导设计——Datalog 长盛不衰，正因它刻意停在可判定的那一侧：<strong>为系统挑规约语言，本质是在表达力与可判定性之间选一个点。</strong></p>
+</div>
+<div class="section">
+<div class="label">一句话精华 · 思考题</div>
+<div class="think"><strong>表达力守恒：语言每多说一点，你就少判定一点。</strong><br/>思考：类型系统就是程序的理论。为什么依赖类型（表达力逼近一阶算术）必须交出类型检查或推导的可判定性，而 Hindley–Milner 不必？</div>
+</div>
+</div>
+<h3 class="deep">深入思考</h3>
+<details>
+<summary>一阶语言钉不死自然数，我们凭什么仍相信「自然数」是确定的对象？</summary>
+<div>二阶逻辑的归纳公理量化<em>所有子集</em>，确实唯一钉住了 $\mathbb{N}$（范畴性），代价是它没有完备的证明系统——钉住了对象，却失去机械推理它的能力。<strong>范畴性与完备性不可兼得</strong>，这是逻辑里的一条测不准。柏拉图主义者说标准模型客观存在，只是语言够不着；形式主义者说「标准」不过是从元理论里挑出的相对概念。能确定的只有：那份确定性不在一阶语法里。</div>
+</details>
+<details>
+<summary>模型论与机器学习有真联系，还是只是类比？</summary>
+<div>是真联系。Shelah 的稳定性理论按「一个公式能否在结构里编码任意长的二元序」给理论分类，得到的组合参数与学习论的维数一一对应：NIP 理论对应有限 VC 维（PAC 可学），稳定理论对应有限 Littlestone 维（在线可学）。Chase–Freitag 等人把这两套独立发展半个世纪的分类学对齐了。共同的直觉是：<strong>能被有限描述的复杂度，等价于无法编码任意复杂的模式。</strong></div>
+</details>
+<details>
+<summary>为什么有限模型论必须另起炉灶？</summary>
+<div>因为经典模型论的两根支柱都依赖「允许无穷模型」。紧致性直接失效——「模型至少有 $n$ 个元素」这族句子的每个有限子集都有有限模型，整体却没有；完备性也失效，有限结构上有效的一阶句子集不可递归枚举（Trakhtenbrot 定理）。但失去的换来了别的：有限结构上逻辑表达力与计算复杂性精确对应，Fagin 定理证明 NP 恰好是存在二阶逻辑可表达的性质类。这就是描述复杂性——<strong>P vs NP 在那里变成一个纯粹关于「语言能说什么」的问题。</strong></div>
+</details>
+</div>
+</body>
+</html>
