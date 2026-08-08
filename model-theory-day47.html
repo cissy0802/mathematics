@@ -52,12 +52,12 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="container">
 <header>
 <div class="kicker">Day 47 · 2026.08.08</div>
-<h1>模型论与基础</h1>
+<h1 data-tts="1d46f3d7092786a0">模型论与基础</h1>
 <div class="meta">Model Theory &amp; Foundations — 语言能说什么，世界就有多少种</div>
 <div class="epigraph">「泛代数 + 逻辑 = 模型论。」 — C. C. Chang &amp; H. J. Keisler，《Model Theory》</div>
 </header>
 <!-- 概念 1：一阶逻辑与完备性 -->
-<div class="card">
+<div class="card" data-tts="9bf23c3269075849">
 <h2>一阶逻辑与完备性</h2>
 <div class="en-name">First-Order Logic &amp; Completeness · 证明与真理为何重合</div>
 <span class="tag">Logic · Foundations</span>
@@ -111,14 +111,14 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 </div>
 </div>
 <!-- 概念 2：紧致性定理 -->
-<div class="card">
+<div class="card" data-tts="cb896668d1ef13a7">
 <h2>紧致性定理</h2>
 <div class="en-name">The Compactness Theorem · 一台凭空造世界的机器</div>
 <span class="tag">Model Theory</span>
 <div class="section">
 <div class="label">直觉版</div>
 <p>一堆句子若自相矛盾，矛盾一定在<strong>有限</strong>多句里就已暴露——推出矛盾的那个证明本身有限，只来得及用到有限条前提。反过来说就是紧致性定理：<strong>若每个有限子集都有模型，整个（可以无穷大的）集合就有模型。</strong></p>
-<p>这条听着像废话的原理，其实是一台造世界的机器。想要一个「无穷大的自然数」？在算术语言里添一个常数 $c$ 与无穷多条公理 $c>0,\ c>1,\ c>2,\dots$。任取有限多条，最苛刻的无非说 $c>n$，让 $c$ 当 $n+1$ 即可——普通自然数就是模型。于是紧致性断言整套公理有模型：那里面住着一个大于所有标准自然数的元素。结论令人不安——<strong>一阶语言说不出「有限」，也钉不死「这就是自然数」。</strong></p>
+<p>这条听着像废话的原理，其实是一台造世界的机器。想要一个「无穷大的自然数」？在算术语言里添一个常数 $c$ 与无穷多条公理 $c&gt;0,\ c&gt;1,\ c&gt;2,\dots$。任取有限多条，最苛刻的无非说 $c&gt;n$，让 $c$ 当 $n+1$ 即可——普通自然数就是模型。于是紧致性断言整套公理有模型：那里面住着一个大于所有标准自然数的元素。结论令人不安——<strong>一阶语言说不出「有限」，也钉不死「这就是自然数」。</strong></p>
 </div>
 <div class="viz">
 <svg viewbox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
@@ -167,7 +167,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 </div>
 </div>
 <!-- 概念 3：非标准分析 -->
-<div class="card">
+<div class="card" data-tts="0baf518379f4f142">
 <h2>非标准分析</h2>
 <div class="en-name">Non-standard Analysis · 无穷小的合法归来</div>
 <span class="tag">Analysis · Logic</span>
@@ -229,7 +229,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 </div>
 </div>
 <!-- 概念 4：可判定性 -->
-<div class="card">
+<div class="card" data-tts="77391c7070cae034">
 <h2>可判定性：理论的可计算性</h2>
 <div class="en-name">Decidability &amp; Quantifier Elimination · 表达力的代价</div>
 <span class="tag">Computability · Logic</span>
@@ -281,7 +281,7 @@ h3.deep{font-size:1.2rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,ser
 <div class="think"><strong>表达力守恒：语言每多说一点，你就少判定一点。</strong><br/>思考：类型系统就是程序的理论。为什么依赖类型（表达力逼近一阶算术）必须交出类型检查或推导的可判定性，而 Hindley–Milner 不必？</div>
 </div>
 </div>
-<h3 class="deep">深入思考</h3>
+<h3 class="deep" data-tts="6565c5f7ba0b21de">深入思考</h3>
 <details>
 <summary>一阶语言钉不死自然数，我们凭什么仍相信「自然数」是确定的对象？</summary>
 <div>二阶逻辑的归纳公理量化<em>所有子集</em>，确实唯一钉住了 $\mathbb{N}$（范畴性），代价是它没有完备的证明系统——钉住了对象，却失去机械推理它的能力。<strong>范畴性与完备性不可兼得</strong>，这是逻辑里的一条测不准。柏拉图主义者说标准模型客观存在，只是语言够不着；形式主义者说「标准」不过是从元理论里挑出的相对概念。能确定的只有：那份确定性不在一阶语法里。</div>
