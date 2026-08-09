@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Spectral Graph Theory &amp; Networks · Day 48 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.resources a{color:#3a6088;text-decoration:none;border-bottom:1px dotted #3a6088}
+.resources a:hover{color:#1e3a5f;border-bottom-style:solid}
+.english{background:#f7f5f0;padding:14px 18px;border-radius:4px;font-size:0.92rem;color:#4a3c2a;margin-top:6px}
+.english strong{color:#1e3a5f}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:10px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;color:#1e3a5f;font-weight:700;font-size:0.98rem}
+details div{margin-top:10px;font-size:0.95rem;color:#3a4658}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 48 · 2026.08.09</div>
+<h1>Spectral Graph Theory &amp; Networks</h1>
+<div class="meta">Hand a graph to linear algebra, and its structure reappears as frequency</div>
+<div class="epigraph">"Can one hear the shape of a drum?" — Mark Kac, 1966</div>
+</header>
+
+<!-- Concept 1: Graph Laplacian -->
+<div class="card">
+<h2>The Graph Laplacian</h2>
+<div class="en-name">The vibration equation of a graph</div>
+<span class="tag">Spectral Theory</span>
+<div class="section">
+<div class="label">Intuition First</div>
+<p>A graph is pure relational data — only "who is next to whom," with no coordinates and no distances. Nothing about its structure is visible to the eye. The spectral move is: <strong>turn the graph into a matrix, then ask for its eigenvalues</strong>.</p>
+<p>Why does that work? Picture every edge as a spring pulling its two endpoints together. Assign each node a number (think of it as a height) and the whole graph becomes a drumhead that can vibrate. <strong>Eigenvectors are the vibration modes; eigenvalues are the frequencies.</strong> Low-frequency modes are slow, large-scale shapes; high-frequency modes are sawtooths where neighbours flip sign. So "the coarse structure of a graph" translates into "the low frequencies of a graph."</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 190" xmlns="http://www.w3.org/2000/svg">
+<text fill="#3a6088" font-size="10.5" x="10" y="14">Low mode λ₂: one end high, the other low → coarse structure</text>
+<line stroke="#bbb" stroke-dasharray="3 3" stroke-width="0.8" x1="20" x2="360" y1="60" y2="60"></line>
+<g stroke="#1e3a5f" stroke-width="1.4">
+<line x1="35" x2="35" y1="60" y2="36.5"></line><line x1="75" x2="75" y1="60" y2="40"></line><line x1="115" x2="115" y1="60" y2="46.7"></line><line x1="155" x2="155" y1="60" y2="55.3"></line><line x1="195" x2="195" y1="60" y2="64.7"></line><line x1="235" x2="235" y1="60" y2="73.3"></line><line x1="275" x2="275" y1="60" y2="80"></line><line x1="315" x2="315" y1="60" y2="83.5"></line>
+</g>
+<path d="M 35 36.5 L 75 40 L 115 46.7 L 155 55.3 L 195 64.7 L 235 73.3 L 275 80 L 315 83.5" fill="none" stroke="#c9a96b" stroke-width="1.6"></path>
+<g fill="#1e3a5f">
+<circle cx="35" cy="36.5" r="4"></circle><circle cx="75" cy="40" r="4"></circle><circle cx="115" cy="46.7" r="4"></circle><circle cx="155" cy="55.3" r="4"></circle><circle cx="195" cy="64.7" r="4"></circle><circle cx="235" cy="73.3" r="4"></circle><circle cx="275" cy="80" r="4"></circle><circle cx="315" cy="83.5" r="4"></circle>
+</g>
+<text fill="#3a6088" font-size="10.5" x="10" y="122">High mode λₙ: neighbours flip sign → fine detail</text>
+<line stroke="#bbb" stroke-dasharray="3 3" stroke-width="0.8" x1="20" x2="360" y1="160" y2="160"></line>
+<g stroke="#1e3a5f" stroke-width="1.4">
+<line x1="35" x2="35" y1="160" y2="140"></line><line x1="75" x2="75" y1="160" y2="180"></line><line x1="115" x2="115" y1="160" y2="140"></line><line x1="155" x2="155" y1="160" y2="180"></line><line x1="195" x2="195" y1="160" y2="140"></line><line x1="235" x2="235" y1="160" y2="180"></line><line x1="275" x2="275" y1="160" y2="140"></line><line x1="315" x2="315" y1="160" y2="180"></line>
+</g>
+<path d="M 35 140 L 75 180 L 115 140 L 155 180 L 195 140 L 235 180 L 275 140 L 315 180" fill="none" stroke="#c9544a" stroke-width="1.6"></path>
+<g fill="#1e3a5f">
+<circle cx="35" cy="140" r="4"></circle><circle cx="75" cy="180" r="4"></circle><circle cx="115" cy="140" r="4"></circle><circle cx="155" cy="180" r="4"></circle><circle cx="195" cy="140" r="4"></circle><circle cx="235" cy="180" r="4"></circle><circle cx="275" cy="140" r="4"></circle><circle cx="315" cy="180" r="4"></circle>
+</g>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal Definition</div>
+<p>$L = D - A$. Here $A$ is the adjacency matrix ($A_{ij}=1$ when $i$ and $j$ are adjacent) and $D$ is the diagonal degree matrix ($D_{ii}=d_i$, the number of neighbours of node $i$). Applied to an assignment vector $x$: $(Lx)_i=\sum_{j\sim i}(x_i-x_j)$ — <strong>my value minus each neighbour's value</strong>, exactly the discrete counterpart of the continuous Laplacian $\nabla^2$. The key identity:</p>
+<div class="formula-box">$$x^{\top} L x=\sum_{(i,j)\in E}\left(x_i-x_j\right)^2$$</div>
+<p>The right side is the sum of squared drops along every edge — a measure of how unsmooth the assignment is. It follows immediately that $L$ is positive semi-definite, with eigenvalues $0=\lambda_1\le\cdots\le\lambda_n$; $\lambda_1=0$ belongs to the all-ones vector, where everything is equal and every drop is zero.</p>
+</div>
+<div class="section">
+<div class="label">Why It Is Beautiful</div>
+<p>That identity compresses three things into one expression: <strong>a quadratic form from linear algebra, the Dirichlet energy from differential geometry, and the edge set from combinatorics</strong>. In the continuous world the Laplacian needs limits and smoothness before it can even be defined; on a graph it needs neither — it is subtraction. Subtler still, <strong>the multiplicity of the eigenvalue 0 equals exactly the number of connected components</strong> — a purely algebraic quantity counting a purely topological one. As for Kac's question, on graphs the answer is "almost": there exist cospectral but non-isomorphic graphs, the smallest pair having just 6 nodes. The spectrum is a lossy but extraordinarily efficient fingerprint.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>PageRank is the leading eigenvector of a random-walk matrix; graphics uses $L$ to solve harmonic maps that flatten 3D surfaces; in circuits $L$ is the Kirchhoff matrix, whose pseudo-inverse gives the effective resistance between any two nodes; and the matrix-tree theorem says the number of spanning trees equals the determinant of any cofactor of $L$ — counting a combinatorial object by evaluating a determinant.</p>
+</div>
+<div class="section">
+<div class="label">The One Line + A Question</div>
+<div class="think"><strong>Do not stare at a graph — listen to it.</strong> Once adjacency is written as a matrix, structure surfaces as frequency.<br/>Question: if each edge carries a weight (a strength of relation), what does $x^{\top}Lx$ become, and why does that make the spring analogy even more apt?</div>
+</div>
+</div>
+
+<!-- Concept 2: Random graphs -->
+<div class="card">
+<h2>Random Graphs &amp; the Giant Component</h2>
+<div class="en-name">The baseline against which structure is measured</div>
+<span class="tag">Probabilistic Combinatorics</span>
+<div class="section">
+<div class="label">Intuition First</div>
+<p>Before you can call a real network "structured," you need to know what unstructured looks like. The Erdős–Rényi model $G(n,p)$ supplies that baseline: $n$ nodes, every pair joined independently with probability $p$, and no other rule.</p>
+<p>The striking part: as you raise the average degree $c=p(n-1)$ from 0, the network <strong>does not thicken smoothly — it congeals abruptly at $c=1$</strong>. Below 1, every component is a fragment of size $O(\log n)$; above 1, a <strong>giant component</strong> holding a constant fraction of all nodes appears at once. Like water freezing: a phase transition, not a gradient.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 185" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.8" x1="40" x2="355" y1="150" y2="150"></line>
+<line stroke="#aaa" stroke-width="0.8" x1="40" x2="40" y1="25" y2="150"></line>
+<line stroke="#c9544a" stroke-dasharray="4 3" stroke-width="1" x1="140" x2="140" y1="30" y2="150"></line>
+<path d="M 40 150 L 140 150 Q 152 138 160 112.7 Q 175 95 190 80 Q 215 63 240 54.4 Q 265 47 290 43 Q 315 39 340 37" fill="none" stroke="#1e3a5f" stroke-width="2.2"></path>
+<text fill="#c9544a" font-size="10.5" text-anchor="middle" x="140" y="20">c = 1, the critical point</text>
+<text fill="#5a7090" font-size="10" x="52" y="143">fragments</text>
+<text fill="#5a7090" font-size="10" x="238" y="90">giant component</text>
+<text fill="#3a6088" font-size="10.5" font-style="italic" text-anchor="end" x="36" y="32">S</text>
+<text fill="#3a6088" font-size="10.5" font-style="italic" x="300" y="165">c (mean degree)</text>
+<text fill="#666" font-size="9" text-anchor="end" x="36" y="153">0</text>
+<text fill="#666" font-size="9" text-anchor="middle" x="140" y="163">1</text>
+<text fill="#666" font-size="9" text-anchor="middle" x="240" y="163">2</text>
+<text fill="#666" font-size="9" text-anchor="middle" x="340" y="163">3</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal Definition</div>
+<p>The fraction $S$ of nodes in the giant component satisfies a self-consistency equation:</p>
+<div class="formula-box">$$S=1-e^{-cS}$$</div>
+<p>Term by term: $S$ is the probability that a randomly chosen node lands in the giant component, and $c$ is the mean degree. The derivation runs by <strong>negation</strong> — a node is outside the giant component exactly when every one of its neighbours is too; the neighbour count is approximately Poisson($c$), so the probability that all of them are outside is $e^{-cS}$. For $c\le 1$ the only solution is $S=0$; at $c&gt;1$ a positive solution suddenly appears — a <strong>bifurcation</strong>.</p>
+</div>
+<div class="section">
+<div class="label">Why It Is Beautiful</div>
+<p>A purely local rule — each pair tossing its own coin, nobody aware of the whole — produces a global and razor-sharp threshold. And $c=1$ has an exceptionally clean reading: it is the <strong>critical point of a branching process</strong>, where each node begets on average exactly one new neighbour, the dividing line between extinction and explosion. The same 1 governs nuclear chain reactions, the epidemiological $R_0$, and the satisfiability threshold of random SAT.</p>
+<p>The spectrum echoes this: eigenvalues of a random graph converge to <strong>Wigner's semicircle law</strong>, while real networks always show a few outliers flung beyond the semicircle — <em>and those outliers are precisely the signal of structure</em>. Noise has a shape, so departure from noise is what counts as information.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Network robustness: the fraction of edges you can delete before a network shatters is a percolation threshold, used to assess the resilience of power grids and internet backbones; the epidemiological $R_0=1$ is the same critical point. Random graphs also serve as the <strong>null model</strong> that gives measures like modularity a reference frame — without one, "this region is more densely connected" has no meaning.</p>
+</div>
+<div class="section">
+<div class="label">The One Line + A Question</div>
+<div class="think"><strong>Randomness is a baseline; only departure from it counts as structure.</strong> Connectivity is not accumulated gradually — it is acquired all at once.<br/>Question: real social networks follow power-law rather than Poisson degree distributions, meaning a few hubs dominate. Which way does that shift the percolation threshold, and why does it produce networks that are extremely robust to random failure yet extremely fragile to targeted attack?</div>
+</div>
+</div>
+
+<!-- Concept 3: Spectral clustering -->
+<div class="card">
+<h2>Spectral Clustering &amp; Cheeger's Inequality</h2>
+<div class="en-name">Relaxing a combinatorial problem into linear algebra</div>
+<span class="tag">Graph Algorithms</span>
+<div class="section">
+<div class="label">Intuition First</div>
+<p>Cut a network into two pieces so that few edges are severed and neither piece is too small. This is combinatorial optimisation over $2^n$ possible cuts — NP-hard.</p>
+<p>The spectral trick is <strong>relaxation</strong>: loosen the 0/1 constraint "each node goes left or right" into "each node takes a real number." The moment the constraint softens, the problem becomes an eigenvector computation. The <strong>Fiedler vector</strong> belonging to $\lambda_2$ gives every node a real coordinate; lay the nodes out on that line and members of one community naturally cluster together, so a single cut in the middle suffices. <em>Going continuous turns an exponential search into one matrix computation.</em></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 200" xmlns="http://www.w3.org/2000/svg">
+<g stroke="#8fa4bd" stroke-width="1.1">
+<line x1="55" x2="105" y1="35" y2="60"></line><line x1="55" x2="60" y1="35" y2="95"></line><line x1="105" x2="60" y1="60" y2="95"></line><line x1="105" x2="95" y1="60" y2="110"></line><line x1="60" x2="95" y1="95" y2="110"></line><line x1="55" x2="95" y1="35" y2="110"></line>
+<line x1="275" x2="325" y1="35" y2="60"></line><line x1="275" x2="280" y1="35" y2="95"></line><line x1="325" x2="280" y1="60" y2="95"></line><line x1="325" x2="315" y1="60" y2="110"></line><line x1="280" x2="315" y1="95" y2="110"></line><line x1="275" x2="315" y1="35" y2="110"></line>
+</g>
+<line stroke="#c9544a" stroke-dasharray="5 3" stroke-width="1.8" x1="105" x2="275" y1="60" y2="35"></line>
+<text fill="#c9544a" font-size="10.5" text-anchor="middle" x="190" y="38">the lone bridge → sparsest cut</text>
+<g fill="#1e3a5f"><circle cx="55" cy="35" r="6"></circle><circle cx="105" cy="60" r="6"></circle><circle cx="60" cy="95" r="6"></circle><circle cx="95" cy="110" r="6"></circle></g>
+<g fill="#8a6a30"><circle cx="275" cy="35" r="6"></circle><circle cx="325" cy="60" r="6"></circle><circle cx="280" cy="95" r="6"></circle><circle cx="315" cy="110" r="6"></circle></g>
+<text fill="#3a6088" font-size="10.5" x="20" y="152">The Fiedler vector maps each node onto one real axis:</text>
+<line stroke="#aaa" stroke-width="0.9" x1="30" x2="350" y1="178" y2="178"></line>
+<line stroke="#c9544a" stroke-dasharray="3 3" stroke-width="1.2" x1="190" x2="190" y1="163" y2="193"></line>
+<text fill="#c9544a" font-size="9.5" text-anchor="middle" x="190" y="199">0 (cut here)</text>
+<g fill="#1e3a5f"><circle cx="62" cy="178" r="5"></circle><circle cx="78" cy="178" r="5"></circle><circle cx="93" cy="178" r="5"></circle><circle cx="112" cy="178" r="5"></circle></g>
+<g fill="#8a6a30"><circle cx="272" cy="178" r="5"></circle><circle cx="290" cy="178" r="5"></circle><circle cx="305" cy="178" r="5"></circle><circle cx="322" cy="178" r="5"></circle></g>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal Definition</div>
+<p>Minimise $x^{\top}Lx$ subject to $\|x\|=1$ and $x\perp\mathbf{1}$ (excluding the trivial constant solution). By the Courant–Fischer theorem the minimum is $\lambda_2$, attained by the Fiedler vector; $\lambda_2$ is therefore called the <strong>algebraic connectivity</strong>. Is the relaxation trustworthy? <strong>Cheeger's inequality</strong> answers quantitatively:</p>
+<div class="formula-box">$$\frac{\lambda_2}{2}\;\le\;h(G)\;\le\;\sqrt{2\lambda_2}$$</div>
+<p>Here $h(G)=\min_{S}\frac{|\partial S|}{\min(|S|,|S^{c}|)}$ is the <strong>sparsest cut</strong>: split the nodes into $S$ and its complement, let $|\partial S|$ count the severed edges, and divide by the smaller half (which blocks the cheat of shaving off a single node). $h(G)$ is combinatorial and demands exhaustive search; $\lambda_2$ is continuous and computable.</p>
+</div>
+<div class="section">
+<div class="label">Why It Is Beautiful</div>
+<p>Cheeger's inequality is a quantitative promise that <strong>the relaxation cannot be too far wrong</strong> — a computable continuous quantity sandwiching an intractable combinatorial one from both sides. This is not a heuristic but a theorem, and it takes exactly the same form on Riemannian manifolds, which is where Cheeger originally proved it.</p>
+<p>Read backwards it is even better: large $\lambda_2$ $\Rightarrow$ no sparse cut exists $\Rightarrow$ the graph is an <strong>expander</strong> — few edges, yet nearly impossible to cut apart, connected in every direction. Existence follows from random graphs in two lines, but writing down an <em>explicit</em> one calls for heavy machinery from number theory and group theory (Ramanujan graphs; Lubotzky–Phillips–Sarnak, 1988). Easy to prove existent, hard to construct — a tension combinatorics stages again and again.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Spectral clustering is standard equipment for image segmentation (Normalized Cuts), cell typing in single-cell RNA sequencing, and community detection. $\lambda_2$ directly controls the <strong>mixing time of a Markov chain</strong> — the larger the spectral gap, the faster a random walk forgets where it started, which sets MCMC sampling efficiency and the convergence speed of distributed consensus. Expanders are used to build error-correcting codes and derandomised algorithms, and data-centre topologies are designed chasing the same large spectral gap.</p>
+</div>
+<div class="section">
+<div class="label">The One Line + A Question</div>
+<div class="think"><strong>One number, $\lambda_2$, answers all three at once: how hard the graph is to cut, how fast a random walk mixes, how quickly consensus converges.</strong> Three seemingly unrelated questions are three phrasings of one.<br/>Question: spectral clustering requires the cluster count $k$ up front, yet real communities are often nested hierarchically. Can that hierarchy be read off the ordering of $\lambda_2,\lambda_3,\lambda_4\ldots$?</div>
+</div>
+</div>
+
+<!-- Concept 4: GNNs -->
+<div class="card">
+<h2>The Mathematics of Graph Neural Networks</h2>
+<div class="en-name">What convolution means without translation symmetry</div>
+<span class="tag">Machine Learning</span>
+<div class="section">
+<div class="label">Intuition First</div>
+<p>CNNs are powerful because images sit on a regular grid, so a single kernel can slide anywhere. A graph has no translation symmetry — "the neighbour on the left" means nothing. What then?</p>
+<p>Return to the spectrum: <strong>convolving on a graph is rescaling frequency by frequency in the Laplacian's eigenbasis</strong> — pick a function $g(\lambda)$, decompose the signal into frequencies, multiply each by $g(\lambda)$, transform back. Unfortunately a full eigendecomposition costs $O(n^3)$. The breakthrough is to use only <strong>polynomials</strong> in $L$, $g(L)=\sum_k\theta_k L^k$: since $L^k$ connects only nodes within $k$ steps, a polynomial filter is <em>local by construction</em> and computable with sparse matrix products. The abstract idea of spectral filtering thus lands as concrete <strong>message passing</strong>: each layer aggregates neighbours' information into your own.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 185" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.8" x1="40" x2="355" y1="150" y2="150"></line>
+<line stroke="#aaa" stroke-width="0.8" x1="40" x2="40" y1="25" y2="150"></line>
+<path d="M 40 30 L 340 150" fill="none" stroke="#3a6088" stroke-width="1.8"></path>
+<path d="M 40 30 Q 115 70 190 120 Q 265 145 340 150" fill="none" stroke="#c9a96b" stroke-width="1.8"></path>
+<path d="M 40 30 Q 60 95 115 138 Q 150 148 190 149.5 L 340 150" fill="none" stroke="#c9544a" stroke-width="1.8"></path>
+<text fill="#3a6088" font-size="10" x="252" y="118">1 layer</text>
+<text fill="#8a6a30" font-size="10" x="212" y="140">2 layers</text>
+<text fill="#c9544a" font-size="10" x="116" y="128">8 layers</text>
+<text fill="#3a6088" font-size="10.5" font-style="italic" text-anchor="end" x="36" y="32">gain</text>
+<text fill="#3a6088" font-size="10.5" font-style="italic" x="250" y="168">λ (frequency) →</text>
+<text fill="#666" font-size="9" text-anchor="end" x="36" y="153">0</text>
+<text fill="#666" font-size="9" x="44" y="163">low (smooth)</text>
+<text fill="#5a7090" font-size="10" x="150" y="45">more layers = repeated low-pass</text>
+<text fill="#5a7090" font-size="10" x="150" y="60">⇒ high frequencies crushed</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal Definition</div>
+<p>The most widely used GCN layer (Kipf &amp; Welling, 2017):</p>
+<div class="formula-box">$$H^{(l+1)}=\sigma\!\left(\tilde{D}^{-1/2}\tilde{A}\tilde{D}^{-1/2}H^{(l)}W^{(l)}\right)$$</div>
+<p>Term by term: $\tilde{A}=A+I$ is the adjacency matrix with self-loops added (so a node also hears itself); $\tilde{D}$ is the matching degree matrix, and the flanking $\tilde{D}^{-1/2}$ factors perform <strong>symmetric normalisation</strong> so high-degree nodes do not blow up the numbers; $H^{(l)}$ holds the layer-$l$ node features (one row per node); $W^{(l)}$ is learnable; $\sigma$ is the nonlinearity. The operator inside the parentheses is exactly $I-\tilde{L}$ — <strong>a first-order polynomial with $g(\lambda)=1-\lambda$, that is, a low-pass filter.</strong></p>
+</div>
+<div class="section">
+<div class="label">Why It Is Beautiful</div>
+<p>It frees convolution from the Euclidean grid, and in doing so exposes that convolution is <em>not</em> a sliding window but "a linear operator commuting with a symmetry action" — on grids that symmetry is translation, on graphs it becomes the Laplacian's eigenbasis. This is the programme of geometric deep learning: <strong>first ask what symmetry the data has, then derive the operator from the symmetry</strong>.</p>
+<p>Better still, it predicts a flaw every practitioner knows: <strong>over-smoothing</strong>. Stacking $k$ layers means applying a low-pass filter repeatedly, and the effective gain $g(\lambda)^k$ crushes everything except the neighbourhood of $\lambda\approx 0$; eventually every node's features converge to a single vector — precisely the constant mode of $\lambda_1=0$. <em>A purely spectral fact explains why deep GNNs refuse to train.</em></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Molecular property prediction and drug discovery (GNNs are now standard); AlphaFold's structure module passes messages over a residue graph; Google Maps uses GNNs for ETA prediction; recommender systems (PinSage), chip placement, and particle simulation all live on graphs. And the remedies for over-smoothing — residual connections, graph attention (GAT) — are the same move at heart: <strong>stop the filter from being purely low-pass</strong>.</p>
+</div>
+<div class="section">
+<div class="label">The One Line + A Question</div>
+<div class="think"><strong>Convolution is rescaling in frequency; a different graph is just a different basis.</strong><br/>Question: a Transformer can be read as a GNN on a fully connected graph, with attention weights as dynamically generated edge weights. Why does over-smoothing not destroy it? (Hint: the attention matrix is not a fixed low-pass operator, and residual connections keep the original high frequencies alive.)</div>
+</div>
+</div>
+
+<!-- Open questions -->
+<div class="card">
+<h2>Going Deeper</h2>
+<div class="en-name">Open Questions</div>
+<details>
+<summary>Cospectral non-isomorphic graphs exist — so what exactly does the spectrum throw away?</summary>
+<div>The spectrum keeps only what is invariant under orthogonal similarity, which amounts to forgetting node identities: it knows there is a triangle, not which three nodes form it. So spectra excel at global, statistical questions and are blind to local assembly. This is the heart of GNN expressivity research: message-passing GNNs are upper-bounded by the 1-WL test and likewise fail to separate certain non-isomorphic graphs. Breaking through requires injecting information beyond the spectrum — subgraph counts, positional encodings.</div>
+</details>
+<details>
+<summary>Why does $\lambda_2$ simultaneously govern cuttability, random-walk mixing time, and distributed consensus?</summary>
+<div>Because all three are the dynamics of one operator. The consensus protocol $x\leftarrow x-\epsilon Lx$ damps every non-constant mode with rate $(1-\epsilon\lambda_i)$, and the slowest of these is fixed by $\lambda_2$; random-walk convergence is the probabilistic version of the same thing. Cheeger's inequality then explains why the slowest mode is slow: there is a bottleneck, and information crossing a sparse cut must squeeze through those few edges. <strong>"Hard to cut" and "slow to mix" are the geometric and dynamical dialects of one fact.</strong> The corollary for engineering: to make a distributed system converge fast, shape its topology into an expander.</div>
+</details>
+<details>
+<summary>Real networks always show eigenvalues escaping the semicircle law. Can "structure" simply be defined as departure from the random baseline?</summary>
+<div>That is exactly how random matrix theory is used in network science: compare the observed spectrum against a null model matched on the degree sequence, and the eigenvalues (with their eigenvectors) falling outside the limiting distribution are the detectable structure. But there is a hard boundary — the <strong>detectability threshold</strong>: in the stochastic block model, once the contrast between within- and between-community linking falls below a critical value, the signal drowns in the noise spectrum and <em>no algorithm whatsoever can recover the communities</em> — not for want of compute, but as an information-theoretic impossibility (conjectured by Decelle and colleagues in 2011, later proved). Whether structure can be found is itself subject to a phase transition.</div>
+</details>
+</div>
+
+<nav class="bottom">
+<a href="index.en.html">← Back to Mathematics</a>
+</nav>
+</div>
+</body>
+</html>
