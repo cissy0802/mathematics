@@ -58,13 +58,12 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="container">
 <header>
 <div class="kicker">Day 48 · 2026.08.09</div>
-<h1>谱图论与网络</h1>
+<h1 data-tts="40fa6293ccd1ef69">谱图论与网络</h1>
 <div class="meta">Spectral Graph Theory — 把图交给线性代数，结构就以频率的形式显形</div>
 <div class="epigraph">"Can one hear the shape of a drum?" — Mark Kac, 1966</div>
 </header>
-
 <!-- 概念 1：图拉普拉斯 -->
-<div class="card">
+<div class="card" data-tts="56c975ab572796df">
 <h2>图拉普拉斯算子</h2>
 <div class="en-name">The Graph Laplacian · 图的「振动方程」</div>
 <span class="tag">Spectral Theory</span>
@@ -114,9 +113,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>不要盯着图看，要听它。</strong>邻接关系一旦写成矩阵，结构就以频率的形式浮现。<br/>思考：如果给每条边加上权重（关系强度），$x^{\top}Lx$ 会变成什么？为什么这让「弹簧」的类比更贴切？</div>
 </div>
 </div>
-
 <!-- 概念 2：随机图与相变 -->
-<div class="card">
+<div class="card" data-tts="2c8e117a8fccad81">
 <h2>随机图与相变</h2>
 <div class="en-name">Random Graphs &amp; the Giant Component · 结构的基线</div>
 <span class="tag">Probabilistic Combinatorics</span>
@@ -162,9 +160,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>随机是一条基线，偏离基线才叫结构。</strong>连通性不是逐渐攒出来的，而是某一刻突然获得的。<br/>思考：真实社交网络的度分布是幂律而非 Poisson，重尾意味着少数超级节点。这会把渗流阈值推向何方，又为什么导致「对随机故障极端鲁棒、对定向攻击极端脆弱」？</div>
 </div>
 </div>
-
 <!-- 概念 3：谱聚类与 Cheeger -->
-<div class="card">
+<div class="card" data-tts="dd382844dcda1ba3">
 <h2>谱聚类与社区发现</h2>
 <div class="en-name">Spectral Clustering &amp; Cheeger's Inequality · 把组合难题松弛成线性代数</div>
 <span class="tag">Graph Algorithms</span>
@@ -211,9 +208,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>一个数 $\lambda_2$ 同时回答了：这张图好不好切、随机游走多快混匀、共识多快收敛。</strong>三个看似无关的问题，本是同一件事的三种问法。<br/>思考：谱聚类要求预先指定簇数 $k$，但真实网络的社区常常层级嵌套。从 $\lambda_2,\lambda_3,\lambda_4\ldots$ 的排列中能读出这种层级吗？</div>
 </div>
 </div>
-
 <!-- 概念 4：图神经网络 -->
-<div class="card">
+<div class="card" data-tts="526cba14479c893a">
 <h2>图神经网络的数学</h2>
 <div class="en-name">The Mathematics of GNNs · 没有平移对称性时，卷积是什么</div>
 <span class="tag">Machine Learning</span>
@@ -260,9 +256,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>卷积的本质是在频率上做缩放；换一张图，不过是换了一组基。</strong><br/>思考：Transformer 可以看作全连接图上的 GNN，注意力权重就是动态生成的边权。它为什么没有被过平滑击垮？（提示：注意力矩阵不是固定的低通算子，而且残差连接始终保留着原始高频。）</div>
 </div>
 </div>
-
 <!-- 深入思考 -->
-<div class="card">
+<div class="card" data-tts="d142b9d429cf9cb7">
 <h2>深入思考</h2>
 <div class="en-name">Open Questions</div>
 <details>
@@ -278,7 +273,6 @@ nav.bottom a:hover{color:#1e3a5f}
 <div>这正是随机矩阵理论在网络科学中的用法：把观测图的谱与匹配了度序列的零模型对比，落在极限分布之外的特征值及其特征向量就是可检测的结构。但有一条硬边界——<strong>检测阈值</strong>：随机块模型中，当社区间连边差异小于某临界值时信号被噪声谱淹没，此时<em>任何算法都不可能恢复社区</em>——不是算力不足，而是信息论意义上的不可能（Decelle 等 2011 提出，后被严格证明）。「能否发现结构」本身也有相变。</div>
 </details>
 </div>
-
 <nav class="bottom">
 <a href="index.html">← 返回 Mathematics</a>
 </nav>
