@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>应用拓扑 · Day 49 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.resources a{color:#3a6088;text-decoration:none;border-bottom:1px dotted #3a6088}
+.resources a:hover{color:#1e3a5f;border-bottom-style:solid}
+.english{background:#f7f5f0;padding:14px 18px;border-radius:4px;font-size:0.92rem;color:#4a3c2a;margin-top:6px}
+.english strong{color:#1e3a5f}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:10px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;color:#1e3a5f;font-weight:700;font-size:0.98rem}
+details div{margin-top:10px;font-size:0.95rem;color:#3a4658}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 49 · 2026.08.10</div>
+<h1>应用拓扑</h1>
+<div class="meta">Applied Topology — 形状是最抗噪的信息</div>
+<div class="epigraph">"Data has shape, and shape has meaning." — Gunnar Carlsson</div>
+</header>
+
+<!-- 概念 1：同调群 -->
+<div class="card">
+<h2>同调群与数据的形状</h2>
+<div class="en-name">Homology &amp; the Shape of Data · 把「洞」变成矩阵的秩</div>
+<span class="tag">Algebraic Topology</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>拓扑学关心<strong>橡皮泥揉捏下不变的性质</strong>：可拉伸压扁，不许撕开粘合——洞的个数于是活了下来，咖啡杯与甜甜圈同为一个洞。</p>
+<p>但散点数据本身无洞可言。第一步是<strong>把点吹胖</strong>：以每点为心画半径 $\epsilon$ 的球，两球相交就连边，三球共交就补三角面，点云于是长成有维度的单纯复形。若这些点采自一个环形，此时便会围出一个真实的圈。同调是数洞的机器：$\beta_0$ 数连通块，$\beta_1$ 数环洞，$\beta_2$ 数空腔。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 390 165" xmlns="http://www.w3.org/2000/svg">
+<g fill="#3a6088" fill-opacity="0.13">
+<circle cx="83" cy="80" r="8"></circle><circle cx="69" cy="56" r="8"></circle><circle cx="41" cy="56" r="8"></circle><circle cx="27" cy="80" r="8"></circle><circle cx="41" cy="104" r="8"></circle><circle cx="69" cy="104" r="8"></circle>
+</g>
+<g fill="#1e3a5f">
+<circle cx="83" cy="80" r="3"></circle><circle cx="69" cy="56" r="3"></circle><circle cx="41" cy="56" r="3"></circle><circle cx="27" cy="80" r="3"></circle><circle cx="41" cy="104" r="3"></circle><circle cx="69" cy="104" r="3"></circle>
+</g>
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="55" y="152">ε 小：6 个连通块，β₁=0</text>
+<g fill="#3a6088" fill-opacity="0.13">
+<circle cx="211" cy="80" r="15"></circle><circle cx="197" cy="56" r="15"></circle><circle cx="169" cy="56" r="15"></circle><circle cx="155" cy="80" r="15"></circle><circle cx="169" cy="104" r="15"></circle><circle cx="197" cy="104" r="15"></circle>
+</g>
+<polygon fill="none" points="211,80 197,56 169,56 155,80 169,104 197,104" stroke="#c9a96b" stroke-width="2"></polygon>
+<g fill="#1e3a5f">
+<circle cx="211" cy="80" r="3"></circle><circle cx="197" cy="56" r="3"></circle><circle cx="169" cy="56" r="3"></circle><circle cx="155" cy="80" r="3"></circle><circle cx="169" cy="104" r="3"></circle><circle cx="197" cy="104" r="3"></circle>
+</g>
+<text fill="#c9a96b" font-size="10.5" text-anchor="middle" x="183" y="84">洞</text>
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="183" y="152">ε 适中：围出一个环，β₁=1</text>
+<g fill="#3a6088" fill-opacity="0.10">
+<circle cx="339" cy="80" r="25"></circle><circle cx="325" cy="56" r="25"></circle><circle cx="297" cy="56" r="25"></circle><circle cx="283" cy="80" r="25"></circle><circle cx="297" cy="104" r="25"></circle><circle cx="325" cy="104" r="25"></circle>
+</g>
+<polygon fill="#c9d7e6" points="339,80 325,56 297,56 283,80 297,104 325,104" stroke="#3a6088" stroke-width="1.6"></polygon>
+<g stroke="#3a6088" stroke-width="1">
+<line x1="339" x2="297" y1="80" y2="56"></line><line x1="325" x2="283" y1="56" y2="80"></line><line x1="297" x2="297" y1="56" y2="104"></line><line x1="283" x2="325" y1="80" y2="104"></line><line x1="297" x2="339" y1="104" y2="80"></line><line x1="325" x2="325" y1="104" y2="56"></line>
+</g>
+<g fill="#1e3a5f">
+<circle cx="339" cy="80" r="3"></circle><circle cx="325" cy="56" r="3"></circle><circle cx="297" cy="56" r="3"></circle><circle cx="283" cy="80" r="3"></circle><circle cx="297" cy="104" r="3"></circle><circle cx="325" cy="104" r="3"></circle>
+</g>
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="311" y="152">ε 大：三角面填满，β₁=0</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>边界算子 $\partial_k$ 把 $k$ 维单形送到它的边界——带符号的 $(k{-}1)$ 维面之和。核心事实是 $\partial\circ\partial=0$：<strong>边界的边界是空的</strong>（三角形的边界首尾相接，闭合的东西没有端点）。于是</p>
+<div class="formula-box">$$H_k=\ker\partial_k\,/\,\operatorname{im}\partial_{k+1}$$</div>
+<p>分子 $\ker\partial_k$ 是「圈」——自身没有边界的闭合物；分母 $\operatorname{im}\partial_{k+1}$ 是那些<strong>只不过是某个高一维块的边界</strong>的圈，能被填死，不算真洞。商掉后剩下的正是「闭合却填不死」，$\beta_k=\dim H_k$。正因 $\partial\partial=0$ 保证 $\operatorname{im}\subset\ker$，这个商才合法。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>一行几乎显然的恒等式撑起整套理论：<strong>「洞」这个纯视觉的概念被翻译成线性代数的商空间</strong>，数洞于此变成算矩阵的秩，可以交给计算机。同调还是函子性的——连续映射自动诱导同调群间的线性映射，这是范畴论（Day 19）最早的实战场景。而它的鲁棒性来自<strong>故意丢信息</strong>：坐标、角度、距离全部扔掉——你无法扰动一个已被忽略的量。代价是分辨力低，所以 TDA 的正确用法是先确认结构存在，再用度量方法量化。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>蛋白质表面的空腔（$\beta_2$）提示配体结合位点；材料学按 $\beta_1$ 谱筛选纳米多孔结构的孔道连通性。最漂亮的一例是 2022 年 <em>Nature</em> 的工作：不预设任何坐标系，直接从小鼠网格细胞的群体活动中读出环面 $T^2$ 的拓扑——<strong>用同调证明了神经编码的几何形状</strong>。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>洞是最抗揉捏的信息。把数据吹胖，形状才显形。</strong><br/>思考：$\beta_0$ 和「聚类」是同一件事，那么每个聚类算法都在偷偷选一个 $\epsilon$——这个选择的代价是什么？</div>
+</div>
+</div>
+
+<!-- 概念 2：持续同调 -->
+<div class="card">
+<h2>持续同调</h2>
+<div class="en-name">Persistent Homology · 拒绝选择尺度</div>
+<span class="tag">Topological Data Analysis</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>上一节留了个漏洞：$\epsilon$ 该取多少？取小了全是孤立点，取大了洞被填死。持续同调的做法是<strong>拒绝选择</strong>：让 $\epsilon$ 从 0 长到 $\infty$，记录每个洞诞生与死亡的时刻，画成条形码。</p>
+<p>判据于是从「洞是否存在」变成<strong>「洞活了多久」</strong>——真实结构在很宽的尺度区间里持续存在，噪声造的小洞一出生就死。寿命就是信噪比。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 390 172" xmlns="http://www.w3.org/2000/svg">
+<text fill="#1e3a5f" font-size="11" x="8" y="24">H₀ 连通块</text>
+<g stroke="#1e3a5f" stroke-linecap="round" stroke-width="4">
+<line x1="80" x2="168" y1="32" y2="32"></line><line x1="80" x2="168" y1="42" y2="42"></line><line x1="80" x2="168" y1="52" y2="52"></line><line x1="80" x2="168" y1="62" y2="62"></line><line x1="80" x2="168" y1="72" y2="72"></line><line x1="80" x2="352" y1="82" y2="82"></line>
+</g>
+<text fill="#5a7090" font-size="9.5" x="256" y="79">唯一不死者 = 整体连通</text>
+<text fill="#c9a96b" font-size="11" x="8" y="112">H₁ 环洞</text>
+<g stroke="#c9a96b" stroke-linecap="round" stroke-width="4">
+<line x1="168" x2="272" y1="112" y2="112"></line><line x1="120" x2="131" y1="126" y2="126"></line><line x1="228" x2="240" y1="136" y2="136"></line>
+</g>
+<text fill="#8a6a2a" font-size="9.5" x="278" y="115">长条 = 真实结构</text>
+<text fill="#8a6a2a" font-size="9.5" x="248" y="139">短条 = 噪声</text>
+<line stroke="#5a7090" stroke-width="1.2" x1="80" x2="360" y1="152" y2="152"></line>
+<g stroke="#5a7090" stroke-width="1.2">
+<line x1="80" x2="80" y1="149" y2="156"></line><line x1="168" x2="168" y1="149" y2="156"></line><line x1="272" x2="272" y1="149" y2="156"></line>
+</g>
+<text fill="#5a7090" font-size="9.5" text-anchor="middle" x="80" y="167">0</text>
+<text fill="#5a7090" font-size="9.5" text-anchor="middle" x="168" y="167">洞诞生</text>
+<text fill="#5a7090" font-size="9.5" text-anchor="middle" x="272" y="167">洞死亡</text>
+<text fill="#5a7090" font-size="10" x="340" y="167">ε →</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>嵌套的复形族 $K_{\epsilon_1}\subseteq K_{\epsilon_2}\subseteq\cdots$ 叫<strong>过滤</strong>。包含映射诱导 $H_k(K_{\epsilon_i})\to H_k(K_{\epsilon_j})$，沿这条链追踪每个同调类何时出现、何时被合并，把 $(\text{birth},\text{death})$ 画成平面上一点，即得持续图 $D$。它的可用性由稳定性定理（Cohen-Steiner–Edelsbrunner–Harer, 2007）保证：</p>
+<div class="formula-box">$$d_B\big(D(f),D(g)\big)\le\lVert f-g\rVert_\infty$$</div>
+<p>$f,g$ 是互为扰动的两份数据，$\lVert\cdot\rVert_\infty$ 取逐点差的最大值，$d_B$ 是 bottleneck 距离——把两张持续图的点做最优配对，取其中最大的那段位移。整句话是：<strong>输入抖动 $\delta$，输出的持续图最多挪动 $\delta$</strong>。这是拓扑能当统计工具用的许可证。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>一般的拓扑不变量是脆的：多采一个点就可能改变 $\beta$。持续同调的修法不是加平滑项、不是正则化，而是<strong>把尺度本身升格成一个维度记录下来</strong>——不确定就全都算，让持续性自己筛。（与小波的多尺度分析同源，只是剖开的是拓扑而非频率。）定理的形式也漂亮：左边纯组合拓扑量，右边纯度量分析量，一条 Lipschitz 不等式缝住两个世界，<strong>常数恰好是 1</strong>。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>Ripser、GUDHI 靠 Morse 配对约减，把百万级点云的 $H_1$ 压到秒级；持续图向量化后成为机器学习特征，用于分子活性预测与医学影像的肿瘤分型。最巧的是时间序列：先做延迟嵌入把序列变成点云，周期性就显形为一个显著的一维洞——心律异常与旋转机械故障检测都走这条路。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>不要选尺度，把尺度记下来；活得久的才是真的。</strong><br/>思考：持续图是点的多重集，不能相加、没有平均值。这为什么给下游的机器学习带来结构性困难？</div>
+</div>
+</div>
+
+<!-- 概念 3：纽结不变量 -->
+<div class="card">
+<h2>纽结不变量</h2>
+<div class="en-name">Knot Invariants · 研究的不是圆圈，是嵌入</div>
+<span class="tag">Low-Dimensional Topology</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>把绳子打个结再把两端粘上，你得到一个嵌在三维空间里的圆圈。<strong>作为一维对象它就是普通的圆；有区别的是它怎么被放进空间里。</strong>纽结理论研究的不是对象，是嵌入。</p>
+<p>难处在于同一个纽结能画出无穷多张长相各异的平面图。Reidemeister（1927）证明：表示同一纽结的两张图必能通过三种局部操作互变。于是只需找一个在这三种操作下不变的量——它在两张图上给出不同结果，二者就是不同的纽结。<strong>但推理只有一个方向</strong>：能证「不同」，不能证「相同」。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 320 158" xmlns="http://www.w3.org/2000/svg">
+<path d="M 24 57 L 23 51 L 24 45 L 25 39 L 28 34 L 32 29 L 37 25 L 42 21 L 48 19 L 54 18 L 60 19 L 66 20 L 72 22 L 77 26 L 81 30 L 85 34 L 87 39 L 89 44 L 90 49 L 90 53 L 90 57 L 89 61 L 88 64 L 88 67 L 87 69 L 87 71 L 87 73 L 87 75 L 88 78 L 89 81 L 89 84 L 90 87 L 90 91" fill="none" stroke="#1e3a5f" stroke-linecap="round" stroke-width="3.4"></path>
+<path d="M 77 118 L 73 121 L 67 124 L 61 125 L 55 126 L 49 125 L 43 123 L 37 120 L 32 116 L 28 111 L 26 105 L 24 99 L 23 93 L 23 87 L 25 82 L 27 77 L 30 72 L 33 68 L 37 65 L 41 63 L 44 61 L 48 59 L 51 58 L 53 58 L 56 57 L 58 56 L 59 55 L 61 54 L 63 52 L 65 50 L 68 48 L 70 46 L 74 43" fill="none" stroke="#1e3a5f" stroke-linecap="round" stroke-width="3.4"></path>
+<path d="M 103 41 L 108 43 L 113 47 L 118 51 L 121 57 L 124 62 L 125 68 L 125 75 L 124 81 L 121 87 L 118 92 L 114 97 L 109 100 L 104 103 L 98 104 L 92 105 L 87 105 L 82 104 L 77 102 L 73 100 L 70 98 L 67 96 L 65 94 L 63 92 L 61 90 L 59 89 L 57 88 L 55 87 L 53 86 L 50 86 L 47 84 L 44 83 L 40 81" fill="none" stroke="#1e3a5f" stroke-linecap="round" stroke-width="3.4"></path>
+<text fill="#c9544a" font-size="22" text-anchor="middle" x="163" y="80">≠</text>
+<path d="M 302 57 L 303 51 L 302 45 L 301 39 L 298 34 L 294 29 L 289 25 L 284 21 L 278 19 L 272 18 L 266 19 L 260 20 L 254 22 L 249 26 L 245 30 L 241 34 L 239 39 L 237 44 L 236 49 L 236 53 L 236 57 L 237 61 L 238 64 L 238 67 L 239 69 L 239 71 L 239 73 L 239 75 L 238 78 L 237 81 L 237 84 L 236 87 L 236 91" fill="none" stroke="#1e3a5f" stroke-linecap="round" stroke-width="3.4"></path>
+<path d="M 249 118 L 253 121 L 259 124 L 265 125 L 271 126 L 277 125 L 283 123 L 289 120 L 294 116 L 298 111 L 300 105 L 302 99 L 303 93 L 303 87 L 301 82 L 299 77 L 296 72 L 293 68 L 289 65 L 285 63 L 282 61 L 278 59 L 275 58 L 273 58 L 270 57 L 268 56 L 267 55 L 265 54 L 263 52 L 261 50 L 258 48 L 256 46 L 252 43" fill="none" stroke="#1e3a5f" stroke-linecap="round" stroke-width="3.4"></path>
+<path d="M 223 41 L 218 43 L 213 47 L 208 51 L 205 57 L 202 62 L 201 68 L 201 75 L 202 81 L 205 87 L 208 92 L 212 97 L 217 100 L 222 103 L 228 104 L 234 105 L 239 105 L 244 104 L 249 102 L 253 100 L 256 98 L 259 96 L 261 94 L 263 92 L 265 90 L 267 89 L 269 88 L 271 87 L 273 86 L 276 86 L 279 84 L 282 83 L 286 81" fill="none" stroke="#1e3a5f" stroke-linecap="round" stroke-width="3.4"></path>
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="74" y="148">三叶结</text>
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="252" y="148">它的镜像</text>
+<text fill="#5a7090" font-size="9.5" text-anchor="middle" x="163" y="148">Jones 能分辨，Alexander 不能</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>Jones 多项式 $V(L)\in\mathbb{Z}[t^{\pm 1/2}]$ 由 skein 关系递归定义：</p>
+<div class="formula-box">$$t^{-1}V(L_+)-t\,V(L_-)=\left(t^{1/2}-t^{-1/2}\right)V(L_0)$$</div>
+<p>在图上任选一个交叉：$L_+$ 保持原样，$L_-$ 把上股与下股对调，$L_0$ 干脆把交叉<strong>解开</strong>成两条互不相交的股。三者被这条线性关系锁在一起，再配上「平凡圈的值为 1」，递归就能算出任意纽结——每换一次交叉都让图变简单，递归必然终止。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>Alexander 多项式（1928）分不出左手与右手三叶结；Jones（1984）分得出：一个是 $-t^{-4}+t^{-3}+t^{-1}$，镜像则把 $t$ 换成 $t^{-1}$。<strong>手性这个纯几何的性质，被一个代数式抓住了。</strong></p>
+<p>更出人意料的是来源。Jones 当时研究冯·诺伊曼代数上的迹，与拓扑毫无关系，却发现手里的代数关系恰是编织关系；Witten（1989）随后指出它正是三维 Chern–Simons 量子场论的配分函数——<strong>纽结不变量原来是个物理量的期望值</strong>。绳结、算子代数、量子场论撞在同一个多项式上。开问题也美得刺眼：$V=1$ 是否必然意味着解结，至今未知。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>DNA 拓扑异构酶靠切断-重连改变 DNA 的纽结型与连环数，实验用凝胶电泳按复杂度分离产物，理论算的正是这些不变量。等离子体里磁螺旋度是连环数的连续版本，也是守恒量，约束太阳耀斑与托卡马克的稳定性。计算上还有个悬在 P 门口的自然问题：<strong>判定一张图是否为平凡结已知落在 $\mathrm{NP}\cap\mathrm{coNP}$</strong>，但是否有多项式算法仍无人知道。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>拓扑不研究圆圈，研究圆圈怎么被放进空间。</strong><br/>思考：不变量只能证「不同」不能证「相同」。这种单向性，与哥德尔式的「有些真命题不可证」是同一类局限吗？</div>
+</div>
+</div>
+
+<!-- 概念 4：编织即计算 -->
+<div class="card">
+<h2>编织即计算</h2>
+<div class="en-name">Braiding as Computation · 把信息存在历史里</div>
+<span class="tag">Topological Quantum</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>让二维平面上的几个粒子互相绕行，最后各自回到原位。三维里这种「绕」不留痕迹，任何回路都能收缩掉；二维里不行——粒子的世界线在三维时空中织成一条真正的辫子，而辫子有拓扑类。</p>
+<p>若末态只取决于辫子的拓扑类，与走多快、路径抖了几下全无关，就得到一台天生抗噪的计算机。<strong>信息不在任何一个粒子身上，而在编织的历史里。</strong>这类粒子叫任意子：交换两个任意子不是给波函数乘 $\pm1$（玻色/费米两种选择），而是乘上一个矩阵。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 390 178" xmlns="http://www.w3.org/2000/svg">
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="90" y="18">1</text>
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="150" y="18">2</text>
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="210" y="18">3</text>
+<line stroke="#5a7090" stroke-width="1" x1="40" x2="40" y1="25" y2="148"></line>
+<path d="M 37 142 L 40 150 L 43 142" fill="none" stroke="#5a7090" stroke-width="1"></path>
+<text fill="#5a7090" font-size="9.5" x="8" y="90">时间</text>
+<path d="M 150 25 L 150 45 C 150 62 90 68 90 85 L 90 145" fill="none" stroke="#3a6088" stroke-width="3"></path>
+<path d="M 210 25 L 210 95 C 210 112 150 118 150 135 L 150 145" fill="none" stroke="#3a6088" stroke-width="3"></path>
+<path d="M 90 25 L 90 45 C 90 62 150 68 150 85 L 150 95 C 150 112 210 118 210 135 L 210 145" fill="none" stroke="#fafbfd" stroke-width="9"></path>
+<path d="M 90 25 L 90 45 C 90 62 150 68 150 85 L 150 95 C 150 112 210 118 210 135 L 210 145" fill="none" stroke="#c9a96b" stroke-width="3"></path>
+<g fill="#1e3a5f">
+<circle cx="90" cy="25" r="3.5"></circle><circle cx="150" cy="25" r="3.5"></circle><circle cx="210" cy="25" r="3.5"></circle>
+<circle cx="90" cy="145" r="3.5"></circle><circle cx="150" cy="145" r="3.5"></circle><circle cx="210" cy="145" r="3.5"></circle>
+</g>
+<text fill="#8a6a2a" font-size="10" x="245" y="62">σ₁：1、2 交换</text>
+<text fill="#8a6a2a" font-size="10" x="245" y="118">σ₂：再与 3 交换</text>
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="195" y="172">世界线织成辫子：末态只认拓扑类</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>辫群 $B_n$ 由生成元 $\sigma_i$（第 $i$ 与第 $i{+}1$ 根股交叉一次）加两条关系确定：</p>
+<div class="formula-box">$$\sigma_i\sigma_j=\sigma_j\sigma_i\ \ (|i-j|\ge 2),\qquad \sigma_i\sigma_{i+1}\sigma_i=\sigma_{i+1}\sigma_i\sigma_{i+1}$$</div>
+<p>第一条说远处的交叉互不干扰。第二条是 Yang–Baxter 关系，表达「第三根股从左边还是右边绕过可以互换」这个拓扑事实。与置换群的差别只在一处：辫群里 $\sigma_i^2\ne 1$——<strong>绕两圈不等于没绕</strong>，正是这一处让编织能承载信息。非阿贝尔任意子给出 $B_n$ 的一个高维酉表示 $\rho:B_n\to U(N)$，每次编织就是一个酉门。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>两个概念在此闭环：辫群关系正是 skein 关系的出处；Freedman–Kitaev–Larsen–Wang（2000）证明拓扑量子计算与标准量子线路模型多项式等价；Aharonov–Jones–Landau 给出近似 Jones 多项式的量子算法，而该问题是 BQP-完全的——<strong>「量子计算机能做什么」的一个精确刻画，答案竟是「算纽结不变量」。</strong>上一节的抽象代数，就是这一节的指令集。</p>
+<p>另一重美是容错的来源：普通量子比特靠纠错码不断测量、纠正，拓扑量子比特的保护却来自基态能隙与拓扑简并——想造成一个逻辑错误，噪声必须把粒子拖着绕完一整圈。<strong>容错不是补丁，是几何自带的。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>分数量子霍尔态 $\nu=5/2$ 被认为承载非阿贝尔任意子；微软 2025 年公布的 Majorana 1 芯片声称用 Majorana 零模做出拓扑量子比特，证据仍在争议中。真正在跑的是它的离散表亲——surface code（源自 Kitaev 的 toric code）把逻辑信息编在环面上<strong>不可收缩的回路算子</strong>里，错误表现为成对的任意子缺陷，纠错就是把缺陷配对连通；Google 2024 年低于阈值的实验用的正是它。<strong>拓扑思想先以纠错码的形式落了地。</strong></p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>把信息编在拓扑里，噪声就只剩局部的、无害的那一部分。</strong><br/>思考：surface code 用软件模拟拓扑保护，真拓扑量子比特由物理直接提供保护。若前者继续快速进步，后者的优势还剩什么？</div>
+</div>
+</div>
+
+<!-- 深入思考 -->
+<div class="card">
+<h2>深入思考</h2>
+<div class="en-name">Open Questions</div>
+<details>
+<summary>持续同调在实践中几乎只算 $H_0$、$H_1$，偶尔 $H_2$。为什么高维洞被放弃了？</summary>
+<div>两道墙。计算上，Vietoris–Rips 复形的 $k$ 维单形数是 $\binom{n}{k+1}$ 量级，$n=10^4$ 时 $H_2$ 就要面对约 $10^{12}$ 个三角面，边界矩阵根本装不下。更根本的是统计：可靠探测一个 $k$ 维洞所需的采样密度随维数指数上升，高维条形码里的短条几乎全是采样不足伪造的噪声。所以 TDA 的现实姿态是低维、大样本——这是「维数灾难」在拓扑侧的投影。</div>
+</details>
+<details>
+<summary>Jones 多项式能否检测平凡结，这个问题为何如此难？</summary>
+<div>因为不变量是「充分不必要」的证据机器：要证明 $V=1\Rightarrow$ 平凡，必须从一个代数值反推出几何构造，而 skein 递归是单向的信息丢失过程。升级版却已成功——Khovanov 同调（Jones 多项式的范畴化提升）确实能检测平凡结（Kronheimer–Mrowka, 2011），代价是把多项式换成一整套链复形。这提示当代拓扑的一条主线：<strong>范畴化就是把「数」换成「空间」，用维数买回信息量</strong>。</div>
+</details>
+<details>
+<summary>神经活动被同调证明构成一个环面，这对「表征」意味着什么？</summary>
+<div>它说明编码是流形而非查找表——状态空间的形状本身携带算法，环面拓扑直接对应二维周期性位置编码。这与深度学习的流形假设（Day 30）是同一句话的两端：数据躺在低维流形上，网络学到的是那个流形的坐标卡。若果真如此，可解释性的目标或许不是追问单个神经元代表什么，而是刻画群体活动流形的拓扑与几何——但「拓扑相同是否意味着算法相同」仍是开放的。</div>
+</details>
+</div>
+<nav class="bottom">
+<a href="index.html">← 返回 Mathematics</a>
+</nav>
+</div>
+</body>
+</html>

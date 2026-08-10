@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Applied Topology · Day 49 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.resources a{color:#3a6088;text-decoration:none;border-bottom:1px dotted #3a6088}
+.resources a:hover{color:#1e3a5f;border-bottom-style:solid}
+.english{background:#f7f5f0;padding:14px 18px;border-radius:4px;font-size:0.92rem;color:#4a3c2a;margin-top:6px}
+.english strong{color:#1e3a5f}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:10px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;color:#1e3a5f;font-weight:700;font-size:0.98rem}
+details div{margin-top:10px;font-size:0.95rem;color:#3a4658}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 49 · 2026.08.10</div>
+<h1>Applied Topology</h1>
+<div class="meta">Shape is the most noise-resistant information there is</div>
+<div class="epigraph">"Data has shape, and shape has meaning." — Gunnar Carlsson</div>
+</header>
+
+<!-- Concept 1: Homology -->
+<div class="card">
+<h2>Homology &amp; the Shape of Data</h2>
+<div class="en-name">Turning a "hole" into the rank of a matrix</div>
+<span class="tag">Algebraic Topology</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Topology cares about <strong>what survives being kneaded like clay</strong>: you may stretch and squash, but never tear or glue — so the number of holes survives, and a coffee mug and a doughnut both have exactly one.</p>
+<p>But a scatter of data points has no holes to speak of. The first move is to <strong>inflate the points</strong>: draw a ball of radius $\epsilon$ around each one, join two points by an edge when their balls meet, fill in a triangle when three do. The cloud grows into a simplicial complex with genuine dimension — and if the points were sampled from an annulus, a real loop now encircles the middle. Homology is the machine that counts holes: $\beta_0$ counts components, $\beta_1$ counts loops, $\beta_2$ counts cavities.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 390 165" xmlns="http://www.w3.org/2000/svg">
+<g fill="#3a6088" fill-opacity="0.13">
+<circle cx="83" cy="80" r="8"></circle><circle cx="69" cy="56" r="8"></circle><circle cx="41" cy="56" r="8"></circle><circle cx="27" cy="80" r="8"></circle><circle cx="41" cy="104" r="8"></circle><circle cx="69" cy="104" r="8"></circle>
+</g>
+<g fill="#1e3a5f">
+<circle cx="83" cy="80" r="3"></circle><circle cx="69" cy="56" r="3"></circle><circle cx="41" cy="56" r="3"></circle><circle cx="27" cy="80" r="3"></circle><circle cx="41" cy="104" r="3"></circle><circle cx="69" cy="104" r="3"></circle>
+</g>
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="55" y="152">small ε: 6 components, β₁=0</text>
+<g fill="#3a6088" fill-opacity="0.13">
+<circle cx="211" cy="80" r="15"></circle><circle cx="197" cy="56" r="15"></circle><circle cx="169" cy="56" r="15"></circle><circle cx="155" cy="80" r="15"></circle><circle cx="169" cy="104" r="15"></circle><circle cx="197" cy="104" r="15"></circle>
+</g>
+<polygon fill="none" points="211,80 197,56 169,56 155,80 169,104 197,104" stroke="#c9a96b" stroke-width="2"></polygon>
+<g fill="#1e3a5f">
+<circle cx="211" cy="80" r="3"></circle><circle cx="197" cy="56" r="3"></circle><circle cx="169" cy="56" r="3"></circle><circle cx="155" cy="80" r="3"></circle><circle cx="169" cy="104" r="3"></circle><circle cx="197" cy="104" r="3"></circle>
+</g>
+<text fill="#c9a96b" font-size="10.5" text-anchor="middle" x="183" y="84">hole</text>
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="183" y="152">mid ε: a loop encircled, β₁=1</text>
+<g fill="#3a6088" fill-opacity="0.10">
+<circle cx="339" cy="80" r="25"></circle><circle cx="325" cy="56" r="25"></circle><circle cx="297" cy="56" r="25"></circle><circle cx="283" cy="80" r="25"></circle><circle cx="297" cy="104" r="25"></circle><circle cx="325" cy="104" r="25"></circle>
+</g>
+<polygon fill="#c9d7e6" points="339,80 325,56 297,56 283,80 297,104 325,104" stroke="#3a6088" stroke-width="1.6"></polygon>
+<g stroke="#3a6088" stroke-width="1">
+<line x1="339" x2="297" y1="80" y2="56"></line><line x1="325" x2="283" y1="56" y2="80"></line><line x1="297" x2="297" y1="56" y2="104"></line><line x1="283" x2="325" y1="80" y2="104"></line><line x1="297" x2="339" y1="104" y2="80"></line><line x1="325" x2="325" y1="104" y2="56"></line>
+</g>
+<g fill="#1e3a5f">
+<circle cx="339" cy="80" r="3"></circle><circle cx="325" cy="56" r="3"></circle><circle cx="297" cy="56" r="3"></circle><circle cx="283" cy="80" r="3"></circle><circle cx="297" cy="104" r="3"></circle><circle cx="325" cy="104" r="3"></circle>
+</g>
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="311" y="152">large ε: triangles fill in, β₁=0</text>
+</svg></div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>The boundary operator $\partial_k$ sends a $k$-simplex to its boundary — the signed sum of its $(k{-}1)$-dimensional faces. The essential fact is $\partial\circ\partial=0$: <strong>the boundary of a boundary is empty</strong> (a triangle's boundary closes up on itself, and a closed thing has no endpoints). Hence</p>
+<div class="formula-box">$$H_k=\ker\partial_k\,/\,\operatorname{im}\partial_{k+1}$$</div>
+<p>The numerator $\ker\partial_k$ holds the <em>cycles</em> — closed objects with no boundary of their own. The denominator $\operatorname{im}\partial_{k+1}$ holds those cycles that are <strong>merely the boundary of some higher-dimensional block</strong>: they can be filled in, so they are not real holes. What survives the quotient is exactly "closed but unfillable," and $\beta_k=\dim H_k$. The quotient is only legal because $\partial\partial=0$ guarantees $\operatorname{im}\subset\ker$.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>One nearly trivial identity carries the whole theory: <strong>"hole," a purely visual notion, is translated into a quotient space of linear algebra</strong>, so counting holes becomes computing the rank of a matrix — something you can hand to a computer. Homology is also functorial: a continuous map between spaces automatically induces a linear map between homology groups, which makes this the earliest real proving-ground for categorical thinking (Day 19). And its robustness comes from <strong>deliberately throwing information away</strong>: coordinates, angles, distances all go — you cannot perturb a quantity that has already been ignored. The price is low resolution, which is why TDA is properly used to confirm that structure exists, and metric methods used afterwards to quantify it.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Cavities on a protein surface ($\beta_2$) flag candidate ligand-binding sites; materials science screens nanoporous structures for channel connectivity by their $\beta_1$ profile. The most striking case is a 2022 <em>Nature</em> result: with no coordinate system assumed in advance, the topology of a torus $T^2$ was read directly out of the population activity of mouse grid cells — <strong>homology proving the geometric shape of a neural code</strong>.</p>
+</div>
+<div class="section">
+<div class="label">One line + a question</div>
+<div class="think"><strong>Holes are the information that survives kneading. Inflate the data and the shape appears.</strong><br/>Question: $\beta_0$ and "clustering" are the same thing — so every clustering algorithm is quietly choosing an $\epsilon$. What does that choice cost you?</div>
+</div>
+</div>
+
+<!-- Concept 2: Persistent homology -->
+<div class="card">
+<h2>Persistent Homology</h2>
+<div class="en-name">Refusing to pick a scale</div>
+<span class="tag">Topological Data Analysis</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>The previous section left a hole in itself: what should $\epsilon$ be? Too small and everything is an isolated point; too large and the hole is filled in. Persistent homology's answer is to <strong>refuse to choose</strong>: let $\epsilon$ grow from 0 to $\infty$, record the moment each hole is born and the moment it dies, and draw the result as a barcode.</p>
+<p>The criterion shifts from "does the hole exist" to <strong>"how long did it live"</strong> — real structure persists across a wide band of scales, while a hole manufactured by sampling noise dies almost as soon as it is born. Lifetime <em>is</em> signal-to-noise.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 390 172" xmlns="http://www.w3.org/2000/svg">
+<text fill="#1e3a5f" font-size="11" x="8" y="24">H₀ components</text>
+<g stroke="#1e3a5f" stroke-linecap="round" stroke-width="4">
+<line x1="80" x2="168" y1="32" y2="32"></line><line x1="80" x2="168" y1="42" y2="42"></line><line x1="80" x2="168" y1="52" y2="52"></line><line x1="80" x2="168" y1="62" y2="62"></line><line x1="80" x2="168" y1="72" y2="72"></line><line x1="80" x2="352" y1="82" y2="82"></line>
+</g>
+<text fill="#5a7090" font-size="9.5" x="196" y="76">the immortal one = whole is connected</text>
+<text fill="#c9a96b" font-size="11" x="8" y="112">H₁ loops</text>
+<g stroke="#c9a96b" stroke-linecap="round" stroke-width="4">
+<line x1="168" x2="272" y1="112" y2="112"></line><line x1="120" x2="131" y1="126" y2="126"></line><line x1="228" x2="240" y1="136" y2="136"></line>
+</g>
+<text fill="#8a6a2a" font-size="9.5" x="278" y="108">long bar = real structure</text>
+<text fill="#8a6a2a" font-size="9.5" x="248" y="139">short bar = noise</text>
+<line stroke="#5a7090" stroke-width="1.2" x1="80" x2="360" y1="152" y2="152"></line>
+<g stroke="#5a7090" stroke-width="1.2">
+<line x1="80" x2="80" y1="149" y2="156"></line><line x1="168" x2="168" y1="149" y2="156"></line><line x1="272" x2="272" y1="149" y2="156"></line>
+</g>
+<text fill="#5a7090" font-size="9.5" text-anchor="middle" x="80" y="167">0</text>
+<text fill="#5a7090" font-size="9.5" text-anchor="middle" x="168" y="167">birth</text>
+<text fill="#5a7090" font-size="9.5" text-anchor="middle" x="272" y="167">death</text>
+<text fill="#5a7090" font-size="10" x="340" y="167">ε →</text>
+</svg></div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>A nested family of complexes $K_{\epsilon_1}\subseteq K_{\epsilon_2}\subseteq\cdots$ is called a <strong>filtration</strong>. The inclusions induce maps $H_k(K_{\epsilon_i})\to H_k(K_{\epsilon_j})$; following that chain tells you when each homology class appears and when it gets merged away, and plotting $(\text{birth},\text{death})$ as a point in the plane gives the persistence diagram $D$. What makes it usable is the stability theorem (Cohen-Steiner–Edelsbrunner–Harer, 2007):</p>
+<div class="formula-box">$$d_B\big(D(f),D(g)\big)\le\lVert f-g\rVert_\infty$$</div>
+<p>Here $f,g$ are two versions of the data differing by a perturbation, $\lVert\cdot\rVert_\infty$ takes the largest pointwise difference, and $d_B$ is the bottleneck distance — match the points of the two diagrams optimally and take the largest displacement in that matching. The whole statement reads: <strong>jitter the input by $\delta$ and the persistence diagram moves by at most $\delta$</strong>. That is the licence topology needs to be used as a statistical tool.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>Ordinary topological invariants are brittle: one extra sampled point can change $\beta$. Persistent homology repairs that brittleness not with a smoothing term and not with regularization, but by <strong>promoting scale itself to a recorded dimension</strong> — if you don't know, compute all of it and let persistence do the filtering. (Same instinct as multiscale wavelet analysis; what gets sliced scale by scale here is topology rather than frequency.) The theorem's form is lovely too: a purely combinatorial-topological quantity on the left, a purely metric-analytic one on the right, stitched together by a Lipschitz inequality — <strong>with constant exactly 1</strong>.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Ripser and GUDHI use Morse pairing reductions to get $H_1$ of a million-point cloud down to seconds; vectorized persistence diagrams become machine-learning features for molecular activity prediction and tumor subtyping in medical imaging. The cleverest use is on time series: delay-embed the sequence into a point cloud and periodicity shows up as one prominent one-dimensional hole — the route taken by both cardiac-arrhythmia detection and rotating-machinery fault detection.</p>
+</div>
+<div class="section">
+<div class="label">One line + a question</div>
+<div class="think"><strong>Don't choose a scale — record it. Whatever lives long is real.</strong><br/>Question: a persistence diagram is a multiset of points; it cannot be added and has no mean. Why does that create a structural difficulty for downstream machine learning?</div>
+</div>
+</div>
+
+<!-- Concept 3: Knot invariants -->
+<div class="card">
+<h2>Knot Invariants</h2>
+<div class="en-name">The subject is not the circle — it is the embedding</div>
+<span class="tag">Low-Dimensional Topology</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Tie a knot in a rope and glue the ends together: you have a circle embedded in three-space. <strong>As a one-dimensional object it is just an ordinary circle; what differs is how it sits inside the space.</strong> Knot theory studies the embedding, not the object.</p>
+<p>The difficulty is that a single knot admits infinitely many planar diagrams that look nothing alike. Reidemeister (1927) proved that any two diagrams of the same knot can be transformed into each other by three local moves. So it suffices to find a quantity invariant under those three moves — if it gives different answers on two diagrams, the knots are different. <strong>But the inference runs one way only</strong>: it can prove "different," never "the same."</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 320 158" xmlns="http://www.w3.org/2000/svg">
+<path d="M 24 57 L 23 51 L 24 45 L 25 39 L 28 34 L 32 29 L 37 25 L 42 21 L 48 19 L 54 18 L 60 19 L 66 20 L 72 22 L 77 26 L 81 30 L 85 34 L 87 39 L 89 44 L 90 49 L 90 53 L 90 57 L 89 61 L 88 64 L 88 67 L 87 69 L 87 71 L 87 73 L 87 75 L 88 78 L 89 81 L 89 84 L 90 87 L 90 91" fill="none" stroke="#1e3a5f" stroke-linecap="round" stroke-width="3.4"></path>
+<path d="M 77 118 L 73 121 L 67 124 L 61 125 L 55 126 L 49 125 L 43 123 L 37 120 L 32 116 L 28 111 L 26 105 L 24 99 L 23 93 L 23 87 L 25 82 L 27 77 L 30 72 L 33 68 L 37 65 L 41 63 L 44 61 L 48 59 L 51 58 L 53 58 L 56 57 L 58 56 L 59 55 L 61 54 L 63 52 L 65 50 L 68 48 L 70 46 L 74 43" fill="none" stroke="#1e3a5f" stroke-linecap="round" stroke-width="3.4"></path>
+<path d="M 103 41 L 108 43 L 113 47 L 118 51 L 121 57 L 124 62 L 125 68 L 125 75 L 124 81 L 121 87 L 118 92 L 114 97 L 109 100 L 104 103 L 98 104 L 92 105 L 87 105 L 82 104 L 77 102 L 73 100 L 70 98 L 67 96 L 65 94 L 63 92 L 61 90 L 59 89 L 57 88 L 55 87 L 53 86 L 50 86 L 47 84 L 44 83 L 40 81" fill="none" stroke="#1e3a5f" stroke-linecap="round" stroke-width="3.4"></path>
+<text fill="#c9544a" font-size="22" text-anchor="middle" x="163" y="80">≠</text>
+<path d="M 302 57 L 303 51 L 302 45 L 301 39 L 298 34 L 294 29 L 289 25 L 284 21 L 278 19 L 272 18 L 266 19 L 260 20 L 254 22 L 249 26 L 245 30 L 241 34 L 239 39 L 237 44 L 236 49 L 236 53 L 236 57 L 237 61 L 238 64 L 238 67 L 239 69 L 239 71 L 239 73 L 239 75 L 238 78 L 237 81 L 237 84 L 236 87 L 236 91" fill="none" stroke="#1e3a5f" stroke-linecap="round" stroke-width="3.4"></path>
+<path d="M 249 118 L 253 121 L 259 124 L 265 125 L 271 126 L 277 125 L 283 123 L 289 120 L 294 116 L 298 111 L 300 105 L 302 99 L 303 93 L 303 87 L 301 82 L 299 77 L 296 72 L 293 68 L 289 65 L 285 63 L 282 61 L 278 59 L 275 58 L 273 58 L 270 57 L 268 56 L 267 55 L 265 54 L 263 52 L 261 50 L 258 48 L 256 46 L 252 43" fill="none" stroke="#1e3a5f" stroke-linecap="round" stroke-width="3.4"></path>
+<path d="M 223 41 L 218 43 L 213 47 L 208 51 L 205 57 L 202 62 L 201 68 L 201 75 L 202 81 L 205 87 L 208 92 L 212 97 L 217 100 L 222 103 L 228 104 L 234 105 L 239 105 L 244 104 L 249 102 L 253 100 L 256 98 L 259 96 L 261 94 L 263 92 L 265 90 L 267 89 L 269 88 L 271 87 L 273 86 L 276 86 L 279 84 L 282 83 L 286 81" fill="none" stroke="#1e3a5f" stroke-linecap="round" stroke-width="3.4"></path>
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="74" y="148">the trefoil</text>
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="252" y="148">its mirror</text>
+<text fill="#5a7090" font-size="9" text-anchor="middle" x="163" y="130">Jones tells them apart;</text>
+<text fill="#5a7090" font-size="9" text-anchor="middle" x="163" y="142">Alexander cannot</text>
+</svg></div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>The Jones polynomial $V(L)\in\mathbb{Z}[t^{\pm 1/2}]$ is defined recursively by the skein relation:</p>
+<div class="formula-box">$$t^{-1}V(L_+)-t\,V(L_-)=\left(t^{1/2}-t^{-1/2}\right)V(L_0)$$</div>
+<p>Pick any crossing in the diagram: $L_+$ leaves it alone, $L_-$ swaps which strand passes over, and $L_0$ simply <strong>opens the crossing up</strong> into two non-intersecting strands. The three are locked together by that linear relation; add the convention that the unknotted circle has value 1 and the recursion computes any knot. Each switch makes the diagram simpler, so it must terminate.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>The Alexander polynomial (1928) cannot separate the left- and right-handed trefoil. The Jones polynomial (1984) can: one is $-t^{-4}+t^{-3}+t^{-1}$, and its mirror replaces $t$ by $t^{-1}$. <strong>Handedness — a purely geometric property — is caught by an algebraic expression.</strong></p>
+<p>More surprising is where it came from. Jones was studying traces on von Neumann algebras, nothing to do with topology, and found that the algebraic relations in his hands were exactly braiding relations. Witten (1989) then identified the polynomial as the partition function of three-dimensional Chern–Simons quantum field theory — <strong>a knot invariant turning out to be the expectation value of a physical quantity</strong>. Rope, operator algebras and quantum field theory collide in the same polynomial. The open problem is piercingly beautiful too: does $V=1$ force the knot to be unknotted? Nobody knows.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>DNA topoisomerases change the knot type and linking number of DNA by cutting and rejoining; experiments separate the products by complexity on a gel, and what theory computes for them is exactly these invariants. In plasmas, magnetic helicity is the continuous version of linking number and a conserved quantity, constraining solar flares and tokamak stability. Computation contributes a natural problem hanging just outside P: <strong>deciding whether a diagram is the unknot is known to lie in $\mathrm{NP}\cap\mathrm{coNP}$</strong>, yet whether a polynomial-time algorithm exists is still unknown.</p>
+</div>
+<div class="section">
+<div class="label">One line + a question</div>
+<div class="think"><strong>Topology does not study the circle; it studies how the circle is placed in space.</strong><br/>Question: an invariant proves "different" but never "the same." Is that one-sidedness the same species of limitation as Gödel's "some true statements are unprovable"?</div>
+</div>
+</div>
+
+<!-- Concept 4: Braiding as computation -->
+<div class="card">
+<h2>Braiding as Computation</h2>
+<div class="en-name">Storing information in the history</div>
+<span class="tag">Topological Quantum</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Let several particles in a plane circle around one another and return to their starting positions. In three dimensions such circling leaves no trace — every loop can be contracted. In two dimensions it cannot: the particles' world lines weave a genuine braid in three-dimensional spacetime, and braids have topological classes.</p>
+<p>If the final state depends only on the braid's topological class, and not at all on how fast anyone moved or how much the paths wobbled, you have a computer that is noise-resistant by construction. <strong>The information sits on no individual particle; it sits in the history of the weaving.</strong> Such particles are called anyons: exchanging two of them multiplies the wavefunction not by $\pm1$ (the boson/fermion pair of options) but by a matrix.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 390 178" xmlns="http://www.w3.org/2000/svg">
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="90" y="18">1</text>
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="150" y="18">2</text>
+<text fill="#3a6088" font-size="10.5" text-anchor="middle" x="210" y="18">3</text>
+<line stroke="#5a7090" stroke-width="1" x1="40" x2="40" y1="25" y2="148"></line>
+<path d="M 37 142 L 40 150 L 43 142" fill="none" stroke="#5a7090" stroke-width="1"></path>
+<text fill="#5a7090" font-size="9.5" x="8" y="90">time</text>
+<path d="M 150 25 L 150 45 C 150 62 90 68 90 85 L 90 145" fill="none" stroke="#3a6088" stroke-width="3"></path>
+<path d="M 210 25 L 210 95 C 210 112 150 118 150 135 L 150 145" fill="none" stroke="#3a6088" stroke-width="3"></path>
+<path d="M 90 25 L 90 45 C 90 62 150 68 150 85 L 150 95 C 150 112 210 118 210 135 L 210 145" fill="none" stroke="#fafbfd" stroke-width="9"></path>
+<path d="M 90 25 L 90 45 C 90 62 150 68 150 85 L 150 95 C 150 112 210 118 210 135 L 210 145" fill="none" stroke="#c9a96b" stroke-width="3"></path>
+<g fill="#1e3a5f">
+<circle cx="90" cy="25" r="3.5"></circle><circle cx="150" cy="25" r="3.5"></circle><circle cx="210" cy="25" r="3.5"></circle>
+<circle cx="90" cy="145" r="3.5"></circle><circle cx="150" cy="145" r="3.5"></circle><circle cx="210" cy="145" r="3.5"></circle>
+</g>
+<text fill="#8a6a2a" font-size="10" x="245" y="62">σ₁: swap 1 and 2</text>
+<text fill="#8a6a2a" font-size="10" x="245" y="118">σ₂: then swap with 3</text>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="195" y="172">World lines weave a braid; the final state sees only its topological class</text>
+</svg></div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>The braid group $B_n$ is determined by generators $\sigma_i$ (strand $i$ crossing strand $i{+}1$ once) plus two relations:</p>
+<div class="formula-box">$$\sigma_i\sigma_j=\sigma_j\sigma_i\ \ (|i-j|\ge 2),\qquad \sigma_i\sigma_{i+1}\sigma_i=\sigma_{i+1}\sigma_i\sigma_{i+1}$$</div>
+<p>The first says distant crossings do not interfere. The second is the Yang–Baxter relation, expressing the topological fact that whether a third strand passes on the left or the right can be interchanged. Exactly one thing separates this from the permutation group: in a braid group $\sigma_i^2\ne 1$ — <strong>going round twice is not the same as not going round</strong>, and that single difference is what lets weaving carry information. Non-abelian anyons supply a high-dimensional unitary representation $\rho:B_n\to U(N)$, so each braid is a unitary gate.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>Two concepts close a loop here: the braid relations are precisely where the skein relation came from; Freedman–Kitaev–Larsen–Wang (2000) proved topological quantum computation polynomially equivalent to the standard quantum circuit model; and Aharonov–Jones–Landau gave a quantum algorithm approximating the Jones polynomial, a problem that turns out to be BQP-complete — <strong>one exact characterization of "what a quantum computer can do," and the answer is "compute knot invariants."</strong> The abstract algebra of the previous section is this section's instruction set.</p>
+<p>The other beauty is where fault tolerance comes from. Ordinary qubits rely on error-correcting codes measuring and repairing them continuously; a topological qubit is protected by the ground-state energy gap and topological degeneracy — to cause a logical error, noise would have to drag a particle all the way around a full loop. <strong>Fault tolerance is not a patch here; the geometry comes with it.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>The $\nu=5/2$ fractional quantum Hall state is believed to host non-abelian anyons; Microsoft's Majorana 1 chip, announced in 2025, claims topological qubits built from Majorana zero modes, though the evidence remains disputed. What is actually running is the discrete cousin — the surface code, descended from Kitaev's toric code, which stores logical information in <strong>non-contractible loop operators</strong> on a torus, sees errors as anyonic defects appearing in pairs, and corrects by pairing those defects up. It is what Google's 2024 below-threshold experiment used. <strong>The topological idea landed first in the form of an error-correcting code.</strong></p>
+</div>
+<div class="section">
+<div class="label">One line + a question</div>
+<div class="think"><strong>Encode information in topology and only the local, harmless part of the noise remains.</strong><br/>Question: the surface code simulates topological protection in software; a true topological qubit gets it directly from physics. If the former keeps improving quickly, what advantage is left to the latter?</div>
+</div>
+</div>
+
+<!-- Open questions -->
+<div class="card">
+<h2>Going Deeper</h2>
+<div class="en-name">Open Questions</div>
+<details>
+<summary>In practice persistent homology computes $H_0$ and $H_1$, occasionally $H_2$. Why have high-dimensional holes been abandoned?</summary>
+<div>Two walls. Computationally, a Vietoris–Rips complex has on the order of $\binom{n}{k+1}$ $k$-simplices, so at $n=10^4$ even $H_2$ faces roughly $10^{12}$ triangles and the boundary matrix simply will not fit. More fundamentally, statistically: the sampling density needed to detect a $k$-dimensional hole reliably rises exponentially with dimension, so nearly every short bar in a high-dimensional barcode is noise fabricated by undersampling. Hence TDA's realistic posture — low dimension, large samples. This is the curse of dimensionality projected onto the topological side.</div>
+</details>
+<details>
+<summary>Why is it so hard to settle whether the Jones polynomial detects the unknot?</summary>
+<div>Because an invariant is a machine for sufficient-but-not-necessary evidence: proving $V=1\Rightarrow$ unknotted requires reconstructing geometry from an algebraic value, while the skein recursion is a one-way process that discards information. The upgraded version has already succeeded, though — Khovanov homology, the categorification of the Jones polynomial, does detect the unknot (Kronheimer–Mrowka, 2011) — at the cost of replacing a polynomial with an entire chain complex. That hints at a main line of contemporary topology: <strong>categorification means swapping a number for a space, buying information back with dimension</strong>.</div>
+</details>
+<details>
+<summary>Neural activity has been shown by homology to form a torus. What does that mean for "representation"?</summary>
+<div>It means the code is a manifold rather than a lookup table — the shape of the state space itself carries the algorithm, with a toroidal topology corresponding directly to two-dimensional periodic position coding. This is the same sentence as deep learning's manifold hypothesis (Day 30) read from the other end: data lies on a low-dimensional manifold, and what a network learns is a chart for it. If so, the right target for interpretability may not be asking what a single neuron represents, but characterizing the topology and geometry of the population-activity manifold — though whether identical topology implies an identical algorithm remains open.</div>
+</details>
+</div>
+<nav class="bottom">
+<a href="index.en.html">← Back to Mathematics</a>
+</nav>
+</div>
+</body>
+</html>
