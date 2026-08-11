@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Applied Face of Number Theory · Day 50 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.resources a{color:#3a6088;text-decoration:none;border-bottom:1px dotted #3a6088}
+.resources a:hover{color:#1e3a5f;border-bottom-style:solid}
+.english{background:#f7f5f0;padding:14px 18px;border-radius:4px;font-size:0.92rem;color:#4a3c2a;margin-top:6px}
+.english strong{color:#1e3a5f}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 50 · 2026.08.11</div>
+<h1>The Applied Face of Number Theory</h1>
+<div class="meta">How the character of the integers seeps into calendars, keys and strings</div>
+<div class="epigraph">"No one has yet discovered any warlike purpose to be served by the theory of numbers, and it seems unlikely that anyone will do so for many years." — G. H. Hardy, <em>A Mathematician's Apology</em> (1940)</div>
+</header>
+
+<!-- Concept 1: Modular arithmetic -->
+<div class="card">
+<h2>Modular Arithmetic &amp; the Calendar</h2>
+<div class="en-name">Rolling the number line into a circle</div>
+<span class="tag">Number Theory</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>A clock face has only twelve marks, yet it can express any span of time — because it <strong>rolls an infinite number line into a loop</strong>. Congruence generalises exactly that move: keep only the remainder after division by $n$, and treat any two numbers differing by a multiple of $n$ as the same thing.</p>
+<p>The calendar is the closest example to hand. A year is $365 = 52\times 7 + 1$ days, and that leftover 1 is the entire reason a birthday on Tuesday this year falls on Wednesday the next; a leap year advances it by 2. All weekday arithmetic is counting steps around a seven-slot ring.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 170" xmlns="http://www.w3.org/2000/svg">
+<circle cx="110" cy="85" fill="none" r="58" stroke="#c0c8d4" stroke-width="1.2"></circle>
+<g fill="#1e3a5f" font-size="10" text-anchor="middle">
+<circle cx="110" cy="27" fill="#c9544a" r="4"></circle><text x="110" y="16">Sun</text>
+<circle cx="155" cy="53" fill="#3a6088" r="4"></circle><text x="174" y="49">Mon</text>
+<circle cx="155" cy="117" fill="#3a6088" r="4"></circle><text x="174" y="124">Tue</text>
+<circle cx="110" cy="143" fill="#3a6088" r="4"></circle><text x="110" y="161">Wed</text>
+<circle cx="65" cy="117" fill="#3a6088" r="4"></circle><text x="44" y="124">Thu</text>
+<circle cx="65" cy="53" fill="#3a6088" r="4"></circle><text x="46" y="49">Fri</text>
+<circle cx="52" cy="85" fill="#3a6088" r="4"></circle><text x="32" y="89">Sat</text>
+</g>
+<path d="M 150 47 A 55 55 0 0 1 158 62" fill="none" stroke="#c9a96b" stroke-width="2.4" marker-end="url(#ah)"></path>
+<defs><marker id="ah" markerheight="6" markerwidth="6" orient="auto" refx="5" refy="3"><path d="M0,0 L6,3 L0,6 z" fill="#c9a96b"></path></marker></defs>
+<text fill="#8a6a2a" font-size="10" x="196" y="86">+1 slot / common year</text>
+<text fill="#8a6a2a" font-size="10" x="196" y="102">+2 slots / leap year</text>
+<line stroke="#c0c8d4" stroke-dasharray="3 3" x1="196" x2="330" y1="112" y2="112"></line>
+<text fill="#3a6088" font-size="10.5" x="196" y="132">365 = 52×7 + 1</text>
+<text fill="#5a7090" font-size="10" x="196" y="150">the leftover 1 shifts your birthday</text>
+<text fill="#5a7090" font-size="10" x="196" y="60">infinite line → 7 residue classes</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>$a\equiv b \pmod n$ means $n$ divides $a-b$. The decisive property is that arithmetic passes through the remainder:</p>
+<div class="formula-box">$$(a+b)\bmod n=\big((a\bmod n)+(b\bmod n)\big)\bmod n$$</div>
+<p>Multiplication behaves the same way. That unremarkable line means you may <strong>compress first and compute second</strong> — evaluating $7^{1000}\bmod 13$ never requires writing down the 845-digit number. When $n$ is a prime $p$, every nonzero element of $\mathbb{Z}/p\mathbb{Z}$ has a multiplicative inverse: it is a complete <strong>finite field</strong>, with division and all, on only $p$ elements.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>This is one of mathematics' rare lossless compressions: infinitely many integers are filed into $n$ drawers and <strong>the arithmetic structure survives untouched</strong>. The existence of finite fields is the counterintuitive part — we are trained to bundle "you may divide freely" with "the set is infinite" (rationals, reals), yet $\mathbb{Z}/7\mathbb{Z}$ shows a universe of seven numbers supporting full algebra. Modern cryptography and coding theory live inside these small universes.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>ISBN and national-ID check digits are weighted sums taken mod something, so a single mistyped digit is exposed instantly; hash tables place keys by $\bmod$ bucket count; a distributed system's <strong>consistent hashing ring</strong> is literally the geometry of $\mathbb{Z}/2^{32}\mathbb{Z}$ — keys and nodes land on one circle, and adding a machine disturbs only the neighbouring arc. Zeller's congruence folds any date into a weekday; every RSA operation happens $\bmod N$.</p>
+</div>
+<div class="section">
+<div class="label">Essence + question</div>
+<div class="think"><strong>Rolling the infinite into the finite without breaking arithmetic is the most useful compression mathematics has performed.</strong><br/>Question: consistent hashing takes $2^{32}$ rather than a prime as its modulus — what is given up, and what is bought?</div>
+</div>
+</div>
+
+<!-- Concept 2: Primality testing -->
+<div class="card">
+<h2>Primality Testing</h2>
+<div class="en-name">Judging a number without meeting its factors</div>
+<span class="tag">Computational Number Theory</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Deciding whether a 300-digit number is prime by trial division needs roughly $10^{150}$ attempts — the age of the universe is nowhere near enough. The way out is to change the question: <strong>stop dissecting the number for factors and start testing its behaviour</strong>.</p>
+<p>Fermat's little theorem says that if $p$ is prime then $a^{p-1}\equiv 1\pmod p$ for every $a$ not divisible by $p$. So take $a=2$ and compute. If the answer is not 1, the number is certainly composite — <strong>and we know nothing whatsoever about its factors</strong>. This is a lie detector, not a dissection.</p>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>Miller–Rabin hardens that detector. Write $n-1=2^s d$ with $d$ odd; if $n$ is prime then for every $a$:</p>
+<div class="formula-box">$$a^{d}\equiv 1,\quad\text{or}\quad \exists\, r<s:\ a^{2^{r}d}\equiv -1 \pmod n$$</div>
+<p>The reason is clean. In the field $\mathbb{Z}/p\mathbb{Z}$ the equation $x^2=1$ has only the roots $\pm 1$. Starting from $a^{n-1}\equiv 1$ and repeatedly taking square roots, the sequence can only leave 1 by passing through $-1$. A composite lacks that discipline — it has extra square roots of 1 — and tends to expose a forbidden value midway. Each fresh random $a$ lets a composite survive with probability at most $1/4$, so $k$ rounds leave $4^{-k}$.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>Proving "not prime" turns out to require no factor at all: existence and construction separate completely here, and the crack between them has monetary value. <strong>We can mint primes in milliseconds and cannot undo the product of two of them.</strong> The same family of theorems, run forwards, makes keys; run backwards, makes locks nobody can pick — the whole public-key world rests on that asymmetry.</p>
+<p>A second beauty is that <strong>certainty is purchasable by the round</strong>: forty rounds of Miller–Rabin leave an error probability near $10^{-24}$, below the odds of a cosmic ray flipping a bit in the machine. In 2002 the AKS algorithm proved primality lies in P and closed the theoretical question; practice kept the probabilistic test, because it is far faster. The creed "polynomial time means feasible" gets a quiet nudge here.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Every TLS handshake and every freshly generated SSH key runs this pipeline: sieve candidates by trial division against a few hundred small primes, discarding some 80%, then run several Miller–Rabin rounds. The prime number theorem guarantees a random odd 1024-bit number is prime with probability about $2/\ln 2^{1024}\approx 1/355$, so a few hundred tries suffice — <strong>primes being dense enough among large numbers is a precondition for cryptography working at all</strong>.</p>
+</div>
+<div class="section">
+<div class="label">Essence + question</div>
+<div class="think"><strong>You can know a number's nature while knowing nothing of its interior.</strong><br/>Question: a deterministic algorithm exists and nobody uses it — how often has "polynomial time = practical" misled us elsewhere?</div>
+</div>
+</div>
+
+<!-- Concept 3: Tuning -->
+<div class="card">
+<h2>Number Theory &amp; Musical Tuning</h2>
+<div class="en-name">An engineering problem sentenced to death by arithmetic</div>
+<span class="tag">Number Theory · Acoustics</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Strings in the length ratio $2:1$ sound like "the same note" — that is the octave. The ratio $3:2$ is the perfect fifth, the most consonant interval that is not an octave. Hence a natural ambition: stack perfect fifths and come back exactly to an octave.</p>
+<p>You cannot, and the failure is precise. Twelve fifths give $(3/2)^{12}=129.746$; seven octaves give $2^7=128$. The ratio $1.0136$ is a gap of about 24 cents, the <strong>Pythagorean comma</strong>. No refinement of craft removes it: $(3/2)^n=2^m$ would demand $3^n=2^{m+n}$, and since 2 and 3 are distinct primes, <strong>the fundamental theorem of arithmetic passes sentence directly</strong>.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
+<path d="M 150 44 A 56.5 56.5 0 0 1 178.4 50.7 A 57.4 57.4 0 0 1 200.0 71.1 A 58.3 58.3 0 0 1 208.7 100 A 59.2 59.2 0 0 1 201.6 129.8 A 60.1 60.1 0 0 1 180.2 152.4 A 61 61 0 0 1 150 161.4 A 61.9 61.9 0 0 1 118.8 154.0 A 62.8 62.8 0 0 1 95.3 131.6 A 63.7 63.7 0 0 1 85.9 100 A 64.6 64.6 0 0 1 93.7 67.5 A 65.5 65.5 0 0 1 117.0 42.9 A 66.4 66.4 0 0 1 150 33.2" fill="none" stroke="#3a6088" stroke-width="2"></path>
+<g fill="#1e3a5f">
+<circle cx="150" cy="44" r="3.2"></circle><circle cx="178.4" cy="50.7" r="2.6"></circle><circle cx="200" cy="71.1" r="2.6"></circle><circle cx="208.7" cy="100" r="2.6"></circle><circle cx="201.6" cy="129.8" r="2.6"></circle><circle cx="180.2" cy="152.4" r="2.6"></circle><circle cx="150" cy="161.4" r="2.6"></circle><circle cx="118.8" cy="154" r="2.6"></circle><circle cx="95.3" cy="131.6" r="2.6"></circle><circle cx="85.9" cy="100" r="2.6"></circle><circle cx="93.7" cy="67.5" r="2.6"></circle><circle cx="117" cy="42.9" r="2.6"></circle>
+<circle cx="150" cy="33.2" fill="#c9544a" r="3.2"></circle>
+</g>
+<line stroke="#c9544a" stroke-width="1.6" x1="150" x2="150" y1="33.2" y2="44"></line>
+<text fill="#c9544a" font-size="10" text-anchor="middle" x="150" y="24">gap ≈ 24 cents</text>
+<text fill="#5a7090" font-size="10" text-anchor="middle" x="150" y="182">twelve perfect fifths never close the circle</text>
+<text fill="#3a6088" font-size="11" x="240" y="86">(3/2)¹²</text>
+<text fill="#3a6088" font-size="11" x="240" y="104">≠ 2⁷</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>If the two can never align, spread the error evenly: twelve-tone equal temperament cuts the octave into twelve equal steps of $2^{1/12}$. "How many semitones is a fifth" then becomes a pure approximation problem:</p>
+<div class="formula-box">$$\log_2\tfrac{3}{2}=0.58496\ldots\ \approx\ \tfrac{7}{12}=0.58333$$</div>
+<p>The left side is the share of an octave occupied by a perfect fifth — the base-2 logarithm appears because pitch combines multiplicatively while hearing adds. The right side is seven keys on the keyboard. The difference, 0.0016 of an octave or about 1.96 cents, sits well under the roughly 5-cent threshold of human discrimination.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>A thousand-year engineering struggle, opened up, is a statement in number theory: <strong>2 and 3 are incommensurable, so just intonation and the octave can never be reconciled</strong>. Not a limit of craftsmanship — a prohibition of arithmetic. Every tuning system since — meantone, Werckmeister, equal temperament — is merely a decision about where to hide the crack. Bach's <em>Well-Tempered Clavier</em> is the manifesto of that compromise: surrender absolute purity in each key to make every key usable.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Piano tuning, the 128 semitone levels of MIDI, and pitch-shifting in audio software (multiply by $2^{k/12}$) all sit directly on this arithmetic. The Bohlen–Pierce scale swaps the premise — take $3:1$ as the "octave" and cut it into 13 — and yields a harmony that is wholly alien yet self-consistent, which shows a scale is not given by nature but is <strong>a corollary of the prime you chose</strong>.</p>
+</div>
+<div class="section">
+<div class="label">Essence + question</div>
+<div class="think"><strong>Consonance comes from small whole-number ratios, and small whole-number ratios are mutually incommensurable — music is built on a mathematical crack.</strong><br/>Question: if $\log_2(3/2)$ happened to be rational, what would music history be missing?</div>
+</div>
+</div>
+
+<!-- Concept 4: Continued fractions -->
+<div class="card">
+<h2>Continued Fractions</h2>
+<div class="en-name">An automaton for best approximation</div>
+<span class="tag">Diophantine Approximation</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Where did the $7/12$ of the previous card come from? It was not found by trial; it was computed.</p>
+<p>The procedure resembles the Euclidean algorithm. Take $x=0.58496$, invert to get $1.7095$, peel off the integer part 1, invert the remaining $0.7095$, and repeat. Out comes a string of integers $[0;1,1,2,2,3,1,5,\ldots]$. Truncating at any step gives a fraction — a <strong>convergent</strong>: $\tfrac12,\ \tfrac35,\ \tfrac7{12},\ \tfrac{24}{41},\ \tfrac{179}{306}$. Look at what those are: $3/5$ is 5-tone equal temperament (close to the Indonesian slendro scale), $7/12$ is our piano, $24/41$ is the 41-tone system microtonal composers actually use. <strong>The scales humanity has tried lie along this one sequence.</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 130" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#1e3a5f" stroke-width="1.4" x1="20" x2="320" y1="70" y2="70"></line>
+<g fill="#3a6088" font-size="10" text-anchor="middle">
+<line stroke="#3a6088" x1="20" x2="20" y1="64" y2="76"></line><text x="20" y="90">1/2</text>
+<line stroke="#3a6088" x1="293" x2="293" y1="64" y2="76"></line><text x="293" y="90">3/5</text>
+<line stroke="#3a6088" x1="247" x2="247" y1="58" y2="70"></line><text x="240" y="50">7/12</text>
+<line stroke="#3a6088" x1="253" x2="253" y1="70" y2="82"></line><text x="272" y="96">24/41</text>
+</g>
+<circle cx="251.7" cy="70" fill="#c9544a" r="3.4"></circle>
+<text fill="#c9544a" font-size="10" x="258" y="30">log₂(3/2)</text>
+<line stroke="#c9544a" stroke-dasharray="2 2" x1="251.7" x2="251.7" y1="34" y2="66"></line>
+<text fill="#5a7090" font-size="10" x="20" y="118">each truncation is optimal among all fractions of its size</text>
+<text fill="#8a6a2a" font-size="10" x="20" y="40">coarse →</text>
+<text fill="#8a6a2a" font-size="10" x="288" y="40">→ fine</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>Any real number can be written $x=a_0+\cfrac{1}{a_1+\cfrac{1}{a_2+\cdots}}$, and its convergents $p_k/q_k$ satisfy</p>
+<div class="formula-box">$$\left|x-\frac{p_k}{q_k}\right|<\frac{1}{q_k q_{k+1}}$$</div>
+<p>Here $q_k$ is the denominator — the price of the approximation — and $q_{k+1}$ is the next one. The inequality says: <strong>the larger the next denominator, the sharper the present step</strong>. Since $q_{k+1}\approx a_{k+1}q_k$, a large coefficient $a_{k+1}$ marks a surprisingly good approximation. The classic case is $\pi=[3;7,15,1,292,\ldots]$: the 7 yields $22/7$, and the enormous 292 is why the convergent just before it, $355/113$, is correct to seven decimals. Stronger still is optimality — no fraction with denominator at most $q_k$ comes closer to $x$ than $p_k/q_k$ does.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>Continued fractions supply an exact ruler for "how hard is this irrational to approximate". The numbers approximated most slowly are those whose coefficients are all 1 — which is precisely the golden ratio $\varphi=[1;1,1,1,\ldots]$, <strong>the most irrational number</strong>.</p>
+<p>That is not wordplay. Sunflower seeds sit at the golden angle exactly because $\varphi$ resists rational approximation: any rational $p/q$ would line the seeds up every $q$ of them, opening radial gaps, and the hardest-to-approximate number packs most densely. The same property is called the KAM theorem in celestial mechanics — the closer a frequency ratio is to rational, the more readily resonance tears the orbit apart, so the most "irrational" ratios are the most stable, and the gaps in Saturn's rings open exactly at resonances with its moons. <strong>Plants and planets are solving the same approximation problem.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Choosing gear ratios; calendar intercalation (the Metonic cycle of 7 leap months in 19 years is a convergent of a logarithmic ratio); recovering a fraction from its residue in modular arithmetic; solving Pell's equation; and the LLL lattice-reduction algorithm — a weapon of cryptanalysis and, at the same time, the attack that post-quantum lattice schemes must withstand.</p>
+</div>
+<div class="section">
+<div class="label">Essence + question</div>
+<div class="think"><strong>Continued fractions turn "how do I approximate a number most cheaply" into a deterministic algorithm, and rank degrees of irrationality along the way.</strong><br/>Question: $\varphi$ is both the hardest number to approximate and one of nature's most common proportions — coincidence, or two descriptions of one fact?</div>
+</div>
+</div>
+
+<!-- Deeper questions -->
+<div class="card">
+<h2>Going Deeper</h2>
+<div class="en-name">Open Questions</div>
+<details>
+<summary>Hardy took pride in number theory's uselessness; decades later it underwrites global commerce. Did he misjudge, or is "useless" a sound long-term investment strategy?</summary>
+<div>His specific prediction failed; his methodology held. Number theory could be seized wholesale by cryptography in the 1970s precisely because a century of unsupervised development had grown deep structure first — finite fields, elliptic curves, modular forms. Pruned to fit the applications of its day, none of those tools would exist. The lesson is not the consoling "basic research always pays off" but something sharper: <strong>the shape of the application cannot be known in advance, so the only reliable strategy is to let the structure grow on its own terms</strong>. Lattices went from geometry of numbers to post-quantum cryptography in thirty years.</div>
+</details>
+<details>
+<summary>Testing primality is fast, factoring is slow — is that asymmetry a truth about computation, or about our ignorance?</summary>
+<div>For now it is an empirical fact nobody has overturned. It is not guaranteed by P≠NP: factoring sits in NP∩co-NP and is widely believed not to be NP-complete, so even a proof that P≠NP would not establish that factoring is hard. Shor's algorithm is more direct — on a quantum machine factoring is polynomial while primality stays easy, and the asymmetry collapses on the spot, which shows it is at least partly an artefact of our machine model. Public-key cryptography therefore rests on an <strong>unproven hardness assumption</strong>, and the post-quantum migration is insurance against that assumption failing.</div>
+</details>
+<details>
+<summary>Twelve-tone equal temperament: mathematical optimum, or cultural path dependence? How would you tell?</summary>
+<div>The convergent sequence supplies a testable criterion. If mathematics decided the matter, human systems should cluster on the convergent denominators $5, 12, 41, 53$ — and they do: the Chinese sanfen sunyi method lands on 12, Indonesia uses 5, microtonalists use 41 and 53, while 11- or 13-tone temperaments attract almost nobody. Mathematics fixes the shortlist. Which entry wins is then settled by the number of fingers, instrument craft and harmonic needs: 41 is far more accurate than 12 but demands 41 keys per octave. So <strong>mathematics bounds the possible and culture selects within it</strong> — the general shape of every "natural versus conventional" dispute.</div>
+</details>
+<details>
+<summary>Modular arithmetic compresses the infinite into the finite; continued fractions compress the irrational into the finite. Are these the same act?</summary>
+<div>They are two outlets of one machine, and the machine is the Euclidean algorithm. Every "take the remainder" step in computing $\gcd(a,b)$ is exactly a "peel off the integer part" step in the continued-fraction expansion: the coefficients of $a/b$ are the successive quotients of the division chain. So $\bmod$ and best rational approximation are two readings of one algorithm — the first discards the quotient and keeps the remainder, the second discards the remainder and keeps the quotient. The extended Euclidean algorithm, which yields a modular inverse and a convergent simultaneously, is the evidence of that double identity. It also explains why lattice reduction, the higher-dimensional heir of continued fractions, turns up in cryptanalysis and number-theoretic algorithms alike.</div>
+</details>
+</div>
+
+<nav class="bottom">
+<a href="index.en.html">← Back to Mathematics</a>
+</nav>
+</div>
+</body>
+</html>
