@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Visual Thinking in Mathematics · Day 51 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#3a4558}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 51 · 2026.08.12</div>
+<h1>Visual Thinking in Mathematics</h1>
+<div class="meta">The picture as an engine of discovery — and as a con</div>
+<div class="epigraph">"Algebra is the offer made by the devil to the mathematician. The devil says: I will give you this powerful machine, it will answer any question you like. All you need to do is give me your soul — give up geometry." — Michael Atiyah</div>
+</header>
+
+<!-- Concept 1: High-dimensional intuition -->
+<div class="card">
+<h2>High-Dimensional Intuition</h2>
+<div class="en-name">Why "picture the fourth dimension" is the wrong goal</div>
+<span class="tag">Geometry &amp; Probability</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Peel the outer 10% off the radius of a three-dimensional orange and $0.9^3\approx 73\%$ of the flesh survives. Do the same in 100 dimensions: $0.9^{100}\approx 0.003$. <strong>A high-dimensional orange is almost entirely peel</strong> — not because the orange is strange, but because volume is governed by the $n$-th power of the radius.</p>
+<p>Something stranger still: pick two directions at random in high dimensions and they are almost certainly close to perpendicular. In two dimensions the angle is uniform; in a hundred, it clusters tightly around 90°. So the right posture is not to strain at picturing a hundred-dimensional cube — nobody can — but to <strong>replace the instinct</strong>.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+<text fill="#3a6088" font-size="10" x="8" y="12">fraction of volume in the outer 10% shell = $1-0.9^n$</text>
+<line stroke="#8a9abe" stroke-width="1" x1="30" x2="360" y1="122" y2="122"></line>
+<g fill="#3a6088" font-size="10" text-anchor="middle">
+<rect fill="#c9a96b" fill-opacity="0.55" height="19" stroke="#8a7340" stroke-width="0.6" width="34" x="42" y="103"></rect>
+<text x="59" y="136">n=2</text><text fill="#5a7090" x="59" y="99">19%</text>
+<rect fill="#c9a96b" fill-opacity="0.55" height="27" stroke="#8a7340" stroke-width="0.6" width="34" x="106" y="95"></rect>
+<text x="123" y="136">n=3</text><text fill="#5a7090" x="123" y="91">27%</text>
+<rect fill="#c9a96b" fill-opacity="0.55" height="65" stroke="#8a7340" stroke-width="0.6" width="34" x="170" y="57"></rect>
+<text x="187" y="136">n=10</text><text fill="#5a7090" x="187" y="53">65%</text>
+<rect fill="#1e3a5f" fill-opacity="0.55" height="99" stroke="#1e3a5f" stroke-width="0.6" width="34" x="234" y="23"></rect>
+<text x="251" y="136">n=50</text><text fill="#5a7090" x="251" y="19">99.5%</text>
+<rect fill="#1e3a5f" fill-opacity="0.75" height="100" stroke="#1e3a5f" stroke-width="0.6" width="34" x="298" y="22"></rect>
+<text x="315" y="136">n=200</text><text fill="#5a7090" x="315" y="18">≈100%</text>
+</g>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal Definition</div>
+<p>The volume of the $n$-dimensional unit ball is $V_n=\pi^{n/2}\big/\Gamma(\tfrac{n}{2}+1)$, where $\Gamma$ is the continuous extension of the factorial. The denominator outruns the numerator, so $V_n$ peaks near $n=5$ and then falls to zero: <strong>the high-dimensional unit ball occupies almost none of the cube that contains it</strong>. The volume has fled to the corners.</p>
+<p>The sharper statement is <strong>concentration of measure</strong>: on the sphere, any 1-Lipschitz function $f$ (move the input a little and the output moves at most as much) satisfies</p>
+<div class="formula-box">$$\Pr\big(|f-\mathbb{E}f|>t\big)\le 2e^{-nt^{2}/2}$$</div>
+<p>The point is that $n$ sits in the exponent: the higher the dimension, the closer any "gentle" function is to a constant.</p>
+</div>
+<div class="section">
+<div class="label">Why It Is Beautiful</div>
+<p>We assume dimension is quantity stacked — one more axis, merely more room. What the above shows is that <strong>dimension is a parameter with a phase transition</strong>: low-dimensional intuition does not blur gradually as $n\to\infty$, it is replaced wholesale by a different regime. The lovely part is that the new regime is not chaos but an unusual tidiness. The law of large numbers is exactly concentration of measure on a product space: <strong>the most basic theorem in probability is, underneath, a fact of high-dimensional geometry.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<ul>
+<li><strong>Embeddings</strong>: the cosine similarity of two random 768-dimensional vectors lands, with overwhelming probability, in a narrow band around 0 — so 0.3 is already a strong signal. Setting thresholds by low-dimensional instinct misjudges badly.</li>
+<li><strong>Diffusion models</strong>: samples from a $d$-dimensional standard Gaussian sit almost entirely on a thin shell of radius $\sqrt{d}$, not near the origin. Noise schedules and sampling paths are built on that shell.</li>
+<li><strong>Nearest-neighbour failure</strong>: the precise content of the curse of dimensionality is that the ratio of farthest to nearest distance tends to 1, which degrades KNN and ball trees together.</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">Essence + Question</div>
+<div class="think">High dimension is not three dimensions enlarged; it is another geometry — mass on the shell, directions mutually perpendicular, random quantities hugging their mean.<br/><strong>Question:</strong> if every function is nearly constant and every point nearly equidistant up there, why is high-dimensional data learnable at all?</div>
+</div>
+</div>
+
+<!-- Concept 2: Projection -->
+<div class="card">
+<h2>Projection &amp; Dimensionality Reduction</h2>
+<div class="en-name">Choosing a wall</div>
+<span class="tag">Linear Algebra</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Reducing dimension is projecting, and projecting is casting a shadow. A hand becomes a rabbit on the wall — enormous information is lost, but the part you cared about survives. The real question is: <strong>which wall.</strong></p>
+<p>PCA picks the wall on which the shadow spreads widest, the direction of maximum variance. What comes next is the surprise: if all you care about is <em>who is near whom</em>, then <strong>any wall will do</strong> — a random projection is nearly as good as the optimal one.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 170" xmlns="http://www.w3.org/2000/svg">
+<g fill="#1e3a5f">
+<circle cx="120" cy="45" r="3.5"></circle><circle cx="140" cy="58" r="3.5"></circle><circle cx="132" cy="72" r="3.5"></circle>
+<circle cx="205" cy="52" r="3.5"></circle><circle cx="225" cy="66" r="3.5"></circle><circle cx="216" cy="40" r="3.5"></circle>
+</g>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="120" x2="120" y1="48" y2="115"></line>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="140" x2="140" y1="61" y2="115"></line>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="132" x2="132" y1="75" y2="115"></line>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="205" x2="205" y1="55" y2="115"></line>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="225" x2="225" y1="69" y2="115"></line>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="216" x2="216" y1="43" y2="115"></line>
+<line stroke="#1e3a5f" stroke-width="1.5" x1="100" x2="250" y1="118" y2="118"></line>
+<g fill="#c9a96b" stroke="#8a7340" stroke-width="0.5">
+<circle cx="120" cy="118" r="3"></circle><circle cx="140" cy="118" r="3"></circle><circle cx="132" cy="118" r="3"></circle>
+<circle cx="205" cy="118" r="3"></circle><circle cx="225" cy="118" r="3"></circle><circle cx="216" cy="118" r="3"></circle>
+</g>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="175" y="136">wall A: the clusters separate</text>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="123" x2="292" y1="45" y2="45"></line>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="143" x2="292" y1="58" y2="58"></line>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="228" x2="292" y1="66" y2="66"></line>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="219" x2="292" y1="40" y2="40"></line>
+<line stroke="#1e3a5f" stroke-width="1.5" x1="295" x2="295" y1="28" y2="85"></line>
+<g fill="#c9a96b" stroke="#8a7340" stroke-width="0.5">
+<circle cx="295" cy="45" r="3"></circle><circle cx="295" cy="58" r="3"></circle><circle cx="295" cy="72" r="3"></circle>
+<circle cx="295" cy="52" r="3"></circle><circle cx="295" cy="66" r="3"></circle><circle cx="295" cy="40" r="3"></circle>
+</g>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="332" y="103">wall B:</text>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="332" y="116">all smeared together</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal Definition</div>
+<p>The Johnson–Lindenstrauss lemma: given $N$ points in $\mathbb{R}^d$ and a tolerance $\varepsilon$, there is a linear map $f:\mathbb{R}^d\to\mathbb{R}^k$ such that as soon as</p>
+<div class="formula-box">$$k=O\!\left(\frac{\log N}{\varepsilon^{2}}\right)$$</div>
+<p><em>every</em> pair satisfies $(1-\varepsilon)\|x-y\|\le\|f(x)-f(y)\|\le(1+\varepsilon)\|x-y\|$.</p>
+<p>The crux: <strong>there is no $d$ in $k$.</strong> The target dimension depends only on the logarithm of the number of points and on the accuracy you want — nothing about how high the original space was. A million points, whether they live in $10^3$ or $10^9$ dimensions, need only a few thousand dimensions at $\varepsilon=0.1$. And the way to construct $f$ turns out to be: <strong>take a random Gaussian matrix.</strong></p>
+</div>
+<div class="section">
+<div class="label">Why It Is Beautiful</div>
+<p>Three surprises at once. First, the dimension needed to preserve distances does not depend on the original dimension — "high-dimensional" is charged nothing here. Second, the random construction is essentially optimal: good directions are abundant and bad ones exponentially suppressed, so there is no need to hunt. Third and finest, <strong>it rewrites the bad news of Concept 1 into a tool</strong> — precisely because projected lengths hug their expectation, one can take a union bound over all $N^2$ pairs at once. The same geometric fact is both the curse and the blessing of dimensionality.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<ul>
+<li><strong>Vector search</strong>: random projection and LSH sit underneath libraries like FAISS — compress first, index second, with JL guaranteeing recall does not collapse.</li>
+<li><strong>Different objectives</strong>: PCA is linear and preserves global variance; t-SNE and UMAP preserve local neighbourhoods, <strong>which is why distances between clusters and the size of clusters in a t-SNE plot are essentially unreadable</strong> — the most widely misread class of figure in current practice.</li>
+<li><strong>Interpretability</strong>: visualising a hidden layer is always a projection. How much of the structure you see comes from the data and how much the method manufactured must be kept apart.</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">Essence + Question</div>
+<div class="think">Reducing dimension is not compressing data; it is choosing which structure to keep.<br/><strong>Question:</strong> two clusters sit far apart on your t-SNE plot — does that tell you they are far apart in the original space?</div>
+</div>
+</div>
+
+<!-- Concept 3: Homotopy -->
+<div class="card">
+<h2>Continuous Deformation: Animation as Argument</h2>
+<div class="en-name">Homotopy · why a matrix is a verb</div>
+<span class="tag">Topology</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Mathematical animation is often taken for pedagogical decoration, but its core is a genuine mathematical object: <strong>continuous deformation</strong>. When 3Blue1Brown teaches linear algebra he does not draw a matrix as a table of numbers; he stretches and rotates the whole grid — because a matrix was never a noun, it is a verb. A static picture can only show the verb's result; animation shows the verb.</p>
+<p>Then the stronger step: <strong>the deformation can itself be the proof.</strong> If A can be carried continuously into B while some quantity never changes, that quantity must agree on A and B. That is the entire idea of a topological invariant.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+<path d="M 100 30 C 160 10 220 40 215 75 C 210 115 150 135 110 118 C 70 100 60 48 100 30 Z" fill="#f0f4f9" stroke="#1e3a5f" stroke-width="1.6"></path>
+<polygon fill="#c9a96b" fill-opacity="0.28" points="108,46 190,36 200,92 118,102" stroke="#8a7340" stroke-width="1.2"></polygon>
+<g fill="#1e3a5f">
+<circle cx="108" cy="46" r="3.2"></circle><circle cx="190" cy="36" r="3.2"></circle>
+<circle cx="200" cy="92" r="3.2"></circle><circle cx="118" cy="102" r="3.2"></circle>
+</g>
+<line stroke="#8a7340" stroke-dasharray="3,3" stroke-width="0.9" x1="108" x2="200" y1="46" y2="92"></line>
+<line stroke="#8a7340" stroke-dasharray="3,3" stroke-width="0.9" x1="190" x2="118" y1="36" y2="102"></line>
+<circle cx="154" cy="69" fill="#8a2f2f" r="3.6"></circle>
+<text fill="#8a2f2f" font-size="10" x="238" y="60">diagonals share</text>
+<text fill="#8a2f2f" font-size="10" x="238" y="74">midpoint and length</text>
+<text fill="#3a6088" font-size="10" x="238" y="96">⇒ the four points</text>
+<text fill="#3a6088" font-size="10" x="238" y="110">form a rectangle</text>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="155" y="143">such a quadruple exists on every closed plane curve</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal Definition</div>
+<p>Two continuous maps $f,g:X\to Y$ are <strong>homotopic</strong> if there is a continuous</p>
+<div class="formula-box">$$H:X\times[0,1]\to Y,\quad H(x,0)=f(x),\; H(x,1)=g(x)$$</div>
+<p>$X$ is the thing being deformed, $Y$ the space it lives in, $[0,1]$ is the time axis and $H(\cdot,t)$ is frame $t$ — so $H$ <em>is</em> the animation. A homotopy invariant is any quantity that does not budge under all such animations.</p>
+</div>
+<div class="section">
+<div class="label">Why It Is Beautiful</div>
+<p>Take the inscribed rectangle problem: does every closed plane curve carry four points forming a rectangle? Assemble all <strong>unordered pairs</strong> of points on the curve into a space — since $(a,b)$ and $(b,a)$ count as one point, that gluing produces exactly one twist, and the space is a Möbius band. Now map each pair into $\mathbb{R}^3$: record the midpoint's position together with the distance between the two points. <strong>A rectangle is precisely two distinct pairs sharing a midpoint and a distance</strong> — a self-intersection of this map. But the boundary of the Möbius band is the original curve and must lie flat in the plane, and topology forbids the interior from embedding without self-intersection. So the rectangle must exist.</p>
+<p>Not one equation appears in that argument; it is all shape. This is visual thinking as an <strong>engine of discovery</strong> in its purest form: it does not illustrate a proof, it is one.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<ul>
+<li><strong>Manim</strong>, 3Blue1Brown's animation library, replaces keyframes with parametrised families of continuous transformations — what you write is not an animation but $H$.</li>
+<li><strong>Representation learning</strong>: what a classifier does is pull two entangled manifolds continuously apart until they are linearly separable. Chris Olah's classic visualisations show that a network's depth is roughly the number of deformation steps it is allowed.</li>
+<li><strong>Homotopy continuation</strong>: to solve a hard nonlinear system, start from an easy system whose solution you know, deform continuously to the target, and track the solution along the way — used in circuit simulation and robot inverse kinematics.</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">Essence + Question</div>
+<div class="think">A static picture draws the conclusion; an animation draws the argument — because many mathematical truths just are "you can get there continuously".<br/><strong>Question:</strong> if a concept can only be understood through animation, is it essentially a concept about change?</div>
+</div>
+</div>
+
+<!-- Concept 4: Visual encoding -->
+<div class="card">
+<h2>Visual Encoding and Its Deceptions</h2>
+<div class="en-name">A chart is a noisy channel</div>
+<span class="tag">Statistics &amp; Perception</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Anscombe's quartet: four datasets agreeing to two decimal places in mean, variance, correlation and regression line, yet plotting into four unrelated pictures. <strong>Summary statistics are lossy compression; the plot is the part that was discarded.</strong> The later Datasaurus pushes the joke to its limit — the same statistics can draw a dinosaur.</p>
+<p>But plots deceive too, and the deception can be quantified. The eye reads <strong>position</strong> most accurately, <strong>length</strong> next, then angle, area, volume and colour saturation. So a pie chart (angle plus area) is systematically worse than a bar chart, and a 3-D bar chart (volume) is all but guaranteed to mislead.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+<g>
+<line stroke="#8a9abe" stroke-width="1" x1="25" x2="25" y1="20" y2="115"></line>
+<line stroke="#8a9abe" stroke-width="1" x1="25" x2="165" y1="115" y2="115"></line>
+<line stroke="#8a2f2f" stroke-width="1.4" x1="30" x2="160" y1="100" y2="35"></line>
+<g fill="#1e3a5f">
+<circle cx="42" cy="98" r="3"></circle><circle cx="60" cy="82" r="3"></circle><circle cx="72" cy="90" r="3"></circle>
+<circle cx="90" cy="70" r="3"></circle><circle cx="108" cy="62" r="3"></circle><circle cx="124" cy="48" r="3"></circle>
+<circle cx="146" cy="42" r="3"></circle>
+</g>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="95" y="134">linear + noise</text>
+</g>
+<g>
+<line stroke="#8a9abe" stroke-width="1" x1="220" x2="220" y1="20" y2="115"></line>
+<line stroke="#8a9abe" stroke-width="1" x1="220" x2="360" y1="115" y2="115"></line>
+<line stroke="#8a2f2f" stroke-width="1.4" x1="225" x2="355" y1="100" y2="35"></line>
+<g fill="#1e3a5f">
+<circle cx="237" cy="103" r="3"></circle><circle cx="255" cy="84" r="3"></circle><circle cx="273" cy="70" r="3"></circle>
+<circle cx="291" cy="62" r="3"></circle><circle cx="309" cy="60" r="3"></circle><circle cx="327" cy="64" r="3"></circle>
+<circle cx="345" cy="74" r="3"></circle>
+</g>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="290" y="134">parabola</text>
+</g>
+<text fill="#8a2f2f" font-size="10" text-anchor="middle" x="190" y="16">same regression line, same r</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal Definition</div>
+<p>The formal frame for visualisation is the <strong>grammar of graphics</strong>: a chart is a map from data variables to visual channels,</p>
+<div class="formula-box">$$\text{variable}\;\longmapsto\;\text{channel}\in\{x,\;y,\;\text{length},\;\text{angle},\;\text{area},\;\text{colour},\dots\}$$</div>
+<p>and each channel carries its own <strong>perceptual accuracy</strong> — Cleveland and McGill measured the ranking above in controlled experiments. "Designing a chart" then has an exact meaning: choose one map among all of them, and give the most important variable the most accurate channel.</p>
+</div>
+<div class="section">
+<div class="label">Why It Is Beautiful</div>
+<p>This turns a question of taste into a <strong>channel problem</strong>. Data must cross a noisy, nonlinearly responding channel — the human visual system — before it reaches understanding, and design is the choice of code for that channel. It is isomorphic to information theory: there is capacity, there is distortion, there are better and worse codes. <strong>A misleading chart is not "ugly", it is a coding error</strong>: a high-importance variable pushed into a low-accuracy channel. Aesthetics acquires a falsifiable criterion.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<ul>
+<li><strong>Loss landscapes</strong>: the flat-or-sharp appearance of a 2-D slice can be distorted arbitrarily by rescaling parameters, which is exactly what Li et al.'s filter normalisation exists to fix so the pictures are comparable across models.</li>
+<li><strong>Attention heatmaps</strong>: colour is among the least accurate channels and judgements of saturation depend heavily on context — the same attention map under a different colormap yields a different "conclusion".</li>
+<li><strong>Model evaluation</strong>: an ROC curve maps two rates onto position channels and preserves far more than a single AUC number; one AUC value corresponds to wildly different curve shapes. That is Anscombe, restated for models.</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">Essence + Question</div>
+<div class="think">A chart is not an illustration of the data; it is an encoding of the data for the eye — and an encoding can approach optimal or it can lie.<br/><strong>Question:</strong> the last time a figure changed your conclusion, did it reveal what the numbers hid, or did its encoding show you a pattern that was never in the data?</div>
+</div>
+<div class="section">
+<div class="label">Further Reading</div>
+<div class="think">Cleveland &amp; McGill · <em>Graphical Perception</em> (1984); Tristan Needham · <em>Visual Complex Analysis</em>; 3Blue1Brown · <em>Essence of Linear Algebra</em>.</div>
+</div>
+</div>
+
+<!-- Going deeper -->
+<div class="card">
+<h2>Going Deeper</h2>
+<div class="en-name">Open questions</div>
+<details>
+<summary>If everything "concentrates" in high dimensions, why is high-dimensional data learnable?</summary>
+<div>Because real data does not fill that space. The <strong>manifold hypothesis</strong> holds that images and language cluster near a manifold whose dimension is far below the ambient one. Concentration of measure describes uniform distribution on a sphere; real distributions are wildly non-uniform. Dimensionality reduction works precisely because intrinsic dimension is much smaller than apparent dimension, and what a deep network does can be read as learning a coordinate chart for that manifold. Conversely, when representations genuinely become isotropic — collapse, pure noise — learning really is hopeless.</div>
+</details>
+<details>
+<summary>Atiyah called algebra a bargain with the devil. What does visual thinking cost?</summary>
+<div>It costs <strong>scalability and verifiability</strong>. Geometric intuition is extremely reliable up to three dimensions and fails fast above four, while algebra computes on regardless of dimension — that is the machine the devil offers. Worse, pictorial arguments resist formal checking: Kempe's "proof" of the four-colour theorem was fooled by a diagram for eleven years. The healthy posture is division of labour — <strong>geometry supplies conjectures, algebra supplies guarantees</strong> — and by handing verification to machines, the recent Lean effort frees the discovery end to keep relying on intuition and pictures.</div>
+</details>
+<details>
+<summary>When a mathematical fact resists visualisation, is it too abstract, or is our visual system too poor?</summary>
+<div>Neither entirely. The visual system is special-purpose hardware evolved for a three-dimensional, continuous, low-dimensional world; it is intrinsically unsuited to discrete infinity, non-commutativity or transfinite cardinals. Yet "unvisualisable" is often replaced by another kind of picture: category theory uses commutative diagrams, group theory Cayley graphs, logic proof trees — these depict not space but <strong>relation</strong>. So the more accurate statement is that the reach of visual thinking extends as we invent new diagrammatic idioms; Feynman diagrams and tensor-network diagrams are products of exactly that extension.</div>
+</details>
+<details>
+<summary>Can large models "see" mathematics?</summary>
+<div>Multimodal models read diagrams, but their geometric understanding comes mainly from statistical association between text and image rather than from spatial operation itself. The discriminating tests are the questions that demand mental rotation or continuous deformation: are these two knots equivalent, what is the genus of this surface. Humans answer those with embodied motor and spatial circuitry, not with language circuitry. If geometric intuition is fundamentally an <strong>internal simulator</strong>, then installing it in a model may require not more images but differentiable geometric operations as primitives.</div>
+</details>
+</div>
+
+<nav class="bottom">
+<a href="index.en.html">← Back to Mathematics</a>
+</nav>
+</div>
+</body>
+</html>

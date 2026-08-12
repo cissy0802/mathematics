@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>数学的可视化思维 · Day 51 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#3a4558}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 51 · 2026.08.12</div>
+<h1>数学的可视化思维</h1>
+<div class="meta">Visual Thinking in Mathematics — 图作为发现引擎，也作为骗局</div>
+<div class="epigraph">"代数是魔鬼开给数学家的条件。魔鬼说：我给你这台无所不能的机器，你只要把灵魂交给我——放弃几何。" — Michael Atiyah</div>
+</header>
+
+<!-- 概念 1：高维直觉 -->
+<div class="card">
+<h2>高维直觉</h2>
+<div class="en-name">High-Dimensional Intuition · 为什么想象四维是错误的目标</div>
+<span class="tag">Geometry &amp; Probability</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>把三维橙子按半径削掉最外 10%，果肉还剩 $0.9^3\approx 73\%$。同一件事在 100 维里做：$0.9^{100}\approx 0.003$。<strong>高维的橙子几乎全是皮</strong>——不是橙子变奇怪，是「体积」被半径的 $n$ 次方彻底支配。</p>
+<p>另一件更颠覆的：高维里随机取两个方向，几乎必然接近垂直——二维中夹角均匀分布，一百维中它紧挤在 90° 附近。所以高维直觉的正确姿势不是硬想象一百维立方体（没人做得到），而是<strong>换掉本能</strong>。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+<text fill="#3a6088" font-size="10" x="8" y="12">外层 10% 的壳占据的体积比例 = $1-0.9^n$</text>
+<line stroke="#8a9abe" stroke-width="1" x1="30" x2="360" y1="122" y2="122"></line>
+<g fill="#3a6088" font-size="10" text-anchor="middle">
+<rect fill="#c9a96b" fill-opacity="0.55" height="19" stroke="#8a7340" stroke-width="0.6" width="34" x="42" y="103"></rect>
+<text x="59" y="136">n=2</text><text fill="#5a7090" x="59" y="99">19%</text>
+<rect fill="#c9a96b" fill-opacity="0.55" height="27" stroke="#8a7340" stroke-width="0.6" width="34" x="106" y="95"></rect>
+<text x="123" y="136">n=3</text><text fill="#5a7090" x="123" y="91">27%</text>
+<rect fill="#c9a96b" fill-opacity="0.55" height="65" stroke="#8a7340" stroke-width="0.6" width="34" x="170" y="57"></rect>
+<text x="187" y="136">n=10</text><text fill="#5a7090" x="187" y="53">65%</text>
+<rect fill="#1e3a5f" fill-opacity="0.55" height="99" stroke="#1e3a5f" stroke-width="0.6" width="34" x="234" y="23"></rect>
+<text x="251" y="136">n=50</text><text fill="#5a7090" x="251" y="19">99.5%</text>
+<rect fill="#1e3a5f" fill-opacity="0.75" height="100" stroke="#1e3a5f" stroke-width="0.6" width="34" x="298" y="22"></rect>
+<text x="315" y="136">n=200</text><text fill="#5a7090" x="315" y="18">≈100%</text>
+</g>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>$n$ 维单位球的体积是 $V_n=\pi^{n/2}\big/\Gamma(\tfrac{n}{2}+1)$，其中 $\Gamma$ 是阶乘的连续推广。分母增长快过分子，$V_n$ 在 $n=5$ 见顶后趋于 0：<strong>高维单位球在同尺寸立方体里几乎不占地方</strong>，体积都跑去了角落。</p>
+<p>更有力的表述是<strong>测度集中</strong>：球面上任何 1-Lipschitz 函数 $f$（输入动一点，输出至多动一样多）满足</p>
+<div class="formula-box">$$\Pr\big(|f-\mathbb{E}f|>t\big)\le 2e^{-nt^{2}/2}$$</div>
+<p>要害在 $n$ 站在指数上：维度越高，任何「温和」的函数就越接近一个常数。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>我们默认维度是量的堆叠——再加一维，无非更宽敞些。但上面这些说明，<strong>维度是一个会发生相变的参数</strong>：低维直觉在 $n\to\infty$ 时不是慢慢变模糊，而是被另一套规律整体替换。妙在新规律并不混乱，反而出奇整齐。大数定律正是测度集中在乘积空间上的特例：<strong>概率论最基本的定理，骨子里是一条高维几何事实。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<ul>
+<li><strong>嵌入向量</strong>：两个随机 768 维向量的余弦相似度极大概率落在 0 附近的窄带里，所以 0.3 已是强信号；套低维直觉设阈值会严重误判。</li>
+<li><strong>扩散模型</strong>：$d$ 维标准高斯的样本几乎全落在半径 $\sqrt{d}$ 的薄壳上而非原点附近，加噪调度与采样路径都建立在这个壳上。</li>
+<li><strong>最近邻失效</strong>：维度诅咒的精确含义是「最近与最远距离之比趋于 1」，KNN 与球树因此同时退化。</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think">高维不是三维的放大版，是另一种几何：质量在壳上，方向互相垂直，随机量紧贴均值。<br/><strong>思考题：</strong>如果高维里一切函数都近似常数、一切点都等距，那么高维数据为什么还学得动？</div>
+</div>
+</div>
+
+<!-- 概念 2：投影与降维 -->
+<div class="card">
+<h2>投影与降维</h2>
+<div class="en-name">Projection &amp; Dimensionality Reduction · 选一面墙</div>
+<span class="tag">Linear Algebra</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>降维就是投影，投影就是影子。手影投在墙上变成兔子——丢掉了大量信息，却保住了你关心的那部分。真正的问题是：<strong>选哪面墙。</strong></p>
+<p>PCA 选「让影子摊得最开」的那面墙，即方差最大的方向。但接下来这一步令人意外：如果你只关心「谁离谁近」，那么<strong>随便找一面墙就够了</strong>——随机投影几乎和最优投影一样好。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 170" xmlns="http://www.w3.org/2000/svg">
+<g fill="#1e3a5f">
+<circle cx="120" cy="45" r="3.5"></circle><circle cx="140" cy="58" r="3.5"></circle><circle cx="132" cy="72" r="3.5"></circle>
+<circle cx="205" cy="52" r="3.5"></circle><circle cx="225" cy="66" r="3.5"></circle><circle cx="216" cy="40" r="3.5"></circle>
+</g>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="120" x2="120" y1="48" y2="115"></line>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="140" x2="140" y1="61" y2="115"></line>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="132" x2="132" y1="75" y2="115"></line>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="205" x2="205" y1="55" y2="115"></line>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="225" x2="225" y1="69" y2="115"></line>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="216" x2="216" y1="43" y2="115"></line>
+<line stroke="#1e3a5f" stroke-width="1.5" x1="100" x2="250" y1="118" y2="118"></line>
+<g fill="#c9a96b" stroke="#8a7340" stroke-width="0.5">
+<circle cx="120" cy="118" r="3"></circle><circle cx="140" cy="118" r="3"></circle><circle cx="132" cy="118" r="3"></circle>
+<circle cx="205" cy="118" r="3"></circle><circle cx="225" cy="118" r="3"></circle><circle cx="216" cy="118" r="3"></circle>
+</g>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="175" y="136">墙 A：两团分得开</text>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="123" x2="292" y1="45" y2="45"></line>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="143" x2="292" y1="58" y2="58"></line>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="228" x2="292" y1="66" y2="66"></line>
+<line stroke="#8a9abe" stroke-dasharray="2,3" stroke-width="0.8" x1="219" x2="292" y1="40" y2="40"></line>
+<line stroke="#1e3a5f" stroke-width="1.5" x1="295" x2="295" y1="28" y2="85"></line>
+<g fill="#c9a96b" stroke="#8a7340" stroke-width="0.5">
+<circle cx="295" cy="45" r="3"></circle><circle cx="295" cy="58" r="3"></circle><circle cx="295" cy="72" r="3"></circle>
+<circle cx="295" cy="52" r="3"></circle><circle cx="295" cy="66" r="3"></circle><circle cx="295" cy="40" r="3"></circle>
+</g>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="330" y="103">墙 B：</text>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="330" y="116">全糊在一起</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>Johnson–Lindenstrauss 引理：给定 $\mathbb{R}^d$ 中的 $N$ 个点与精度 $\varepsilon$，存在线性映射 $f:\mathbb{R}^d\to\mathbb{R}^k$，只要</p>
+<div class="formula-box">$$k=O\!\left(\frac{\log N}{\varepsilon^{2}}\right)$$</div>
+<p>就能让<em>所有</em>点对满足 $(1-\varepsilon)\|x-y\|\le\|f(x)-f(y)\|\le(1+\varepsilon)\|x-y\|$。</p>
+<p>要害是：<strong>$k$ 里没有 $d$。</strong>目标维度只依赖点数的对数与精度，与原空间多高无关——一百万个点，原维度不论 $10^3$ 还是 $10^9$，$\varepsilon=0.1$ 时几千维都够。而构造 $f$ 的办法竟是<strong>取一个随机高斯矩阵</strong>。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>三重出人意料。第一，保距所需维度与原维度无关——「高维」在这里根本不收费。第二，随机做法几乎最优：好方向太多，坏方向被指数级压制。第三也最漂亮，<strong>它把卡片 1 那条坏消息改写成了工具</strong>——正因为随机投影后的长度紧贴期望值，才敢对全部 $N^2$ 个点对同时取并集界。同一条几何事实，既是维度诅咒，也是维度祝福。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<ul>
+<li><strong>向量检索</strong>：随机投影与 LSH 是 FAISS 一类库的底层，先压维再建索引，JL 保证召回不塌。</li>
+<li><strong>目标不同</strong>：PCA 线性、保全局方差；t-SNE/UMAP 保的是局部邻域，<strong>因此 t-SNE 图里簇的相对距离与大小基本不可解读</strong>——当代被误读最多的一类图。</li>
+<li><strong>可解释性</strong>：中间层可视化本质都是投影；看到的结构多少来自数据、多少是方法自己造的，必须分清。</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think">降维不是压缩数据，是选择你要保住哪一种结构。<br/><strong>思考题：</strong>t-SNE 图上两个簇隔得很远，这能推出它们在原空间里也远吗？</div>
+</div>
+</div>
+
+<!-- 概念 3：连续变形 -->
+<div class="card">
+<h2>连续变形：动画作为论证</h2>
+<div class="en-name">Homotopy · 为什么矩阵是动词</div>
+<span class="tag">Topology</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>数学动画常被当作教学装饰，但它的内核是一个真正的数学对象：<strong>连续变形</strong>。3Blue1Brown 讲线性代数时不把矩阵画成数表，而是让整个网格被拉伸、旋转——因为矩阵本来就不是名词，是动词。静态图只能画出动词的结果，动画画的是动词本身。</p>
+<p>再进一步：<strong>变形本身可以就是证明。</strong>若能把 A 连续变成 B，而某个量全程不变，那么这个量在 A 与 B 上必然相等——这就是拓扑不变量的全部思想。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+<path d="M 100 30 C 160 10 220 40 215 75 C 210 115 150 135 110 118 C 70 100 60 48 100 30 Z" fill="#f0f4f9" stroke="#1e3a5f" stroke-width="1.6"></path>
+<polygon fill="#c9a96b" fill-opacity="0.28" points="108,46 190,36 200,92 118,102" stroke="#8a7340" stroke-width="1.2"></polygon>
+<g fill="#1e3a5f">
+<circle cx="108" cy="46" r="3.2"></circle><circle cx="190" cy="36" r="3.2"></circle>
+<circle cx="200" cy="92" r="3.2"></circle><circle cx="118" cy="102" r="3.2"></circle>
+</g>
+<line stroke="#8a7340" stroke-dasharray="3,3" stroke-width="0.9" x1="108" x2="200" y1="46" y2="92"></line>
+<line stroke="#8a7340" stroke-dasharray="3,3" stroke-width="0.9" x1="190" x2="118" y1="36" y2="102"></line>
+<circle cx="154" cy="69" fill="#8a2f2f" r="3.6"></circle>
+<text fill="#8a2f2f" font-size="10" x="240" y="60">两条对角线</text>
+<text fill="#8a2f2f" font-size="10" x="240" y="74">共中点、等长</text>
+<text fill="#3a6088" font-size="10" x="240" y="96">⇒ 四点成矩形</text>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="155" y="143">任何平面闭曲线上，这样的四点一定存在</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>两个连续映射 $f,g:X\to Y$ <strong>同伦</strong>，是指存在连续的</p>
+<div class="formula-box">$$H:X\times[0,1]\to Y,\quad H(x,0)=f(x),\; H(x,1)=g(x)$$</div>
+<p>$X$ 是被变形的东西，$Y$ 是它所在的空间，$[0,1]$ 就是时间轴，$H(\cdot,t)$ 是第 $t$ 帧——$H$ 本身就是那段动画。同伦不变量，就是在所有这类动画下纹丝不动的量。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>看内接矩形问题：平面闭曲线上总能找到四点构成矩形吗？把曲线上所有<strong>无序点对</strong>组成一个空间——$(a,b)$ 与 $(b,a)$ 算同一点，这次粘合恰好造出一次翻转，得到的正是 Möbius 带。再把每个点对映到 $\mathbb{R}^3$：记下中点位置与两点距离。<strong>一个矩形，就等于两个点对共享了中点与距离</strong>，即这个映射的自交点。而 Möbius 带的边界是原曲线、必须躺在平面上，拓扑迫使它的内部无法无自交地嵌进去——于是矩形必然存在。</p>
+<p>整个论证没有一个方程，全是形状。这是可视化思维作为<strong>发现引擎</strong>最纯粹的样子：它不是把证明画出来，它就是证明。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<ul>
+<li><strong>Manim</strong>（3B1B 的动画库）把「关键帧」换成「连续变换的参数族」——你写的不是动画，是 $H$。</li>
+<li><strong>表示学习</strong>：分类网络做的事，是把两团缠绕的流形连续拉直到线性可分。Chris Olah 的经典可视化说明，网络深度约等于允许的变形步数。</li>
+<li><strong>同伦延拓法</strong>：解非线性方程组时，从已知解的简单方程连续变形到目标方程、沿途跟踪解——用于电路仿真与机器人逆运动学。</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think">静态图画的是结论，动画画的是论证——因为数学里很多真理本身就是「能连续变过去」。<br/><strong>思考题：</strong>如果一个概念只能靠动画理解，它是否本质上就是关于变化的？</div>
+</div>
+</div>
+
+<!-- 概念 4：视觉编码 -->
+<div class="card">
+<h2>视觉编码与它的欺骗</h2>
+<div class="en-name">Visual Encoding · 图是一条有噪声的信道</div>
+<span class="tag">Statistics &amp; Perception</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>Anscombe 四重奏：四组数据的均值、方差、相关系数、回归线相同到小数点后两位，画出来却是四张毫不相干的图。<strong>统计量是有损压缩，图是那个丢掉的部分。</strong>后来的 Datasaurus 把玩笑推到极致：同样的统计量可以画出一只恐龙。</p>
+<p>但图也骗人，骗法还可以量化。人眼读<strong>位置</strong>最准，<strong>长度</strong>次之，往下依次是角度、面积、体积、颜色深浅。所以饼图（角度＋面积）系统性地不如条形图，三维柱状图（体积）几乎必然误导。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+<g>
+<line stroke="#8a9abe" stroke-width="1" x1="25" x2="25" y1="20" y2="115"></line>
+<line stroke="#8a9abe" stroke-width="1" x1="25" x2="165" y1="115" y2="115"></line>
+<line stroke="#8a2f2f" stroke-width="1.4" x1="30" x2="160" y1="100" y2="35"></line>
+<g fill="#1e3a5f">
+<circle cx="42" cy="98" r="3"></circle><circle cx="60" cy="82" r="3"></circle><circle cx="72" cy="90" r="3"></circle>
+<circle cx="90" cy="70" r="3"></circle><circle cx="108" cy="62" r="3"></circle><circle cx="124" cy="48" r="3"></circle>
+<circle cx="146" cy="42" r="3"></circle>
+</g>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="95" y="134">线性 + 噪声</text>
+</g>
+<g>
+<line stroke="#8a9abe" stroke-width="1" x1="220" x2="220" y1="20" y2="115"></line>
+<line stroke="#8a9abe" stroke-width="1" x1="220" x2="360" y1="115" y2="115"></line>
+<line stroke="#8a2f2f" stroke-width="1.4" x1="225" x2="355" y1="100" y2="35"></line>
+<g fill="#1e3a5f">
+<circle cx="237" cy="103" r="3"></circle><circle cx="255" cy="84" r="3"></circle><circle cx="273" cy="70" r="3"></circle>
+<circle cx="291" cy="62" r="3"></circle><circle cx="309" cy="60" r="3"></circle><circle cx="327" cy="64" r="3"></circle>
+<circle cx="345" cy="74" r="3"></circle>
+</g>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="290" y="134">抛物线</text>
+</g>
+<text fill="#8a2f2f" font-size="10" text-anchor="middle" x="190" y="16">同一条回归线，同样的 r</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>可视化的形式框架叫<strong>图形语法</strong>：一张图，就是一个从数据变量到视觉通道的映射</p>
+<div class="formula-box">$$\text{变量}\;\longmapsto\;\text{通道}\in\{x,\;y,\;\text{长度},\;\text{角度},\;\text{面积},\;\text{颜色},\dots\}$$</div>
+<p>每个通道有自己的<strong>感知精度</strong>——Cleveland 与 McGill 用受控实验测出了上面那个排序。于是「设计一张图」有了确切含义：在所有映射里挑一个，把最重要的变量交给精度最高的通道。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>这一步把审美问题变成了<strong>信道问题</strong>。数据要穿过一条有噪声、响应非线性的信道——人的视觉系统——才能抵达理解，设计就是给这条信道选编码。它和信息论同构：有容量，有失真，有编码优劣。<strong>一张误导的图不是「不好看」，是编码错误</strong>：高重要性的变量被塞进了低精度通道。美学在这里第一次有了可证伪的判据。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<ul>
+<li><strong>损失曲面</strong>：二维切片画出的「平坦／尖锐」会被参数缩放任意扭曲，Li 等人的 filter normalization 正是为了让这张图在模型之间可比。</li>
+<li><strong>注意力热图</strong>：颜色是精度最低的通道之一，人对饱和度的判断严重依赖上下文——同一张 attention map 换个 colormap 就能读出不同「结论」。</li>
+<li><strong>模型评估</strong>：ROC 曲线把两个率映到位置通道，比单一 AUC 数字保住的信息多得多；同一个 AUC 可对应形状迥异的曲线，这就是 Anscombe 的现代版。</li>
+</ul>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think">图不是数据的插图，是数据到人眼的一次编码；编码可以逼近最优，也可以撒谎。<br/><strong>思考题：</strong>你最近一次因为一张图改变结论——是图揭示了数字藏起来的东西，还是它的编码让你看见了本不在数据里的模式？</div>
+</div>
+<div class="section">
+<div class="label">深入资源</div>
+<div class="think">Cleveland &amp; McGill · <em>Graphical Perception</em>（1984）；Tristan Needham · <em>Visual Complex Analysis</em>；3Blue1Brown · <em>Essence of Linear Algebra</em>。</div>
+</div>
+</div>
+
+<!-- 深入思考 -->
+<div class="card">
+<h2>深入思考</h2>
+<div class="en-name">Going Deeper</div>
+<details>
+<summary>高维里一切都「集中」，那高维数据为什么还学得动？</summary>
+<div>因为真实数据根本没填满那个高维空间。<strong>流形假设</strong>说：图像与语言的数据聚集在维度远低于环境维度的低维流形附近。测度集中描述的是球面上均匀分布的行为，真实分布则高度非均匀——降维之所以奏效，正因为内蕴维度远小于表观维度，而深度网络在做的可以理解为学这个流形的坐标卡。反过来，当表征真的趋于各向同性（坍缩、纯噪声），学习确实无望。</div>
+</details>
+<details>
+<summary>Atiyah 说代数是魔鬼的交易。那么可视化思维的代价是什么？</summary>
+<div>代价是<strong>不可扩展与不可验证</strong>。几何直觉在三维内极可靠，四维以上迅速失效；代数不管多少维都照算不误——这正是魔鬼提供的机器。更麻烦的是图像论证难以形式化检查：Kempe 的四色「证明」被图骗了十一年。健康的姿势是分工：<strong>几何提供猜想，代数提供保证。</strong>近年 Lean 把验证端交给机器，恰恰释放了发现端继续依赖直觉与图。</div>
+</details>
+<details>
+<summary>如果一个数学事实无法可视化，是它太抽象，还是我们的视觉系统太贫乏？</summary>
+<div>都不全是。视觉系统是为三维欧氏、连续、低维世界演化出的专用硬件，天然不适配离散无穷、非交换性、超越基数。但「不可视化」常被另一类可视化取代：范畴论用交换图，群论用凯莱图，逻辑用证明树——它们画的不是空间，是<strong>关系</strong>。所以更准确的说法是：视觉思维的边界随着我们发明新图式而外推，Feynman 图与张量网络图都是这种外推的产物。</div>
+</details>
+<details>
+<summary>大模型能「看见」数学吗？</summary>
+<div>多模态模型能读图，但几何理解主要来自图文的统计关联，而非空间操作本身。判别性的测试是那些必须靠心理旋转或连续变形才能回答的问题：两个纽结是否等价、一个曲面的亏格是多少——人类解这类题调用的是运动与空间的具身回路，不是语言回路。如果几何直觉本质上是一个<strong>内部模拟器</strong>，那么装进模型需要的可能不是更多图像，而是把可微的几何操作做成原语。</div>
+</details>
+</div>
+
+<nav class="bottom">
+<a href="index.html">← 返回 Mathematics</a>
+</nav>
+</div>
+</body>
+</html>
