@@ -54,13 +54,12 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="container">
 <header>
 <div class="kicker">Day 51 · 2026.08.12</div>
-<h1>数学的可视化思维</h1>
+<h1 data-tts="51057aae6f49b0b7">数学的可视化思维</h1>
 <div class="meta">Visual Thinking in Mathematics — 图作为发现引擎，也作为骗局</div>
 <div class="epigraph">"代数是魔鬼开给数学家的条件。魔鬼说：我给你这台无所不能的机器，你只要把灵魂交给我——放弃几何。" — Michael Atiyah</div>
 </header>
-
 <!-- 概念 1：高维直觉 -->
-<div class="card">
+<div class="card" data-tts="0af15472fd2b180f">
 <h2>高维直觉</h2>
 <div class="en-name">High-Dimensional Intuition · 为什么想象四维是错误的目标</div>
 <span class="tag">Geometry &amp; Probability</span>
@@ -91,7 +90,7 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="label">正式定义</div>
 <p>$n$ 维单位球的体积是 $V_n=\pi^{n/2}\big/\Gamma(\tfrac{n}{2}+1)$，其中 $\Gamma$ 是阶乘的连续推广。分母增长快过分子，$V_n$ 在 $n=5$ 见顶后趋于 0：<strong>高维单位球在同尺寸立方体里几乎不占地方</strong>，体积都跑去了角落。</p>
 <p>更有力的表述是<strong>测度集中</strong>：球面上任何 1-Lipschitz 函数 $f$（输入动一点，输出至多动一样多）满足</p>
-<div class="formula-box">$$\Pr\big(|f-\mathbb{E}f|>t\big)\le 2e^{-nt^{2}/2}$$</div>
+<div class="formula-box">$$\Pr\big(|f-\mathbb{E}f|&gt;t\big)\le 2e^{-nt^{2}/2}$$</div>
 <p>要害在 $n$ 站在指数上：维度越高，任何「温和」的函数就越接近一个常数。</p>
 </div>
 <div class="section">
@@ -111,9 +110,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think">高维不是三维的放大版，是另一种几何：质量在壳上，方向互相垂直，随机量紧贴均值。<br/><strong>思考题：</strong>如果高维里一切函数都近似常数、一切点都等距，那么高维数据为什么还学得动？</div>
 </div>
 </div>
-
 <!-- 概念 2：投影与降维 -->
-<div class="card">
+<div class="card" data-tts="bbb7424f6c44eefe">
 <h2>投影与降维</h2>
 <div class="en-name">Projection &amp; Dimensionality Reduction · 选一面墙</div>
 <span class="tag">Linear Algebra</span>
@@ -177,9 +175,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think">降维不是压缩数据，是选择你要保住哪一种结构。<br/><strong>思考题：</strong>t-SNE 图上两个簇隔得很远，这能推出它们在原空间里也远吗？</div>
 </div>
 </div>
-
 <!-- 概念 3：连续变形 -->
-<div class="card">
+<div class="card" data-tts="e07eb37b00054e58">
 <h2>连续变形：动画作为论证</h2>
 <div class="en-name">Homotopy · 为什么矩阵是动词</div>
 <span class="tag">Topology</span>
@@ -229,9 +226,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think">静态图画的是结论，动画画的是论证——因为数学里很多真理本身就是「能连续变过去」。<br/><strong>思考题：</strong>如果一个概念只能靠动画理解，它是否本质上就是关于变化的？</div>
 </div>
 </div>
-
 <!-- 概念 4：视觉编码 -->
-<div class="card">
+<div class="card" data-tts="8c1f84388a8e1469">
 <h2>视觉编码与它的欺骗</h2>
 <div class="en-name">Visual Encoding · 图是一条有噪声的信道</div>
 <span class="tag">Statistics &amp; Perception</span>
@@ -294,9 +290,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think">Cleveland &amp; McGill · <em>Graphical Perception</em>（1984）；Tristan Needham · <em>Visual Complex Analysis</em>；3Blue1Brown · <em>Essence of Linear Algebra</em>。</div>
 </div>
 </div>
-
 <!-- 深入思考 -->
-<div class="card">
+<div class="card" data-tts="1a314bcb9e4165da">
 <h2>深入思考</h2>
 <div class="en-name">Going Deeper</div>
 <details>
@@ -316,7 +311,6 @@ nav.bottom a:hover{color:#1e3a5f}
 <div>多模态模型能读图，但几何理解主要来自图文的统计关联，而非空间操作本身。判别性的测试是那些必须靠心理旋转或连续变形才能回答的问题：两个纽结是否等价、一个曲面的亏格是多少——人类解这类题调用的是运动与空间的具身回路，不是语言回路。如果几何直觉本质上是一个<strong>内部模拟器</strong>，那么装进模型需要的可能不是更多图像，而是把可微的几何操作做成原语。</div>
 </details>
 </div>
-
 <nav class="bottom">
 <a href="index.html">← 返回 Mathematics</a>
 </nav>
