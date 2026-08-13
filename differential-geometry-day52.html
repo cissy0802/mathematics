@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>微分几何 · Day 52 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.section ul{margin-top:4px;padding-left:22px}
+.section ul li{margin-bottom:4px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.intuition{background:#fbfaf3;border-left:3px solid #c9a96b;padding:14px 18px;margin-top:6px;font-style:italic;color:#3d3520}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.quote{font-style:italic;color:#5a7090;border-left:2px solid #c0c8d4;padding-left:14px;margin:14px 0;font-size:0.95rem}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;font-weight:700;color:#1e3a5f;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#3a4558}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.95rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 52 · 2026.08.13</div>
+<h1>微分几何</h1>
+<div class="meta">Differential Geometry — 弯曲如何被测量，又如何变成力</div>
+<div class="epigraph">"非常奇妙，规范场正是纤维丛上的联络，而数学家是在不涉及物理世界的情况下把它们搞出来的。" — 杨振宁</div>
+</header>
+
+<!-- 概念 1：测地线 -->
+<div class="card">
+<h2>测地线</h2>
+<div class="en-name">Geodesic · 弯曲空间里"直线"的正确定义</div>
+<span class="tag">Riemannian Geometry</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>北京飞纽约的航线在地图上向北弓起，看着绕远，实际最短——球面上没有欧氏直线，但有<strong>大圆</strong>。更本质的定义不是"最短"，而是<strong>"自己不拐弯"</strong>；这要先回答：曲面上两地的方向怎么比较？答案叫<strong>平行移动</strong>——让向量沿曲线滑动，每步只做曲面允许的最小调整。</p>
+<p>种子就在这里：把一支箭从北极沿经线搬到赤道，沿赤道走 90°，再沿另一条经线搬回——每步都"没转"，回来却转了 90°。<strong>局部毫无异常，闭合才暴露</strong>，这个转角就是曲率。</p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
+<circle cx="105" cy="95" r="72" fill="#e6ecf3" fill-opacity="0.5" stroke="#8fa3bc" stroke-width="1"/>
+<ellipse cx="105" cy="95" rx="72" ry="22" fill="none" stroke="#8fa3bc" stroke-width="0.9" stroke-dasharray="3,3"/>
+<path d="M 105 95 A 72 22 0 0 0 177 95" fill="none" stroke="#1e3a5f" stroke-width="2.2"/>
+<line x1="105" y1="23" x2="105" y2="117" stroke="#1e3a5f" stroke-width="2.2"/>
+<path d="M 177 95 A 72 72 0 0 0 105 23" fill="none" stroke="#1e3a5f" stroke-width="2.2"/>
+<circle cx="105" cy="23" r="3" fill="#c9544a"/>
+<circle cx="105" cy="117" r="3" fill="#c9544a"/>
+<circle cx="177" cy="95" r="3" fill="#c9544a"/>
+<line x1="105" y1="33" x2="105" y2="55" stroke="#c9544a" stroke-width="1.6"/>
+<path d="M 105 58 l -3 -6 l 6 0 z" fill="#c9544a"/>
+<line x1="112" y1="30" x2="132" y2="42" stroke="#7a9a6a" stroke-width="1.6"/>
+<path d="M 135 44 l -6.5 -0.6 l 3 -5 z" fill="#7a9a6a"/>
+<path d="M 112 44 A 14 14 0 0 0 121 36" fill="none" stroke="#8a7340" stroke-width="0.9"/>
+<text x="126" y="60" font-size="10" fill="#8a7340" font-style="italic">转了 90°</text>
+<text x="83" y="18" font-size="10" fill="#5a7090">N</text>
+<text x="182" y="86" font-size="9.5" fill="#5a7090">赤道</text>
+<text x="238" y="70" font-size="10.5" fill="#2a3548">三边都是测地线</text>
+<text x="238" y="88" font-size="10.5" fill="#2a3548">三个角都是 90°</text>
+<text x="238" y="106" font-size="10.5" fill="#c9544a">内角和 = 3π/2 &gt; π</text>
+<text x="238" y="124" font-size="10.5" fill="#8a7340">超出量 = 面积 × K</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\ddot{x}^k + \Gamma^k_{ij}\,\dot{x}^i\dot{x}^j = 0$$</div>
+<p>$x^k(t)$ 是路径在某套坐标下的分量，点表示对参数求导。$\ddot{x}^k$ 是"坐标纸上看到的加速度"；$\Gamma^k_{ij}$ 是<strong>克里斯托费尔符号</strong>，由度量 $g_{ij}$ 的一阶导数算出，记录"坐标网格自己在弯"这部分假象。方程说：扣掉坐标造成的假加速度后，<em>真加速度为零</em>——这正是"不拐弯"。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它把"直"从"最短"里解放出来：最短是全局的，要把所有路径比一遍；最直只看脚下一步——两个定义却给出同一族曲线。而爱因斯坦的转译更震撼：<strong>引力不是力，是时空的测地线</strong>。苹果一直在走最直的路，只是时空被地球弯了；牛顿需要神秘的超距作用，几何只需承认空间可以弯。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>GPS 每天必须做约 38 微秒的相对论时钟修正，否则定位每天漂移十公里。机器学习里，<strong>自然梯度</strong>是 Fisher 度量下的最速下降，走参数流形的测地方向而非欧氏方向；正交约束与低秩矩阵上的优化也靠测地线完成"沿流形迈一步"。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>直线不是"看起来直"，而是"走的时候不需要转向"——一旦这样定义，弯曲的空间也有了直线。</strong><br/>思考：球面上的测地线走得够远会自己闭合，马鞍面上初始平行的两条却越离越远。若宇宙空间是正曲率的，你朝一个方向一直飞会怎样？</div>
+</div>
+</div>
+
+<!-- 概念 2：高斯-博内定理 -->
+<div class="card">
+<h2>高斯–博内定理</h2>
+<div class="en-name">The Gauss–Bonnet Theorem · 局部的弯，被全局的洞锁死</div>
+<span class="tag">Global Differential Geometry</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>曲面上每点都有一个<strong>高斯曲率</strong> $K$：球面为正，马鞍面为负，平面与圆柱面为零。它是纯局部量，随手捏一下就变。</p>
+<p>现在把整张曲面的曲率<em>全部加起来</em>。直觉上总和该取决于你把它捏成什么样，但答案是：<strong>总和永远不变，只取决于有几个洞。</strong>球是 $4\pi$，捏成花生、捏成任意疙瘩仍是 $4\pi$；轮胎面恒为 $0$。你按下去多出的负曲率，别处必然鼓出等量的正补偿——曲率能在曲面上流动，总量却守拓扑的恒。</p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 360 150" xmlns="http://www.w3.org/2000/svg">
+<circle cx="60" cy="62" r="40" fill="#e6ecf3" fill-opacity="0.7" stroke="#3a6088" stroke-width="1.4"/>
+<ellipse cx="60" cy="62" rx="40" ry="13" fill="none" stroke="#8fa3bc" stroke-width="0.8" stroke-dasharray="3,3"/>
+<text x="60" y="120" font-size="10.5" fill="#2a3548" text-anchor="middle">球面 χ=2</text>
+<text x="60" y="136" font-size="10.5" fill="#c9544a" text-anchor="middle">∫K dA = 4π</text>
+<path d="M 130 62 q 30 -34 60 0 q -30 34 -60 0" fill="#e6ecf3" fill-opacity="0.7" stroke="#3a6088" stroke-width="1.4"/>
+<path d="M 137 44 q 23 26 46 0" fill="none" stroke="#8fa3bc" stroke-width="0.9"/>
+<path d="M 137 80 q 23 -26 46 0" fill="none" stroke="#8fa3bc" stroke-width="0.9"/>
+<text x="160" y="120" font-size="10.5" fill="#2a3548" text-anchor="middle">捏扁的球 χ=2</text>
+<text x="160" y="136" font-size="10.5" fill="#c9544a" text-anchor="middle">∫K dA = 4π</text>
+<ellipse cx="285" cy="62" rx="52" ry="32" fill="#e6ecf3" fill-opacity="0.7" stroke="#3a6088" stroke-width="1.4"/>
+<ellipse cx="285" cy="62" rx="20" ry="10" fill="#fafbfd" stroke="#3a6088" stroke-width="1.4"/>
+<path d="M 262 58 q 23 16 46 0" fill="none" stroke="#8fa3bc" stroke-width="0.8"/>
+<text x="285" y="120" font-size="10.5" fill="#2a3548" text-anchor="middle">轮胎面 χ=0</text>
+<text x="285" y="136" font-size="10.5" fill="#c9544a" text-anchor="middle">∫K dA = 0</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\int_M K\,dA \;+\; \oint_{\partial M} k_g\,ds \;=\; 2\pi\,\chi(M)$$</div>
+<p>$K$ 是高斯曲率，对曲面 $M$ 积分；$k_g$ 是<strong>测地曲率</strong>，衡量边界"偏离测地线多少"，闭曲面无边界时这项消失；$\chi(M)=2-2g$ 是<strong>欧拉示性数</strong>，$g$ 为洞数。左边连续可微、随手一捏就变，右边是整数。上图的球面三角形是最小版本：三条边是测地线（$k_g=0$），只剩三个拐角贡献，公式退化成"内角和 $-\pi$ = 面积 × 曲率"。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>这是"局部→全局"最纯粹的一座桥：左边是分析，右边是拓扑，<strong>一堆可任意变化的量加起来，居然被一个整数锁死</strong>。整数无法连续变化，所以你连续捏曲面时，总曲率根本没有机会漂移。Atiyah–Singer 指标定理把它推广为"任何椭圆算子的解空间维数差都等于一个拓扑量"——20 世纪最深的数学成果源头就在这里。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>计算机图形学中，三角网格顶点的<strong>角亏损</strong>（$2\pi$ 减去周围内角和）就是离散高斯曲率，总和必须等于 $2\pi\chi$，直接用作网格重建与参数化的校验；又因 $K$ 是内蕴不变量，<strong>任何地图投影必然失真</strong>。</p>
+<p>物理上它变成计数定理：球面上切向量场的拓扑缺陷总指数必须等于 $\chi=2$——这就是毛球定理，也意味着地球表面永远至少有一个风速为零的点；足球恰好需要 12 个五边形，同样是这本账。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>你可以任意改变曲面每点的弯法，却改不了它们的总和——形状是自由的，拓扑是命运。</strong><br/>思考：为什么"洞的个数"这种粗糙到极点的信息，能对精细的几何下达如此严格的命令？</div>
+</div>
+</div>
+
+<!-- 概念 3：纤维丛 -->
+<div class="card">
+<h2>纤维丛</h2>
+<div class="en-name">Fiber Bundle · 局部是乘积，整体可以扭</div>
+<span class="tag">Topology &amp; Geometry</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>纸带两端直接粘上得到圆柱面；一端翻 180° 再粘，得到莫比乌斯带。<strong>两者零件完全相同</strong>——底下都是一个圆，每点上竖着一条线段，只看得见周围一小块的观察者都会说"我这里就是块普通长方形"。差别只藏在<em>粘法</em>里。</p>
+<p>纤维丛就是把这句话形式化：底空间、纤维、总空间，要求<strong>局部像乘积，整体允许扭</strong>。还差一件事：不同点上的纤维之间，怎么知道"这个方向"和"那个方向"是同一个？这需要额外规定，叫<strong>联络</strong>；沿闭路搬一圈后没回到原样的那个偏差，就是<strong>曲率</strong>。</p>
+</div>
+<div class="viz">
+<svg viewBox="0 0 360 140" xmlns="http://www.w3.org/2000/svg">
+<rect x="20" y="30" width="120" height="46" fill="#e6ecf3" stroke="#3a6088" stroke-width="1.2"/>
+<line x1="20" y1="30" x2="20" y2="76" stroke="#c9544a" stroke-width="2.4"/>
+<line x1="140" y1="30" x2="140" y2="76" stroke="#c9544a" stroke-width="2.4"/>
+<path d="M 20 68 l -3.5 -6 l 7 0 z" fill="#c9544a"/>
+<path d="M 140 68 l -3.5 -6 l 7 0 z" fill="#c9544a"/>
+<text x="80" y="58" font-size="10.5" fill="#2a3548" text-anchor="middle">同向粘</text>
+<text x="80" y="98" font-size="10.5" fill="#1e3a5f" text-anchor="middle">圆柱面（平凡丛）</text>
+<text x="80" y="116" font-size="10" fill="#5a7090" text-anchor="middle">整体 = 圆 × 线段</text>
+<rect x="215" y="30" width="120" height="46" fill="#e6ecf3" stroke="#3a6088" stroke-width="1.2"/>
+<line x1="215" y1="30" x2="215" y2="76" stroke="#c9544a" stroke-width="2.4"/>
+<line x1="335" y1="30" x2="335" y2="76" stroke="#c9544a" stroke-width="2.4"/>
+<path d="M 215 68 l -3.5 -6 l 7 0 z" fill="#c9544a"/>
+<path d="M 335 38 l -3.5 6 l 7 0 z" fill="#c9544a"/>
+<text x="275" y="58" font-size="10.5" fill="#2a3548" text-anchor="middle">反向粘</text>
+<text x="275" y="98" font-size="10.5" fill="#1e3a5f" text-anchor="middle">莫比乌斯带（扭曲丛）</text>
+<text x="275" y="116" font-size="10" fill="#5a7090" text-anchor="middle">局部像乘积，整体不是</text>
+<text x="177" y="56" font-size="14" fill="#8fa3bc" text-anchor="middle">vs</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\pi: E \to B,\qquad \pi^{-1}(U)\;\cong\;U\times F$$</div>
+<p>$E$ 是总空间，$B$ 是底空间，投影 $\pi$ 把每根纤维压回它所在的底点，$\pi^{-1}(b)$ 都同构于同一个 $F$。条件是：$B$ 上每点都有邻域 $U$，使 $E$ 在 $U$ 上<em>看起来</em>是乘积——这叫<strong>局部平凡化</strong>。相邻两块重叠处，两种"看法"之间差一个变换，这些<strong>转移函数</strong>取值于某个群，装配信息全在其中。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它给出了"整体扭曲"的精确度量：局部观察者查不出任何异常，唯有绕一圈才发现世界不是它以为的样子——这种只能靠闭合回路探测的性质叫<strong>和乐</strong>（holonomy）。最漂亮的实例是 <strong>Hopf 纤维化</strong>：三维球面可被一族圆完美填满，每个圆压下去成为普通球面上的一点，而任意两圆都恰好互扣成环、谁也不与谁相交。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>三维旋转群 $SO(3)$ 被三维球面二重覆盖，这正是<strong>四元数</strong>存在的理由：旋转空间本身是扭的，用三个欧拉角做坐标必然在某处退化——这就是万向节死锁；四元数在覆盖空间上工作，插值全程平滑，每个游戏引擎与机器人姿态库都在用这条几何事实。</p>
+<p>量子力学的 <strong>Berry 相位</strong>是丛的和乐：参数缓慢绕一圈回到原处，波函数多出一个纯几何相位，只与包住的曲率有关——这是量子霍尔电导精确量子化的根源。几何深度学习则把等变网络重述为丛上的卷积。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>相同的零件用不同方式粘起来，会得到本质不同的世界——结构住在接缝里。</strong><br/>思考：分布式系统中每个节点都有局部时钟与视图，两两靠协议"对齐"。若沿一圈节点依次对齐，回到起点却发现偏差——这是类比，还是同一个结构？</div>
+</div>
+</div>
+
+<!-- 概念 4：规范理论 -->
+<div class="card">
+<h2>规范理论</h2>
+<div class="en-name">Gauge Theory · 局部对称性如何逼出力</div>
+<span class="tag">Mathematical Physics</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>电子波函数有一个相位，而相位的<strong>零点是人为约定</strong>。规范原理提出一个大得多的要求：<em>允许每一点独立选择自己的约定</em>，物理仍然不变。麻烦立刻来了：求导要比较相邻两点的值，可两点用了不同约定——正是概念 3 里"纤维怎么对齐"的问题。唯一的补救是引入一个场，专门记录"从这点到那点该如何换算"，这个补偿场就是<strong>电磁势</strong>。</p>
+<p>逻辑于是反了过来：不是先有电磁力再发现它有对称性，而是<strong>坚持局部对称性，力被逼着出现</strong>。力的强度则是沿闭路对齐一圈后的失配——曲率。电磁场是相位丛的曲率，引力是时空的曲率。</p>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$D_\mu = \partial_\mu - ieA_\mu,\qquad F_{\mu\nu} = \partial_\mu A_\nu - \partial_\nu A_\mu$$</div>
+<p>在规范变换 $\psi \to e^{i\theta(x)}\psi$ 下，普通导数会多出一项 $i(\partial_\mu\theta)\psi$。引入 $A_\mu$ 并令它同时按 $A_\mu \to A_\mu + \tfrac{1}{e}\partial_\mu\theta$ 变换，多余项恰好抵消——<strong>$D_\mu$ 是"考虑了对齐规则之后"的导数</strong>，数学上正是联络。$F_{\mu\nu}$ 度量两个方向的对齐次序能否交换，交换不了的部分就是场强，数学上正是曲率。把 $U(1)$ 换成非交换的 $SU(2)$、$SU(3)$，同一套构造给出弱力与强力。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>Day 18 的 Noether 定理说：<em>全局</em>对称性给出守恒律。规范原理更进一步：<strong>局部</strong>对称性给出相互作用本身——对称性从"结果的约束"升级为"存在的理由"。而最令人不安的美在于：物理学家半个世纪摸索出的这套形式，与数学家在纯几何动机下发展的纤维丛理论<strong>完全同构</strong>。1975 年杨振宁与陈省身对照两边的词典，发现每个物理概念都对应一个早已存在的几何概念。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p><strong>Aharonov–Bohm 效应</strong>是最干净的实验判决：电子束绕过一根屏蔽良好的螺线管，所经区域磁场严格为零，干涉条纹却随管内磁通移动——局部什么都没发生，绕一圈的和乐却真实可测。格点规范场论把联络离散成连边上的矩阵、用蒙特卡罗在 GPU 上采样，是当前从第一性原理计算质子质量的唯一途径；规范等变卷积则把"权重共享"从平移推广到流形上的局部对称性，已用于球面数据与分子性质预测。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>力不是被加进世界的，它是"允许每一点自由选择约定"所必须付出的代价。</strong><br/>思考：规范自由度是不可观测的冗余——同一个物理态有无穷多种描述。为什么把冗余显式写进理论，反而比消掉它更有解释力？</div>
+</div>
+</div>
+
+<div class="card">
+<h2>深入思考</h2>
+<details>
+<summary>为什么"局部→全局"的定理如此稀少而珍贵？</summary>
+<div>局部信息通常不足以确定全局：知道每点的曲率，一般无法重建曲面。高斯–博内之所以成立，是因为它算的不是曲面本身，而是曲面上自然向量场的<em>缺陷计数</em>——缺陷只能整数个地出现，无法连续消失，因而对形变免疫。指标定理家族都是这个模式：先找到一个不能连续变化的量，再证明某个分析量恰好在数它。大多数几何量并不具备这种整数刚性，所以这类定理稀少。</div>
+</details>
+<details>
+<summary>如果规范场就是联络，为什么物理学家花了半个世纪才发现？</summary>
+<div>动机与语言完全不同：数学家从"曲面的整体结构"出发，关心分类与不变量；物理学家从"让方程在相位重定义下不变"出发，关心可计算的场方程，且长期把规范自由度视为待消除的累赘。跨学科翻译成本极高，一旦完成两边却同时获得对方几十年的积累——杨–陈词典之后，Donaldson 用 Yang–Mills 方程反攻四维流形分类。</div>
+</details>
+<details>
+<summary>深度学习的损失曲面是弯的吗？测地线在那里有意义吗？</summary>
+<div>参数空间本身平坦，但参数不是自然坐标——两组参数可能给出同一个函数，网络的对称冗余本身就是一种规范自由度。真正有意义的是函数空间：Fisher 信息度量在那里给出内蕴的黎曼结构，自然梯度即其测地方向。开放问题是：训练轨迹多大程度上接近测地线，还是被优化器机制主导——这决定了几何视角是隐喻还是工具。</div>
+</details>
+</div>
+
+<nav class="bottom">
+<a href="index.html">← 返回 Mathematics</a>
+</nav>
+</div>
+</body>
+</html>
