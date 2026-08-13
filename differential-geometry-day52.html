@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"/>
@@ -54,13 +55,12 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="container">
 <header>
 <div class="kicker">Day 52 · 2026.08.13</div>
-<h1>微分几何</h1>
+<h1 data-tts="44b5c394b821451f">微分几何</h1>
 <div class="meta">Differential Geometry — 弯曲如何被测量，又如何变成力</div>
 <div class="epigraph">"非常奇妙，规范场正是纤维丛上的联络，而数学家是在不涉及物理世界的情况下把它们搞出来的。" — 杨振宁</div>
 </header>
-
 <!-- 概念 1：测地线 -->
-<div class="card">
+<div class="card" data-tts="1f7877a37e1468b8">
 <h2>测地线</h2>
 <div class="en-name">Geodesic · 弯曲空间里"直线"的正确定义</div>
 <span class="tag">Riemannian Geometry</span>
@@ -70,27 +70,27 @@ nav.bottom a:hover{color:#1e3a5f}
 <p>种子就在这里：把一支箭从北极沿经线搬到赤道，沿赤道走 90°，再沿另一条经线搬回——每步都"没转"，回来却转了 90°。<strong>局部毫无异常，闭合才暴露</strong>，这个转角就是曲率。</p>
 </div>
 <div class="viz">
-<svg viewBox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
-<circle cx="105" cy="95" r="72" fill="#e6ecf3" fill-opacity="0.5" stroke="#8fa3bc" stroke-width="1"/>
-<ellipse cx="105" cy="95" rx="72" ry="22" fill="none" stroke="#8fa3bc" stroke-width="0.9" stroke-dasharray="3,3"/>
-<path d="M 105 95 A 72 22 0 0 0 177 95" fill="none" stroke="#1e3a5f" stroke-width="2.2"/>
-<line x1="105" y1="23" x2="105" y2="117" stroke="#1e3a5f" stroke-width="2.2"/>
-<path d="M 177 95 A 72 72 0 0 0 105 23" fill="none" stroke="#1e3a5f" stroke-width="2.2"/>
-<circle cx="105" cy="23" r="3" fill="#c9544a"/>
-<circle cx="105" cy="117" r="3" fill="#c9544a"/>
-<circle cx="177" cy="95" r="3" fill="#c9544a"/>
-<line x1="105" y1="33" x2="105" y2="55" stroke="#c9544a" stroke-width="1.6"/>
-<path d="M 105 58 l -3 -6 l 6 0 z" fill="#c9544a"/>
-<line x1="112" y1="30" x2="132" y2="42" stroke="#7a9a6a" stroke-width="1.6"/>
-<path d="M 135 44 l -6.5 -0.6 l 3 -5 z" fill="#7a9a6a"/>
-<path d="M 112 44 A 14 14 0 0 0 121 36" fill="none" stroke="#8a7340" stroke-width="0.9"/>
-<text x="126" y="60" font-size="10" fill="#8a7340" font-style="italic">转了 90°</text>
-<text x="83" y="18" font-size="10" fill="#5a7090">N</text>
-<text x="182" y="86" font-size="9.5" fill="#5a7090">赤道</text>
-<text x="238" y="70" font-size="10.5" fill="#2a3548">三边都是测地线</text>
-<text x="238" y="88" font-size="10.5" fill="#2a3548">三个角都是 90°</text>
-<text x="238" y="106" font-size="10.5" fill="#c9544a">内角和 = 3π/2 &gt; π</text>
-<text x="238" y="124" font-size="10.5" fill="#8a7340">超出量 = 面积 × K</text>
+<svg viewbox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
+<circle cx="105" cy="95" fill="#e6ecf3" fill-opacity="0.5" r="72" stroke="#8fa3bc" stroke-width="1"></circle>
+<ellipse cx="105" cy="95" fill="none" rx="72" ry="22" stroke="#8fa3bc" stroke-dasharray="3,3" stroke-width="0.9"></ellipse>
+<path d="M 105 95 A 72 22 0 0 0 177 95" fill="none" stroke="#1e3a5f" stroke-width="2.2"></path>
+<line stroke="#1e3a5f" stroke-width="2.2" x1="105" x2="105" y1="23" y2="117"></line>
+<path d="M 177 95 A 72 72 0 0 0 105 23" fill="none" stroke="#1e3a5f" stroke-width="2.2"></path>
+<circle cx="105" cy="23" fill="#c9544a" r="3"></circle>
+<circle cx="105" cy="117" fill="#c9544a" r="3"></circle>
+<circle cx="177" cy="95" fill="#c9544a" r="3"></circle>
+<line stroke="#c9544a" stroke-width="1.6" x1="105" x2="105" y1="33" y2="55"></line>
+<path d="M 105 58 l -3 -6 l 6 0 z" fill="#c9544a"></path>
+<line stroke="#7a9a6a" stroke-width="1.6" x1="112" x2="132" y1="30" y2="42"></line>
+<path d="M 135 44 l -6.5 -0.6 l 3 -5 z" fill="#7a9a6a"></path>
+<path d="M 112 44 A 14 14 0 0 0 121 36" fill="none" stroke="#8a7340" stroke-width="0.9"></path>
+<text fill="#8a7340" font-size="10" font-style="italic" x="126" y="60">转了 90°</text>
+<text fill="#5a7090" font-size="10" x="83" y="18">N</text>
+<text fill="#5a7090" font-size="9.5" x="182" y="86">赤道</text>
+<text fill="#2a3548" font-size="10.5" x="238" y="70">三边都是测地线</text>
+<text fill="#2a3548" font-size="10.5" x="238" y="88">三个角都是 90°</text>
+<text fill="#c9544a" font-size="10.5" x="238" y="106">内角和 = 3π/2 &gt; π</text>
+<text fill="#8a7340" font-size="10.5" x="238" y="124">超出量 = 面积 × K</text>
 </svg>
 </div>
 <div class="section">
@@ -111,9 +111,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>直线不是"看起来直"，而是"走的时候不需要转向"——一旦这样定义，弯曲的空间也有了直线。</strong><br/>思考：球面上的测地线走得够远会自己闭合，马鞍面上初始平行的两条却越离越远。若宇宙空间是正曲率的，你朝一个方向一直飞会怎样？</div>
 </div>
 </div>
-
 <!-- 概念 2：高斯-博内定理 -->
-<div class="card">
+<div class="card" data-tts="2e4fb2972997a9d8">
 <h2>高斯–博内定理</h2>
 <div class="en-name">The Gauss–Bonnet Theorem · 局部的弯，被全局的洞锁死</div>
 <span class="tag">Global Differential Geometry</span>
@@ -123,21 +122,21 @@ nav.bottom a:hover{color:#1e3a5f}
 <p>现在把整张曲面的曲率<em>全部加起来</em>。直觉上总和该取决于你把它捏成什么样，但答案是：<strong>总和永远不变，只取决于有几个洞。</strong>球是 $4\pi$，捏成花生、捏成任意疙瘩仍是 $4\pi$；轮胎面恒为 $0$。你按下去多出的负曲率，别处必然鼓出等量的正补偿——曲率能在曲面上流动，总量却守拓扑的恒。</p>
 </div>
 <div class="viz">
-<svg viewBox="0 0 360 150" xmlns="http://www.w3.org/2000/svg">
-<circle cx="60" cy="62" r="40" fill="#e6ecf3" fill-opacity="0.7" stroke="#3a6088" stroke-width="1.4"/>
-<ellipse cx="60" cy="62" rx="40" ry="13" fill="none" stroke="#8fa3bc" stroke-width="0.8" stroke-dasharray="3,3"/>
-<text x="60" y="120" font-size="10.5" fill="#2a3548" text-anchor="middle">球面 χ=2</text>
-<text x="60" y="136" font-size="10.5" fill="#c9544a" text-anchor="middle">∫K dA = 4π</text>
-<path d="M 130 62 q 30 -34 60 0 q -30 34 -60 0" fill="#e6ecf3" fill-opacity="0.7" stroke="#3a6088" stroke-width="1.4"/>
-<path d="M 137 44 q 23 26 46 0" fill="none" stroke="#8fa3bc" stroke-width="0.9"/>
-<path d="M 137 80 q 23 -26 46 0" fill="none" stroke="#8fa3bc" stroke-width="0.9"/>
-<text x="160" y="120" font-size="10.5" fill="#2a3548" text-anchor="middle">捏扁的球 χ=2</text>
-<text x="160" y="136" font-size="10.5" fill="#c9544a" text-anchor="middle">∫K dA = 4π</text>
-<ellipse cx="285" cy="62" rx="52" ry="32" fill="#e6ecf3" fill-opacity="0.7" stroke="#3a6088" stroke-width="1.4"/>
-<ellipse cx="285" cy="62" rx="20" ry="10" fill="#fafbfd" stroke="#3a6088" stroke-width="1.4"/>
-<path d="M 262 58 q 23 16 46 0" fill="none" stroke="#8fa3bc" stroke-width="0.8"/>
-<text x="285" y="120" font-size="10.5" fill="#2a3548" text-anchor="middle">轮胎面 χ=0</text>
-<text x="285" y="136" font-size="10.5" fill="#c9544a" text-anchor="middle">∫K dA = 0</text>
+<svg viewbox="0 0 360 150" xmlns="http://www.w3.org/2000/svg">
+<circle cx="60" cy="62" fill="#e6ecf3" fill-opacity="0.7" r="40" stroke="#3a6088" stroke-width="1.4"></circle>
+<ellipse cx="60" cy="62" fill="none" rx="40" ry="13" stroke="#8fa3bc" stroke-dasharray="3,3" stroke-width="0.8"></ellipse>
+<text fill="#2a3548" font-size="10.5" text-anchor="middle" x="60" y="120">球面 χ=2</text>
+<text fill="#c9544a" font-size="10.5" text-anchor="middle" x="60" y="136">∫K dA = 4π</text>
+<path d="M 130 62 q 30 -34 60 0 q -30 34 -60 0" fill="#e6ecf3" fill-opacity="0.7" stroke="#3a6088" stroke-width="1.4"></path>
+<path d="M 137 44 q 23 26 46 0" fill="none" stroke="#8fa3bc" stroke-width="0.9"></path>
+<path d="M 137 80 q 23 -26 46 0" fill="none" stroke="#8fa3bc" stroke-width="0.9"></path>
+<text fill="#2a3548" font-size="10.5" text-anchor="middle" x="160" y="120">捏扁的球 χ=2</text>
+<text fill="#c9544a" font-size="10.5" text-anchor="middle" x="160" y="136">∫K dA = 4π</text>
+<ellipse cx="285" cy="62" fill="#e6ecf3" fill-opacity="0.7" rx="52" ry="32" stroke="#3a6088" stroke-width="1.4"></ellipse>
+<ellipse cx="285" cy="62" fill="#fafbfd" rx="20" ry="10" stroke="#3a6088" stroke-width="1.4"></ellipse>
+<path d="M 262 58 q 23 16 46 0" fill="none" stroke="#8fa3bc" stroke-width="0.8"></path>
+<text fill="#2a3548" font-size="10.5" text-anchor="middle" x="285" y="120">轮胎面 χ=0</text>
+<text fill="#c9544a" font-size="10.5" text-anchor="middle" x="285" y="136">∫K dA = 0</text>
 </svg>
 </div>
 <div class="section">
@@ -159,9 +158,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>你可以任意改变曲面每点的弯法，却改不了它们的总和——形状是自由的，拓扑是命运。</strong><br/>思考：为什么"洞的个数"这种粗糙到极点的信息，能对精细的几何下达如此严格的命令？</div>
 </div>
 </div>
-
 <!-- 概念 3：纤维丛 -->
-<div class="card">
+<div class="card" data-tts="24ff65ebed128df2">
 <h2>纤维丛</h2>
 <div class="en-name">Fiber Bundle · 局部是乘积，整体可以扭</div>
 <span class="tag">Topology &amp; Geometry</span>
@@ -171,24 +169,24 @@ nav.bottom a:hover{color:#1e3a5f}
 <p>纤维丛就是把这句话形式化：底空间、纤维、总空间，要求<strong>局部像乘积，整体允许扭</strong>。还差一件事：不同点上的纤维之间，怎么知道"这个方向"和"那个方向"是同一个？这需要额外规定，叫<strong>联络</strong>；沿闭路搬一圈后没回到原样的那个偏差，就是<strong>曲率</strong>。</p>
 </div>
 <div class="viz">
-<svg viewBox="0 0 360 140" xmlns="http://www.w3.org/2000/svg">
-<rect x="20" y="30" width="120" height="46" fill="#e6ecf3" stroke="#3a6088" stroke-width="1.2"/>
-<line x1="20" y1="30" x2="20" y2="76" stroke="#c9544a" stroke-width="2.4"/>
-<line x1="140" y1="30" x2="140" y2="76" stroke="#c9544a" stroke-width="2.4"/>
-<path d="M 20 68 l -3.5 -6 l 7 0 z" fill="#c9544a"/>
-<path d="M 140 68 l -3.5 -6 l 7 0 z" fill="#c9544a"/>
-<text x="80" y="58" font-size="10.5" fill="#2a3548" text-anchor="middle">同向粘</text>
-<text x="80" y="98" font-size="10.5" fill="#1e3a5f" text-anchor="middle">圆柱面（平凡丛）</text>
-<text x="80" y="116" font-size="10" fill="#5a7090" text-anchor="middle">整体 = 圆 × 线段</text>
-<rect x="215" y="30" width="120" height="46" fill="#e6ecf3" stroke="#3a6088" stroke-width="1.2"/>
-<line x1="215" y1="30" x2="215" y2="76" stroke="#c9544a" stroke-width="2.4"/>
-<line x1="335" y1="30" x2="335" y2="76" stroke="#c9544a" stroke-width="2.4"/>
-<path d="M 215 68 l -3.5 -6 l 7 0 z" fill="#c9544a"/>
-<path d="M 335 38 l -3.5 6 l 7 0 z" fill="#c9544a"/>
-<text x="275" y="58" font-size="10.5" fill="#2a3548" text-anchor="middle">反向粘</text>
-<text x="275" y="98" font-size="10.5" fill="#1e3a5f" text-anchor="middle">莫比乌斯带（扭曲丛）</text>
-<text x="275" y="116" font-size="10" fill="#5a7090" text-anchor="middle">局部像乘积，整体不是</text>
-<text x="177" y="56" font-size="14" fill="#8fa3bc" text-anchor="middle">vs</text>
+<svg viewbox="0 0 360 140" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#e6ecf3" height="46" stroke="#3a6088" stroke-width="1.2" width="120" x="20" y="30"></rect>
+<line stroke="#c9544a" stroke-width="2.4" x1="20" x2="20" y1="30" y2="76"></line>
+<line stroke="#c9544a" stroke-width="2.4" x1="140" x2="140" y1="30" y2="76"></line>
+<path d="M 20 68 l -3.5 -6 l 7 0 z" fill="#c9544a"></path>
+<path d="M 140 68 l -3.5 -6 l 7 0 z" fill="#c9544a"></path>
+<text fill="#2a3548" font-size="10.5" text-anchor="middle" x="80" y="58">同向粘</text>
+<text fill="#1e3a5f" font-size="10.5" text-anchor="middle" x="80" y="98">圆柱面（平凡丛）</text>
+<text fill="#5a7090" font-size="10" text-anchor="middle" x="80" y="116">整体 = 圆 × 线段</text>
+<rect fill="#e6ecf3" height="46" stroke="#3a6088" stroke-width="1.2" width="120" x="215" y="30"></rect>
+<line stroke="#c9544a" stroke-width="2.4" x1="215" x2="215" y1="30" y2="76"></line>
+<line stroke="#c9544a" stroke-width="2.4" x1="335" x2="335" y1="30" y2="76"></line>
+<path d="M 215 68 l -3.5 -6 l 7 0 z" fill="#c9544a"></path>
+<path d="M 335 38 l -3.5 6 l 7 0 z" fill="#c9544a"></path>
+<text fill="#2a3548" font-size="10.5" text-anchor="middle" x="275" y="58">反向粘</text>
+<text fill="#1e3a5f" font-size="10.5" text-anchor="middle" x="275" y="98">莫比乌斯带（扭曲丛）</text>
+<text fill="#5a7090" font-size="10" text-anchor="middle" x="275" y="116">局部像乘积，整体不是</text>
+<text fill="#8fa3bc" font-size="14" text-anchor="middle" x="177" y="56">vs</text>
 </svg>
 </div>
 <div class="section">
@@ -210,9 +208,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>相同的零件用不同方式粘起来，会得到本质不同的世界——结构住在接缝里。</strong><br/>思考：分布式系统中每个节点都有局部时钟与视图，两两靠协议"对齐"。若沿一圈节点依次对齐，回到起点却发现偏差——这是类比，还是同一个结构？</div>
 </div>
 </div>
-
 <!-- 概念 4：规范理论 -->
-<div class="card">
+<div class="card" data-tts="0be1cf282794b6ff">
 <h2>规范理论</h2>
 <div class="en-name">Gauge Theory · 局部对称性如何逼出力</div>
 <span class="tag">Mathematical Physics</span>
@@ -239,8 +236,7 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>力不是被加进世界的，它是"允许每一点自由选择约定"所必须付出的代价。</strong><br/>思考：规范自由度是不可观测的冗余——同一个物理态有无穷多种描述。为什么把冗余显式写进理论，反而比消掉它更有解释力？</div>
 </div>
 </div>
-
-<div class="card">
+<div class="card" data-tts="118f931bbf15413e">
 <h2>深入思考</h2>
 <details>
 <summary>为什么"局部→全局"的定理如此稀少而珍贵？</summary>
@@ -255,7 +251,6 @@ nav.bottom a:hover{color:#1e3a5f}
 <div>参数空间本身平坦，但参数不是自然坐标——两组参数可能给出同一个函数，网络的对称冗余本身就是一种规范自由度。真正有意义的是函数空间：Fisher 信息度量在那里给出内蕴的黎曼结构，自然梯度即其测地方向。开放问题是：训练轨迹多大程度上接近测地线，还是被优化器机制主导——这决定了几何视角是隐喻还是工具。</div>
 </details>
 </div>
-
 <nav class="bottom">
 <a href="index.html">← 返回 Mathematics</a>
 </nav>
