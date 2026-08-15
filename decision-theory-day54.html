@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>决策与赌博的数学 · Day 54 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.05rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+.deep{background:#fff;border-radius:8px;padding:30px 30px;margin-top:34px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #c9a96b}
+.deep h2{font-size:1.3rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:14px;font-weight:700}
+.deep details{border-bottom:1px solid #e2e7ee;padding:12px 0}
+.deep details:last-child{border-bottom:none}
+.deep summary{cursor:pointer;font-weight:600;color:#1e3a5f;font-size:1rem;list-style:none}
+.deep summary::-webkit-details-marker{display:none}
+.deep summary::before{content:"▸ ";color:#c9a96b}
+.deep details[open] summary::before{content:"▾ ";color:#c9a96b}
+.deep details div{margin-top:10px;font-size:0.94rem;color:#4a5568;padding-left:16px;border-left:2px solid #ece5d6}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.92rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 54 · 2026.08.15</div>
+<h1>决策与赌博的数学</h1>
+<div class="meta">在不确定中下注：从效用、风险，到增长率与后悔</div>
+<div class="epigraph">"赌徒能让财富增长的最大速率，正等于这条信道的信息传输率。" — J. L. Kelly Jr., 1956</div>
+</header>
+
+<!-- 概念 1 -->
+<div class="card">
+<h2>期望效用</h2>
+<div class="en-name">Expected Utility · 为什么理性的人不追求钱的期望值</div>
+<span class="tag">Decision Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>1738 年 Daniel Bernoulli 摆出一个赌局：反复抛硬币直到出现正面，第 $n$ 次才出就赔你 $2^n$ 元。期望收益 $\tfrac12{\cdot}2+\tfrac14{\cdot}4+\cdots=\infty$，可没人肯为它付一百元。<strong>问题不在算错，而在于把「钱」当成了目标本身。</strong>第一个一百万让你从租房变成有房，第十个只是账面多一位数。Bernoulli 的解法：先把钱换算成它<em>对你</em>的意义——一把内在刻度，叫效用——再求期望。这条曲线越往上越平，凹的。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.8" x1="40" x2="380" y1="170" y2="170"></line>
+<line stroke="#aaa" stroke-width="0.8" x1="40" x2="40" y1="20" y2="170"></line>
+<text fill="#666" font-size="10" text-anchor="end" x="378" y="186">财富 x</text>
+<text fill="#666" font-size="10" x="46" y="30">效用 u(x)</text>
+<path d="M 40 170 Q 160 40 360 30" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<line stroke="#c9544a" stroke-width="1.4" x1="105" x2="302" y1="112" y2="36"></line>
+<circle cx="105" cy="112" fill="#1e3a5f" r="3.5"></circle>
+<circle cx="302" cy="36" fill="#1e3a5f" r="3.5"></circle>
+<line stroke="#999" stroke-dasharray="3,3" stroke-width="0.9" x1="203" x2="203" y1="170" y2="60"></line>
+<circle cx="203" cy="74" fill="#c9544a" r="4"></circle>
+<circle cx="203" cy="60" fill="#1e3a5f" r="4"></circle>
+<line stroke="#c9a96b" stroke-width="1.6" x1="213" x2="213" y1="60" y2="74"></line>
+<text fill="#8a7340" font-size="10" x="220" y="70">风险溢价</text>
+<text fill="#1e3a5f" font-size="10" x="220" y="52">u(E[X])</text>
+<text fill="#c9544a" font-size="10" x="220" y="88">E[u(X)]</text>
+<text fill="#666" font-size="10" text-anchor="middle" x="105" y="186">x₁</text>
+<text fill="#666" font-size="10" text-anchor="middle" x="203" y="186">E[X]</text>
+<text fill="#666" font-size="10" text-anchor="middle" x="302" y="186">x₂</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>von Neumann 与 Morgenstern（1944）走得更彻底。设你对随机结果（彩票）有偏好序 $\succcurlyeq$，只要它满足四条公理——<strong>完备性</strong>、<strong>传递性</strong>、<strong>连续性</strong>（好坏之间总有一个概率混合恰好等价于中间项）、<strong>独立性</strong>（两边同时掺入同一第三选项不改变排序）——那么必然存在函数 $u$ 使得</p>
+<div class="formula-box">$$L_1\succcurlyeq L_2\iff \sum_i p_i\,u(x_i)\ \ge\ \sum_j q_j\,u(y_j)$$</div>
+<p>$x_i$ 是结果、$p_i$ 是其概率，$u$ 把结果映到一条实数刻度上。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>请注意逻辑的方向：<strong>没有人假设你拥有效用函数。</strong>前提只是「你的选择彼此自洽」，结论才是「你的行为必然看起来像在最大化某个期望值」。这类结果叫表示定理——数字不是被塞进模型的，是从秩序里被逼出来的。而「风险厌恶」这个心理学词汇在此退化成一句几何：$u$ 凹 $\iff$ $E[u(X)]\le u(E[X])$，弦永远落在曲线下方，落差就是你愿付的保险费。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>RLHF 的奖励模型做的正是这件事：人类只提供成对比较（A 优于 B），Bradley–Terry 把它们拟合成一个标量分数，策略再最大化其期望——vNM 定理正是「标量分数存在」这一步的合法性来源。而公理被违反之处就是行为经济学的入口：Allais 悖论中人的选择系统性违反独立性，前景理论因此改用参考点与概率加权。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>效用不是关于金钱的心理学假设，而是「选择自洽」这一要求投下的数学影子。</strong><br/>思考题：多目标对齐中我们默认能把不同价值加权求和成一个标量，这等于预设了完备性与传递性。人类价值真的满足它们吗？</div>
+</div>
+</div>
+
+<!-- 概念 2 -->
+<div class="card">
+<h2>一致性风险度量</h2>
+<div class="en-name">Coherent Risk Measures · 一把合格的风险尺子该满足什么</div>
+<span class="tag">Convex Analysis</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>方差是最常用的风险刻度，却有个尴尬：<strong>它同样惩罚上涨</strong>，而没人害怕赚太多。于是有了统治九十年代风控的 VaR——95% 置信水平下的那条线：95% 的日子里亏损不会超过它。</p>
+<p>问题是它只报告门槛的位置，对门槛之外一字不提：两个组合可以 VaR 相同，一个再往外只多亏一点，另一个直接归零。更糟的是，把两笔各自 VaR 很小的资产打包，合并后的 VaR 可能大于两者之和——<strong>分散化竟让风险读数升高</strong>。尺子坏了。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+<path d="M 262 150 C 290 146 330 150 375 150 L 262 150 z" fill="#c9544a" fill-opacity="0.3"></path>
+<path d="M 40 150 C 80 150 100 45 145 45 C 190 45 210 112 262 141 C 300 149 335 150 375 150" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<line stroke="#aaa" stroke-width="0.8" x1="30" x2="382" y1="150" y2="150"></line>
+<line stroke="#c9544a" stroke-dasharray="4,3" stroke-width="1.5" x1="262" x2="262" y1="150" y2="62"></line>
+<text fill="#c9544a" font-size="11" font-weight="bold" text-anchor="middle" x="262" y="56">VaR₉₅</text>
+<text fill="#c9544a" font-size="9.5" text-anchor="middle" x="262" y="166">门槛在哪</text>
+<line stroke="#8a7340" stroke-width="1.5" x1="305" x2="305" y1="150" y2="90"></line>
+<text fill="#8a7340" font-size="11" font-weight="bold" text-anchor="middle" x="315" y="84">CVaR₉₅</text>
+<text fill="#8a7340" font-size="9.5" text-anchor="middle" x="318" y="166">门槛之外有多惨</text>
+<text fill="#5a7090" font-size="10" x="150" y="130">损失分布</text>
+<text fill="#666" font-size="10" text-anchor="end" x="380" y="140">损失 →</text>
+<path d="M 268 148 L 300 148" stroke="#8a7340" stroke-width="0.8"></path>
+<text fill="#c9544a" font-size="9" x="272" y="138">5% 尾部</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>Artzner 等人（1999）反过来问：一把合格的尺子该满足什么？把 $\rho(X)$ 读作「要垫进多少现金，头寸 $X$ 才算安全」，答案是四条公理：<strong>单调性</strong>、<strong>平移不变性</strong> $\rho(X+c)=\rho(X)-c$（加现金抵掉同额风险）、<strong>正齐次性</strong>、<strong>次可加性</strong> $\rho(X+Y)\le\rho(X)+\rho(Y)$。四条全满足者称一致性风险度量。VaR 恰恰卡在最后一条上，而条件风险价值</p>
+<div class="formula-box">$$\mathrm{CVaR}_\alpha(L)=E\big[\,L \mid L\ge \mathrm{VaR}_\alpha(L)\,\big]$$</div>
+<p>——尾部的平均损失，而非尾部的入口——四条全过。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>次可加性看着像技术条件，实则是「分散化不该让风险变大」这句常识的精确编码。真正漂亮的是它的推论：任何一致性风险度量都可写成 $\rho(X)=\sup_{Q\in\mathcal Q}E_Q[-X]$——在一族候选概率 $\mathcal Q$ 上取最坏情形的期望损失。这把两件事证明成同一件：<strong>「我厌恶风险」与「我不确定该用哪个概率、于是按最坏的那个打算」等价。</strong>四条朴素公理经凸对偶一走，稳健与悲观合二为一。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>巴塞尔协议 2016 年把市场风险的监管指标从 VaR 换成 ES（即 CVaR），理由正是次可加性；Rockafellar 与 Uryasev 证明 CVaR 优化可化为线性规划，风控从此可算。同一个 $\sup_Q$ 在机器学习里叫分布鲁棒优化：最小化的不是训练分布上的平均损失，而是其邻域内一族分布中的最坏损失，用以抵抗分布漂移。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>一把风险尺子的公理，决定了它奖励还是惩罚分散化。</strong><br/>思考题：$\sup_Q$ 里那族 $\mathcal Q$ 该取多大？取小了不稳健，取大了最优策略退化为「什么都不做」——这个取舍有客观答案吗？</div>
+</div>
+</div>
+
+<!-- 概念 3 -->
+<div class="card">
+<h2>Kelly 准则</h2>
+<div class="en-name">The Kelly Criterion · 财富被乘时，该最大化什么</div>
+<span class="tag">Information Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>有一个对你有利的赌局，可反复玩，你自由决定每次押身家的几成。全押？只要输一次就永久出局——<strong>破产是吸收态，此前赢多少次都补不回来。</strong>只押百分之一？稳，但慢到没意义。中间必有一个最优比例。</p>
+<p>要点在于：财富是被<em>乘</em>的，不是被加的。乘法过程的长期表现由几何平均决定，而几何平均等价于 $\log$ 的算术平均。该最大化的从来不是每轮期望收益，而是<strong>期望的对数增长率</strong>。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 190" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.8" x1="50" x2="380" y1="120" y2="120"></line>
+<line stroke="#aaa" stroke-width="0.8" x1="50" x2="50" y1="25" y2="180"></line>
+<path d="M 50 120 Q 92 56 130 52 C 166 52 190 88 210 120 C 232 152 250 174 264 184" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<line stroke="#c9544a" stroke-dasharray="3,3" stroke-width="1.1" x1="130" x2="130" y1="52" y2="120"></line>
+<circle cx="130" cy="52" fill="#c9544a" r="4"></circle>
+<text fill="#c9544a" font-size="11" font-weight="bold" text-anchor="middle" x="130" y="44">g(f*)</text>
+<text fill="#c9544a" font-size="10" text-anchor="middle" x="130" y="134">f*</text>
+<line stroke="#8a7340" stroke-dasharray="3,3" stroke-width="1.1" x1="90" x2="90" y1="74" y2="120"></line>
+<circle cx="90" cy="74" fill="#8a7340" r="3.5"></circle>
+<text fill="#8a7340" font-size="10" text-anchor="middle" x="86" y="134">f*/2</text>
+<circle cx="210" cy="120" fill="#1e3a5f" r="3.5"></circle>
+<text fill="#1e3a5f" font-size="10" text-anchor="middle" x="214" y="134">2f*</text>
+<text fill="#5a7090" font-size="9.5" x="222" y="106">增长率归零</text>
+<text fill="#666" font-size="10" text-anchor="end" x="378" y="114">下注比例 f</text>
+<text fill="#666" font-size="10" x="56" y="34">长期增长率 g(f)</text>
+<text fill="#8a7340" font-size="9.5" x="60" y="60">左缓</text>
+<text fill="#c9544a" font-size="9.5" x="238" y="168">右陡</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>设赔率 $b{:}1$（押 1 赢 $b$），胜率 $p$，$q=1-p$，每轮押现有财富的比例 $f$。$n$ 轮后 $W_n=W_0(1+fb)^{k}(1-f)^{n-k}$，$k$ 为胜数。取对数、除以 $n$，由大数定律得长期增长率</p>
+<div class="formula-box">$$g(f)=\lim_{n\to\infty}\tfrac1n\log\tfrac{W_n}{W_0}=p\log(1+fb)+q\log(1-f)\ \Longrightarrow\ f^*=\frac{pb-q}{b}=\frac{\text{优势}}{\text{赔率}}$$</div>
+<p>注意 $\log$ 不是被假设的效用偏好，它是「把乘法变加法、好让大数定律用得上」的必然产物。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>Kelly 1956 年在贝尔实验室写下这个结果，隔壁坐着 Shannon，论文标题叫《信息率的新解释》。对公平赔率的二元赌局，最优增长率是 $g^*=\log 2-H(p)$，$H$ 为 Shannon 熵。右边是「你比无知者多掌握的信息量」，左边是「你的钱能以多快的指数速度增长」。<strong>你能赚到的，恰好等于你比别人多知道的。</strong>一个度量编码长度的量，未加修饰就成了财富增长率的上界——信息论与赌博是同一个定理的两次读法。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>Thorp 用它做 21 点与可转债套利，并把 Kelly 带进对冲基金的仓位管理。实践中通常只押 half-Kelly：如上图，$g(f)$ 在 $f^*$ 附近极平坦，右侧却急坠并在 $2f^*$ 处穿零，而 $p$ 永远是估出来的——<strong>在左缓右陡的曲线上，估计误差应当往左让。</strong></p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>当财富被乘而不是被加，理性目标从期望值变成期望对数——这一步换掉的不是偏好，是时间。</strong><br/>思考题：一次性的重大决策（转行、创业）没有「重复多轮」可言，Kelly 的论证还剩下什么？</div>
+</div>
+</div>
+
+<!-- 概念 4 -->
+<div class="card">
+<h2>多臂老虎机</h2>
+<div class="en-name">Multi-Armed Bandits · 给「无知」明码标价</div>
+<span class="tag">Sequential Decision</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>一排老虎机，回报分布各异而你并不知道。每拉一次杆你同时在做两件事：赚这一次的钱，和买一点「哪台更好」的信息。<strong>信息不能单买——它只能作为下注的副产品被取得</strong>，这正是它区别于普通优化之处。一直拉当前最好的那台，可能永远错过真正的好机器；挨个轮流试，拉杆又大多浪费在已知的坏机器上。这个张力无法消除，只能定价。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.8" x1="35" x2="380" y1="150" y2="150"></line>
+<text fill="#666" font-size="10" x="38" y="26">回报估计</text>
+<g stroke="#1e3a5f" stroke-width="2">
+<line x1="80" x2="80" y1="68" y2="83"></line>
+<line x1="72" x2="88" y1="68" y2="68"></line>
+<line x1="72" x2="88" y1="83" y2="83"></line>
+</g>
+<circle cx="80" cy="76" fill="#1e3a5f" r="4"></circle>
+<text fill="#5a7090" font-size="9.5" text-anchor="middle" x="80" y="164">拉过 400 次</text>
+<g stroke="#c9544a" stroke-width="2.4">
+<line x1="160" x2="160" y1="61" y2="119"></line>
+<line x1="150" x2="170" y1="61" y2="61"></line>
+<line x1="150" x2="170" y1="119" y2="119"></line>
+</g>
+<circle cx="160" cy="90" fill="#c9544a" r="4"></circle>
+<text fill="#c9544a" font-size="9.5" text-anchor="middle" x="160" y="164">拉过 9 次</text>
+<text fill="#c9544a" font-size="10" font-weight="bold" text-anchor="middle" x="160" y="52">← 本轮选它</text>
+<g stroke="#1e3a5f" stroke-width="2">
+<line x1="245" x2="245" y1="90" y2="114"></line>
+<line x1="236" x2="254" y1="90" y2="90"></line>
+<line x1="236" x2="254" y1="114" y2="114"></line>
+</g>
+<circle cx="245" cy="102" fill="#1e3a5f" r="4"></circle>
+<text fill="#5a7090" font-size="9.5" text-anchor="middle" x="245" y="164">拉过 120 次</text>
+<g stroke="#1e3a5f" stroke-width="2">
+<line x1="325" x2="325" y1="95" y2="133"></line>
+<line x1="316" x2="334" y1="95" y2="95"></line>
+<line x1="316" x2="334" y1="133" y2="133"></line>
+</g>
+<circle cx="325" cy="114" fill="#1e3a5f" r="4"></circle>
+<text fill="#5a7090" font-size="9.5" text-anchor="middle" x="325" y="164">拉过 30 次</text>
+<line stroke="#c9544a" stroke-dasharray="4,4" stroke-width="1" x1="35" x2="380" y1="61" y2="61"></line>
+<text fill="#c9544a" font-size="9" x="336" y="74">最高上界</text>
+<text fill="#5a7090" font-size="9.5" x="196" y="140">圆点 = 均值，竖线 = 置信半径</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>$K$ 台机器，第 $a$ 台的期望回报为 $\mu_a$，最优者 $\mu^*$。衡量算法好坏的不是总收益，而是<strong>后悔</strong>——与「一开始就知道答案」之间的差距 $R_T=T\mu^*-E\big[\sum_{t=1}^{T}\mu_{a_t}\big]$。UCB 算法每一步选</p>
+<div class="formula-box">$$a_t=\arg\max_a\ \hat\mu_a+\sqrt{\frac{2\ln t}{n_a}}$$</div>
+<p>$\hat\mu_a$ 是当前估计（利用），根号项是置信半径：拉得越少（$n_a$ 小）它越宽，且随 $t$ 缓慢抬升。<strong>这是给「无知」明码标价，并让久未验证的选项自动重新浮上来。</strong>上图中被选中的，正是均值不最高、但上界最高的那台。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>Lai 与 Robbins（1985）证明任何合理算法都逃不掉 $R_T=\Omega(\log T)$，而 UCB 达到 $O(\log T)$——上下界同阶。这意味着<strong>「乐观地面对不确定性」不是工程启发式，而是可证明最优的原则</strong>。</p>
+<p>更意外的是 Gittins（1979）：折扣无限期下的最优策略竟可分解——为每台机器单独算一个只依赖自身历史的指数，拉最大者即可，$K$ 维耦合的动态规划坍缩成 $K$ 个一维问题。而 Thompson 早在 1933 年就提出按后验概率随机抽一台，也同阶最优：频率派的置信上界与贝叶斯的后验采样殊途同归。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>A/B 测试用它把流量持续倾向优胜方案，不必等实验跑完；推荐系统冷启动、临床试验的自适应分配、超参数搜索（Hyperband）都直接是 bandit。最著名的一次是把 UCB 装进搜索树节点：UCT 与蒙特卡罗树搜索，AlphaGo 的骨架。LLM 的偏好数据采集同理——候选是臂，标注预算就是拉杆次数。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>探索的代价可以被精确定价，而最优的价签叫「乐观」。</strong><br/>思考题：分布式系统的失效检测器同样要在「再等等」与「判定死亡」之间权衡。它能被写成一个 bandit 问题吗？那里的后悔该如何定义？</div>
+</div>
+</div>
+
+<div class="deep">
+<h2>深入思考</h2>
+<details>
+<summary>Kelly 最大化对数财富，vNM 却说效用可以是任何凹函数——Kelly 是在偷偷规定一种偏好吗？</summary>
+<div>Samuelson 为此论战数十年。分歧的实质是<em>时间平均与系综平均</em>：vNM 排序的是一次决策的偏好，Kelly 描述的是单条轨道在时间上的几乎必然行为。对乘法过程二者并不相等（非遍历），因为大数定律作用在 $\log W$ 而非 $W$ 上。所以 Kelly 并非假设「$u=\log$ 恰好正确」：若目标是让轨道以最大速率增长，$\log$ 是被推导出来的。Ole Peters 的遍历经济学更进一步，主张不少所谓行为偏差其实是对非遍历性的正确反应。</div>
+</details>
+<details>
+<summary>期望效用的四条公理里，哪一条最先被真人违反？</summary>
+<div>独立性。Allais（1953）的两组彩票让绝大多数人的选择自相矛盾，根源是对「确定性」的额外偏好。更根本的攻击来自 Ellsberg（1961）：人们宁赌已知比例的摸球，也不赌比例未知的——被厌恶的不是风险，是概率本身的不确定。它的修补正是概念二：把单一概率换成一族 $\mathcal Q$ 取最坏，模糊厌恶就成了一致性风险度量。</div>
+</details>
+<details>
+<summary>若老虎机的回报分布随时间漂移，$\log T$ 的后悔界还成立吗？</summary>
+<div>不成立，算法必须主动遗忘。平稳设定下 $\sqrt{2\ln t/n_a}$ 依赖「样本越多估计越准」；一旦分布会变，旧样本反而有害。滑动窗口或折扣 UCB 把后悔改写成与变化次数相关的形式，典型量级退化到 $T^{2/3}$。代价是必须先回答「多久以前的证据算过期」——这个参数没有免费的最优值，它编码的正是你对世界变化速度的先验。这与分布式系统整定超时阈值是同一个难题。</div>
+</details>
+<details>
+<summary>四个概念之间，是否存在一条统一的主线？</summary>
+<div>可以按「你被允许知道什么」排序：期望效用假设概率已知且只决策一次；风险度量承认概率本身不确定，用一族 $\mathcal Q$ 取最坏；Kelly 假设概率已知但决策无限重复，目标从期望换成增长率；bandit 连概率都要边做边学，代价被量化成后悔。四者是同一个问题在「信息 × 重复次数」两维上的四个格点——缺哪一维，建议就会在另一维上出错。</div>
+</details>
+</div>
+
+<nav class="bottom">
+<a href="index.html">← 返回 Mathematics</a>
+</nav>
+</div>
+</body>
+</html>

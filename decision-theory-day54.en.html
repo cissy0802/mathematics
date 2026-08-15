@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Mathematics of Decisions &amp; Gambling · Day 54 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.05rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+.deep{background:#fff;border-radius:8px;padding:30px 30px;margin-top:34px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #c9a96b}
+.deep h2{font-size:1.3rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:14px;font-weight:700}
+.deep details{border-bottom:1px solid #e2e7ee;padding:12px 0}
+.deep details:last-child{border-bottom:none}
+.deep summary{cursor:pointer;font-weight:600;color:#1e3a5f;font-size:1rem;list-style:none}
+.deep summary::-webkit-details-marker{display:none}
+.deep summary::before{content:"▸ ";color:#c9a96b}
+.deep details[open] summary::before{content:"▾ ";color:#c9a96b}
+.deep details div{margin-top:10px;font-size:0.94rem;color:#4a5568;padding-left:16px;border-left:2px solid #ece5d6}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.92rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 54 · 2026.08.15</div>
+<h1>The Mathematics of Decisions &amp; Gambling</h1>
+<div class="meta">Betting under uncertainty: from utility and risk to growth rates and regret</div>
+<div class="epigraph">"The maximum exponential rate of growth of the gambler's capital is equal to the rate of transmission of information over the channel." — J. L. Kelly Jr., 1956</div>
+</header>
+
+<!-- Concept 1 -->
+<div class="card">
+<h2>Expected Utility</h2>
+<div class="en-name">Why a rational agent does not maximize the expected value of money</div>
+<span class="tag">Decision Theory</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>In 1738 Daniel Bernoulli posed a gamble: flip a coin until heads appears; if it first lands on flip $n$, you are paid $2^n$. The expected payoff is $\tfrac12{\cdot}2+\tfrac14{\cdot}4+\cdots=\infty$, yet nobody will pay a hundred for it. <strong>Nothing was miscalculated — the mistake is treating money as the goal itself.</strong> The first million moves you from renting to owning; the tenth adds a digit to a statement. Bernoulli's fix: first convert money into what it <em>means to you</em> — an internal scale called utility — and only then take the expectation. The curve flattens as it rises. It is concave.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.8" x1="40" x2="380" y1="170" y2="170"></line>
+<line stroke="#aaa" stroke-width="0.8" x1="40" x2="40" y1="20" y2="170"></line>
+<text fill="#666" font-size="10" text-anchor="end" x="378" y="186">wealth x</text>
+<text fill="#666" font-size="10" x="46" y="30">utility u(x)</text>
+<path d="M 40 170 Q 160 40 360 30" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<line stroke="#c9544a" stroke-width="1.4" x1="105" x2="302" y1="112" y2="36"></line>
+<circle cx="105" cy="112" fill="#1e3a5f" r="3.5"></circle>
+<circle cx="302" cy="36" fill="#1e3a5f" r="3.5"></circle>
+<line stroke="#999" stroke-dasharray="3,3" stroke-width="0.9" x1="203" x2="203" y1="170" y2="60"></line>
+<circle cx="203" cy="74" fill="#c9544a" r="4"></circle>
+<circle cx="203" cy="60" fill="#1e3a5f" r="4"></circle>
+<line stroke="#c9a96b" stroke-width="1.6" x1="213" x2="213" y1="60" y2="74"></line>
+<text fill="#8a7340" font-size="10" x="220" y="70">risk premium</text>
+<text fill="#1e3a5f" font-size="10" x="220" y="52">u(E[X])</text>
+<text fill="#c9544a" font-size="10" x="220" y="88">E[u(X)]</text>
+<text fill="#666" font-size="10" text-anchor="middle" x="105" y="186">x₁</text>
+<text fill="#666" font-size="10" text-anchor="middle" x="203" y="186">E[X]</text>
+<text fill="#666" font-size="10" text-anchor="middle" x="302" y="186">x₂</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>von Neumann and Morgenstern (1944) went further than Bernoulli. Let $\succcurlyeq$ be your preference ordering over random outcomes (lotteries). If it satisfies four axioms — <strong>completeness</strong>, <strong>transitivity</strong>, <strong>continuity</strong> (between a better and a worse option there is always a probability mix exactly equivalent to the middle one), and <strong>independence</strong> (mixing the same third option into both sides leaves the ranking unchanged) — then a function $u$ must exist such that</p>
+<div class="formula-box">$$L_1\succcurlyeq L_2\iff \sum_i p_i\,u(x_i)\ \ge\ \sum_j q_j\,u(y_j)$$</div>
+<p>Here $x_i$ are outcomes, $p_i$ their probabilities, and $u$ maps outcomes onto a real-valued scale.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>Note the direction of the logic: <strong>nobody assumed you have a utility function.</strong> The premise is only that your choices are mutually consistent; the conclusion is that your behaviour must then look like maximizing some expectation. Such results are called representation theorems — the numbers are not inserted into the model, they are forced out of the order. And "risk aversion", a psychological word, collapses here into a single geometric statement: $u$ concave $\iff$ $E[u(X)]\le u(E[X])$. The chord always lies below the curve, and the gap is the insurance premium you are willing to pay.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>An RLHF reward model does exactly this: humans supply only pairwise comparisons (A beats B), Bradley–Terry fits them into a single scalar score, and the policy maximizes its expectation — the vNM theorem is what licenses the step "a scalar score exists". Conversely, wherever the axioms break is where behavioural economics enters: in the Allais paradox people systematically violate independence, which is why prospect theory switched to reference points and probability weighting.</p>
+</div>
+<div class="section">
+<div class="label">Essence + a question</div>
+<div class="think"><strong>Utility is not a psychological hypothesis about money; it is the mathematical shadow cast by the demand that choices be consistent.</strong><br/>Question: in multi-objective alignment we assume different values can be weighted into one scalar — which presupposes completeness and transitivity. Do human values actually satisfy them?</div>
+</div>
+</div>
+
+<!-- Concept 2 -->
+<div class="card">
+<h2>Coherent Risk Measures</h2>
+<div class="en-name">What a legitimate yardstick for risk must satisfy</div>
+<span class="tag">Convex Analysis</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Variance is the standard measure of risk, but it has an embarrassment: <strong>it penalizes gains just as heavily</strong>, and nobody is afraid of earning too much. Hence VaR, which ruled risk management in the 1990s — the line such that on 95% of days your loss stays below it.</p>
+<p>The trouble is that it reports only where the threshold sits and says nothing about what lies beyond: two portfolios can share a VaR while one loses slightly more past that point and the other goes to zero. Worse, bundling two assets each with a small VaR can produce a combined VaR larger than their sum — <strong>diversification apparently raising the reading</strong>. The yardstick is broken.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+<path d="M 262 150 C 290 146 330 150 375 150 L 262 150 z" fill="#c9544a" fill-opacity="0.3"></path>
+<path d="M 40 150 C 80 150 100 45 145 45 C 190 45 210 112 262 141 C 300 149 335 150 375 150" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<line stroke="#aaa" stroke-width="0.8" x1="30" x2="382" y1="150" y2="150"></line>
+<line stroke="#c9544a" stroke-dasharray="4,3" stroke-width="1.5" x1="262" x2="262" y1="150" y2="62"></line>
+<text fill="#c9544a" font-size="11" font-weight="bold" text-anchor="middle" x="262" y="56">VaR₉₅</text>
+<text fill="#c9544a" font-size="9.5" text-anchor="middle" x="262" y="166">where the cutoff is</text>
+<line stroke="#8a7340" stroke-width="1.5" x1="305" x2="305" y1="150" y2="90"></line>
+<text fill="#8a7340" font-size="11" font-weight="bold" text-anchor="middle" x="315" y="84">CVaR₉₅</text>
+<text fill="#8a7340" font-size="9.5" text-anchor="middle" x="318" y="166">how bad beyond it</text>
+<text fill="#5a7090" font-size="10" x="145" y="130">loss distribution</text>
+<text fill="#666" font-size="10" text-anchor="end" x="380" y="140">loss →</text>
+<path d="M 268 148 L 300 148" stroke="#8a7340" stroke-width="0.8"></path>
+<text fill="#c9544a" font-size="9" x="272" y="138">5% tail</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>Artzner et al. (1999) asked the question backwards: what must a legitimate yardstick satisfy? Read $\rho(X)$ as "how much cash must be added before position $X$ is safe". The answer is four axioms: <strong>monotonicity</strong>, <strong>translation invariance</strong> $\rho(X+c)=\rho(X)-c$ (cash offsets exactly its own amount of risk), <strong>positive homogeneity</strong>, and <strong>subadditivity</strong> $\rho(X+Y)\le\rho(X)+\rho(Y)$. A measure satisfying all four is called coherent. VaR fails precisely on the last one, whereas conditional value at risk</p>
+<div class="formula-box">$$\mathrm{CVaR}_\alpha(L)=E\big[\,L \mid L\ge \mathrm{VaR}_\alpha(L)\,\big]$$</div>
+<p>— the mean loss <em>inside</em> the tail rather than the entrance to it — passes all four.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>Subadditivity looks like a technical condition, but it is the exact encoding of the common-sense demand that diversification never increase risk. The lovely part is its consequence: every coherent risk measure can be written as $\rho(X)=\sup_{Q\in\mathcal Q}E_Q[-X]$ — the worst-case expected loss over a family of candidate probabilities $\mathcal Q$. That proves two things to be one: <strong>"I am risk averse" and "I am unsure which probability applies, so I plan for the worst one" are equivalent.</strong> Four plain axioms, one pass through convex duality, and robustness and pessimism become the same object.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>In 2016 the Basel framework replaced VaR with ES (i.e. CVaR) as the regulatory market-risk metric, citing subadditivity; Rockafellar and Uryasev showed CVaR optimization reduces to a linear program, making it computable. The same $\sup_Q$ appears in machine learning as distributionally robust optimization: instead of minimizing average loss on the training distribution, minimize the worst loss over a family of distributions near it, which buys resistance to distribution shift.</p>
+</div>
+<div class="section">
+<div class="label">Essence + a question</div>
+<div class="think"><strong>The axioms of a risk measure decide whether it rewards or punishes diversification.</strong><br/>Question: how large should the family $\mathcal Q$ inside $\sup_Q$ be? Too small and it is not robust; too large and the optimal policy degenerates into doing nothing. Is there an objective answer?</div>
+</div>
+</div>
+
+<!-- Concept 3 -->
+<div class="card">
+<h2>The Kelly Criterion</h2>
+<div class="en-name">What to maximize when wealth is multiplied rather than added</div>
+<span class="tag">Information Theory</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>You face a gamble with an edge, repeatable, and you choose what fraction of your bankroll to stake each round. Bet everything? One loss removes you permanently — <strong>ruin is an absorbing state, and no number of prior wins undoes it.</strong> Bet one percent? Safe, but too slow to matter. Somewhere in between lies an optimum.</p>
+<p>The key is that wealth is <em>multiplied</em>, not added. Long-run performance of a multiplicative process is governed by the geometric mean, which is the arithmetic mean of $\log$. So what should be maximized is never the per-round expected return but the <strong>expected logarithmic growth rate</strong>.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 190" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.8" x1="50" x2="380" y1="120" y2="120"></line>
+<line stroke="#aaa" stroke-width="0.8" x1="50" x2="50" y1="25" y2="180"></line>
+<path d="M 50 120 Q 92 56 130 52 C 166 52 190 88 210 120 C 232 152 250 174 264 184" fill="none" stroke="#1e3a5f" stroke-width="2"></path>
+<line stroke="#c9544a" stroke-dasharray="3,3" stroke-width="1.1" x1="130" x2="130" y1="52" y2="120"></line>
+<circle cx="130" cy="52" fill="#c9544a" r="4"></circle>
+<text fill="#c9544a" font-size="11" font-weight="bold" text-anchor="middle" x="130" y="44">g(f*)</text>
+<text fill="#c9544a" font-size="10" text-anchor="middle" x="130" y="134">f*</text>
+<line stroke="#8a7340" stroke-dasharray="3,3" stroke-width="1.1" x1="90" x2="90" y1="74" y2="120"></line>
+<circle cx="90" cy="74" fill="#8a7340" r="3.5"></circle>
+<text fill="#8a7340" font-size="10" text-anchor="middle" x="86" y="134">f*/2</text>
+<circle cx="210" cy="120" fill="#1e3a5f" r="3.5"></circle>
+<text fill="#1e3a5f" font-size="10" text-anchor="middle" x="214" y="134">2f*</text>
+<text fill="#5a7090" font-size="9.5" x="222" y="106">growth hits zero</text>
+<text fill="#666" font-size="10" text-anchor="end" x="378" y="114">bet fraction f</text>
+<text fill="#666" font-size="10" x="56" y="34">long-run growth g(f)</text>
+<text fill="#8a7340" font-size="9.5" x="58" y="60">gentle</text>
+<text fill="#c9544a" font-size="9.5" x="238" y="168">steep</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>Let the odds be $b{:}1$ (stake 1, win $b$), the win probability $p$, $q=1-p$, and $f$ the fraction of current wealth staked each round. After $n$ rounds $W_n=W_0(1+fb)^{k}(1-f)^{n-k}$ with $k$ wins. Take logs, divide by $n$, and the law of large numbers gives the long-run growth rate</p>
+<div class="formula-box">$$g(f)=\lim_{n\to\infty}\tfrac1n\log\tfrac{W_n}{W_0}=p\log(1+fb)+q\log(1-f)\ \Longrightarrow\ f^*=\frac{pb-q}{b}=\frac{\text{edge}}{\text{odds}}$$</div>
+<p>Note that $\log$ is not an assumed taste in utility; it is what you get from turning multiplication into addition so the law of large numbers can apply.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>Kelly derived this at Bell Labs in 1956, with Shannon down the hall, under the title <em>A New Interpretation of Information Rate</em>. For an even-money binary bet the optimal growth rate is $g^*=\log 2-H(p)$, where $H$ is Shannon entropy. The right-hand side is how much more you know than an ignorant bettor; the left-hand side is how fast your money can grow exponentially. <strong>What you can earn equals what you know beyond everyone else.</strong> A quantity invented to measure code length becomes, unmodified, the ceiling on wealth growth — information theory and gambling are one theorem read twice.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Thorp used it for blackjack and convertible-bond arbitrage, and carried Kelly into hedge-fund position sizing. In practice people stake only half-Kelly: as the figure shows, $g(f)$ is extremely flat near $f^*$ but plunges to the right, crossing zero at $2f^*$ — and $p$ is always an estimate. <strong>On a curve that is gentle to the left and steep to the right, estimation error should be allowed to fall leftwards.</strong></p>
+</div>
+<div class="section">
+<div class="label">Essence + a question</div>
+<div class="think"><strong>When wealth is multiplied rather than added, the rational target shifts from expectation to expected logarithm — what changed is not preference but time.</strong><br/>Question: a one-off major decision (changing careers, founding a company) has no "many rounds". What survives of Kelly's argument there?</div>
+</div>
+</div>
+
+<!-- Concept 4 -->
+<div class="card">
+<h2>Multi-Armed Bandits</h2>
+<div class="en-name">Putting a price tag on ignorance</div>
+<span class="tag">Sequential Decision</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>A row of slot machines with different, unknown payoff distributions. Every pull does two things at once: it earns this round's money, and it buys a little information about which machine is better. <strong>Information cannot be bought separately — it arrives only as a by-product of betting</strong>, and that is what separates this from ordinary optimization. Always pull the currently best arm and you may never find the truly good machine; try them all in turn and most pulls are wasted on arms already known to be bad. The tension cannot be removed, only priced.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#aaa" stroke-width="0.8" x1="35" x2="380" y1="150" y2="150"></line>
+<text fill="#666" font-size="10" x="38" y="26">payoff estimate</text>
+<g stroke="#1e3a5f" stroke-width="2">
+<line x1="80" x2="80" y1="68" y2="83"></line>
+<line x1="72" x2="88" y1="68" y2="68"></line>
+<line x1="72" x2="88" y1="83" y2="83"></line>
+</g>
+<circle cx="80" cy="76" fill="#1e3a5f" r="4"></circle>
+<text fill="#5a7090" font-size="9.5" text-anchor="middle" x="80" y="164">400 pulls</text>
+<g stroke="#c9544a" stroke-width="2.4">
+<line x1="160" x2="160" y1="61" y2="119"></line>
+<line x1="150" x2="170" y1="61" y2="61"></line>
+<line x1="150" x2="170" y1="119" y2="119"></line>
+</g>
+<circle cx="160" cy="90" fill="#c9544a" r="4"></circle>
+<text fill="#c9544a" font-size="9.5" text-anchor="middle" x="160" y="164">9 pulls</text>
+<text fill="#c9544a" font-size="10" font-weight="bold" text-anchor="middle" x="163" y="52">← picked now</text>
+<g stroke="#1e3a5f" stroke-width="2">
+<line x1="245" x2="245" y1="90" y2="114"></line>
+<line x1="236" x2="254" y1="90" y2="90"></line>
+<line x1="236" x2="254" y1="114" y2="114"></line>
+</g>
+<circle cx="245" cy="102" fill="#1e3a5f" r="4"></circle>
+<text fill="#5a7090" font-size="9.5" text-anchor="middle" x="245" y="164">120 pulls</text>
+<g stroke="#1e3a5f" stroke-width="2">
+<line x1="325" x2="325" y1="95" y2="133"></line>
+<line x1="316" x2="334" y1="95" y2="95"></line>
+<line x1="316" x2="334" y1="133" y2="133"></line>
+</g>
+<circle cx="325" cy="114" fill="#1e3a5f" r="4"></circle>
+<text fill="#5a7090" font-size="9.5" text-anchor="middle" x="325" y="164">30 pulls</text>
+<line stroke="#c9544a" stroke-dasharray="4,4" stroke-width="1" x1="35" x2="380" y1="61" y2="61"></line>
+<text fill="#c9544a" font-size="9" x="330" y="74">highest bound</text>
+<text fill="#5a7090" font-size="9.5" x="188" y="140">dot = mean, bar = confidence radius</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>With $K$ arms, arm $a$ has expected payoff $\mu_a$ and the best is $\mu^*$. What measures an algorithm is not total reward but <strong>regret</strong> — the gap against knowing the answer from the start: $R_T=T\mu^*-E\big[\sum_{t=1}^{T}\mu_{a_t}\big]$. At each step UCB selects</p>
+<div class="formula-box">$$a_t=\arg\max_a\ \hat\mu_a+\sqrt{\frac{2\ln t}{n_a}}$$</div>
+<p>where $\hat\mu_a$ is the current estimate (exploitation) and the square root is a confidence radius: the fewer the pulls ($n_a$ small) the wider it is, and it creeps upward with $t$. <strong>This puts a price tag on ignorance and lets long-unverified options resurface on their own.</strong> In the figure the arm selected is the one whose mean is not highest but whose upper bound is.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>Lai and Robbins (1985) proved that no reasonable algorithm escapes $R_T=\Omega(\log T)$, and UCB attains $O(\log T)$ — the bounds meet in order. This means <strong>"optimism in the face of uncertainty" is not an engineering heuristic but a provably optimal principle</strong>.</p>
+<p>More surprising still is Gittins (1979): under infinite-horizon discounting the optimal policy decomposes — compute for each machine an index depending only on its own history, and pull the largest. A $K$-dimensional coupled dynamic program collapses into $K$ one-dimensional problems. And Thompson had already proposed, in 1933, sampling an arm according to its posterior probability of being best; that too is optimal in order. The frequentist confidence bound and the Bayesian posterior sample arrive at the same frontier from opposite directions.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>A/B testing uses it to keep tilting traffic toward the winner instead of waiting for the experiment to end; recommender cold start, adaptive allocation in clinical trials, and hyperparameter search (Hyperband) are bandits outright. The most famous instance places UCB at the nodes of a search tree: UCT and Monte Carlo tree search, the skeleton of AlphaGo. Preference-data collection for LLMs is the same shape — candidates are arms, and the labelling budget is the number of pulls.</p>
+</div>
+<div class="section">
+<div class="label">Essence + a question</div>
+<div class="think"><strong>The cost of exploration can be priced exactly, and the optimal price tag is called optimism.</strong><br/>Question: a failure detector in a distributed system also weighs "wait a little longer" against "declare it dead". Can that be written as a bandit problem, and how would regret be defined there?</div>
+</div>
+</div>
+
+<div class="deep">
+<h2>Going Deeper</h2>
+<details>
+<summary>Kelly maximizes log wealth, yet vNM says utility may be any concave function. Is Kelly quietly prescribing a preference?</summary>
+<div>Samuelson argued this for decades. The substance of the disagreement is <em>time average versus ensemble average</em>: vNM ranks preferences over a single decision, while Kelly describes the almost-sure behaviour of one trajectory over time. For a multiplicative process the two are not equal (non-ergodic), because the law of large numbers acts on $\log W$, not on $W$. So Kelly does not assume "$u=\log$ happens to be right": if the goal is to make that trajectory grow at the maximal rate, $\log$ is derived. Ole Peters' ergodicity economics pushes this further, arguing that many alleged behavioural biases are correct responses to non-ergodicity.</div>
+</details>
+<details>
+<summary>Which of the four expected-utility axioms do real people break first?</summary>
+<div>Independence. Allais (1953) built two pairs of lotteries on which most people contradict themselves, driven by an extra taste for certainty. The deeper attack is Ellsberg (1961): people prefer betting on an urn of known composition over one of unknown composition — what is disliked is not risk but uncertainty about the probability itself. The repair is exactly concept two: replace a single probability with a family $\mathcal Q$ and take the worst case, and ambiguity aversion becomes a coherent risk measure.</div>
+</details>
+<details>
+<summary>If the payoff distributions drift over time, does the $\log T$ regret bound survive?</summary>
+<div>No, and the algorithm must actively forget. In the stationary case $\sqrt{2\ln t/n_a}$ relies on "more samples, better estimates"; once the distribution can move, old samples are actively harmful. Sliding-window or discounted UCB rewrite regret in terms of the number of changes, with the typical order degrading to $T^{2/3}$. The price is having to answer "how old is evidence before it expires" — a parameter with no free optimum, encoding your prior about how fast the world changes. Tuning timeout thresholds in distributed systems is the same difficulty.</div>
+</details>
+<details>
+<summary>Is there a single thread running through all four concepts?</summary>
+<div>Yes, ordered by what you are allowed to know. Expected utility assumes the probabilities are known and the decision happens once; risk measures concede that the probability itself is uncertain and take the worst over a family $\mathcal Q$; Kelly assumes known probabilities but unlimited repetition, so the target shifts from expectation to growth rate; bandits must learn the probabilities while acting, with the price quantified as regret. The four are grid points of one problem along two axes — information and number of repetitions — and dropping either axis makes the advice wrong along the other.</div>
+</details>
+</div>
+
+<nav class="bottom">
+<a href="index.en.html">← Back to Mathematics</a>
+</nav>
+</div>
+</body>
+</html>
