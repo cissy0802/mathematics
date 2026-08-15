@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"/>
@@ -57,13 +58,12 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="container">
 <header>
 <div class="kicker">Day 54 · 2026.08.15</div>
-<h1>决策与赌博的数学</h1>
+<h1 data-tts="add17055cd33ab52">决策与赌博的数学</h1>
 <div class="meta">在不确定中下注：从效用、风险，到增长率与后悔</div>
 <div class="epigraph">"赌徒能让财富增长的最大速率，正等于这条信道的信息传输率。" — J. L. Kelly Jr., 1956</div>
 </header>
-
 <!-- 概念 1 -->
-<div class="card">
+<div class="card" data-tts="66e196dd548e308f">
 <h2>期望效用</h2>
 <div class="en-name">Expected Utility · 为什么理性的人不追求钱的期望值</div>
 <span class="tag">Decision Theory</span>
@@ -112,9 +112,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>效用不是关于金钱的心理学假设，而是「选择自洽」这一要求投下的数学影子。</strong><br/>思考题：多目标对齐中我们默认能把不同价值加权求和成一个标量，这等于预设了完备性与传递性。人类价值真的满足它们吗？</div>
 </div>
 </div>
-
 <!-- 概念 2 -->
-<div class="card">
+<div class="card" data-tts="e6a6942ce18836ba">
 <h2>一致性风险度量</h2>
 <div class="en-name">Coherent Risk Measures · 一把合格的风险尺子该满足什么</div>
 <span class="tag">Convex Analysis</span>
@@ -159,9 +158,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>一把风险尺子的公理，决定了它奖励还是惩罚分散化。</strong><br/>思考题：$\sup_Q$ 里那族 $\mathcal Q$ 该取多大？取小了不稳健，取大了最优策略退化为「什么都不做」——这个取舍有客观答案吗？</div>
 </div>
 </div>
-
 <!-- 概念 3 -->
-<div class="card">
+<div class="card" data-tts="7e448b3b2e033746">
 <h2>Kelly 准则</h2>
 <div class="en-name">The Kelly Criterion · 财富被乘时，该最大化什么</div>
 <span class="tag">Information Theory</span>
@@ -210,9 +208,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>当财富被乘而不是被加，理性目标从期望值变成期望对数——这一步换掉的不是偏好，是时间。</strong><br/>思考题：一次性的重大决策（转行、创业）没有「重复多轮」可言，Kelly 的论证还剩下什么？</div>
 </div>
 </div>
-
 <!-- 概念 4 -->
-<div class="card">
+<div class="card" data-tts="f1c5700ce6d311f7">
 <h2>多臂老虎机</h2>
 <div class="en-name">Multi-Armed Bandits · 给「无知」明码标价</div>
 <span class="tag">Sequential Decision</span>
@@ -278,9 +275,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>探索的代价可以被精确定价，而最优的价签叫「乐观」。</strong><br/>思考题：分布式系统的失效检测器同样要在「再等等」与「判定死亡」之间权衡。它能被写成一个 bandit 问题吗？那里的后悔该如何定义？</div>
 </div>
 </div>
-
 <div class="deep">
-<h2>深入思考</h2>
+<h2 data-tts="44825a6e53f14f35">深入思考</h2>
 <details>
 <summary>Kelly 最大化对数财富，vNM 却说效用可以是任何凹函数——Kelly 是在偷偷规定一种偏好吗？</summary>
 <div>Samuelson 为此论战数十年。分歧的实质是<em>时间平均与系综平均</em>：vNM 排序的是一次决策的偏好，Kelly 描述的是单条轨道在时间上的几乎必然行为。对乘法过程二者并不相等（非遍历），因为大数定律作用在 $\log W$ 而非 $W$ 上。所以 Kelly 并非假设「$u=\log$ 恰好正确」：若目标是让轨道以最大速率增长，$\log$ 是被推导出来的。Ole Peters 的遍历经济学更进一步，主张不少所谓行为偏差其实是对非遍历性的正确反应。</div>
@@ -298,7 +294,6 @@ nav.bottom a:hover{color:#1e3a5f}
 <div>可以按「你被允许知道什么」排序：期望效用假设概率已知且只决策一次；风险度量承认概率本身不确定，用一族 $\mathcal Q$ 取最坏；Kelly 假设概率已知但决策无限重复，目标从期望换成增长率；bandit 连概率都要边做边学，代价被量化成后悔。四者是同一个问题在「信息 × 重复次数」两维上的四个格点——缺哪一维，建议就会在另一维上出错。</div>
 </details>
 </div>
-
 <nav class="bottom">
 <a href="index.html">← 返回 Mathematics</a>
 </nav>
