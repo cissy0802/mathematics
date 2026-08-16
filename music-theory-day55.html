@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>数学与音乐（深化） · Day 55 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.05rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+.deep{background:#fff;border-radius:8px;padding:30px 30px;margin-top:34px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #c9a96b}
+.deep h2{font-size:1.3rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:14px;font-weight:700}
+.deep details{border-bottom:1px solid #e2e7ee;padding:12px 0}
+.deep details:last-child{border-bottom:none}
+.deep summary{cursor:pointer;font-weight:600;color:#1e3a5f;font-size:1rem;list-style:none}
+.deep summary::-webkit-details-marker{display:none}
+.deep summary::before{content:"▸ ";color:#c9a96b}
+.deep details[open] summary::before{content:"▾ ";color:#c9a96b}
+.deep details div{margin-top:10px;font-size:0.94rem;color:#4a5568;padding-left:16px;border-left:2px solid #ece5d6}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.92rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 55 · 2026.08.16</div>
+<h1>数学与音乐（深化）</h1>
+<div class="meta">音阶是数论、节奏是群论、听觉是调和分析、作曲是长程依赖</div>
+<div class="epigraph">"音乐是灵魂在无意识地数数时得到的快乐。" — Leibniz，1712 年致 Goldbach 的信</div>
+</header>
+
+<!-- 概念 1 -->
+<div class="card">
+<h2>音阶作为丢番图逼近</h2>
+<div class="en-name">Scales as Diophantine Approximation · 为什么偏偏是 12</div>
+<span class="tag">Number Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>音乐只有两个近乎天然的音程：八度（频率 ×2）和纯五度（×3/2）。麻烦在于二者不相容——沿五度一路往上走，你<strong>永远回不到起点</strong>：$(3/2)^m = 2^n$ 要求 $3^m = 2^{n+m}$，唯一分解定理一票否决。</p>
+<p>所以音阶必然是妥协，而妥协有最优解：把八度切成 $q$ 等份，哪个 $q$ 让纯五度最接近某个格点？音乐问题就此变成数论问题——<strong>用小分母有理数逼近一个无理数</strong>。</p>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>令 $x=\log_2(3/2)=0.5849625\ldots$，它表示「纯五度在一个八度中占的比例」。求分数 $p/q$ 使 $|x-p/q|$ 最小——$q$ 是八度的等分数，$p$ 是五度跨几份。连分数展开与渐近分数为：</p>
+<div class="formula-box">$x = [0;1,1,2,2,3,1,5,\ldots] \Rightarrow \tfrac{1}{2},\ \tfrac{3}{5},\ \tfrac{7}{12},\ \tfrac{24}{41},\ \tfrac{31}{53}$</div>
+<p><strong>最佳逼近定理</strong>保证：渐近分数满足 $|x-p/q| < 1/q^2$，且分母不超过 $q$ 的分数都不会更接近。$3/5$ 即五声音阶，$7/12$ 即十二平均律（五度跨 7 个半音）。以 1200 音分为一个八度，纯五度是 701.96：十二平均律给 700（差 −1.96），53 等分给 701.89（差 −0.07，远低于人耳约 5 音分的分辨阈）。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 190" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#1e3a5f" stroke-width="1" x1="40" x2="390" y1="95" y2="95"></line>
+<text fill="#5a7090" font-size="9" x="4" y="98">0 音分</text>
+<text fill="#5a7090" font-size="9" x="4" y="40">+20</text>
+<text fill="#5a7090" font-size="9" x="4" y="158">−20</text>
+<line stroke="#dde3ec" stroke-width="0.6" x1="40" x2="390" y1="37" y2="37"></line>
+<line stroke="#dde3ec" stroke-width="0.6" x1="40" x2="390" y1="153" y2="153"></line>
+<!-- bars: value*2.9 px per cent -->
+<g>
+<rect fill="#c9544a" fill-opacity="0.55" height="52" width="26" x="50" y="43"></rect>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="63" y="176">5</text>
+<text fill="#c9544a" font-size="8.5" text-anchor="middle" x="63" y="38">+18.0</text>
+</g>
+<g>
+<rect fill="#c9544a" fill-opacity="0.55" height="47" width="26" x="98" y="95"></rect>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="111" y="176">7</text>
+<text fill="#c9544a" font-size="8.5" text-anchor="middle" x="111" y="153">−16.2</text>
+</g>
+<g>
+<rect fill="#1e3a5f" fill-opacity="0.8" height="6" width="26" x="146" y="95"></rect>
+<text fill="#1e3a5f" font-size="10" font-weight="bold" text-anchor="middle" x="159" y="176">12</text>
+<text fill="#1e3a5f" font-size="8.5" text-anchor="middle" x="159" y="117">−1.96</text>
+</g>
+<g>
+<rect fill="#5a7090" fill-opacity="0.55" height="21" width="26" x="194" y="95"></rect>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="207" y="176">19</text>
+</g>
+<g>
+<rect fill="#5a7090" fill-opacity="0.55" height="15" width="26" x="242" y="95"></rect>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="255" y="176">31</text>
+</g>
+<g>
+<rect fill="#5a7090" fill-opacity="0.55" height="1.4" width="26" x="290" y="93.6"></rect>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="303" y="176">41</text>
+</g>
+<g>
+<rect fill="#c9a96b" height="1" width="26" x="338" y="95"></rect>
+<text fill="#8a7340" font-size="10" font-weight="bold" text-anchor="middle" x="351" y="176">53</text>
+<text fill="#8a7340" font-size="8.5" text-anchor="middle" x="351" y="88">−0.07</text>
+</g>
+<text fill="#5a7090" font-size="9.5" font-style="italic" x="40" y="14">纯五度在 N 等分律中的误差（音分）</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>五声音阶与十二律不是文化偶然，它们是<strong>同一个连分数的相邻两项</strong>。中国的三分损益、毕达哥拉斯的五度相生、阿拉伯的 17 律、印度的 22 śruti——彼此隔绝的文明各自摸索，却全落在这条渐近分数序列附近：数论的收敛性把不同文化推向了同一批格点。</p>
+<p>更耐人寻味的是 53：它在数学上近乎完美（Nicholas Mercator 与京房的六十律都触到过），却没有任何主流乐器采用。<strong>最优解与可弹奏的解之间隔着一道工程的墙</strong>——十二平均律赢的从来不是精度，是手指数和琴键宽度。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>同一台连分数机器在别处照常运转：轨道共振（木卫一、二、三锁在 1:2:4）、齿轮齿数设计、历法置闰的默冬周期、锁相环的分频比选取。KAM 定理给出反面版本：<strong>最难被有理数逼近的频率比（黄金比）对应最不易被共振撕碎的轨道</strong>——土星环的缝隙与钢琴的调律是同一道题。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>音阶是一次丢番图逼近的历史落点：12 之所以是 12，因为 $7/12$ 是 $\log_2(3/2)$ 在小分母里的最佳有理逼近。</strong><br/>思考：若人耳的分辨率再高一个数量级，钢琴会长出 53 个键吗——还是身体的约束永远排在数学之前？</div>
+</div>
+</div>
+
+<!-- 概念 2 -->
+<div class="card">
+<h2>节奏的群论</h2>
+<div class="en-name">Rhythm on the Cyclic Group · 圆环上的子集</div>
+<span class="tag">Group Theory · Combinatorics</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>把一小节的 $n$ 个脉冲摆成一圈，敲击的位置涂黑——<strong>节奏就是圆环上的一个子集</strong>。同一串鼓点从第几拍进入，只是「同一个节奏的不同入口」，数学上就是循环群 $\mathbb{Z}_n$ 的旋转作用，一个节奏 = 一条轨道（项链）。「世界上有多少种 8 拍节奏」于是成了一道计数题。</p>
+<p>第二个直觉：好听的鼓点往往是把 $k$ 次敲击<strong>尽可能均匀地撒进 $n$ 个格子</strong>。当 $k$ 不整除 $n$，「尽可能均匀」需要一个算法——那个算法恰好是欧几里得辗转相除。</p>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<p>节奏是子集 $A\subseteq\mathbb{Z}_n$，旋转作用为 $A\mapsto A+1$。由 Burnside 引理，长度 $n$ 的节奏项链数为：</p>
+<div class="formula-box">$\displaystyle \frac{1}{n}\sum_{d\mid n}\varphi(d)\,2^{n/d}$</div>
+<p>$\varphi$ 是欧拉函数，$2^{n/d}$ 数的是被周期为 $d$ 的旋转所固定的模式。$n=8$ 时结果是 36——<strong>256 个二进制模式坍缩成 36 个真正不同的节奏</strong>。<em>欧几里得节奏</em> $E(k,n)$ 由 Bjorklund 算法给出：对 $(k,\,n-k)$ 做辗转相除，得到 $\mathbb{Z}_n$ 上的极大均匀集。$E(3,8)=\texttt{x..x..x.}$ 是古巴 tresillo，$E(5,16)$ 是 bossa nova 的 clave。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(90,72)">
+<circle cx="0" cy="0" fill="none" r="46" stroke="#c0c8d4" stroke-width="1"></circle>
+<circle cx="0" cy="-46" fill="#1e3a5f" r="7"></circle>
+<circle cx="32.5" cy="-32.5" fill="#fff" r="4.5" stroke="#c0c8d4"></circle>
+<circle cx="46" cy="0" fill="#fff" r="4.5" stroke="#c0c8d4"></circle>
+<circle cx="32.5" cy="32.5" fill="#1e3a5f" r="7"></circle>
+<circle cx="0" cy="46" fill="#fff" r="4.5" stroke="#c0c8d4"></circle>
+<circle cx="-32.5" cy="32.5" fill="#fff" r="4.5" stroke="#c0c8d4"></circle>
+<circle cx="-46" cy="0" fill="#1e3a5f" r="7"></circle>
+<circle cx="-32.5" cy="-32.5" fill="#fff" r="4.5" stroke="#c0c8d4"></circle>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="0" y="4">E(3,8)</text>
+<text fill="#5a7090" font-size="9" font-style="italic" text-anchor="middle" x="0" y="70">tresillo · 间隔 3-3-2</text>
+</g>
+<g transform="translate(280,72)">
+<circle cx="0" cy="0" fill="none" r="46" stroke="#c0c8d4" stroke-width="1"></circle>
+<circle cx="0" cy="-46" fill="#c9a96b" r="6.5"></circle>
+<circle cx="17.6" cy="-42.5" fill="#fff" r="3.6" stroke="#c0c8d4"></circle>
+<circle cx="32.5" cy="-32.5" fill="#fff" r="3.6" stroke="#c0c8d4"></circle>
+<circle cx="42.5" cy="-17.6" fill="#c9a96b" r="6.5"></circle>
+<circle cx="46" cy="0" fill="#fff" r="3.6" stroke="#c0c8d4"></circle>
+<circle cx="42.5" cy="17.6" fill="#fff" r="3.6" stroke="#c0c8d4"></circle>
+<circle cx="32.5" cy="32.5" fill="#c9a96b" r="6.5"></circle>
+<circle cx="17.6" cy="42.5" fill="#fff" r="3.6" stroke="#c0c8d4"></circle>
+<circle cx="0" cy="46" fill="#fff" r="3.6" stroke="#c0c8d4"></circle>
+<circle cx="-17.6" cy="42.5" fill="#fff" r="3.6" stroke="#c0c8d4"></circle>
+<circle cx="-32.5" cy="32.5" fill="#c9a96b" r="6.5"></circle>
+<circle cx="-42.5" cy="17.6" fill="#fff" r="3.6" stroke="#c0c8d4"></circle>
+<circle cx="-46" cy="0" fill="#fff" r="3.6" stroke="#c0c8d4"></circle>
+<circle cx="-42.5" cy="-17.6" fill="#c9a96b" r="6.5"></circle>
+<circle cx="-32.5" cy="-32.5" fill="#fff" r="3.6" stroke="#c0c8d4"></circle>
+<circle cx="-17.6" cy="-42.5" fill="#fff" r="3.6" stroke="#c0c8d4"></circle>
+<text fill="#8a7340" font-size="10" text-anchor="middle" x="0" y="4">E(5,16)</text>
+<text fill="#5a7090" font-size="9" font-style="italic" text-anchor="middle" x="0" y="70">bossa nova · 间隔 3-3-4-3-3</text>
+</g>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>最惊人的一条恒等式是 $E(7,12)$ ——把 7 个点极大均匀地撒进 12 格，得到的正是<strong>大调音阶</strong>。同一个「最大均匀」算法，放在时间轴上给出全世界的鼓点，放在频率轴上给出西方的七声音阶：音高与节奏原来是同一个组合对象的两次切片。</p>
+<p>还有一条冷冰冰的旁证：Bjorklund 的算法本是为 Los Alamos 散裂中子源写的<em>定时脉冲分配</em>程序，与音乐毫无关系，却算出了同一批传统节奏——Toussaint 比对数十条世界节奏，几乎全部命中。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>「把 $k$ 个事件尽量摊平到 $n$ 个槽」是分布式系统的日常：定时器分频、CPU 配额调度、限流器的令牌发放、一致性哈希的虚节点撒点——Bresenham 画直线用的正是同一个算法。群论那一半提供<strong>节奏指纹</strong>：比对轨道而非序列，识别循环采样时天然对起点无关。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>节奏是循环群上的子集，动听的节奏是最均匀的那些——而「最均匀」由欧几里得算法算出。</strong><br/>思考：clave 换一个起点听感确实变了，「轨道」这个等价类是否抹掉了听觉中真实存在的信息？数学的等价与感知的等价，何时该分道扬镳？</div>
+</div>
+</div>
+
+<!-- 概念 3 -->
+<div class="card">
+<h2>时频不确定性与常数 Q</h2>
+<div class="en-name">Time–Frequency Uncertainty · 音乐坐标系的天然对数刻度</div>
+<span class="tag">Harmonic Analysis</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>要判断「这是什么音」，你必须听上一段时间——音高是靠数周期数出来的，窗口越短能数的周期越少，音高就越糊。反过来，要精确知道「什么时候敲下去」，得用极短的窗口，那时几乎没有频率信息。</p>
+<p>这不是设备不够好，而是波本身的性质：<strong>又短又纯的音在数学上不存在</strong>。傅里叶变换（Day 40）只说有哪些频率，不说它们何时发生；同时问这两件事，就得付一笔无法讨价还价的账。</p>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$\Delta t \cdot \Delta f \;\ge\; \dfrac{1}{4\pi}$</div>
+<p>$\Delta t$ 是信号能量在时间轴上的标准差，$\Delta f$ 是它在频率轴上的标准差；等号仅在高斯窗取到——这正是 Gabor 原子采用高斯包络的理由。工程口径更好记：窗长 $T$ 秒，频率分辨率约 $1/T$ 赫兹。</p>
+<p><em>常数 Q 变换</em>换一种花钱方式：让每个频点的<strong>相对</strong>分辨率保持恒定，$Q=f_k/\Delta f_k$，频点按 $f_k=f_0\,2^{k/b}$ 对数排布。要分辨半音，需 $\Delta f/f = 2^{1/12}-1\approx 5.9\%$，即 $Q\approx 17$：低频用长窗，高频用短窗。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
+<text fill="#3a6088" font-size="10" x="10" y="12">均匀 STFT：等宽格子</text>
+<text fill="#8a7340" font-size="10" x="215" y="12">常数 Q：按对数分配</text>
+<g fill="none" stroke="#3a6088" stroke-width="0.9">
+<rect height="28" width="24" x="16" y="22"></rect><rect height="28" width="24" x="40" y="22"></rect><rect height="28" width="24" x="64" y="22"></rect><rect height="28" width="24" x="88" y="22"></rect><rect height="28" width="24" x="112" y="22"></rect><rect height="28" width="24" x="136" y="22"></rect>
+<rect height="28" width="24" x="16" y="50"></rect><rect height="28" width="24" x="40" y="50"></rect><rect height="28" width="24" x="64" y="50"></rect><rect height="28" width="24" x="88" y="50"></rect><rect height="28" width="24" x="112" y="50"></rect><rect height="28" width="24" x="136" y="50"></rect>
+<rect height="28" width="24" x="16" y="78"></rect><rect height="28" width="24" x="40" y="78"></rect><rect height="28" width="24" x="64" y="78"></rect><rect height="28" width="24" x="88" y="78"></rect><rect height="28" width="24" x="112" y="78"></rect><rect height="28" width="24" x="136" y="78"></rect>
+<rect height="28" width="24" x="16" y="106"></rect><rect height="28" width="24" x="40" y="106"></rect><rect height="28" width="24" x="64" y="106"></rect><rect height="28" width="24" x="88" y="106"></rect><rect height="28" width="24" x="112" y="106"></rect><rect height="28" width="24" x="136" y="106"></rect>
+</g>
+<g fill="none" stroke="#8a7340" stroke-width="0.9">
+<rect height="14" width="72" x="222" y="22"></rect><rect height="14" width="72" x="294" y="22"></rect>
+<rect height="22" width="48" x="222" y="36"></rect><rect height="22" width="48" x="270" y="36"></rect><rect height="22" width="48" x="318" y="36"></rect>
+<rect height="34" width="36" x="222" y="58"></rect><rect height="34" width="36" x="258" y="58"></rect><rect height="34" width="36" x="294" y="58"></rect><rect height="34" width="36" x="330" y="58"></rect>
+<rect height="42" width="24" x="222" y="92"></rect><rect height="42" width="24" x="246" y="92"></rect><rect height="42" width="24" x="270" y="92"></rect><rect height="42" width="24" x="294" y="92"></rect><rect height="42" width="24" x="318" y="92"></rect><rect height="42" width="24" x="342" y="92"></rect>
+</g>
+<text fill="#5a7090" font-size="9" text-anchor="middle" x="88" y="150">时间 →　频率 ↑（线性）</text>
+<text fill="#5a7090" font-size="9" text-anchor="middle" x="295" y="150">高音区细在时间，低音区细在频率</text>
+<text fill="#5a7090" font-size="9" x="4" y="30">高</text><text fill="#5a7090" font-size="9" x="4" y="128">低</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>傅里叶给的是<strong>均匀</strong>的频率格子，音乐却活在<strong>对数</strong>格子上：30 Hz 附近一个半音只差 1.8 Hz，3000 Hz 处却差近 180 Hz。均匀 STFT 必然在低音区分不开、在高音区大量浪费。常数 Q 给每个频段配一个与其波长成比例的窗，等于把不确定性的预算按音乐自身的几何重新分配。</p>
+<p>这不只是工程技巧：<strong>对数频率不是记谱法的人为约定</strong>——耳蜗基底膜的位置-频率映射本就近似对数，小波分析独立给出同一族「尺度自相似」的原子，生理、数学、乐理三条路收敛到同一坐标系。它甚至写死了一条作曲规则：低音要更长时间才听得清，贝斯天生不适合极快的跑动。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>相位声码器把「变速」与「变调」解耦，是全部修音与拉伸软件的地基；CQT 与 mel 频谱是几乎所有音乐 AI 的前端表示（自动扒谱、和弦识别、音频生成模型的输入）。在量子力学里，同一条不等式叫 Heisenberg 原理——位置-动量与时间-频率是同一对傅里叶共轭变量。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>「又短又准」是数学禁止的；音乐里所有关于速度与音区的听感权衡，都是这条不等式的推论。</strong><br/>思考：人能分辨小于 10 毫秒的起音差异，看似突破了分辨率的墙——听觉是绕过了不确定性，还是它本就不是一个线性变换？</div>
+</div>
+</div>
+
+<!-- 概念 4 -->
+<div class="card">
+<h2>算法作曲与长程结构</h2>
+<div class="en-name">Algorithmic Composition · 指数记忆与幂律形式之间的沟</div>
+<span class="tag">Probability · Machine Learning</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>让机器写曲子最朴素的办法：统计前几个音符之后最常出现什么，再按概率抽样。1957 年 Hiller 与 Isaacson 的《Illiac Suite》——第一首计算机作品——就是这么写的。结果很有代表性：<strong>局部像模像样，整体一盘散沙</strong>，听 30 秒像音乐，听 3 分钟发现它什么也没说。</p>
+<p>症结可以精确讲出来：马尔可夫链的记忆随距离<strong>指数</strong>衰减，音乐的结构却是<strong>幂律</strong>的——第二段呼应第一段，意味着几百个音符之外仍有关联。这道沟靠增大阶数 $k$ 填不上。</p>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$\displaystyle p(x_{1:T}) = \prod_{t=1}^{T} p\!\left(x_t \mid x_{<t}\right)$</div>
+<p>这是自回归分解：每个音符以<strong>全部</strong>历史为条件，$x_{<t}$ 表示第 $t$ 个之前的整段。$k$ 阶马尔可夫把条件粗暴截断为 $x_{t-k:t-1}$。衡量长程结构可用互信息 $I(d)=I(x_t;x_{t+d})$——它问「知道此刻，能对 $d$ 步之后减少多少不确定性」。有限状态马尔可夫链必然给出 $I(d)\sim e^{-d/\xi}$（$\xi$ 是固定的相关长度），而 Lin 与 Tegmark 在真实乐谱与文本上测得 $I(d)\sim d^{-\alpha}$。<strong>幂律没有特征尺度，指数有</strong>：这是结构性的差距，不是参数没调好。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 130" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#c0c8d4" stroke-width="1" x1="20" x2="380" y1="92" y2="92"></line>
+<g fill="#5a7090">
+<circle cx="40" cy="92" r="3"></circle><circle cx="70" cy="92" r="3"></circle><circle cx="100" cy="92" r="3"></circle><circle cx="130" cy="92" r="3"></circle><circle cx="160" cy="92" r="3"></circle><circle cx="190" cy="92" r="3"></circle><circle cx="220" cy="92" r="3"></circle><circle cx="250" cy="92" r="3"></circle><circle cx="280" cy="92" r="3"></circle><circle cx="310" cy="92" r="3"></circle><circle cx="340" cy="92" r="3"></circle>
+</g>
+<g fill="none" stroke="#5a7090" stroke-width="1">
+<path d="M40 92 Q55 108 70 92"></path><path d="M70 92 Q85 108 100 92"></path><path d="M100 92 Q115 108 130 92"></path><path d="M130 92 Q145 108 160 92"></path><path d="M160 92 Q175 108 190 92"></path><path d="M190 92 Q205 108 220 92"></path><path d="M220 92 Q235 108 250 92"></path><path d="M250 92 Q265 108 280 92"></path><path d="M280 92 Q295 108 310 92"></path><path d="M310 92 Q325 108 340 92"></path>
+</g>
+<g fill="none" stroke="#c9544a" stroke-width="1.3">
+<path d="M40 92 Q140 8 240 92"></path>
+<path d="M70 92 Q185 26 300 92"></path>
+<path d="M100 92 Q220 40 340 92"></path>
+</g>
+<text fill="#5a7090" font-size="9.5" x="20" y="118">马尔可夫：只有相邻的短弧</text>
+<text fill="#c9544a" font-size="9.5" x="248" y="118">形式：远距离的呼应</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>这把「音乐有形式」翻译成了一个<strong>可测量的统计签名</strong>。幂律意味着无特征尺度，无特征尺度意味着自相似（Day 17 的分形）：主题—展开—再现的层级结构，在统计上留下了与临界现象同款的指纹。</p>
+<p>修补方式同样是数学的，且只有两条：把层级显式写进模型（Schenker 分析、GTTM 的树状语法），或让模型直接看到几百步以外——Transformer 的注意力正是「任意两点直接连边」，相对位置编码把「距上次出现多少拍」变成可学的量。Music Transformer 第一次生成出带真实再现段的钢琴曲，本质是拆掉了指数衰减这堵墙。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>音乐生成模型（MIDI 事件或音频 token）、伴奏与续写工具是最直接的落地。同一套长程依赖分析被搬去评估语言模型（为什么困惑度很低却在长文里跑题）、检测 DNA 的长程相关、诊断代码补全的跨文件依赖。Xenakis 的另一条路也还活着：不建模音符而建模分布，今天的扩散模型是它的远亲。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>作曲难的从来不是下一个音符，而是让第 200 个音符记得第 1 个。</strong><br/>思考：若给模型无限长的上下文，形式感会自己涌现，还是层级结构必须被显式表示才能被学到？</div>
+</div>
+</div>
+
+<div class="deep">
+<h2>深入思考</h2>
+<details>
+<summary>十二平均律的大三度偏了 +13.7 音分，是五度误差的七倍，为什么反而更容易被接受？</summary>
+<div>因为可听度取决于拍频而非音分。五度失谐 −2 音分在中央 C 附近约每秒 0.9 次拍，几乎察觉不到；三度失谐 13.7 音分则近每秒 10 次，正落在最刺耳的粗糙度区间。它之所以被容忍：一是钢琴的泛音本就不严格成整数比（弦的刚度带来 inharmonicity），二是三百年的听觉训练把这点浑浊重新编码成了「明亮」。数学的小误差与感知的大误差，用的是两把尺子。</div>
+</details>
+<details>
+<summary>音阶与节奏共用「极大均匀」这一个定理，为什么等分节奏听起来机械，而大调音阶听起来自然？</summary>
+<div>关键在均匀集是否还留着一点不对称。$E(7,12)$ 的间隔序列是 2-2-1-2-2-2-1，两种步长的不均等恰好制造了定位感——你能听出「现在在音阶的哪一级」。而完全等分的节奏（或全音阶）间隔全同，任何旋转都回到自身，听觉失去参照点也就失去张力。美感似乎恰在「几乎均匀但破了一点对称」处——完美对称携带的信息量为零，这与 Day 18 的对称破缺是同一直觉。</div>
+</details>
+<details>
+<summary>如果「好听」可以被互信息或压缩率刻画，它是否就成了一个可优化的目标函数？</summary>
+<div>Schmidhuber 的「压缩进步」理论正是这么主张的：美感 = 观察者的压缩器正在快速改进的那一刻——不是最可压缩（无聊），也不是不可压缩（噪声）。难点在于它<strong>相对于观察者</strong>且随时间移动：同一首曲子听第十遍不再有进步，压缩率却没变。一旦把固定指标当目标优化，Goodhart 定律立刻生效——模型学会制造统计上的惊喜而非音乐上的。</div>
+</details>
+<details>
+<summary>四个概念之间有统一的主线吗？</summary>
+<div>有：<strong>音乐是在连续的物理量上强加离散结构，而每一层的代价都能被算出来</strong>。频率被 $\mathbb{Z}_{12}$ 切开，代价是丢番图逼近的残差；时刻被 $\mathbb{Z}_n$ 切开，代价由极大均匀集最小化；听觉在离散化之前先受一条不等式约束，代价是时频分辨率之积；作曲要在离散符号串上重建长程秩序，代价是互信息的衰减律。<em>离散化必然有损，音乐的形式感就长在这些损失的形状里</em>。</div>
+</details>
+</div>
+
+<nav class="bottom">
+<a href="index.html">← 返回 Mathematics</a>
+</nav>
+</div>
+</body>
+</html>
