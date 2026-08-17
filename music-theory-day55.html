@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"/>
@@ -56,13 +57,12 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="container">
 <header>
 <div class="kicker">Day 55 · 2026.08.16</div>
-<h1>数学与音乐（深化）</h1>
+<h1 data-tts="92640f459f9438db">数学与音乐（深化）</h1>
 <div class="meta">音阶是数论、节奏是群论、听觉是调和分析、作曲是长程依赖</div>
 <div class="epigraph">"音乐是灵魂在无意识地数数时得到的快乐。" — Leibniz，1712 年致 Goldbach 的信</div>
 </header>
-
 <!-- 概念 1 -->
-<div class="card">
+<div class="card" data-tts="38fcb6646e243bf7">
 <h2>音阶作为丢番图逼近</h2>
 <div class="en-name">Scales as Diophantine Approximation · 为什么偏偏是 12</div>
 <span class="tag">Number Theory</span>
@@ -75,7 +75,7 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="label">正式定义</div>
 <p>令 $x=\log_2(3/2)=0.5849625\ldots$，它表示「纯五度在一个八度中占的比例」。求分数 $p/q$ 使 $|x-p/q|$ 最小——$q$ 是八度的等分数，$p$ 是五度跨几份。连分数展开与渐近分数为：</p>
 <div class="formula-box">$x = [0;1,1,2,2,3,1,5,\ldots] \Rightarrow \tfrac{1}{2},\ \tfrac{3}{5},\ \tfrac{7}{12},\ \tfrac{24}{41},\ \tfrac{31}{53}$</div>
-<p><strong>最佳逼近定理</strong>保证：渐近分数满足 $|x-p/q| < 1/q^2$，且分母不超过 $q$ 的分数都不会更接近。$3/5$ 即五声音阶，$7/12$ 即十二平均律（五度跨 7 个半音）。以 1200 音分为一个八度，纯五度是 701.96：十二平均律给 700（差 −1.96），53 等分给 701.89（差 −0.07，远低于人耳约 5 音分的分辨阈）。</p>
+<p><strong>最佳逼近定理</strong>保证：渐近分数满足 $|x-p/q| &lt; 1/q^2$，且分母不超过 $q$ 的分数都不会更接近。$3/5$ 即五声音阶，$7/12$ 即十二平均律（五度跨 7 个半音）。以 1200 音分为一个八度，纯五度是 701.96：十二平均律给 700（差 −1.96），53 等分给 701.89（差 −0.07，远低于人耳约 5 音分的分辨阈）。</p>
 </div>
 <div class="viz">
 <svg viewbox="0 0 400 190" xmlns="http://www.w3.org/2000/svg">
@@ -135,9 +135,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>音阶是一次丢番图逼近的历史落点：12 之所以是 12，因为 $7/12$ 是 $\log_2(3/2)$ 在小分母里的最佳有理逼近。</strong><br/>思考：若人耳的分辨率再高一个数量级，钢琴会长出 53 个键吗——还是身体的约束永远排在数学之前？</div>
 </div>
 </div>
-
 <!-- 概念 2 -->
-<div class="card">
+<div class="card" data-tts="45dc6c66bd339097">
 <h2>节奏的群论</h2>
 <div class="en-name">Rhythm on the Cyclic Group · 圆环上的子集</div>
 <span class="tag">Group Theory · Combinatorics</span>
@@ -204,9 +203,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>节奏是循环群上的子集，动听的节奏是最均匀的那些——而「最均匀」由欧几里得算法算出。</strong><br/>思考：clave 换一个起点听感确实变了，「轨道」这个等价类是否抹掉了听觉中真实存在的信息？数学的等价与感知的等价，何时该分道扬镳？</div>
 </div>
 </div>
-
 <!-- 概念 3 -->
-<div class="card">
+<div class="card" data-tts="488bb6099468acaa">
 <h2>时频不确定性与常数 Q</h2>
 <div class="en-name">Time–Frequency Uncertainty · 音乐坐标系的天然对数刻度</div>
 <span class="tag">Harmonic Analysis</span>
@@ -256,9 +254,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>「又短又准」是数学禁止的；音乐里所有关于速度与音区的听感权衡，都是这条不等式的推论。</strong><br/>思考：人能分辨小于 10 毫秒的起音差异，看似突破了分辨率的墙——听觉是绕过了不确定性，还是它本就不是一个线性变换？</div>
 </div>
 </div>
-
 <!-- 概念 4 -->
-<div class="card">
+<div class="card" data-tts="6ee83a4d151fe8f9">
 <h2>算法作曲与长程结构</h2>
 <div class="en-name">Algorithmic Composition · 指数记忆与幂律形式之间的沟</div>
 <span class="tag">Probability · Machine Learning</span>
@@ -269,9 +266,9 @@ nav.bottom a:hover{color:#1e3a5f}
 </div>
 <div class="section">
 <div class="label">正式定义</div>
-<div class="formula-box">$\displaystyle p(x_{1:T}) = \prod_{t=1}^{T} p\!\left(x_t \mid x_{<t}\right)$</div>
-<p>这是自回归分解：每个音符以<strong>全部</strong>历史为条件，$x_{<t}$ 表示第 $t$ 个之前的整段。$k$ 阶马尔可夫把条件粗暴截断为 $x_{t-k:t-1}$。衡量长程结构可用互信息 $I(d)=I(x_t;x_{t+d})$——它问「知道此刻，能对 $d$ 步之后减少多少不确定性」。有限状态马尔可夫链必然给出 $I(d)\sim e^{-d/\xi}$（$\xi$ 是固定的相关长度），而 Lin 与 Tegmark 在真实乐谱与文本上测得 $I(d)\sim d^{-\alpha}$。<strong>幂律没有特征尺度，指数有</strong>：这是结构性的差距，不是参数没调好。</p>
-</div>
+<div class="formula-box">$\displaystyle p(x_{1:T}) = \prod_{t=1}^{T} p\!\left(x_t \mid x_{<t}\right)$< div="">
+<p>这是自回归分解：每个音符以<strong>全部</strong>历史为条件，$x_{<t}$ $d$="" $i(d)="I(x_t;x_{t+d})$——它问「知道此刻，能对" $i(d)\sim="" $t$="" $x_{t-k:t-1}$。衡量长程结构可用互信息="" \xi}$（$\xi$="" d^{-\alpha}$。<strong="" e^{-d="" lin="" tegmark="" 与="" 个之前的整段。$k$="" 在真实乐谱与文本上测得="" 是固定的相关长度），而="" 步之后减少多少不确定性」。有限状态马尔可夫链必然给出="" 表示第="" 阶马尔可夫把条件粗暴截断为="">幂律没有特征尺度，指数有：这是结构性的差距，不是参数没调好。</t}$></p>
+</t}\right)$<></div>
 <div class="viz">
 <svg viewbox="0 0 400 130" xmlns="http://www.w3.org/2000/svg">
 <line stroke="#c0c8d4" stroke-width="1" x1="20" x2="380" y1="92" y2="92"></line>
@@ -304,7 +301,6 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>作曲难的从来不是下一个音符，而是让第 200 个音符记得第 1 个。</strong><br/>思考：若给模型无限长的上下文，形式感会自己涌现，还是层级结构必须被显式表示才能被学到？</div>
 </div>
 </div>
-
 <div class="deep">
 <h2>深入思考</h2>
 <details>
@@ -324,14 +320,13 @@ nav.bottom a:hover{color:#1e3a5f}
 <div>有：<strong>音乐是在连续的物理量上强加离散结构，而每一层的代价都能被算出来</strong>。频率被 $\mathbb{Z}_{12}$ 切开，代价是丢番图逼近的残差；时刻被 $\mathbb{Z}_n$ 切开，代价由极大均匀集最小化；听觉在离散化之前先受一条不等式约束，代价是时频分辨率之积；作曲要在离散符号串上重建长程秩序，代价是互信息的衰减律。<em>离散化必然有损，音乐的形式感就长在这些损失的形状里</em>。</div>
 </details>
 </div>
-
 <nav class="bottom">
 <a href="index.html">← 返回 Mathematics</a>
 </nav>
 </div>
-<script src="https://hub.cissychen.com/comments.js" defer></script>
-<script src="https://hub.cissychen.com/search.js" defer></script>
-<script src="https://hub.cissychen.com/index-button.js" defer></script>
-<script src="https://hub.cissychen.com/i18n-tts.js" defer></script>
-</body>
+<script defer="" src="https://hub.cissychen.com/comments.js"></script>
+<script defer="" src="https://hub.cissychen.com/search.js"></script>
+<script defer="" src="https://hub.cissychen.com/index-button.js"></script>
+<script defer="" src="https://hub.cissychen.com/i18n-tts.js"></script>
+</div></body>
 </html>
