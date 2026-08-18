@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>数学与博弈设计 · Day 57 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.05rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+.deep{background:#fff;border-radius:8px;padding:30px 30px;margin-top:34px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #c9a96b}
+.deep h2{font-size:1.3rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:14px;font-weight:700}
+.deep details{border-bottom:1px solid #e2e7ee;padding:12px 0}
+.deep details:last-child{border-bottom:none}
+.deep summary{cursor:pointer;font-weight:600;color:#1e3a5f;font-size:1rem;list-style:none}
+.deep summary::-webkit-details-marker{display:none}
+.deep summary::before{content:"▸ ";color:#c9a96b}
+.deep details[open] summary::before{content:"▾ ";color:#c9a96b}
+.deep details div{margin-top:10px;font-size:0.94rem;color:#4a5568;padding-left:16px;border-left:2px solid #ece5d6}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.92rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 57 · 2026.08.18</div>
+<h1>数学与博弈设计</h1>
+<div class="meta">切蛋糕、投票、拍卖、配对——当规则本身成为数学对象</div>
+<div class="epigraph">「博弈论问：给定规则，人会怎么做。机制设计反过来问：想要人这么做，规则该怎么写。」</div>
+</header>
+
+<!-- 概念 1 -->
+<div class="card">
+<h2>无嫉妒分配</h2>
+<div class="en-name">Envy-Free Division · 公平由谁的尺子说了算</div>
+<span class="tag">Fair Division</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>两人分蛋糕，规则只有一句：我切，你选。切的人会把蛋糕切成自己眼里完全等价的两半（切歪了必然吃亏），选的人挑自己眼里更大的那块。两人谁都不羡慕谁。</p>
+<p>妙处不在算法，在判据的转移：这里根本没有一把客观的尺子说哪块更大，<strong>公平的定义被交还给每个人自己的价值度量</strong>。于是偏好不同不再是麻烦，而是资源：你爱奶油我爱水果，同一刀下去两人都觉得自己拿了大半。</p>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$\forall i,j:\quad \mu_i(A_i)\ \ge\ \mu_i(A_j)$</div>
+<p>$A_i$ 是分给第 $i$ 人的那块，$\mu_i$ 是他自己的价值测度（可加、无原子，即任何一块都能连续再切小）。注意下标的不对称：<strong>比较的两块在变，尺子始终是同一把 $\mu_i$</strong>。更弱的比例公平只要求 $\mu_i(A_i)\ge 1/n$；$n\ge 3$ 时无嫉妒蕴含比例，反之不成立。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#1e3a5f" stroke-width="1" x1="40" x2="370" y1="130" y2="130"></line>
+<path d="M40 42 C 100 62, 160 110, 205 120 C 260 126, 320 124, 370 122" fill="none" stroke="#1e3a5f" stroke-width="1.6"></path>
+<path d="M40 122 C 110 120, 170 112, 205 100 C 260 78, 320 50, 370 40" fill="none" stroke="#c9544a" stroke-width="1.6"></path>
+<line stroke="#3a6088" stroke-dasharray="4 3" stroke-width="1.4" x1="205" x2="205" y1="130" y2="24"></line>
+<text fill="#3a6088" font-size="9" x="188" y="18">一刀</text>
+<text fill="#1e3a5f" font-size="9.5" x="48" y="36">甲的价值密度</text>
+<text fill="#c9544a" font-size="9.5" x="288" y="34">乙的价值密度</text>
+<text fill="#5a7090" font-size="9" x="96" y="145">甲眼中的大半</text>
+<text fill="#5a7090" font-size="9" x="252" y="145">乙眼中的大半</text>
+<text fill="#3a6088" font-size="9.5" x="66" y="163">同一刀，两人都认为自己拿到了更多——差异本身制造了公平的余地</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>存在性证明来自一个毫不相干的方向：Su 用 Sperner 引理——单纯形三角剖分后按规则染色，必有一个三色齐全的小三角形——证明了 $n$ 人无嫉妒分割总存在。<strong>一个纯离散的染色计数命题，担保了一件连续的、关于人的欲望的事。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>Mesos 与 YARN 的调度器用 Dominant Resource Fairness，正是多资源版的无嫉妒：每个作业按自己的瓶颈资源（有的吃 CPU，有的吃内存）计价，于是没有作业愿意跟别人换配额。同一思路也支撑离婚财产分割的 Adjusted Winner 算法。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>公平不是均分，是让每个人用自己的尺子量都不亏。</strong><br/>思考：DRF 保证无嫉妒，却不保证集群吞吐最大。公平与效率之间的这道缝隙，可能被完全消除吗？</div>
+</div>
+</div>
+
+<!-- 概念 2 -->
+<div class="card">
+<h2>投票的不可能定理</h2>
+<div class="en-name">Arrow &amp; Gibbard–Satterthwaite · 聚合的极限</div>
+<span class="tag">Social Choice</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>三人对三个选项各有一套完全合理的排序：甲 A≻B≻C，乙 B≻C≻A，丙 C≻A≻B。两两多数决的结果是 A 胜 B、B 胜 C、C 胜 A。<strong>每个人的偏好都传递，聚合出的群体偏好却成了一个环。</strong></p>
+<p>Arrow 把悖论推到极限。他只要求聚合规则满足两件几乎无法反对的事：全体一致时服从全体；A 与 B 的社会排序只取决于大家对 A、B 的相对位置，与第三个选项无关（无关选项独立性，IIA）。结论是——只要候选项不少于三个，唯一的满足者是独裁。</p>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$f:L(X)^{n}\to L(X),\ \ |X|\ge 3,\ \ \text{一致性}\ \wedge\ \text{IIA}\ \Longrightarrow\ \exists i:\ f\equiv\ \succ_i$</div>
+<p>$L(X)$ 是选项集 $X$ 上的全部严格排序，$f$ 把 $n$ 个人的排序表压成一个社会排序。IIA 是真正致命的那条：它禁止规则参考偏好的<strong>强度</strong>，只准看名次。Borda 计分之所以逃出定理，正因为它偷用了名次之间的距离；代价是加进一个必输的候选人就能改写前两名的胜负。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
+<circle cx="200" cy="38" fill="#fff" r="20" stroke="#1e3a5f" stroke-width="1.5"></circle>
+<circle cx="308" cy="122" fill="#fff" r="20" stroke="#1e3a5f" stroke-width="1.5"></circle>
+<circle cx="92" cy="122" fill="#fff" r="20" stroke="#1e3a5f" stroke-width="1.5"></circle>
+<text fill="#1e3a5f" font-size="14" font-weight="bold" x="194" y="43">A</text>
+<text fill="#1e3a5f" font-size="14" font-weight="bold" x="302" y="127">B</text>
+<text fill="#1e3a5f" font-size="14" font-weight="bold" x="86" y="127">C</text>
+<path d="M218 52 L 292 106" fill="none" marker-end="url(#ar)" stroke="#c9544a" stroke-width="1.6"></path>
+<path d="M288 128 L 112 128" fill="none" marker-end="url(#ar)" stroke="#c9544a" stroke-width="1.6"></path>
+<path d="M108 106 L 182 52" fill="none" marker-end="url(#ar)" stroke="#c9544a" stroke-width="1.6"></path>
+<defs>
+<marker id="ar" markerheight="6" markerwidth="7" orient="auto" refx="6" refy="3">
+<path d="M0 0 L7 3 L0 6 z" fill="#c9544a"></path>
+</marker>
+</defs>
+<text fill="#5a7090" font-size="9" x="252" y="72">2:1</text>
+<text fill="#5a7090" font-size="9" x="192" y="145">2:1</text>
+<text fill="#5a7090" font-size="9" x="118" y="72">2:1</text>
+<text fill="#3a6088" font-size="9.5" x="72" y="164">每一对都有明确的胜者，合起来却没有冠军</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它说的不是「更好的制度还没被发明」，而是<strong>「好制度」的那组要求彼此矛盾</strong>——你必须主动挑一条公理放弃。证明也漂亮：把选民逐个翻转态度，必然存在一个临界者，他一动社会排序随之翻转（pivotal voter）；再用 IIA 把他在这一对选项上的绝对影响力传染到全部选项。<strong>权力在这里是能被逼出来的数学对象。</strong></p>
+<p>Gibbard–Satterthwaite 是同一枚硬币的另一面：任何非独裁的确定性投票规则，都存在可被谎报操纵的局面。逃逸口只有三条——限制偏好域（单峰偏好下中位选民定理成立）、允许随机、或引入货币转移。<em>第三条正是拍卖的入口。</em></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>排序聚合是搜索与推荐的日常：元搜索合并多个引擎的排名、多目标推荐融合点击与多样性两套序，Dwork 等人早已指出这落在 Arrow 的框架内。更近的例子是 RLHF——把数万标注者的成对偏好压成一个标量奖励模型，本质是一次社会选择；它绕开 Arrow 的方式是假设偏好可基数化。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>不存在完美的聚合规则，只存在你愿意放弃哪一条公理。</strong><br/>思考：RLHF 用 Bradley–Terry 把偏好变成可加的分数，这一步换掉了什么？少数群体的偏好会去哪里？</div>
+</div>
+</div>
+
+<!-- 概念 3 -->
+<div class="card">
+<h2>拍卖与 VCG</h2>
+<div class="en-name">Second-Price, VCG &amp; Revenue Equivalence · 让诚实变成占优</div>
+<span class="tag">Mechanism Design</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>第二价格拍卖：出价最高者得标，但只付第二高的价。此时如实报出心里的估值是<strong>占优策略</strong>——不论别人如何出价，说真话都不比撒谎差。</p>
+<p>理由干净得像个魔术：你的出价只决定<em>你是否赢</em>，完全不决定<em>你付多少</em>（你付的是别人的价）。<strong>把「谁得到」与「付多少」解耦，撒谎便失去了着力点。</strong>压低只会让你在本该赚钱的场合输掉；抬高只会让你在本该退出的场合赢下一个亏本的标。</p>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$p_i=\sum_{j\ne i}v_j\big(\text{无 }i\text{ 的最优配置}\big)-\sum_{j\ne i}v_j\big(\text{当前最优配置}\big)$</div>
+<p>这是 VCG 的一般形式，第二价格是其单物品特例。两项都只统计<strong>除 $i$ 之外</strong>其他人的价值：前项是「没有我时别人能拿多少」，后项是「我在场时别人实际拿多少」。差额就是<strong>我的存在给别人造成的损失</strong>。让人为自己制造的外部性买单，个体最优便与社会最优对齐。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 168" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#f0dcd8" height="26" width="150" x="42" y="60"></rect>
+<rect fill="#e2ebf5" height="26" width="150" x="208" y="60"></rect>
+<line stroke="#1e3a5f" stroke-width="1.4" x1="42" x2="370" y1="100" y2="100"></line>
+<line stroke="#1e3a5f" stroke-width="1.6" x1="200" x2="200" y1="48" y2="112"></line>
+<text fill="#1e3a5f" font-size="10" font-style="italic" x="170" y="128">b = v 真实估值</text>
+<text fill="#5a7090" font-size="9" x="352" y="116">出价 b</text>
+<text fill="#c9544a" font-size="9.5" x="52" y="52">低报</text>
+<text fill="#3a6088" font-size="9.5" x="212" y="52">高报</text>
+<text fill="#5a7090" font-size="9" x="52" y="78">输掉本该赚钱的标</text>
+<text fill="#5a7090" font-size="9" x="218" y="78">赢下本该退出的标</text>
+<text fill="#3a6088" font-size="9.5" x="66" y="152">两侧都只会变差，而支付额始终等于第二高价，与自己的出价无关</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>真正的深水在 Myerson 1981 的收益等价定理：在私人价值独立同分布的前提下，任何把物品分给估值最高者、且最低类型净收益为零的机制，卖家的期望收益<strong>完全相同</strong>。英式、荷兰式、一价密封、二价密封——形态天差地别，期望收益分文不差。</p>
+<p>这是一条守恒律。证明用包络定理把「激励相容」化成一个关于期望效用的微分方程：分配规则一旦定下，期望支付便被积分唯一确定，没有自由度可言。<strong>机制的表面千变万化，被信息约束锁死的量纹丝不动</strong>——与 Noether 同构的直觉：约束产生不变量。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>广告位竞价是这套理论最大的实验场（GSP 并不诱导真话，Meta 因此改用 VCG 定价）；美国 FCC 以组合拍卖清算频谱数百亿美元，2017 年的激励拍卖还要同时向电视台反向回购频段。云厂商的 spot 实例定价、以太坊 EIP-1559 的 base fee，走的是同一条路。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>好机制不逼人诚实，它让诚实成为最省心的选择。</strong><br/>思考：VCG 理论上完美，实践中却因易共谋、收益偏低、组合场景计算 NP 难而少被纯用。理论最优为何常常不是工程最优？</div>
+</div>
+</div>
+
+<!-- 概念 4 -->
+<div class="card">
+<h2>稳定匹配</h2>
+<div class="en-name">Gale–Shapley Deferred Acceptance · 没人想掀桌的状态</div>
+<span class="tag">Matching Theory</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>匹配追求的不是「最优」，而是<strong>稳定</strong>：不存在两个人，彼此都比自己当前的对象更中意。那样的一对叫阻塞对，他们迟早私下重组，把整个匹配掀翻。</p>
+<p>延迟接受算法：一侧依次向最中意的对象提出申请；收到申请的一方<strong>暂时留下目前最好的，拒绝其余，但不签死</strong>；被拒者转向下一个选择。关键词是「延迟」——先到的申请占不住名额，更好的随时能顶掉旧的。算法必然终止：每个申请者的名单只会单向往下走。</p>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$\nexists\,(m,w):\quad w\succ_m\mu(m)\ \ \wedge\ \ m\succ_w\mu(w)$</div>
+<p>$\mu$ 是匹配，$\mu(m)$ 是 $m$ 当前的对象，$\succ_m$ 是 $m$ 的偏好序。整行读作：找不到一对 $(m,w)$ 使两人<strong>同时</strong>更想要对方——注意「同时」，单方面的不满不算失稳。Gale 与 Shapley 1962 证明：稳定匹配必然存在，且延迟接受输出的是<strong>申请方最优</strong>的那个（每个申请者拿到他在所有稳定匹配中最好的对象），也是接受方最差的。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 178" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#3a6088" stroke-width="1.3" x1="200" x2="118" y1="46" y2="92"></line>
+<line stroke="#3a6088" stroke-width="1.3" x1="200" x2="282" y1="46" y2="92"></line>
+<line stroke="#3a6088" stroke-width="1.3" x1="118" x2="200" y1="92" y2="138"></line>
+<line stroke="#3a6088" stroke-width="1.3" x1="282" x2="200" y1="92" y2="138"></line>
+<circle cx="200" cy="40" fill="#1e3a5f" r="6"></circle>
+<circle cx="118" cy="96" fill="#7f95b0" r="5"></circle>
+<circle cx="282" cy="96" fill="#7f95b0" r="5"></circle>
+<circle cx="200" cy="144" fill="#c9544a" r="6"></circle>
+<text fill="#1e3a5f" font-size="10" x="216" y="34">申请方最优（延迟接受的输出）</text>
+<text fill="#5a7090" font-size="9.5" x="44" y="100">其他稳定匹配</text>
+<text fill="#c9544a" font-size="10" x="216" y="150">接受方最优 = 申请方最差</text>
+<text fill="#3a6088" font-size="9.5" x="48" y="172">任取两点，逐个申请者取更优者 → 仍落在图中：一个分配格</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>全部稳定匹配的集合不是一盘散沙，它构成一个<strong>分配格</strong>：任取两个稳定匹配，让每个申请者各取其中他更喜欢的那位，拼出的结果<em>仍然稳定</em>。这毫无先验理由成立——输入不过是一堆杂乱的序关系，居然长出了 meet 与 join 的代数结构（Conway 最早注意到）。延迟接受输出的正是这个格的顶端。</p>
+<p>还有一条冷峻的定理：所有稳定匹配中<strong>被匹配上的人完全是同一批</strong>（农村医院定理）。换制度能改变谁配给谁，改变不了谁注定落单。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>全美住院医师匹配 NRMP 每年为四万余名毕业生配岗，1998 年重新设计以支持夫妻同城；纽约与波士顿的择校系统被 Abdulkadiroğlu、Pathak 与 Roth 换成延迟接受，替掉了原先「第一志愿填错就满盘皆输」的可操纵机制；肾脏配对捐赠则在患者-供体图上找交换环。Roth 与 Shapley 因此获 2012 年诺奖。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>稳定不是最优，而是没有人有单方面掀桌的动机——均衡的最低纲领。</strong><br/>思考：分布式一致性协议同样在追求「无人能单方面推翻」的状态，那里的阻塞对是什么？</div>
+</div>
+</div>
+
+<div class="deep">
+<h2>深入思考</h2>
+<details>
+<summary>Arrow 说聚合不可能，机制设计却天天造出可用的机制。它们如何共存？</summary>
+<div>前提不同。Arrow 要求把偏好聚合成完整的社会排序，且只许看名次；机制设计只需实现某一个特定的社会选择函数，并且允许<strong>货币转移</strong>。钱正是那把逃生钥匙——它让偏好强度可比较、可补偿，从而绕开 IIA；Gibbard–Satterthwaite 的前提里同样没有转移支付，VCG 恰恰活在它管不到的地方。代价是：依赖货币的机制都把支付能力悄悄混进了公平判据。</div>
+</details>
+<details>
+<summary>公平分配用了 Sperner 引理，稳定匹配长出格，拍卖靠包络定理——为什么规范性概念反复落进纯数学结构？</summary>
+<div>因为「公平」「稳定」「均衡」一旦被形式化，几乎都变成同一句话：<strong>不存在改进方向</strong>。而「无处可去」正是不动点、极值、格中极元的共同语法——Sperner 引理是 Brouwer 不动点的组合影子，稳定匹配可写成格上的不动点，Nash 均衡来自 Kakutani 不动点。规范概念不是碰巧落进数学，而是翻译完成的那一刻就已身处其中。</div>
+</details>
+<details>
+<summary>多智能体 AI 系统需要自己的机制设计吗？</summary>
+<div>需要，而且更难。经典理论假设参与者拥有稳定的私人估值与有限的策略空间；LLM agent 的「估值」由提示与上下文塑造，可被对手用自然语言当场改写。更棘手的是共谋——两个模型能在看似正常的对话里协调出价，人类审计者极难识别。可行方向是把激励相容做进协议层（强制承诺、密封出价、延迟揭示），而不是指望模型自我约束。</div>
+</details>
+</div>
+
+<nav class="bottom">
+<a href="index.html">← 返回 Mathematics</a>
+</nav>
+</div>
+</body>
+</html>

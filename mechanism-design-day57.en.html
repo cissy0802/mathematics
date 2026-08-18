@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Mathematics of Fair Design · Day 57 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.05rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+.deep{background:#fff;border-radius:8px;padding:30px 30px;margin-top:34px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #c9a96b}
+.deep h2{font-size:1.3rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:14px;font-weight:700}
+.deep details{border-bottom:1px solid #e2e7ee;padding:12px 0}
+.deep details:last-child{border-bottom:none}
+.deep summary{cursor:pointer;font-weight:600;color:#1e3a5f;font-size:1rem;list-style:none}
+.deep summary::-webkit-details-marker{display:none}
+.deep summary::before{content:"▸ ";color:#c9a96b}
+.deep details[open] summary::before{content:"▾ ";color:#c9a96b}
+.deep details div{margin-top:10px;font-size:0.94rem;color:#4a5568;padding-left:16px;border-left:2px solid #ece5d6}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.92rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 57 · 2026.08.18</div>
+<h1>The Mathematics of Fair Design</h1>
+<div class="meta">Cutting cakes, voting, auctions, matching — when the rules themselves become the mathematical object</div>
+<div class="epigraph">"Game theory asks what people will do given the rules. Mechanism design asks the reverse: if you want them to do this, how should the rules read?"</div>
+</header>
+
+<!-- Concept 1 -->
+<div class="card">
+<h2>Envy-Free Division</h2>
+<div class="en-name">Fair division · whose ruler decides what counts as fair</div>
+<span class="tag">Fair Division</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Two people split a cake under a single rule: I cut, you choose. The cutter divides it into two halves that are exactly equivalent <em>in their own eyes</em> (any skew costs them), and the chooser takes whichever piece looks larger to them. Neither envies the other.</p>
+<p>The trick is not the algorithm but the shift in criterion: there is no objective ruler declaring which piece is bigger, so <strong>the definition of fairness is handed back to each person's own value measure</strong>. Differing tastes stop being an obstacle and become a resource — you love the frosting, I love the fruit, and one cut leaves both of us convinced we got more than half.</p>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$\forall i,j:\quad \mu_i(A_i)\ \ge\ \mu_i(A_j)$</div>
+<p>$A_i$ is the piece assigned to person $i$, and $\mu_i$ is that person's own value measure (additive and atomless — any piece can be cut smaller continuously). Note the asymmetry in the subscripts: <strong>the pieces being compared change, but the ruler is always the same $\mu_i$</strong>. The weaker notion of proportional fairness only asks $\mu_i(A_i)\ge 1/n$; for $n\ge 3$ envy-freeness implies proportionality but not conversely.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#1e3a5f" stroke-width="1" x1="40" x2="370" y1="130" y2="130"></line>
+<path d="M40 42 C 100 62, 160 110, 205 120 C 260 126, 320 124, 370 122" fill="none" stroke="#1e3a5f" stroke-width="1.6"></path>
+<path d="M40 122 C 110 120, 170 112, 205 100 C 260 78, 320 50, 370 40" fill="none" stroke="#c9544a" stroke-width="1.6"></path>
+<line stroke="#3a6088" stroke-dasharray="4 3" stroke-width="1.4" x1="205" x2="205" y1="130" y2="24"></line>
+<text fill="#3a6088" font-size="9" x="182" y="18">one cut</text>
+<text fill="#1e3a5f" font-size="9.5" x="48" y="36">A's value density</text>
+<text fill="#c9544a" font-size="9.5" x="272" y="34">B's value density</text>
+<text fill="#5a7090" font-size="9" x="88" y="145">A's bigger half</text>
+<text fill="#5a7090" font-size="9" x="248" y="145">B's bigger half</text>
+<text fill="#3a6088" font-size="9" x="16" y="163">One cut, and both believe they took more — the difference itself creates room for fairness</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>The existence proof arrives from a completely unrelated direction: Su used Sperner's lemma — triangulate a simplex, color it by a rule, and some small triangle must carry all three colors — to prove that an envy-free division always exists for $n$ people. <strong>A purely discrete counting statement about colorings underwrites something continuous, and about human desire at that.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>The schedulers in Mesos and YARN use Dominant Resource Fairness, which is exactly the multi-resource version of envy-freeness: each job is charged against its own bottleneck resource (some are CPU-hungry, some memory-hungry), so no job would rather trade quotas with another. The same idea underpins the Adjusted Winner algorithm for dividing property in a divorce.</p>
+</div>
+<div class="section">
+<div class="label">The essential line + a question</div>
+<div class="think"><strong>Fairness is not equal shares; it is that nobody comes up short when measuring with their own ruler.</strong><br/>To consider: DRF guarantees envy-freeness but not maximum cluster throughput. Can that gap between fairness and efficiency ever be closed?</div>
+</div>
+</div>
+
+<!-- Concept 2 -->
+<div class="card">
+<h2>The Impossibility of Voting</h2>
+<div class="en-name">Arrow &amp; Gibbard–Satterthwaite · the limits of aggregation</div>
+<span class="tag">Social Choice</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Three voters hold three perfectly reasonable rankings over three options: A≻B≻C, B≻C≻A, C≻A≻B. Pairwise majority votes give A over B, B over C, and C over A. <strong>Every individual preference is transitive, yet the aggregate comes out as a cycle.</strong></p>
+<p>Arrow pushed the paradox to its limit. He asked a rule to satisfy only two nearly unobjectionable conditions: defer to unanimity; and let the social ranking of A against B depend only on how voters rank A against B, never on some third option (independence of irrelevant alternatives, IIA). The conclusion: with three or more candidates, the only rule that qualifies is a dictatorship.</p>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$f:L(X)^{n}\to L(X),\ \ |X|\ge 3,\ \ \text{unanimity}\ \wedge\ \text{IIA}\ \Longrightarrow\ \exists i:\ f\equiv\ \succ_i$</div>
+<p>$L(X)$ is the set of all strict rankings of the options $X$, and $f$ compresses $n$ individual rankings into one social ranking. IIA is the genuinely lethal axiom: it forbids the rule from consulting the <strong>intensity</strong> of a preference, allowing only positions. Borda counting escapes the theorem precisely because it smuggles in the gaps between positions; the price is that adding a sure loser can reverse the contest between the top two.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
+<circle cx="200" cy="38" fill="#fff" r="20" stroke="#1e3a5f" stroke-width="1.5"></circle>
+<circle cx="308" cy="122" fill="#fff" r="20" stroke="#1e3a5f" stroke-width="1.5"></circle>
+<circle cx="92" cy="122" fill="#fff" r="20" stroke="#1e3a5f" stroke-width="1.5"></circle>
+<text fill="#1e3a5f" font-size="14" font-weight="bold" x="194" y="43">A</text>
+<text fill="#1e3a5f" font-size="14" font-weight="bold" x="302" y="127">B</text>
+<text fill="#1e3a5f" font-size="14" font-weight="bold" x="86" y="127">C</text>
+<path d="M218 52 L 292 106" fill="none" marker-end="url(#ar)" stroke="#c9544a" stroke-width="1.6"></path>
+<path d="M288 128 L 112 128" fill="none" marker-end="url(#ar)" stroke="#c9544a" stroke-width="1.6"></path>
+<path d="M108 106 L 182 52" fill="none" marker-end="url(#ar)" stroke="#c9544a" stroke-width="1.6"></path>
+<defs>
+<marker id="ar" markerheight="6" markerwidth="7" orient="auto" refx="6" refy="3">
+<path d="M0 0 L7 3 L0 6 z" fill="#c9544a"></path>
+</marker>
+</defs>
+<text fill="#5a7090" font-size="9" x="252" y="72">2:1</text>
+<text fill="#5a7090" font-size="9" x="192" y="145">2:1</text>
+<text fill="#5a7090" font-size="9" x="118" y="72">2:1</text>
+<text fill="#3a6088" font-size="9.5" x="58" y="164">Every pair has a clear winner, yet together there is no champion</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>It does not say "a better system has yet to be invented"; it says <strong>the requirements for a good system contradict one another</strong> — you must choose which axiom to give up. The proof is lovely too: flip voters one at a time and some threshold voter must exist whose switch flips the social ranking (the pivotal voter); then IIA propagates their absolute influence over that one pair to every pair. <strong>Power here is not political vocabulary but a mathematical object that can be cornered.</strong></p>
+<p>Gibbard–Satterthwaite is the other face of the same coin: every non-dictatorial deterministic voting rule admits situations where misreporting pays. There are only three escape routes — restrict the domain (single-peaked preferences give the median voter theorem), allow randomization, or introduce monetary transfers. <em>The third is the doorway to auctions.</em></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Rank aggregation is routine in search and recommendation: metasearch merges rankings from several engines, and multi-objective recommenders fuse a click ordering with a diversity ordering — Dwork and coauthors pointed out long ago that this lands squarely inside Arrow's framework. A more recent case is RLHF: compressing pairwise preferences from tens of thousands of annotators into one scalar reward model is an act of social choice, and it dodges Arrow only by assuming preferences can be made cardinal.</p>
+</div>
+<div class="section">
+<div class="label">The essential line + a question</div>
+<div class="think"><strong>There is no perfect aggregation rule — only the axiom you are willing to abandon.</strong><br/>To consider: RLHF uses Bradley–Terry to turn preferences into additive scores. What does that step trade away, and where do minority preferences end up?</div>
+</div>
+</div>
+
+<!-- Concept 3 -->
+<div class="card">
+<h2>Auctions and VCG</h2>
+<div class="en-name">Second-price, VCG &amp; revenue equivalence · making honesty dominant</div>
+<span class="tag">Mechanism Design</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>In a second-price auction the highest bidder wins but pays the second-highest bid. Reporting your true valuation is then a <strong>dominant strategy</strong> — whatever anyone else does, telling the truth is never worse than lying.</p>
+<p>The reason is clean enough to look like a magic trick: your bid decides only <em>whether you win</em>, never <em>what you pay</em> (you pay someone else's number). <strong>Decouple "who gets it" from "what they pay" and lying loses its purchase.</strong> Shading down only makes you lose deals worth winning; bidding up only makes you win deals worth losing.</p>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$p_i=\sum_{j\ne i}v_j\big(\text{best allocation without }i\big)-\sum_{j\ne i}v_j\big(\text{best allocation now}\big)$</div>
+<p>This is VCG in general form, with the second-price rule as its single-item special case. Both sums count only the value accruing to <strong>everyone other than $i$</strong>: the first is "how much others could get if I did not exist," the second is "how much they actually get with me present." The difference is <strong>the loss my presence imposes on others</strong>. Make each participant pay for the externality they create, and individual optimum aligns with social optimum.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 168" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#f0dcd8" height="26" width="150" x="42" y="60"></rect>
+<rect fill="#e2ebf5" height="26" width="150" x="208" y="60"></rect>
+<line stroke="#1e3a5f" stroke-width="1.4" x1="42" x2="370" y1="100" y2="100"></line>
+<line stroke="#1e3a5f" stroke-width="1.6" x1="200" x2="200" y1="48" y2="112"></line>
+<text fill="#1e3a5f" font-size="10" font-style="italic" x="164" y="128">b = v, true value</text>
+<text fill="#5a7090" font-size="9" x="348" y="116">bid b</text>
+<text fill="#c9544a" font-size="9.5" x="52" y="52">underbid</text>
+<text fill="#3a6088" font-size="9.5" x="212" y="52">overbid</text>
+<text fill="#5a7090" font-size="9" x="52" y="78">lose deals worth winning</text>
+<text fill="#5a7090" font-size="9" x="216" y="78">win deals worth losing</text>
+<text fill="#3a6088" font-size="9" x="24" y="152">Both directions only hurt, while the payment stays fixed at the second-highest bid</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>The deep water is Myerson's 1981 revenue equivalence theorem: with independent private values, any mechanism that awards the item to the highest valuation and leaves the lowest type with zero surplus yields the seller <strong>exactly the same expected revenue</strong>. English, Dutch, sealed first-price, sealed second-price — wildly different in form, identical in expectation.</p>
+<p>This is a conservation law. The proof uses the envelope theorem to turn incentive compatibility into a differential equation in expected utility: once the allocation rule is fixed, expected payment is pinned down by integration, with no freedom left. <strong>The surface of a mechanism can vary endlessly; the quantity locked down by the information constraint does not move.</strong> The intuition is isomorphic to Noether's: constraints produce invariants.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Ad-slot auctions are this theory's largest laboratory (GSP is not truthful, which is why Meta moved to VCG pricing); the FCC has cleared tens of billions of dollars of spectrum through combinatorial auctions, and its 2017 incentive auction ran a reverse purchase from broadcasters at the same time. Cloud spot-instance pricing and Ethereum's EIP-1559 base fee travel the same road.</p>
+</div>
+<div class="section">
+<div class="label">The essential line + a question</div>
+<div class="think"><strong>A good mechanism does not force honesty; it makes honesty the least troublesome option.</strong><br/>To consider: VCG is theoretically perfect yet rarely used in pure form — it is collusion-prone, revenue-poor, and NP-hard in combinatorial settings. Why is the theoretical optimum so often not the engineering optimum?</div>
+</div>
+</div>
+
+<!-- Concept 4 -->
+<div class="card">
+<h2>Stable Matching</h2>
+<div class="en-name">Gale–Shapley deferred acceptance · the state nobody wants to overturn</div>
+<span class="tag">Matching Theory</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Matching does not chase optimality; it chases <strong>stability</strong>: no two people should each prefer the other to their current partner. Such a pair is a blocking pair, and sooner or later they will pair off privately and bring the whole matching down.</p>
+<p>Deferred acceptance: one side proposes in order of preference; whoever receives a proposal <strong>tentatively holds the best offer so far, rejects the rest, and signs nothing</strong>; the rejected move on to their next choice. The key word is deferred — an early proposal cannot lock down a slot, and a better one can displace it at any time. Termination is guaranteed: each proposer's list only ever moves downward.</p>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$\nexists\,(m,w):\quad w\succ_m\mu(m)\ \ \wedge\ \ m\succ_w\mu(w)$</div>
+<p>$\mu$ is a matching, $\mu(m)$ is $m$'s current partner, and $\succ_m$ is $m$'s preference order. The line reads: there is no pair $(m,w)$ who <strong>both</strong> prefer each other — note "both," since one-sided dissatisfaction is not instability. Gale and Shapley proved in 1962 that a stable matching always exists, and that deferred acceptance returns the <strong>proposer-optimal</strong> one (every proposer gets the best partner they could have in any stable matching), which is simultaneously the worst for the receiving side.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 400 178" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#3a6088" stroke-width="1.3" x1="200" x2="118" y1="46" y2="92"></line>
+<line stroke="#3a6088" stroke-width="1.3" x1="200" x2="282" y1="46" y2="92"></line>
+<line stroke="#3a6088" stroke-width="1.3" x1="118" x2="200" y1="92" y2="138"></line>
+<line stroke="#3a6088" stroke-width="1.3" x1="282" x2="200" y1="92" y2="138"></line>
+<circle cx="200" cy="40" fill="#1e3a5f" r="6"></circle>
+<circle cx="118" cy="96" fill="#7f95b0" r="5"></circle>
+<circle cx="282" cy="96" fill="#7f95b0" r="5"></circle>
+<circle cx="200" cy="144" fill="#c9544a" r="6"></circle>
+<text fill="#1e3a5f" font-size="10" x="216" y="34">proposer-optimal (DA output)</text>
+<text fill="#5a7090" font-size="9.5" x="16" y="100">other stable matchings</text>
+<text fill="#c9544a" font-size="10" x="216" y="150">receiver-optimal = proposer-worst</text>
+<text fill="#3a6088" font-size="9.5" x="44" y="172">Take any two; each proposer keeps the better — still stable: a lattice</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>The set of all stable matchings is not a loose pile; it forms a <strong>distributive lattice</strong>: take any two stable matchings, let every proposer keep whichever partner they prefer, and the assembled result <em>is still stable</em>. Nothing about the setup predicts this — the input is just an arbitrary tangle of orderings, and out of it grows an algebra of meets and joins (Conway was the first to notice). Deferred acceptance returns exactly the top of that lattice.</p>
+<p>There is also a bleak theorem: across every stable matching, <strong>the same people end up matched</strong> (the rural hospitals theorem). Changing the system changes who pairs with whom; it cannot change who is destined to be left out.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>The NRMP places over forty thousand medical graduates a year and was redesigned in 1998 to accommodate couples; the school-choice systems of New York and Boston were converted to deferred acceptance by Abdulkadiroğlu, Pathak and Roth, replacing a manipulable mechanism where naming the wrong first choice was ruinous; kidney exchange searches for cycles in a patient–donor graph. Roth and Shapley took the 2012 Nobel in economics for this work.</p>
+</div>
+<div class="section">
+<div class="label">The essential line + a question</div>
+<div class="think"><strong>Stability is not optimality; it is that nobody has a unilateral incentive to flip the table — the minimum program of an equilibrium.</strong><br/>To consider: distributed consensus protocols also pursue a state no party can unilaterally overturn. What plays the role of the blocking pair there?</div>
+</div>
+</div>
+
+<div class="deep">
+<h2>Going Deeper</h2>
+<details>
+<summary>Arrow says aggregation is impossible, yet mechanism design ships working mechanisms daily. How do they coexist?</summary>
+<div>The premises differ. Arrow demands a complete social ranking built from positions alone; mechanism design only has to implement one particular social choice function, and it is allowed <strong>monetary transfers</strong>. Money is the escape key — it makes preference intensity comparable and compensable, sidestepping IIA. Gibbard–Satterthwaite likewise assumes no transfers, which is exactly the territory VCG lives in. The cost: any mechanism resting on money quietly folds ability-to-pay into its notion of fairness.</div>
+</details>
+<details>
+<summary>Fair division uses Sperner's lemma, stable matchings grow a lattice, auctions run on the envelope theorem — why do normative concepts keep landing in pure mathematical structure?</summary>
+<div>Because once "fair," "stable," and "equilibrium" are formalized, they nearly all reduce to one sentence: <strong>there is no direction of improvement</strong>. And "nowhere left to go" is the shared grammar of fixed points, extrema, and extremal elements of a lattice — Sperner's lemma is the combinatorial shadow of Brouwer, stable matchings can be written as fixed points on a lattice, Nash equilibria come from Kakutani. Normative concepts do not stumble into mathematics; they are already inside it the moment the translation is finished.</div>
+</details>
+<details>
+<summary>Do multi-agent AI systems need a mechanism design of their own?</summary>
+<div>They do, and it is harder. The classical theory assumes participants hold stable private valuations over a bounded strategy space; an LLM agent's "valuation" is shaped by its prompt and context and can be rewritten on the spot by an adversary in plain language. Collusion is worse still — two models can coordinate bids inside an exchange that reads as perfectly ordinary, and a human auditor will struggle to see it. The workable direction is to build incentive compatibility into the protocol layer (binding commitments, sealed bids, delayed reveal) rather than hoping models restrain themselves.</div>
+</details>
+</div>
+
+<nav class="bottom">
+<a href="index.en.html">← Back to Mathematics</a>
+</nav>
+</div>
+</body>
+</html>
