@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"/>
@@ -56,13 +57,12 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="container">
 <header>
 <div class="kicker">Day 57 · 2026.08.18</div>
-<h1>数学与博弈设计</h1>
+<h1 data-tts="4209f6d4354e8c5e">数学与博弈设计</h1>
 <div class="meta">切蛋糕、投票、拍卖、配对——当规则本身成为数学对象</div>
 <div class="epigraph">「博弈论问：给定规则，人会怎么做。机制设计反过来问：想要人这么做，规则该怎么写。」</div>
 </header>
-
 <!-- 概念 1 -->
-<div class="card">
+<div class="card" data-tts="7b38036709a12992">
 <h2>无嫉妒分配</h2>
 <div class="en-name">Envy-Free Division · 公平由谁的尺子说了算</div>
 <span class="tag">Fair Division</span>
@@ -103,9 +103,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>公平不是均分，是让每个人用自己的尺子量都不亏。</strong><br/>思考：DRF 保证无嫉妒，却不保证集群吞吐最大。公平与效率之间的这道缝隙，可能被完全消除吗？</div>
 </div>
 </div>
-
 <!-- 概念 2 -->
-<div class="card">
+<div class="card" data-tts="debb24db8755107c">
 <h2>投票的不可能定理</h2>
 <div class="en-name">Arrow &amp; Gibbard–Satterthwaite · 聚合的极限</div>
 <span class="tag">Social Choice</span>
@@ -155,9 +154,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>不存在完美的聚合规则，只存在你愿意放弃哪一条公理。</strong><br/>思考：RLHF 用 Bradley–Terry 把偏好变成可加的分数，这一步换掉了什么？少数群体的偏好会去哪里？</div>
 </div>
 </div>
-
 <!-- 概念 3 -->
-<div class="card">
+<div class="card" data-tts="e84cf43e85ca78f6">
 <h2>拍卖与 VCG</h2>
 <div class="en-name">Second-Price, VCG &amp; Revenue Equivalence · 让诚实变成占优</div>
 <span class="tag">Mechanism Design</span>
@@ -200,9 +198,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>好机制不逼人诚实，它让诚实成为最省心的选择。</strong><br/>思考：VCG 理论上完美，实践中却因易共谋、收益偏低、组合场景计算 NP 难而少被纯用。理论最优为何常常不是工程最优？</div>
 </div>
 </div>
-
 <!-- 概念 4 -->
-<div class="card">
+<div class="card" data-tts="bdb495aa4cdc69b5">
 <h2>稳定匹配</h2>
 <div class="en-name">Gale–Shapley Deferred Acceptance · 没人想掀桌的状态</div>
 <span class="tag">Matching Theory</span>
@@ -246,9 +243,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>稳定不是最优，而是没有人有单方面掀桌的动机——均衡的最低纲领。</strong><br/>思考：分布式一致性协议同样在追求「无人能单方面推翻」的状态，那里的阻塞对是什么？</div>
 </div>
 </div>
-
 <div class="deep">
-<h2>深入思考</h2>
+<h2 data-tts="f3fa6e0b2287d485">深入思考</h2>
 <details>
 <summary>Arrow 说聚合不可能，机制设计却天天造出可用的机制。它们如何共存？</summary>
 <div>前提不同。Arrow 要求把偏好聚合成完整的社会排序，且只许看名次；机制设计只需实现某一个特定的社会选择函数，并且允许<strong>货币转移</strong>。钱正是那把逃生钥匙——它让偏好强度可比较、可补偿，从而绕开 IIA；Gibbard–Satterthwaite 的前提里同样没有转移支付，VCG 恰恰活在它管不到的地方。代价是：依赖货币的机制都把支付能力悄悄混进了公平判据。</div>
@@ -262,7 +258,6 @@ nav.bottom a:hover{color:#1e3a5f}
 <div>需要，而且更难。经典理论假设参与者拥有稳定的私人估值与有限的策略空间；LLM agent 的「估值」由提示与上下文塑造，可被对手用自然语言当场改写。更棘手的是共谋——两个模型能在看似正常的对话里协调出价，人类审计者极难识别。可行方向是把激励相容做进协议层（强制承诺、密封出价、延迟揭示），而不是指望模型自我约束。</div>
 </details>
 </div>
-
 <nav class="bottom">
 <a href="index.html">← 返回 Mathematics</a>
 </nav>
