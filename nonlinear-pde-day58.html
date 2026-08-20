@@ -57,12 +57,12 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="container">
 <header>
 <div class="kicker">Day 58 · 2026.08.19</div>
-<h1>微分方程的世界</h1>
+<h1 data-tts="30dff7232a4e794e">微分方程的世界</h1>
 <div class="meta">可预测的极限、孤立子、行波、离散化的代价</div>
 <div class="epigraph">「线性方程的解可以叠加，所以它们乖。非线性方程里，部分之和不等于整体——世界全部的有趣之处都藏在这条不等式里。」</div>
 </header>
 <!-- 概念 1 -->
-<div class="card">
+<div class="card" data-tts="95691edbb4564176">
 <h2>混沌的可预测视界</h2>
 <div class="en-name">Lyapunov Exponent &amp; the Predictability Horizon</div>
 <span class="tag">Dynamical Systems</span>
@@ -75,7 +75,7 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="label">正式定义</div>
 <p>最大 Lyapunov 指数 $\lambda$ 度量相邻轨道的分离速率：</p>
 <div class="formula-box">$$\lambda=\lim_{t\to\infty}\ \lim_{\delta_0\to 0}\ \frac{1}{t}\,\ln\frac{\|\delta(t)\|}{\|\delta_0\|}$$</div>
-<p>$\delta_0$ 是初始偏差，$\delta(t)$ 是 $t$ 时刻的偏差；取 $\ln$ 把「指数翻倍」压成「匀速增长」，$\lambda$ 就是那个斜率。$\lambda>0$ 即混沌，$1/\lambda$ 是误差放大 $e$ 倍所需时间。于是预测视界为（$\Delta$ 是可容忍误差）：</p>
+<p>$\delta_0$ 是初始偏差，$\delta(t)$ 是 $t$ 时刻的偏差；取 $\ln$ 把「指数翻倍」压成「匀速增长」，$\lambda$ 就是那个斜率。$\lambda&gt;0$ 即混沌，$1/\lambda$ 是误差放大 $e$ 倍所需时间。于是预测视界为（$\Delta$ 是可容忍误差）：</p>
 <div class="formula-box">$$T\ \approx\ \frac{1}{\lambda}\,\ln\frac{\Delta}{\delta_0}$$</div>
 <p>关键在于 $\delta_0$ 被关在对数里：精度提高 10 倍，只换来 $\ln 10/\lambda$ 这一小段固定时长。</p>
 </div>
@@ -111,7 +111,7 @@ nav.bottom a:hover{color:#1e3a5f}
 </div>
 </div>
 <!-- 概念 2 -->
-<div class="card">
+<div class="card" data-tts="eafd3da4079593dd">
 <h2>孤立子</h2>
 <div class="en-name">Solitons · 非线性与色散签下的停战协议</div>
 <span class="tag">Integrable Systems</span>
@@ -165,7 +165,7 @@ nav.bottom a:hover{color:#1e3a5f}
 </div>
 </div>
 <!-- 概念 3 -->
-<div class="card">
+<div class="card" data-tts="100b52535d8a668b">
 <h2>反应扩散的行波</h2>
 <div class="en-name">Fisher–KPP Traveling Waves · 速度是被解自己选出来的</div>
 <span class="tag">PDE / Biology</span>
@@ -213,14 +213,14 @@ nav.bottom a:hover{color:#1e3a5f}
 </div>
 </div>
 <!-- 概念 4 -->
-<div class="card">
+<div class="card" data-tts="558564a1e8a802bc">
 <h2>偏微分方程的数值解</h2>
 <div class="en-name">From CFL to Neural Operators · 离散化的代价与红利</div>
 <span class="tag">Numerical Analysis</span>
 <div class="section">
 <div class="label">直觉版</div>
 <p>把连续方程搬进计算机，必须先把时空切成格子。切完就撞上一条硬约束：信息以速度 $c$ 传播，一步内跑了 $c\,\Delta t$；而差分格式一步只能向相邻格点取值，视野最远 $\Delta x$。</p>
-<p><strong>若 $c\,\Delta t>\Delta x$，真解需要的信息来自你根本没看的格点</strong>，此时算法再精巧也救不回来。这就是 CFL 条件——不是数值技巧，而是<em>因果律在网格上的投影</em>：你不能算得比信息传得还快。</p>
+<p><strong>若 $c\,\Delta t&gt;\Delta x$，真解需要的信息来自你根本没看的格点</strong>，此时算法再精巧也救不回来。这就是 CFL 条件——不是数值技巧，而是<em>因果律在网格上的投影</em>：你不能算得比信息传得还快。</p>
 </div>
 <div class="section">
 <div class="label">正式定义</div>
@@ -263,7 +263,7 @@ nav.bottom a:hover{color:#1e3a5f}
 </div>
 </div>
 <div class="deep">
-<h2>深入思考</h2>
+<h2 data-tts="692fe569e18e622d">深入思考</h2>
 <details>
 <summary>孤立子来自完全可积，混沌来自不可积。可积性是怎么丢的？</summary>
 <div>可积意味着守恒量多到足以把运动锁在低维环面上（Liouville–Arnold），轨道只能规矩地缠绕。加一个小扰动，KAM 定理说大部分环面还在，但共振处会破裂，裂缝里长出混沌层；扰动加大，混沌层连通并吞噬相空间。可积与混沌不是两个物种，而是同一条谱的两端——<strong>守恒量的数量就是刻度尺</strong>。</div>
