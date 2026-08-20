@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"/>
@@ -56,13 +57,12 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="container">
 <header>
 <div class="kicker">Day 59 · 2026.08.20</div>
-<h1>数学竞赛思维</h1>
+<h1 data-tts="78018cc31d2bfcd9">数学竞赛思维</h1>
 <div class="meta">四把不靠算力靠眼光的钥匙——不变量、极端、染色、构造</div>
 <div class="epigraph">「竞赛数学教的不是更快地算，而是在动手前先问：这道题真正守恒的是什么？」</div>
 </header>
-
 <!-- 概念 1：不变量 -->
-<div class="card">
+<div class="card" data-tts="b8e11e03774cccb3">
 <h2>不变量</h2>
 <div class="en-name">Invariants &amp; Monovariants · 变化之中不变的那个量</div>
 <span class="tag">Invariant</span>
@@ -124,9 +124,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>不会算无穷条路，就找一个沿路不变的数——它若矛盾，路就不存在。</strong><br/>思考：你写过的某个循环，它真正守恒的量是什么？你能把它写成一行断言吗？</div>
 </div>
 </div>
-
 <!-- 概念 2：极端原理 -->
-<div class="card">
+<div class="card" data-tts="bef2d4fd9e0c4554">
 <h2>极端原理</h2>
 <div class="en-name">The Extremal Principle · 盯住最大或最小的那一个</div>
 <span class="tag">Extremal</span>
@@ -169,9 +168,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>不知从何下手时，先问"最大/最小的那个长什么样"——极端者被迫说真话。</strong><br/>思考：你上次调试时缩到的"最小可复现用例"，是不是就是一次极端原理？</div>
 </div>
 </div>
-
 <!-- 概念 3：染色论证 -->
-<div class="card">
+<div class="card" data-tts="60cb998edb2abd95">
 <h2>染色论证</h2>
 <div class="en-name">Coloring Arguments · 给对象上色，把大问题投影到小群</div>
 <span class="tag">Coloring</span>
@@ -218,9 +216,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>染色 = 把巨大的状态空间同态压进一个小群，只留下操作动不了的那一维。</strong><br/>思考：奇偶校验位保护数据免于单比特翻转——它守恒的"颜色"是什么？</div>
 </div>
 </div>
-
 <!-- 概念 4：构造与反例 -->
-<div class="card">
+<div class="card" data-tts="37746bfaaa239669">
 <h2>构造与反例</h2>
 <div class="en-name">Construction &amp; Counterexample · 一个例子如何了结一个无穷命题</div>
 <span class="tag">Logic</span>
@@ -262,9 +259,8 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>证存在就造一个，破全称就找一个——有限的例子，无穷的裁决。</strong><br/>思考：你写单元测试时，是在构造正例还是在为"代码总是对的"寻找反例？两种心态会写出不同的测试吗？</div>
 </div>
 </div>
-
 <div class="deep">
-<h2>深入思考</h2>
+<h2 data-tts="c1e0eb435d302592">深入思考</h2>
 <details>
 <summary>不变量、极端、染色看似三招，会不会其实是一招？</summary>
 <div>相当程度上是。染色几乎总是为了造一个不变量（各色计数守恒）；极端原理里的"最小反例"本质是对某个单变量取极值后施压。三者共享同一句底层语法：<strong>找一个操作动不了、或只能单向动的量</strong>。区别只在入口——盯守恒、盯极值、还是盯一个精心设计的投影。竞赛训练的真正内容，是培养"这道题该守恒什么"的嗅觉。</div>
@@ -282,7 +278,6 @@ nav.bottom a:hover{color:#1e3a5f}
 <div>单变量给的是一个<strong>充分</strong>条件：只要能找到一个映到良序集、每步严格下降的度量，程序必然终止（无穷下降不存在）。但停机问题告诉我们，"是否存在这样的度量"整体不可判定——没有算法能对所有程序找出或否定它。于是实践中退而求其次：为具体程序找 ranking function，找到了就证明了终止，找不到也不代表不终止。竞赛里的单变量，是这套宏大理论的最小可玩版本。</div>
 </details>
 </div>
-
 <nav class="bottom">
 <a href="index.html">← 返回 Mathematics</a>
 </nav>
