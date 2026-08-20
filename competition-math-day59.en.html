@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Competition Mindset · Day 59 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.05rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+.deep{background:#fff;border-radius:8px;padding:30px 30px;margin-top:34px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #c9a96b}
+.deep h2{font-size:1.3rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:14px;font-weight:700}
+.deep details{border-bottom:1px solid #e2e7ee;padding:12px 0}
+.deep details:last-child{border-bottom:none}
+.deep summary{cursor:pointer;font-weight:600;color:#1e3a5f;font-size:1rem;list-style:none}
+.deep summary::-webkit-details-marker{display:none}
+.deep summary::before{content:"▸ ";color:#c9a96b}
+.deep details[open] summary::before{content:"▾ ";color:#c9a96b}
+.deep details div{margin-top:10px;font-size:0.94rem;color:#4a5568;padding-left:16px;border-left:2px solid #ece5d6}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.92rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 59 · 2026.08.20</div>
+<h1>The Competition Mindset</h1>
+<div class="meta">Four keys that trade raw computation for perception — invariants, extremes, coloring, construction</div>
+<div class="epigraph">"Competition math teaches you not to compute faster, but to ask, before you begin: what does this problem actually conserve?"</div>
+</header>
+
+<!-- Concept 1: Invariants -->
+<div class="card">
+<h2>Invariants &amp; Monovariants</h2>
+<div class="en-name">The quantity that refuses to move</div>
+<span class="tag">Invariant</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Remove the two opposite corner squares of a chessboard. You have 1×2 dominoes; each covers two adjacent squares. Can you tile the remaining 62 squares perfectly? No arrangement works — but no amount of failing is a proof.</p>
+<p>Change your lens. Every domino must cover <strong>one black and one white</strong> square. The two removed corners are the <strong>same color</strong>, so after removal, black and white counts differ by 2. Dominoes preserve "black = white"; the starting position doesn't. Done, in one line. That is an invariant: <strong>a quantity untouched by any legal move. When its value at the start differs from the target, the path simply does not exist.</strong></p>
+</div>
+<div class="section">
+<div class="label">Formal</div>
+<div class="formula-box">$I(s)=I(s')\ \text{for every step}\ s\to s';\quad I(\text{start})\ne I(\text{goal})\ \Rightarrow\ \text{unreachable}$</div>
+<p>$I$ is a function on all states; $s\to s'$ is one legal move. It collapses "must I search infinitely many move sequences?" into "compute two numbers and compare." Its twin is the <strong>monovariant</strong>: a quantity that only ever increases (or only decreases), used to prove a process must terminate — the combinatorial shadow of the well-ordering principle.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 260 200" xmlns="http://www.w3.org/2000/svg">
+<g>
+<rect fill="#c9544a" fill-opacity="0.28" height="24" width="24" x="20" y="20"></rect>
+<rect fill="#3a6088" fill-opacity="0.16" height="24" width="24" x="44" y="20"></rect>
+<rect fill="#c9544a" fill-opacity="0.28" height="24" width="24" x="68" y="20"></rect>
+<rect fill="#3a6088" fill-opacity="0.16" height="24" width="24" x="92" y="20"></rect>
+<rect fill="#c9544a" fill-opacity="0.28" height="24" width="24" x="116" y="20"></rect>
+<rect fill="#3a6088" fill-opacity="0.16" height="24" width="24" x="140" y="20"></rect>
+</g>
+<g>
+<rect fill="#3a6088" fill-opacity="0.16" height="24" width="24" x="20" y="44"></rect>
+<rect fill="#c9544a" fill-opacity="0.28" height="24" width="24" x="44" y="44"></rect>
+<rect fill="#3a6088" fill-opacity="0.16" height="24" width="24" x="68" y="44"></rect>
+<rect fill="#c9544a" fill-opacity="0.28" height="24" width="24" x="92" y="44"></rect>
+<rect fill="#3a6088" fill-opacity="0.16" height="24" width="24" x="116" y="44"></rect>
+<rect fill="#c9544a" fill-opacity="0.28" height="24" width="24" x="140" y="44"></rect>
+</g>
+<g>
+<rect fill="#c9544a" fill-opacity="0.28" height="24" width="24" x="20" y="68"></rect>
+<rect fill="#3a6088" fill-opacity="0.16" height="24" width="24" x="44" y="68"></rect>
+<rect fill="#c9544a" fill-opacity="0.28" height="24" width="24" x="68" y="68"></rect>
+<rect fill="#3a6088" fill-opacity="0.16" height="24" width="24" x="92" y="68"></rect>
+<rect fill="#c9544a" fill-opacity="0.28" height="24" width="24" x="116" y="68"></rect>
+<rect fill="#3a6088" fill-opacity="0.16" height="24" width="24" x="140" y="68"></rect>
+</g>
+<rect fill="none" height="24" stroke="#1a1f2e" stroke-width="1.6" width="24" x="20" y="20"></rect>
+<rect fill="none" height="24" stroke="#1a1f2e" stroke-width="1.6" width="24" x="140" y="68"></rect>
+<line stroke="#1a1f2e" stroke-width="1.4" x1="20" x2="44" y1="20" y2="44"></line>
+<line stroke="#1a1f2e" stroke-width="1.4" x1="140" x2="164" y1="68" y2="92"></line>
+<text fill="#c9544a" font-size="11" x="20" y="118">Removed corners share color → gap of 2</text>
+<text fill="#3a6088" font-size="11" x="20" y="140">Every domino covers 1 black + 1 white → gap fixed</text>
+<text fill="#1e3a5f" font-size="11" font-style="italic" x="20" y="168">Invariant clashes → no tiling exists (no search needed)</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Why it's beautiful</div>
+<p>It collapses a statement about infinitely many paths into the conservation of a single number. This is the combinatorial shadow of the great conservation laws of physics: energy and momentum are ironclad because a symmetry sits behind them (Noether, Day 18). A contest invariant is the miniature version — <strong>find the conserved quantity and you've found the system's hidden symmetry</strong>. Parity, residues mod $n$, coloring sums, and the sign of a permutation are among the quantities most often conserved.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>A <strong>loop invariant</strong> in program verification is the same idea — an assertion preserved by every iteration, used to prove correctness. <strong>Termination</strong> proofs need a monovariant: a measure mapping to the naturals that strictly decreases each round. Whether the 15-puzzle is solvable, or a Rubik's cube state reachable, is decided by the parity of a permutation. Distributed systems' safety properties are, at heart, invariant arguments that a bad state can never arise.</p>
+</div>
+<div class="section">
+<div class="label">Essence + a question</div>
+<div class="think"><strong>When you can't enumerate infinitely many paths, find a number that stays fixed along all of them — a clash means no path exists.</strong><br/>Ask: for a loop you've written, what quantity actually stays true? Could you commit it to a single assertion?</div>
+</div>
+</div>
+
+<!-- Concept 2: Extremal Principle -->
+<div class="card">
+<h2>The Extremal Principle</h2>
+<div class="en-name">Interrogate the largest — or the smallest</div>
+<span class="tag">Extremal</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Facing a mess of objects, don't spread effort evenly. <strong>Pick the extreme one: the largest, the smallest, the one nearest an edge.</strong> Its extremity forces it to have properties no other member can.</p>
+<p>Sylvester–Gallai: finitely many points in the plane, not all collinear — does some line pass through exactly two of them? Among all (point, line-through-others) pairs, take the one with the <strong>smallest</strong> perpendicular distance. If that line held three points, elementary geometry produces a strictly smaller distance — contradicting minimality. The mere existence of an extreme member forces the structure.</p>
+</div>
+<div class="section">
+<div class="label">Formal</div>
+<div class="formula-box">In a finite (or well-ordered) set an extreme element must exist; call it $x^\*$ and squeeze the argument out of its extremity.</div>
+<p>No formula — just one guarantee: a nonempty finite set has a maximum and a minimum. This seemingly cheap existence is the pivot of the whole argument. You never need to know who the extreme element is; the fact that it exists is enough to press it. Extremal reasoning and the method of minimal counterexample (the combinatorial face of infinite descent) are two sides of one coin.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 300 160" xmlns="http://www.w3.org/2000/svg">
+<circle cx="60" cy="110" fill="#1e3a5f" r="3.5"></circle>
+<circle cx="150" cy="120" fill="#1e3a5f" r="3.5"></circle>
+<circle cx="240" cy="112" fill="#1e3a5f" r="3.5"></circle>
+<circle cx="150" cy="40" fill="#c9544a" r="4.5"></circle>
+<circle cx="105" cy="65" fill="#1e3a5f" r="3.5"></circle>
+<circle cx="200" cy="66" fill="#1e3a5f" r="3.5"></circle>
+<line stroke="#3a6088" stroke-width="1.4" x1="60" x2="240" y1="110" y2="112"></line>
+<line stroke="#c9544a" stroke-dasharray="4 3" stroke-width="1.3" x1="150" x2="150" y1="120" y2="45"></line>
+<text fill="#c9544a" font-size="11" x="158" y="38">P</text>
+<text fill="#3a6088" font-size="11" x="246" y="118">ℓ</text>
+<text fill="#c9544a" font-size="10.5" x="156" y="86">smallest point–line distance</text>
+<text fill="#1e3a5f" font-size="10.5" font-style="italic" x="30" y="150">If ℓ held 3 points, a strictly smaller one arises → contradiction</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Why it's beautiful</div>
+<p>It makes the costly business of "existence" free: on a finite set, extremes are handed to you at no charge. Then, instead of constructing, you <strong>interrogate that free extreme</strong> — extremity acts as a lever that pries open the whole. A deeper point: many existence proofs are disguised extremal arguments, because "no further improvement possible" is the shared grammar of optima, fixed points, and minimal counterexamples.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Correctness of <strong>greedy algorithms</strong> often runs through extremal reasoning — the "exchange argument" swaps the outermost element of an optimal solution and shows nothing gets worse. In graph theory, "take the vertex of minimum degree" and "consider the endpoints of the longest path" are standard openings. Lower bounds in combinatorial optimization and optimality of scheduling policies frequently pivot on an extreme element. In software, the <strong>minimal reproducer</strong> — the smallest failing input — is a debugger's extremal principle in everyday clothes.</p>
+</div>
+<div class="section">
+<div class="label">Essence + a question</div>
+<div class="think"><strong>When you don't know where to start, ask what the biggest or smallest one must look like — extremes are forced to tell the truth.</strong><br/>Ask: the "minimal repro" you last chased in a bug — wasn't that an extremal-principle move?</div>
+</div>
+</div>
+
+<!-- Concept 3: Coloring -->
+<div class="card">
+<h2>Coloring Arguments</h2>
+<div class="en-name">Paint the objects, project onto a small group</div>
+<span class="tag">Coloring</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Invariants often hide. <strong>Coloring is how you develop them into view</strong>: paint the cells or objects by some scheme so that forbidden moves betray themselves in the colors.</p>
+<p>Can you tile a $10\times10$ board with straight 1×4 pieces (horizontal or vertical)? Color the board with four colors in diagonal stripes and count each color class — they aren't all equal. Yet each 1×4 piece, whichever way it's placed, covers each of the four colors exactly once. A perfect tiling would need the four counts to be equal. They aren't; <strong>so no tiling exists</strong>. Coloring translated a geometric tiling problem into a comparison between four integers.</p>
+</div>
+<div class="section">
+<div class="label">Formal</div>
+<div class="formula-box">Coloring $c:\text{cells}\to\mathbb{Z}/k$ so that each move imposes a fixed constraint on the per-color counts; a violated count $\Rightarrow$ infeasibility.</div>
+<p>At heart, a clever coloring is a homomorphism from a huge combinatorial state space <strong>onto a small group $\mathbb{Z}/k$</strong>. You throw away nearly all information and keep only the axis the moves cannot rotate — precisely the invariant. The pigeonhole principle is the humblest cousin: $n+1$ pigeons into $n$ holes forces a shared hole.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 240 190" xmlns="http://www.w3.org/2000/svg">
+<g font-size="13" text-anchor="middle">
+<rect fill="#c9544a" fill-opacity="0.22" height="26" width="26" x="30" y="20"></rect><text x="43" y="38">0</text>
+<rect fill="#3a6088" fill-opacity="0.18" height="26" width="26" x="56" y="20"></rect><text x="69" y="38">1</text>
+<rect fill="#c9a96b" fill-opacity="0.3" height="26" width="26" x="82" y="20"></rect><text x="95" y="38">2</text>
+<rect fill="#4a8a5a" fill-opacity="0.22" height="26" width="26" x="108" y="20"></rect><text x="121" y="38">3</text>
+<rect fill="#c9544a" fill-opacity="0.22" height="26" width="26" x="134" y="20"></rect><text x="147" y="38">0</text>
+<rect fill="#3a6088" fill-opacity="0.18" height="26" width="26" x="56" y="46"></rect><text x="69" y="64">1</text>
+<rect fill="#c9a96b" fill-opacity="0.3" height="26" width="26" x="82" y="46"></rect><text x="95" y="64">2</text>
+<rect fill="#4a8a5a" fill-opacity="0.22" height="26" width="26" x="108" y="46"></rect><text x="121" y="64">3</text>
+<rect fill="#c9544a" fill-opacity="0.22" height="26" width="26" x="134" y="46"></rect><text x="147" y="64">0</text>
+<rect fill="#3a6088" fill-opacity="0.18" height="26" width="26" x="160" y="46"></rect><text x="173" y="64">1</text>
+</g>
+<rect fill="none" height="26" stroke="#1a1f2e" stroke-width="1.6" width="104" x="56" y="46"></rect>
+<text fill="#1e3a5f" font-size="11" x="30" y="105">One 1×4 piece: covers 0·1·2·3 exactly once</text>
+<text fill="#c9544a" font-size="11" x="30" y="128">A tiling would force all four counts equal…</text>
+<text fill="#1e3a5f" font-size="11" font-style="italic" x="30" y="151">On 10×10 they aren't — no tiling exists</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Why it's beautiful</div>
+<p>Inventing just the right coloring is a dimensional collapse: infinitely many placements are squeezed into one sentence about residues. It splits creativity from verification cleanly — <strong>finding the coloring takes flair; checking the constraint takes counting</strong>. That "the hard part is finding the map, the rest runs automatically" is a theme mathematics stages again and again.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>It is the heart of <strong>Ramsey theory</strong> — among six people, three are all acquainted or all strangers is a two-coloring of edges hunting a monochromatic triangle. In CS, the <strong>pigeonhole principle</strong> underlies inevitability of hash collisions and lower bounds on lossless compression; <strong>parity bits</strong> and error-correcting codes are coloring invariants that project data onto $\mathbb{Z}/2$; graph coloring itself is register allocation, spectrum scheduling, and conflict-free timetabling.</p>
+</div>
+<div class="section">
+<div class="label">Essence + a question</div>
+<div class="think"><strong>A coloring is a homomorphism from a huge state space onto a small group — it keeps only the axis the moves cannot rotate.</strong><br/>Ask: a parity bit protects data against single-bit flips — what "color" is being conserved?</div>
+</div>
+</div>
+
+<!-- Concept 4: Construction & Counterexample -->
+<div class="card">
+<h2>Construction &amp; Counterexample</h2>
+<div class="en-name">How one object settles an infinite claim</div>
+<span class="tag">Logic</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Logic hides an asymmetry that dictates what you should build. To prove "<strong>there exists</strong> an object with property $P$," one concrete instance suffices. To refute "<strong>all</strong> objects have property $P$," one counterexample does the job.</p>
+<p>Building or breaking — either way, one object costs you very little and moves a claim that ranges over infinity. The difficulty never lies in "enough of them"; it lies in the making or the finding. Concentrate your creativity on that one decisive instance.</p>
+</div>
+<div class="section">
+<div class="label">Formal</div>
+<div class="formula-box">$\neg\,\forall x\,P(x)\ \equiv\ \exists x\,\neg P(x)$</div>
+<p>Negating a universal is exactly exhibiting a witness $x$ where $P$ fails. A <strong>constructive</strong> proof does not stop at "it must exist" — it builds it, and thus often is an algorithm. Non-constructive proofs (proof by contradiction, for instance) guarantee existence but withhold the location. That divide is the watershed between intuitionism and classical logic (Day 53).</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 320 150" xmlns="http://www.w3.org/2000/svg">
+<text fill="#1e3a5f" font-size="12" x="20" y="30">∀x P(x)　"all satisfy"</text>
+<line stroke="#c9544a" stroke-width="1.6" x1="20" x2="150" y1="42" y2="70"></line>
+<line stroke="#c9544a" stroke-width="1.6" x1="150" x2="20" y1="42" y2="70"></line>
+<circle cx="240" cy="42" fill="#c9544a" r="8"></circle>
+<text fill="#fff" font-size="11" text-anchor="middle" x="240" y="46">✗</text>
+<text fill="#c9544a" font-size="11" x="254" y="46">one counterexample kills it</text>
+<text fill="#1e3a5f" font-size="12" x="20" y="105">∃x P(x)　"some x works"</text>
+<circle cx="240" cy="100" fill="#3a6088" r="8"></circle>
+<text fill="#fff" font-size="11" text-anchor="middle" x="240" y="104">✓</text>
+<text fill="#3a6088" font-size="11" x="254" y="104">one construction proves it</text>
+<text fill="#5a7090" font-size="10.5" font-style="italic" x="20" y="138">Universal and existential — settled by one object, in opposite directions</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Why it's beautiful</div>
+<p>It is mathematics at its most economical: <strong>an infinite claim disposed of by a finite object</strong>. And the tension between construction and mere existence carries the essence of computation — a constructive proof is a program, and Curry–Howard nails "proof" and "program" together (Day 19, Day 24). Breaking a universal needs luck and an eye; erecting an existential can demand inventing entirely new objects. That asymmetry of difficulty is itself beautiful.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>In ML, <strong>adversarial examples</strong> are counterexamples: they refute "this network is robust to imperceptible perturbations" with a single image whose pixels have been nudged. <strong>Property-based testing</strong> (QuickCheck) automatically hunts counterexamples and shrinks them to a minimum. <strong>CEGAR</strong> (counterexample-guided abstraction refinement) uses each counterexample to improve the model. And a SAT solver's satisfying assignment is the constructive witness of an existence claim.</p>
+</div>
+<div class="section">
+<div class="label">Essence + a question</div>
+<div class="think"><strong>Prove existence by building one; refute a universal by finding one — a finite object rules on an infinity.</strong><br/>Ask: when you write a unit test, are you constructing a positive example, or hunting a counterexample to "my code is always right"? Do the two mindsets produce different tests?</div>
+</div>
+</div>
+
+<div class="deep">
+<h2>Deeper</h2>
+<details>
+<summary>Invariant, extremal, coloring — are these really three tools, or one?</summary>
+<div>Largely one. A coloring almost always exists to manufacture an invariant (color counts conserved under moves); the "minimal counterexample" in extremal arguments is pressure applied to a monovariant at its extreme. All three share one grammar: <strong>find a quantity moves cannot change, or can move only one way</strong>. The three names are just three doorways — watch conservation, watch extremes, or watch a carefully designed projection. What competition training really cultivates is the instinct for what this particular problem should conserve.</div>
+</details>
+<details>
+<summary>How can "one counterexample" fell a claim covering infinity, without anyone crying foul?</summary>
+<div>Because the logical content of a universal is "no exceptions" — it hands its jugular to every individual object. A counterexample is not a sample or a probabilistic hint but a direct logical negation: $\forall x\,P(x)$ and $\exists x\,\neg P(x)$ are one coin, two faces. Popper's falsifiability says exactly this: universal laws can never be verified by finite observation, only falsified by one counterexample. What makes math peculiar is that its counterexamples are checkable beyond dispute.</div>
+</details>
+<details>
+<summary>Can these tricks be taught to machines? Will AI solve problems with invariants or extremal reasoning?</summary>
+<div>Partially, already. Proof assistants (Lean, Coq) automate loop-invariant search and counterexample construction as subtasks; SAT/SMT solvers do "construct a witness or prove there is none" every day. But <strong>inventing just the right coloring</strong> still looks like a creative leap — it demands spotting, among a vast field of candidate maps, the one that makes the constraint develop into view. Current neural methods excel at pattern matching and search pruning, but produce this "dimensional-collapse insight" only unreliably. That is precisely where mathematics as mental discipline resists replacement: not speed, but sight.</div>
+</details>
+<details>
+<summary>Monovariants for termination — how does that connect to the halting problem?</summary>
+<div>A monovariant gives a <strong>sufficient</strong> condition: exhibit a measure mapping to a well-ordered set that strictly decreases each step, and the program must terminate (no infinite descent). But the halting problem tells us that "whether such a measure exists" is undecidable in general — no algorithm settles it for all programs. In practice one falls back: for a specific program, find a ranking function; if you succeed, termination is proved; if you fail, that does not prove non-termination. A contest monovariant is the smallest, most playable version of this larger theory.</div>
+</details>
+</div>
+
+<nav class="bottom">
+<a href="index.en.html">← Back to Mathematics</a>
+</nav>
+</div>
+</body>
+</html>

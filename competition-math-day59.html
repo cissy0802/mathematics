@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>数学竞赛思维 · Day 59 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.05rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+.deep{background:#fff;border-radius:8px;padding:30px 30px;margin-top:34px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #c9a96b}
+.deep h2{font-size:1.3rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:14px;font-weight:700}
+.deep details{border-bottom:1px solid #e2e7ee;padding:12px 0}
+.deep details:last-child{border-bottom:none}
+.deep summary{cursor:pointer;font-weight:600;color:#1e3a5f;font-size:1rem;list-style:none}
+.deep summary::-webkit-details-marker{display:none}
+.deep summary::before{content:"▸ ";color:#c9a96b}
+.deep details[open] summary::before{content:"▾ ";color:#c9a96b}
+.deep details div{margin-top:10px;font-size:0.94rem;color:#4a5568;padding-left:16px;border-left:2px solid #ece5d6}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.92rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 59 · 2026.08.20</div>
+<h1>数学竞赛思维</h1>
+<div class="meta">四把不靠算力靠眼光的钥匙——不变量、极端、染色、构造</div>
+<div class="epigraph">「竞赛数学教的不是更快地算，而是在动手前先问：这道题真正守恒的是什么？」</div>
+</header>
+
+<!-- 概念 1：不变量 -->
+<div class="card">
+<h2>不变量</h2>
+<div class="en-name">Invariants &amp; Monovariants · 变化之中不变的那个量</div>
+<span class="tag">Invariant</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>把国际象棋盘对角的两个格子挖掉，你手里全是 1×2 的多米诺骨牌，每张盖住相邻两格。能不能严丝合缝铺满剩下的 62 格？无论你怎么试都差一点——但试到天荒地老也不是证明。</p>
+<p>换个眼光：每张骨牌必然盖住<strong>一黑一白</strong>。而对角两格<strong>同色</strong>，挖掉后黑白数目差了 2。骨牌永远维持「黑=白」，起点却不满足——一句话结案。这就是不变量：<strong>在所有允许的操作下都纹丝不动的那个量。它一旦在起点和终点取值不同，路就根本不存在。</strong></p>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$I(s)=I(s')\ \text{对每一步}\ s\to s';\quad I(\text{起点})\ne I(\text{目标})\ \Rightarrow\ \text{不可达}$</div>
+<p>$I$ 是定义在所有状态上的函数，$s\to s'$ 是一次合法操作。它把「要不要穷举无穷条操作序列」压成「算两个数、比一下」。孪生的是<strong>单变量</strong>（monovariant）：一个只增不减（或只减）的量，用来证明过程必然终止——它对应良序集里没有无穷下降链。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 260 200" xmlns="http://www.w3.org/2000/svg">
+<g>
+<rect fill="#c9544a" fill-opacity="0.28" height="24" width="24" x="20" y="20"></rect>
+<rect fill="#3a6088" fill-opacity="0.16" height="24" width="24" x="44" y="20"></rect>
+<rect fill="#c9544a" fill-opacity="0.28" height="24" width="24" x="68" y="20"></rect>
+<rect fill="#3a6088" fill-opacity="0.16" height="24" width="24" x="92" y="20"></rect>
+<rect fill="#c9544a" fill-opacity="0.28" height="24" width="24" x="116" y="20"></rect>
+<rect fill="#3a6088" fill-opacity="0.16" height="24" width="24" x="140" y="20"></rect>
+</g>
+<g>
+<rect fill="#3a6088" fill-opacity="0.16" height="24" width="24" x="20" y="44"></rect>
+<rect fill="#c9544a" fill-opacity="0.28" height="24" width="24" x="44" y="44"></rect>
+<rect fill="#3a6088" fill-opacity="0.16" height="24" width="24" x="68" y="44"></rect>
+<rect fill="#c9544a" fill-opacity="0.28" height="24" width="24" x="92" y="44"></rect>
+<rect fill="#3a6088" fill-opacity="0.16" height="24" width="24" x="116" y="44"></rect>
+<rect fill="#c9544a" fill-opacity="0.28" height="24" width="24" x="140" y="44"></rect>
+</g>
+<g>
+<rect fill="#c9544a" fill-opacity="0.28" height="24" width="24" x="20" y="68"></rect>
+<rect fill="#3a6088" fill-opacity="0.16" height="24" width="24" x="44" y="68"></rect>
+<rect fill="#c9544a" fill-opacity="0.28" height="24" width="24" x="68" y="68"></rect>
+<rect fill="#3a6088" fill-opacity="0.16" height="24" width="24" x="92" y="68"></rect>
+<rect fill="#c9544a" fill-opacity="0.28" height="24" width="24" x="116" y="68"></rect>
+<rect fill="#3a6088" fill-opacity="0.16" height="24" width="24" x="140" y="68"></rect>
+</g>
+<rect fill="none" height="24" stroke="#1a1f2e" stroke-width="1.6" width="24" x="20" y="20"></rect>
+<rect fill="none" height="24" stroke="#1a1f2e" stroke-width="1.6" width="24" x="140" y="68"></rect>
+<line stroke="#1a1f2e" stroke-width="1.4" x1="20" x2="44" y1="20" y2="44"></line>
+<line stroke="#1a1f2e" stroke-width="1.4" x1="140" x2="164" y1="68" y2="92"></line>
+<text fill="#c9544a" font-size="11" x="20" y="118">两个挖去的角同色 → 黑白差 2</text>
+<text fill="#3a6088" font-size="11" x="20" y="140">每张骨牌恒盖 1 黑 1 白 → 黑白差不变</text>
+<text fill="#1e3a5f" font-size="11" font-style="italic" x="20" y="168">不变量冲突 = 铺法不存在（无需穷举）</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它把一个「关于无穷种走法」的命题，塌缩成「一个数的守恒」。这正是物理里守恒定律的组合影子：能量、动量之所以是铁律，因为背后有对称性（Noether，见 Day 18）。竞赛里的不变量是同一件事的微缩版——<strong>找到守恒量，就等于找到了这个系统的隐藏对称</strong>。奇偶性、模 $n$ 的余数、着色和、置换的符号，都是最常被"守恒"的量。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>程序验证里的<strong>循环不变量</strong>是同一思想：一个在每次迭代后都保持为真的断言，用它证明算法正确。<strong>终止性</strong>证明则靠单变量——找一个映到自然数、每轮严格减小的度量。华容道式的十五数码问题、魔方能否复原，都由置换奇偶这个不变量判定；分布式系统的安全性质（safety）本质也是「坏状态永不可达」的不变量论证。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>不会算无穷条路，就找一个沿路不变的数——它若矛盾，路就不存在。</strong><br/>思考：你写过的某个循环，它真正守恒的量是什么？你能把它写成一行断言吗？</div>
+</div>
+</div>
+
+<!-- 概念 2：极端原理 -->
+<div class="card">
+<h2>极端原理</h2>
+<div class="en-name">The Extremal Principle · 盯住最大或最小的那一个</div>
+<span class="tag">Extremal</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>面对一堆杂乱无章的对象，别平均用力——<strong>挑出极端的那一个：最大的、最小的、最靠边的</strong>，它往往被迫拥有别人没有的特权。</p>
+<p>Sylvester–Gallai 问题：平面上有限个点，不全共线，能否找到一条线恰好只过其中两点？在所有「点到不过它的连线」的距离中，取<strong>最小</strong>的那一对（点 $P$、线 $\ell$）。假如 $\ell$ 上有三个点，用初等几何一算，必能造出更小的点线距离——与「已是最小」矛盾。极端者的存在本身，逼出了整个结构。</p>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">有限（或良序）集合中，极值元必存在；设它为 $x^\*$，由它的极端性推出结构或矛盾。</div>
+<p>没有公式，只有一句保证：<strong>非空有限集一定有最大和最小元</strong>。这看似廉价的存在性，是整个论证的支点——你不必知道极端者具体是谁，只要它存在，就能对它施压。它和最小反例法（infinite descent 的组合版）是一体两面。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 300 160" xmlns="http://www.w3.org/2000/svg">
+<circle cx="60" cy="110" fill="#1e3a5f" r="3.5"></circle>
+<circle cx="150" cy="120" fill="#1e3a5f" r="3.5"></circle>
+<circle cx="240" cy="112" fill="#1e3a5f" r="3.5"></circle>
+<circle cx="150" cy="40" fill="#c9544a" r="4.5"></circle>
+<circle cx="105" cy="65" fill="#1e3a5f" r="3.5"></circle>
+<circle cx="200" cy="66" fill="#1e3a5f" r="3.5"></circle>
+<line stroke="#3a6088" stroke-width="1.4" x1="60" x2="240" y1="110" y2="112"></line>
+<line stroke="#c9544a" stroke-dasharray="4 3" stroke-width="1.3" x1="150" x2="150" y1="120" y2="45"></line>
+<text fill="#c9544a" font-size="11" x="158" y="38">P</text>
+<text fill="#3a6088" font-size="11" x="246" y="118">ℓ</text>
+<text fill="#c9544a" font-size="10.5" x="156" y="86">最小的点—线距离</text>
+<text fill="#1e3a5f" font-size="10.5" font-style="italic" x="30" y="150">若 ℓ 上有 3 点，就能造出更小的距离 → 矛盾</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它把「存在」这件昂贵的事变得免费：只要集合有限，极值就白送给你。然后你不去构造，而是<strong>盘问这个免费的极端者</strong>——它的极端性像杠杆，一撬就撬出全局。更深的一点：许多存在性证明其实都是伪装的极端原理，因为「无处可再改进」正是最优、不动点、极小反例共同的语法。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>算法里的<strong>贪心正确性</strong>常靠极端论证：证明「取当前最优的一步不会变坏」用的是交换论证，本质是拿一个最优解里最靠边的元素开刀。图论中「取最小度顶点」「最长路径的端点」是标准起手式；组合优化的许多下界、调度问题的最优性，也都从极端元素切入。计算机证明里的<strong>最小反例</strong>——找到规模最小的出错输入——是调试与形式化验证的通用杠杆。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>不知从何下手时，先问"最大/最小的那个长什么样"——极端者被迫说真话。</strong><br/>思考：你上次调试时缩到的"最小可复现用例"，是不是就是一次极端原理？</div>
+</div>
+</div>
+
+<!-- 概念 3：染色论证 -->
+<div class="card">
+<h2>染色论证</h2>
+<div class="en-name">Coloring Arguments · 给对象上色，把大问题投影到小群</div>
+<span class="tag">Coloring</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>不变量常常藏得很深，<strong>染色就是把它显影出来的手法</strong>：给格子或对象按某种规律涂上几种颜色，让"被禁止的操作"在颜色上暴露破绽。</p>
+<p>比如：能用 1×4 的横竖砖块严丝铺满 $10\times10$ 棋盘吗？把棋盘按四条颜色斜带循环涂成 4 色，数一数每色的格子数——它们并不全相等，而每块 1×4 无论横竖都恰好压过每种颜色各一格。要铺满，四色必须一样多；它们不一样，<strong>于是铺法不存在</strong>。染色把一个几何铺砌问题，翻译成了四个整数相不相等。</p>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">着色 $c:\text{格子}\to\mathbb{Z}/k$，使每次操作对"各色计数"施加固定约束；计数不满足 $\Rightarrow$ 不可行。</div>
+<p>本质上，一个巧妙的染色就是把庞大的组合状态空间，<strong>同态地投影到一个小群 $\mathbb{Z}/k$ 上</strong>。你丢掉了绝大部分信息，只留下操作无法改变的那一维——正是不变量。鸽笼原理是它最朴素的表亲：$n+1$ 只鸽子进 $n$ 个抽屉，必有一屉挤两只。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 240 190" xmlns="http://www.w3.org/2000/svg">
+<g font-size="13" text-anchor="middle">
+<rect fill="#c9544a" fill-opacity="0.22" height="26" width="26" x="30" y="20"></rect><text x="43" y="38">0</text>
+<rect fill="#3a6088" fill-opacity="0.18" height="26" width="26" x="56" y="20"></rect><text x="69" y="38">1</text>
+<rect fill="#c9a96b" fill-opacity="0.3" height="26" width="26" x="82" y="20"></rect><text x="95" y="38">2</text>
+<rect fill="#4a8a5a" fill-opacity="0.22" height="26" width="26" x="108" y="20"></rect><text x="121" y="38">3</text>
+<rect fill="#c9544a" fill-opacity="0.22" height="26" width="26" x="134" y="20"></rect><text x="147" y="38">0</text>
+<rect fill="#3a6088" fill-opacity="0.18" height="26" width="26" x="56" y="46"></rect><text x="69" y="64">1</text>
+<rect fill="#c9a96b" fill-opacity="0.3" height="26" width="26" x="82" y="46"></rect><text x="95" y="64">2</text>
+<rect fill="#4a8a5a" fill-opacity="0.22" height="26" width="26" x="108" y="46"></rect><text x="121" y="64">3</text>
+<rect fill="#c9544a" fill-opacity="0.22" height="26" width="26" x="134" y="46"></rect><text x="147" y="64">0</text>
+<rect fill="#3a6088" fill-opacity="0.18" height="26" width="26" x="160" y="46"></rect><text x="173" y="64">1</text>
+</g>
+<rect fill="none" height="26" stroke="#1a1f2e" stroke-width="1.6" width="104" x="56" y="46"></rect>
+<text fill="#1e3a5f" font-size="11" x="30" y="105">一块 1×4：恰好压过 0·1·2·3 各一次</text>
+<text fill="#c9544a" font-size="11" x="30" y="128">要铺满，四色须等量……</text>
+<text fill="#1e3a5f" font-size="11" font-style="italic" x="30" y="151">10×10 下它们不相等 → 无解</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>发明一个恰到好处的染色，是一种"降维打击"：无限复杂的摆放全部被压进一句关于余数的算术。它把创造力和机械验证分成两层——<strong>想出颜色需要灵光，验证约束只需数数</strong>。这种"难的部分是找映射，剩下自动"的美，正是数学一再上演的主题。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>它是<strong>Ramsey 理论</strong>的心脏——六人聚会中必有三人互相认识或互相不识，就是对边二染色找单色三角形。CS 里，<strong>鸽笼原理</strong>撑起哈希碰撞与无损压缩下界；<strong>奇偶校验位</strong>与纠错码是把信息投到 $\mathbb{Z}/2$ 的染色不变量；图着色则对应寄存器分配、频谱调度、时间表冲突。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>染色 = 把巨大的状态空间同态压进一个小群，只留下操作动不了的那一维。</strong><br/>思考：奇偶校验位保护数据免于单比特翻转——它守恒的"颜色"是什么？</div>
+</div>
+</div>
+
+<!-- 概念 4：构造与反例 -->
+<div class="card">
+<h2>构造与反例</h2>
+<div class="en-name">Construction &amp; Counterexample · 一个例子如何了结一个无穷命题</div>
+<span class="tag">Logic</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>逻辑里藏着一条深刻的不对称，它决定了你该造什么。要证「<strong>存在</strong>一个满足条件的对象」，造出一个具体例子就够了；要推翻「<strong>所有</strong>对象都满足某性质」，只需举出一个反例。</p>
+<p>一边是造，一边是破——但两者都只花一个对象的成本，就撬动了一个覆盖无穷的断言。难点从不在"够不够多"，而在"造得出来吗、找得到吗"：把创造力集中在打造那一个决定性的例子上。</p>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$\neg\,\forall x\,P(x)\ \equiv\ \exists x\,\neg P(x)$</div>
+<p>否定一个全称命题，等于给出一个使 $P$ 失败的见证 $x$。<strong>构造性</strong>证明不满足于"它必然存在"，而是把它建出来——因而常常直接给出一个算法。与之相对的非构造证明（如反证）只保证存在、不告诉你在哪，这条分野正是直觉主义与经典逻辑的分水岭（见 Day 53）。</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 320 150" xmlns="http://www.w3.org/2000/svg">
+<text fill="#1e3a5f" font-size="12" x="20" y="30">∀x P(x)　"所有都成立"</text>
+<line stroke="#c9544a" stroke-width="1.6" x1="20" x2="150" y1="42" y2="70"></line>
+<line stroke="#c9544a" stroke-width="1.6" x1="150" x2="20" y1="42" y2="70"></line>
+<circle cx="240" cy="42" fill="#c9544a" r="8"></circle>
+<text fill="#fff" font-size="11" text-anchor="middle" x="240" y="46">✗</text>
+<text fill="#c9544a" font-size="11" x="254" y="46">一个反例即推翻</text>
+<text fill="#1e3a5f" font-size="12" x="20" y="105">∃x P(x)　"存在一个"</text>
+<circle cx="240" cy="100" fill="#3a6088" r="8"></circle>
+<text fill="#fff" font-size="11" text-anchor="middle" x="240" y="104">✓</text>
+<text fill="#3a6088" font-size="11" x="254" y="104">一次构造即证明</text>
+<text fill="#5a7090" font-size="10.5" font-style="italic" x="20" y="138">全称与存在，被同一个对象一击而定——方向相反</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它是数学最经济的动作：<strong>无穷的断言，被一个有限的对象一击定谳</strong>。而"构造 vs. 存在"的张力，藏着计算的本质——一个构造性证明就是一段程序，Curry–Howard 对应把"证明"和"程序"钉成同一件东西（见 Day 19、Day 24）。破一个全称命题只需运气加眼力找到反例，立一个存在命题却可能要发明全新的对象，这种难度的不对称本身就很美。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>机器学习里的<strong>对抗样本</strong>正是一记反例：它推翻了"这个网络在人眼看不出差别的扰动下依然稳健"这一全称断言，一张改了几个像素的图就够。软件测试的<strong>基于性质测试</strong>（QuickCheck）自动搜寻反例，并把它"收缩"到最小；形式化验证里的 <strong>CEGAR</strong>（反例制导的抽象精化）拿反例反过来改进模型；SAT 求解器输出的可满足赋值，就是一个存在性命题的构造性见证。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>证存在就造一个，破全称就找一个——有限的例子，无穷的裁决。</strong><br/>思考：你写单元测试时，是在构造正例还是在为"代码总是对的"寻找反例？两种心态会写出不同的测试吗？</div>
+</div>
+</div>
+
+<div class="deep">
+<h2>深入思考</h2>
+<details>
+<summary>不变量、极端、染色看似三招，会不会其实是一招？</summary>
+<div>相当程度上是。染色几乎总是为了造一个不变量（各色计数守恒）；极端原理里的"最小反例"本质是对某个单变量取极值后施压。三者共享同一句底层语法：<strong>找一个操作动不了、或只能单向动的量</strong>。区别只在入口——盯守恒、盯极值、还是盯一个精心设计的投影。竞赛训练的真正内容，是培养"这道题该守恒什么"的嗅觉。</div>
+</details>
+<details>
+<summary>为什么"一个反例"能推翻覆盖无穷情形的命题，却没人觉得这是作弊？</summary>
+<div>因为全称命题的逻辑内容就是"无一例外"，它把命门交给了每一个个体。反例不是抽样、不是概率证据，而是逻辑上的直接否定：$\forall x\,P(x)$ 与 $\exists x\,\neg P(x)$ 是同一枚硬币的两面。波普尔的可证伪性说的正是这件事：普遍定律永远无法被有限观测证实，却能被一个反例证伪。数学的独特在于，它的"反例"可被无争议地核验。</div>
+</details>
+<details>
+<summary>这些技巧能不能教给机器？AI 会用不变量或极端原理解题吗？</summary>
+<div>部分已经能。定理证明器（Lean、Coq）里，寻找循环不变量、构造反例是可自动化的子任务；SAT/SMT 求解器天天在做"构造见证或证明无解"。但"发明一个恰到好处的染色"至今更像创造性跳跃——它要求在庞大的候选映射里认出哪一个恰好让约束显影。当前的神经方法擅长模式匹配与搜索剪枝，却仍难以稳定产生这种"降维洞察"。这恰是数学作为思维训练最难被替代的部分：不是算得快，而是看得准。</div>
+</details>
+<details>
+<summary>单变量证终止，和程序的停机问题是什么关系？</summary>
+<div>单变量给的是一个<strong>充分</strong>条件：只要能找到一个映到良序集、每步严格下降的度量，程序必然终止（无穷下降不存在）。但停机问题告诉我们，"是否存在这样的度量"整体不可判定——没有算法能对所有程序找出或否定它。于是实践中退而求其次：为具体程序找 ranking function，找到了就证明了终止，找不到也不代表不终止。竞赛里的单变量，是这套宏大理论的最小可玩版本。</div>
+</details>
+</div>
+
+<nav class="bottom">
+<a href="index.html">← 返回 Mathematics</a>
+</nav>
+</div>
+</body>
+</html>
