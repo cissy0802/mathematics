@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Frontier of Mathematics · Day 60 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.05rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+.deep{background:#fff;border-radius:8px;padding:30px 30px;margin-top:34px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #c9a96b}
+.deep h2{font-size:1.3rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:14px;font-weight:700}
+.deep details{border-bottom:1px solid #e2e7ee;padding:12px 0}
+.deep details:last-child{border-bottom:none}
+.deep summary{cursor:pointer;font-weight:600;color:#1e3a5f;font-size:1rem;list-style:none}
+.deep summary::-webkit-details-marker{display:none}
+.deep summary::before{content:"▸ ";color:#c9a96b}
+.deep details[open] summary::before{content:"▾ ";color:#c9a96b}
+.deep details div{margin-top:10px;font-size:0.94rem;color:#4a5568;padding-left:16px;border-left:2px solid #ece5d6}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.92rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 60 · 2026.08.21</div>
+<h1>The Frontier of Mathematics</h1>
+<div class="meta">The four sharpest questions in mathematics today are not "is this true?" but "what entitles us to say so?"</div>
+<div class="epigraph">"The frontier is not on the far side of harder theorems. It is where our answer to 'what counts as a proof' is being rewritten."</div>
+</header>
+<!-- Concept 1: the abc conjecture -->
+<div class="card">
+<h2>The abc Conjecture</h2>
+<div class="en-name">Addition and multiplication cannot conspire</div>
+<span class="tag">Number Theory</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Two structures sit on top of the integers: addition and multiplication. Each is simple on its own, yet they barely speak to each other — knowing the prime factorizations of $a$ and $b$ tells you almost nothing about the factorization of $a+b$. <strong>Nearly every hard problem in number theory grows out of that crack.</strong></p>
+<p>The abc conjecture is the strongest single sentence anyone has written about it: <strong>addition and multiplication cannot conspire.</strong> A number is "tidy" multiplicatively when it is built from a few primes raised to high powers — a lot of size from very little raw material, which is extravagant. The conjecture says: once $a+b=c$ ties three numbers together, they are not allowed to be that extravagant all at once.</p>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>The <strong>radical</strong> $\operatorname{rad}(n)$ is the product of the distinct primes dividing $n$ — flatten every exponent to 1. So $\operatorname{rad}(72)=\operatorname{rad}(2^3\cdot 3^2)=6$. It records <em>which</em> primes took part, never how deeply.</p>
+<div class="formula-box">$\gcd(a,b)=1,\; a+b=c \;\Longrightarrow\; c &lt; K_\varepsilon\cdot\operatorname{rad}(abc)^{\,1+\varepsilon}$</div>
+<p>Here $\varepsilon$ is any small positive number and $K_\varepsilon$ a constant depending only on $\varepsilon$. A small $\operatorname{rad}(abc)$ is exactly the measure of "all three are multiplicatively tidy." So the inequality says: <strong>$c$ cannot greatly exceed the raw material it was built from.</strong> Exceptions do exist — $1+8=9$ while $\operatorname{rad}(1\cdot8\cdot9)=6&lt;9$ — but only finitely many for each $\varepsilon$.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
+<text fill="#3a6088" font-size="11" x="18" y="24">8 = 2³</text>
+<rect fill="#3a6088" fill-opacity="0.18" height="22" stroke="#3a6088" stroke-width="0.8" width="34" x="18" y="34"></rect>
+<rect fill="#3a6088" fill-opacity="0.18" height="22" stroke="#3a6088" stroke-width="0.8" width="34" x="18" y="56"></rect>
+<rect fill="#3a6088" fill-opacity="0.18" height="22" stroke="#3a6088" stroke-width="0.8" width="34" x="18" y="78"></rect>
+<text fill="#1e3a5f" font-size="12" text-anchor="middle" x="35" y="49">2</text>
+<text fill="#1e3a5f" font-size="12" text-anchor="middle" x="35" y="71">2</text>
+<text fill="#1e3a5f" font-size="12" text-anchor="middle" x="35" y="93">2</text>
+<text fill="#3a6088" font-size="11" x="82" y="24">9 = 3²</text>
+<rect fill="#c9544a" fill-opacity="0.18" height="22" stroke="#c9544a" stroke-width="0.8" width="34" x="82" y="56"></rect>
+<rect fill="#c9544a" fill-opacity="0.18" height="22" stroke="#c9544a" stroke-width="0.8" width="34" x="82" y="78"></rect>
+<text fill="#8a2f28" font-size="12" text-anchor="middle" x="99" y="71">3</text>
+<text fill="#8a2f28" font-size="12" text-anchor="middle" x="99" y="93">3</text>
+<line stroke="#1e3a5f" stroke-width="1.2" x1="132" x2="176" y1="78" y2="78"></line>
+<path d="M 176 78 l -7 -4 l 0 8 z" fill="#1e3a5f"></path>
+<text fill="#1e3a5f" font-size="10" text-anchor="middle" x="154" y="70">rad: flatten</text>
+<rect fill="#3a6088" fill-opacity="0.18" height="22" stroke="#3a6088" stroke-width="0.8" width="34" x="190" y="78"></rect>
+<text fill="#1e3a5f" font-size="12" text-anchor="middle" x="207" y="93">2</text>
+<rect fill="#c9544a" fill-opacity="0.18" height="22" stroke="#c9544a" stroke-width="0.8" width="34" x="234" y="78"></rect>
+<text fill="#8a2f28" font-size="12" text-anchor="middle" x="251" y="93">3</text>
+<text fill="#1e3a5f" font-size="12" x="278" y="93">= 6</text>
+<text fill="#c9544a" font-size="11" x="18" y="138">1 + 8 = 9, yet rad(1·8·9) = 6 &lt; 9</text>
+<text fill="#1e3a5f" font-size="11" font-style="italic" x="18" y="162">too tidy + an additive relation = anomalous, and rare</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>It is a load-bearing beam: once it stands, everything hanging from it follows for free — Fermat's Last Theorem (for large enough exponents), Roth's approximation theorem, the Mordell conjecture, the Szpiro conjecture. <strong>One inequality subsumes half of Diophantine analysis.</strong> Most conjectures are leaves; abc is a trunk — and its content is plain enough to explain to a schoolchild.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>An <em>effective</em> form of abc would give <strong>computable bounds</strong> on the solutions of Diophantine equations — "check this far and you are done," precisely what computational number theory has always lacked. The Szpiro conjecture it implies constrains the ratio of discriminant to conductor of an elliptic curve, the very quantities weighed when choosing elliptic-curve cryptography parameters.</p>
+<p>More famous is the deadlock it produced. In 2012 Shinichi Mochizuki released five hundred-odd pages of <strong>Inter-universal Teichmüller theory</strong> claiming a proof; in 2018 Scholze and Stix, after meeting him in person, identified an unbridgeable gap in Corollary 3.12, which Mochizuki rejects; in 2021 the papers appeared in a journal he edits. The mainstream still has not accepted it. This is not "we don't know whether it's right" — it is <strong>a community unable to reach consensus</strong>, a rare failure mode in mathematics.</p>
+</div>
+<div class="section">
+<div class="label">The essential line + a question</div>
+<div class="think"><strong>Addition and multiplication cannot both be simple at once — and if that one line holds, half of number theory collapses into its corollaries.</strong><br/>Question: why should an <em>inequality</em> imply so many statements of the form "this equation has no solutions"?</div>
+</div>
+</div>
+<!-- Concept 2: formalization -->
+<div class="card">
+<h2>Formalized Proof</h2>
+<div class="en-name">Machine-checked mathematics · proof written for a machine</div>
+<span class="tag">Foundations</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>A proof in a paper is <strong>a persuasive text written for humans</strong>: the author is betting the reader will nod at every "clearly." A formalized proof is written for a machine that knows only axioms and inference rules — every step must be mechanically checkable, and the word "clearly" does not exist. The first is an essay; the second is a program that compiles.</p>
+<p>The key design is the <strong>trusted kernel</strong>. However elaborate the automation, however clever the AI search, all of it must ultimately emit a proof term handed to a small kernel — a few thousand lines, read and re-read by many people — which checks it line by line. <strong>So you need not trust the AI. You need only trust that little box.</strong></p>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>The foundation is the <strong>Curry–Howard correspondence</strong>:</p>
+<div class="formula-box">$p : P \qquad\Longleftrightarrow\qquad p \text{ is a proof of the proposition } P$</div>
+<p>Read it this way: the proposition $P$ is simultaneously a <em>type</em>, and the proof $p$ is simultaneously a <em>program term</em> of that type; "$P$ is provable" becomes "the type $P$ is inhabited." The payoff is decisive: <strong>"is this proof correct?" degenerates into "does this type-check?"</strong> — something computers are extremely good at, and can get deterministically right.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 180" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#eef2f6" height="30" rx="4" stroke="#8fa3bd" stroke-width="0.8" width="88" x="14" y="16"></rect>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="58" y="35">human tactics</text>
+<rect fill="#eef2f6" height="30" rx="4" stroke="#8fa3bd" stroke-width="0.8" width="88" x="126" y="16"></rect>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="170" y="35">automation / search</text>
+<rect fill="#eef2f6" height="30" rx="4" stroke="#8fa3bd" stroke-width="0.8" width="88" x="238" y="16"></rect>
+<text fill="#3a6088" font-size="10" text-anchor="middle" x="282" y="35">AI generation</text>
+<line stroke="#8fa3bd" stroke-width="1" x1="58" x2="58" y1="46" y2="70"></line>
+<line stroke="#8fa3bd" stroke-width="1" x1="170" x2="170" y1="46" y2="70"></line>
+<line stroke="#8fa3bd" stroke-width="1" x1="282" x2="282" y1="46" y2="70"></line>
+<rect fill="#fbfaf3" height="30" rx="4" stroke="#c9a96b" stroke-width="1" width="268" x="34" y="70"></rect>
+<text fill="#8a7340" font-size="11" text-anchor="middle" x="168" y="89">proof term (untrusted — merely a candidate)</text>
+<line stroke="#1e3a5f" stroke-width="1.4" x1="168" x2="168" y1="100" y2="122"></line>
+<path d="M 168 122 l -4 -7 l 8 0 z" fill="#1e3a5f"></path>
+<rect fill="#1e3a5f" fill-opacity="0.1" height="32" rx="4" stroke="#1e3a5f" stroke-width="1.6" width="180" x="78" y="122"></rect>
+<text fill="#1e3a5f" font-size="11" font-weight="bold" text-anchor="middle" x="168" y="142">trusted kernel ≈ few kLOC → ✓ / ✗</text>
+<text fill="#5a7090" font-size="10" font-style="italic" text-anchor="middle" x="168" y="172">all trust rests on that one small box at the bottom</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>It carves out of social consensus a mechanically verifiable core of mathematical truth — and, in the same motion, <strong>measures how much human proofs leave out</strong>. The ratio of formalized text to original is called the <em>de Bruijn factor</em>; once in the dozens, it is now down to single digits in mature areas. That falling number <em>is</em> the machine gradually learning what humans leave unsaid — <strong>a philosophical question you can put a number on</strong>, which is very rare.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>The 1976 four-colour theorem rested on a machine enumerating 1,936 configurations and triggered the argument "does that even count as a proof?" After four years of refereeing, Hales's proof of the Kepler sphere-packing conjecture drew only "99% certain" from the referees; he then spent eleven years formalizing it (Flyspeck, finished 2014). The turning point was Scholze's 2021 <strong>Liquid Tensor Experiment</strong>: unsure of the single most delicate step in his own new proof, he handed it to the Lean community, and it checked out within six months — the first time formalization served as <strong>live quality control on frontier research</strong>.</p>
+<p>Industry runs on the same machinery: the correctness of the CompCert compiler and the seL4 microkernel are machine-checked theorems. On the AI side, Lean supplies something reinforcement learning rarely gets — a <strong>hallucination-free reward signal</strong>: the proof either compiles or it does not.</p>
+</div>
+<div class="section">
+<div class="label">The essential line + a question</div>
+<div class="think"><strong>Turn a proof into a program and "is it right?" becomes "does it compile?" — trust moves from people to a kernel small enough to read line by line.</strong><br/>Question: do you trust a piece of code because you read it, or because the tests pass? Mathematics is switching sides on the same question.</div>
+</div>
+</div>
+<!-- Concept 3: experimental mathematics -->
+<div class="card">
+<h2>Experimental Mathematics</h2>
+<div class="en-name">See it first, prove it after</div>
+<span class="tag">Discovery</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>You compute a number: $1.20205690315959\ldots$, and have no idea what it is. Feed it to an integer-relation engine and the machine replies that it is very likely $\zeta(3)$. You have proved nothing — <strong>but you now know what to try to prove</strong>.</p>
+<p>This is how physicists work, and the axiomatic narrative of the twentieth century hid it from view. Euler computed $\zeta(2)$ to many digits, recognized $\pi^2/6$, and only then went looking for a proof. Experimental mathematics merely re-legitimizes the <strong>logic of discovery</strong>; it never pretends to be the <strong>logic of justification</strong>.</p>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>The core tool is <strong>integer relation detection</strong>: given reals $x_1,\dots,x_n$ (computed to hundreds of digits), find integers $a_1,\dots,a_n$, not all zero, with</p>
+<div class="formula-box">$a_1x_1+a_2x_2+\cdots+a_nx_n = 0$</div>
+<p>The PSLQ and LLL algorithms find such a relation in polynomial time, when one exists and the precision suffices. The use is direct: let the $x_k$ be powers of the constant under study, or a basket of known constants; the moment the machine emits integer coefficients, you have guessed a closed form. <strong>Precision is the microscope here</strong>: too few digits and real relations stay invisible; enough digits and spurious ones become all but impossible.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>The prettiest catch is the 1995 BBP formula, <em>found</em> by PSLQ and proved only afterwards:</p>
+<div class="formula-box">$\pi=\sum_{k=0}^{\infty}\dfrac{1}{16^{k}}\left(\dfrac{4}{8k+1}-\dfrac{2}{8k+4}-\dfrac{1}{8k+5}-\dfrac{1}{8k+6}\right)$</div>
+<p>The $16^{-k}$ is the whole point: it lets you <strong>compute the $n$-th hexadecimal digit of $\pi$ without computing any of the digits before it</strong>. In two thousand years nobody imagined this was possible — because nobody had a reason to. What found it was not insight but search: search too can strike structure lying outside human imagination.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>The OEIS (On-Line Encyclopedia of Integer Sequences) does this daily: throw in a string of numbers, get back the combinatorial object behind it. In theoretical physics, closed forms for Feynman integrals are often guessed by numerical identification (multiple zeta values) and derived rigorously afterwards. In 2021 DeepMind, with mathematicians at Oxford and Sydney, used neural networks to surface a strong dependence in large datasets of <strong>knot invariants</strong>, from which a new theorem was conjectured and then humanly proved — the machine is not the prover but the <strong>conjecture generator</strong>: it points a direction through high-dimensional data, the human supplies the reason.</p>
+</div>
+<div class="section">
+<div class="label">The essential line + a question</div>
+<div class="think"><strong>Numerical evidence is not proof, but it decides where you spend your proving effort — always the scarce resource in mathematics.</strong><br/>Question: how strong must the evidence be before you would bet? How much should you believe a statement verified up to $10^{10}$?</div>
+</div>
+</div>
+<!-- Concept 4: what counts as a proof -->
+<div class="card">
+<h2>What Counts as a Proof</h2>
+<div class="en-name">True, provable, accepted — three different things</div>
+<span class="tag">Philosophy</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>We treat "proof" as an objective object. In practice a proof is <strong>accepted</strong> because enough competent people read it and believed it — a social process. Three pressures are squeezing that process at once. Proofs are <strong>too long</strong> (the classification of finite simple groups spans hundreds of papers and nearly ten thousand pages, some authors now dead); <strong>too machine-made</strong> (nobody can read the enumerations behind four colours or Kepler); <strong>too private</strong> (a mere handful claim to understand IUT).</p>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<p>Separate three things that get conflated:</p>
+<div class="formula-box">$\models\varphi\;$ (true in every model) $\quad$ $\vdash\varphi\;$ (a legal symbolic derivation exists) $\quad$ $\mathsf{Acc}(\varphi)\;$ (the community accepts it)</div>
+<p>Gödel's completeness theorem gives $\vdash\varphi \leftrightarrow \models\varphi$ inside first-order logic. But $\mathsf{Acc}$ is never $\vdash$: <strong>no real paper is written as a formal derivation.</strong> All of mathematical practice lives in that gap.</p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 170" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#eef2f6" height="30" rx="4" stroke="#3a6088" stroke-width="1" width="150" x="24" y="14"></rect>
+<text fill="#1e3a5f" font-size="11" text-anchor="middle" x="99" y="33">⊨ φ　semantically true</text>
+<rect fill="#eef2f6" height="30" rx="4" stroke="#3a6088" stroke-width="1" width="150" x="24" y="72"></rect>
+<text fill="#1e3a5f" font-size="11" text-anchor="middle" x="99" y="91">⊢ φ　formally provable</text>
+<line stroke="#3a6088" stroke-width="1.2" x1="99" x2="99" y1="44" y2="72"></line>
+<path d="M 99 72 l -4 -7 l 8 0 z" fill="#3a6088"></path>
+<path d="M 99 44 l -4 7 l 8 0 z" fill="#3a6088"></path>
+<text fill="#3a6088" font-size="10" x="108" y="62">Gödel completeness: equivalent</text>
+<rect fill="#fbfaf3" height="30" rx="4" stroke="#c9a96b" stroke-width="1.2" width="150" x="24" y="130"></rect>
+<text fill="#8a7340" font-size="11" text-anchor="middle" x="99" y="149">Acc(φ)　community accepts</text>
+<line stroke="#c9544a" stroke-dasharray="4 3" stroke-width="1.2" x1="99" x2="99" y1="102" y2="130"></line>
+<text fill="#c9544a" font-size="10" x="108" y="120">the gap: omission, trust, authority</text>
+<text fill="#5a7090" font-size="10" font-style="italic" x="196" y="95">formalization = the first tool</text>
+<text fill="#5a7090" font-size="10" font-style="italic" x="196" y="112">for calibrating Acc to ⊢</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>Admitting the gap does not weaken mathematics; it explains its efficiency. <strong>Omission is exactly what makes human mathematics readable</strong> — a fully formalized text is unimpeachably correct and nearly impossible to read. Mathematics has always chased two goals, <em>certainty</em> and <em>understanding</em>, and for centuries a single act (writing a proof) delivered both as a side effect, so nobody noticed they were two things. Machines have pulled them apart for the first time — that is where the frontier really lies.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>The shape is already visible. AlphaGeometry and AlphaProof reach silver-medal level on IMO problems, and their reliability comes from Lean's mechanical checking rather than the model's confidence. Terence Tao's <strong>Equational Theories Project</strong> settled over twenty million implications in a matter of weeks using Lean plus crowdsourcing plus AI — collaboration at that scale simply was not a viable form of organization in the pen-and-paper era. Tao calls it "industrial-scale mathematics": humans ask, decompose and exercise taste; machines enumerate and verify.</p>
+</div>
+<div class="section">
+<div class="label">The essential line + a question</div>
+<div class="think"><strong>Mathematics has always wanted two things — certainty and understanding. Machines are perfecting the first, and forcing us to admit that the second must now be pursued on its own.</strong><br/>Question: if a machine produced a billion-step proof that is certainly correct and unreadable by anyone, would you consider the problem solved?</div>
+</div>
+</div>
+<div class="deep">
+<h2>Going Deeper</h2>
+<details>
+<summary>Does the abc deadlock show that mathematics is not objective?</summary>
+<div>No. The <strong>truth value</strong> is objective; our <strong>access</strong> to it runs through a social process. The IUT impasse is not "some say yes, some say no" — the two sides cannot even align on what the crucial step asserts. Failure of shared meaning comes before any verdict on correctness. This is precisely formalization's strongest use case: written into Lean, the disagreement would degenerate into a decidable technical question. Why nobody has done it is equally clear — formalization presupposes understanding. You must grasp it before you can write it down.</div>
+</details>
+<details>
+<summary>How unreliable can numerical evidence be?</summary>
+<div>Extremely. Pólya's conjecture looks flawless on small data; its least counterexample is $n=906{,}150{,}257$. Mertens's conjecture was disproved in 1985, with the counterexample bounded below somewhere past $10^{30}$. The crossover of $\pi(x)$ and $\mathrm{li}(x)$ — the Skewes number — sits far beyond anything computable. The lesson: in number theory "small" can run all the way to $10^{30}$. Numerical evidence is good at <strong>ruling out directions and hinting at structure</strong>, not at supporting universal claims.</div>
+</details>
+<details>
+<summary>If AI can prove any theorem, what do mathematicians do?</summary>
+<div>Whatever machines do not: <strong>ask questions worth asking, judge which definition is the right one, decide what is interesting</strong>. The real leaps in mathematical history came from definitions more than theorems — group, sheaf, scheme, category all began with someone deciding "this is how it should be seen." Such judgements rest on taste and cross-domain intuition, and there is no objective function to optimize for them. The risk is real too: if the next generation grows up with "the machine will fill in the details," the intuition that only comes from grinding through computations may atrophy across a whole cohort.</div>
+</details>
+<details>
+<summary>Will formalization change what mathematics looks like?</summary>
+<div>Almost certainly. Branches that formalize readily — algebra, combinatorics, logic — will accelerate first, while those leaning on geometric intuition and "the reader will see it" lag behind: a selection bias induced by tooling. The reverse happens too: to write something into Lean, people are forced to polish definitions, and often discover ambiguity hiding in the original statement. <strong>Tools do not merely record mathematics; they select it.</strong></div>
+</details>
+</div>
+<nav class="bottom">
+<a href="index.en.html">← Back to Mathematics</a>
+</nav>
+</div>
+</body>
+</html>
