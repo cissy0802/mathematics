@@ -51,12 +51,12 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="container">
 <header>
 <div class="kicker">Day 62 · 2026.08.23</div>
-<h1>数值分析与浮点世界</h1>
+<h1 data-tts="dc421da318daa184">数值分析与浮点世界</h1>
 <div class="meta">计算机里没有实数——只有一套刻度会伸缩的替代品，以及一门为它记账的学问</div>
 <div class="epigraph">「即使舍入误差全部消失，数值分析仍会剩下 95%。」 —— Nick Trefethen</div>
 </header>
 <!-- 概念 1：浮点数与机器精度 -->
-<div class="card">
+<div class="card" data-tts="c05a26ab65d5e48a">
 <h2>浮点数与机器精度</h2>
 <div class="en-name">Floating Point &amp; Machine Epsilon · 在对数尺度上撒点</div>
 <span class="tag">Representation</span>
@@ -154,7 +154,7 @@ nav.bottom a:hover{color:#1e3a5f}
 </div>
 </div>
 <!-- 概念 2：条件数 -->
-<div class="card">
+<div class="card" data-tts="a5edadcc9876355b">
 <h2>条件数</h2>
 <div class="en-name">Condition Number · 问题的病，不是算法的错</div>
 <span class="tag">Conditioning</span>
@@ -166,7 +166,7 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="viz">
 <svg viewbox="0 0 330 190" xmlns="http://www.w3.org/2000/svg">
 <defs>
-<marker id="ah" markerHeight="6" markerWidth="7" orient="auto" refX="6" refY="3">
+<marker id="ah" markerheight="6" markerwidth="7" orient="auto" refx="6" refy="3">
 <path d="M0,0 L7,3 L0,6 z" fill="#c9544a"></path>
 </marker>
 </defs>
@@ -201,14 +201,14 @@ nav.bottom a:hover{color:#1e3a5f}
 </div>
 </div>
 <!-- 概念 3：灾难性抵消 -->
-<div class="card">
+<div class="card" data-tts="07cc8fc016043304">
 <h2>灾难性抵消</h2>
 <div class="en-name">Catastrophic Cancellation · 减法不制造误差，它揭露误差</div>
 <span class="tag">Cancellation</span>
 <div class="section">
 <div class="label">直觉版</div>
 <p>两个接近的数相减：$1.2345678-1.2345600=0.0000078$。输入各有 8 位有效数字，结果只剩 2 位——而<strong>减法一位都没算错</strong>，它只把原本藏在末位的不确定性提拔成了首位。噪声一直都在，此前被高位挡着。乘除的相对误差只逐次累加，唯有相近数相减能把它<strong>放大任意倍</strong>。这是浮点世界唯一称得上「灾难性」的一步。</p>
-<p>课本的二次求根公式就踩在这坑上：当 $b>0$ 且 $4ac\ll b^2$，$x=\frac{-b+\sqrt{b^2-4ac}}{2a}$ 的分子成了两个近乎相等的正数相减。改法只需一行：先算稳的那根 $x_1=\frac{-b-\sqrt{b^2-4ac}}{2a}$，另一根用韦达定理 $x_2=c/(ax_1)$ 反推。<strong>同一个恒等式，两条路径，数值上天差地别。</strong></p>
+<p>课本的二次求根公式就踩在这坑上：当 $b&gt;0$ 且 $4ac\ll b^2$，$x=\frac{-b+\sqrt{b^2-4ac}}{2a}$ 的分子成了两个近乎相等的正数相减。改法只需一行：先算稳的那根 $x_1=\frac{-b-\sqrt{b^2-4ac}}{2a}$，另一根用韦达定理 $x_2=c/(ax_1)$ 反推。<strong>同一个恒等式，两条路径，数值上天差地别。</strong></p>
 </div>
 <div class="viz">
 <svg viewbox="0 0 340 175" xmlns="http://www.w3.org/2000/svg">
@@ -260,7 +260,7 @@ nav.bottom a:hover{color:#1e3a5f}
 </div>
 </div>
 <!-- 概念 4：后向误差与低精度 -->
-<div class="card">
+<div class="card" data-tts="798c0e408e18897e">
 <h2>后向误差与低精度</h2>
 <div class="en-name">Backward Error &amp; Low Precision · 把误差推回输入端</div>
 <span class="tag">Stability</span>
@@ -272,10 +272,10 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="viz">
 <svg viewbox="0 0 390 195" xmlns="http://www.w3.org/2000/svg">
 <defs>
-<marker id="ar" markerHeight="6" markerWidth="7" orient="auto" refX="6" refY="3">
+<marker id="ar" markerheight="6" markerwidth="7" orient="auto" refx="6" refy="3">
 <path d="M0,0 L7,3 L0,6 z" fill="#3a6088"></path>
 </marker>
-<marker id="ar2" markerHeight="6" markerWidth="7" orient="auto" refX="6" refY="3">
+<marker id="ar2" markerheight="6" markerwidth="7" orient="auto" refx="6" refy="3">
 <path d="M0,0 L7,3 L0,6 z" fill="#c9544a"></path>
 </marker>
 </defs>
@@ -319,7 +319,7 @@ nav.bottom a:hover{color:#1e3a5f}
 <div class="think"><strong>与其追问答案错了多远，不如追问它精确回答了哪个问题——把误差推回输入端，才分得清是问题病了还是算法错了。</strong><br/>思考：模型量化后只掉 0.3% 精度，是量化算法好，还是这个模型本就足够「良态」？</div>
 </div>
 </div>
-<div class="card">
+<div class="card" data-tts="3c4fa7680728117d">
 <h2>深入思考</h2>
 <details>
 <summary>浮点误差完全确定，为什么同一份代码在 GPU 上两次跑出不同结果？</summary>
@@ -335,7 +335,7 @@ nav.bottom a:hover{color:#1e3a5f}
 </details>
 <details>
 <summary>条件数说「损失 $\log_{10}\kappa$ 位数字」——计算中的「信息」能像香农熵一样度量吗？</summary>
-<div>不止是类比。有效数字位数就是比特数，$\log_2\kappa$ 就是一次求解的比特损失量：病态线性系统是一条<strong>有损信道</strong>，$\kappa$ 是衰减率（呼应 Day 13）。区别在机制——信道是随机噪声，这里是确定性塌陷：$A$ 把某些方向压到 $\sigma_{\min}$ 附近，那些方向的信息在有限字长下被截断。判据随之而来：若 $\kappa>10^{16}$，再高的精度也只是把损失往后推一位，该做的是<em>换一个提法</em>。</div>
+<div>不止是类比。有效数字位数就是比特数，$\log_2\kappa$ 就是一次求解的比特损失量：病态线性系统是一条<strong>有损信道</strong>，$\kappa$ 是衰减率（呼应 Day 13）。区别在机制——信道是随机噪声，这里是确定性塌陷：$A$ 把某些方向压到 $\sigma_{\min}$ 附近，那些方向的信息在有限字长下被截断。判据随之而来：若 $\kappa&gt;10^{16}$，再高的精度也只是把损失往后推一位，该做的是<em>换一个提法</em>。</div>
 </details>
 </div>
 <nav class="bottom">
