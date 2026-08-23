@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>数值分析与浮点世界 · Day 62 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern","Noto Serif SC",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;color:#1e3a5f;font-weight:700;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.92rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 62 · 2026.08.23</div>
+<h1>数值分析与浮点世界</h1>
+<div class="meta">计算机里没有实数——只有一套刻度会伸缩的替代品，以及一门为它记账的学问</div>
+<div class="epigraph">「即使舍入误差全部消失，数值分析仍会剩下 95%。」 —— Nick Trefethen</div>
+</header>
+<!-- 概念 1：浮点数与机器精度 -->
+<div class="card">
+<h2>浮点数与机器精度</h2>
+<div class="en-name">Floating Point &amp; Machine Epsilon · 在对数尺度上撒点</div>
+<span class="tag">Representation</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>实数轴连续，64 位只装得下约 $1.8\times10^{19}$ 个数。问题不是装多少，而是<strong>撒在哪</strong>。定点数均匀撒点，等于让量原子与量星系共用一把毫米刻度。浮点<strong>在对数尺度上均匀撒点</strong>：每个二进制量级 $[2^e,2^{e+1})$ 内点数相同，刻度随数值伸缩，于是绝对精度一直在变，<strong>相对精度恒定</strong>。</p>
+<p>$0.1+0.2\neq0.3$ 由此而来：$1/10$ 的分母含质因子 5，二进制里必然无限循环，正如 $1/3$ 在十进制写不完。<strong>不是精度不够，是十进制的 0.1 在二进制世界里不存在。</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 390 150" xmlns="http://www.w3.org/2000/svg">
+<text fill="#1e3a5f" font-size="10" x="20" y="20">浮点：每量级点数相同 → 间距随数值加倍</text>
+<line stroke="#888" stroke-width="0.8" x1="20" x2="368" y1="46" y2="46"></line>
+<g fill="#1e3a5f">
+<circle cx="25.3" cy="46" r="2.2"></circle>
+<circle cx="26.6" cy="46" r="2.2"></circle>
+<circle cx="28.0" cy="46" r="2.2"></circle>
+<circle cx="29.3" cy="46" r="2.2"></circle>
+<circle cx="30.6" cy="46" r="2.2"></circle>
+<circle cx="33.3" cy="46" r="2.2"></circle>
+<circle cx="35.9" cy="46" r="2.2"></circle>
+<circle cx="38.6" cy="46" r="2.2"></circle>
+<circle cx="41.3" cy="46" r="2.2"></circle>
+<circle cx="46.6" cy="46" r="2.2"></circle>
+<circle cx="51.9" cy="46" r="2.2"></circle>
+<circle cx="57.2" cy="46" r="2.2"></circle>
+<circle cx="62.5" cy="46" r="2.2"></circle>
+<circle cx="73.1" cy="46" r="2.2"></circle>
+<circle cx="83.8" cy="46" r="2.2"></circle>
+<circle cx="94.4" cy="46" r="2.2"></circle>
+<circle cx="105" cy="46" r="2.2"></circle>
+<circle cx="126.3" cy="46" r="2.2"></circle>
+<circle cx="147.5" cy="46" r="2.2"></circle>
+<circle cx="168.8" cy="46" r="2.2"></circle>
+<circle cx="190" cy="46" r="2.2"></circle>
+<circle cx="232.5" cy="46" r="2.2"></circle>
+<circle cx="275" cy="46" r="2.2"></circle>
+<circle cx="317.5" cy="46" r="2.2"></circle>
+<circle cx="360" cy="46" r="2.2"></circle>
+</g>
+<g fill="#c9544a" font-size="9">
+<text text-anchor="middle" x="41.3" y="62">1</text>
+<text text-anchor="middle" x="62.5" y="62">2</text>
+<text text-anchor="middle" x="105" y="62">4</text>
+<text text-anchor="middle" x="190" y="62">8</text>
+<text text-anchor="middle" x="360" y="62">16</text>
+</g>
+<text fill="#1e3a5f" font-size="10" x="20" y="95">定点：间距恒定 → 小数处浪费，大数处不够</text>
+<line stroke="#888" stroke-width="0.8" x1="20" x2="368" y1="118" y2="118"></line>
+<g fill="#5a7090">
+<circle cx="20" cy="118" r="2.2"></circle>
+<circle cx="34.2" cy="118" r="2.2"></circle>
+<circle cx="48.3" cy="118" r="2.2"></circle>
+<circle cx="62.5" cy="118" r="2.2"></circle>
+<circle cx="76.7" cy="118" r="2.2"></circle>
+<circle cx="90.8" cy="118" r="2.2"></circle>
+<circle cx="105" cy="118" r="2.2"></circle>
+<circle cx="119.2" cy="118" r="2.2"></circle>
+<circle cx="133.3" cy="118" r="2.2"></circle>
+<circle cx="147.5" cy="118" r="2.2"></circle>
+<circle cx="161.7" cy="118" r="2.2"></circle>
+<circle cx="175.8" cy="118" r="2.2"></circle>
+<circle cx="190" cy="118" r="2.2"></circle>
+<circle cx="204.2" cy="118" r="2.2"></circle>
+<circle cx="218.3" cy="118" r="2.2"></circle>
+<circle cx="232.5" cy="118" r="2.2"></circle>
+<circle cx="246.7" cy="118" r="2.2"></circle>
+<circle cx="260.8" cy="118" r="2.2"></circle>
+<circle cx="275" cy="118" r="2.2"></circle>
+<circle cx="289.2" cy="118" r="2.2"></circle>
+<circle cx="303.3" cy="118" r="2.2"></circle>
+<circle cx="317.5" cy="118" r="2.2"></circle>
+<circle cx="331.7" cy="118" r="2.2"></circle>
+<circle cx="345.8" cy="118" r="2.2"></circle>
+<circle cx="360" cy="118" r="2.2"></circle>
+</g>
+<text fill="#5a7090" font-size="9" font-style="italic" x="20" y="140">同样 25 个点：浮点买相对精度，定点买绝对精度</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\mathrm{fl}(x)=x\,(1+\delta),\qquad |\delta|\le u=2^{-53}\approx1.11\times10^{-16}$$</div>
+<p>$\mathrm{fl}$ 是「舍入到最近可表示数」，$\delta$ 是它引入的<strong>相对</strong>误差，$u$ 称 unit roundoff。整式只说一句话：<strong>舍入相当于把输入换成一个相差不到 $u$ 的邻居。</strong>双精度写作 $\pm(1.b_1\cdots b_{52})_2\times2^{e}$——53 位有效数字（首位的 1 不占存储），11 位指数覆盖 $10^{\pm308}$。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>一个 64 位模式覆盖 600 多个数量级，而<strong>任何一处的相对误差都相同</strong>——浮点的均匀性建在乘法群上，不在加法群上。推论很锋利：乘除几乎无损（指数相加、尾数相乘，各吃一次舍入），<strong>加减才是危险的那一半</strong>——浮点数是为乘法设计的数系。边界处同样优雅：次正规数、$\pm0$、$\infty$、NaN 让运算对所有输入封闭，Kahan 的哲学是<strong>让异常成为一个数，而不是一次崩溃</strong>。</p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>AI 硬件的每次精度取舍都在读这张表。fp16 是 5 位指数 + 10 位尾数；bf16 保留 fp32 完整的 8 位指数，只把尾数砍到 7 位——训练怕梯度溢出成 $\infty$，不怕小数点后少几位。<strong>同样 16 位，换个切法就换一种失败模式。</strong>反向的例子是金融：那里用十进制定点，因为 0.1 元必须精确等于一角。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>浮点数不是实数的近似，而是刻度随数值伸缩的独立数系——它承诺相对精度，从不承诺绝对精度。</strong><br/>思考：若你的量在一次计算里跨越 20 个数量级，浮点是帮了你，还是替你把问题藏了起来？</div>
+</div>
+</div>
+<!-- 概念 2：条件数 -->
+<div class="card">
+<h2>条件数</h2>
+<div class="en-name">Condition Number · 问题的病，不是算法的错</div>
+<span class="tag">Conditioning</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>把「算不准」拆成两个独立问题：<strong>问题本身对输入扰动敏不敏感？</strong> 和 <strong>算法有没有额外制造误差？</strong> 条件数只量前者，与语言、硬件、算法无关。</p>
+<p>解 $Ax=b$ 就是求两条直线的交点：夹角大时挪一点线、交点也只挪一点；近乎平行时同样的挪动会把交点甩出很远——$\kappa(A)$ 量的正是「有多平行」。$\kappa=10^{8}$ 意味着双精度 16 位有效数字进去、8 位出来；<strong>这 8 位不是算法弄丢的，是问题在信息层面就没传过去。</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 330 190" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="ah" markerHeight="6" markerWidth="7" orient="auto" refX="6" refY="3">
+<path d="M0,0 L7,3 L0,6 z" fill="#c9544a"></path>
+</marker>
+</defs>
+<line stroke="#1e3a5f" stroke-width="1.6" x1="20" x2="300" y1="140" y2="45"></line>
+<line stroke="#1e3a5f" stroke-width="1.6" x1="20" x2="300" y1="150" y2="40"></line>
+<line stroke="#c9544a" stroke-dasharray="4 3" stroke-width="1.6" x1="20" x2="300" y1="154" y2="44"></line>
+<circle cx="207" cy="77" fill="#1e3a5f" r="4"></circle>
+<circle cx="281" cy="51" fill="#c9544a" r="4"></circle>
+<path d="M 213 74 L 271 54" fill="none" marker-end="url(#ah)" stroke="#c9544a" stroke-width="1"></path>
+<text fill="#1e3a5f" font-size="9" x="20" y="30">两条近乎平行的直线 → 交点极不稳定</text>
+<text fill="#c9544a" font-size="9" x="146" y="102">交点跑掉一大截</text>
+<text fill="#c9544a" font-size="9" x="20" y="175">虚线 = 第二条线挪动一丝（数据的微小扰动）</text>
+<text fill="#5a7090" font-size="9" font-style="italic" x="20" y="188">κ(A) = 输出相对变化 ÷ 输入相对变化 的最坏比值</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\frac{\|\delta x\|}{\|x\|}\;\le\;\kappa(A)\,\frac{\|\delta b\|}{\|b\|},\qquad \kappa(A)=\|A\|\,\|A^{-1}\|=\frac{\sigma_{\max}}{\sigma_{\min}}$$</div>
+<p>左边是解的相对变化，右边是数据的相对变化，$\kappa$ 是两者间的<strong>最坏放大率</strong>。$\sigma$ 是奇异值：$A$ 把单位球拉成椭球，$\sigma_{\max}$ 与 $\sigma_{\min}$ 是最长轴与最短轴，所以<strong>条件数 = 椭球有多扁</strong>。经验法则：一次求解约损失 $\log_{10}\kappa$ 位有效数字。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它把「数值困难」从工程抱怨升级成<strong>问题的内蕴不变量</strong>，并把四件看似无关的事认成同一件：病态方程组；多项式根对系数的敏感（Wilkinson 那个 20 次多项式，一个系数动 $2^{-23}$，整数根就飞上复平面）；混沌的 Lyapunov 指数；深度网络的梯度爆炸与消失，那是逐层雅可比条件数的连乘。<strong>同一个量，四个学科各给了它一个名字。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>知道 $\kappa$ 后，一大批「数值技巧」显出同一个动机：压小它。岭回归的 $\lambda I$ 抬高 $\sigma_{\min}$；共轭梯度的迭代次数正比于 $\sqrt{\kappa}$，预条件子 $M^{-1}A$ 的意义就是换一个条件数更小的等价问题；谱归一化与正交初始化把雅可比的谱压向 1；Adam 则是对角预条件子，按坐标缩放梯度，正是在把椭球拉圆。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>条件数是问题自带的信息衰减率：它先决定你最多能算准几位，剩下的才轮到算法负责。</strong><br/>思考：上次把学习率降到「终于能收敛」，是修好了优化，还是只绕开了一个 $\kappa$ 太大的参数化？</div>
+</div>
+</div>
+<!-- 概念 3：灾难性抵消 -->
+<div class="card">
+<h2>灾难性抵消</h2>
+<div class="en-name">Catastrophic Cancellation · 减法不制造误差，它揭露误差</div>
+<span class="tag">Cancellation</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>两个接近的数相减：$1.2345678-1.2345600=0.0000078$。输入各有 8 位有效数字，结果只剩 2 位——而<strong>减法一位都没算错</strong>，它只把原本藏在末位的不确定性提拔成了首位。噪声一直都在，此前被高位挡着。乘除的相对误差只逐次累加，唯有相近数相减能把它<strong>放大任意倍</strong>。这是浮点世界唯一称得上「灾难性」的一步。</p>
+<p>课本的二次求根公式就踩在这坑上：当 $b>0$ 且 $4ac\ll b^2$，$x=\frac{-b+\sqrt{b^2-4ac}}{2a}$ 的分子成了两个近乎相等的正数相减。改法只需一行：先算稳的那根 $x_1=\frac{-b-\sqrt{b^2-4ac}}{2a}$，另一根用韦达定理 $x_2=c/(ax_1)$ 反推。<strong>同一个恒等式，两条路径，数值上天差地别。</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 175" xmlns="http://www.w3.org/2000/svg">
+<text fill="#1e3a5f" font-size="10" x="10" y="26">a</text>
+<g stroke="#fff" stroke-width="1">
+<rect fill="#1e3a5f" height="16" width="238" x="34" y="14"></rect>
+<rect fill="#1e3a5f" height="16" width="17" x="272" y="14"></rect>
+<rect fill="#c9544a" height="16" width="17" x="289" y="14"></rect>
+</g>
+<text fill="#1e3a5f" font-size="10" x="10" y="58">b</text>
+<g stroke="#fff" stroke-width="1">
+<rect fill="#1e3a5f" height="16" width="238" x="34" y="46"></rect>
+<rect fill="#1e3a5f" height="16" width="17" x="272" y="46"></rect>
+<rect fill="#c9544a" height="16" width="17" x="289" y="46"></rect>
+</g>
+<line stroke="#888" stroke-width="0.8" x1="34" x2="306" y1="72" y2="72"></line>
+<text fill="#1e3a5f" font-size="10" x="4" y="94">a−b</text>
+<rect fill="#eef2f6" height="16" stroke="#c0c8d4" stroke-width="1" width="238" x="34" y="82"></rect>
+<g stroke="#fff" stroke-width="1">
+<rect fill="#1e3a5f" height="16" width="17" x="272" y="82"></rect>
+<rect fill="#c9544a" height="16" width="17" x="289" y="82"></rect>
+</g>
+<text fill="#5a7090" font-size="9" text-anchor="middle" x="153" y="94">前 14 位完全抵消，归零</text>
+<path d="M 272 106 L 272 116 L 306 116 L 306 106" fill="none" stroke="#c9544a" stroke-width="1"></path>
+<text fill="#c9544a" font-size="9" text-anchor="end" x="306" y="132">只剩 2 位，其中 1 位本就是舍入噪声</text>
+<rect fill="#c9544a" height="9" width="9" x="34" y="146"></rect>
+<text fill="#5a7090" font-size="9" x="48" y="154">红格 = 舍入噪声</text>
+<rect fill="#1e3a5f" height="9" width="9" x="150" y="146"></rect>
+<text fill="#5a7090" font-size="9" x="164" y="154">蓝格 = 可信有效位</text>
+<text fill="#5a7090" font-size="9" font-style="italic" x="34" y="170">噪声没有变大，只是从末位被提拔成首位</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\frac{\big|(\hat a-\hat b)-(a-b)\big|}{|a-b|}\;\le\;\frac{|a|+|b|}{|a-b|}\cdot u$$</div>
+<p>$\hat a,\hat b$ 是已带舍入误差的存储值，$u$ 是机器精度。右边的因子 $\frac{|a|+|b|}{|a-b|}$ 就是放大倍数，$a\to b$ 时趋于无穷。它正是<strong>减法这个问题的条件数</strong>——抵消不是新现象，是条件数在最简单的一次运算上现了原形。</p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>它戳破一个默认为真的假设：<strong>实数域上成立的恒等式，在浮点上不是同一个程序。</strong>$a^2-b^2$ 与 $(a-b)(a+b)$ 是同一个数却有两种命运——抽象的等价被有限字长撕开一道缝，整门数值分析从缝里长出来。补救更漂亮：Kahan 求和用一个补偿变量追回每次加法舍掉的低位，把误差界从 $O(nu)$ 压到与 $n$ 无关。<strong>那些「丢掉」的位从未离开寄存器，只要你肯弯腰去捡。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>方差的「一遍公式」$E[X^2]-(E[X])^2$ 在均值远大于标准差时会算出负数，Welford 在线算法就是为它而写；<code>expm1</code> 与 <code>log1p</code> 存在的唯一理由，是 $x$ 极小时 $e^x-1$ 与 $\log(1+x)$ 会把有效位抵消干净；GPU 上 all-reduce 求和顺序不定，这正是大模型训练难以逐位复现的根因之一。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>相近数相减不产生误差，它只是撤走了掩体——你的有效数字早就在别处被吃掉了。</strong><br/>思考：你的代码里有没有一处 $A-B$，而 $A$ 与 $B$ 各自都是很长的累加和？</div>
+</div>
+</div>
+<!-- 概念 4：后向误差与低精度 -->
+<div class="card">
+<h2>后向误差与低精度</h2>
+<div class="en-name">Backward Error &amp; Low Precision · 把误差推回输入端</div>
+<span class="tag">Stability</span>
+<div class="section">
+<div class="label">直觉版</div>
+<p>Wilkinson 在 1960 年代翻转了提问方式。传统问「答案离真答案多远」（前向误差）——很难答，因为它把问题的病与算法的错混在一起。Wilkinson 改问：<strong>「我算出的这个答案，是哪个问题的精确解？」</strong></p>
+<p>若 $\hat x$ 恰好精确满足 $(A+\Delta A)\hat x=b$ 而 $\|\Delta A\|/\|A\|$ 只有 $10^{-15}$，算法就无可指摘：它交出的是一个邻近问题的<strong>精确</strong>解，而 $A$ 本就来自测量，本就带着大得多的不确定性。<strong>好算法的定义于是变成：给出邻近问题的精确解。</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 390 195" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="ar" markerHeight="6" markerWidth="7" orient="auto" refX="6" refY="3">
+<path d="M0,0 L7,3 L0,6 z" fill="#3a6088"></path>
+</marker>
+<marker id="ar2" markerHeight="6" markerWidth="7" orient="auto" refX="6" refY="3">
+<path d="M0,0 L7,3 L0,6 z" fill="#c9544a"></path>
+</marker>
+</defs>
+<rect fill="#f0f4f9" height="32" rx="4" stroke="#1e3a5f" stroke-width="1.2" width="112" x="18" y="26"></rect>
+<text fill="#1e3a5f" font-size="11" text-anchor="middle" x="74" y="46">数据 A, b</text>
+<rect fill="#f0f4f9" height="32" rx="4" stroke="#1e3a5f" stroke-width="1.2" width="112" x="252" y="26"></rect>
+<text fill="#1e3a5f" font-size="11" text-anchor="middle" x="308" y="46">真解 x</text>
+<rect fill="#fbfaf3" height="32" rx="4" stroke="#c9a96b" stroke-width="1.2" width="112" x="18" y="126"></rect>
+<text fill="#8a7340" font-size="11" text-anchor="middle" x="74" y="146">邻近数据 A+ΔA</text>
+<rect fill="#fbfaf3" height="32" rx="4" stroke="#c9a96b" stroke-width="1.2" width="112" x="252" y="126"></rect>
+<text fill="#8a7340" font-size="11" text-anchor="middle" x="308" y="146">算出的解 x̂</text>
+<line marker-end="url(#ar)" stroke="#3a6088" stroke-width="1.2" x1="132" x2="248" y1="42" y2="42"></line>
+<text fill="#3a6088" font-size="9" text-anchor="middle" x="190" y="36">精确求解</text>
+<line marker-end="url(#ar)" stroke="#3a6088" stroke-width="1.2" x1="132" x2="248" y1="142" y2="142"></line>
+<text fill="#3a6088" font-size="9" text-anchor="middle" x="190" y="136">精确求解</text>
+<line marker-end="url(#ar2)" stroke="#c9544a" stroke-width="1.2" x1="74" x2="74" y1="60" y2="122"></line>
+<text fill="#c9544a" font-size="9" x="80" y="95">后向误差 η</text>
+<line marker-end="url(#ar2)" stroke="#c9544a" stroke-width="1.2" x1="308" x2="308" y1="60" y2="122"></line>
+<text fill="#c9544a" font-size="9" text-anchor="end" x="302" y="95">前向误差</text>
+<line marker-end="url(#ar)" stroke="#3a6088" stroke-dasharray="4 3" stroke-width="1.2" x1="134" x2="248" y1="58" y2="126"></line>
+<text fill="#3a6088" font-size="9" text-anchor="middle" x="186" y="108">浮点算法</text>
+<text fill="#1e3a5f" font-size="10" font-style="italic" text-anchor="middle" x="195" y="182">前向误差 ≤ 条件数 × 后向误差</text>
+<text fill="#5a7090" font-size="9" text-anchor="middle" x="195" y="16">Wilkinson 图：算出的解是「邻近问题」的精确解</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">正式定义</div>
+<div class="formula-box">$$\underbrace{\frac{\|\hat x-x\|}{\|x\|}}_{\text{前向误差}}\;\lesssim\;\underbrace{\kappa(A)}_{\text{问题的病}}\;\times\;\underbrace{\eta}_{\text{后向误差}}$$</div>
+<p>这是数值分析的基本方程，把责任劈成两半：$\kappa$ 不可修（只能换问题的提法），$\eta$ 可修——那才是算法设计的战场。带部分主元的高斯消元满足 $\eta\le c_n\rho u$，$\rho$ 是消元中元素的<strong>增长因子</strong>，选主元就是为压住它：最坏界仍是 $2^{n-1}$，实践中却几乎总在 $O(n)$ 附近——<strong>这个差距至今没有令人满意的解释。</strong></p>
+</div>
+<div class="section">
+<div class="label">为什么美</div>
+<p>框架自动适应精度：把 $u$ 从 $2^{-53}$ 换成 bf16 的 $2^{-8}$，整套不等式一字不改。于是「该用几位」从玄学变成一次算术——<strong>混合精度迭代精化</strong>就是答案：低精度做 $O(n^3)$ 的分解，高精度算 $O(n^2)$ 的残差并回代修正，几轮下来赚回双精度的准确度。<strong>用便宜的算力生产答案，用昂贵的算力做审计。</strong></p>
+</div>
+<div class="section">
+<div class="label">应用</div>
+<p>LAPACK 与 cuSOLVER 的每个例程都标注自己的后向稳定性——这不是学术礼节，是接口契约。深度学习的混合精度训练是同一本账：fp16 前向反向、fp32 主权重副本、loss scaling 把梯度上移以避开 fp16 的次正规区。LLM 的 int8/int4 量化也换了问法：不问「掉了多少精度」，而问「量化后的模型是<strong>哪个</strong>权重略有不同的模型的精确执行」——关键于是变成扰动落在哪个方向，GPTQ 与 AWQ 的核心正是把误差推进激活不敏感的子空间。</p>
+</div>
+<div class="section">
+<div class="label">一句话精华 + 思考题</div>
+<div class="think"><strong>与其追问答案错了多远，不如追问它精确回答了哪个问题——把误差推回输入端，才分得清是问题病了还是算法错了。</strong><br/>思考：模型量化后只掉 0.3% 精度，是量化算法好，还是这个模型本就足够「良态」？</div>
+</div>
+</div>
+<div class="card">
+<h2>深入思考</h2>
+<details>
+<summary>浮点误差完全确定，为什么同一份代码在 GPU 上两次跑出不同结果？</summary>
+<div>根源不是随机性，是<strong>浮点加法不满足结合律</strong>：$(a+b)+c$ 与 $a+(b+c)$ 可以差在末位。于是「求和」在浮点上不是良定义的运算，它依赖一棵具体的求和树，而多线程归约、atomicAdd、按尺寸自动选算法都会改变这棵树。要逐位复现就得固定归约顺序，代价是吞吐。深层含义是：我们默认「数学上相等就是同一次计算」，浮点里却<em>算法即语义</em>。</div>
+</details>
+<details>
+<summary>低精度训练居然 work，是不是说明神经网络本身就「良态」？</summary>
+<div>更准确的说法是：SGD 自带的梯度噪声远大于量化噪声——梯度本就是小批量的随机估计，再叠一层舍入扰动不改变其统计性质。但「良态」是<strong>分层</strong>的：前向传播良态，长期累加却病态——优化器状态与权重更新正是「大数吸收小增量」的抵消场景，所以必须保留 fp32 主权重副本。</div>
+</details>
+<details>
+<summary>区间算术或精确有理运算，能不能一劳永逸消灭浮点误差？</summary>
+<div>能给出严格结论，代价却通常不可接受：区间算术保证真值落在区间内，可宽度随迭代指数增长，常宽到毫无信息；精确有理数的分子分母位数会爆炸。真正的答案是——<strong>误差不是要消灭的，是要记账的。</strong>接受它并证明它的界，远比消灭它可行。</div>
+</details>
+<details>
+<summary>条件数说「损失 $\log_{10}\kappa$ 位数字」——计算中的「信息」能像香农熵一样度量吗？</summary>
+<div>不止是类比。有效数字位数就是比特数，$\log_2\kappa$ 就是一次求解的比特损失量：病态线性系统是一条<strong>有损信道</strong>，$\kappa$ 是衰减率（呼应 Day 13）。区别在机制——信道是随机噪声，这里是确定性塌陷：$A$ 把某些方向压到 $\sigma_{\min}$ 附近，那些方向的信息在有限字长下被截断。判据随之而来：若 $\kappa>10^{16}$，再高的精度也只是把损失往后推一位，该做的是<em>换一个提法</em>。</div>
+</details>
+</div>
+<nav class="bottom">
+<a href="index.html">← 返回 Mathematics</a>
+</nav>
+</div>
+</body>
+</html>

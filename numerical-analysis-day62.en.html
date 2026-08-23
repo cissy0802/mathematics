@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Numerical Analysis &amp; the Floating-Point World · Day 62 — Mathematics</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Computer Modern",serif;background:#f5f7fa;color:#1a1f2e;line-height:1.85}
+.container{max-width:780px;margin:0 auto;padding:24px 22px 64px}
+header{text-align:center;padding:52px 0 36px;border-bottom:1px solid #c0c8d4;margin-bottom:36px}
+header .kicker{font-size:0.82rem;letter-spacing:4px;color:#3a6088;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:2.2rem;font-weight:800;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;font-style:italic;letter-spacing:1px}
+header .meta{margin-top:14px;font-size:0.92rem;color:#5a7090}
+header .epigraph{margin-top:22px;font-size:0.95rem;color:#5a7090;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;padding:0 16px;border-left:2px solid #c0c8d4;border-right:2px solid #c0c8d4}
+.card{background:#fff;border-radius:8px;padding:32px 30px;margin-bottom:28px;box-shadow:0 2px 14px rgba(30,58,95,0.07);border-top:3px solid #3a6088}
+.card h2{font-size:1.45rem;color:#1e3a5f;font-family:"Times New Roman",Georgia,serif;margin-bottom:4px;font-weight:700}
+.card .en-name{font-size:0.95rem;color:#5a7090;font-style:italic;margin-bottom:10px}
+.tag{display:inline-block;background:#e6ecf3;color:#3a6088;font-size:0.72rem;padding:3px 10px;border-radius:12px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.section{margin-top:18px}
+.section .label{font-size:0.78rem;color:#3a6088;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section .label::before{content:"";display:inline-block;width:14px;height:1px;background:#3a6088}
+.section p{font-size:1rem;color:#2a3548}
+.section p+p{margin-top:10px}
+.formula-box{background:#f0f4f9;border-left:3px solid #1e3a5f;padding:18px 22px;margin:14px 0;font-size:1.1rem;color:#1e3a5f;text-align:center;overflow-x:auto}
+.viz{display:flex;justify-content:center;margin:22px 0;padding:18px;background:#fafbfd;border-radius:6px}
+.viz svg{max-width:100%;height:auto}
+.think{background:#eef2f6;padding:14px 18px;border-radius:4px;font-size:0.96rem;color:#2a3548;margin-top:6px;border-left:3px solid #1e3a5f}
+details{background:#fff;border-radius:6px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 8px rgba(30,58,95,0.06)}
+details summary{cursor:pointer;color:#1e3a5f;font-weight:700;font-size:1rem}
+details div{margin-top:10px;font-size:0.95rem;color:#2a3548}
+nav.bottom{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid #c0c8d4}
+nav.bottom a{color:#3a6088;text-decoration:none;font-size:0.95rem;font-style:italic}
+nav.bottom a:hover{color:#1e3a5f}
+@media(max-width:600px){.container{padding:16px 14px 40px}header h1{font-size:1.55rem}.card{padding:24px 18px}.card h2{font-size:1.2rem}.formula-box{font-size:0.92rem;padding:14px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="kicker">Day 62 · 2026.08.23</div>
+<h1>Numerical Analysis &amp; the Floating-Point World</h1>
+<div class="meta">There are no real numbers inside a computer — only a substitute whose ruler stretches, and a discipline that keeps its books</div>
+<div class="epigraph">"If rounding errors vanished, 95% of numerical analysis would remain." — Nick Trefethen</div>
+</header>
+<!-- Concept 1: Floating point -->
+<div class="card">
+<h2>Floating Point &amp; Machine Epsilon</h2>
+<div class="en-name">Scattering points on a logarithmic scale</div>
+<span class="tag">Representation</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>The real line is continuous; 64 bits hold only about $1.8\times10^{19}$ numbers. The design question is not how many you store but <strong>where you put them</strong>. Fixed point spreads them evenly — the same millimetre ruler for atoms and for galaxies. Floating point instead spreads them <strong>evenly on a logarithmic scale</strong>: every binary octave $[2^e,2^{e+1})$ gets the same number of points. The ruler stretches with the value, so absolute precision keeps changing while <strong>relative precision stays constant</strong>.</p>
+<p>That is where $0.1+0.2\neq0.3$ comes from: the denominator of $1/10$ has a factor of 5, so in binary it repeats forever, exactly as $1/3$ never terminates in decimal. <strong>This is not insufficient precision — decimal 0.1 simply does not exist in the binary world.</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 390 150" xmlns="http://www.w3.org/2000/svg">
+<text fill="#1e3a5f" font-size="10" x="20" y="20">Floating point: same count per octave → spacing doubles with magnitude</text>
+<line stroke="#888" stroke-width="0.8" x1="20" x2="368" y1="46" y2="46"></line>
+<g fill="#1e3a5f">
+<circle cx="25.3" cy="46" r="2.2"></circle>
+<circle cx="26.6" cy="46" r="2.2"></circle>
+<circle cx="28.0" cy="46" r="2.2"></circle>
+<circle cx="29.3" cy="46" r="2.2"></circle>
+<circle cx="30.6" cy="46" r="2.2"></circle>
+<circle cx="33.3" cy="46" r="2.2"></circle>
+<circle cx="35.9" cy="46" r="2.2"></circle>
+<circle cx="38.6" cy="46" r="2.2"></circle>
+<circle cx="41.3" cy="46" r="2.2"></circle>
+<circle cx="46.6" cy="46" r="2.2"></circle>
+<circle cx="51.9" cy="46" r="2.2"></circle>
+<circle cx="57.2" cy="46" r="2.2"></circle>
+<circle cx="62.5" cy="46" r="2.2"></circle>
+<circle cx="73.1" cy="46" r="2.2"></circle>
+<circle cx="83.8" cy="46" r="2.2"></circle>
+<circle cx="94.4" cy="46" r="2.2"></circle>
+<circle cx="105" cy="46" r="2.2"></circle>
+<circle cx="126.3" cy="46" r="2.2"></circle>
+<circle cx="147.5" cy="46" r="2.2"></circle>
+<circle cx="168.8" cy="46" r="2.2"></circle>
+<circle cx="190" cy="46" r="2.2"></circle>
+<circle cx="232.5" cy="46" r="2.2"></circle>
+<circle cx="275" cy="46" r="2.2"></circle>
+<circle cx="317.5" cy="46" r="2.2"></circle>
+<circle cx="360" cy="46" r="2.2"></circle>
+</g>
+<g fill="#c9544a" font-size="9">
+<text text-anchor="middle" x="41.3" y="62">1</text>
+<text text-anchor="middle" x="62.5" y="62">2</text>
+<text text-anchor="middle" x="105" y="62">4</text>
+<text text-anchor="middle" x="190" y="62">8</text>
+<text text-anchor="middle" x="360" y="62">16</text>
+</g>
+<text fill="#1e3a5f" font-size="10" x="20" y="95">Fixed point: constant spacing → wasted when small, too coarse when large</text>
+<line stroke="#888" stroke-width="0.8" x1="20" x2="368" y1="118" y2="118"></line>
+<g fill="#5a7090">
+<circle cx="20" cy="118" r="2.2"></circle>
+<circle cx="34.2" cy="118" r="2.2"></circle>
+<circle cx="48.3" cy="118" r="2.2"></circle>
+<circle cx="62.5" cy="118" r="2.2"></circle>
+<circle cx="76.7" cy="118" r="2.2"></circle>
+<circle cx="90.8" cy="118" r="2.2"></circle>
+<circle cx="105" cy="118" r="2.2"></circle>
+<circle cx="119.2" cy="118" r="2.2"></circle>
+<circle cx="133.3" cy="118" r="2.2"></circle>
+<circle cx="147.5" cy="118" r="2.2"></circle>
+<circle cx="161.7" cy="118" r="2.2"></circle>
+<circle cx="175.8" cy="118" r="2.2"></circle>
+<circle cx="190" cy="118" r="2.2"></circle>
+<circle cx="204.2" cy="118" r="2.2"></circle>
+<circle cx="218.3" cy="118" r="2.2"></circle>
+<circle cx="232.5" cy="118" r="2.2"></circle>
+<circle cx="246.7" cy="118" r="2.2"></circle>
+<circle cx="260.8" cy="118" r="2.2"></circle>
+<circle cx="275" cy="118" r="2.2"></circle>
+<circle cx="289.2" cy="118" r="2.2"></circle>
+<circle cx="303.3" cy="118" r="2.2"></circle>
+<circle cx="317.5" cy="118" r="2.2"></circle>
+<circle cx="331.7" cy="118" r="2.2"></circle>
+<circle cx="345.8" cy="118" r="2.2"></circle>
+<circle cx="360" cy="118" r="2.2"></circle>
+</g>
+<text fill="#5a7090" font-size="9" font-style="italic" x="20" y="140">Same 25 points: floating point buys relative precision, fixed point buys absolute</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$\mathrm{fl}(x)=x\,(1+\delta),\qquad |\delta|\le u=2^{-53}\approx1.11\times10^{-16}$$</div>
+<p>$\mathrm{fl}$ is the map "round to the nearest representable number", $\delta$ is the <strong>relative</strong> error it introduces, and $u$ is called the unit roundoff. The whole identity says one thing: <strong>rounding replaces your input by a neighbour less than $u$ away.</strong> A double is $\pm(1.b_1\cdots b_{52})_2\times2^{e}$ — 53 significant bits (the leading 1 costs no storage) and an 11-bit exponent covering $10^{\pm308}$.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>One 64-bit pattern spans 600-odd orders of magnitude, and <strong>the relative error is the same everywhere in that range</strong> — floating point's uniformity lives in the multiplicative group, not the additive one. The consequence is sharp: multiplication and division are nearly lossless (exponents add, mantissas multiply, each taking one rounding), so <strong>addition and subtraction are the dangerous half</strong> — floating point is a number system designed for multiplication. The edges are elegant too: subnormals, $\pm0$, $\infty$ and NaN close the arithmetic over every input. Kahan's philosophy was to <strong>make the exception a number rather than a crash</strong>.</p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Every precision decision in AI hardware is a reading of this table. fp16 is 5 exponent bits plus 10 mantissa bits; bf16 keeps fp32's full 8-bit exponent and cuts the mantissa to 7 — training fears gradients overflowing to $\infty$, not a couple of lost decimals. <strong>Same 16 bits, a different cut, a different failure mode.</strong> The counterexample is finance, which uses decimal fixed point because 0.1 of a unit of currency must be exactly one tenth.</p>
+</div>
+<div class="section">
+<div class="label">Essence + question</div>
+<div class="think"><strong>Floating point is not an approximation to the reals; it is its own number system whose ruler stretches with the value — it promises relative precision and never absolute.</strong><br/>Question: if your quantities span 20 orders of magnitude in one computation, did floating point help you, or just hide the problem?</div>
+</div>
+</div>
+<!-- Concept 2: Condition number -->
+<div class="card">
+<h2>The Condition Number</h2>
+<div class="en-name">A sickness of the problem, not a fault of the algorithm</div>
+<span class="tag">Conditioning</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Split "we can't compute it accurately" into two independent questions: <strong>is the problem itself sensitive to perturbed input?</strong> and <strong>does the algorithm manufacture extra error?</strong> The condition number measures only the first, and is indifferent to your language, hardware and algorithm.</p>
+<p>Solving $Ax=b$ is finding where two lines cross. When they meet at a healthy angle, nudging a line nudges the crossing; when they are nearly parallel, the same nudge throws the crossing far away — $\kappa(A)$ measures exactly "how parallel". $\kappa=10^{8}$ means double precision's 16 significant digits go in and 8 come out; <strong>those 8 were not lost by the algorithm, the problem never carried them through in the first place.</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 330 190" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="ah" markerHeight="6" markerWidth="7" orient="auto" refX="6" refY="3">
+<path d="M0,0 L7,3 L0,6 z" fill="#c9544a"></path>
+</marker>
+</defs>
+<line stroke="#1e3a5f" stroke-width="1.6" x1="20" x2="300" y1="140" y2="45"></line>
+<line stroke="#1e3a5f" stroke-width="1.6" x1="20" x2="300" y1="150" y2="40"></line>
+<line stroke="#c9544a" stroke-dasharray="4 3" stroke-width="1.6" x1="20" x2="300" y1="154" y2="44"></line>
+<circle cx="207" cy="77" fill="#1e3a5f" r="4"></circle>
+<circle cx="281" cy="51" fill="#c9544a" r="4"></circle>
+<path d="M 213 74 L 271 54" fill="none" marker-end="url(#ah)" stroke="#c9544a" stroke-width="1"></path>
+<text fill="#1e3a5f" font-size="9" x="20" y="30">Two nearly parallel lines → a wildly unstable crossing</text>
+<text fill="#c9544a" font-size="9" x="140" y="102">the crossing runs away</text>
+<text fill="#c9544a" font-size="9" x="20" y="175">Dashed = the second line nudged slightly (a tiny data perturbation)</text>
+<text fill="#5a7090" font-size="9" font-style="italic" x="20" y="188">κ(A) = worst-case ratio of relative output change to relative input change</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$\frac{\|\delta x\|}{\|x\|}\;\le\;\kappa(A)\,\frac{\|\delta b\|}{\|b\|},\qquad \kappa(A)=\|A\|\,\|A^{-1}\|=\frac{\sigma_{\max}}{\sigma_{\min}}$$</div>
+<p>The left side is the relative change in the solution, the right the relative change in the data, and $\kappa$ is the <strong>worst-case amplification</strong> between them. The $\sigma$ are singular values: $A$ stretches the unit ball into an ellipsoid whose longest and shortest axes are $\sigma_{\max}$ and $\sigma_{\min}$, so <strong>the condition number is how flat that ellipsoid is</strong>. Rule of thumb: one solve costs you about $\log_{10}\kappa$ significant digits.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>It promotes "numerically hard" from an engineering complaint to an <strong>intrinsic invariant of the problem</strong>, and recognises four unrelated-looking phenomena as one: ill-conditioned linear systems; polynomial roots that are hypersensitive to coefficients (Wilkinson's degree-20 polynomial, where perturbing one coefficient by $2^{-23}$ sends integer roots off into the complex plane); the Lyapunov exponent of chaos; and exploding or vanishing gradients in deep networks, which are the layerwise Jacobian condition numbers multiplied together. <strong>One quantity, four disciplines, four different names.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Once you know $\kappa$, a whole family of "numerical tricks" reveals a single motive: shrink it. Ridge regression's $\lambda I$ lifts $\sigma_{\min}$; conjugate gradient's iteration count scales as $\sqrt{\kappa}$, so a preconditioner $M^{-1}A$ exists purely to swap in an equivalent problem with a smaller condition number; spectral normalisation and orthogonal initialisation push the Jacobian's spectrum toward 1; and Adam is a diagonal preconditioner — scaling gradients coordinatewise is exactly rounding out that ellipsoid.</p>
+</div>
+<div class="section">
+<div class="label">Essence + question</div>
+<div class="think"><strong>The condition number is the information decay rate built into the problem: it fixes how many digits you can possibly get right before any algorithm gets a say.</strong><br/>Question: last time you lowered the learning rate until training "finally converged" — did you fix the optimisation, or merely sidestep a parametrisation with a huge $\kappa$?</div>
+</div>
+</div>
+<!-- Concept 3: Cancellation -->
+<div class="card">
+<h2>Catastrophic Cancellation</h2>
+<div class="en-name">Subtraction does not create error; it exposes it</div>
+<span class="tag">Cancellation</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>Subtract two nearby numbers: $1.2345678-1.2345600=0.0000078$. Each input carried 8 significant digits; the result has 2 — and <strong>the subtraction got every digit right</strong>. All it did was promote the uncertainty hiding in the last place to the first. The noise was always there, screened by the leading digits. Relative error merely accumulates through multiplication and division; only subtracting nearby numbers can <strong>amplify it without bound</strong>. This is the one genuinely catastrophic step in the floating-point world.</p>
+<p>The textbook quadratic formula walks straight into it: when $b>0$ and $4ac\ll b^2$, the numerator of $x=\frac{-b+\sqrt{b^2-4ac}}{2a}$ becomes a difference of two nearly equal positive numbers. The fix is one line: compute the stable root $x_1=\frac{-b-\sqrt{b^2-4ac}}{2a}$ first, then recover the other from Vieta's relation, $x_2=c/(ax_1)$. <strong>One identity, two computational paths, worlds apart numerically.</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 340 175" xmlns="http://www.w3.org/2000/svg">
+<text fill="#1e3a5f" font-size="10" x="10" y="26">a</text>
+<g stroke="#fff" stroke-width="1">
+<rect fill="#1e3a5f" height="16" width="238" x="34" y="14"></rect>
+<rect fill="#1e3a5f" height="16" width="17" x="272" y="14"></rect>
+<rect fill="#c9544a" height="16" width="17" x="289" y="14"></rect>
+</g>
+<text fill="#1e3a5f" font-size="10" x="10" y="58">b</text>
+<g stroke="#fff" stroke-width="1">
+<rect fill="#1e3a5f" height="16" width="238" x="34" y="46"></rect>
+<rect fill="#1e3a5f" height="16" width="17" x="272" y="46"></rect>
+<rect fill="#c9544a" height="16" width="17" x="289" y="46"></rect>
+</g>
+<line stroke="#888" stroke-width="0.8" x1="34" x2="306" y1="72" y2="72"></line>
+<text fill="#1e3a5f" font-size="10" x="4" y="94">a−b</text>
+<rect fill="#eef2f6" height="16" stroke="#c0c8d4" stroke-width="1" width="238" x="34" y="82"></rect>
+<g stroke="#fff" stroke-width="1">
+<rect fill="#1e3a5f" height="16" width="17" x="272" y="82"></rect>
+<rect fill="#c9544a" height="16" width="17" x="289" y="82"></rect>
+</g>
+<text fill="#5a7090" font-size="9" text-anchor="middle" x="153" y="94">first 14 digits cancel to zero</text>
+<path d="M 272 106 L 272 116 L 306 116 L 306 106" fill="none" stroke="#c9544a" stroke-width="1"></path>
+<text fill="#c9544a" font-size="9" text-anchor="end" x="306" y="132">2 digits left, one of them already noise</text>
+<rect fill="#c9544a" height="9" width="9" x="34" y="146"></rect>
+<text fill="#5a7090" font-size="9" x="48" y="154">red = rounding noise</text>
+<rect fill="#1e3a5f" height="9" width="9" x="150" y="146"></rect>
+<text fill="#5a7090" font-size="9" x="164" y="154">blue = trustworthy digits</text>
+<text fill="#5a7090" font-size="9" font-style="italic" x="34" y="170">the noise did not grow — it was promoted from last place to first</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$\frac{\big|(\hat a-\hat b)-(a-b)\big|}{|a-b|}\;\le\;\frac{|a|+|b|}{|a-b|}\cdot u$$</div>
+<p>Here $\hat a,\hat b$ are the stored values, already carrying rounding error, and $u$ is machine precision. The factor $\frac{|a|+|b|}{|a-b|}$ on the right is the amplification, and it blows up as $a\to b$. Note that it is precisely <strong>the condition number of subtraction</strong> — cancellation is not a new phenomenon, it is conditioning showing its face in the simplest possible operation.</p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>It punctures an assumption we take for granted: <strong>an identity that holds over the reals is not the same program in floating point.</strong> $a^2-b^2$ and $(a-b)(a+b)$ are one number with two fates — abstract equivalence torn open by finite word length, and the whole of numerical analysis grew out of that tear. The repair is prettier still: Kahan summation carries a compensation variable that recovers the low-order bits each addition discards, pulling the error bound from $O(nu)$ down to something independent of $n$. <strong>Those "lost" bits never left the register; you only have to stoop and pick them up.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>The one-pass variance formula $E[X^2]-(E[X])^2$ returns negative numbers when the mean dwarfs the standard deviation, which is why Welford's online algorithm exists; <code>expm1</code> and <code>log1p</code> exist for the single reason that $e^x-1$ and $\log(1+x)$ cancel away every significant bit for tiny $x$; and on GPUs the summation order inside an all-reduce is not fixed, which is a leading reason large-model training is hard to reproduce bit for bit.</p>
+</div>
+<div class="section">
+<div class="label">Essence + question</div>
+<div class="think"><strong>Subtracting nearby numbers creates no error; it only removes the cover — your significant digits were eaten somewhere else long before.</strong><br/>Question: is there a place in your code computing $A-B$ where $A$ and $B$ are each long accumulated sums?</div>
+</div>
+</div>
+<!-- Concept 4: Backward error -->
+<div class="card">
+<h2>Backward Error &amp; Low Precision</h2>
+<div class="en-name">Pushing the error back to the input</div>
+<span class="tag">Stability</span>
+<div class="section">
+<div class="label">Intuition</div>
+<p>In the 1960s Wilkinson inverted the question. The traditional one — how far is my answer from the true answer (the forward error) — is hard to answer, because it blends the problem's sickness with the algorithm's mistakes. Wilkinson asked instead: <strong>"the answer I computed — which problem is it the exact solution of?"</strong></p>
+<p>If $\hat x$ exactly satisfies $(A+\Delta A)\hat x=b$ with $\|\Delta A\|/\|A\|$ only $10^{-15}$, the algorithm is beyond reproach: it handed you the <strong>exact</strong> solution of a neighbouring problem, and $A$ came from measurement anyway, already carrying far larger uncertainty. <strong>A good algorithm is thus defined as: one that returns the exact solution of a nearby problem.</strong></p>
+</div>
+<div class="viz">
+<svg viewbox="0 0 390 195" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="ar" markerHeight="6" markerWidth="7" orient="auto" refX="6" refY="3">
+<path d="M0,0 L7,3 L0,6 z" fill="#3a6088"></path>
+</marker>
+<marker id="ar2" markerHeight="6" markerWidth="7" orient="auto" refX="6" refY="3">
+<path d="M0,0 L7,3 L0,6 z" fill="#c9544a"></path>
+</marker>
+</defs>
+<rect fill="#f0f4f9" height="32" rx="4" stroke="#1e3a5f" stroke-width="1.2" width="112" x="18" y="26"></rect>
+<text fill="#1e3a5f" font-size="11" text-anchor="middle" x="74" y="46">data A, b</text>
+<rect fill="#f0f4f9" height="32" rx="4" stroke="#1e3a5f" stroke-width="1.2" width="112" x="252" y="26"></rect>
+<text fill="#1e3a5f" font-size="11" text-anchor="middle" x="308" y="46">true solution x</text>
+<rect fill="#fbfaf3" height="32" rx="4" stroke="#c9a96b" stroke-width="1.2" width="112" x="18" y="126"></rect>
+<text fill="#8a7340" font-size="11" text-anchor="middle" x="74" y="146">nearby data A+ΔA</text>
+<rect fill="#fbfaf3" height="32" rx="4" stroke="#c9a96b" stroke-width="1.2" width="112" x="252" y="126"></rect>
+<text fill="#8a7340" font-size="11" text-anchor="middle" x="308" y="146">computed x̂</text>
+<line marker-end="url(#ar)" stroke="#3a6088" stroke-width="1.2" x1="132" x2="248" y1="42" y2="42"></line>
+<text fill="#3a6088" font-size="9" text-anchor="middle" x="190" y="36">exact solve</text>
+<line marker-end="url(#ar)" stroke="#3a6088" stroke-width="1.2" x1="132" x2="248" y1="142" y2="142"></line>
+<text fill="#3a6088" font-size="9" text-anchor="middle" x="190" y="136">exact solve</text>
+<line marker-end="url(#ar2)" stroke="#c9544a" stroke-width="1.2" x1="74" x2="74" y1="60" y2="122"></line>
+<text fill="#c9544a" font-size="9" x="80" y="95">backward error η</text>
+<line marker-end="url(#ar2)" stroke="#c9544a" stroke-width="1.2" x1="308" x2="308" y1="60" y2="122"></line>
+<text fill="#c9544a" font-size="9" text-anchor="end" x="302" y="95">forward error</text>
+<line marker-end="url(#ar)" stroke="#3a6088" stroke-dasharray="4 3" stroke-width="1.2" x1="134" x2="248" y1="58" y2="126"></line>
+<text fill="#3a6088" font-size="9" text-anchor="middle" x="186" y="108">floating-point algorithm</text>
+<text fill="#1e3a5f" font-size="10" font-style="italic" text-anchor="middle" x="195" y="182">forward error ≤ condition number × backward error</text>
+<text fill="#5a7090" font-size="9" text-anchor="middle" x="195" y="16">Wilkinson diagram: the computed answer exactly solves a nearby problem</text>
+</svg>
+</div>
+<div class="section">
+<div class="label">Formal definition</div>
+<div class="formula-box">$$\underbrace{\frac{\|\hat x-x\|}{\|x\|}}_{\text{forward error}}\;\lesssim\;\underbrace{\kappa(A)}_{\text{problem's sickness}}\;\times\;\underbrace{\eta}_{\text{backward error}}$$</div>
+<p>This is the fundamental equation of numerical analysis, and it splits the blame cleanly in two: $\kappa$ cannot be repaired (only the formulation of the problem can change), while $\eta$ can — and that is where algorithm design happens. Gaussian elimination with partial pivoting satisfies $\eta\le c_n\rho u$, where $\rho$ is the <strong>growth factor</strong> of the entries during elimination, and pivoting exists to hold it down: the worst-case bound is still $2^{n-1}$, yet in practice $\rho$ sits near $O(n)$ — <strong>a gap that still has no satisfying explanation.</strong></p>
+</div>
+<div class="section">
+<div class="label">Why it is beautiful</div>
+<p>The framework adapts to precision by itself: swap $u$ from $2^{-53}$ to bf16's $2^{-8}$ and not a symbol of the inequality changes. So "how many bits should I use" turns from folklore into arithmetic — and <strong>mixed-precision iterative refinement</strong> is the answer: do the $O(n^3)$ factorisation in low precision, compute the $O(n^2)$ residual in high precision and correct, and a few rounds buy back double-precision accuracy. <strong>Cheap compute produces the answer; expensive compute audits it.</strong></p>
+</div>
+<div class="section">
+<div class="label">Applications</div>
+<p>Every LAPACK and cuSOLVER routine documents its backward stability — not academic courtesy but an interface contract. Mixed-precision training keeps the same books: fp16 forward and backward, an fp32 master copy of the weights, and loss scaling to lift gradients clear of fp16's subnormal range. Quantising an LLM to int8 or int4 changes the question in the same way: not "how much accuracy did we lose" but "the quantised model is the exact execution of <strong>which</strong> slightly different set of weights" — so what matters is the direction of the perturbation, and GPTQ and AWQ are essentially about steering that error into subspaces the activations do not notice.</p>
+</div>
+<div class="section">
+<div class="label">Essence + question</div>
+<div class="think"><strong>Rather than asking how wrong the answer is, ask which question it answers exactly — pushing the error back to the input is what separates a sick problem from a faulty algorithm.</strong><br/>Question: when quantisation costs a model only 0.3% accuracy, is that a good quantiser, or a model that was well conditioned to begin with?</div>
+</div>
+</div>
+<div class="card">
+<h2>Going Deeper</h2>
+<details>
+<summary>Floating-point error is entirely deterministic — so why does the same code give different results on a GPU twice?</summary>
+<div>The cause is not randomness but the fact that <strong>floating-point addition is not associative</strong>: $(a+b)+c$ and $a+(b+c)$ can differ in the last place. "Summation" is therefore not a well-defined operation in floating point — it depends on a particular reduction tree, and multithreaded reductions, atomicAdd, and size-dependent kernel selection all change that tree. Bit-exact reproducibility means fixing the reduction order, and you pay for it in throughput. The deeper point: we assume that mathematically equal means the same computation, whereas in floating point <em>the algorithm is the semantics</em>.</div>
+</details>
+<details>
+<summary>Low-precision training works — does that mean neural networks are inherently well conditioned?</summary>
+<div>More precisely: the gradient noise SGD already carries is far larger than quantisation noise — a gradient is a minibatch estimate to begin with, and one more layer of rounding perturbation leaves its statistics intact. But conditioning is <strong>layered</strong>. The forward pass is well conditioned; long accumulation is not. Optimiser state and weight updates are the classic "large value absorbs a small increment" cancellation scenario, which is exactly why an fp32 master copy of the weights is mandatory.</div>
+</details>
+<details>
+<summary>Could interval arithmetic or exact rational arithmetic abolish floating-point error once and for all?</summary>
+<div>They give rigorous conclusions at a cost that is usually unacceptable. Interval arithmetic guarantees the true value lies inside the interval, but the width grows exponentially with iteration count and often becomes uninformative; exact rationals blow up the digit counts of numerator and denominator. The real answer is this: <strong>error is not to be abolished, it is to be accounted for.</strong> Accepting it and proving a bound is far more tractable than eliminating it.</div>
+</details>
+<details>
+<summary>The condition number says you lose $\log_{10}\kappa$ digits — can "information" in computation be measured like Shannon entropy?</summary>
+<div>It is more than an analogy. Significant digits are bits, and $\log_2\kappa$ is the bit loss of a single solve: an ill-conditioned linear system is a <strong>lossy channel</strong> and $\kappa$ is its attenuation (echoing Day 13). The mechanism differs — a channel adds random noise, while here the collapse is deterministic: $A$ compresses certain directions down toward $\sigma_{\min}$, and information along them is simply truncated at finite word length. A practical criterion follows: if $\kappa>10^{16}$, more precision only postpones the loss by one digit, and the right move is to <em>reformulate</em>.</div>
+</details>
+</div>
+<nav class="bottom">
+<a href="index.en.html">← Back to Mathematics</a>
+</nav>
+</div>
+</body>
+</html>
